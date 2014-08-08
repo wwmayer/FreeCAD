@@ -125,3 +125,7 @@ endif(BUILD_JTREADER)
 if(BUILD_PATH)
     add_subdirectory(Path)
 endif(BUILD_PATH)
+
+if(BUILD_SURFACETOOLS)
+    add_subdirectory(SurfaceTools)
+endif(BUILD_SURFACETOOLS)
