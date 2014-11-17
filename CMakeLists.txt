@@ -202,6 +202,7 @@ OPTION(BUILD_SPREADSHEET "Build the FreeCAD spreadsheet module" ON)
 OPTION(BUILD_START "Build the FreeCAD start module" ON)
 OPTION(BUILD_TEST "Build the FreeCAD test module" ON)
 OPTION(BUILD_WEB "Build the FreeCAD web module" ON)
+OPTION(BUILD_SURFACE "Build the FreeCAD surface module" ON)
 OPTION(BUILD_VR "Build the FreeCAD Oculus Rift support (need Oculus SDK 4.x or higher)" OFF)
 
 if(MSVC)
