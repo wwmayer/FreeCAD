@@ -35,7 +35,7 @@
 #include <gp_Pnt.hxx>
 #include <Base/Tools.h>
 #include <Base/Exception.h>
-#include <string.h>
+#include <string>
 
 using namespace SurfaceTools;
 
@@ -45,18 +45,18 @@ PROPERTY_SOURCE(SurfaceTools::Filling, Part::Feature)
 
 Filling::Filling()
 {
-    ADD_PROPERTY(Border,(0,"TopoDS_Edge"));
+    ADD_PROPERTY(Border,(0));
 
-    ADD_PROPERTY(Curves,(0,"TopoDS_Edge"));
+    ADD_PROPERTY(Curves,(0));
 
-    ADD_PROPERTY(BFaces,(0,"TopoDS_Face"));
+    ADD_PROPERTY(BFaces,(0));
     ADD_PROPERTY(orderB,(-1));
-    ADD_PROPERTY(CFaces,(0,"TopoDS_Face"));
+    ADD_PROPERTY(CFaces,(0));
     ADD_PROPERTY(orderC,(-1));
 
-    ADD_PROPERTY(Points,(0,"TopoDS_Vertex"));
+    ADD_PROPERTY(Points,(0));
 
-    ADD_PROPERTY(initFace,(0,"TopoDS_Face"));
+    ADD_PROPERTY(initFace,(0));
 
     ADD_PROPERTY(Degree,(3));
     ADD_PROPERTY(NbPtsOnCur,(3));
@@ -106,6 +106,7 @@ short Filling::mustExecute() const
 
 App::DocumentObjectExecReturn *Filling::execute(void)
 {
+#if 0
 
     //Assign Variables
 
@@ -121,8 +122,6 @@ App::DocumentObjectExecReturn *Filling::execute(void)
     double TG2 = TolCurv.getValue();
     unsigned int Mdeg = MaxDeg.getValue();
     unsigned int Mseg = MaxSegments.getValue();
-
-    bool res;
 
     //Perform error checking
 
@@ -181,7 +180,9 @@ App::DocumentObjectExecReturn *Filling::execute(void)
         Handle_Standard_Failure e = Standard_Failure::Caught();
         return new App::DocumentObjectExecReturn(e->GetMessageString());
     } //End Catch
+#endif
 
+    return 0;
 } //End execute
 /*
 void appconstr_crv(BRepFill_Filling& builder,const App::PropertyLinkSubList& anEdge, Standard_Boolean bnd){
@@ -294,6 +295,7 @@ void appconstr_bface(BRepFill_Filling& builder,const App::PropertyLinkSubList& a
 */
 void appconstr_crvface(BRepFill_Filling& builder, const App::PropertyLinkSubList& anEdge, const App::PropertyLinkSubList& aFace, const App::PropertyIntegerList& Order,  Standard_Boolean bnd){
 
+#if 0
     int res;
 
     GeomAbs_Shape ordtmp;
@@ -387,10 +389,12 @@ void appconstr_crvface(BRepFill_Filling& builder, const App::PropertyLinkSubList
     }
 
     return;
+#endif
 }
 
 void appconstr_pt(BRepFill_Filling& builder,const App::PropertyLinkSubList& aVertex){
 
+#if 0
     int res;
 
     for(int i=0; i<aVertex.getSize(); i++) {
@@ -423,10 +427,12 @@ void appconstr_pt(BRepFill_Filling& builder,const App::PropertyLinkSubList& aVer
 
     }
     return;
+#endif
 }
 
 void appinitface(BRepFill_Filling& builder,const App::PropertyLinkSubList& aFace){
 
+#if 0
     int res;
 
     if(aFace.getSize()>1){Standard_Failure::Raise("Only one face may be used for the initial face");return;}
@@ -458,4 +464,5 @@ void appinitface(BRepFill_Filling& builder,const App::PropertyLinkSubList& aFace
     builder.LoadInitSurface(face);
 
     return;
+#endif
 }

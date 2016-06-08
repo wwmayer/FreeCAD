@@ -26,7 +26,7 @@
 #include <App/PropertyStandard.h>
 #include <App/PropertyUnits.h>
 #include <App/PropertyLinks.h>
-#include "Mod/Part/App/PartFeature.h"
+#include <Mod/Part/App/PartFeature.h>
 
 namespace SurfaceTools
 {
@@ -38,7 +38,7 @@ class SurfaceToolsExport Cut :  public Part::Feature
 public:
     Cut();
 
-    App::PropertyLinkSubList aShapeList; //Shapes to be cut.
+    App::PropertyLinkSubList ShapeList; //Shapes to be cut.
 
     // recalculate the feature
     App::DocumentObjectExecReturn *execute(void);
@@ -49,5 +49,7 @@ public:
 //    }
 
 };
+
 }//Namespace Surfacetools
+
 #endif

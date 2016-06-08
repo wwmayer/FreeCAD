@@ -20,7 +20,6 @@ set(SurfaceTools_LIBS
 
 SET(SurfaceTools_SRCS
     AppSurfaceTools.cpp
-    AppSurfaceToolsPy.cpp
     PreCompiled.cpp
     PreCompiled.h
     FeatureFilling.h

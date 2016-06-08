@@ -29,7 +29,6 @@ qt4_add_resources(SurfaceTools_QRC_SRCS Resources/SurfaceTools.qrc)
 SET(SurfaceToolsGui_SRCS
     ${SurfaceTools_QRC_SRCS}
     AppSurfaceToolsGui.cpp
-    AppSurfaceToolsGuiPy.cpp
     Command.cpp
     PreCompiled.cpp
     PreCompiled.h

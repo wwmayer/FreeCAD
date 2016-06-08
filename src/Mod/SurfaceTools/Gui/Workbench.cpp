@@ -45,7 +45,6 @@ Workbench::~Workbench()
 
 Gui::MenuItem* Workbench::setupMenuBar() const
 {
-
     Gui::MenuItem* root = StdWorkbench::setupMenuBar();
     Gui::MenuItem* item = root->findItem( "&Windows" );
 

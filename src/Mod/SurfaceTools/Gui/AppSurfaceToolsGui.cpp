@@ -37,16 +37,29 @@
 void CreateSurfaceToolsCommands(void);
 
 
-/* registration table  */
-extern struct PyMethodDef SurfaceToolsGui_methods[];
+namespace SurfaceToolsGui {
+class Module : public Py::ExtensionModule<Module>
+{
+public:
+    Module() : Py::ExtensionModule<Module>("SurfaceToolsGui")
+    {
+        initialize("This module is the SurfaceToolsGui module."); // register with Python
+    }
 
-PyDoc_STRVAR(module_SurfaceToolsGui_doc,
-"This module is the SurfaceToolsGui module.");
+    virtual ~Module() {}
 
+private:
+};
+
+PyObject* initModule()
+{
+    return (new Module)->module().ptr();
+}
+
+} // namespace SurfaceToolsGui
 
 /* Python entry */
-extern "C" {
-void PartGuiExport initSurfaceToolsGui()
+PyMODINIT_FUNC initSurfaceToolsGui()
 {
     if (!Gui::Application::Instance) {
         PyErr_SetString(PyExc_ImportError, "Cannot load Gui module in console application.");
@@ -59,8 +72,6 @@ void PartGuiExport initSurfaceToolsGui()
 
 //    SurfaceToolsGui::ViewProviderCut::init();
 
-    (void) Py_InitModule3("SurfaceToolsGui", SurfaceToolsGui_methods, module_SurfaceToolsGui_doc);   /* mod name, table ptr */
+    (void) SurfaceToolsGui::initModule();
     Base::Console().Log("Loading GUI of SurfaceTools module... done\n");
 }
-
-} // extern "C"

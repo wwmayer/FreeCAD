@@ -26,7 +26,7 @@
 #include <App/PropertyStandard.h>
 #include <App/PropertyUnits.h>
 #include <App/PropertyLinks.h>
-#include "Mod/Part/App/PartFeature.h"
+#include <Mod/Part/App/PartFeature.h>
 
 namespace SurfaceTools
 {
@@ -38,8 +38,8 @@ class SurfaceToolsExport BSplineSurf :  public Part::Feature
 public:
     BSplineSurf();
 
-    App::PropertyLinkSubList aBSplineList; //BSpline curves to be turned into a face (2-4 curves allowed).
-    App::PropertyInteger filltype;         //Fill method (1, 2, or 3 for Stretch, Coons, and Curved)
+    App::PropertyLinkSubList BSplineList; //BSpline curves to be turned into a face (2-4 curves allowed).
+    App::PropertyEnumeration FillType;    //Fill method (Stretch, Coons, and Curved)
 
     // recalculate the feature
     App::DocumentObjectExecReturn *execute(void);
@@ -49,6 +49,10 @@ public:
 //        return "PartGui::ViewProviderCut";
 //    }
 
+private:
+    static const char* FillTypeEnums[];
 };
+
 }//Namespace Surfacetools
+
 #endif
