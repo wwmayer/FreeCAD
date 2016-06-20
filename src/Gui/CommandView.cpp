@@ -767,6 +767,7 @@ void StdCmdToggleVisibility::activated(int iMsg)
             sel = diff;
         }
 
+        pcDoc->openCommand("Toggle visibility");
         for (std::vector<App::DocumentObject*>::const_iterator ft=sel.begin();ft!=sel.end();++ft) {
             if (pcDoc && pcDoc->isShow((*ft)->getNameInDocument()))
                 doCommand(Gui,"Gui.getDocument(\"%s\").getObject(\"%s\").Visibility=False"
@@ -775,6 +776,7 @@ void StdCmdToggleVisibility::activated(int iMsg)
                 doCommand(Gui,"Gui.getDocument(\"%s\").getObject(\"%s\").Visibility=True"
                              , (*it)->getName(), (*ft)->getNameInDocument());
         }
+        pcDoc->commitCommand();
     }
 }
 
