@@ -243,7 +243,11 @@ bool NETGENPlugin_NETGEN_2D_ONLY::Compute(SMESH_Mesh&         aMesh,
   ngLib._isComputeOk = false;
 
   netgen::Mesh   ngMeshNoLocSize;
+#if NETGEN_VERSION > 5
+  netgen::Mesh * ngMeshes[2] = { (netgen::Mesh*) ngLib._ngMesh.get(),  & ngMeshNoLocSize };
+#else
   netgen::Mesh * ngMeshes[2] = { (netgen::Mesh*) ngLib._ngMesh,  & ngMeshNoLocSize };
+#endif
   netgen::OCCGeometry occgeoComm;
 
   // min / max sizes are set as follows:
@@ -442,7 +446,11 @@ bool NETGENPlugin_NETGEN_2D_ONLY::Compute(SMESH_Mesh&         aMesh,
       //bool isMESHCONST_ANALYSE = false;
       InitComputeError();
 
+#if NETGEN_VERSION > 5
+      shared_ptr<netgen::Mesh> ngMesh(ngMeshes[ iLoop ]);
+#else
       netgen::Mesh * ngMesh = ngMeshes[ iLoop ];
+#endif
       ngMesh->DeleteMesh();
 
       if ( iLoop == NO_LOC_SIZE )

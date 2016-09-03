@@ -82,7 +82,11 @@ struct NETGENPlugin_ngMeshInfo
 struct NETGENPLUGIN_EXPORT NETGENPlugin_NetgenLibWrapper
 {
   bool             _isComputeOk;
+#if NETGEN_VERSION > 5
+  shared_ptr<nglib::Ng_Mesh> _ngMesh;
+#else
   nglib::Ng_Mesh * _ngMesh;
+#endif
 
   NETGENPlugin_NetgenLibWrapper();
   ~NETGENPlugin_NetgenLibWrapper();
@@ -197,7 +201,11 @@ class NETGENPLUGIN_EXPORT NETGENPlugin_Mesher
   bool                 _optimize;
   int                  _fineness;
   bool                 _isViscousLayers2D;
+#if NETGEN_VERSION > 5
+  shared_ptr<netgen::Mesh> _ngMesh;
+#else
   netgen::Mesh*        _ngMesh;
+#endif
   netgen::OCCGeometry* _occgeom;
 
   int                  _curShapeIndex;
