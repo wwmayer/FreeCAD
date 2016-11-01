@@ -1289,8 +1289,21 @@ TopoDS_Shape TopoShape::common(TopoDS_Shape shape) const
         Standard_Failure::Raise("Base shape is null");
     if (shape.IsNull())
         Standard_Failure::Raise("Tool shape is null");
+#if OCC_VERSION_HEX <= 0x060800
     BRepAlgoAPI_Common mkCommon(this->_Shape, shape);
     return mkCommon.Shape();
+#else
+    TopTools_ListOfShape shapeArguments,shapeTools;
+    shapeArguments.Append(this->_Shape);
+    shapeTools.Append(shape);
+
+    BRepAlgoAPI_Common mkCommon;
+    mkCommon.SetArguments(shapeArguments);
+    mkCommon.SetTools(shapeTools);
+    mkCommon.SetRunParallel(true);
+    mkCommon.Build();
+    return mkCommon.Shape();
+#endif
 }
 
 TopoDS_Shape TopoShape::fuse(TopoDS_Shape shape) const
@@ -1340,6 +1353,7 @@ TopoDS_Shape TopoShape::multiFuse(const std::vector<TopoDS_Shape>& shapes, Stand
     mkFuse.SetTools(shapeTools);
     if (tolerance > 0.0)
         mkFuse.SetFuzzyValue(tolerance);
+    mkFuse.SetRunParallel(true);
     mkFuse.Build();
     if (!mkFuse.IsDone())
         throw Base::Exception("MultiFusion failed");
@@ -1364,8 +1378,21 @@ TopoDS_Shape TopoShape::section(TopoDS_Shape shape) const
         Standard_Failure::Raise("Base shape is null");
     if (shape.IsNull())
         Standard_Failure::Raise("Tool shape is null");
+#if OCC_VERSION_HEX <= 0x060800
     BRepAlgoAPI_Section mkSection(this->_Shape, shape);
     return mkSection.Shape();
+#else
+    TopTools_ListOfShape shapeArguments,shapeTools;
+    shapeArguments.Append(this->_Shape);
+    shapeTools.Append(shape);
+
+    BRepAlgoAPI_Section mkSection;
+    mkSection.SetArguments(shapeArguments);
+    mkSection.SetTools(shapeTools);
+    mkSection.SetRunParallel(true);
+    mkSection.Build();
+    return mkSection.Shape();
+#endif
 }
 
 std::list<TopoDS_Wire> TopoShape::slice(const Base::Vector3d& dir, double d) const

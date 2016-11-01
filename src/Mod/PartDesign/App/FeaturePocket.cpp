@@ -40,7 +40,6 @@
 # include <TopExp_Explorer.hxx>
 # include <BRepAlgoAPI_Cut.hxx>
 # include <BRepPrimAPI_MakeHalfSpace.hxx>
-# include <BRepAlgoAPI_Common.hxx>
 #endif
 
 #include <Base/Exception.h>

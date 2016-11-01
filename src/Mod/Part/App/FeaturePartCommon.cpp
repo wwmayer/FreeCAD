@@ -30,6 +30,8 @@
 # include <TopoDS_Iterator.hxx>
 # include <TopTools_IndexedMapOfShape.hxx>
 # include <TopExp.hxx>
+# include <TopTools_ListOfShape.hxx>
+# include <Standard_Version.hxx>
 #endif
 
 
@@ -50,8 +52,21 @@ Common::Common(void)
 
 BRepAlgoAPI_BooleanOperation* Common::makeOperation(const TopoDS_Shape& base, const TopoDS_Shape& tool) const
 {
+#if OCC_VERSION_HEX <= 0x060800
     // Let's call algorithm computing a section operation:
     return new BRepAlgoAPI_Common(base, tool);
+#else
+    TopTools_ListOfShape shapeArguments,shapeTools;
+    shapeArguments.Append(base);
+    shapeTools.Append(tool);
+
+    BRepAlgoAPI_Common* mkCommon = new BRepAlgoAPI_Common();
+    mkCommon->SetArguments(shapeArguments);
+    mkCommon->SetTools(shapeTools);
+    mkCommon->SetRunParallel(true);
+    mkCommon->Build();
+    return mkCommon;
+#endif
 }
 
 // ----------------------------------------------------

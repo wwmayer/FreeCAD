@@ -37,25 +37,24 @@
 # include <BRepAlgoAPI_Fuse.hxx>
 # include <Precision.hxx>
 # include <BRepPrimAPI_MakeHalfSpace.hxx>
-# include <BRepAlgoAPI_Common.hxx>
 # include <BRepAdaptor_Surface.hxx>
 # include <gp_Pln.hxx>
 # include <GeomAPI_ProjectPointOnSurf.hxx>
-#include <BRepOffsetAPI_MakePipeShell.hxx>
-#include <BRepBuilderAPI_MakeWire.hxx>
-#include <ShapeAnalysis_FreeBounds.hxx>
-#include <TopTools_HSequenceOfShape.hxx>
-#include <TopTools_ListIteratorOfListOfShape.hxx>
-#include <TopTools_IndexedMapOfShape.hxx>
-#include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
-#include <TopExp.hxx>
-#include <BRepAlgoAPI_Cut.hxx>
-#include <BRepBuilderAPI_Sewing.hxx>
-#include <BRepBuilderAPI_MakeSolid.hxx>
-#include <BRepClass3d_SolidClassifier.hxx>
-#include <Law_Function.hxx>
-#include <Law_Linear.hxx>
-#include <Law_S.hxx>
+# include <BRepOffsetAPI_MakePipeShell.hxx>
+# include <BRepBuilderAPI_MakeWire.hxx>
+# include <ShapeAnalysis_FreeBounds.hxx>
+# include <TopTools_HSequenceOfShape.hxx>
+# include <TopTools_ListIteratorOfListOfShape.hxx>
+# include <TopTools_IndexedMapOfShape.hxx>
+# include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
+# include <TopExp.hxx>
+# include <BRepAlgoAPI_Cut.hxx>
+# include <BRepBuilderAPI_Sewing.hxx>
+# include <BRepBuilderAPI_MakeSolid.hxx>
+# include <BRepClass3d_SolidClassifier.hxx>
+# include <Law_Function.hxx>
+# include <Law_Linear.hxx>
+# include <Law_S.hxx>
 #endif
 
 #include <Base/Exception.h>

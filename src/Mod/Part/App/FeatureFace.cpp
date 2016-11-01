@@ -37,7 +37,6 @@
 # include <TopoDS_Face.hxx>
 # include <TopoDS_Wire.hxx>
 # include <TopExp_Explorer.hxx>
-# include <BRepAlgoAPI_Fuse.hxx>
 # include <gp_Pln.hxx>
 #endif
 

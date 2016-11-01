@@ -27,14 +27,13 @@
 # include <TopoDS_Wire.hxx>
 # include <TopExp_Explorer.hxx>
 # include <BRepAlgoAPI_Fuse.hxx>
-# include <BRepAlgoAPI_Common.hxx>
-#include <BRepOffsetAPI_ThruSections.hxx>
-#include <BRepBuilderAPI_Sewing.hxx>
-#include <BRepBuilderAPI_MakeSolid.hxx>
-#include <BRepClass3d_SolidClassifier.hxx>
-#include <BRepAlgoAPI_Cut.hxx>
-#include <TopoDS.hxx>
-#include <Precision.hxx>
+# include <BRepOffsetAPI_ThruSections.hxx>
+# include <BRepBuilderAPI_Sewing.hxx>
+# include <BRepBuilderAPI_MakeSolid.hxx>
+# include <BRepClass3d_SolidClassifier.hxx>
+# include <BRepAlgoAPI_Cut.hxx>
+# include <TopoDS.hxx>
+# include <Precision.hxx>
 #endif
 
 #include <Base/Exception.h>

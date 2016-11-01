@@ -144,6 +144,7 @@ App::DocumentObjectExecReturn *MultiFuse::execute(void)
             }
             mkFuse.SetArguments(shapeArguments);
             mkFuse.SetTools(shapeTools);
+            mkFuse.SetRunParallel(true);
             mkFuse.Build();
             if (!mkFuse.IsDone())
                 throw Base::Exception("MultiFusion failed");

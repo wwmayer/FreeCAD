@@ -27,12 +27,14 @@
 # include <BRepAlgoAPI_Cut.hxx>
 # include <BRepAlgoAPI_Common.hxx>
 # include <BRepAlgoAPI_Section.hxx>
+# include <BRepBuilderAPI_GTransform.hxx>
 # include <gp_Trsf.hxx>
 # include <gp_Pnt.hxx>
 # include <gp_Dir.hxx>
 # include <gp_Vec.hxx>
 # include <gp_Ax1.hxx>
-#include <BRepBuilderAPI_GTransform.hxx>
+# include <Standard_Version.hxx>
+# include <TopTools_ListOfShape.hxx>
 #endif
 
 #include "Body.h"
@@ -130,7 +132,19 @@ App::DocumentObjectExecReturn *Boolean::execute(void)
         TopoDS_Shape boolOp;
 
         if (type == "Fuse") {
+#if OCC_VERSION_HEX <= 0x060900
             BRepAlgoAPI_Fuse mkFuse(result, shape);
+#else
+            TopTools_ListOfShape shapeArguments,shapeTools;
+            shapeArguments.Append(result);
+            shapeTools.Append(shape);
+
+            BRepAlgoAPI_Fuse mkFuse;
+            mkFuse.SetArguments(shapeArguments);
+            mkFuse.SetTools(shapeTools);
+            mkFuse.SetRunParallel(true);
+            mkFuse.Build();
+#endif
             if (!mkFuse.IsDone())
                 return new App::DocumentObjectExecReturn("Fusion of bodies failed", *b);
             // we have to get the solids (fuse sometimes creates compounds)
@@ -138,18 +152,57 @@ App::DocumentObjectExecReturn *Boolean::execute(void)
             // lets check if the result is a solid
             if (boolOp.IsNull())
                 return new App::DocumentObjectExecReturn("Resulting shape is not a solid", *b);
-        } else if (type == "Cut") {
+        }
+        else if (type == "Cut") {
+#if OCC_VERSION_HEX <= 0x060900
             BRepAlgoAPI_Cut mkCut(result, shape);
+#else
+            TopTools_ListOfShape shapeArguments,shapeTools;
+            shapeArguments.Append(result);
+            shapeTools.Append(shape);
+
+            BRepAlgoAPI_Cut mkCut;
+            mkCut.SetArguments(shapeArguments);
+            mkCut.SetTools(shapeTools);
+            mkCut.SetRunParallel(true);
+            mkCut.Build();
+#endif
             if (!mkCut.IsDone())
                 return new App::DocumentObjectExecReturn("Cut out of first body failed", *b);
             boolOp = mkCut.Shape();
-        } else if (type == "Common") {
+        }
+        else if (type == "Common") {
+#if OCC_VERSION_HEX <= 0x060900
             BRepAlgoAPI_Common mkCommon(result, shape);
+#else
+            TopTools_ListOfShape shapeArguments,shapeTools;
+            shapeArguments.Append(result);
+            shapeTools.Append(shape);
+
+            BRepAlgoAPI_Common mkCommon;
+            mkCommon.SetArguments(shapeArguments);
+            mkCommon.SetTools(shapeTools);
+            mkCommon.SetRunParallel(true);
+            mkCommon.Build();
+#endif
             if (!mkCommon.IsDone())
                 return new App::DocumentObjectExecReturn("Common operation with first body failed", *b);
             boolOp = mkCommon.Shape();
-        } else if (type == "Section") {
+        }
+        else if (type == "Section") {
+#if OCC_VERSION_HEX <= 0x060900
             BRepAlgoAPI_Section mkSection(result, shape);
+#else
+            TopTools_ListOfShape shapeArguments,shapeTools;
+            shapeArguments.Append(result);
+            shapeTools.Append(shape);
+
+            BRepAlgoAPI_Section mkSection;
+            mkSection.SetArguments(shapeArguments);
+            mkSection.SetTools(shapeTools);
+            mkSection.SetRunParallel(true);
+            mkSection.Build();
+#endif
             if (!mkSection.IsDone())
                 return new App::DocumentObjectExecReturn("Section out of first body failed", *b);
             // we have to get the solids

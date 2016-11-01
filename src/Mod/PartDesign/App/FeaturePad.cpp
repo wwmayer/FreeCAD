@@ -38,11 +38,10 @@
 # include <BRepAlgoAPI_Fuse.hxx>
 # include <Precision.hxx>
 # include <BRepPrimAPI_MakeHalfSpace.hxx>
-# include <BRepAlgoAPI_Common.hxx>
 # include <BRepAdaptor_Surface.hxx>
 # include <gp_Pln.hxx>
 # include <GeomAPI_ProjectPointOnSurf.hxx>
-#include <BRepLProp_SLProps.hxx>
+# include <BRepLProp_SLProps.hxx>
 #endif
 
 #include <Base/Exception.h>

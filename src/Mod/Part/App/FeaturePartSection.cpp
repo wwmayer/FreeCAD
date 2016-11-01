@@ -24,6 +24,8 @@
 #include "PreCompiled.h"
 #ifndef _PreComp_
 # include <BRepAlgoAPI_Section.hxx>
+# include <TopTools_ListOfShape.hxx>
+# include <Standard_Version.hxx>
 #endif
 
 #include "FeaturePartSection.h"
@@ -41,6 +43,19 @@ Section::Section(void)
 
 BRepAlgoAPI_BooleanOperation* Section::makeOperation(const TopoDS_Shape& base, const TopoDS_Shape& tool) const
 {
+#if OCC_VERSION_HEX <= 0x060800
     // Let's call algorithm computing a section operation:
     return new BRepAlgoAPI_Section(base, tool);
+#else
+    TopTools_ListOfShape shapeArguments,shapeTools;
+    shapeArguments.Append(base);
+    shapeTools.Append(tool);
+
+    BRepAlgoAPI_Section* mkSection = new BRepAlgoAPI_Section();
+    mkSection->SetArguments(shapeArguments);
+    mkSection->SetTools(shapeTools);
+    mkSection->SetRunParallel(true);
+    mkSection->Build();
+    return mkSection;
+#endif
 }
