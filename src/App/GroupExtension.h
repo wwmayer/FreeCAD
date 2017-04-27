@@ -57,13 +57,6 @@ public:
     /* Adds an array of object \a objs to this group.
      */
     virtual void addObjects(const std::vector<App::DocumentObject*>& objs);
-    /**
-     * @brief adoptObject: adds object to this group if it isn't in any other
-     * group. Otherwise does nothing. This is useful for adding lists of
-     * objects with internal container relationships.
-     * @return returns true if object was adopted, false otherwise. (if re-adopting an own child, returns true too).
-     */
-    virtual bool adoptObject(DocumentObject* obj);
 
     /*override this function if you want only special objects
      */
