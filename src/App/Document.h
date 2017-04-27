@@ -31,6 +31,7 @@
 #include "PropertyContainer.h"
 #include "PropertyStandard.h"
 #include "PropertyLinks.h"
+#include <App/Containers/Container.h>
 
 #include <map>
 #include <vector>
@@ -144,6 +145,8 @@ public:
     boost::signal<void (const std::vector<App::DocumentObject*>&, Base::Reader&,
                         const std::map<std::string, std::string>&)> signalImportViewObjects;
     boost::signal<void (const App::Document&)> signalRecomputed;
+    /// fires when active container in this document changes.
+    boost::signal<void (App::Document* /*this*/, App::Container /*newContainer*/, App::Container /*oldContainer*/)> signalActiveContainer;
     //@}
 
     /** @name File handling of the document */
@@ -175,13 +178,14 @@ public:
 
     /** @name Object handling  */
     //@{
-    /** Add a feature of sType with sName (ASCII) to this document and set it active.
-     * Unicode names are set through the Label propery.
-     * @param sType       the type of created object
-     * @param pObjectName if nonNULL use that name otherwise generate a new uniq name based on the \a sType
-     * @param isNew       if false don't call the \c DocumentObject::setupObject() callback (default is true)
+    /**
+     * @brief addObject(sType, pObjectName, isNew): (deprecated) the call is redirected to ActiveContainer.newObject
+     * @param sType
+     * @param pObjectName
+     * @param isNew
+     * @return
      */
-    DocumentObject *addObject(const char* sType, const char* pObjectName=0, bool isNew=true);
+    DocumentObject* addObject(const char* sType, const char* pObjectName=0, bool isNew=true);
     /** Add an array of features of the given types and names.
      * Unicode names are set through the Label propery.
      * @param sType       The type of created object
@@ -189,6 +193,13 @@ public:
      * @param isNew       If false don't call the \c DocumentObject::setupObject() callback (default is true)
      */
     std::vector<DocumentObject *>addObjects(const char* sType, const std::vector<std::string>& objectNames, bool isNew=true);
+    /** Add a feature of sType with sName (ASCII) to this document and set it active.
+     * Unicode names are set through the Label propery.
+     * @param sType       the type of created object
+     * @param pObjectName if nonNULL use that name otherwise generate a new uniq name based on the \a sType
+     * @param isNew       if false don't call the \c DocumentObject::setupObject() callback (default is true)
+     */
+    DocumentObject* newObject(const char* sType, const char* pObjectName=0, bool isNew=true);
     /// Remove a feature out of the document
     void remObject(const char* sName);
     /** Add an existing feature with sName (ASCII) to this document and set it active.
@@ -218,6 +229,9 @@ public:
     DocumentObject *getActiveObject(void) const;
     /// Returns a Object of this document
     DocumentObject *getObject(const char *Name) const;
+    /// Returns active container in this doc (or this, if doc itself is active container)
+    Container getActiveContainer() const;
+    void setActiveContainer(App::Container newContainer);
     /// Returns true if the DocumentObject is contained in this document
     bool isIn(const DocumentObject *pFeat) const;
     /// Returns a Name of an Object or 0
@@ -348,6 +362,7 @@ protected:
 
     void _remObject(DocumentObject* pcObject);
     void _addObject(DocumentObject* pcObject, const char* pObjectName);
+    void _deactivateDeletedObject(DocumentObject* pcObject);
     /// checks if a valid transaction is open
     void _checkTransaction(DocumentObject* pcObject);
     void breakDependency(DocumentObject* pcObject, bool clear);
