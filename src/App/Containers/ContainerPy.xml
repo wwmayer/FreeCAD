@@ -13,7 +13,7 @@
       FatherNamespace="App">
     <Documentation>
       <Author Licence="LGPL" Name="DeepSOIC" EMail="vv.titov@gmail.com" />
-      <DeveloperDocu>Container - object container interace</DeveloperDocu>
+      <DeveloperDocu>Container - object container interface</DeveloperDocu>
 <UserDocu>Container - interface class for objects that can contain other objects
 
 Constructor:
