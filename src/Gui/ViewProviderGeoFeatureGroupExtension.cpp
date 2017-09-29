@@ -73,7 +73,7 @@ std::vector<App::DocumentObject*> ViewProviderGeoFeatureGroupExtension::extensio
 
     // search for objects handled (claimed) by the features
     for( auto obj: model){
-        //stuff in annother geofeaturegroup is not in the model anyway
+        //stuff in another geofeaturegroup is not in the model anyway
         if (!obj || obj->hasExtension(App::GeoFeatureGroupExtension::getExtensionClassTypeId())) { continue; }
         
         Gui::ViewProvider* vp = Gui::Application::Instance->getViewProvider ( obj );
