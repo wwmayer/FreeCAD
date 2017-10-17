@@ -365,6 +365,10 @@ void PartGui::DimensionLinear::setupDimension()
   hyp->expression.set1Value(0, "oA = B-A");
   hyp->expression.set1Value(1, "oB = normalize(oA)");
   hyp->expression.set1Value(2, "oa = length(oA)");
+  hyp->expression.set1Value(3, "ob = oa/20");
+  hyp->expression.set1Value(4, "oc = oa/40");
+  hyp->expression.set1Value(5, "oC = vec3f(ob/2,0.0,0.0)");
+  hyp->expression.set1Value(6, "oD = vec3f(0.0,-ob/2,0.0)");
   length.connectFrom(&hyp->oa);
   //build engine for rotation.
   SoComposeRotationFromTo *rotationEngine = new SoComposeRotationFromTo();
@@ -379,7 +383,9 @@ void PartGui::DimensionLinear::setupDimension()
   //dimension arrows.
   SoCone *cone = new SoCone();
   cone->bottomRadius.setValue(0.25);
+  cone->bottomRadius.connectFrom(&hyp->oc);
   cone->height.setValue(0.5);
+  cone->height.connectFrom(&hyp->ob);
 
   setPart("leftArrow.shape", cone);
   set("leftArrow.transform", "rotation 0.0 0.0 1.0 1.5707963");
@@ -388,6 +394,15 @@ void PartGui::DimensionLinear::setupDimension()
   set("rightArrow.transform", "rotation 0.0 0.0 -1.0 1.5707963"); //no constant for PI.
   //have use local here to do the offset because the main is wired up to length of dimension.
   set("rightArrow.localTransform", "translation 0.0 -0.25 0.0"); //half cone height.
+
+  SoTransform *leftTransform = static_cast<SoTransform *>(getPart("leftArrow.transform", false));
+  if (leftTransform) {
+    leftTransform->translation.connectFrom(&hyp->oC);
+  }
+  SoTransform *rightTransform = static_cast<SoTransform *>(getPart("rightArrow.localTransform", false));
+  if (rightTransform) {
+    rightTransform->translation.connectFrom(&hyp->oD);
+  }
 
   SoTransform *transform = static_cast<SoTransform *>(getPart("rightArrow.transform", false));
   if (!transform)
