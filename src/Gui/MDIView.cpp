@@ -31,7 +31,7 @@
 # include <QEvent>
 # include <QCloseEvent>
 # include <QMdiSubWindow>
-#include <iostream>
+# include <iostream>
 #endif
 
 
@@ -42,6 +42,7 @@
 #include "Application.h"
 #include "MainWindow.h"
 #include "ViewProviderDocumentObject.h"
+#include <Base/Interpreter.h>
 
 using namespace Gui;
 namespace bp = boost::placeholders;

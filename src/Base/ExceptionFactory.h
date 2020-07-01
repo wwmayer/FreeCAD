@@ -25,9 +25,10 @@
 #define BASE_EXCEPTIONFACTORY_H
 
 
-#include <Python.h>
-
 #include "Factory.h"
+
+// Python stuff
+typedef struct _object PyObject;
 
 namespace Base
 {

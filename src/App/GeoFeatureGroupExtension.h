@@ -25,9 +25,7 @@
 #ifndef APP_GeoFeatureGroup_H
 #define APP_GeoFeatureGroup_H
 
-#include <App/FeaturePython.h>
-
-#include "DocumentObjectGroup.h"
+#include "GroupExtension.h"
 #include "PropertyGeo.h"
 
 namespace App
@@ -92,10 +90,7 @@ public:
     Base::Placement globalGroupPlacement();
 
     /// Returns true if the given DocumentObject is DocumentObjectGroup but not GeoFeatureGroup
-    static bool isNonGeoGroup(const DocumentObject* obj) {
-        return obj->hasExtension(GroupExtension::getExtensionClassTypeId()) && 
-               !obj->hasExtension(GeoFeatureGroupExtension::getExtensionClassTypeId());
-    }
+    static bool isNonGeoGroup(const DocumentObject* obj);
 
     virtual bool extensionGetSubObject(DocumentObject *&ret, const char *subname, PyObject **pyObj,
             Base::Matrix4D *mat, bool transform, int depth) const override;

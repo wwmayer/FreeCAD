@@ -54,6 +54,7 @@
 #include <App/Document.h>
 #include <App/GeoFeature.h>
 #include <Base/Exception.h>
+#include <Base/PyObjectBase.h>
 #include <Gui/Application.h>
 #include <Gui/Document.h>
 #include <Gui/MainWindow.h>

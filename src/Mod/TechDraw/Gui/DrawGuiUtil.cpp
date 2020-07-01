@@ -32,7 +32,7 @@
 # include <QStringList>
 # include <QRegExp>
 # include <QMessageBox>
-#include <QRectF>
+# include <QRectF>
 
 #endif
 
@@ -52,6 +52,7 @@
 #include <App/PropertyPythonObject.h>
 #include <Base/Console.h>
 #include <Base/Exception.h>
+#include <Base/Interpreter.h>
 #include <Base/Parameter.h>
 #include <Base/Type.h>
 #include <Gui/Application.h>

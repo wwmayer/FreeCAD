@@ -33,6 +33,7 @@
 #else
 #include <boost_any_1_55.hpp>
 #endif
+#include <cassert>
 #include <string>
 #include <bitset>
 

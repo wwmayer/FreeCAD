@@ -30,6 +30,7 @@
 
 #include "DocumentObjectExtension.h"
 #include "DocumentObjectExtensionPy.h"
+#include "DocumentObject.h"
 
 using namespace App;
 

@@ -32,16 +32,8 @@
 #ifndef BASE__PARAMETER_H
 #define BASE__PARAMETER_H
 
-// (re-)defined in pyconfig.h
-#if defined (_POSIX_C_SOURCE)
-#   undef    _POSIX_C_SOURCE
-#endif
-#if defined (_XOPEN_SOURCE)
-#   undef    _XOPEN_SOURCE
-#endif
-
-// Include files
-#include <Python.h>
+// Python stuff
+typedef struct _object PyObject;
 
 #ifdef FC_OS_MACOSX
 #undef toupper

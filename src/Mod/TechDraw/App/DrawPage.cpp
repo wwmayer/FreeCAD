@@ -34,6 +34,7 @@
 #include <Base/Exception.h>
 #include <Base/Console.h>
 #include <Base/FileInfo.h>
+#include <Base/Interpreter.h>
 #include <Base/Parameter.h>
 #include <Base/UnitsApi.h>
 

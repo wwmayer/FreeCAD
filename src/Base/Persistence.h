@@ -27,8 +27,6 @@
 // Std. configurations
 
 
-#include <assert.h>
-
 #include "BaseClass.h"
 
 namespace Base

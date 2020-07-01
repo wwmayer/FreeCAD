@@ -31,6 +31,7 @@
 #include <Base/Tools.h>
 #include <Base/Console.h>
 #include <Base/Exception.h>
+#include <Base/Interpreter.h>
 
 #include "Application.h"
 #include "Document.h"

@@ -25,6 +25,7 @@
 # include <Inventor/nodes/SoSeparator.h>
 #endif
 
+#include <Base/Interpreter.h>
 #include <Base/MatrixPy.h>
 #include <Base/VectorPy.h>
 #include <Base/BoundBoxPy.h>

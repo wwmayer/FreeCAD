@@ -185,7 +185,7 @@ void Builder3D::clear ()
 //**************************************************************************
 // line/arrow handling
 
-void Builder3D::addSingleLine(Vector3f pt1, Vector3f pt2, short lineSize, float color_r,float color_g,float color_b, unsigned short linePattern)
+void Builder3D::addSingleLine(const Vector3f& pt1, const Vector3f& pt2, short lineSize, float color_r,float color_g,float color_b, unsigned short linePattern)
 {
   char lp[20];
   sprintf(lp, "0x%x", linePattern);
@@ -206,7 +206,7 @@ void Builder3D::addSingleLine(Vector3f pt1, Vector3f pt2, short lineSize, float 
          << "} ";
 }
 
-void Builder3D::addSingleArrow(Vector3f pt1, Vector3f pt2, short lineSize, float color_r,float color_g,float color_b, unsigned short /*linePattern*/)
+void Builder3D::addSingleArrow(const Vector3f& pt1, const Vector3f& pt2, short lineSize, float color_r,float color_g,float color_b, unsigned short /*linePattern*/)
 {
     float l = (pt2 - pt1).Length();
     float cl = l / 10.0f;
@@ -246,7 +246,7 @@ void Builder3D::addSingleArrow(Vector3f pt1, Vector3f pt2, short lineSize, float
 //**************************************************************************
 // triangle handling
 
-void Builder3D::addSingleTriangle(Vector3f pt0, Vector3f pt1, Vector3f pt2, bool filled, short lineSize, float color_r, float color_g, float color_b)
+void Builder3D::addSingleTriangle(const Vector3f& pt0, const Vector3f& pt1, const Vector3f& pt2, bool filled, short lineSize, float color_r, float color_g, float color_b)
 {
   std::string fs = "";
   if (filled)

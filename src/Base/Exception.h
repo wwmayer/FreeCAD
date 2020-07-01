@@ -29,9 +29,10 @@
 #include <stdexcept>
 #include <string>
 #include <signal.h>
-#include <Python.h>
 #include "FileInfo.h"
 #include "BaseClass.h"
+
+typedef struct _object PyObject;
 
 /* MACROS FOR THROWING EXCEPTIONS */
 

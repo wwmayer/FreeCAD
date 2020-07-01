@@ -25,10 +25,17 @@
 #define APP_DOCUMENTOBJECTEXTENSION_H
 
 #include "Extension.h"
-#include "DocumentObject.h"
+
+typedef struct _object PyObject;
+
+namespace Base {
+class Matrix4D;
+}
 
 namespace App {
-    
+class DocumentObject;
+class DocumentObjectExecReturn;
+
 /**
  * @brief Extension with special document object calls
  * 
@@ -38,7 +45,7 @@ class AppExport DocumentObjectExtension : public App::Extension
 
     //The cass does not have properties itself, but it is important to provide the property access
     //functions. see cpp file for details
-    EXTENSION_PROPERTY_HEADER_WITH_OVERRIDE(App::DocumentObjectExtension );
+    EXTENSION_PROPERTY_HEADER_WITH_OVERRIDE(App::DocumentObjectExtension);
 
 public:
 

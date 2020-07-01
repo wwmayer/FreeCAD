@@ -27,6 +27,7 @@
 #include "PyObjectBase.h"
 
 #ifndef _PreComp_
+#include <cassert>
 #endif
 
 /// Here the FreeCAD includes sorted by Base,App,Gui......

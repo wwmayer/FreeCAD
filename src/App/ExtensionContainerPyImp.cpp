@@ -29,6 +29,8 @@
 
 #include "Application.h"
 #include "DocumentObject.h"
+#include "PropertyPythonObject.h"
+#include "Extension.h"
 
 // inclution of the generated files (generated out of PropertyContainerPy.xml)
 #include <App/ExtensionContainerPy.h>

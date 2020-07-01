@@ -25,14 +25,17 @@
 #define APP_GROUPEXTENSION_H
 
 #include <boost/signals2.hpp>
-#include "FeaturePython.h"
-#include "DocumentObject.h"
-#include "PropertyLinks.h"
-#include "DocumentObjectExtension.h"
+#include <App/PropertyLinks.h>
+#include <App/PropertyStandard.h>
+#include <App/DocumentObjectExtension.h>
 #include <vector>
+
+typedef struct _object PyObject;
 
 namespace App
 {
+class DocumentObject;
+class DocumentObjectExecReturn;
 class DocumentObjectGroup;
 class GroupExtensionPy;
 
@@ -137,28 +140,43 @@ private:
     std::unordered_map<const App::DocumentObject*, boost::signals2::scoped_connection> _Conns;
 };
 
+class GroupExtensionPythonImp {
+public:
+    enum ValueT {
+        NotImplemented = 0, // not handled
+        Accepted = 1, // handled and accepted
+        Rejected = 2  // handled and rejected
+    };
+
+    GroupExtensionPythonImp(Extension* ext);
+    Property* extensionGetPropertyByName(const char*);
+    PyObject* getExtensionPyObject();
+    ValueT allowObject(DocumentObject* obj);
+
+private:
+    Extension* ext;
+};
 
 template<typename ExtensionT>
 class GroupExtensionPythonT : public ExtensionT {
-         
 public:
-    
     GroupExtensionPythonT() {}
     virtual ~GroupExtensionPythonT() {}
  
     //override the documentobjectextension functions to make them available in python 
     virtual bool allowObject(DocumentObject* obj)  override {
-        Py::Object pyobj = Py::asObject(obj->getPyObject());
-        EXTENSION_PROXY_ONEARG(allowObject, pyobj);
-                
-        if(result.isNone())
-            return ExtensionT::allowObject(obj);
-        
-        if(result.isBoolean())
-            return result.isTrue();
-        
-        return false;
-    };
+        GroupExtensionPythonImp imp(this);
+        switch (imp.allowObject(obj)) {
+        case GroupExtensionPythonImp::Accepted:
+            return true;
+        case GroupExtensionPythonImp::Rejected:
+            return false;
+        default:
+            break;
+        }
+
+        return ExtensionT::allowObject(obj);
+    }
 };
 
 typedef ExtensionPythonT<GroupExtensionPythonT<GroupExtension>> GroupExtensionPython;

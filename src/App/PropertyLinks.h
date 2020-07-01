@@ -26,7 +26,6 @@
 
 // Std. configurations
 
-
 #include <vector>
 #include <map>
 #include <list>

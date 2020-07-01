@@ -27,14 +27,16 @@
 # include <boost_bind_bind.hpp>
 #endif
 
+#include "GroupExtension.h"
 #include "DocumentObjectGroup.h"
 #include "DocumentObjectGroupPy.h"
 #include "GroupExtensionPy.h"
-#include "Document.h"
-#include "FeaturePythonPyImp.h"
 #include "GeoFeatureGroupExtension.h"
+#include "Document.h"
 #include <Base/Console.h>
+#include <Base/Interpreter.h>
 #include <Base/Tools.h>
+#include <CXX/Objects.hxx>
 
 using namespace App;
 namespace bp = boost::placeholders;
@@ -438,4 +440,35 @@ void GroupExtension::getAllChildren(std::vector<App::DocumentObject*> &res,
         if(ext) 
             ext->getAllChildren(res,rset);
     }
+}
+
+// ----------------------------------------------------------------------------
+
+GroupExtensionPythonImp::GroupExtensionPythonImp(Extension* ext) : ext(ext)
+{
+}
+
+Property* GroupExtensionPythonImp::extensionGetPropertyByName(const char* name)
+{
+    return ext->extensionGetPropertyByName(name);
+}
+
+PyObject* GroupExtensionPythonImp::getExtensionPyObject()
+{
+    return ext->getExtensionPyObject();
+}
+
+GroupExtensionPythonImp::ValueT
+GroupExtensionPythonImp::allowObject(DocumentObject* obj)
+{
+    Py::Object pyobj = Py::asObject(obj->getPyObject());
+    EXTENSION_PROXY_ONEARG(allowObject, pyobj);
+
+    if (result.isNone())
+        return NotImplemented;
+
+    if (result.isBoolean())
+        return result.isTrue() ? Accepted : Rejected;
+
+    return Rejected;
 }

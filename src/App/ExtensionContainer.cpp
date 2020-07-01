@@ -29,9 +29,11 @@
 #endif
 
 #include "Extension.h"
-#include "DocumentObject.h"
+#include "ExtensionContainer.h"
 #include "Base/Exception.h"
 #include <Base/Console.h>
+#include <Base/Reader.h>
+#include <Base/Writer.h>
  
 using namespace App;
 

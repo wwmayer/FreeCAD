@@ -23,6 +23,7 @@
 #include "PreCompiled.h"
 
 #include "ExceptionFactory.h"
+#include <Python.h>
 #include <CXX/Objects.hxx>
 
 using namespace Base;

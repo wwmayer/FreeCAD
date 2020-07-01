@@ -24,13 +24,16 @@
 #pragma once
 
 // Std. configurations
-#include <Python.h>
 #include <set>
 #include <map>
 #include <string>
 #include <cstring>
 #include <sstream>
 #include <chrono>
+
+// Python stuff
+typedef struct _object PyObject;
+typedef struct PyMethodDef PyMethodDef;
 
 //FIXME: ISO C++11 requires at least one argument for the "..." in a variadic macro
 #if defined(__clang__)

@@ -28,13 +28,13 @@
 #include <map>
 #include <bitset>
 #include <memory>
+#include <iostream>
 
 #include <xercesc/framework/XMLPScanToken.hpp>
 #include <xercesc/sax2/Attributes.hpp>
 #include <xercesc/sax2/DefaultHandler.hpp>
 
-#include "FileInfo.h"
-#include "Writer.h"
+#include <Base/FileInfo.h>
 
 namespace zipios {
 class ZipInputStream;
@@ -47,7 +47,7 @@ XERCES_CPP_NAMESPACE_END
 
 namespace Base
 {
-
+class Persistence;
 
 /** The XML reader class
  * This is an important helper class for the store and retrieval system

@@ -31,6 +31,7 @@
 
 #include <Base/Console.h>
 #include <Base/Exception.h>
+#include <Base/Interpreter.h>
 
 #include "DrawPage.h"
 #include "DrawViewCollection.h"

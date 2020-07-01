@@ -45,6 +45,7 @@
 #include <Base/Exception.h>
 #include <Base/Factory.h>
 #include <Base/Interpreter.h>
+#include <Base/PyObjectBase.h>
 #include <App/Application.h>
 #include <Gui/Application.h>
 #include <Gui/BitmapFactory.h>

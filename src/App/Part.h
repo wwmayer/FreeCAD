@@ -24,6 +24,7 @@
 #ifndef APP_Part_H
 #define APP_Part_H
 
+#include "GeoFeature.h"
 #include "OriginGroupExtension.h"
 #include "PropertyLinks.h"
 

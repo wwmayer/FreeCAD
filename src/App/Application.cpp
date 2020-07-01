@@ -56,6 +56,7 @@
 #include "Document.h"
 
 // FreeCAD Base header
+#include <Base/PyObjectBase.h>
 #include <Base/Interpreter.h>
 #include <Base/Exception.h>
 #include <Base/Parameter.h>

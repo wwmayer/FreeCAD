@@ -24,6 +24,7 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
+# include <Python.h>
 # include <time.h>
 # include <stdio.h>
 # if defined(FC_OS_WIN32)

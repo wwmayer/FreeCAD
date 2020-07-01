@@ -487,6 +487,11 @@ bool GeoFeatureGroupExtension::extensionGetSubObjects(std::vector<std::string> &
     return true;
 }
 
+bool GeoFeatureGroupExtension::isNonGeoGroup(const DocumentObject* obj) {
+    return obj->hasExtension(GroupExtension::getExtensionClassTypeId()) && 
+          !obj->hasExtension(GeoFeatureGroupExtension::getExtensionClassTypeId());
+}
+
 
 // Python feature ---------------------------------------------------------
 

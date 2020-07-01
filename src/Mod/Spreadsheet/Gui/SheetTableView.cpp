@@ -30,6 +30,7 @@
 # include <QMimeData>
 #endif
 
+#include <Base/Reader.h>
 #include <Base/Stream.h>
 #include <App/Application.h>
 #include <App/AutoTransaction.h>

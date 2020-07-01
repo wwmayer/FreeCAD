@@ -34,6 +34,7 @@
 #include "Link.h"
 #include "LinkBaseExtensionPy.h"
 #include <Base/Console.h>
+#include <Base/Interpreter.h>
 #include "ComplexGeoData.h"
 #include "ComplexGeoDataPy.h"
 

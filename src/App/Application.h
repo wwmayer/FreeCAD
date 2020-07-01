@@ -29,15 +29,18 @@
 #include <vector>
 #include <deque>
 
-#include <Base/PyObjectBase.h>
 #include <Base/Parameter.h>
 #include <Base/Observer.h>
 
 
+// forward declarations
+typedef struct _object PyObject;
+typedef struct PyMethodDef PyMethodDef;
+
 namespace Base
 {
-    class ConsoleObserverStd;
-    class ConsoleObserverFile;
+class ConsoleObserverStd;
+class ConsoleObserverFile;
 }
 
 namespace App

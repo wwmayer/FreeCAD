@@ -25,6 +25,7 @@
 #ifndef _PreComp_
 # include <cmath>
 # include <climits>
+# include <cstring>
 #endif
 
 #include "Rotation.h"

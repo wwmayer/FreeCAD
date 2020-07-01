@@ -46,6 +46,7 @@
 
 
 // FreeCAD Base header
+#include <Base/PyObjectBase.h>
 #include <Base/ConsoleObserver.h>
 #include <Base/Exception.h>
 #include <Base/Sequencer.h>

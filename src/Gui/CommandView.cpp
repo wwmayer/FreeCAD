@@ -78,6 +78,7 @@
 #include <Base/Tools2D.h>
 #include <Base/Exception.h>
 #include <Base/FileInfo.h>
+#include <Base/Interpreter.h>
 #include <Base/Reader.h>
 #include <Base/Parameter.h>
 #include <App/Application.h>

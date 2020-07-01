@@ -30,6 +30,7 @@
 # include <QTextDocument>
 #endif
 
+#include <Base/Interpreter.h>
 #include <App/Document.h>
 #include <Gui/Application.h>
 #include "SheetModel.h"

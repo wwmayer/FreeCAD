@@ -27,6 +27,8 @@
 # include <Inventor/SoFullPath.h>
 #endif
 
+#include <Base/Interpreter.h>
+
 #include "AxisOriginPy.h"
 #include "AxisOriginPy.cpp"
 
