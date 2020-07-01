@@ -28,6 +28,7 @@
 
 #include <Base/Matrix.h>
 #include <Base/MatrixPy.h>
+#include <Base/Stream.h>
 
 #include <App/Document.h>
 

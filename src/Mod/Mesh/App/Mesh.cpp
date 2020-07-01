@@ -35,6 +35,7 @@
 #include <Base/Reader.h>
 #include <Base/Interpreter.h>
 #include <Base/Sequencer.h>
+#include <Base/Stream.h>
 #include <Base/Tools.h>
 #include <Base/ViewProj.h>
 

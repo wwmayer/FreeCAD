@@ -32,6 +32,7 @@
 #include <Base/Console.h>
 #include <Base/Exception.h>
 #include <Base/Tools.h>
+#include <Base/Stream.h>
 #include <App/Application.h>
 #include <App/Document.h>
 #include <Gui/Application.h>

@@ -24,6 +24,7 @@
 #include "PreCompiled.h"
 #include <stdio.h>
 #include <cmath>
+#include <iostream>
 
 #include <QByteArray>
 #include <QDockWidget>

@@ -44,6 +44,7 @@
 #include <Base/FileInfo.h>
 #include <Base/Interpreter.h>
 #include <Base/Sequencer.h>
+#include <Base/Stream.h>
 #include <Base/Tools.h>
 #include <Base/Console.h>
 #include <App/AutoTransaction.h>

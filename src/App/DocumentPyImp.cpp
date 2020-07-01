@@ -29,6 +29,7 @@
 
 #include "Document.h"
 #include <Base/FileInfo.h>
+#include <Base/Stream.h>
 #include "DocumentObject.h"
 #include "DocumentObjectPy.h"
 #include "MergeDocuments.h"

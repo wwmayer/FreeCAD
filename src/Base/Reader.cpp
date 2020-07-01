@@ -40,6 +40,7 @@
 #include "InputSource.h"
 #include "Console.h"
 #include "Sequencer.h"
+#include "Stream.h"
 
 #ifdef _MSC_VER
 #include <zipios++/zipios-config.h>

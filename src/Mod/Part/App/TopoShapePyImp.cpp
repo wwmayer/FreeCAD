@@ -75,6 +75,7 @@
 #include <Base/MatrixPy.h>
 #include <Base/Vector3D.h>
 #include <Base/VectorPy.h>
+#include <Base/Stream.h>
 #include <App/PropertyStandard.h>
 #include <CXX/Extensions.hxx>
 

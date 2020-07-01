@@ -44,6 +44,7 @@
 #include <Base/Console.h>
 #include <Base/Writer.h>
 #include <Base/Reader.h>
+#include <Base/Stream.h>
 #include <App/Application.h>
 #include <App/DocumentObject.h>
 

@@ -47,7 +47,7 @@
 #include <QTextCodec>
 
 // FreeCAD header
-#include <Base/Console.h>
+#include <Base/ConsoleObserver.h>
 #include <Base/Interpreter.h>
 #include <Base/Parameter.h>
 #include <Base/Exception.h>
