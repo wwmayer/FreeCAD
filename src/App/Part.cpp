@@ -83,11 +83,11 @@ App::Part *Part::getPartOfObject (const DocumentObject* obj) {
 
 PyObject *Part::getPyObject()
 {
-    if (PythonObject.is(Py::_None())){
+    if (PythonObject->is(Py::_None())){
         // ref counter is set to 1
-        PythonObject = Py::Object(new PartPy(this),true);
+        *PythonObject = Py::Object(new PartPy(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 
 // Python feature ---------------------------------------------------------
@@ -102,11 +102,11 @@ PyObject *Part::getPyObject()
 //    return "Gui::ViewProviderPartPython";
 //}
 //template<> PyObject* App::PartPython::getPyObject(void) {
-//    if (PythonObject.is(Py::_None())) {
+//    if (PythonObject->is(Py::_None())) {
 //        // ref counter is set to 1
-//        PythonObject = Py::Object(new FeaturePythonPyT<App::PartPy>(this),true);
+//        *PythonObject = Py::Object(new FeaturePythonPyT<App::PartPy>(this),true);
 //    }
-//    return Py::new_reference_to(PythonObject);
+//    return Py::new_reference_to(*PythonObject);
 //}
 ///// @endcond
 //

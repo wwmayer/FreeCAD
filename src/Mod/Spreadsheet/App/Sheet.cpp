@@ -377,11 +377,11 @@ void Sheet::setCell(CellAddress address, const char * value)
 
 PyObject *Sheet::getPyObject(void)
 {
-    if (PythonObject.is(Py::_None())){
+    if (PythonObject->is(Py::_None())){
         // ref counter is set to 1
-        PythonObject = Py::Object(new SheetPy(this),true);
+        *PythonObject = Py::Object(new SheetPy(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 
 /**
@@ -1485,11 +1485,11 @@ template<> const char* Spreadsheet::SheetPython::getViewProviderName(void) const
     return "SpreadsheetGui::ViewProviderSheet";
 }
 template<> PyObject* Spreadsheet::SheetPython::getPyObject(void) {
-    if (PythonObject.is(Py::_None())) {
+    if (PythonObject->is(Py::_None())) {
         // ref counter is set to 1
-        PythonObject = Py::Object(new FeaturePythonPyT<Spreadsheet::SheetPy>(this),true);
+        *PythonObject = Py::Object(new FeaturePythonPyT<Spreadsheet::SheetPy>(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 /// @endcond
 

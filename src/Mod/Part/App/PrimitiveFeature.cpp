@@ -113,11 +113,11 @@ namespace Part {
 
 PyObject* Primitive::getPyObject()
 {
-    if (PythonObject.is(Py::_None())){
+    if (PythonObject->is(Py::_None())){
         // ref counter is set to 1
-        PythonObject = Py::Object(new PrimitivePy(this),true);
+        *PythonObject = Py::Object(new PrimitivePy(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 
 void Primitive::Restore(Base::XMLReader &reader)

@@ -292,11 +292,11 @@ namespace App {
     return "PartGui::ViewProvider2DObjectPython";
   }
   template<> PyObject* Part::Part2DObjectPython::getPyObject(void) {
-        if (PythonObject.is(Py::_None())) {
+        if (PythonObject->is(Py::_None())) {
             // ref counter is set to 1
-            PythonObject = Py::Object(new FeaturePythonPyT<Part::Part2DObjectPy>(this),true);
+            *PythonObject = Py::Object(new FeaturePythonPyT<Part::Part2DObjectPy>(this),true);
         }
-        return Py::new_reference_to(PythonObject);
+        return Py::new_reference_to(*PythonObject);
   }
 /// @endcond
 

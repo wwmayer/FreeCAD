@@ -6768,11 +6768,11 @@ double SketchObject::calculateConstraintError(int ConstrId)
 
 PyObject *SketchObject::getPyObject(void)
 {
-    if (PythonObject.is(Py::_None())) {
+    if (PythonObject->is(Py::_None())) {
         // ref counter is set to 1
-        PythonObject = Py::Object(new SketchObjectPy(this),true);
+        *PythonObject = Py::Object(new SketchObjectPy(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 
 unsigned int SketchObject::getMemSize(void) const
@@ -7255,11 +7255,11 @@ template<> const char* Sketcher::SketchObjectPython::getViewProviderName(void) c
     return "SketcherGui::ViewProviderPython";
 }
 template<> PyObject* Sketcher::SketchObjectPython::getPyObject(void) {
-    if (PythonObject.is(Py::_None())) {
+    if (PythonObject->is(Py::_None())) {
         // ref counter is set to 1
-        PythonObject = Py::Object(new FeaturePythonPyT<SketchObjectPy>(this),true);
+        *PythonObject = Py::Object(new FeaturePythonPyT<SketchObjectPy>(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 /// @endcond
 

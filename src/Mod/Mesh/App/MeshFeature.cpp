@@ -64,11 +64,11 @@ App::DocumentObjectExecReturn *Feature::execute(void)
 
 PyObject *Feature::getPyObject(void)
 {
-    if(PythonObject.is(Py::_None())){
+    if(PythonObject->is(Py::_None())){
         // ref counter is set to 1
-        PythonObject = Py::Object(new MeshFeaturePy(this),true);
+        *PythonObject = Py::Object(new MeshFeaturePy(this),true);
     }
-    return Py::new_reference_to(PythonObject); 
+    return Py::new_reference_to(*PythonObject); 
 }
 
 void Feature::onChanged(const App::Property* prop)
@@ -115,11 +115,11 @@ template<> const char* Mesh::FeaturePython::getViewProviderName(void) const {
     return "MeshGui::ViewProviderPython";
 }
 template<> PyObject* Mesh::FeaturePython::getPyObject(void) {
-    if (PythonObject.is(Py::_None())) {
+    if (PythonObject->is(Py::_None())) {
         // ref counter is set to 1
-        PythonObject = Py::Object(new FeaturePythonPyT<Mesh::MeshFeaturePy>(this),true);
+        *PythonObject = Py::Object(new FeaturePythonPyT<Mesh::MeshFeaturePy>(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 /// @endcond
 

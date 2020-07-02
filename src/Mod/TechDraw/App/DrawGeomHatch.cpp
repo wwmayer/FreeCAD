@@ -552,10 +552,10 @@ void DrawGeomHatch::getParameters(void)
 
 PyObject *DrawGeomHatch::getPyObject(void)
 {
-    if (PythonObject.is(Py::_None())) {
-        PythonObject = Py::Object(new DrawGeomHatchPy(this),true);
+    if (PythonObject->is(Py::_None())) {
+        *PythonObject = Py::Object(new DrawGeomHatchPy(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 
 void DrawGeomHatch::replacePatIncluded(std::string newPatFile)

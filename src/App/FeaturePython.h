@@ -305,17 +305,17 @@ public:
     }
 
     PyObject *getPyObject(void) override {
-        if (FeatureT::PythonObject.is(Py::_None())) {
+        if (FeatureT::PythonObject->is(Py::_None())) {
             // ref counter is set to 1
-            FeatureT::PythonObject = Py::Object(imp->getPyObject(),true);
+            *(FeatureT::PythonObject) = Py::Object(imp->getPyObject(),true);
         }
-        return Py::new_reference_to(FeatureT::PythonObject);
+        return Py::new_reference_to(*(FeatureT::PythonObject));
     }
     void setPyObject(PyObject *obj) override {
         if (obj)
-            FeatureT::PythonObject = obj;
+            *(FeatureT::PythonObject) = obj;
         else
-            FeatureT::PythonObject = Py::None();
+            *(FeatureT::PythonObject) = Py::None();
     }
 
 protected:

@@ -32,8 +32,8 @@
 
 #include <Base/TimeInfo.h>
 #include <Base/Matrix.h>
-#include <CXX/Objects.hxx>
 
+#include <memory>
 #include <unordered_map>
 #include <bitset>
 #include <boost/signals2.hpp>
@@ -605,9 +605,9 @@ protected:
     /// get called when a property status has changed
     virtual void onPropertyStatusChanged(const Property &prop, unsigned long oldStatus) override;
 
-     /// python object of this class and all descendent
 protected: // attributes
-    Py::Object PythonObject;
+    /// python object of this class and all descendent
+    std::unique_ptr<Py::Object> PythonObject;
     /// pointer to the document this object belongs to
     App::Document* _pDoc;
 

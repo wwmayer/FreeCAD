@@ -116,11 +116,11 @@ App::DocumentObjectExecReturn *Feature::execute(void)
 
 PyObject *Feature::getPyObject(void)
 {
-    if (PythonObject.is(Py::_None())){
+    if (PythonObject->is(Py::_None())){
         // ref counter is set to 1
-        PythonObject = Py::Object(new PartFeaturePy(this),true);
+        *PythonObject = Py::Object(new PartFeaturePy(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 
 App::DocumentObject *Feature::getSubObject(const char *subname, 
@@ -694,11 +694,11 @@ template<> const char* Part::FeaturePython::getViewProviderName(void) const {
     return "PartGui::ViewProviderPython";
 }
 template<> PyObject* Part::FeaturePython::getPyObject(void) {
-    if (PythonObject.is(Py::_None())) {
+    if (PythonObject->is(Py::_None())) {
         // ref counter is set to 1
-        PythonObject = Py::Object(new FeaturePythonPyT<Part::PartFeaturePy>(this),true);
+        *PythonObject = Py::Object(new FeaturePythonPyT<Part::PartFeaturePy>(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 /// @endcond
 

@@ -32,6 +32,7 @@
 #include <Base/Console.h>
 #include <Base/Exception.h>
 #include <Base/Interpreter.h>
+#include <CXX/Objects.hxx>
 
 #include "Application.h"
 #include "Document.h"
@@ -63,7 +64,11 @@ DocumentObjectExecReturn *DocumentObject::StdReturn = 0;
 //===========================================================================
 
 DocumentObject::DocumentObject(void)
-    : ExpressionEngine(),_pDoc(0),pcNameInDocument(0),_Id(0)
+    : ExpressionEngine()
+    , PythonObject(new Py::Object())
+    ,_pDoc(0)
+    , pcNameInDocument(0)
+    ,_Id(0)
 {
     // define Label of type 'Output' to avoid being marked as touched after relabeling
     ADD_PROPERTY_TYPE(Label,("Unnamed"),"Base",Prop_Output,"User name of the object (UTF8)");
@@ -83,14 +88,14 @@ DocumentObject::DocumentObject(void)
 
 DocumentObject::~DocumentObject(void)
 {
-    if (!PythonObject.is(Py::_None())){
+    if (!PythonObject->is(Py::_None())){
         Base::PyGILStateLocker lock;
         // Remark: The API of Py::Object has been changed to set whether the wrapper owns the passed
         // Python object or not. In the constructor we forced the wrapper to own the object so we need
         // not to dec'ref the Python object any more.
         // But we must still invalidate the Python object because it need not to be
         // destructed right now because the interpreter can own several references to it.
-        Base::PyObjectBase* obj = (Base::PyObjectBase*)PythonObject.ptr();
+        Base::PyObjectBase* obj = static_cast<Base::PyObjectBase*>(PythonObject->ptr());
         // Call before decrementing the reference counter, otherwise a heap error can occur
         obj->setInvalid();
     }
@@ -752,11 +757,11 @@ void DocumentObject::clearOutListCache() const {
 
 PyObject *DocumentObject::getPyObject(void)
 {
-    if (PythonObject.is(Py::_None())) {
+    if (PythonObject->is(Py::_None())) {
         // ref counter is set to 1
-        PythonObject = Py::Object(new DocumentObjectPy(this),true);
+        *PythonObject = Py::asObject(new DocumentObjectPy(this));
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 
 DocumentObject *DocumentObject::getSubObject(const char *subname,

@@ -171,11 +171,11 @@ std::string DrawTileWeld::prefSymbol(void)
 
 PyObject *DrawTileWeld::getPyObject(void)
 {
-    if (PythonObject.is(Py::_None())) {
+    if (PythonObject->is(Py::_None())) {
         // ref counter is set to 1
-        PythonObject = Py::Object(new DrawTileWeldPy(this),true);
+        *PythonObject = Py::Object(new DrawTileWeldPy(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 
 // Python Drawing feature ---------------------------------------------------------

@@ -54,11 +54,11 @@ short FemSolverObject::mustExecute(void) const
 
 PyObject *FemSolverObject::getPyObject()
 {
-    if (PythonObject.is(Py::_None())){
+    if (PythonObject->is(Py::_None())){
         // ref counter is set to 1
-        PythonObject = Py::Object(new DocumentObjectPy(this),true);
+        *PythonObject = Py::Object(new DocumentObjectPy(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 
 // Python feature ---------------------------------------------------------
@@ -71,11 +71,11 @@ template<> const char* Fem::FemSolverObjectPython::getViewProviderName(void) con
 }
 
 template<> PyObject* Fem::FemSolverObjectPython::getPyObject(void) {
-    if (PythonObject.is(Py::_None())) {
+    if (PythonObject->is(Py::_None())) {
         // ref counter is set to 1
-        PythonObject = Py::Object(new App::FeaturePythonPyT<App::DocumentObjectPy>(this),true);
+        *PythonObject = Py::Object(new App::FeaturePythonPyT<App::DocumentObjectPy>(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 /// @endcond
 // explicit template instantiation

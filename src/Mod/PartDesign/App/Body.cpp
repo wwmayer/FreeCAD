@@ -493,11 +493,11 @@ void Body::unsetupObject () {
 
 PyObject *Body::getPyObject(void)
 {
-    if (PythonObject.is(Py::_None())){
+    if (PythonObject->is(Py::_None())){
         // ref counter is set to 1
-        PythonObject = Py::Object(new BodyPy(this),true);
+        *PythonObject = Py::Object(new BodyPy(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 
 std::vector<std::string> Body::getSubObjects(int reason) const {

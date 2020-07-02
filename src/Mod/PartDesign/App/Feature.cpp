@@ -185,11 +185,11 @@ Part::TopoShape Feature::getBaseTopoShape(bool silent) const {
 
 PyObject* Feature::getPyObject()
 {
-    if (PythonObject.is(Py::_None())){
+    if (PythonObject->is(Py::_None())){
         // ref counter is set to 1
-        PythonObject = Py::Object(new FeaturePy(this),true);
+        *PythonObject = Py::Object(new FeaturePy(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 
 bool Feature::isDatum(const App::DocumentObject* feature)
@@ -247,11 +247,11 @@ template<> const char* PartDesign::FeaturePython::getViewProviderName(void) cons
     return "PartDesignGui::ViewProviderPython";
 }
 template<> PyObject* PartDesign::FeaturePython::getPyObject(void) {
-    if (PythonObject.is(Py::_None())) {
+    if (PythonObject->is(Py::_None())) {
         // ref counter is set to 1
-        PythonObject = Py::Object(new FeaturePythonPyT<PartDesign::FeaturePy>(this),true);
+        *PythonObject = Py::Object(new FeaturePythonPyT<PartDesign::FeaturePy>(this),true);
     }
-    return Py::new_reference_to(PythonObject);
+    return Py::new_reference_to(*PythonObject);
 }
 /// @endcond
 

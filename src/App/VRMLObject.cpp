@@ -84,11 +84,11 @@ void VRMLObject::onChanged(const App::Property* prop)
 
 PyObject *VRMLObject::getPyObject()
 {
-    if (PythonObject.is(Py::_None())){
+    if (PythonObject->is(Py::_None())){
         // ref counter is set to 1
-        PythonObject = Py::Object(new DocumentObjectPy(this),true);
+        *PythonObject = Py::Object(new DocumentObjectPy(this),true);
     }
-    return Py::new_reference_to(PythonObject); 
+    return Py::new_reference_to(*PythonObject); 
 }
 
 std::string VRMLObject::getRelativePath(const std::string& prefix, const std::string& resource) const
