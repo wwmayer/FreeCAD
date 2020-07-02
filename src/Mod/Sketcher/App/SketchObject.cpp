@@ -71,7 +71,9 @@
 #include <Base/Console.h>
 #include <Base/Vector3D.h>
 
+#include <App/Expression.h>
 #include <App/OriginFeature.h>
+#include <App/ObjectIdentifier.h>
 
 #include <Mod/Part/App/Geometry.h>
 #include <Mod/Part/App/DatumFeature.h>

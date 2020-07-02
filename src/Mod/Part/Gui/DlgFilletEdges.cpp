@@ -60,6 +60,7 @@
 #include "../App/FeatureFillet.h"
 #include "../App/FeatureChamfer.h"
 #include <Base/UnitsApi.h>
+#include <Base/Quantity.h>
 #include <App/Application.h>
 #include <App/Document.h>
 #include <App/DocumentObject.h>

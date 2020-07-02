@@ -47,6 +47,7 @@
 #include "DocumentObject.h"
 #include "DocumentObjectPy.h"
 #include "Document.h"
+#include "ObjectIdentifier.h"
 
 #include "PropertyLinks.h"
 

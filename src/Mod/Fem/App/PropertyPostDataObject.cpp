@@ -38,6 +38,7 @@
 # include <vtkXMLUnstructuredGridReader.h>
 # include <vtkXMLRectilinearGridReader.h>
 # include <vtkXMLImageDataReader.h>
+# include <Python.h>
 #endif
 
 #include <Base/FileInfo.h>

@@ -53,6 +53,7 @@
 #include <App/DocumentObject.h>
 #include <App/GeoFeature.h>
 #include <App/Origin.h>
+#include <App/Expression.h>
 
 #include "Action.h"
 #include "Application.h"

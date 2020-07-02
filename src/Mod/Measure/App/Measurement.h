@@ -28,6 +28,7 @@
 
 #include <App/DocumentObject.h>
 #include <App/PropertyLinks.h>
+#include <CXX/Objects.hxx>
 
 class TopoDS_Shape;
 namespace Measure

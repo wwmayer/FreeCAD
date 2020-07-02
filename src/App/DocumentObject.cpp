@@ -32,6 +32,7 @@
 #include <Base/Console.h>
 #include <Base/Exception.h>
 #include <Base/Interpreter.h>
+#include <App/ObjectIdentifier.h>
 #include <CXX/Objects.hxx>
 
 #include "Application.h"
