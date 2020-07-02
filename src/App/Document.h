@@ -23,11 +23,6 @@
 #ifndef APP_DOCUMENT_H
 #define APP_DOCUMENT_H
 
-#include <CXX/Objects.hxx>
-#include <Base/Observer.h>
-#include <Base/Persistence.h>
-#include <Base/Type.h>
-
 #include "PropertyContainer.h"
 #include "PropertyStandard.h"
 #include "PropertyLinks.h"
@@ -553,8 +548,6 @@ private:
     std::list<Transaction*> mRedoTransactions;
     std::map<int,Transaction*> mRedoMap;
 
-    // pointer to the python class
-    Py::Object DocumentPythonObject;
     struct DocumentP* d;
 
     std::string oldLabel;
