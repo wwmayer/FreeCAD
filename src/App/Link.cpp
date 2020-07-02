@@ -69,11 +69,11 @@ LinkBaseExtension::~LinkBaseExtension()
 }
 
 PyObject* LinkBaseExtension::getExtensionPyObject(void) {
-    if (ExtensionPythonObject.is(Py::_None())){
+    if (ExtensionPythonObject->is(Py::_None())){
         // ref counter is set to 1
-        ExtensionPythonObject = Py::Object(new LinkBaseExtensionPy(this),true);
+        *ExtensionPythonObject = Py::Object(new LinkBaseExtensionPy(this),true);
     }
-    return Py::new_reference_to(ExtensionPythonObject);
+    return Py::new_reference_to(*ExtensionPythonObject);
 }
 
 const std::vector<LinkBaseExtension::PropInfo> &LinkBaseExtension::getPropertyInfo() const {

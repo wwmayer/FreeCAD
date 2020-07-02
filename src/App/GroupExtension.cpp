@@ -317,12 +317,12 @@ DocumentObject* GroupExtension::getGroupOfObject(const DocumentObject* obj)
 
 PyObject* GroupExtension::getExtensionPyObject(void) {
 
-    if (ExtensionPythonObject.is(Py::_None())){
+    if (ExtensionPythonObject->is(Py::_None())){
         // ref counter is set to 1
         auto grp = new GroupExtensionPy(this);
-        ExtensionPythonObject = Py::Object(grp,true);
+        *ExtensionPythonObject = Py::Object(grp,true);
     }
-    return Py::new_reference_to(ExtensionPythonObject);
+    return Py::new_reference_to(*ExtensionPythonObject);
 }
 
 void GroupExtension::extensionOnChanged(const Property* p) {

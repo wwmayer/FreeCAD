@@ -24,7 +24,8 @@
 #ifndef GUI_VIEWPROVIDEREXTENSION_H
 #define GUI_VIEWPROVIDEREXTENSION_H
 
-#include "App/Extension.h"
+#include <App/Extension.h>
+#include <App/PropertyPythonObject.h>
 #include "ViewProvider.h"
 #include "ViewProviderDocumentObject.h"
 

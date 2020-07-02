@@ -29,6 +29,7 @@
 #endif
 
 #include "Extension.h"
+#include "ExtensionPython.h"
 #include "DocumentObject.h"
 #include "Base/Exception.h"
 #include <Base/Console.h>
@@ -53,19 +54,19 @@ void App::Extension::init(void){
 
 using namespace App;
 
-Extension::Extension() 
+Extension::Extension() : ExtensionPythonObject(new Py::Object())
 {
 }
 
 Extension::~Extension()
 {
-    if (!ExtensionPythonObject.is(Py::_None())){
+    if (!ExtensionPythonObject->is(Py::_None())){
         // Remark: The API of Py::Object has been changed to set whether the wrapper owns the passed
         // Python object or not. In the constructor we forced the wrapper to own the object so we need
         // not to dec'ref the Python object any more.
         // But we must still invalidate the Python object because it need not to be
         // destructed right now because the interpreter can own several references to it.
-        Base::PyObjectBase* obj = (Base::PyObjectBase*)ExtensionPythonObject.ptr();
+        Base::PyObjectBase* obj = (Base::PyObjectBase*)ExtensionPythonObject->ptr();
         // Call before decrementing the reference counter, otherwise a heap error can occur
         obj->setInvalid();
     }
@@ -97,12 +98,12 @@ void Extension::initExtension(ExtensionContainer* obj) {
 
 PyObject* Extension::getExtensionPyObject(void) {
 
-    if (ExtensionPythonObject.is(Py::_None())){
+    if (ExtensionPythonObject->is(Py::_None())){
         // ref counter is set to 1
         auto grp = new ExtensionPy(this);
-        ExtensionPythonObject = Py::Object(grp,true);
+        *ExtensionPythonObject = Py::Object(grp,true);
     }
-    return Py::new_reference_to(ExtensionPythonObject);
+    return Py::new_reference_to(*ExtensionPythonObject);
 }
 
 std::string Extension::name() const {

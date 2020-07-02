@@ -28,6 +28,7 @@
 #include <App/PropertyLinks.h>
 #include <App/PropertyStandard.h>
 #include <App/DocumentObjectExtension.h>
+#include <App/ExtensionPython.h>
 #include <vector>
 
 typedef struct _object PyObject;

@@ -31,6 +31,7 @@
 #include <App/PropertyLinks.h>
 #include <App/GeoFeature.h>
 #include <App/DocumentObjectExtension.h>
+#include <App/ExtensionPython.h>
 #include <Base/Vector3D.h>
 #include <Base/Placement.h>
 #include <Base/Exception.h>

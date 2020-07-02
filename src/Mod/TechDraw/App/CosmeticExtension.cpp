@@ -476,11 +476,11 @@ void CosmeticExtension::removeGeomFormat(std::string delTag)
 
 //================================================================================
 PyObject* CosmeticExtension::getExtensionPyObject(void) {
-    if (ExtensionPythonObject.is(Py::_None())){
+    if (ExtensionPythonObject->is(Py::_None())){
         // ref counter is set to 1
-        ExtensionPythonObject = Py::Object(new CosmeticExtensionPy(this),true);
+        *ExtensionPythonObject = Py::Object(new CosmeticExtensionPy(this),true);
     }
-    return Py::new_reference_to(ExtensionPythonObject);
+    return Py::new_reference_to(*ExtensionPythonObject);
 }
 
 namespace App {
