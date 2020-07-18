@@ -24,11 +24,11 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
-# include <assert.h>
+# include <cassert>
 # include <string>
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 
 /// FreeCAD #includes sorted by Base,App,Gui......
 #include "Builder3D.h"

@@ -44,7 +44,7 @@
 #endif
 #if defined(Q_OS_UNIX)
 # include <sys/types.h>
-# include <time.h>
+# include <ctime>
 # include <unistd.h>
 #endif
 

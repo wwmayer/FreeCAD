@@ -26,7 +26,7 @@
 # include <Inventor/nodes/SoPickStyle.h>
 # include <QApplication>
 # include <QMessageBox>
-# include <stdlib.h>
+# include <cstdlib>
 # include <qdebug.h>
 # include <QString>
 # include <GC_MakeEllipse.hxx>

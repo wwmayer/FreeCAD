@@ -25,7 +25,7 @@
 
 #ifndef _PreComp_
 # include <sstream>
-# include <stdlib.h>
+# include <cstdlib>
 #endif
 
 #include "PyObjectBase.h"

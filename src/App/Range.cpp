@@ -23,8 +23,8 @@
 #include "PreCompiled.h"
 #include "Range.h"
 #include <Base/Exception.h>
-#include <assert.h>
-#include <string.h>
+#include <cassert>
+#include <cstring>
 #include <sstream>
 #include <boost/regex.hpp>
 

@@ -57,7 +57,7 @@
 #include <Mod/Part/App/PartFeature.h>
 #include <Mod/Fem/App/FemTools.h>
 
-#include <math.h>
+#include <cmath>
 #define PI (3.141592653589793238462643383279502884L)
 
 using namespace FemGui;

@@ -62,7 +62,7 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QShowEvent>
 #include <QtGui/QMouseEvent>
-#include <math.h>
+#include <cmath>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 # include <QScreen>

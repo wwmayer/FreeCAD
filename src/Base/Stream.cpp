@@ -33,7 +33,7 @@
 # include <cstdio>
 # include <cstring>
 #ifdef __GNUC__
-# include <stdint.h>
+# include <cstdint>
 #endif
 #endif
 

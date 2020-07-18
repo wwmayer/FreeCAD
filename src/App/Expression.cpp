@@ -48,8 +48,8 @@
 #include <QStringList>
 #include <string>
 #include <sstream>
-#include <math.h>
-#include <stdio.h>
+#include <cmath>
+#include <cstdio>
 #include <stack>
 #include <deque>
 #include <algorithm>

@@ -22,7 +22,7 @@
 
 #include "PreCompiled.h"
 #ifndef _PreComp_
-#include <assert.h>
+#include <cassert>
 
 #include <Inventor/nodes/SoGroup.h>
 #include <Inventor/nodes/SoSeparator.h>
@@ -46,7 +46,7 @@
 #include <Inventor/engines/SoComposeVec3f.h>
 #endif
 
-#include <math.h>
+#include <cmath>
 
 #include <Base/Quantity.h>
 #include <Gui/MainWindow.h>

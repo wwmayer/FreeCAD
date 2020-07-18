@@ -28,7 +28,7 @@
 #include "PreCompiled.h"
 
 #include "gzstream.h"
-#include <assert.h>
+#include <cassert>
 #include <string>
 #include <cstring>  // for memcpy
 

@@ -26,7 +26,7 @@
 
 #ifndef _PreComp_
 # include <iostream>
-# include <assert.h>
+# include <cassert>
 #endif
 
 #include <QAtomicInt>

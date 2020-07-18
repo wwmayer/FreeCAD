@@ -24,7 +24,7 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
-# include <stdlib.h>
+# include <cstdlib>
 # include <QAction>
 # include <QMenu>
 # include <QTimer>

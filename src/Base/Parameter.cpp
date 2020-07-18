@@ -25,7 +25,7 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
-#   include <assert.h>
+#   include <cassert>
 #   include <memory>
 #   include <xercesc/util/PlatformUtils.hpp>
 #   include <xercesc/util/XercesVersion.hpp>
@@ -53,7 +53,7 @@
 #   include <io.h>
 #   endif
 #   include <sstream>
-#   include <stdio.h>
+#   include <cstdio>
 #endif
 
 

@@ -19,9 +19,9 @@
 #include "utility_io.h"
 #include "error.h"
 
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
+#include <cstdlib>
+#include <cctype>
+#include <cstring>
 
 namespace KDL {
 

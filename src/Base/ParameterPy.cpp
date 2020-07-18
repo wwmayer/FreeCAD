@@ -25,7 +25,7 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
-# include <assert.h>
+# include <cassert>
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -33,7 +33,7 @@
 # include <io.h>
 # include <xercesc/sax/SAXParseException.hpp>
 # endif
-# include <stdio.h>
+# include <cstdio>
 # include <sstream>
 # include <list>
 #endif

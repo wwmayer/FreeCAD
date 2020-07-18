@@ -20,7 +20,7 @@
 # include <QTextStream>
 #endif
 
-#include <time.h>
+#include <ctime>
 #if defined(FC_OS_WIN32)
 #include <sys/timeb.h>
 #endif
