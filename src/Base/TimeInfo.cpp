@@ -88,7 +88,7 @@ std::string TimeInfo::toString(std::string fmt) const
     std::stringstream str;
     str.imbue(std::locale("C"));
     if (fmt.empty()) {
-        str << std::put_time(std::localtime(&tt), "%c %Z");
+        str << std::put_time(std::localtime(&tt), "%c");
     }
     else {
         str << std::put_time(std::localtime(&tt), fmt.c_str());

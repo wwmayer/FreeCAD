@@ -2255,9 +2255,8 @@ void Application::runApplication()
 
 void Application::logStatus()
 {
-    time_t now;
-    time(&now);
-    Console().Log("Time = %s", ctime(&now));
+    Base::TimeInfo ti;
+    Console().Log("Time = %s\n", ti.toString().c_str());
 
     for (std::map<std::string,std::string>::iterator It = mConfig.begin();It!= mConfig.end();++It) {
         Console().Log("%s = %s\n",It->first.c_str(),It->second.c_str());

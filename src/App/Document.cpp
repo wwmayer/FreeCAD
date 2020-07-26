@@ -2468,12 +2468,7 @@ private:
                 if (useFCBakExtension) {
                     std::stringstream str;
                     Base::TimeInfo ti = fi.lastModified();
-                    time_t s =ti.getSeconds();
-                    struct tm * timeinfo = localtime(& s);
-                    char buffer[100];
-
-                    strftime(buffer,sizeof(buffer),saveBackupDateFormat.c_str(),timeinfo);
-                    str << bn << buffer ;
+                    str << bn << ti.toString(saveBackupDateFormat);
 
                     fn = str.str();
                     bool done = false;
