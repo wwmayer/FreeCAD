@@ -24,11 +24,11 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
+# include <clocale>
+# include <ctime>
+# include <iomanip>
 # include <sstream>
 # include <QDateTime>
-# if defined(FC_OS_LINUX)
-# include <sys/time.h>
-# endif
 #endif
 
 #include "TimeInfo.h"
@@ -60,26 +60,53 @@ TimeInfo::~TimeInfo()
 
 void TimeInfo::setCurrent(void)
 {
-#if defined (FC_OS_BSD) || defined(FC_OS_LINUX)
-    struct timeval t;
-    gettimeofday(&t, NULL);
-    timebuffer.time = t.tv_sec;
-    timebuffer.millitm = t.tv_usec / 1000;
-#elif defined(FC_OS_WIN32)
-    _ftime(&timebuffer);
-#else
-    ftime(&timebuffer); // deprecated
-#endif
+    tp = std::chrono::system_clock::now();
 }
 
-void TimeInfo::setTime_t (uint64_t seconds)
+void TimeInfo::setTime_t (uint64_t sec)
 {
-    timebuffer.time = seconds;
+    tp = std::chrono::time_point<std::chrono::system_clock>()
+       + std::chrono::seconds(sec);
+}
+
+uint64_t TimeInfo::getSeconds(void) const
+{
+    int64_t sec = std::chrono::duration_cast<std::chrono::seconds>(tp.time_since_epoch()).count();
+    return sec;
+}
+
+unsigned short TimeInfo::getMiliseconds(void) const
+{
+    int64_t ms = std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count();
+    unsigned short v = ms % 1000;
+    return v;
+}
+
+std::string TimeInfo::toString(std::string fmt) const
+{
+    std::time_t tt = std::chrono::system_clock::to_time_t(tp);
+    std::stringstream str;
+    str.imbue(std::locale("C"));
+    if (fmt.empty()) {
+        str << std::put_time(std::localtime(&tt), "%c %Z");
+    }
+    else {
+        str << std::put_time(std::localtime(&tt), fmt.c_str());
+    }
+
+    return str.str();
 }
 
 std::string TimeInfo::currentDateTimeString()
 {
-#if (QT_VERSION >= 0x050300)
+#if 0
+    TimeInfo ti;
+    std::time_t tt = std::chrono::system_clock::to_time_t(ti.tp);
+    std::stringstream str;
+    str.imbue(std::locale("C"));
+    str << std::put_time(std::gmtime(&tt), "%FT%TZ");
+    return str.str();
+#elif (QT_VERSION >= 0x050300)
     return QDateTime::currentDateTime().toTimeSpec(Qt::OffsetFromUTC)
         .toString(Qt::ISODate).toStdString();
 #else
@@ -93,26 +120,23 @@ std::string TimeInfo::currentDateTimeString()
 #endif
 }
 
-std::string TimeInfo::diffTime(const TimeInfo &timeStart,const TimeInfo &timeEnd )
+std::string TimeInfo::diffTime(const TimeInfo &timeStart, const TimeInfo &timeEnd )
 {
-   std::stringstream str;
-   str << diffTimeF(timeStart,timeEnd);
-   return str.str();
+    std::stringstream str;
+    str << diffTimeF(timeStart, timeEnd);
+    return str.str();
 }
 
-float TimeInfo::diffTimeF(const TimeInfo &timeStart,const TimeInfo &timeEnd )
+double TimeInfo::diffTimeF(const TimeInfo &timeStart, const TimeInfo &timeEnd )
 {
-    int64_t ds = int64_t(timeEnd.getSeconds() - timeStart.getSeconds());
-    int dms = int(timeEnd.getMiliseconds()) - int(timeStart.getMiliseconds());
-
-    return float(ds) + float(dms) * 0.001;
+    auto diff = timeEnd.tp - timeStart.tp;
+    return std::chrono::duration<double>(diff).count();
 }
 
 TimeInfo TimeInfo::null()
 {
     TimeInfo ti;
-    ti.timebuffer.time = 0;
-    ti.timebuffer.millitm = 0;
+    ti.tp = std::chrono::time_point<std::chrono::system_clock>();
     return ti;
 }
 
