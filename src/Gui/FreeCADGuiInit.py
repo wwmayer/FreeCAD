@@ -34,8 +34,26 @@ import FreeCAD, FreeCADGui
 
 # shortcuts
 Gui = FreeCADGui
+
 # this is to keep old code working
-Gui.listCommands = Gui.Command.listAll
+#
+import warnings
+
+def deprecated(msg):
+    def decorator(func):
+        def func_wrap(*args, **kwargs):
+            warnings.simplefilter('always', DeprecationWarning)  # turn off filter
+            warnings.warn("Call to deprecated function {}. {}".format(func.__name__, msg), category=DeprecationWarning, stacklevel=2)
+            warnings.simplefilter('default', DeprecationWarning)  # reset filter
+            return func(*args, **kwargs)
+        return func_wrap
+    return decorator
+
+@deprecated("Use Command.listAll instead")
+def listCommands():
+    return FreeCADGui.Command.listAll()
+
+Gui.listCommands = listCommands
 
 # Important definitions
 class Workbench:
