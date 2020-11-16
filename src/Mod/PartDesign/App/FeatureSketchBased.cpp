@@ -440,8 +440,7 @@ void ProfileBased::getUpToFace(TopoDS_Face& upToFace,
                               const TopoDS_Face& supportface,
                               const TopoDS_Shape& sketchshape,
                               const std::string& method,
-                              const gp_Dir& dir,
-                              const double offset)
+                              const gp_Dir& dir)
 {
     if ((method == "UpToLast") || (method == "UpToFirst")) {
         // Check for valid support object
@@ -528,19 +527,6 @@ void ProfileBased::getUpToFace(TopoDS_Face& upToFace,
     BRepExtrema_DistShapeShape distSS(sketchshape, upToFace);
     if (distSS.Value() < Precision::Confusion())
         throw Base::ValueError("SketchBased: Up to face: Must not intersect sketch!");
-
-    // Move the face in the extrusion direction
-    // TODO: For non-planar faces, we could consider offsetting the surface
-    if (fabs(offset) > Precision::Confusion()) {
-        if (adapt2.GetType() == GeomAbs_Plane) {
-            gp_Trsf mov;
-            mov.SetTranslation(offset * gp_Vec(dir));
-            TopLoc_Location loc(mov);
-            upToFace.Move(loc);
-        } else {
-            throw Base::TypeError("SketchBased: Up to Face: Offset not supported yet for non-planar faces");
-        }
-    }
 }
 
 void ProfileBased::generatePrism(TopoDS_Shape& prism,
@@ -590,7 +576,6 @@ void ProfileBased::generatePrism(TopoDS_Shape& prism,
             << method << "' for generatePrism()";
         throw Base::RuntimeError(str.str());
     }
-
 }
 
 void ProfileBased::generatePrism(TopoDS_Shape& prism,
@@ -600,6 +585,7 @@ void ProfileBased::generatePrism(TopoDS_Shape& prism,
                                  const TopoDS_Face& supportface,
                                  const TopoDS_Face& uptoface,
                                  const gp_Dir& direction,
+                                 Standard_Real offset,
                                  Standard_Integer Mode,
                                  Standard_Boolean Modify)
 {
@@ -608,7 +594,17 @@ void ProfileBased::generatePrism(TopoDS_Shape& prism,
         TopoDS_Shape base = baseshape;
         for (TopExp_Explorer xp(profileshape, TopAbs_FACE); xp.More(); xp.Next()) {
             PrismMaker.Init(base, xp.Current(), supportface, direction, Mode, Modify);
-            PrismMaker.Perform(uptoface);
+            if (fabs(offset) > Precision::Confusion()) {
+                // TODO: Test non-planar faces
+                BRepExtrema_DistShapeShape distss(xp.Current(), uptoface, Precision::Confusion());
+                if (distss.IsDone()) {
+                    Standard_Real length = distss.Value() + offset;
+                    PrismMaker.Perform(length);
+                }
+            }
+            else {
+                PrismMaker.Perform(uptoface);
+            }
             if (!PrismMaker.IsDone())
                 throw Base::RuntimeError("ProfileBased: Up to face: Could not extrude the sketch!");
 

@@ -194,7 +194,7 @@ App::DocumentObjectExecReturn *Pad::execute(void)
                 getUpToFaceFromLinkSub(upToFace, UpToFace);
                 upToFace.Move(invObjLoc);
             }
-            getUpToFace(upToFace, base, supportface, sketchshape, method, dir, Offset.getValue());
+            getUpToFace(upToFace, base, supportface, sketchshape, method, dir);
 
             // TODO: Write our own PrismMaker which does not depend on a solid base shape
             if (base.IsNull()) {
@@ -273,7 +273,7 @@ App::DocumentObjectExecReturn *Pad::execute(void)
                     return new App::DocumentObjectExecReturn("Pad: Up to face: Could not extrude the sketch!");
                 prism = PrismMaker.Shape();
 #else
-                generatePrism(prism, method, base, sketchshape, supportface, upToFace, dir, 2, 1);
+                generatePrism(prism, method, base, sketchshape, supportface, upToFace, dir, Offset.getValue(), 2, 1);
 #endif
                 base.Nullify();
             } else {
@@ -298,7 +298,7 @@ App::DocumentObjectExecReturn *Pad::execute(void)
                     return new App::DocumentObjectExecReturn("Pad: Up to face: Could not extrude the sketch!");
                 prism = PrismMaker.Shape();
 #else
-                generatePrism(prism, method, base, sketchshape, supportface, upToFace, dir, 2, 1);
+                generatePrism(prism, method, base, sketchshape, supportface, upToFace, dir, Offset.getValue(), 2, 1);
 #endif
             }
         } else {

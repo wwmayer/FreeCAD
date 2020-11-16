@@ -126,8 +126,7 @@ protected:
                             const TopoDS_Face& supportface,
                             const TopoDS_Shape& sketchshape,
                             const std::string& method,
-                            const gp_Dir& dir,
-                            const double offset);
+                            const gp_Dir& dir);
     /**
       * Generate a linear prism
       * It will be a stand-alone solid created with BRepPrimAPI_MakePrism
@@ -151,6 +150,7 @@ protected:
                               const TopoDS_Face& sketchface,
                               const TopoDS_Face& uptoface,
                               const gp_Dir& direction,
+                              Standard_Real offset,
                               Standard_Integer Mode,
                               Standard_Boolean Modify);
 
