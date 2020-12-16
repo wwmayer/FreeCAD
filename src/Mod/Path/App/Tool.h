@@ -26,6 +26,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <memory>
 #include <Base/Persistence.h>
 
 namespace Path
@@ -99,6 +100,8 @@ namespace Path
         static ToolMaterial getToolMaterial(std::string mat);
         static const char* MaterialName(ToolMaterial mat);
     };
+
+    typedef std::shared_ptr<Tool> ToolPtr;
 } //namespace Path
 
 #endif // PATH_TOOL_H
