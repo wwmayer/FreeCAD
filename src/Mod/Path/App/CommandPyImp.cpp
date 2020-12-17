@@ -166,10 +166,10 @@ Py::Dict CommandPy::getParameters(void) const
 
 void CommandPy::setParameters(Py::Dict arg)
 {
-    PyObject* dict_copy = PyDict_Copy(arg.ptr());
+    PyObject* dict_ptr = arg.ptr();
     PyObject *key, *value;
     Py_ssize_t pos = 0;
-    while (PyDict_Next(dict_copy, &pos, &key, &value)) {
+    while (PyDict_Next(dict_ptr, &pos, &key, &value)) {
         std::string ckey;
 #if PY_MAJOR_VERSION >= 3
         if (PyUnicode_Check(key)) {
