@@ -114,14 +114,16 @@ Py::Dict TooltablePy::getTools(void) const
 void TooltablePy::setTools(Py::Dict arg)
 {
     getTooltablePtr()->Tools.clear();
-    PyObject* dict_copy = PyDict_Copy(arg.ptr());
-    PyObject *key, *value;
-    Py_ssize_t pos = 0;
-    while (PyDict_Next(dict_copy, &pos, &key, &value)) {
-        if ( PyObject_TypeCheck(key,&(PYINT_TYPE)) && ((PyObject_TypeCheck(value, &(Path::ToolPy::Type))) || PyObject_TypeCheck(value, &PyDict_Type))) {
-            int ckey = (int)PYINT_ASLONG(key);
-            if (PyObject_TypeCheck(value, &(Path::ToolPy::Type))) {
-              Path::Tool &tool = *static_cast<Path::ToolPy*>(value)->getToolPtr();
+
+    Py::Dict::iterator it, end;
+    for (it = arg.begin(), end = arg.end(); it != end; ++it) {
+        const Py::Object& key = (*it).first;
+        const Py::Object& value = (*it).second;
+
+        if ( PyObject_TypeCheck(key.ptr(),&(PYINT_TYPE)) && ((PyObject_TypeCheck(value.ptr(), &(Path::ToolPy::Type))) || PyObject_TypeCheck(value.ptr(), &PyDict_Type))) {
+            int ckey = (int)PYINT_ASLONG(key.ptr());
+            if (PyObject_TypeCheck(value.ptr(), &(Path::ToolPy::Type))) {
+              Path::Tool &tool = *static_cast<Path::ToolPy*>(value.ptr())->getToolPtr();
               getTooltablePtr()->setTool(tool, ckey);
             } else {
               PyErr_Clear();
@@ -130,7 +132,7 @@ void TooltablePy::setTools(Py::Dict arg)
               // will fail to properly track the reference counts and aborts
               // in debug mode.
               Path::ToolPy* pyTool = new Path::ToolPy(tool);
-              PyObject* success = pyTool->setFromTemplate(value);
+              PyObject* success = pyTool->setFromTemplate(value.ptr());
               if (!success) {
                 Py_DECREF(pyTool);
                 throw Py::Exception();
