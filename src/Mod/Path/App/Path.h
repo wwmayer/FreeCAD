@@ -69,7 +69,7 @@ namespace Path
             // shortcut functions
             unsigned int getSize(void) const { return vpcCommands.size(); }
             const std::vector<Command*> &getCommands(void) const { return vpcCommands; }
-            const Command &getCommand(unsigned int pos)    const { return *vpcCommands[pos]; }
+            const Command &getCommand(unsigned int pos)    const { return *vpcCommands.at(pos); }
         
             // support for rotation
             const Base::Vector3d& getCenter() const { return center; }
