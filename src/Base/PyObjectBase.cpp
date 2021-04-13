@@ -39,17 +39,19 @@ using namespace Base;
 PyObject* Base::BaseExceptionFreeCADError = 0;
 PyObject* Base::BaseExceptionFreeCADAbort = 0;
 
+#ifdef ATTR_TRACKING
 typedef struct {
     PyObject_HEAD
     PyObject* baseobject;
     PyObject* weakreflist;  /* List of weak references */
 } PyBaseProxy;
-
-PyBaseProxy* proxy_baseobject = nullptr;
+#endif
 
 // Constructor
 PyObjectBase::PyObjectBase(void* p,PyTypeObject *T)
-  : _pcTwinPointer(p), attrDict(0)
+  : _pcTwinPointer(p)
+  , baseProxy(nullptr)
+  , attrDict(nullptr)
 {
     Py_TYPE(this) = T;
     _Py_NewReference(this);
@@ -67,8 +69,8 @@ PyObjectBase::~PyObjectBase()
 #ifdef FC_LOGPYOBJECTS
     Base::Console().Log("PyO-: %s (%p)\n",Py_TYPE(this)->tp_name, this);
 #endif
-    if (proxy_baseobject && proxy_baseobject->baseobject == this)
-        Py_XDECREF(proxy_baseobject);
+    if (baseProxy && reinterpret_cast<PyBaseProxy*>(baseProxy)->baseobject == this)
+        Py_DECREF(baseProxy);
     Py_XDECREF(attrDict);
 }
 
@@ -222,6 +224,37 @@ PyTypeObject PyObjectBase::Type = {
 # pragma clang diagnostic pop
 #endif
 
+#ifdef ATTR_TRACKING
+PyObject* createWeakRef(PyObjectBase* ptr)
+{
+    static bool init = false;
+    if (!init) {
+       init = true;
+       PyType_Ready(&PyBaseProxyType);
+    }
+
+    PyObject* proxy = ptr->baseProxy;
+    if (!proxy) {
+        proxy = PyType_GenericAlloc(&PyBaseProxyType, 0);
+        ptr->baseProxy = proxy;
+        reinterpret_cast<PyBaseProxy*>(proxy)->baseobject = ptr;
+    }
+
+    PyObject* ref = PyWeakref_NewRef(proxy, nullptr);
+    return ref;
+}
+
+PyObjectBase* getFromWeakRef(PyObject* ref)
+{
+    PyObject* proxy = PyWeakref_GetObject(ref);
+    if (proxy && PyObject_TypeCheck(proxy, &PyBaseProxyType)) {
+        return static_cast<PyObjectBase*>(reinterpret_cast<PyBaseProxy*>(proxy)->baseobject);
+    }
+
+    return nullptr;
+}
+#endif
+
 /*------------------------------
  * PyObjectBase Methods 	-- Every class, even the abstract one should have a Methods
 ------------------------------*/
@@ -268,14 +301,7 @@ PyObject* PyObjectBase::__getattro(PyObject * obj, PyObject *attro)
         if (!static_cast<PyObjectBase*>(value)->isConst() &&
             !static_cast<PyObjectBase*>(value)->isNotTracking()) {
             static_cast<PyObjectBase*>(value)->setAttributeOf(attr, pyObj);
-            if (!proxy_baseobject) {
-                PyType_Ready(&PyBaseProxyType);
-                PyObject* proxy = PyType_GenericAlloc(&PyBaseProxyType, 0);
-                proxy_baseobject = reinterpret_cast<PyBaseProxy*>(proxy);
-                proxy_baseobject->baseobject = value;
-                PyObject* ref = PyWeakref_NewRef(proxy, nullptr);
-                pyObj->trackAttribute(attr, ref);
-            }
+            pyObj->trackAttribute(attr, value);
         }
     }
     else
@@ -413,6 +439,8 @@ PyObject *PyObjectBase::_repr(void)
     return Py_BuildValue("s", a.str().c_str());
 }
 
+// Tracking functions
+
 void PyObjectBase::resetAttribute()
 {
     if (attrDict) {
@@ -438,14 +466,18 @@ void PyObjectBase::setAttributeOf(const char* attr, PyObject* par)
     if (!attrDict) {
         attrDict = PyDict_New();
     }
-    PyObject* key1 = PyBytes_FromString("__attribute_of_parent__");
-    PyObject* key2 = PyBytes_FromString("__instance_of_parent__");
-    PyObject* attro = PyUnicode_FromString(attr);
-    PyDict_SetItem(attrDict, key1, attro);
-    PyDict_SetItem(attrDict, key2, par);
-    Py_DECREF(attro);
-    Py_DECREF(key1);
-    Py_DECREF(key2);
+
+    PyObject* par_ref = createWeakRef(static_cast<PyObjectBase*>(par));
+    if (par_ref) {
+        PyObject* key1 = PyBytes_FromString("__attribute_of_parent__");
+        PyObject* key2 = PyBytes_FromString("__instance_of_parent__");
+        PyObject* attro = PyUnicode_FromString(attr);
+        PyDict_SetItem(attrDict, key1, attro);
+        PyDict_SetItem(attrDict, key2, par_ref);
+        Py_DECREF(attro);
+        Py_DECREF(key1);
+        Py_DECREF(key2);
+    }
 }
 
 void PyObjectBase::startNotify()
@@ -459,19 +491,25 @@ void PyObjectBase::startNotify()
         PyObject* key1 = PyBytes_FromString("__attribute_of_parent__");
         PyObject* key2 = PyBytes_FromString("__instance_of_parent__");
         PyObject* attr = PyDict_GetItem(attrDict, key1);
-        PyObject* parent = PyDict_GetItem(attrDict, key2);
-        if (attr && parent) {
+        PyObject* ref = PyDict_GetItem(attrDict, key2);
+        if (attr && ref) {
             // Inside __setattr of the parent structure the 'attr'
             // is being removed from the dict and thus its reference
             // counter will be decremented. To avoid to be deleted we
             // must tmp. increment it and afterwards decrement it again.
-            Py_INCREF(parent);
+            Py_INCREF(ref);
             Py_INCREF(attr);
             Py_INCREF(this);
 
-            __setattro(parent, attr, this);
+            PyObjectBase* parent = getFromWeakRef(ref);
+            Py_DECREF(ref); // might be destroyed now
 
-            Py_DECREF(parent); // might be destroyed now
+            if (parent) {
+                Py_INCREF(parent);
+                __setattro(parent, attr, this);
+                Py_DECREF(parent); // might be destroyed now
+            }
+
             Py_DECREF(attr); // might be destroyed now
             Py_DECREF(this); // might be destroyed now
 
@@ -485,9 +523,10 @@ void PyObjectBase::startNotify()
 
 PyObject* PyObjectBase::getTrackedAttribute(const char* attr)
 {
-    PyObject* obj = 0;
+    PyObject* obj = nullptr;
     if (attrDict) {
         obj = PyDict_GetItemString(attrDict, attr);
+        obj = getFromWeakRef(obj);
     }
     return obj;
 }
@@ -498,7 +537,10 @@ void PyObjectBase::trackAttribute(const char* attr, PyObject* obj)
         attrDict = PyDict_New();
     }
 
-    PyDict_SetItemString(attrDict, attr, obj);
+    PyObject* obj_ref = createWeakRef(static_cast<PyObjectBase*>(obj));
+    if (obj_ref) {
+        PyDict_SetItemString(attrDict, attr, obj_ref);
+    }
 }
 
 void PyObjectBase::untrackAttribute(const char* attr)
