@@ -246,9 +246,11 @@ PyObject* createWeakRef(PyObjectBase* ptr)
 
 PyObjectBase* getFromWeakRef(PyObject* ref)
 {
-    PyObject* proxy = PyWeakref_GetObject(ref);
-    if (proxy && PyObject_TypeCheck(proxy, &PyBaseProxyType)) {
-        return static_cast<PyObjectBase*>(reinterpret_cast<PyBaseProxy*>(proxy)->baseobject);
+    if (ref) {
+        PyObject* proxy = PyWeakref_GetObject(ref);
+        if (proxy && PyObject_TypeCheck(proxy, &PyBaseProxyType)) {
+            return static_cast<PyObjectBase*>(reinterpret_cast<PyBaseProxy*>(proxy)->baseobject);
+        }
     }
 
     return nullptr;
@@ -467,19 +469,15 @@ void PyObjectBase::setAttributeOf(const char* attr, PyObject* par)
         attrDict = PyDict_New();
     }
 
-    PyObject* par_ref = createWeakRef(static_cast<PyObjectBase*>(par));
-    if (par_ref) {
-        PyObject* key1 = PyBytes_FromString("__attribute_of_parent__");
-        PyObject* key2 = PyBytes_FromString("__instance_of_parent__");
-        PyObject* attro = PyUnicode_FromString(attr);
-        PyDict_SetItem(attrDict, key1, attro);
-        PyDict_SetItem(attrDict, key2, par_ref);
-        Py_DECREF(attro);
-        Py_DECREF(key1);
-        Py_DECREF(key2);
-    }
+    PyObject* key1 = PyBytes_FromString("__attribute_of_parent__");
+    PyObject* key2 = PyBytes_FromString("__instance_of_parent__");
+    PyObject* attro = PyUnicode_FromString(attr);
+    PyDict_SetItem(attrDict, key1, attro);
+    PyDict_SetItem(attrDict, key2, par);
+    Py_DECREF(attro);
+    Py_DECREF(key1);
+    Py_DECREF(key2);
 }
-
 void PyObjectBase::startNotify()
 {
     if (!shouldNotify())
@@ -491,25 +489,19 @@ void PyObjectBase::startNotify()
         PyObject* key1 = PyBytes_FromString("__attribute_of_parent__");
         PyObject* key2 = PyBytes_FromString("__instance_of_parent__");
         PyObject* attr = PyDict_GetItem(attrDict, key1);
-        PyObject* ref = PyDict_GetItem(attrDict, key2);
-        if (attr && ref) {
+        PyObject* parent = PyDict_GetItem(attrDict, key2);
+        if (attr && parent) {
             // Inside __setattr of the parent structure the 'attr'
             // is being removed from the dict and thus its reference
             // counter will be decremented. To avoid to be deleted we
             // must tmp. increment it and afterwards decrement it again.
-            Py_INCREF(ref);
+            Py_INCREF(parent);
             Py_INCREF(attr);
             Py_INCREF(this);
 
-            PyObjectBase* parent = getFromWeakRef(ref);
-            Py_DECREF(ref); // might be destroyed now
+            __setattro(parent, attr, this);
 
-            if (parent) {
-                Py_INCREF(parent);
-                __setattro(parent, attr, this);
-                Py_DECREF(parent); // might be destroyed now
-            }
-
+            Py_DECREF(parent); // might be destroyed now
             Py_DECREF(attr); // might be destroyed now
             Py_DECREF(this); // might be destroyed now
 
@@ -520,7 +512,6 @@ void PyObjectBase::startNotify()
         Py_DECREF(key2);
     }
 }
-
 PyObject* PyObjectBase::getTrackedAttribute(const char* attr)
 {
     PyObject* obj = nullptr;
