@@ -73,6 +73,7 @@ recompute path. Also, it enables more complicated dependencies beyond trees.
 #include <boost_graph_adjacency_list.hpp>
 #include <boost/graph/subgraph.hpp>
 #include <boost/graph/graphviz.hpp>
+#include <boost/bimap.hpp>
 #include <boost/graph/strong_components.hpp>
 
 #ifdef USE_OLD_DAG
@@ -97,6 +98,7 @@ recompute path. Also, it enables more complicated dependencies beyond trees.
 #include "DocumentObject.h"
 #include "MergeDocuments.h"
 #include "ExpressionParser.h"
+#include "StringHasher.h"
 #include <App/DocumentPy.h>
 
 #include <Base/Console.h>
@@ -121,6 +123,7 @@ recompute path. Also, it enables more complicated dependencies beyond trees.
 #include <zipios++/meta-iostreams.h>
 
 #include "Application.h"
+#include "DocumentParams.h"
 #include "Transactions.h"
 #include "GeoFeatureGroupExtension.h"
 #include "Origin.h"
@@ -160,8 +163,10 @@ typedef std::vector <size_t> Path;
 
 namespace App {
 
+typedef boost::bimap<StringHasherRef,int> HasherMap;
+
 static bool _IsRestoring;
-static bool _IsRelabeling;
+
 // Pimpl class
 struct DocumentP
 {
@@ -184,6 +189,7 @@ struct DocumentP
     unsigned int UndoMemSize;
     unsigned int UndoMaxStackSize;
     std::string programVersion;
+    mutable HasherMap hashers;
 #ifdef USE_OLD_DAG
     DependencyList DepList;
     std::map<DocumentObject*,Vertex> VertexObjectList;
@@ -192,10 +198,13 @@ struct DocumentP
     std::multimap<const App::DocumentObject*,
         std::unique_ptr<App::DocumentObjectExecReturn> > _RecomputeLog;
 
+    StringHasherRef Hasher;
+
     // restored files
     std::set<std::string> files;
 
     DocumentP() {
+#ifndef FC_DEBUG
         static std::random_device _RD;
         static std::mt19937 _RGEN(_RD());
         static std::uniform_int_distribution<> _RDIST(0,5000);
@@ -203,6 +212,10 @@ struct DocumentP
         // copying shape from other document. It is probably better to randomize
         // on each object ID.
         lastObjectId = _RDIST(_RGEN);
+#else
+        lastObjectId = 10; 
+#endif
+        Hasher.reset(new StringHasher);
         activeObject = 0;
         activeUndoTransaction = 0;
         iTransactionMode = 0;
@@ -1470,7 +1483,6 @@ void Document::onChanged(const Property* prop)
 
     // the Name property is a label for display purposes
     if (prop == &Label) {
-        Base::FlagToggler<> flag(_IsRelabeling);
         App::GetApplication().signalRelabelDocument(*this);
     } else if(prop == &ShowHidden) {
         App::GetApplication().signalShowHidden(*this);
@@ -1505,6 +1517,12 @@ void Document::onChanged(const Property* prop)
             // recursive call of onChanged()
             this->Uid.setValue(id);
         }
+    } else if(prop == &UseHasher) {
+        for(auto obj : d->objectArray) {
+            auto geofeature = dynamic_cast<GeoFeature*>(obj);
+            if(geofeature && geofeature->getPropertyOfGeometry())
+                geofeature->enforceRecompute();
+        }
     }
 }
 
@@ -1512,7 +1530,7 @@ void Document::onBeforeChangeProperty(const TransactionalObject *Who, const Prop
 {
     if(Who->isDerivedFrom(App::DocumentObject::getClassTypeId()))
         signalBeforeChangeObject(*static_cast<const App::DocumentObject*>(Who), *What);
-    if(!d->rollback && !_IsRelabeling) {
+    if(!d->rollback) {
         _checkTransaction(0,What,__LINE__);
         if (d->activeUndoTransaction)
             d->activeUndoTransaction->addObjectChange(Who,What);
@@ -1625,6 +1643,10 @@ Document::Document(const char *name)
     ADD_PROPERTY_TYPE(LicenseURL,(licenseUrl.c_str()),0,Prop_None,"URL to the license text/contract");
     ADD_PROPERTY_TYPE(ShowHidden,(false), 0,PropertyType(Prop_None),
                         "Whether to show hidden object items in the tree view");
+    ADD_PROPERTY_TYPE(UseHasher,(true), 0,PropertyType(Prop_Hidden), 
+                        "Whether to use hasher on topological naming");
+    if(!DocumentParams::UseHasher())
+        UseHasher.setValue(false);
 
     // this creates and sets 'TransientDir' in onChanged()
     ADD_PROPERTY_TYPE(TransientDir,(""),0,PropertyType(Prop_Transient|Prop_ReadOnly),
@@ -1698,11 +1720,27 @@ std::string Document::getTransientDirectoryName(const std::string& uuid, const s
 
 void Document::Save (Base::Writer &writer) const
 {
+    d->hashers.clear();
+    addStringHasher(d->Hasher);
+
     writer.Stream() << "<Document SchemaVersion=\"4\" ProgramVersion=\""
                     << App::Application::Config()["BuildVersionMajor"] << "."
                     << App::Application::Config()["BuildVersionMinor"] << "R"
                     << App::Application::Config()["BuildRevision"]
-                    << "\" FileVersion=\"" << writer.getFileVersion() << "\">" << endl;
+                    << "\" FileVersion=\"" << writer.getFileVersion() 
+                    << "\" Uid=\"" << Uid.getValueStr()
+                    << "\" StringHasher=\"1\">\n";
+    
+    writer.incInd();
+
+    // NOTE: DO NOT save the main string hasher as separate file, because it is
+    // required by many objects, which assume the string hasher is fully
+    // restored.
+    d->Hasher->setPersistenceFileName(0);
+
+    d->Hasher->Save(writer);
+
+    writer.decInd();
 
     PropertyContainer::Save(writer);
 
@@ -1714,7 +1752,12 @@ void Document::Save (Base::Writer &writer) const
 void Document::Restore(Base::XMLReader &reader)
 {
     int i,Cnt;
+    d->hashers.clear();
     d->touchedObjs.clear();
+    addStringHasher(d->Hasher);
+
+    Base::ReaderContext rctx(getName());
+
     setStatus(Document::PartialDoc,false);
 
     reader.readElement("Document");
@@ -1731,6 +1774,11 @@ void Document::Restore(Base::XMLReader &reader)
         reader.FileVersion = 0;
     }
 
+    if (reader.hasAttribute("StringHasher")) {
+        Base::ReaderContext rctx("StringHasher");
+        d->Hasher->Restore(reader);
+    } else
+        d->Hasher->clear();
     // When this document was created the FileName and Label properties
     // were set to the absolute path or file name, respectively. To save
     // the document to the file it was loaded from or to show the file name
@@ -1773,6 +1821,7 @@ void Document::Restore(Base::XMLReader &reader)
         for (i=0 ;i<Cnt ;i++) {
             reader.readElement("Feature");
             string name = reader.getAttribute("name");
+            Base::ReaderContext rctx(name);
             DocumentObject* pObj = getObject(name.c_str());
             if (pObj) { // check if this feature has been registered
                 pObj->setStatus(ObjectStatus::Restore, true);
@@ -1793,6 +1842,36 @@ void Document::Restore(Base::XMLReader &reader)
     }
 
     reader.readEndElement("Document");
+}
+
+std::pair<bool,int> Document::addStringHasher(const StringHasherRef & hasher) const {
+    if (!hasher)
+        return std::make_pair(false, 0);
+    auto ret = d->hashers.left.insert(HasherMap::left_map::value_type(hasher,(int)d->hashers.size()));
+    if (ret.second)
+        hasher->clearMarks();
+    return std::make_pair(ret.second,ret.first->second);
+}
+
+StringHasherRef Document::getHasher() const {
+    return d->Hasher;
+}
+
+StringHasherRef Document::getStringHasher(int idx) const {
+    StringHasherRef hasher;
+    if(idx<0) {
+        if(UseHasher.getValue())
+            return d->Hasher;
+        return hasher;
+    }
+
+    auto it = d->hashers.right.find(idx);
+    if(it == d->hashers.right.end()) {
+        hasher = new StringHasher;
+        d->hashers.right.insert(HasherMap::right_map::value_type(idx,hasher));
+    }else
+        hasher = it->second;
+    return hasher;
 }
 
 struct DocExportStatus {
@@ -1831,6 +1910,7 @@ Document::ExportStatus Document::isExporting(const App::DocumentObject *obj) con
 void Document::exportObjects(const std::vector<App::DocumentObject*>& obj, std::ostream& out) {
 
     DocumentExporting exporting(obj);
+    d->hashers.clear();
 
     if(FC_LOG_INSTANCE.isEnabled(FC_LOGLEVEL_LOG)) {
         for(auto o : obj) {
@@ -1860,6 +1940,7 @@ void Document::exportObjects(const std::vector<App::DocumentObject*>& obj, std::
 
     // write additional files
     writer.writeFiles();
+    d->hashers.clear();
 }
 
 #define FC_ATTR_DEPENDENCIES "Dependencies"
@@ -2164,14 +2245,16 @@ Document::readObjects(Base::XMLReader& reader)
 
 void Document::addRecomputeObject(DocumentObject *obj) {
     if(testStatus(Status::Restoring) && obj) {
+        setStatus(Status::RecomputeOnRestore, true);
         d->touchedObjs.insert(obj);
-        obj->touch();
+        obj->enforceRecompute();
     }
 }
 
 std::vector<App::DocumentObject*>
 Document::importObjects(Base::XMLReader& reader)
 {
+    d->hashers.clear();
     Base::FlagToggler<> flag(_IsRestoring,false);
     Base::ObjectStatusLocker<Status, Document> restoreBit(Status::Restoring, this);
     Base::ObjectStatusLocker<Status, Document> restoreBit2(Status::Importing, this);
@@ -2190,6 +2273,7 @@ Document::importObjects(Base::XMLReader& reader)
         reader.FileVersion = 0;
     }
 
+    Base::ReaderContext rctx(getName());
     std::vector<App::DocumentObject*> objs = readObjects(reader);
     for(auto o : objs) {
         if(o && o->getNameInDocument()) {
@@ -2209,7 +2293,7 @@ Document::importObjects(Base::XMLReader& reader)
         if(o && o->getNameInDocument())
             o->setStatus(App::ObjImporting,false);
     }
-
+    d->hashers.clear();
     return objs;
 }
 
@@ -2221,6 +2305,8 @@ unsigned int Document::getMemSize (void) const
     std::vector<DocumentObject*>::const_iterator it;
     for (it = d->objectArray.begin(); it != d->objectArray.end(); ++it)
         size += (*it)->getMemSize();
+
+    size += d->Hasher->getMemSize();
 
     // size of the document properties...
     size += PropertyContainer::getMemSize();
