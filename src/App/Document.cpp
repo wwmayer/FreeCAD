@@ -192,6 +192,9 @@ struct DocumentP
     std::multimap<const App::DocumentObject*,
         std::unique_ptr<App::DocumentObjectExecReturn> > _RecomputeLog;
 
+    // restored files
+    std::set<std::string> files;
+
     DocumentP() {
         static std::random_device _RD;
         static std::mt19937 _RGEN(_RD());
@@ -2677,6 +2680,37 @@ bool Document::saveToFile(const char* filename) const
     return true;
 }
 
+void Document::save(Base::Writer &writer, bool archive) const {
+    (void)archive;
+
+    writer.putNextEntry("Document.xml");
+
+    auto hGrp = App::GetApplication().GetParameterGroupByPath("User parameter:BaseApp/Preferences/Document");
+    if (hGrp->GetBool("SaveBinaryBrep", false)) {
+        writer.setMode("BinaryBrep");
+        writer.setPreferBinary(true);
+    } else if(writer.getFileVersion() > 1)
+        writer.setPreferBinary(false);
+
+    writer.Stream() << "<?xml version='1.0' encoding='utf-8'?>\n"
+                    << "<!--\n"
+                    << " FreeCAD Document, see http://www.freecadweb.org for more information...\n"
+                    << "-->\n";
+    Document::Save(writer);
+
+    // Special handling for Gui document.
+    signalSaveDocument(writer);
+
+    // write additional files
+    writer.writeFiles();
+
+    if (writer.hasErrors()) {
+        throw Base::FileException("Failed to write all data to file");
+    }
+
+    GetApplication().signalSaveDocument(*this);
+}
+
 bool Document::isAnyRestoring() {
     return _IsRestoring;
 }
@@ -2685,8 +2719,48 @@ bool Document::isAnyRestoring() {
 void Document::restore (const char *filename,
         bool delaySignal, const std::set<std::string> &objNames)
 {
+    if(!filename)
+        filename = FileName.getValue();
+    Base::FileInfo fi(filename);
+    if(fi.isDir()) {
+        fi.setFile(std::string(filename)+'/'+"Document.xml");
+        if(!fi.exists()) 
+            throw Base::FileException("Project file not found",fi.filePath());
+    }
+
+    std::unique_ptr<Base::Reader> _reader;
+    std::unique_ptr<Base::XMLReader> _xmlReader;
+    std::unique_ptr<zipios::ZipInputStream> zipstream;
+    std::string dirname;
+
+    if(fi.fileNamePure() == "Document" && fi.hasExtension("xml")) {
+        Base::FileInfo di(fi.dirPath());
+        _reader.reset(new Base::FileReader(fi,di.fileName()+"/Document.xml"));
+        _xmlReader.reset(new Base::XMLReader(*_reader));
+    } else {
+        // file.open(fi, std::ios::in | std::ios::binary);
+        // std::streambuf* buf = file.rdbuf();
+        // std::streamoff size = buf->pubseekoff(0, std::ios::end, std::ios::in);
+        // buf->pubseekoff(0, std::ios::beg, std::ios::in);
+        // if (size < 22) // an empty zip archive has 22 bytes
+        //     throw Base::FileException("Invalid project file",filename);
+        zipstream.reset(new zipios::ZipInputStream(filename));
+        _reader.reset(new Base::ZipReader(*zipstream,filename));
+        _xmlReader.reset(new Base::XMLReader(*_reader));
+    }
+
+    restore(*_xmlReader, delaySignal, objNames);
+}
+
+void Document::restore(Base::XMLReader &reader,
+        bool delaySignal, const std::set<std::string> &objNames)
+{
+    if (!reader.isValid())
+        throw Base::FileException("Error reading project file", FileName.getValue());
+
     clearUndos();
     d->activeObject = 0;
+    d->files.clear();
 
     bool signal = false;
     Document *activeDoc = GetApplication().getActiveDocument();
@@ -2718,21 +2792,6 @@ void Document::restore (const char *filename,
             GetApplication().setActiveDocument(this);
     }
 
-    if(!filename)
-        filename = FileName.getValue();
-    Base::FileInfo fi(filename);
-    Base::ifstream file(fi, std::ios::in | std::ios::binary);
-    std::streambuf* buf = file.rdbuf();
-    std::streamoff size = buf->pubseekoff(0, std::ios::end, std::ios::in);
-    buf->pubseekoff(0, std::ios::beg, std::ios::in);
-    if (size < 22) // an empty zip archive has 22 bytes
-        throw Base::FileException("Invalid project file",filename);
-
-    zipios::ZipInputStream zipstream(file);
-    Base::XMLReader reader(filename, zipstream);
-
-    if (!reader.isValid())
-        throw Base::FileException("Error reading compression file",filename);
 
     GetApplication().signalStartRestoreDocument(*this);
     setStatus(Document::Restoring, true);
@@ -2742,8 +2801,9 @@ void Document::restore (const char *filename,
         d->partialLoadObjects.emplace(name,true);
     try {
         Document::Restore(reader);
-    }
-    catch (const Base::Exception& e) {
+    } catch (const Base::XMLParseException &) {
+        throw;
+    } catch (const Base::Exception& e) {
         Base::Console().Error("Invalid Document.xml: %s\n", e.what());
         setStatus(Document::RestoreError, true);
     }
@@ -2756,7 +2816,13 @@ void Document::restore (const char *filename,
     // Note: This file doesn't need to be available if the document has been created
     // without GUI. But if available then follow after all data files of the App document.
     signalRestoreDocument(reader);
-    reader.readFiles(zipstream);
+
+    reader.readFiles();
+
+    for(auto &f : reader.getFilenames()) {
+        FC_TRACE("document " << getName() << " file: " << f);
+        d->files.insert(f);
+    }
 
     if (reader.testStatus(Base::XMLReader::ReaderStatus::PartialRestore)) {
         setStatus(Document::PartialRestore, true);

@@ -191,6 +191,11 @@ public:
     }
     //@}
 
+    /** @name Save/restore */
+    //@{
+    void setPersistenceFileName(const char *name) const;
+    //@}
+
 protected:
 
     /// from local to outside
@@ -206,8 +211,12 @@ protected:
         Base::Vector3d tmp = tmpM * vec;
         return Base::Vector3f((float)tmp.x,(float)tmp.y,(float)tmp.z);
     }
+
 public:
     mutable long Tag;
+protected:
+    mutable std::string _PersistenceName;
+
 };
 
 } //namespace App

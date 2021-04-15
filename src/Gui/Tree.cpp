@@ -383,17 +383,17 @@ class DocumentItem::ExpandInfo:
 {
 public:
     void restore(Base::XMLReader &reader) {
-        int level = reader.level();
         int count = reader.getAttributeAsInteger("count");
         for(int i=0;i<count;++i) {
-            reader.readElement("Expand");
+            int guard;
+            reader.readElement("Expand",&guard);
             auto &entry = (*this)[reader.getAttribute("name")];
-            if(!reader.hasAttribute("count"))
-                continue;
-            entry.reset(new ExpandInfo);
-            entry->restore(reader);
+            if(reader.hasAttribute("count")) {
+                entry.reset(new ExpandInfo);
+                entry->restore(reader);
+            }
+            reader.readEndElement("Expand",&guard);
         }
-        reader.readEndElement("Expand",level-1);
     }
 };
 
