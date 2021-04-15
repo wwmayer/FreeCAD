@@ -236,6 +236,8 @@ public:
     /// Called before a child property changing value
     virtual void aboutToSetChildValue(Property &) {}
 
+    virtual void beforeSave() const {}
+
     friend class PropertyContainer;
     friend struct PropertyData;
     friend class DynamicProperty;
