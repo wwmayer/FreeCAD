@@ -722,8 +722,7 @@ void DocumentObject::onBeforeChange(const Property* prop)
     signalBeforeChange(*this,*prop);
 }
 
-/// get called by the container when a Property was changed
-void DocumentObject::onChanged(const Property* prop)
+void DocumentObject::onEarlyChange(const Property *prop)
 {
     if(GetApplication().isClosingAll())
         return;
@@ -740,6 +739,15 @@ void DocumentObject::onChanged(const Property* prop)
                     << getFullName() << '.' << prop->getName());
         }
     }
+
+    signalEarlyChanged(*this, *prop);
+}
+
+/// get called by the container when a Property was changed
+void DocumentObject::onChanged(const Property* prop)
+{
+    if(GetApplication().isClosingAll())
+        return;
 
     // Delay signaling view provider until the document object has handled the
     // change

@@ -32,6 +32,7 @@
 #include "ObjectIdentifier.h"
 #include "PropertyContainer.h"
 #include <Base/Exception.h>
+#include <Base/Tools.h>
 #include "Application.h"
 #include "DocumentObject.h"
 
@@ -217,10 +218,15 @@ void Property::destroy(Property *p) {
 
 void Property::touch()
 {
+    if(GetApplication().isClosingAll())
+        return;
+
     PropertyCleaner guard(this);
-    if (father)
-        father->onChanged(this);
     StatusBits.set(Touched);
+    if (getName() && father) {
+        father->onEarlyChange(this);
+        father->onChanged(this);
+    }
 }
 
 void Property::setReadOnly(bool readOnly)
