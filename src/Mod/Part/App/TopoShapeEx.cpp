@@ -198,7 +198,7 @@
 #include "FaceMakerBullseye.h"
 #include "PartParams.h"
 
-#define TOPOP_VERSION 15
+#define TOPOP_VERSION 1
 
 FC_LOG_LEVEL_INIT("TopoShape",true,true);
 
