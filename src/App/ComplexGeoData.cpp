@@ -128,8 +128,8 @@ struct MappedNameRef
         return *this;
     }
 
-    explicit operator bool() const 
-    { 
+    explicit operator bool() const
+    {
         return !name.empty();
     }
 
@@ -229,7 +229,7 @@ inline std::ostream & operator << (std::ostream &s, const QByteArray &bytes)
 //
 // In order to not waste memory space when the file is loaded, we use the
 // following two maps to assign a one-time id for each unique element map.  The
-// id will be saved together with the element map. 
+// id will be saved together with the element map.
 //
 // When restoring, we'll read back the id and lookup for an existing element map
 // with the same id, and skip loading the current map if one is found.
@@ -274,7 +274,7 @@ public:
         if (!id)
             id = _ElementMapToId.size();
         this->_id = id;
-        
+
         for (auto & v : this->indexedNames) {
             for (const MappedNameRef & ref : v.second.names) {
                 for (const MappedNameRef *r=&ref; r; r=r->next.get()) {
@@ -370,7 +370,7 @@ public:
               const std::map<const ElementMap*,int> &childMapSet,
               const std::map<QByteArray, int> &postfixMap) const
     {
-        s << "\nElementMap " << index << ' ' << this->_id << ' ' 
+        s << "\nElementMap " << index << ' ' << this->_id << ' '
             << this->indexedNames.size() << '\n';
 
         for (auto & v : this->indexedNames) {
@@ -547,7 +547,7 @@ public:
             if (! (s >> tmp))
                 FC_THROWM(Base::RuntimeError, "missing element type");
             IndexedName idx(tmp.c_str(), 1);
-                
+
             if (! (s >> tmp >> count) || tmp != "ChildCount")
                 FC_THROWM(Base::RuntimeError, "missing element child count");
 
@@ -892,7 +892,7 @@ public:
                 res = child.elementMap->findAll(childIdx);
                 for (auto &v : res)
                     v.first += child.postfix;
-            } else 
+            } else
                 res.emplace_back(MappedName(childIdx) + child.postfix, ElementIDRefs());
         }
 
@@ -967,7 +967,7 @@ public:
         std::ostringstream ss;
         ss << std::hex;
 
-        // To avoid possibly very long recusive child map lookup, resulting very
+        // To avoid possibly very long recursive child map lookup, resulting very
         // long mapped names, we try to resolve the grand child map now.
         std::vector<MappedChildElements> expansion;
         for (auto it=children.begin(); it!=children.end(); ++it) {
@@ -1092,7 +1092,7 @@ public:
 
             if (entry->index != 1) {
                 // There is some ambiguity in child mapping. We need some
-                // additional postfix for disambiguiation. NOTE: We are not
+                // additional postfix for disambiguation. NOTE: We are not
                 // using ComplexGeoData::indexPostfix() so as to not confuse
                 // other code that actually uses this postfix for indexing
                 // purposes. Here, we just need some postfix for
@@ -1151,7 +1151,7 @@ public:
                 MappedName name;
                 if (child.elementMap)
                     name = child.elementMap->find(childIdx);
-                else 
+                else
                     name = MappedName(childIdx);
                 if (name) {
                     name += child.postfix;
@@ -1401,7 +1401,7 @@ size_t ComplexGeoData::getElementMapSize(bool flush) const {
 
 MappedName ComplexGeoData::getMappedName(const IndexedName & element,
                                          bool allowUnmapped,
-                                         ElementIDRefs *sid) const 
+                                         ElementIDRefs *sid) const
 {
     if (!element)
         return MappedName();
@@ -1419,7 +1419,7 @@ MappedName ComplexGeoData::getMappedName(const IndexedName & element,
 }
 
 IndexedName ComplexGeoData::getIndexedName(const MappedName & name,
-                                           ElementIDRefs *sid) const 
+                                           ElementIDRefs *sid) const
 {
     flushElementMap();
     if (!name)
@@ -1434,7 +1434,7 @@ IndexedName ComplexGeoData::getIndexedName(const MappedName & name,
 Data::MappedElement
 ComplexGeoData::getElementName(const char *name,
                                ElementIDRefs *sid,
-                               bool copy) const 
+                               bool copy) const
 {
     IndexedName element(name, getElementTypes());
     if (element)
@@ -1471,7 +1471,7 @@ ComplexGeoData::getElementMappedNames(const IndexedName & element, bool needUnma
     return {std::make_pair(MappedName(element), ElementIDRefs())};
 }
 
-std::vector<Data::MappedElement> 
+std::vector<Data::MappedElement>
 ComplexGeoData::getElementNamesWithPrefix(const char *prefix) const {
 #if 0
     std::vector<Data::MappedElement> names;
@@ -1552,7 +1552,7 @@ MappedName ComplexGeoData::dehashElementName(const MappedName & name) const {
 }
 
 MappedName ComplexGeoData::setElementName(const IndexedName & element,
-                                          const MappedName & name, 
+                                          const MappedName & name,
                                           const ElementIDRefs *sid,
                                           bool overwrite)
 {
@@ -1590,7 +1590,7 @@ MappedName ComplexGeoData::setElementName(const IndexedName & element,
         if (res)
             return res;
         if (++i == 100) {
-            FC_ERR("unresolved duplicate element mapping '" << name 
+            FC_ERR("unresolved duplicate element mapping '" << name
                     <<' ' << element << '/' << existing);
             return name;
         }
@@ -1601,7 +1601,7 @@ MappedName ComplexGeoData::setElementName(const IndexedName & element,
             return name;
         sid = &_sid;
     }
-    
+
 }
 
 char ComplexGeoData::elementType(const Data::MappedName &name) const
@@ -1661,8 +1661,8 @@ char ComplexGeoData::elementType(const char *name) const {
 }
 
 MappedName ComplexGeoData::renameDuplicateElement(int index,
-                                                  const IndexedName & element, 
-                                                  const IndexedName & element2, 
+                                                  const IndexedName & element,
+                                                  const IndexedName & element2,
                                                   const MappedName & name,
                                                   ElementIDRefs &sids)
 {
@@ -1670,7 +1670,7 @@ MappedName ComplexGeoData::renameDuplicateElement(int index,
     ss << elementMapPrefix() << 'D' << std::hex << index;
     MappedName renamed(name);
     encodeElementName(element.getType()[0],renamed,ss,&sids);
-    FC_TRACE("duplicate element mapping '" << name << " -> " << renamed << ' ' 
+    FC_TRACE("duplicate element mapping '" << name << " -> " << renamed << ' '
             << element << '/' << element2);
     return renamed;
 }
@@ -1704,13 +1704,13 @@ bool ComplexGeoData::hasMissingElement(const char *subname) {
     return boost::starts_with(subname,missingPrefix());
 }
 
-int ComplexGeoData::findTagInElementName(const MappedName & name, 
+int ComplexGeoData::findTagInElementName(const MappedName & name,
                                          long *tag,
                                          int *len,
                                          std::string *postfix,
                                          char *type,
                                          bool negative,
-                                         bool recursive) 
+                                         bool recursive)
 {
     bool hex = true;
     int pos = name.rfind(tagPostfix());
@@ -1785,9 +1785,9 @@ int ComplexGeoData::findTagInElementName(const MappedName & name,
 
     if (hex) {
         if (pos-_len < 0)
-           return -1; 
+           return -1;
         if (_len && recursive && (tag || len)) {
-            // in case of recursive tag postfix (used by hierarhcy element map)
+            // in case of recursive tag postfix (used by hierarchy element map)
             if (MappedName::fromRawData(name, pos-_len, _len).rfind(tagPostfix()) >= 0)
                 _len = 0;
         }
@@ -1843,7 +1843,7 @@ void ComplexGeoData::encodeElementName(char element_type,
             // waste of memory, because the intermediate shapes has no
             // corresponding objects, so no real value for history tracing.
             //
-            // On the other hand, we still need to distingush the original name
+            // On the other hand, we still need to distinguish the original name
             // from the input object from the element name of the intermediate
             // shapes. So we limit ourselves to encode only one extra level
             // using the same tag. In order to do that, we need to dehash the
@@ -1875,9 +1875,9 @@ void ComplexGeoData::encodeElementName(char element_type,
     name += ss.str();
 }
 
-long ComplexGeoData::getElementHistory(const char *name, 
+long ComplexGeoData::getElementHistory(const char *name,
                                        MappedName *original,
-                                       std::vector<MappedName> *history) const 
+                                       std::vector<MappedName> *history) const
 {
     MappedElement mapped = getElementName(name);
     if (!mapped.name)
@@ -1885,9 +1885,9 @@ long ComplexGeoData::getElementHistory(const char *name,
     return getElementHistory(mapped.name, original, history);
 }
 
-long ComplexGeoData::getElementHistory(const MappedName & name, 
+long ComplexGeoData::getElementHistory(const MappedName & name,
                                        MappedName *original,
-                                       std::vector<MappedName> *history) const 
+                                       std::vector<MappedName> *history) const
 {
     long tag = 0;
     int len = 0;
@@ -1959,8 +1959,8 @@ void ComplexGeoData::Save(Base::Writer &writer) const {
     writer.Stream() << writer.ind() << "<ElementMap2";
 
     if(_PersistenceName.size()) {
-        writer.Stream() << " file=\"" 
-            << writer.addFile(_PersistenceName+".txt",this) 
+        writer.Stream() << " file=\""
+            << writer.addFile(_PersistenceName+".txt",this)
             << "\"/>\n";
         return;
     }
@@ -1986,7 +1986,7 @@ void ComplexGeoData::Restore(Base::XMLReader &reader) {
         reader.addFile(file,this);
         return;
     }
-    
+
     std::size_t count = reader.getAttributeAsUnsigned("count","");
     if(!count)
         return;
@@ -2027,7 +2027,7 @@ void ComplexGeoData::Restore(Base::XMLReader &reader) {
                     if (id == 0)
                         continue;
                     auto sid = Hasher->getID(id);
-                    if(!sid) 
+                    if(!sid)
                         ++invalid_count;
                     else
                         sids.push_back(sid);
@@ -2045,7 +2045,7 @@ void ComplexGeoData::Restore(Base::XMLReader &reader) {
     reader.readEndElement("ElementMap");
 }
 
-void ComplexGeoData::restoreStream(std::istream &s, std::size_t count) { 
+void ComplexGeoData::restoreStream(std::istream &s, std::size_t count) {
     resetElementMap();
 
     size_t invalid_count = 0;
@@ -2066,7 +2066,7 @@ void ComplexGeoData::restoreStream(std::istream &s, std::size_t count) {
                 throw Base::RuntimeError("Failed to restore element map");
             if (Hasher) {
                 auto sid = Hasher->getID(id);
-                if(!sid) 
+                if(!sid)
                     ++invalid_count;
                 else
                     sids.push_back(sid);
