@@ -473,10 +473,12 @@ TopoDS_Shape Feature::getShape(const App::DocumentObject *obj, const char *subna
     return getTopoShape(obj,subname,needSubElement,pmat,powner,resolveLink,transform,true).getShape();
 }
 
+#if 0 // remove the function as it's not used
 static inline bool checkLink(const App::DocumentObject *obj) {
     return obj->getExtensionByType<App::LinkBaseExtension>(obj)
             || obj->getExtensionByType<App::GeoFeatureGroupExtension>(obj);
 }
+#endif
 
 static bool checkLinkVisibility(std::set<std::string> &hiddens,
         bool check, const App::DocumentObject *&lastLink,

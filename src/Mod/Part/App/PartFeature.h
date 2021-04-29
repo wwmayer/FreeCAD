@@ -169,7 +169,7 @@ public:
     App::PropertyLink   Base;
     PropertyFilletEdges Edges;
 
-    short mustExecute() const;
+    short mustExecute() const override;
 };
 
 typedef App::FeaturePythonT<Feature> FeaturePython;
