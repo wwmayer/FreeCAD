@@ -24,6 +24,12 @@
 #ifndef BASE_TOOLS_H
 #define BASE_TOOLS_H
 
+#ifndef FC_GLOBAL_H
+#include <FCGlobal.h>
+#endif
+#include <QByteArray>
+#include <QString>
+#include <QObject>
 #include <functional>
 #include <algorithm>
 #include <cmath>
@@ -31,10 +37,7 @@
 #include <vector>
 #include <string>
 #include <boost_signals2.hpp>
-#include <QString>
-#include <QObject>
 
-// ----------------------------------------------------------------------------
 
 namespace Base
 {

@@ -78,10 +78,6 @@ UnitsApi::UnitsApi(const std::string& /*filter*/)
 {
 }
 
-UnitsApi::~UnitsApi()
-{
-}
-
 const char* UnitsApi::getDescription(UnitSystem system)
 {
     switch (system) {

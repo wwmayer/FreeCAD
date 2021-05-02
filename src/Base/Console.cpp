@@ -458,19 +458,19 @@ ConsoleSingleton & ConsoleSingleton::Instance(void)
 
 // ConsoleSingleton Methods						// Methods structure
 PyMethodDef ConsoleSingleton::Methods[] = {
-    {"PrintMessage",         (PyCFunction) ConsoleSingleton::sPyMessage, METH_VARARGS,
+    {"PrintMessage",         ConsoleSingleton::sPyMessage, METH_VARARGS,
      "PrintMessage(string) -- Print a message to the output"},
-    {"PrintLog",             (PyCFunction) ConsoleSingleton::sPyLog, METH_VARARGS,
+    {"PrintLog",             ConsoleSingleton::sPyLog, METH_VARARGS,
      "PrintLog(string) -- Print a log message to the output"},
-    {"PrintError"  ,         (PyCFunction) ConsoleSingleton::sPyError, METH_VARARGS,
+    {"PrintError"  ,         ConsoleSingleton::sPyError, METH_VARARGS,
      "PrintError(string) -- Print an error message to the output"},
-    {"PrintWarning",         (PyCFunction) ConsoleSingleton::sPyWarning, METH_VARARGS,
+    {"PrintWarning",         ConsoleSingleton::sPyWarning, METH_VARARGS,
      "PrintWarning -- Print a warning to the output"},
-    {"SetStatus",            (PyCFunction) ConsoleSingleton::sPySetStatus, METH_VARARGS,
+    {"SetStatus",            ConsoleSingleton::sPySetStatus, METH_VARARGS,
      "Set the status for either Log, Msg, Wrn or Error for an observer"},
-    {"GetStatus",            (PyCFunction) ConsoleSingleton::sPyGetStatus, METH_VARARGS,
+    {"GetStatus",            ConsoleSingleton::sPyGetStatus, METH_VARARGS,
      "Get the status for either Log, Msg, Wrn or Error for an observer"},
-    {NULL, NULL, 0, NULL}		/* Sentinel */
+    {nullptr, nullptr, 0, nullptr}		/* Sentinel */
 };
 
 
@@ -801,7 +801,7 @@ RedirectStdOutput::RedirectStdOutput()
 int RedirectStdOutput::overflow(int c)
 {
     if (c != EOF)
-        buffer.push_back((char)c);
+        buffer.push_back(static_cast<char>(c));
     return c;
 }
 
@@ -823,7 +823,7 @@ RedirectStdLog::RedirectStdLog()
 int RedirectStdLog::overflow(int c)
 {
     if (c != EOF)
-        buffer.push_back((char)c);
+        buffer.push_back(static_cast<char>(c));
     return c;
 }
 
@@ -845,7 +845,7 @@ RedirectStdError::RedirectStdError()
 int RedirectStdError::overflow(int c)
 {
     if (c != EOF)
-        buffer.push_back((char)c);
+        buffer.push_back(static_cast<char>(c));
     return c;
 }
 

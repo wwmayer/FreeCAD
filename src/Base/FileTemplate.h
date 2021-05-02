@@ -27,6 +27,9 @@
 // Std. configurations
 
 #include <string>
+#ifndef FC_GLOBAL_H
+#include <FCGlobal.h>
+#endif
 
 namespace Base
 {
@@ -65,7 +68,7 @@ namespace Base
  *  <li> mouse events
  *     <ol>
  *     <li>mouse move event
- *     <li>mouse click event\n
+ *     <li>mouse click event
  *         More info about the click event.
  *     <li>mouse double click event
  *     </ol>

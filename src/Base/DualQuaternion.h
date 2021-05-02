@@ -23,6 +23,9 @@
 #ifndef FREECAD_BASE_DUAL_QUATERNION_H
 #define FREECAD_BASE_DUAL_QUATERNION_H
 
+#ifndef FC_GLOBAL_H
+#include <FCGlobal.h>
+#endif
 #include "DualNumber.h"
 //#include <Console.h> //DEBUG
 

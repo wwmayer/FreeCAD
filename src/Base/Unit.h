@@ -31,6 +31,9 @@
 #endif
 #include <string>
 #include <QString>
+#ifndef FC_CONFIG_H
+#include <FCConfig.h>
+#endif
 
 namespace Base {
 

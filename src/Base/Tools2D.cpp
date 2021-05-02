@@ -43,7 +43,7 @@ double Vector2d::GetAngle (const Vector2d &rclVect) const
   {
     fNum = (*this * rclVect) / fDivid;
     if (fNum < -1)
-      return F_PI;
+      return D_PI;
     else
       if (fNum > 1)
         return 0.0;
@@ -168,7 +168,7 @@ bool BoundBox2d::Intersect(const Polygon2d &rclPoly) const
 /********************************************************/
 /** LINE2D **********************************************/
 
-BoundBox2d Line2d::CalcBoundBox (void) const
+BoundBox2d Line2d::CalcBoundBox () const
 {
   BoundBox2d clBB;
   clBB.MinX = std::min<double> (clV1.x, clV2.x);
@@ -186,11 +186,11 @@ bool Line2d::Intersect (const Line2d& rclLine, Vector2d &rclV) const
   if (fabs (clV2.x - clV1.x) > 1e-10)
     m1 = (clV2.y - clV1.y) / (clV2.x - clV1.x);
   else
-    m1 = FLOAT_MAX;
+    m1 = DOUBLE_MAX;
   if (fabs (rclLine.clV2.x - rclLine.clV1.x) > 1e-10)
     m2 = (rclLine.clV2.y - rclLine.clV1.y) / (rclLine.clV2.x - rclLine.clV1.x);
   else
-    m2 = FLOAT_MAX;
+    m2 = DOUBLE_MAX;
   if (m1 == m2)     /****** RETURN ERR (parallel lines) *************/
     return false;
 
@@ -198,13 +198,13 @@ bool Line2d::Intersect (const Line2d& rclLine, Vector2d &rclV) const
   b2 = rclLine.clV1.y - m2 * rclLine.clV1.x;
 
   // calc intersection
-  if (m1 == FLOAT_MAX)
+  if (m1 == DOUBLE_MAX)
   {
     rclV.x = clV1.x;
     rclV.y = m2 * rclV.x + b2;
   }
   else
-  if (m2 == FLOAT_MAX)
+  if (m2 == DOUBLE_MAX)
   {
     rclV.x = rclLine.clV1.x;
     rclV.y = m1 * rclV.x + b1;
@@ -258,7 +258,7 @@ bool Line2d::IntersectAndContain (const Line2d& rclLine, Vector2d &rclV) const
 /********************************************************/
 /** POLYGON2d ********************************************/
 
-BoundBox2d Polygon2d::CalcBoundBox (void) const
+BoundBox2d Polygon2d::CalcBoundBox () const
 {
   unsigned long i;
   BoundBox2d clBB;

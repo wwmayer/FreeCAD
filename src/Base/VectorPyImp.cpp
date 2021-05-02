@@ -47,7 +47,9 @@ std::string VectorPy::representation(void) const
     Py::Float z(ptr->z);
     std::stringstream str;
     str << "Vector (";
-    str << (std::string)x.repr() << ", "<< (std::string)y.repr() << ", "<< (std::string)z.repr();
+    str << static_cast<std::string>(x.repr()) << ", "
+        << static_cast<std::string>(y.repr()) << ", "
+        << static_cast<std::string>(z.repr());
     str << ")";
 
     return str.str();
@@ -144,20 +146,18 @@ PyObject* VectorPy::number_multiply_handler(PyObject *self, PyObject *other)
 {
     if (PyObject_TypeCheck(self, &(VectorPy::Type))) {
         Base::Vector3d a = static_cast<VectorPy*>(self) ->value();
-
         if (PyObject_TypeCheck(other, &(VectorPy::Type))) {
             Base::Vector3d b = static_cast<VectorPy*>(other)->value();
             Py::Float mult(a * b);
             return Py::new_reference_to(mult);
         }
-
         else if (PyFloat_Check(other)) {
             double b = PyFloat_AsDouble(other);
             return new VectorPy(a * b);
         }
-    else if (PyLong_Check(other)) {
-        long b = PyLong_AsLong(other);
-            return new VectorPy(a * (double)b);
+        else if (PyLong_Check(other)) {
+            long b = PyLong_AsLong(other);
+            return new VectorPy(a * static_cast<double>(b));
         }
         else {
             PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
@@ -172,7 +172,7 @@ PyObject* VectorPy::number_multiply_handler(PyObject *self, PyObject *other)
         }
         else if (PyLong_Check(self)) {
             long b = PyLong_AsLong(self);
-            return new VectorPy(a * (double)b);
+            return new VectorPy(a * static_cast<double>(b));
         }
         else {
             PyErr_SetString(PyExc_TypeError, "A Vector can only be multiplied by Vector or number");
@@ -201,8 +201,10 @@ PyObject * VectorPy::sequence_item (PyObject *self, Py_ssize_t index)
         return 0;
     }
 
+    unsigned short pos = index % 3;
+
     Base::Vector3d a = static_cast<VectorPy*>(self)->value();
-    return Py_BuildValue("d", a[index]);
+    return Py_BuildValue("d", a[pos]);
 }
 
 int VectorPy::sequence_ass_item(PyObject *self, Py_ssize_t index, PyObject *value)
@@ -216,9 +218,11 @@ int VectorPy::sequence_ass_item(PyObject *self, Py_ssize_t index, PyObject *valu
         return -1;
     }
 
+    unsigned short pos = index % 3;
+
     if (PyFloat_Check(value)) {
         VectorPy::PointerType ptr = static_cast<VectorPy*>(self)->getVectorPtr();
-        (*ptr)[index] = PyFloat_AsDouble(value);
+        (*ptr)[pos] = PyFloat_AsDouble(value);
     }
     else {
         PyErr_SetString(PyExc_ValueError, "value must be float");
@@ -631,7 +635,7 @@ void  VectorPy::setLength(Py::Float arg)
         throw Py::RuntimeError(std::string("Cannot set length of null vector"));
     }
 
-    double val = (double)arg/len;
+    double val = static_cast<double>(arg)/len;
     ptr->x *= val;
     ptr->y *= val;
     ptr->z *= val;
@@ -646,7 +650,7 @@ Py::Float VectorPy::getx(void) const
 void  VectorPy::setx(Py::Float arg)
 {
     VectorPy::PointerType ptr = reinterpret_cast<VectorPy::PointerType>(_pcTwinPointer);
-    ptr->x = (double)arg;
+    ptr->x = static_cast<double>(arg);
 }
 
 Py::Float VectorPy::gety(void) const
@@ -658,7 +662,7 @@ Py::Float VectorPy::gety(void) const
 void  VectorPy::sety(Py::Float arg)
 {
     VectorPy::PointerType ptr = reinterpret_cast<VectorPy::PointerType>(_pcTwinPointer);
-    ptr->y = (double)arg;
+    ptr->y = static_cast<double>(arg);
 }
 
 Py::Float VectorPy::getz(void) const
@@ -670,7 +674,7 @@ Py::Float VectorPy::getz(void) const
 void  VectorPy::setz(Py::Float arg)
 {
     VectorPy::PointerType ptr = reinterpret_cast<VectorPy::PointerType>(_pcTwinPointer);
-    ptr->z = (double)arg;
+    ptr->z = static_cast<double>(arg);
 }
 
 PyObject *VectorPy::getCustomAttributes(const char* /*attr*/) const
@@ -702,7 +706,7 @@ PyObject * VectorPy::number_divide_handler (PyObject* self, PyObject* other)
 
         Base::Vector3d vec = static_cast<VectorPy*>(self) ->value();
         double div = PyFloat_AsDouble(other);
-        if (div == 0) {
+        if (div == 0.0) {
             PyErr_Format(PyExc_ZeroDivisionError, "'%s' division by zero",
                          Py_TYPE(self)->tp_name);
             return 0;

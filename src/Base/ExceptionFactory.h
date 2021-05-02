@@ -36,8 +36,7 @@ namespace Base
 class BaseExport AbstractExceptionProducer : public AbstractProducer
 {
 public:
-    AbstractExceptionProducer () {}
-    ~AbstractExceptionProducer() {}
+    AbstractExceptionProducer () = default;
     // just implement it
     void* Produce () const {
         return nullptr;
@@ -59,8 +58,7 @@ public:
 private:
     static ExceptionFactory* _pcSingleton;
 
-    ExceptionFactory(){}
-    ~ExceptionFactory(){}
+    ExceptionFactory() = default;
 };
 
 /* Producers */

@@ -68,7 +68,7 @@ PyMethodDef UnitsApi::Methods[] = {
     // " Temperature \n"
 
     //},
-    {"parseQuantity",  (PyCFunction) UnitsApi::sParseQuantity, METH_VARARGS,
+    {"parseQuantity",  UnitsApi::sParseQuantity, METH_VARARGS,
      "parseQuantity(string) -> Base.Quantity()\n\n"
      "calculate a mathematical expression with units to a quantity object. \n"
      "can be used for simple unit translation like: \n"
@@ -76,24 +76,24 @@ PyMethodDef UnitsApi::Methods[] = {
      "or for more complex espressions:\n"
      "parseQuantity('sin(pi)/50.0 m/s^2')\n"
     },
-    {"listSchemas",  (PyCFunction) UnitsApi::sListSchemas, METH_VARARGS,
+    {"listSchemas",  UnitsApi::sListSchemas, METH_VARARGS,
      "listSchemas() -> a tuple of schemas\n\n"
      "listSchemas(int) -> description of the given schema\n\n"
     },
-    {"getSchema",  (PyCFunction) UnitsApi::sGetSchema, METH_VARARGS,
+    {"getSchema",  UnitsApi::sGetSchema, METH_VARARGS,
      "getSchema() -> int\n\n"
      "The int is the position of the tuple returned by listSchemas"
     },
-    {"setSchema",  (PyCFunction) UnitsApi::sSetSchema, METH_VARARGS,
+    {"setSchema",  UnitsApi::sSetSchema, METH_VARARGS,
      "setSchema(int) -> None\n\n"
      "Sets the current schema to the given number, if possible"
     },
-    {"schemaTranslate",  (PyCFunction) UnitsApi::sSchemaTranslate, METH_VARARGS,
+    {"schemaTranslate",  UnitsApi::sSchemaTranslate, METH_VARARGS,
      "schemaTranslate(Quantity, int) -> tuple\n\n"
      "Translate a quantity to a given schema"
     },
 
-    {NULL, NULL, 0, NULL}		/* Sentinel */
+    {nullptr, nullptr, 0, nullptr}		/* Sentinel */
 };
 
 //PyObject* UnitsApi::sTranslateUnit(PyObject * /*self*/, PyObject *args)
@@ -146,7 +146,7 @@ PyObject* UnitsApi::sParseQuantity(PyObject * /*self*/, PyObject *args)
 {
     char *pstr;
     if (!PyArg_ParseTuple(args, "et", "utf-8", &pstr))     // convert args: Python->C
-        return NULL;                             // NULL triggers exception
+        return nullptr;                             // NULL triggers exception
 
     Quantity rtn;
     QString qstr = QString::fromUtf8(pstr);
@@ -156,11 +156,11 @@ PyObject* UnitsApi::sParseQuantity(PyObject * /*self*/, PyObject *args)
     }
     catch (const Base::Exception&) {
         PyErr_Format(PyExc_IOError, "invalid unit expression \n");
-        return 0L;
+        return nullptr;
     }
     catch (const std::exception&) {
         PyErr_Format(PyExc_IOError, "invalid unit expression \n");
-        return 0L;
+        return nullptr;
     }
 
     return new QuantityPy(new Quantity(rtn));
@@ -184,20 +184,20 @@ PyObject* UnitsApi::sListSchemas(PyObject * /*self*/, PyObject *args)
         int num = static_cast<int>(UnitSystem::NumUnitSystemTypes);
         if (index < 0 || index >= num) {
             PyErr_SetString(PyExc_ValueError, "invalid schema value");
-            return 0;
+            return nullptr;
         }
 
         return Py_BuildValue("s", UnitsApi::getDescription(static_cast<UnitSystem>(index)));
     }
 
     PyErr_SetString(PyExc_TypeError, "int or empty argument list expected");
-    return 0;
+    return nullptr;
 }
 
 PyObject* UnitsApi::sGetSchema(PyObject * /*self*/, PyObject *args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return NULL;
+        return nullptr;
 
     return Py_BuildValue("i", static_cast<int>(actSystem));
 }
@@ -210,9 +210,9 @@ PyObject* UnitsApi::sSetSchema(PyObject * /*self*/, PyObject *args)
         int num = static_cast<int>(UnitSystem::NumUnitSystemTypes);
         if (index < 0 || index >= num) {
             PyErr_SetString(PyExc_ValueError, "invalid schema value");
-            return 0;
+            return nullptr;
         }
-        setSchema((UnitSystem)index);
+        setSchema(static_cast<UnitSystem>(index));
     }
     Py_Return;
 }
@@ -222,7 +222,7 @@ PyObject* UnitsApi::sSchemaTranslate(PyObject * /*self*/, PyObject *args)
     PyObject* q;
     int index;
     if (!PyArg_ParseTuple(args, "O!i", &(QuantityPy::Type), &q, &index))
-        return 0;
+        return nullptr;
 
     Quantity quant;
     quant = *static_cast<Base::QuantityPy*>(q)->getQuantityPtr();
@@ -230,7 +230,7 @@ PyObject* UnitsApi::sSchemaTranslate(PyObject * /*self*/, PyObject *args)
     std::unique_ptr<UnitsSchema> schema(createSchema(static_cast<UnitSystem>(index)));
     if (!schema.get()) {
         PyErr_SetString(PyExc_ValueError, "invalid schema value");
-        return 0;
+        return nullptr;
     }
 
     double factor;

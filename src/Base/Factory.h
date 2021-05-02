@@ -29,7 +29,9 @@
 #include<string>
 #include<map>
 #include<list>
-#include"../FCConfig.h"
+#ifndef FC_GLOBAL_H
+#include <FCGlobal.h>
+#endif
 
 
 namespace Base

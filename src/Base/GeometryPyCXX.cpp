@@ -106,7 +106,7 @@ Vector2dPy::~Vector2dPy()
 {
 }
 
-void Vector2dPy::init_type(void)
+void Vector2dPy::init_type()
 {
     behaviors().name( "Vector2d" );
     behaviors().doc( "Vector2d class" );
@@ -123,7 +123,8 @@ Py::Object Vector2dPy::repr()
     Py::Float y(v.y);
     std::stringstream str;
     str << "Vector2 (";
-    str << (std::string)x.repr() << ", "<< (std::string)y.repr();
+    str << static_cast<std::string>(x.repr()) << ", "
+        << static_cast<std::string>(y.repr());
     str << ")";
 
     return Py::String(str.str());

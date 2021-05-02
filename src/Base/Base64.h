@@ -27,6 +27,11 @@
 #ifndef BASE_BASE64_H
 #define BASE_BASE64_H
 
+#ifndef FC_CONFIG_H
+#include <FCConfig.h>
+#include <string>
+#endif
+
 
 namespace Base
 {

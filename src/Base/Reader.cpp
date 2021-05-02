@@ -122,7 +122,7 @@ const char* Base::XMLReader::localName(void) const
 
 unsigned int Base::XMLReader::getAttributeCount(void) const
 {
-    return (unsigned int)AttrMap.size();
+    return static_cast<unsigned int>(AttrMap.size());
 }
 
 long Base::XMLReader::getAttributeAsInteger(const char* AttrName) const
@@ -527,12 +527,12 @@ void Base::XMLReader::resetErrors()
 
 bool Base::XMLReader::testStatus(ReaderStatus pos) const
 {
-    return StatusBits.test((size_t)pos);
+    return StatusBits.test(static_cast<size_t>(pos));
 }
 
 void Base::XMLReader::setStatus(ReaderStatus pos, bool on)
 {
-    StatusBits.set((size_t)pos, on);
+    StatusBits.set(static_cast<size_t>(pos), on);
 }
 
 void Base::XMLReader::setPartialRestore(bool on)

@@ -28,6 +28,9 @@
 
 #include <sstream>
 #include <vector>
+#ifndef FC_GLOBAL_H
+#include <FCGlobal.h>
+#endif
 #include "Vector3D.h"
 
 namespace Base

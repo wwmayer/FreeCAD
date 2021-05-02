@@ -555,8 +555,8 @@ PyObject* MatrixPy::isOrthogonal(PyObject * args)
 
     bool ok = true;
     double mult = trp[0][0];
-    for (int i=0; i<4 && ok; i++) {
-        for (int j=0; j<4 && ok; j++) {
+    for (unsigned short i=0; i<4 && ok; i++) {
+        for (unsigned short j=0; j<4 && ok; j++) {
             if (i != j) {
                 if (fabs(trp[i][j]) > eps) {
                     ok = false;
@@ -622,7 +622,7 @@ Py::Float MatrixPy::getA11() const
 
 void  MatrixPy::setA11(Py::Float arg)
 {
-    (*this->getMatrixPtr())[0][0] = (double)arg;
+    (*this->getMatrixPtr())[0][0] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA12() const
@@ -633,7 +633,7 @@ Py::Float MatrixPy::getA12() const
 
 void  MatrixPy::setA12(Py::Float arg)
 {
-    (*this->getMatrixPtr())[0][1] = (double)arg;
+    (*this->getMatrixPtr())[0][1] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA13() const
@@ -644,7 +644,7 @@ Py::Float MatrixPy::getA13() const
 
 void  MatrixPy::setA13(Py::Float arg)
 {
-    (*this->getMatrixPtr())[0][2] = (double)arg;
+    (*this->getMatrixPtr())[0][2] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA14() const
@@ -655,7 +655,7 @@ Py::Float MatrixPy::getA14() const
 
 void  MatrixPy::setA14(Py::Float arg)
 {
-    (*this->getMatrixPtr())[0][3] = (double)arg;
+    (*this->getMatrixPtr())[0][3] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA21() const
@@ -666,7 +666,7 @@ Py::Float MatrixPy::getA21() const
 
 void  MatrixPy::setA21(Py::Float arg)
 {
-    (*this->getMatrixPtr())[1][0] = (double)arg;
+    (*this->getMatrixPtr())[1][0] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA22() const
@@ -677,7 +677,7 @@ Py::Float MatrixPy::getA22() const
 
 void  MatrixPy::setA22(Py::Float arg)
 {
-    (*this->getMatrixPtr())[1][1] = (double)arg;
+    (*this->getMatrixPtr())[1][1] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA23() const
@@ -688,7 +688,7 @@ Py::Float MatrixPy::getA23() const
 
 void  MatrixPy::setA23(Py::Float arg)
 {
-    (*this->getMatrixPtr())[1][2] = (double)arg;
+    (*this->getMatrixPtr())[1][2] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA24() const
@@ -699,7 +699,7 @@ Py::Float MatrixPy::getA24() const
 
 void  MatrixPy::setA24(Py::Float arg)
 {
-    (*this->getMatrixPtr())[1][3] = (double)arg;
+    (*this->getMatrixPtr())[1][3] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA31() const
@@ -710,7 +710,7 @@ Py::Float MatrixPy::getA31() const
 
 void  MatrixPy::setA31(Py::Float arg)
 {
-    (*this->getMatrixPtr())[2][0] = (double)arg;
+    (*this->getMatrixPtr())[2][0] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA32() const
@@ -721,7 +721,7 @@ Py::Float MatrixPy::getA32() const
 
 void  MatrixPy::setA32(Py::Float arg)
 {
-    (*this->getMatrixPtr())[2][1] = (double)arg;
+    (*this->getMatrixPtr())[2][1] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA33() const
@@ -732,7 +732,7 @@ Py::Float MatrixPy::getA33() const
 
 void  MatrixPy::setA33(Py::Float arg)
 {
-    (*this->getMatrixPtr())[2][2] = (double)arg;
+    (*this->getMatrixPtr())[2][2] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA34() const
@@ -743,7 +743,7 @@ Py::Float MatrixPy::getA34() const
 
 void  MatrixPy::setA34(Py::Float arg)
 {
-    (*this->getMatrixPtr())[2][3] = (double)arg;
+    (*this->getMatrixPtr())[2][3] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA41() const
@@ -754,7 +754,7 @@ Py::Float MatrixPy::getA41() const
 
 void  MatrixPy::setA41(Py::Float arg)
 {
-    (*this->getMatrixPtr())[3][0] = (double)arg;
+    (*this->getMatrixPtr())[3][0] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA42() const
@@ -765,7 +765,7 @@ Py::Float MatrixPy::getA42() const
 
 void  MatrixPy::setA42(Py::Float arg)
 {
-    (*this->getMatrixPtr())[3][1] = (double)arg;
+    (*this->getMatrixPtr())[3][1] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA43() const
@@ -776,7 +776,7 @@ Py::Float MatrixPy::getA43() const
 
 void  MatrixPy::setA43(Py::Float arg)
 {
-    (*this->getMatrixPtr())[3][2] = (double)arg;
+    (*this->getMatrixPtr())[3][2] = static_cast<double>(arg);
 }
 
 Py::Float MatrixPy::getA44() const
@@ -787,7 +787,7 @@ Py::Float MatrixPy::getA44() const
 
 void  MatrixPy::setA44(Py::Float arg)
 {
-    (*this->getMatrixPtr())[3][3] = (double)arg;
+    (*this->getMatrixPtr())[3][3] = static_cast<double>(arg);
 }
 
 Py::Sequence MatrixPy::getA() const
@@ -795,7 +795,7 @@ Py::Sequence MatrixPy::getA() const
     double mat[16];
     this->getMatrixPtr()->getMatrix(mat);
     Py::Tuple tuple(16);
-    for (int i=0; i<16; i++) {
+    for (Py::sequence_index_type i=0; i<16; i++) {
         tuple[i] = Py::Float(mat[i]);
     }
     return std::move(tuple);
@@ -808,7 +808,7 @@ void MatrixPy::setA(Py::Sequence arg)
 
     int index=0;
     for (Py::Sequence::iterator it = arg.begin(); it != arg.end() && index < 16; ++it) {
-        mat[index++] = (double)Py::Float(*it);
+        mat[index++] = static_cast<double>(Py::Float(*it));
     }
 
     this->getMatrixPtr()->setMatrix(mat);

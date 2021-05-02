@@ -123,6 +123,8 @@ protected:
 public:
   /// Construction
   BaseClass();
+  BaseClass(const BaseClass&) = default;
+  BaseClass& operator=(const BaseClass&) = default;
   /// Destruction
   virtual ~BaseClass();
 

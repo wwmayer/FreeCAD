@@ -27,6 +27,9 @@
 // Std. configurations
 
 #include <string>
+#ifndef FC_GLOBAL_H
+#include <FCGlobal.h>
+#endif
 
 namespace Base
 {
@@ -39,6 +42,8 @@ class BaseExport Uuid
 public:
     /// Construction
     Uuid();
+    Uuid(const Uuid&) = default;
+    Uuid& operator=(const Uuid&) = default;
     /// Destruction
     virtual ~Uuid();
 

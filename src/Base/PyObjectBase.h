@@ -496,8 +496,9 @@ BaseExport extern PyObject* BaseExceptionFreeCADAbort;
 inline PyObject * PyAsUnicodeObject(const char *str)
 {
     // Returns a new reference, don't increment it!
-    PyObject *p = PyUnicode_DecodeUTF8(str,strlen(str),0);
-    if(!p)
+    Py_ssize_t len = Py_SAFE_DOWNCAST(strlen(str), size_t, Py_ssize_t);
+    PyObject *p = PyUnicode_DecodeUTF8(str, len, nullptr);
+    if (!p)
         throw Base::UnicodeError("UTF8 conversion failure at PyAsUnicodeString()");
     return p;
 }

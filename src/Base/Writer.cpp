@@ -270,7 +270,7 @@ void ZipWriter::writeFiles(void)
     // processing the files new ones can be added
     size_t index = 0;
     while (index < FileList.size()) {
-        FileEntry entry = FileList.begin()[index];
+        FileEntry entry = FileList[index];
         ZipStream.putNextEntry(entry.FileName);
         entry.Object->SaveDocFile(*this);
         index++;
@@ -310,7 +310,7 @@ void FileWriter::writeFiles(void)
     size_t index = 0;
     this->FileStream.close();
     while (index < FileList.size()) {
-        FileEntry entry = FileList.begin()[index];
+        FileEntry entry = FileList[index];
 
         if (shouldWrite(entry.FileName, entry.Object)) {
             std::string filePath = entry.FileName;

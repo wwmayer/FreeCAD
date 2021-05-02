@@ -45,7 +45,6 @@ public:
     /** Constructs a UnitsApi object. */
     UnitsApi(const char* filter);
     UnitsApi(const std::string& filter);
-    virtual ~UnitsApi();
 
     /** set Schema
      * set the UnitsSchema of the Application

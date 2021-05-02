@@ -39,7 +39,7 @@
 # elif defined (FC_OS_WIN32)
 # include <direct.h>
 # include <io.h>
-# include <windows.h>
+# include <Windows.h>
 # endif
 #endif
 
@@ -77,7 +77,7 @@ std::string ConvertFromWideString(const std::wstring& string)
     int neededSize = WideCharToMultiByte(CP_UTF8, 0, string.c_str(), -1, 0, 0,0,0);
     char * CharString = new char[neededSize];
     WideCharToMultiByte(CP_UTF8, 0, string.c_str(), -1, CharString, neededSize,0,0);
-    std::string String((char*)CharString);
+    std::string String(CharString);
     delete [] CharString;
     CharString = NULL;
     return String;
@@ -392,14 +392,15 @@ bool FileInfo::isDir () const
             return false;
         }
         return S_ISDIR(st.st_mode);
-#endif
+#else
         return false;
+#endif
     }
     else
         return false;
 
     // TODO: Check for valid path name
-    return true;
+    //return true;
 }
 
 unsigned int FileInfo::size () const
