@@ -23,7 +23,7 @@
  * isectpt1, isectpt2 are the endpoints of the line of intersection
  */
 
-#include <math.h>
+#include <cmath>
 
 #define FABS(x) ((float)fabs(x))        /* implement as is fastest on your machine */
 

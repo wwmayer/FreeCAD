@@ -24,7 +24,7 @@
 #ifndef MESH_KERNEL_H
 #define MESH_KERNEL_H
 
-#include <assert.h>
+#include <cassert>
 #include <iosfwd>
 
 #include "Elements.h"
