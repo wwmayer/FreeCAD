@@ -57,7 +57,7 @@
 #include "ContextMenu.h"
 #include "QuarterP.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 
 using namespace SIM::Coin3D::Quarter;
 

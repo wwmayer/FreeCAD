@@ -22,7 +22,7 @@
 
 
 #include "PreCompiled.h"
-#include <stdio.h>
+#include <cstdio>
 #include <cmath>
 
 #include <QAuthenticator>

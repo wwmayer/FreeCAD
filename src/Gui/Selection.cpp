@@ -25,7 +25,7 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
-# include <assert.h>
+# include <cassert>
 # include <string>
 # include <boost_bind_bind.hpp>
 # include <QApplication>

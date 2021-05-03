@@ -24,7 +24,7 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
-# include "stdio.h"
+# include <cstdio>
 # ifdef FC_OS_WIN32
 #   include "io.h"
 # endif

@@ -36,7 +36,7 @@
 #include <Inventor/elements/SoModelMatrixElement.h>
 #include <Inventor/misc/SoState.h>
 
-#include <string.h>
+#include <cstring>
 #include <iostream>
 
 #include "SoFCBoundingBox.h"

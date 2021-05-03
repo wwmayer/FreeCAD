@@ -24,7 +24,7 @@
 #include "PreCompiled.h"
 #ifndef _PreComp_
 # include <cmath>
-# include <float.h>
+# include <cfloat>
 # include <climits>
 # include <QCursor>
 # include <QTimer>

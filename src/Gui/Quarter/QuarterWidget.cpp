@@ -52,7 +52,7 @@
 #pragma warning(disable : 4267)
 #endif
 
-#include <assert.h>
+#include <cassert>
 
 #include <Quarter/QuarterWidget.h>
 #include <Quarter/eventhandlers/EventFilter.h>

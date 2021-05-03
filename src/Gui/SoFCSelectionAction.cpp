@@ -24,7 +24,7 @@
 
 #ifndef _PreComp_
 #  include <cassert>
-#  include <float.h>
+#  include <cfloat>
 #  include <Inventor/actions/SoSearchAction.h>
 #  include <Inventor/actions/SoGetBoundingBoxAction.h>
 #  include <Inventor/nodes/SoCallback.h>
