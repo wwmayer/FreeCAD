@@ -38,7 +38,7 @@
 # include <BRepBuilderAPI_MakeFace.hxx>
 # include <BRepBuilderAPI_MakeSolid.hxx>
 # include <QObject>
-# include <math.h>
+# include <cmath>
 #endif
 
 
