@@ -2922,8 +2922,8 @@ void Application::ExtractUserPath()
 }
 
 #if defined (FC_OS_LINUX) || defined(FC_OS_CYGWIN) || defined(FC_OS_BSD)
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <sys/param.h>
 
 std::string Application::FindHomePath(const char* sCall)
