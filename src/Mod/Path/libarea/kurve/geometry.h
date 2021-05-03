@@ -17,13 +17,13 @@
 #endif
 #endif
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <vector>
 #include <list>
 #include <iostream>
 #include <fstream>
-#include <string.h>
+#include <cstring>
 
 using namespace std;
 

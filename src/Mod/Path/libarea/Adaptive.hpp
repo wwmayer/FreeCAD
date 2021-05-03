@@ -23,7 +23,7 @@
 #include "clipper.hpp"
 #include <vector>
 #include <list>
-#include <time.h>
+#include <ctime>
 
 #ifndef ADAPTIVE_HPP
 #define ADAPTIVE_HPP
