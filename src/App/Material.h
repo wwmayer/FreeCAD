@@ -25,11 +25,14 @@
 #define APP_MATERIAL_H
 
 #ifdef __GNUC__
-# include <stdint.h>
+# include <cstdint>
 #endif
 
 #include <sstream>
 #include <iomanip>
+#ifndef FC_CONFIG_H
+#include <FCConfig.h>
+#endif
 
 namespace App
 {
@@ -99,10 +102,10 @@ public:
      */
     uint32_t getPackedValue() const
     {
-        return ((uint32_t)(r*255.0f + 0.5f) << 24 |
-                (uint32_t)(g*255.0f + 0.5f) << 16 |
-                (uint32_t)(b*255.0f + 0.5f) << 8  |
-                (uint32_t)(a*255.0f + 0.5f));
+        return (static_cast<uint32_t>(r*255.0f + 0.5f) << 24 |
+                static_cast<uint32_t>(g*255.0f + 0.5f) << 16 |
+                static_cast<uint32_t>(b*255.0f + 0.5f) << 8  |
+                static_cast<uint32_t>(a*255.0f + 0.5f));
     }
     /**
      * creates FC Color from template type, e.g. Qt QColor
@@ -115,8 +118,8 @@ public:
      *
      */
     template <typename T>
-    inline T asValue(void) const {
-        return(T(int(r*255.0),int(g*255.0),int(b*255.0)));
+    inline T asValue() const {
+        return(T(int(r*255.0f),int(g*255.0f),int(b*255.0f)));
     }
     /**
      * returns color as hex color "#RRGGBB"
@@ -124,9 +127,9 @@ public:
      */
     std::string asHexString() const {
         std::stringstream ss;
-        ss << "#" << std::hex << std::uppercase << std::setfill('0') << std::setw(2) << int(r*255.0)
-                                                                     << std::setw(2) << int(g*255.0)
-                                                                     << std::setw(2) << int(b*255.0);
+        ss << "#" << std::hex << std::uppercase << std::setfill('0') << std::setw(2) << int(r*255.0f)
+                                                                     << std::setw(2) << int(g*255.0f)
+                                                                     << std::setw(2) << int(b*255.0f);
         return ss.str();
     }
     /**

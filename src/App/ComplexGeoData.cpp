@@ -57,7 +57,7 @@ Data::Segment* ComplexGeoData::getSubElementByName(const char* name) const
     std::string::size_type pos = element.find_first_of("0123456789");
     if (pos != std::string::npos) {
         index = std::atoi(element.substr(pos).c_str());
-        element = element.substr(0,pos);
+        element = element.substr(0, pos);
     }
 
     return getSubElement(element.c_str(),index);

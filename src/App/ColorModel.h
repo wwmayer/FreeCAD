@@ -243,11 +243,11 @@ inline Color ColorField::getColor (float fVal) const
   Color col(1.0f, 1.0f, 1.0f); // white as default
   for ( unsigned short i=0; i<ct; i++ )
   {
-    float r = (float)(i+1)/(float)ct;
+    float r = float(i+1)/float(ct);
     if ( t < r )
     {
       // calculate the exact position in the subrange
-      float s = t*(float)ct-(float)i;
+      float s = t*float(ct)-float(i);
       Color c1 = _clModel._pclColors[i];
       Color c2 = _clModel._pclColors[i+1];
       col.r = (1.0f-s) * c1.r + s * c2.r;
@@ -265,7 +265,7 @@ inline Color ColorField::getColor (float fVal) const
 
 inline unsigned short ColorField::getColorIndex (float fVal) const
 {
-  return (unsigned short)(std::min<int>(std::max<int>(int(_fConstant + _fAscent * fVal), 0), int(_usCtColors-1)));
+  return static_cast<unsigned short>(std::min<int>(std::max<int>(int(_fConstant + _fAscent * fVal), 0), int(_usCtColors-1)));
 }
 
 
@@ -340,7 +340,7 @@ public:
   bool setValue (unsigned long ulPos, float fVal);
   std::string getText (unsigned long ulPos) const;
   bool setText (unsigned long ulPos, const std::string &rclName);
-  unsigned long hasNumberOfFields (void) const { return (unsigned long)_aclColorFields.size(); }
+  unsigned long hasNumberOfFields () const { return static_cast<unsigned long>(_aclColorFields.size()); }
   void setOutsideGrayed (bool bOS) { _bOutsideGrayed = bOS; }
   bool isOutsideGrayed (void) const { return _bOutsideGrayed; }
   inline float  getMinValue (void) const;
@@ -393,7 +393,7 @@ inline unsigned short ColorLegend::getColorIndex (float fVal) const
   if (pI == _aclValues.begin())
     return 0;
   else if (pI == _aclValues.end())
-    return (unsigned short)(_aclColorFields.size() - 1);
+    return static_cast<unsigned short>(_aclColorFields.size() - 1);
   else
     return pI - _aclValues.begin() - 1;
 }
@@ -449,7 +449,7 @@ inline unsigned short ColorGradient::getColorIndex (float fVal) const
         if (fVal < 0.0f)
           return _clColFld1.getColorIndex(fVal);
         else
-          return (unsigned short)(_clColFld1.getCountColors() + _clColFld2.getColorIndex(fVal));
+          return static_cast<unsigned short>(_clColFld1.getCountColors() + _clColFld2.getColorIndex(fVal));
       }
       else
         return _clColFld1.getColorIndex(fVal);

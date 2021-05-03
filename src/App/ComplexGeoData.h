@@ -32,7 +32,10 @@
 #include <Base/Rotation.h>
 
 #ifdef __GNUC__
-# include <stdint.h>
+# include <cstdint>
+#endif
+#ifndef FC_CONFIG_H
+#include <FCConfig.h>
 #endif
 
 
@@ -204,7 +207,9 @@ protected:
         Base::Matrix4D tmpM(getTransform());
         tmpM.inverse();
         Base::Vector3d tmp = tmpM * vec;
-        return Base::Vector3f((float)tmp.x,(float)tmp.y,(float)tmp.z);
+        return Base::Vector3f(static_cast<float>(tmp.x),
+                              static_cast<float>(tmp.y),
+                              static_cast<float>(tmp.z));
     }
 public:
     mutable long Tag;

@@ -81,7 +81,7 @@ Enumeration::~Enumeration()
 void Enumeration::tearDown(void)
 {
     // Ugly...
-    char **plEnums = (char **)_EnumArray;
+    char **plEnums = const_cast<char **>(_EnumArray);
 
     // Delete C Strings first
     while (*plEnums != NULL) {
@@ -150,7 +150,7 @@ void Enumeration::setEnums(const std::vector<std::string> &values)
     _EnumArray[i] = 0; // null termination
 
     // Other state variables
-    _maxVal = values.size() - 1;
+    _maxVal = static_cast<int>(values.size() - 1);
     _ownEnumArray = true;
     _index = 0;
 

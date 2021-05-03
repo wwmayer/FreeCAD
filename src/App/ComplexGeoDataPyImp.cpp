@@ -46,9 +46,9 @@ std::string ComplexGeoDataPy::representation(void) const
 PyObject*  ComplexGeoDataPy::getFacesFromSubelement(PyObject *args)
 {
     char *type;
-    int index;
-    if (!PyArg_ParseTuple(args, "si", &type, &index))
-        return 0;
+    unsigned long index;
+    if (!PyArg_ParseTuple(args, "sk", &type, &index))
+        return nullptr;
 
     std::vector<Base::Vector3d> points;
     std::vector<Base::Vector3d> normals;
@@ -60,7 +60,7 @@ PyObject*  ComplexGeoDataPy::getFacesFromSubelement(PyObject *args)
     }
     catch (...) {
         PyErr_SetString(PyExc_RuntimeError, "failed to get sub-element from object");
-        return 0;
+        return nullptr;
     }
 
     Py::Tuple tuple(2);
@@ -73,9 +73,9 @@ PyObject*  ComplexGeoDataPy::getFacesFromSubelement(PyObject *args)
     for (std::vector<Data::ComplexGeoData::Facet>::const_iterator
         it = facets.begin(); it != facets.end(); ++it) {
         Py::Tuple f(3);
-        f.setItem(0,Py::Int((int)it->I1));
-        f.setItem(1,Py::Int((int)it->I2));
-        f.setItem(2,Py::Int((int)it->I3));
+        f.setItem(0,Py::Int(int(it->I1)));
+        f.setItem(1,Py::Int(int(it->I2)));
+        f.setItem(2,Py::Int(int(it->I3)));
         facet.append(f);
     }
     tuple.setItem(1, facet);

@@ -419,9 +419,9 @@ bool ColorLegend::addMin (const std::string &rclName)
     _aclValues.push_front(*_aclValues.begin() - 1.0f);
 
     Color clNewRGB;
-    clNewRGB.r = ((float)rand() / (float)RAND_MAX);
-    clNewRGB.g = ((float)rand() / (float)RAND_MAX);
-    clNewRGB.b = ((float)rand() / (float)RAND_MAX);
+    clNewRGB.r = (float(rand()) / float(RAND_MAX));
+    clNewRGB.g = (float(rand()) / float(RAND_MAX));
+    clNewRGB.b = (float(rand()) / float(RAND_MAX));
 
     _aclColorFields.push_front(clNewRGB);
 
@@ -434,9 +434,9 @@ bool ColorLegend::addMax (const std::string &rclName)
     _aclValues.push_back(*(_aclValues.end()-1) + 1.0f);
 
     Color clNewRGB;
-    clNewRGB.r = ((float)rand() / (float)RAND_MAX);
-    clNewRGB.g = ((float)rand() / (float)RAND_MAX);
-    clNewRGB.b = ((float)rand() / (float)RAND_MAX);
+    clNewRGB.r = (float(rand()) / float(RAND_MAX));
+    clNewRGB.g = (float(rand()) / float(RAND_MAX));
+    clNewRGB.b = (float(rand()) / float(RAND_MAX));
 
     _aclColorFields.push_back(clNewRGB);
 
@@ -484,14 +484,14 @@ void ColorLegend::resize (unsigned long ulCt)
 
     if (ulCt > _aclColorFields.size())
     {
-        int k = ulCt - _aclColorFields.size();
-        for (int i = 0; i < k; i++)
+        size_t k = ulCt - _aclColorFields.size();
+        for (size_t i = 0; i < k; i++)
             addMin("new");
     }
     else
     {
-        int k = _aclColorFields.size() - ulCt;
-        for (int i = 0; i < k; i++)
+        size_t k = _aclColorFields.size() - ulCt;
+        for (size_t i = 0; i < k; i++)
             removeLast();
     }
 }
@@ -510,9 +510,9 @@ bool ColorLegend::setColor (unsigned long ulPos, float ucRed, float ucGreen, flo
 // color as 0x00rrggbb
 bool ColorLegend::setColor (unsigned long ulPos, unsigned long ulColor)
 {
-    unsigned char ucRed   = (unsigned char)((ulColor & 0x00ff0000) >> 16);
-    unsigned char ucGreen = (unsigned char)((ulColor & 0x0000ff00) >> 8);
-    unsigned char ucBlue  = (unsigned char)(ulColor & 0x000000ff);
+    unsigned char ucRed   = static_cast<unsigned char>((ulColor & 0x00ff0000) >> 16);
+    unsigned char ucGreen = static_cast<unsigned char>((ulColor & 0x0000ff00) >> 8);
+    unsigned char ucBlue  = static_cast<unsigned char>(ulColor & 0x000000ff);
     return setColor(ulPos, ucRed, ucGreen, ucBlue);
 }
 

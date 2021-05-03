@@ -83,7 +83,7 @@ struct AppExport PropertyData
             if(pt<base || pt>base+SHRT_MAX)
                 return -1;
             return (short) (pt-base);
-      };
+      }
       char* getOffset() const {return (char*) m_container;}
 
   private:
