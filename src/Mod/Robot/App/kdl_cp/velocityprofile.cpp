@@ -46,7 +46,7 @@
 #include "velocityprofile_dirac.hpp"
 #include "velocityprofile_trap.hpp"
 #include "velocityprofile_traphalf.hpp"
-#include <string.h>
+#include <cstring>
 
 namespace KDL {
 

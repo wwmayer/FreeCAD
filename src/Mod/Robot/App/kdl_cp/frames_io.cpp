@@ -31,9 +31,9 @@
 #include "frames.hpp"
 #include "frames_io.hpp"
 
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
+#include <cstdlib>
+#include <cctype>
+#include <cstring>
 #include <iostream>
 
 namespace KDL {

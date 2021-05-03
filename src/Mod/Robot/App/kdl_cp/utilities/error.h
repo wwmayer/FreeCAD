@@ -46,7 +46,7 @@
 #define ERROR_H_84822
 
 #include "utility.h"
-#include <string.h>
+#include <cstring>
 #include <string>
 namespace KDL {
 
