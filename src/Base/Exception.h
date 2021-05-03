@@ -28,7 +28,7 @@
 #include <exception>
 #include <stdexcept>
 #include <string>
-#include <signal.h>
+#include <csignal>
 #include <Python.h>
 #include "FileInfo.h"
 #include "BaseClass.h"

@@ -24,8 +24,8 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
-# include <time.h>
-# include <stdio.h>
+# include <ctime>
+# include <cstdio>
 # if defined(FC_OS_WIN32)
 #  include <io.h>
 #  include <windows.h>

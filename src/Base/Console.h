@@ -27,7 +27,7 @@
 #include <Base/PyExport.h>
 #include <Base/Stream.h>
 //#pragma warning(disable: 4786)  // specifier longer then 255 chars
-#include <assert.h>
+#include <cassert>
 #include <set>
 #include <map>
 #include <string>

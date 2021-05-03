@@ -27,7 +27,7 @@
 // Std. configurations
 
 
-#include <assert.h>
+#include <cassert>
 
 #include "BaseClass.h"
 

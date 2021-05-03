@@ -27,7 +27,7 @@
 #ifdef _MSC_VER
 #  include <boost/cstdint.hpp>
 #else
-#  include <stdint.h>
+#  include <cstdint>
 #endif
 #include <string>
 #include <QString>
