@@ -23,8 +23,8 @@
 //
 
 #include "Basics_Utils.hxx"
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
 #ifndef WIN32
 #include <unistd.h>

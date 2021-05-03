@@ -38,7 +38,7 @@ extern "C"
 #include "libmesh5.h"
 }
 
-#include <stdarg.h>
+#include <cstdarg>
 
 // --------------------------------------------------------------------------------
 DriverGMF_Read::DriverGMF_Read():

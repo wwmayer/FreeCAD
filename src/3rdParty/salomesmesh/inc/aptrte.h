@@ -30,16 +30,16 @@
 #ifndef WIN32
 #include <unistd.h>   // gethostname, ...
 #endif
-#include <stdio.h>
+#include <cstdio>
 #ifndef WIN32
 #include <iostream> // pour cout cin ...
 #include <iomanip>  // pour le format des io setw, stx, setfill, ...
 #endif
-#include <string.h>   // pour les fonctions sur les chaines de caracteres
-#include <ctype.h>
-#include <stdlib.h>
-#include <math.h>     // pour les fonctions mathematiques
-#include <time.h>
+#include <cstring>   // pour les fonctions sur les chaines de caracteres
+#include <cctype>
+#include <cstdlib>
+#include <cmath>     // pour les fonctions mathematiques
+#include <ctime>
 
 #include <sys/types.h>
 #ifndef WIN32

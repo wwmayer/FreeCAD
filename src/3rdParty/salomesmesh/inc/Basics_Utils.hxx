@@ -108,7 +108,7 @@ namespace Kernel_Utils
 //
 #include <string>
 #include <sstream>
-#include <stdlib.h>
+#include <cstdlib>
 
 template < class T >
 std::string ToString(const T &arg)

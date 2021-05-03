@@ -27,7 +27,7 @@
 #include <iostream>     
 #include <sstream>      
 #include <string>
-#include <string.h>
+#include <cstring>
 #include <stdexcept>
 
 

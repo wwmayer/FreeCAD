@@ -56,7 +56,7 @@
 #include <TopoDS_Vertex.hxx>
 #include <gp_Pnt.hxx>
 
-#include <stdio.h>
+#include <cstdio>
 #include <algorithm>
 
 using namespace std;

@@ -31,12 +31,9 @@
  *      It is strongly (and only) used in the Registry environment
  *      (RegistryService, RegistryConnexion, Identity, ...)
  */
-extern "C"
-{
-#include <stdlib.h>
-#include <string.h>
-}
-#include  "utilities.h"
+#include <cstdlib>
+#include <cstring>
+#include "utilities.h"
 #include "OpUtil.hxx"
 
 const char* duplicate( const char *const str )

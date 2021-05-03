@@ -24,7 +24,7 @@
 #include "MED_Utilities.hxx"
 #include "MED_V2_2_Wrapper.hxx"
 
-#include <stdio.h>
+#include <cstdio>
 #include <sstream>
 
 #include <med.h>
