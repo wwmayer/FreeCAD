@@ -78,7 +78,7 @@ PyMOD_INIT_FUNC(StartGui)
 {
     if (!Gui::Application::Instance) {
         PyErr_SetString(PyExc_ImportError, "Cannot load Gui module in console application.");
-        PyMOD_Return(0);
+        PyMOD_Return(nullptr);
     }
 
     // load dependent module
@@ -87,7 +87,7 @@ PyMOD_INIT_FUNC(StartGui)
     }
     catch(const Base::Exception& e) {
         PyErr_SetString(PyExc_ImportError, e.what());
-        PyMOD_Return(0);
+        PyMOD_Return(nullptr);
     }
     catch (Py::Exception& e) {
         Py::Object o = Py::type(e);
