@@ -68,8 +68,8 @@ public:
 
 protected:
     virtual void activated(int iMsg);
-    virtual bool isActive(void);
-    virtual Action * createAction(void);
+    virtual bool isActive();
+    virtual Action * createAction();
     virtual void languageChange();
 };
 
@@ -89,7 +89,7 @@ bool StdCmdLinkMakeGroup::isActive() {
     return !!App::GetApplication().getActiveDocument();
 }
 
-Action * StdCmdLinkMakeGroup::createAction(void)
+Action * StdCmdLinkMakeGroup::createAction()
 {
     ActionGroup* pcAction = new ActionGroup(this, getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -894,7 +894,7 @@ public:
 
 namespace Gui {
 
-void CreateLinkCommands(void)
+void CreateLinkCommands()
 {
     CommandManager &rcCmdMgr = Application::Instance->commandManager();
     rcCmdMgr.addCommand(new StdCmdLinkMake());

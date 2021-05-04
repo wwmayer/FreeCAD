@@ -448,7 +448,7 @@ void TaskDialogPython::helpRequested()
     }
 }
 
-QDialogButtonBox::StandardButtons TaskDialogPython::getStandardButtons(void) const
+QDialogButtonBox::StandardButtons TaskDialogPython::getStandardButtons() const
 {
     Base::PyGILStateLocker lock;
     try {
@@ -488,7 +488,7 @@ void TaskDialogPython::modifyStandardButtons(QDialogButtonBox *buttonBox)
     }
 }
 
-bool TaskDialogPython::isAllowedAlterDocument(void) const
+bool TaskDialogPython::isAllowedAlterDocument() const
 {
     Base::PyGILStateLocker lock;
     try {
@@ -507,7 +507,7 @@ bool TaskDialogPython::isAllowedAlterDocument(void) const
     return TaskDialog::isAllowedAlterDocument();
 }
 
-bool TaskDialogPython::isAllowedAlterView(void) const
+bool TaskDialogPython::isAllowedAlterView() const
 {
     Base::PyGILStateLocker lock;
     try {
@@ -526,7 +526,7 @@ bool TaskDialogPython::isAllowedAlterView(void) const
     return TaskDialog::isAllowedAlterView();
 }
 
-bool TaskDialogPython::isAllowedAlterSelection(void) const
+bool TaskDialogPython::isAllowedAlterSelection() const
 {
     Base::PyGILStateLocker lock;
     try {

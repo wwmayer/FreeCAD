@@ -60,7 +60,7 @@ void StdCmdDlgMacroRecord::activated(int iMsg)
     cDlg.exec();
 }
 
-bool StdCmdDlgMacroRecord::isActive(void)
+bool StdCmdDlgMacroRecord::isActive()
 {
     return ! (getGuiApplication()->macroManager()->isOpen());
 }
@@ -88,7 +88,7 @@ void StdCmdMacroStopRecord::activated(int iMsg)
     getGuiApplication()->macroManager()->commit();
 }
 
-bool StdCmdMacroStopRecord::isActive(void)
+bool StdCmdMacroStopRecord::isActive()
 {
     return getGuiApplication()->macroManager()->isOpen();
 }
@@ -117,7 +117,7 @@ void StdCmdDlgMacroExecute::activated(int iMsg)
     cDlg.exec();
 }
 
-bool StdCmdDlgMacroExecute::isActive(void)
+bool StdCmdDlgMacroExecute::isActive()
 {
     return ! (getGuiApplication()->macroManager()->isOpen());
 }
@@ -146,7 +146,7 @@ void StdCmdDlgMacroExecuteDirect::activated(int iMsg)
     doCommand(Command::Gui,"Gui.SendMsgToActiveView(\"Run\")");
 }
 
-bool StdCmdDlgMacroExecuteDirect::isActive(void)
+bool StdCmdDlgMacroExecuteDirect::isActive()
 {
     return getGuiApplication()->sendHasMsgToActiveView("Run");
 }
@@ -171,7 +171,7 @@ void StdCmdMacroAttachDebugger::activated(int iMsg)
                    "RemoteDebugger.attachToRemoteDebugger()");
 }
 
-bool StdCmdMacroAttachDebugger::isActive(void)
+bool StdCmdMacroAttachDebugger::isActive()
 {
     return true;
 }
@@ -201,7 +201,7 @@ void StdCmdMacroStartDebug::activated(int iMsg)
         dbg->stepRun();
 }
 
-bool StdCmdMacroStartDebug::isActive(void)
+bool StdCmdMacroStartDebug::isActive()
 {
     return getGuiApplication()->sendHasMsgToActiveView("StartDebug");
 }
@@ -227,7 +227,7 @@ void StdCmdMacroStopDebug::activated(int iMsg)
     Application::Instance->macroManager()->debugger()->tryStop();
 }
 
-bool StdCmdMacroStopDebug::isActive(void)
+bool StdCmdMacroStopDebug::isActive()
 {
     static PythonDebugger* dbg = Application::Instance->macroManager()->debugger();
     return dbg->isRunning();
@@ -254,7 +254,7 @@ void StdCmdMacroStepOver::activated(int iMsg)
     Application::Instance->macroManager()->debugger()->stepOver();
 }
 
-bool StdCmdMacroStepOver::isActive(void)
+bool StdCmdMacroStepOver::isActive()
 {
     static PythonDebugger* dbg = Application::Instance->macroManager()->debugger();
     return dbg->isRunning();
@@ -281,7 +281,7 @@ void StdCmdMacroStepInto::activated(int iMsg)
     Application::Instance->macroManager()->debugger()->stepInto();
 }
 
-bool StdCmdMacroStepInto::isActive(void)
+bool StdCmdMacroStepInto::isActive()
 {
     static PythonDebugger* dbg = Application::Instance->macroManager()->debugger();
     return dbg->isRunning();
@@ -308,14 +308,14 @@ void StdCmdToggleBreakpoint::activated(int iMsg)
     doCommand(Command::Gui,"Gui.SendMsgToActiveView(\"ToggleBreakpoint\")");
 }
 
-bool StdCmdToggleBreakpoint::isActive(void)
+bool StdCmdToggleBreakpoint::isActive()
 {
     return getGuiApplication()->sendHasMsgToActiveView("ToggleBreakpoint");
 }
 
 namespace Gui {
 
-void CreateMacroCommands(void)
+void CreateMacroCommands()
 {
     CommandManager &rcCmdMgr = Application::Instance->commandManager();
     rcCmdMgr.addCommand(new StdCmdDlgMacroRecord());

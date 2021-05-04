@@ -181,7 +181,7 @@ bool MDIView::onHasMsg(const char* pMsg) const
     return false;
 }
 
-bool MDIView::canClose(void)
+bool MDIView::canClose()
 {
     if (!bIsPassive && getGuiDocument() && getGuiDocument()->isLastView()) {
         this->setFocus(); // raises the view to front

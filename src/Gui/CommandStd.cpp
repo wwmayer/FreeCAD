@@ -112,12 +112,12 @@ void StdCmdWorkbench::activated(int i)
     }
 }
 
-bool StdCmdWorkbench::isActive(void)
+bool StdCmdWorkbench::isActive()
 {
     return true;
 }
 
-Action * StdCmdWorkbench::createAction(void)
+Action * StdCmdWorkbench::createAction()
 {
     Action *pcAction;
 
@@ -162,7 +162,7 @@ void StdCmdRecentFiles::activated(int iMsg)
 /**
  * Creates the QAction object containing the recent files.
  */
-Action * StdCmdRecentFiles::createAction(void)
+Action * StdCmdRecentFiles::createAction()
 {
     RecentFilesAction* pcAction = new RecentFilesAction(this, getMainWindow());
     pcAction->setObjectName(QLatin1String("recentFiles"));
@@ -202,7 +202,7 @@ void StdCmdRecentMacros::activated(int iMsg)
 /**
  * Creates the QAction object containing the recent macros.
  */
-Action * StdCmdRecentMacros::createAction(void)
+Action * StdCmdRecentMacros::createAction()
 {
     RecentMacrosAction* pcAction = new RecentMacrosAction(this, getMainWindow());
     pcAction->setObjectName(QLatin1String("recentMacros"));
@@ -228,7 +228,7 @@ StdCmdAbout::StdCmdAbout()
     eType         = 0;
 }
 
-Action * StdCmdAbout::createAction(void)
+Action * StdCmdAbout::createAction()
 {
     Action *pcAction;
 
@@ -366,7 +366,7 @@ StdCmdDlgPreferences::StdCmdDlgPreferences()
     eType         = 0;
 }
 
-Action * StdCmdDlgPreferences::createAction(void)
+Action * StdCmdDlgPreferences::createAction()
 {
     Action *pcAction = Command::createAction();
     pcAction->setMenuRole(QAction::PreferencesRole);
@@ -784,7 +784,7 @@ void StdCmdTextDocument::activated(int iMsg)
     commitCommand();
 }
 
-bool StdCmdTextDocument::isActive(void)
+bool StdCmdTextDocument::isActive()
 {
     return hasActiveDocument();
 }
@@ -815,7 +815,7 @@ void StdCmdUnitsCalculator::activated(int iMsg)
 
 namespace Gui {
 
-void CreateStdCommands(void)
+void CreateStdCommands()
 {
     CommandManager &rcCmdMgr = Application::Instance->commandManager();
 

@@ -43,7 +43,7 @@ public:
     /// destructor.
     virtual ~ViewProviderPart();
 
-    virtual bool doubleClicked(void) override;
+    virtual bool doubleClicked() override;
     virtual void setupContextMenu(QMenu* menu, QObject* receiver, const char* member) override;
 
 protected:

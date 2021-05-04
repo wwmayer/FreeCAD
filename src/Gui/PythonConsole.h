@@ -45,7 +45,7 @@ public:
 
     bool push(const char*);
     int compileCommand(const char*) const;
-    bool hasPendingInput( void ) const;
+    bool hasPendingInput( ) const;
     void setBuffer(const QStringList&);
     QStringList getBuffer() const;
     void clearBuffer();
@@ -79,8 +79,8 @@ public:
     void append(const QString &inputLine);
     const QStringList& values() const;
     void restart();
-    void markScratch( void );
-    void doScratch( void );
+    void markScratch( );
+    void doScratch( );
 
 private:
     QStringList                _history;
@@ -111,7 +111,7 @@ public:
 
     void OnChange( Base::Subject<const char*> &rCaller,const char* rcReason );
     void printStatement( const QString& cmd );
-    QString readline( void );
+    QString readline( );
 
 public Q_SLOTS:
     void onSaveHistoryAs();
@@ -140,7 +140,7 @@ protected:
     bool canInsertFromMimeData ( const QMimeData * source ) const;
     QMimeData * createMimeDataFromSelection () const;
     void insertFromMimeData ( const QMimeData * source );
-    QTextCursor inputBegin( void ) const;
+    QTextCursor inputBegin( ) const;
 
 private:
     void runSource(const QString&);
@@ -154,7 +154,7 @@ private:
     void saveHistory() const;
 
 Q_SIGNALS:
-    void pendingSource( void );
+    void pendingSource( );
 
 private:
     struct PythonConsoleP* d;

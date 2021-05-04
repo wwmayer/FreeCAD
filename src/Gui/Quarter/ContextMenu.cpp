@@ -138,7 +138,7 @@ ContextMenu::~ContextMenu()
 }
 
 QMenu *
-ContextMenu::getMenu(void) const
+ContextMenu::getMenu() const
 {
   return this->contextmenu;
 }

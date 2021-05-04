@@ -64,7 +64,7 @@ public:
       : _var(var), _saveVal(var)
     { var = tmpVal; }
 
-    ~Temporary( void )
+    ~Temporary( )
     { _var = _saveVal; }
 
 private:

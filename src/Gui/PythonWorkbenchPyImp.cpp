@@ -42,7 +42,7 @@ using namespace Gui;
  */
 
 // returns a string which represent the object e.g. when printed in python
-std::string PythonWorkbenchPy::representation(void) const
+std::string PythonWorkbenchPy::representation() const
 {
     return std::string("<Workbench object>");
 }

@@ -261,17 +261,17 @@ void NavigationStyle::finalize()
     delete[] this->log.time;
 }
 
-void NavigationStyle::interactiveCountInc(void)
+void NavigationStyle::interactiveCountInc()
 {
     viewer->interactiveCountInc();
 }
 
-void NavigationStyle::interactiveCountDec(void)
+void NavigationStyle::interactiveCountDec()
 {
     viewer->interactiveCountDec();
 }
 
-int NavigationStyle::getInteractiveCount(void) const
+int NavigationStyle::getInteractiveCount() const
 {
     return viewer->getInteractiveCount();
 }
@@ -288,7 +288,7 @@ NavigationStyle::OrbitStyle NavigationStyle::getOrbitStyle() const
     return NavigationStyle::OrbitStyle(projector->getOrbitStyle());
 }
 
-SbBool NavigationStyle::isViewing(void) const
+SbBool NavigationStyle::isViewing() const
 {
     return viewer->isViewing();
 }
@@ -298,7 +298,7 @@ void NavigationStyle::setViewing(SbBool enable)
     viewer->setViewing(enable);
 }
 
-SbBool NavigationStyle::isSeekMode(void) const
+SbBool NavigationStyle::isSeekMode() const
 {
     return viewer->isSeekMode();
 }
@@ -1163,7 +1163,7 @@ NavigationStyle::setAnimationEnabled(const SbBool enable)
 */
 
 SbBool
-NavigationStyle::isAnimationEnabled(void) const
+NavigationStyle::isAnimationEnabled() const
 {
     return this->spinanimatingallowed;
 }
@@ -1172,7 +1172,7 @@ NavigationStyle::isAnimationEnabled(void) const
   Query if the model in the viewer is currently in spinning mode after
   a user drag.
 */
-SbBool NavigationStyle::isAnimating(void) const
+SbBool NavigationStyle::isAnimating() const
 {
     return this->currentmode == NavigationStyle::SPINNING;
 }
@@ -1195,7 +1195,7 @@ void NavigationStyle::startAnimating(const SbVec3f& axis, float velocity)
     this->spinRotation = rot;
 }
 
-void NavigationStyle::stopAnimating(void)
+void NavigationStyle::stopAnimating()
 {
     if (this->currentmode != NavigationStyle::SPINNING) {
         return;
@@ -1357,7 +1357,7 @@ void NavigationStyle::addToLog(const SbVec2s pos, const SbTime time)
 
 // This method "clears" the mouse location log, used for spin
 // animation calculations.
-void NavigationStyle::clearLog(void)
+void NavigationStyle::clearLog()
 {
     this->log.historysize = 0;
 }
@@ -1595,7 +1595,7 @@ void NavigationStyle::setPopupMenuEnabled(const SbBool on)
     this->menuenabled = on;
 }
 
-SbBool NavigationStyle::isPopupMenuEnabled(void) const
+SbBool NavigationStyle::isPopupMenuEnabled() const
 {
     return this->menuenabled;
 }

@@ -479,7 +479,7 @@ SoQtOffscreenRenderer::setViewportRegion(const SbViewportRegion & region)
   Returns the viewerport region.
 */
 const SbViewportRegion &
-SoQtOffscreenRenderer::getViewportRegion(void) const
+SoQtOffscreenRenderer::getViewportRegion() const
 {
     return PRIVATE(this)->viewport;
 }
@@ -501,7 +501,7 @@ SoQtOffscreenRenderer::setBackgroundColor(const SbColor4f & color)
   Returns the background color.
 */
 const SbColor4f &
-SoQtOffscreenRenderer::getBackgroundColor(void) const
+SoQtOffscreenRenderer::getBackgroundColor() const
 {
     return PRIVATE(this)->backgroundcolor;
 }
@@ -523,7 +523,7 @@ SoQtOffscreenRenderer::setGLRenderAction(SoGLRenderAction * action)
   Returns the rendering action currently used.
 */
 SoGLRenderAction *
-SoQtOffscreenRenderer::getGLRenderAction(void) const
+SoQtOffscreenRenderer::getGLRenderAction() const
 {
     return PRIVATE(this)->renderaction;
 }
@@ -535,7 +535,7 @@ SoQtOffscreenRenderer::setNumPasses(const int num)
 }
 
 int
-SoQtOffscreenRenderer::getNumPasses(void) const
+SoQtOffscreenRenderer::getNumPasses() const
 {
     return PRIVATE(this)->numSamples;
 }
@@ -559,7 +559,7 @@ SoQtOffscreenRenderer::setPbufferEnable(SbBool enable)
 }
 
 SbBool
-SoQtOffscreenRenderer::getPbufferEnable(void) const
+SoQtOffscreenRenderer::getPbufferEnable() const
 {
     return PRIVATE(this)->pbuffer;
 }

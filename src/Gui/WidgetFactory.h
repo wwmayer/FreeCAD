@@ -134,7 +134,7 @@ private:
 class UiLoaderPy : public Py::PythonExtension<UiLoaderPy>
 {
 public:
-    static void init_type(void);    // announce properties and methods
+    static void init_type();    // announce properties and methods
 
     UiLoaderPy();
     ~UiLoaderPy();
@@ -409,7 +409,7 @@ private:
 class PyResource : public Py::PythonExtension<PyResource>
 {
 public:
-    static void init_type(void);    // announce properties and methods
+    static void init_type();    // announce properties and methods
 
     PyResource();
     ~PyResource();

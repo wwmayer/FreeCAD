@@ -99,7 +99,7 @@ int Breakpoint::lineIndex(int ind)const
 
 // -----------------------------------------------------
 
-void PythonDebugModule::init_module(void)
+void PythonDebugModule::init_module()
 {
     PythonDebugStdout::init_type();
     PythonDebugStderr::init_type();

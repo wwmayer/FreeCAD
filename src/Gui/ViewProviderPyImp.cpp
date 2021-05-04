@@ -57,7 +57,7 @@
 using namespace Gui;
 
 // returns a string which represent the object e.g. when printed in python
-std::string ViewProviderPy::representation(void) const
+std::string ViewProviderPy::representation() const
 {
     return "<View provider object>";
 }
@@ -553,7 +553,7 @@ int ViewProviderPy::setCustomAttributes(const char* attr, PyObject* value)
     }
 }
 
-Py::Object ViewProviderPy::getAnnotation(void) const
+Py::Object ViewProviderPy::getAnnotation() const
 {
     try {
         auto node = getViewProviderPtr()->getAnnotation();
@@ -571,7 +571,7 @@ void  ViewProviderPy::setAnnotation(Py::Object)
 
 }
 
-Py::Object ViewProviderPy::getRootNode(void) const
+Py::Object ViewProviderPy::getRootNode() const
 {
     try {
         SoSeparator* node = getViewProviderPtr()->getRoot();
@@ -589,7 +589,7 @@ void  ViewProviderPy::setRootNode(Py::Object)
 
 }
 
-Py::Object ViewProviderPy::getSwitchNode(void) const
+Py::Object ViewProviderPy::getSwitchNode() const
 {
     try {
         SoSwitch* node = getViewProviderPtr()->getModeSwitch();
@@ -607,13 +607,13 @@ void  ViewProviderPy::setSwitchNode(Py::Object)
 
 }
 
-Py::String ViewProviderPy::getIV(void) const
+Py::String ViewProviderPy::getIV() const
 {
     std::string buf = Gui::SoFCDB::writeNodesToString(getViewProviderPtr()->getRoot());
     return Py::String(buf);
 }
 
-Py::Object ViewProviderPy::getIcon(void) const
+Py::Object ViewProviderPy::getIcon() const
 {
 #if 0
     QByteArray ba;
@@ -630,7 +630,7 @@ Py::Object ViewProviderPy::getIcon(void) const
 #endif
 }
 
-Py::Int ViewProviderPy::getDefaultMode(void) const
+Py::Int ViewProviderPy::getDefaultMode() const
 {
     return Py::Int((long)getViewProviderPtr()->getDefaultMode());
 }

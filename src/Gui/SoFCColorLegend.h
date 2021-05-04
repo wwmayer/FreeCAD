@@ -40,9 +40,9 @@ class GuiExport SoFCColorLegend : public SoFCColorBarBase {
   SO_NODE_HEADER(Gui::SoFCColorLegend);
 
 public:
-  static void initClass(void);
-  static void finish(void);
-  SoFCColorLegend(void);
+  static void initClass();
+  static void finish();
+  SoFCColorLegend();
 
   void setMarkerLabel( const SoMFString& label );
 
@@ -61,9 +61,9 @@ public:
   App::Color getColor (float fVal) const { return _cColRamp.getColor(fVal); }
   void setOutsideGrayed (bool bVal) { _cColRamp.setOutsideGrayed(bVal); }
   bool isVisible (float) const { return false; }
-  float getMinValue (void) const { return _cColRamp.getMinValue(); }
-  float getMaxValue (void) const { return _cColRamp.getMaxValue(); }
-  unsigned long countColors (void) const { return _cColRamp.getCountColors(); }
+  float getMinValue () const { return _cColRamp.getMinValue(); }
+  float getMaxValue () const { return _cColRamp.getMaxValue(); }
+  unsigned long countColors () const { return _cColRamp.getCountColors(); }
 
   bool customize() { return false; }
   const char* getColorBarName() const { return "Color Legend"; }

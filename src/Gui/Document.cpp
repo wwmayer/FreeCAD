@@ -457,11 +457,11 @@ void Document::setEditingTransform(const Base::Matrix4D &mat) {
         activeView->getViewer()->setEditingTransform(mat);
 }
 
-void Document::resetEdit(void) {
+void Document::resetEdit() {
     Application::Instance->setEditDocument(nullptr);
 }
 
-void Document::_resetEdit(void)
+void Document::_resetEdit()
 {
     std::list<Gui::BaseView*>::iterator it;
     if (d->_editViewProvider) {
@@ -1034,7 +1034,7 @@ std::vector<std::pair<ViewProviderDocumentObject*,int> > Document::getViewProvid
     return ret;
 }
 
-App::Document* Document::getDocument(void) const
+App::Document* Document::getDocument() const
 {
     return d->_pcDocument;
 }
@@ -1097,7 +1097,7 @@ static bool checkCanonicalPath(const std::map<App::Document*, bool> &docs)
 }
 
 /// Save the document
-bool Document::save(void)
+bool Document::save()
 {
     if (d->_pcDocument->isSaved()) {
         try {
@@ -1170,7 +1170,7 @@ bool Document::save(void)
 }
 
 /// Save the document under a new file name
-bool Document::saveAs(void)
+bool Document::saveAs()
 {
     getMainWindow()->showMessage(QObject::tr("Save document under new filename..."));
 
@@ -1266,7 +1266,7 @@ void Document::saveAll()
 }
 
 /// Save a copy of the document under a new file name
-bool Document::saveCopy(void)
+bool Document::saveCopy()
 {
     getMainWindow()->showMessage(QObject::tr("Save a copy of the document under new filename..."));
 
@@ -1291,7 +1291,7 @@ bool Document::saveCopy(void)
     }
 }
 
-unsigned int Document::getMemSize (void) const
+unsigned int Document::getMemSize () const
 {
     unsigned int size = 0;
 
@@ -1869,7 +1869,7 @@ void Document::detachView(Gui::BaseView* pcView, bool bPassiv)
     }
 }
 
-void Document::onUpdate(void)
+void Document::onUpdate()
 {
 #ifdef FC_LOGUPDATECHAIN
     Base::Console().Log("Acti: Gui::Document::onUpdate()");
@@ -1886,7 +1886,7 @@ void Document::onUpdate(void)
     }
 }
 
-void Document::onRelabel(void)
+void Document::onRelabel()
 {
 #ifdef FC_LOGUPDATECHAIN
     Base::Console().Log("Acti: Gui::Document::onRelabel()");
@@ -1903,7 +1903,7 @@ void Document::onRelabel(void)
     }
 }
 
-bool Document::isLastView(void)
+bool Document::isLastView()
 {
     if (d->baseViews.size() <= 1)
         return true;
@@ -2037,7 +2037,7 @@ bool Document::sendMsgToFirstView(const Base::Type& typeId, const char* pMsg, co
 }
 
 /// Getter for the active view
-MDIView* Document::getActiveView(void) const
+MDIView* Document::getActiveView() const
 {
     // get the main window's active view
     MDIView* active = getMainWindow()->activeWindow();
@@ -2200,29 +2200,29 @@ void Document::openCommand(const char* sName)
     getDocument()->openTransaction(sName);
 }
 
-void Document::commitCommand(void)
+void Document::commitCommand()
 {
     getDocument()->commitTransaction();
 }
 
-void Document::abortCommand(void)
+void Document::abortCommand()
 {
     getDocument()->abortTransaction();
 }
 
-bool Document::hasPendingCommand(void) const
+bool Document::hasPendingCommand() const
 {
     return getDocument()->hasPendingTransaction();
 }
 
 /// Get a string vector with the 'Undo' actions
-std::vector<std::string> Document::getUndoVector(void) const
+std::vector<std::string> Document::getUndoVector() const
 {
     return getDocument()->getAvailableUndoNames();
 }
 
 /// Get a string vector with the 'Redo' actions
-std::vector<std::string> Document::getRedoVector(void) const
+std::vector<std::string> Document::getRedoVector() const
 {
     return getDocument()->getAvailableRedoNames();
 }
@@ -2325,7 +2325,7 @@ void Document::redo(int iSteps)
     d->_redoViewProviders.clear();
 }
 
-PyObject* Document::getPyObject(void)
+PyObject* Document::getPyObject()
 {
     _pcDocPy->IncRef();
     return _pcDocPy;

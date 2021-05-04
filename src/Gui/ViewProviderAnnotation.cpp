@@ -164,7 +164,7 @@ void ViewProviderAnnotation::onChanged(const App::Property* prop)
     }
 }
 
-std::vector<std::string> ViewProviderAnnotation::getDisplayModes(void) const
+std::vector<std::string> ViewProviderAnnotation::getDisplayModes() const
 {
     // add modes
     std::vector<std::string> StrList;
@@ -334,7 +334,7 @@ void ViewProviderAnnotationLabel::onChanged(const App::Property* prop)
     }
 }
 
-std::vector<std::string> ViewProviderAnnotationLabel::getDisplayModes(void) const
+std::vector<std::string> ViewProviderAnnotationLabel::getDisplayModes() const
 {
     // add modes
     std::vector<std::string> StrList;
@@ -400,7 +400,7 @@ void ViewProviderAnnotationLabel::updateData(const App::Property* prop)
     ViewProviderDocumentObject::updateData(prop);
 }
 
-bool ViewProviderAnnotationLabel::doubleClicked(void)
+bool ViewProviderAnnotationLabel::doubleClicked()
 {
     Gui::Application::Instance->activeDocument()->setEdit(this);
     return true;

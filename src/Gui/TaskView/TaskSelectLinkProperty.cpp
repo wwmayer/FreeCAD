@@ -107,7 +107,7 @@ bool TaskSelectLinkProperty::setFilter(const char * sFilter)
 }
 
 
-void TaskSelectLinkProperty::activate(void)
+void TaskSelectLinkProperty::activate()
 {
     // first clear the selection
     Gui::Selection().clearSelection();
@@ -145,7 +145,7 @@ void TaskSelectLinkProperty::activate(void)
     checkSelectionStatus();
 }
 
-bool TaskSelectLinkProperty::accept(void)
+bool TaskSelectLinkProperty::accept()
 {
     // set the proptery with the selection
     sendSelection2Property();
@@ -156,7 +156,7 @@ bool TaskSelectLinkProperty::accept(void)
     return true;
 }
 
-bool TaskSelectLinkProperty::reject(void)
+bool TaskSelectLinkProperty::reject()
 {
     if(LinkSub){
         // restore the old values
@@ -169,7 +169,7 @@ bool TaskSelectLinkProperty::reject(void)
     return true;
 }
 
-void TaskSelectLinkProperty::sendSelection2Property(void)
+void TaskSelectLinkProperty::sendSelection2Property()
 {
     if (LinkSub) {
         std::vector<Gui::SelectionObject> temp = Gui::Selection().getSelectionEx();
@@ -187,7 +187,7 @@ void TaskSelectLinkProperty::sendSelection2Property(void)
 
 }
 
-void TaskSelectLinkProperty::checkSelectionStatus(void)
+void TaskSelectLinkProperty::checkSelectionStatus()
 {
     QPalette palette(QApplication::palette());
 

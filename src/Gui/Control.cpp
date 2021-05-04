@@ -231,7 +231,7 @@ void ControlSingleton::closedDialog()
                         | QDockWidget::DockWidgetFloatable);
 }
 
-bool ControlSingleton::isAllowedAlterDocument(void) const
+bool ControlSingleton::isAllowedAlterDocument() const
 {
     if (ActiveDialog)
         return ActiveDialog->isAllowedAlterDocument();
@@ -239,14 +239,14 @@ bool ControlSingleton::isAllowedAlterDocument(void) const
 }
 
 
-bool ControlSingleton::isAllowedAlterView(void) const
+bool ControlSingleton::isAllowedAlterView() const
 {
     if (ActiveDialog)
         return ActiveDialog->isAllowedAlterView();
     return true;
 }
 
-bool ControlSingleton::isAllowedAlterSelection(void) const
+bool ControlSingleton::isAllowedAlterSelection() const
 {
     if (ActiveDialog)
         return ActiveDialog->isAllowedAlterSelection();
@@ -255,14 +255,14 @@ bool ControlSingleton::isAllowedAlterSelection(void) const
 
 // -------------------------------------------
 
-ControlSingleton& ControlSingleton::instance(void)
+ControlSingleton& ControlSingleton::instance()
 {
     if (_pcSingleton == nullptr)
         _pcSingleton = new ControlSingleton;
     return *_pcSingleton;
 }
 
-void ControlSingleton::destruct (void)
+void ControlSingleton::destruct ()
 {
     if (_pcSingleton != nullptr)
         delete _pcSingleton;

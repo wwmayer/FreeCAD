@@ -54,7 +54,7 @@ public:
     ~SoFCHighlightAction();
 
     static void initClass();
-    static void finish(void);
+    static void finish();
 
     const SelectionChanges &SelChange;
 
@@ -79,7 +79,7 @@ public:
     ~SoFCSelectionAction();
 
     static void initClass();
-    static void finish(void);
+    static void finish();
 
     const SelectionChanges &SelChange;
 
@@ -106,7 +106,7 @@ public:
     SbBool selection;
 
     static void initClass();
-    static void finish(void);
+    static void finish();
 
 protected:
     virtual void beginTraversal(SoNode *node);
@@ -131,7 +131,7 @@ public:
     SbBool highlight;
 
     static void initClass();
-    static void finish(void);
+    static void finish();
 
 protected:
     virtual void beginTraversal(SoNode *node);
@@ -156,7 +156,7 @@ public:
     SoSFColor selectionColor;
 
     static void initClass();
-    static void finish(void);
+    static void finish();
 
 protected:
     virtual void beginTraversal(SoNode *node);
@@ -181,7 +181,7 @@ public:
     SoSFColor highlightColor;
 
     static void initClass();
-    static void finish(void);
+    static void finish();
 
 protected:
     virtual void beginTraversal(SoNode *node);
@@ -206,7 +206,7 @@ public:
     SoSFString documentName;
 
     static void initClass();
-    static void finish(void);
+    static void finish();
 
 protected:
     virtual void beginTraversal(SoNode *node);
@@ -232,7 +232,7 @@ public:
     SbBool isHandled() const;
 
     static void initClass();
-    static void finish(void);
+    static void finish();
 
 protected:
     virtual void beginTraversal(SoNode *node);
@@ -319,11 +319,11 @@ class GuiExport SoBoxSelectionRenderAction : public SoGLRenderAction {
     SO_ACTION_HEADER(SoBoxSelectionRenderAction);
 
 public:
-    SoBoxSelectionRenderAction(void);
+    SoBoxSelectionRenderAction();
     SoBoxSelectionRenderAction(const SbViewportRegion & viewportregion);
     virtual ~SoBoxSelectionRenderAction();
 
-    static void initClass(void);
+    static void initClass();
 
     virtual void apply(SoNode * node);
     virtual void apply(SoPath * path);
@@ -331,17 +331,17 @@ public:
     void setVisible(SbBool b) { hlVisible = b; }
     SbBool isVisible() const { return hlVisible; }
     void setColor(const SbColor & color);
-    const SbColor & getColor(void);
+    const SbColor & getColor();
     void setLinePattern(unsigned short pattern);
-    unsigned short getLinePattern(void) const;
+    unsigned short getLinePattern() const;
     void setLineWidth(const float width);
-    float getLineWidth(void) const;
+    float getLineWidth() const;
 
 protected:
     SbBool hlVisible;
 
 private:
-    void constructorCommon(void);
+    void constructorCommon();
     void drawBoxes(SoPath * pathtothis, const SoPathList * pathlist);
 
     SoBoxSelectionRenderActionP * pimpl;
@@ -360,7 +360,7 @@ public:
     ~SoUpdateVBOAction();
 
     static void initClass();
-    static void finish(void);
+    static void finish();
 
 protected:
     virtual void beginTraversal(SoNode *node);

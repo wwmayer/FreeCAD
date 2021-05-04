@@ -95,7 +95,7 @@ using namespace SIM::Coin3D::Quarter;
 #define PRIVATE(obj) obj->pimpl
 #define PUBLIC(obj) obj->publ
 
-Mouse::Mouse(void)
+Mouse::Mouse()
 {
   PRIVATE(this) = new MouseP(this);
 }

@@ -79,7 +79,7 @@ public:
     virtual ~LicenseView();
 
     void setSource(const QUrl & url);
-    const char *getName(void) const {
+    const char *getName() const {
         return "LicenseView";
     }
 

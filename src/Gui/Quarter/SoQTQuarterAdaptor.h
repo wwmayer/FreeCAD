@@ -59,16 +59,16 @@ public:
     QWidget* getGLWidget() const;
 
     virtual void setCameraType(SoType type);
-    SoCamera * getCamera(void) const;
+    SoCamera * getCamera() const;
 
-    const SbViewportRegion & getViewportRegion(void) const;
+    const SbViewportRegion & getViewportRegion() const;
 
     virtual void setViewing(SbBool enable);
-    SbBool isViewing(void) const;
+    SbBool isViewing() const;
 
-    void interactiveCountInc(void);
-    void interactiveCountDec(void);
-    int  getInteractiveCount(void) const;
+    void interactiveCountInc();
+    void interactiveCountDec();
+    int  getInteractiveCount() const;
 
     void addStartCallback(SoQTQuarterAdaptorCB* func, void* data = nullptr);
     void addFinishCallback(SoQTQuarterAdaptorCB* func, void* data = nullptr);
@@ -76,21 +76,21 @@ public:
     void removeFinishCallback(SoQTQuarterAdaptorCB* func, void* data = nullptr);
 
     virtual void setSeekMode(SbBool enable);
-    SbBool isSeekMode(void) const;
+    SbBool isSeekMode() const;
     SbBool seekToPoint(const SbVec2s screenpos);
     void seekToPoint(const SbVec3f& scenepos);
     void setSeekTime(const float seconds);
-    float getSeekTime(void) const;
+    float getSeekTime() const;
     void setSeekDistance(const float distance);
-    float getSeekDistance(void) const;
+    float getSeekDistance() const;
     void setSeekValueAsPercentage(const SbBool on);
-    SbBool isSeekValuePercentage(void) const;
+    SbBool isSeekValuePercentage() const;
 
-    virtual float getPickRadius(void) const {return this->pickRadius;}
+    virtual float getPickRadius() const {return this->pickRadius;}
     virtual void setPickRadius(float pickRadius);
 
-    virtual void saveHomePosition(void);
-    virtual void resetToHomePosition(void);
+    virtual void saveHomePosition();
+    virtual void resetToHomePosition();
 
     virtual void setSceneGraph(SoNode* root) {
         QuarterWidget::setSceneGraph(root);
@@ -100,7 +100,7 @@ public:
     virtual void paintEvent(QPaintEvent*);
 
     //this functions still need to be ported
-    virtual void afterRealizeHook(void) {} //enables spacenav and joystick in soqt, dunno if this is needed
+    virtual void afterRealizeHook() {} //enables spacenav and joystick in soqt, dunno if this is needed
 
 private:
     void init();
@@ -109,7 +109,7 @@ private:
     void getCameraCoordinateSystem(SoCamera * camera, SoNode * root, SbMatrix & matrix, SbMatrix & inverse);
     static void seeksensorCB(void * data, SoSensor * s);
     void moveCameraScreen(const SbVec2f & screenpos);
-    void resetFrameCounter(void);
+    void resetFrameCounter();
     SbVec2f addFrametime(double ft);
 
     bool m_viewingflag;

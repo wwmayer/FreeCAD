@@ -238,7 +238,7 @@ void View3DInventor::deleteSelf()
     MDIView::deleteSelf();
 }
 
-PyObject *View3DInventor::getPyObject(void)
+PyObject *View3DInventor::getPyObject()
 {
     if (!_viewerPy)
         _viewerPy = new View3DInventorPy(this);
@@ -466,7 +466,7 @@ void View3DInventor::onRename(Gui::Document *pDoc)
     cAct.apply(_viewer->getSceneGraph());
 }
 
-void View3DInventor::onUpdate(void)
+void View3DInventor::onUpdate()
 {
 #ifdef FC_LOGUPDATECHAIN
     Base::Console().Log("Acti: Gui::View3DInventor::onUpdate()");
@@ -480,7 +480,7 @@ void View3DInventor::viewAll()
     _viewer->viewAll();
 }
 
-const char *View3DInventor::getName(void) const
+const char *View3DInventor::getName() const
 {
     return "View3DInventor";
 }

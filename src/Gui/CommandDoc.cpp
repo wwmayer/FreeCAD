@@ -253,7 +253,7 @@ void StdCmdImport::activated(int iMsg)
     }
 }
 
-bool StdCmdImport::isActive(void)
+bool StdCmdImport::isActive()
 {
     return (getActiveGuiDocument() ? true : false);
 }
@@ -501,7 +501,7 @@ void StdCmdExport::activated(int iMsg)
     }
 }
 
-bool StdCmdExport::isActive(void)
+bool StdCmdExport::isActive()
 {
     return (getActiveGuiDocument() ? true : false);
 }
@@ -554,7 +554,7 @@ void StdCmdMergeProjects::activated(int iMsg)
     }
 }
 
-bool StdCmdMergeProjects::isActive(void)
+bool StdCmdMergeProjects::isActive()
 {
     return this->hasActiveDocument();
 }
@@ -587,7 +587,7 @@ void StdCmdDependencyGraph::activated(int iMsg)
     getMainWindow()->addWindow(view);
 }
 
-bool StdCmdDependencyGraph::isActive(void)
+bool StdCmdDependencyGraph::isActive()
 {
     return (getActiveGuiDocument() ? true : false);
 }
@@ -654,7 +654,7 @@ void StdCmdSave::activated(int iMsg)
     doCommand(Command::Gui,"Gui.SendMsgToActiveView(\"Save\")");
 }
 
-bool StdCmdSave::isActive(void)
+bool StdCmdSave::isActive()
 {
 #if 0
   if( getActiveGuiDocument() )
@@ -694,7 +694,7 @@ void StdCmdSaveAs::activated(int iMsg)
     doCommand(Command::Gui,"Gui.SendMsgToActiveView(\"SaveAs\")");
 }
 
-bool StdCmdSaveAs::isActive(void)
+bool StdCmdSaveAs::isActive()
 {
 #if 0
   if( getActiveGuiDocument() )
@@ -732,7 +732,7 @@ void StdCmdSaveCopy::activated(int iMsg)
     doCommand(Command::Gui,"Gui.SendMsgToActiveView(\"SaveCopy\")");
 }
 
-bool StdCmdSaveCopy::isActive(void)
+bool StdCmdSaveCopy::isActive()
 {
   return ( getActiveGuiDocument() ? true : false );
 }
@@ -759,7 +759,7 @@ void StdCmdSaveAll::activated(int iMsg)
     Gui::Document::saveAll();
 }
 
-bool StdCmdSaveAll::isActive(void)
+bool StdCmdSaveAll::isActive()
 {
   return ( getActiveGuiDocument() ? true : false );
 }
@@ -797,7 +797,7 @@ void StdCmdRevert::activated(int iMsg)
         doCommand(Command::App,"App.ActiveDocument.restore()");
 }
 
-bool StdCmdRevert::isActive(void)
+bool StdCmdRevert::isActive()
 {
   return ( getActiveGuiDocument() ? true : false );
 }
@@ -827,7 +827,7 @@ void StdCmdProjectInfo::activated(int iMsg)
     dlg.exec();
 }
 
-bool StdCmdProjectInfo::isActive(void)
+bool StdCmdProjectInfo::isActive()
 {
   return ( getActiveGuiDocument() ? true : false );
 }
@@ -857,7 +857,7 @@ void StdCmdProjectUtil::activated(int iMsg)
     dlg.exec();
 }
 
-bool StdCmdProjectUtil::isActive(void)
+bool StdCmdProjectUtil::isActive()
 {
     return true;
 }
@@ -889,7 +889,7 @@ void StdCmdPrint::activated(int iMsg)
     }
 }
 
-bool StdCmdPrint::isActive(void)
+bool StdCmdPrint::isActive()
 {
     return getGuiApplication()->sendHasMsgToActiveView("Print");
 }
@@ -919,7 +919,7 @@ void StdCmdPrintPreview::activated(int iMsg)
     }
 }
 
-bool StdCmdPrintPreview::isActive(void)
+bool StdCmdPrintPreview::isActive()
 {
     return getGuiApplication()->sendHasMsgToActiveView("PrintPreview");
 }
@@ -950,7 +950,7 @@ void StdCmdPrintPdf::activated(int iMsg)
     }
 }
 
-bool StdCmdPrintPdf::isActive(void)
+bool StdCmdPrintPdf::isActive()
 {
     return getGuiApplication()->sendHasMsgToActiveView("PrintPdf");
 }
@@ -1007,12 +1007,12 @@ void StdCmdUndo::activated(int iMsg)
     getGuiApplication()->sendMsgToActiveView("Undo");
 }
 
-bool StdCmdUndo::isActive(void)
+bool StdCmdUndo::isActive()
 {
   return getGuiApplication()->sendHasMsgToActiveView("Undo");
 }
 
-Action * StdCmdUndo::createAction(void)
+Action * StdCmdUndo::createAction()
 {
     Action *pcAction;
 
@@ -1051,12 +1051,12 @@ void StdCmdRedo::activated(int iMsg)
     getGuiApplication()->sendMsgToActiveView("Redo");
 }
 
-bool StdCmdRedo::isActive(void)
+bool StdCmdRedo::isActive()
 {
   return getGuiApplication()->sendHasMsgToActiveView("Redo");
 }
 
-Action * StdCmdRedo::createAction(void)
+Action * StdCmdRedo::createAction()
 {
     Action *pcAction;
 
@@ -1092,7 +1092,7 @@ void StdCmdCut::activated(int iMsg)
     getGuiApplication()->sendMsgToActiveView("Cut");
 }
 
-bool StdCmdCut::isActive(void)
+bool StdCmdCut::isActive()
 {
     return getGuiApplication()->sendHasMsgToActiveView("Cut");
 }
@@ -1125,7 +1125,7 @@ void StdCmdCopy::activated(int iMsg)
     }
 }
 
-bool StdCmdCopy::isActive(void)
+bool StdCmdCopy::isActive()
 {
     if (getGuiApplication()->sendHasMsgToFocusView("Copy"))
         return true;
@@ -1163,7 +1163,7 @@ void StdCmdPaste::activated(int iMsg)
     }
 }
 
-bool StdCmdPaste::isActive(void)
+bool StdCmdPaste::isActive()
 {
     if (getGuiApplication()->sendHasMsgToFocusView("Paste"))
         return true;
@@ -1253,7 +1253,7 @@ void StdCmdDuplicateSelection::activated(int iMsg)
     fi.deleteFile();
 }
 
-bool StdCmdDuplicateSelection::isActive(void)
+bool StdCmdDuplicateSelection::isActive()
 {
     return Gui::Selection().hasSelection();
 }
@@ -1285,7 +1285,7 @@ void StdCmdSelectAll::activated(int iMsg)
     rSel.setSelection(doc->getName(), objs);
 }
 
-bool StdCmdSelectAll::isActive(void)
+bool StdCmdSelectAll::isActive()
 {
     return App::GetApplication().getActiveDocument() != nullptr;
 }
@@ -1458,7 +1458,7 @@ void StdCmdDelete::activated(int iMsg)
     Gui::getMainWindow()->update();
 }
 
-bool StdCmdDelete::isActive(void)
+bool StdCmdDelete::isActive()
 {
     return Selection().getCompleteSelection().size() > 0;
 }
@@ -1512,7 +1512,7 @@ void StdCmdRefresh::activated(int iMsg)
     }
 }
 
-bool StdCmdRefresh::isActive(void)
+bool StdCmdRefresh::isActive()
 {
     return this->getDocument() && this->getDocument()->mustExecute();
 }
@@ -1538,7 +1538,7 @@ void StdCmdTransform::activated(int iMsg)
     Gui::Control().showDialog(new Gui::Dialog::TaskTransform());
 }
 
-bool StdCmdTransform::isActive(void)
+bool StdCmdTransform::isActive()
 {
     return (Gui::Control().activeDialog()==nullptr);
 }
@@ -1572,7 +1572,7 @@ void StdCmdPlacement::activated(int iMsg)
     Gui::Control().showDialog(plm);
 }
 
-bool StdCmdPlacement::isActive(void)
+bool StdCmdPlacement::isActive()
 {
     return (Gui::Control().activeDialog()==nullptr);
 }
@@ -1606,7 +1606,7 @@ void StdCmdTransformManip::activated(int iMsg)
         getActiveGuiDocument()->setEdit(vp, Gui::ViewProvider::Transform);
 }
 
-bool StdCmdTransformManip::isActive(void)
+bool StdCmdTransformManip::isActive()
 {
     return Gui::Selection().countObjectsOfType(App::GeoFeature::getClassTypeId()) == 1;
 }
@@ -1674,7 +1674,7 @@ void StdCmdAlignment::activated(int iMsg)
     Gui::Selection().clearSelection();
 }
 
-bool StdCmdAlignment::isActive(void)
+bool StdCmdAlignment::isActive()
 {
     if (ManualAlignment::hasInstance())
         return false;
@@ -1716,7 +1716,7 @@ void StdCmdEdit::activated(int iMsg)
     }
 }
 
-bool StdCmdEdit::isActive(void)
+bool StdCmdEdit::isActive()
 {
     return (Selection().getCompleteSelection().size() > 0) || (Gui::Control().activeDialog() != nullptr);
 }
@@ -1773,7 +1773,7 @@ protected:
         copyExpressions(objs);
     }
 
-    virtual Gui::Action * createAction(void) {
+    virtual Gui::Action * createAction() {
         ActionGroup* pcAction = new ActionGroup(this, getMainWindow());
         pcAction->setDropDownMenu(true);
         applyCommandData(this->className(), pcAction);
@@ -1942,7 +1942,7 @@ protected:
 
 namespace Gui {
 
-void CreateDocCommands(void)
+void CreateDocCommands()
 {
     CommandManager &rcCmdMgr = Application::Instance->commandManager();
 

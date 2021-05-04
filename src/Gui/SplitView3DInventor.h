@@ -45,20 +45,20 @@ public:
     AbstractSplitView(Gui::Document* pcDocument, QWidget* parent, Qt::WindowFlags wflags=Qt::WindowFlags());
     ~AbstractSplitView();
 
-    virtual const char *getName(void) const;
+    virtual const char *getName() const;
 
     /// Message handler
     virtual bool onMsg(const char* pMsg, const char** ppReturn);
     virtual bool onHasMsg(const char* pMsg) const;
     virtual void OnChange(ParameterGrp::SubjectType &rCaller,ParameterGrp::MessageType Reason);
-    virtual void onUpdate(void);
+    virtual void onUpdate();
     virtual void deleteSelf();
 
     View3DInventorViewer *getViewer(unsigned int) const;
     void setOverrideCursor(const QCursor&);
     virtual bool containsViewProvider(const ViewProvider*) const;
 
-    PyObject *getPyObject(void);
+    PyObject *getPyObject();
     void setPyObject(PyObject *);
     int getSize();
 
@@ -75,7 +75,7 @@ protected:
 class AbstractSplitViewPy : public Py::PythonExtension<AbstractSplitViewPy>
 {
 public:
-    static void init_type(void);    // announce properties and methods
+    static void init_type();    // announce properties and methods
 
     AbstractSplitViewPy(AbstractSplitView *vi);
     ~AbstractSplitViewPy();

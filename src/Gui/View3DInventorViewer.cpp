@@ -275,7 +275,7 @@ public:
 
 class SpaceNavigatorDevice : public Quarter::InputDevice {
 public:
-    SpaceNavigatorDevice(void) {}
+    SpaceNavigatorDevice() {}
     virtual ~SpaceNavigatorDevice() {}
     virtual const SoEvent* translateEvent(QEvent* event) {
 
@@ -1409,7 +1409,7 @@ void View3DInventorViewer::setEnabledNaviCube(bool on)
     naviCubeEnabled = on;
 }
 
-bool View3DInventorViewer::isEnabledNaviCube(void) const
+bool View3DInventorViewer::isEnabledNaviCube() const
 {
     return naviCubeEnabled;
 }
@@ -1453,7 +1453,7 @@ void View3DInventorViewer::setAxisCross(bool on)
     }
 }
 
-bool View3DInventorViewer::hasAxisCross(void)
+bool View3DInventorViewer::hasAxisCross()
 {
     return axisGroup;
 }
@@ -1493,7 +1493,7 @@ NavigationStyle* View3DInventorViewer::navigationStyle() const
     return this->navigation;
 }
 
-SoDirectionalLight* View3DInventorViewer::getBacklight(void) const
+SoDirectionalLight* View3DInventorViewer::getBacklight() const
 {
     return this->backlight;
 }
@@ -1503,7 +1503,7 @@ void View3DInventorViewer::setBacklight(SbBool on)
     this->backlight->on = on;
 }
 
-SbBool View3DInventorViewer::isBacklight(void) const
+SbBool View3DInventorViewer::isBacklight() const
 {
     return this->backlight->on.getValue();
 }
@@ -1757,7 +1757,7 @@ void View3DInventorViewer::setSelectionEnabled(const SbBool enable)
     static_cast<Gui::SoFCUnifiedSelection*>(root)->selectionRole.setValue(enable);
 }
 
-SbBool View3DInventorViewer::isSelectionEnabled(void) const
+SbBool View3DInventorViewer::isSelectionEnabled() const
 {
     SoNode* root = getSceneGraph();
     return static_cast<Gui::SoFCUnifiedSelection*>(root)->selectionRole.getValue();
@@ -2337,7 +2337,7 @@ void View3DInventorViewer::renderGLImage()
 // Documented in superclass. Overrides this method to be able to draw
 // the axis cross, if selected, and to keep a continuous animation
 // upon spin.
-void View3DInventorViewer::renderScene(void)
+void View3DInventorViewer::renderScene()
 {
     // Must set up the OpenGL viewport manually, as upon resize
     // operations, Coin won't set it up until the SoGLRenderAction is
@@ -2946,7 +2946,7 @@ extern void oculusStop (void);
 void oculusSetTestScene(View3DInventorRiftViewer *window);
 #endif
 
-void View3DInventorViewer::viewVR(void)
+void View3DInventorViewer::viewVR()
 {
 #if BUILD_VR
     if (oculusUp()) {
@@ -3136,7 +3136,7 @@ View3DInventorViewer::setAnimationEnabled(const SbBool enable)
 */
 
 SbBool
-View3DInventorViewer::isAnimationEnabled(void) const
+View3DInventorViewer::isAnimationEnabled() const
 {
     return navigation->isAnimationEnabled();
 }
@@ -3145,7 +3145,7 @@ View3DInventorViewer::isAnimationEnabled(void) const
   Query if the model in the viewer is currently in spinning mode after
   a user drag.
 */
-SbBool View3DInventorViewer::isAnimating(void) const
+SbBool View3DInventorViewer::isAnimating() const
 {
     return navigation->isAnimating();
 }
@@ -3159,7 +3159,7 @@ void View3DInventorViewer::startAnimating(const SbVec3f& axis, float velocity)
     navigation->startAnimating(axis, velocity);
 }
 
-void View3DInventorViewer::stopAnimating(void)
+void View3DInventorViewer::stopAnimating()
 {
     navigation->stopAnimating();
 }
@@ -3169,7 +3169,7 @@ void View3DInventorViewer::setPopupMenuEnabled(const SbBool on)
     navigation->setPopupMenuEnabled(on);
 }
 
-SbBool View3DInventorViewer::isPopupMenuEnabled(void) const
+SbBool View3DInventorViewer::isPopupMenuEnabled() const
 {
     return navigation->isPopupMenuEnabled();
 }
@@ -3197,7 +3197,7 @@ View3DInventorViewer::setFeedbackVisibility(const SbBool enable)
 */
 
 SbBool
-View3DInventorViewer::isFeedbackVisible(void) const
+View3DInventorViewer::isFeedbackVisible() const
 {
     return this->axiscrossEnabled;
 }
@@ -3226,7 +3226,7 @@ View3DInventorViewer::setFeedbackSize(const int size)
 */
 
 int
-View3DInventorViewer::getFeedbackSize(void) const
+View3DInventorViewer::getFeedbackSize() const
 {
     return this->axiscrossSize;
 }
@@ -3240,7 +3240,7 @@ void View3DInventorViewer::setCursorEnabled(SbBool /*enable*/)
     this->setCursorRepresentation(navigation->getViewingMode());
 }
 
-void View3DInventorViewer::afterRealizeHook(void)
+void View3DInventorViewer::afterRealizeHook()
 {
     inherited::afterRealizeHook();
     this->setCursorRepresentation(navigation->getViewingMode());
@@ -3266,7 +3266,7 @@ static GLubyte xbmp[] = { 0x11,0x11,0x0a,0x04,0x0a,0x11,0x11 };
 static GLubyte ybmp[] = { 0x04,0x04,0x04,0x04,0x0a,0x11,0x11 };
 static GLubyte zbmp[] = { 0x1f,0x10,0x08,0x04,0x02,0x01,0x1f };
 
-void View3DInventorViewer::drawAxisCross(void)
+void View3DInventorViewer::drawAxisCross()
 {
     // FIXME: convert this to a superimposition scenegraph instead of
     // OpenGL calls. 20020603 mortene.
@@ -3444,7 +3444,7 @@ void View3DInventorViewer::drawAxisCross(void)
 }
 
 // Draw an arrow for the axis representation directly through OpenGL.
-void View3DInventorViewer::drawArrow(void)
+void View3DInventorViewer::drawArrow()
 {
     glBegin(GL_LINES);
     glVertex3f(0.0f, 0.0f, 0.0f);
@@ -3682,7 +3682,7 @@ void View3DInventorViewer::turnDeltaDimensionsOff()
     static_cast<SoSwitch*>(dimensionRoot->getChild(1))->whichChild = SO_SWITCH_NONE;
 }
 
-PyObject *View3DInventorViewer::getPyObject(void)
+PyObject *View3DInventorViewer::getPyObject()
 {
     if (!_viewerPy)
         _viewerPy = new View3DInventorViewerPy(this);

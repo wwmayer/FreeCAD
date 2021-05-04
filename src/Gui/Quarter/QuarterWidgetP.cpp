@@ -125,7 +125,7 @@ QuarterWidgetP::searchForCamera(SoNode * root)
 }
 
 uint32_t
-QuarterWidgetP::getCacheContextId(void) const
+QuarterWidgetP::getCacheContextId() const
 {
   return this->cachecontext->id;
 }
@@ -257,7 +257,7 @@ QuarterWidgetP::statechangecb(void * userdata, ScXMLStateMachine * statemachine,
 
 
 QList<QAction *>
-QuarterWidgetP::transparencyTypeActions(void) const
+QuarterWidgetP::transparencyTypeActions() const
 {
   if (this->transparencytypeactions.isEmpty()) {
     this->transparencytypegroup = new QActionGroup(this->master);
@@ -277,7 +277,7 @@ QuarterWidgetP::transparencyTypeActions(void) const
 }
 
 QList<QAction *>
-QuarterWidgetP::stereoModeActions(void) const
+QuarterWidgetP::stereoModeActions() const
 {
   if (this->stereomodeactions.isEmpty()) {
     this->stereomodegroup = new QActionGroup(this->master);
@@ -291,7 +291,7 @@ QuarterWidgetP::stereoModeActions(void) const
 }
 
 QList<QAction *>
-QuarterWidgetP::renderModeActions(void) const
+QuarterWidgetP::renderModeActions() const
 {
   if (this->rendermodeactions.isEmpty()) {
     this->rendermodegroup = new QActionGroup(this->master);
@@ -308,7 +308,7 @@ QuarterWidgetP::renderModeActions(void) const
 #undef ADD_ACTION
 
 QMenu *
-QuarterWidgetP::contextMenu(void)
+QuarterWidgetP::contextMenu()
 {
   if (!this->contextmenu) {
     this->contextmenu = new ContextMenu(this->master);

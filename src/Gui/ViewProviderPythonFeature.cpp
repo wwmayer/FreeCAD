@@ -713,7 +713,7 @@ ViewProviderPythonFeatureImp::unsetEditViewer(View3DInventorViewer *viewer)
 }
 
 ViewProviderPythonFeatureImp::ValueT
-ViewProviderPythonFeatureImp::doubleClicked(void)
+ViewProviderPythonFeatureImp::doubleClicked()
 {
     FC_PY_CALL_CHECK(doubleClicked)
 
@@ -998,7 +998,7 @@ bool ViewProviderPythonFeatureImp::getDefaultDisplayMode(std::string &mode) cons
     return true;
 }
 
-std::vector<std::string> ViewProviderPythonFeatureImp::getDisplayModes(void) const
+std::vector<std::string> ViewProviderPythonFeatureImp::getDisplayModes() const
 {
     std::vector<std::string> modes;
     _FC_PY_CALL_CHECK(getDisplayModes,return(modes));

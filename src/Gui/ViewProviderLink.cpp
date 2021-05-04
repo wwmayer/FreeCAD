@@ -878,14 +878,14 @@ LinkView::~LinkView() {
     unlink(linkOwner);
 }
 
-PyObject *LinkView::getPyObject(void)
+PyObject *LinkView::getPyObject()
 {
     if (PythonObject.is(Py::_None()))
         PythonObject = Py::Object(new LinkViewPy(this),true);
     return Py::new_reference_to(PythonObject);
 }
 
-void LinkView::setInvalid(void) {
+void LinkView::setInvalid() {
     if (!PythonObject.is(Py::_None())){
         Base::PyObjectBase* obj = (Base::PyObjectBase*)PythonObject.ptr();
         obj->setInvalid();
@@ -1675,7 +1675,7 @@ void ViewProviderLink::reattach(App::DocumentObject *obj) {
     ViewProviderDocumentObject::reattach(obj);
 }
 
-std::vector<std::string> ViewProviderLink::getDisplayModes(void) const
+std::vector<std::string> ViewProviderLink::getDisplayModes() const
 {
     std::vector<std::string> StrList = inherited::getDisplayModes();
     StrList.push_back("Link");
@@ -2079,7 +2079,7 @@ ViewProvider *ViewProviderLink::getLinkedView(
     return nullptr;
 }
 
-std::vector<App::DocumentObject*> ViewProviderLink::claimChildren(void) const {
+std::vector<App::DocumentObject*> ViewProviderLink::claimChildren() const {
     auto ext = getLinkExtension();
     if(ext && !ext->_getShowElementValue() && ext->_getElementCountValue()) {
         // in array mode without element objects, we'd better not show the

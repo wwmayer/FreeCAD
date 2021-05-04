@@ -54,7 +54,7 @@ ViewProviderGeoFeatureGroupExtension::~ViewProviderGeoFeatureGroupExtension()
 }
 
 
-std::vector<App::DocumentObject*> ViewProviderGeoFeatureGroupExtension::extensionClaimChildren3D(void) const {
+std::vector<App::DocumentObject*> ViewProviderGeoFeatureGroupExtension::extensionClaimChildren3D() const {
 
     //all object in the group must be claimed in 3D, as we are a coordinate system for all of them
     auto* ext = getExtendedViewProvider()->getObject()->getExtensionByType<App::GeoFeatureGroupExtension>();
@@ -65,7 +65,7 @@ std::vector<App::DocumentObject*> ViewProviderGeoFeatureGroupExtension::extensio
     return std::vector<App::DocumentObject*>();
 }
 
-std::vector<App::DocumentObject*> ViewProviderGeoFeatureGroupExtension::extensionClaimChildren(void) const {
+std::vector<App::DocumentObject*> ViewProviderGeoFeatureGroupExtension::extensionClaimChildren() const {
 
     auto* group = getExtendedViewProvider()->getObject()->getExtensionByType<App::GeoFeatureGroupExtension>();
     const std::vector<App::DocumentObject*> &model = group->Group.getValues ();
@@ -119,7 +119,7 @@ void ViewProviderGeoFeatureGroupExtension::extensionSetDisplayMode(const char* M
     ViewProviderGroupExtension::extensionSetDisplayMode( ModeName );
 }
 
-std::vector<std::string> ViewProviderGeoFeatureGroupExtension::extensionGetDisplayModes(void) const
+std::vector<std::string> ViewProviderGeoFeatureGroupExtension::extensionGetDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderGroupExtension::extensionGetDisplayModes();

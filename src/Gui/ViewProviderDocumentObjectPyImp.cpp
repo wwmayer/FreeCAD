@@ -38,7 +38,7 @@
 using namespace Gui;
 
 // returns a string which represents the object e.g. when printed in python
-std::string ViewProviderDocumentObjectPy::representation(void) const
+std::string ViewProviderDocumentObjectPy::representation() const
 {
     std::stringstream str;
     str << "<View provider object at " << getViewProviderDocumentObjectPtr() << ">";
@@ -56,7 +56,7 @@ PyObject* ViewProviderDocumentObjectPy::update(PyObject *args)
     } PY_CATCH;
 }
 
-Py::Object ViewProviderDocumentObjectPy::getObject(void) const
+Py::Object ViewProviderDocumentObjectPy::getObject() const
 {
     App::DocumentObject* obj = getViewProviderDocumentObjectPtr()->getObject();
     return Py::Object(obj->getPyObject(), true); // do not inc'ref twice
@@ -83,7 +83,7 @@ void ViewProviderDocumentObjectPy::setForceUpdate(Py::Boolean arg)
     getViewProviderDocumentObjectPtr()->forceUpdate(arg);
 }
 
-Py::Object ViewProviderDocumentObjectPy::getDocument(void) const
+Py::Object ViewProviderDocumentObjectPy::getDocument() const
 {
     Document* doc = getViewProviderDocumentObjectPtr()->getDocument();
     return Py::asObject(doc->getPyObject()); // do not inc'ref twice

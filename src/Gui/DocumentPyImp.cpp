@@ -50,7 +50,7 @@
 using namespace Gui;
 
 // returns a string which represent the object e.g. when printed in python
-std::string DocumentPy::representation(void) const
+std::string DocumentPy::representation() const
 {
     std::stringstream str;
     str << "<GUI Document object at " << getDocumentPtr() << ">";
@@ -351,7 +351,7 @@ PyObject* DocumentPy::toggleInSceneGraph(PyObject *args) {
     Py_Return;
 }
 
-Py::Object DocumentPy::getActiveObject(void) const
+Py::Object DocumentPy::getActiveObject() const
 {
     App::DocumentObject *object = getDocumentPtr()->getDocument()->getActiveObject();
     if (object) {
@@ -367,7 +367,7 @@ void  DocumentPy::setActiveObject(Py::Object /*arg*/)
     throw Py::AttributeError("'Document' object attribute 'ActiveObject' is read-only");
 }
 
-Py::Object DocumentPy::getActiveView(void) const
+Py::Object DocumentPy::getActiveView() const
 {
     Gui::MDIView *view = getDocumentPtr()->getActiveView();
     if (view) {
@@ -383,7 +383,7 @@ void  DocumentPy::setActiveView(Py::Object /*arg*/)
     throw Py::AttributeError("'Document' object attribute 'ActiveView' is read-only");
 }
 
-Py::Object DocumentPy::getDocument(void) const
+Py::Object DocumentPy::getDocument() const
 {
     App::Document *doc = getDocumentPtr()->getDocument();
     if (doc) {
@@ -394,7 +394,7 @@ Py::Object DocumentPy::getDocument(void) const
     }
 }
 
-Py::Object DocumentPy::getEditingTransform(void) const {
+Py::Object DocumentPy::getEditingTransform() const {
     return Py::asObject(new Base::MatrixPy(new Base::Matrix4D(
                     getDocumentPtr()->getEditingTransform())));
 }
@@ -406,7 +406,7 @@ void DocumentPy::setEditingTransform(Py::Object arg) {
             *static_cast<Base::MatrixPy*>(arg.ptr())->getMatrixPtr());
 }
 
-Py::Object DocumentPy::getInEditInfo(void) const {
+Py::Object DocumentPy::getInEditInfo() const {
     ViewProviderDocumentObject *vp = nullptr;
     std::string subname,subelement;
     int mode = 0;
@@ -427,7 +427,7 @@ void DocumentPy::setInEditInfo(Py::Object arg) {
                 pyobj)->getViewProviderDocumentObjectPtr(),subname);
 }
 
-Py::Int DocumentPy::getEditMode(void) const {
+Py::Int DocumentPy::getEditMode() const {
     int mode = -1;
     getDocumentPtr()->getInEdit(nullptr,nullptr,&mode);
     return Py::Int(mode);
@@ -437,7 +437,7 @@ Py::Boolean DocumentPy::getTransacting() const {
     return Py::Boolean(getDocumentPtr()->isPerformingTransaction());
 }
 
-Py::Boolean DocumentPy::getModified(void) const
+Py::Boolean DocumentPy::getModified() const
 {
     return Py::Boolean(getDocumentPtr()->isModified());
 }

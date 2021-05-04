@@ -331,7 +331,7 @@ void InputField::pushToHistory(const QString &valueq)
     }
 }
 
-std::vector<QString> InputField::getHistory(void)
+std::vector<QString> InputField::getHistory()
 {
     std::vector<QString> res;
 
@@ -350,7 +350,7 @@ std::vector<QString> InputField::getHistory(void)
     return res;
 }
 
-void InputField::setToLastUsedValue(void)
+void InputField::setToLastUsedValue()
 {
     std::vector<QString> hist = getHistory();
     if(!hist.empty())
@@ -379,7 +379,7 @@ void InputField::pushToSavedValues(const QString &valueq)
     }
 }
 
-std::vector<QString> InputField::getSavedValues(void)
+std::vector<QString> InputField::getSavedValues()
 {
     std::vector<QString> res;
 
@@ -452,7 +452,7 @@ const Base::Unit& InputField::getUnit() const
 }
 
 /// get stored, valid quantity as a string
-QString InputField::getQuantityString(void) const
+QString InputField::getQuantityString() const
 {
     return actQuantity.getUserString();
 }
@@ -466,7 +466,7 @@ void InputField::setQuantityString(const QString& text)
 }
 
 /// return the quantity in C locale, i.e. decimal separator is a dot.
-QString InputField::rawText(void) const
+QString InputField::rawText() const
 {
     double  factor;
     QString unit;
@@ -485,7 +485,7 @@ void InputField::setRawText(const QString& text)
 }
 
 /// get the value of the singleStep property
-double InputField::singleStep(void)const
+double InputField::singleStep()const
 {
     return StepSize;
 }
@@ -497,7 +497,7 @@ void InputField::setSingleStep(double s)
 }
 
 /// get the value of the maximum property
-double InputField::maximum(void)const
+double InputField::maximum()const
 {
     return Maximum;
 }
@@ -513,7 +513,7 @@ void InputField::setMaximum(double m)
 }
 
 /// get the value of the minimum property
-double InputField::minimum(void)const
+double InputField::minimum()const
 {
     return Minimum;
 }
@@ -539,7 +539,7 @@ void InputField::setUnitText(const QString& str)
     }
 }
 
-QString InputField::getUnitText(void)
+QString InputField::getUnitText()
 {
     double dFactor;
     QString unitStr;
@@ -577,7 +577,7 @@ void InputField::setFormat(const QString& format)
 }
 
 // get the value of the minimum property
-int InputField::historySize(void)const
+int InputField::historySize()const
 {
     return HistorySize;
 }
@@ -591,7 +591,7 @@ void InputField::setHistorySize(int i)
     HistorySize = i;
 }
 
-void InputField::selectNumber(void)
+void InputField::selectNumber()
 {
     QString str = text();
     unsigned int i = 0;

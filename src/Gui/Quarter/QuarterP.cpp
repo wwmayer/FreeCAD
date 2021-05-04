@@ -6,7 +6,7 @@
 using namespace SIM::Coin3D::Quarter;
 QuarterP::StateCursorMap * QuarterP::statecursormap = nullptr;
 
-QuarterP::QuarterP(void)
+QuarterP::QuarterP()
 {
   this->sensormanager = new SensorManager;
   this->imagereader = new ImageReader;

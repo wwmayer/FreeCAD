@@ -182,7 +182,7 @@ Quarter::init(bool initCoin)
   clean up resources
  */
 void
-Quarter::clean(void)
+Quarter::clean()
 {
   COMPILE_ONLY_BEFORE(2,0,0,"Should not be encapsulated in double Quarter namespace");
   assert(self);

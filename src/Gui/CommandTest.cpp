@@ -134,7 +134,7 @@ void FCCmdTest1::activated(int iMsg)
     Q_UNUSED(iMsg);
 }
 
-bool FCCmdTest1::isActive(void)
+bool FCCmdTest1::isActive()
 {
     //return (GetActiveOCCDocument()!=NULL);
     return true;
@@ -162,7 +162,7 @@ void FCCmdTest2::activated(int iMsg)
     Q_UNUSED(iMsg);
 }
 
-bool FCCmdTest2::isActive(void)
+bool FCCmdTest2::isActive()
 {
     return (getDocument()!=nullptr);
 }
@@ -191,7 +191,7 @@ void FCCmdTest3::activated(int iMsg)
 }
 
 
-bool FCCmdTest3::isActive(void)
+bool FCCmdTest3::isActive()
 {
     return (getDocument()!=nullptr);
 }
@@ -221,7 +221,7 @@ void FCCmdTest4::activated(int iMsg)
 }
 
 
-bool FCCmdTest4::isActive(void)
+bool FCCmdTest4::isActive()
 {
     return (getDocument()!=nullptr);
 }
@@ -249,7 +249,7 @@ void FCCmdTest5::activated(int iMsg)
     if(!pcDoc) return;
 }
 
-bool FCCmdTest5::isActive(void)
+bool FCCmdTest5::isActive()
 {
   return (getDocument()!=nullptr);
 }
@@ -278,7 +278,7 @@ void FCCmdTest6::activated(int iMsg)
     if(!pcDoc) return;
 }
 
-bool FCCmdTest6::isActive(void)
+bool FCCmdTest6::isActive()
 {
     return (getDocument()!=nullptr);
 }
@@ -327,7 +327,7 @@ void CmdTestCmdFuncs::activated(int iMsg)
     Gui::copyVisualT(objName.c_str(), "DisplayMode", objName.c_str());
 }
 
-bool CmdTestCmdFuncs::isActive(void)
+bool CmdTestCmdFuncs::isActive()
 {
     return (getDocument()!=nullptr);
 }
@@ -369,7 +369,7 @@ void CmdTestProgress1::activated(int iMsg)
     }
 }
 
-bool CmdTestProgress1::isActive(void)
+bool CmdTestProgress1::isActive()
 {
     return (!Base::Sequencer().isRunning());
 }
@@ -412,7 +412,7 @@ void CmdTestProgress2::activated(int iMsg)
     }
 }
 
-bool CmdTestProgress2::isActive(void)
+bool CmdTestProgress2::isActive()
 {
     return ( !Base::Sequencer().isRunning() );
 }
@@ -482,7 +482,7 @@ void CmdTestProgress3::activated(int iMsg)
     }
 }
 
-bool CmdTestProgress3::isActive(void)
+bool CmdTestProgress3::isActive()
 {
     return ( !Base::Sequencer().isRunning() );
 }
@@ -537,7 +537,7 @@ void CmdTestProgress4::activated(int iMsg)
     }
 }
 
-bool CmdTestProgress4::isActive(void)
+bool CmdTestProgress4::isActive()
 {
     return (!Base::Sequencer().isRunning());
 }
@@ -617,7 +617,7 @@ void CmdTestProgress5::activated(int iMsg)
     thr3->start();
 }
 
-bool CmdTestProgress5::isActive(void)
+bool CmdTestProgress5::isActive()
 {
     return (!Base::Sequencer().isRunning());
 }
@@ -644,7 +644,7 @@ void CmdTestMDI1::activated(int iMsg)
     getMainWindow()->removeWindow(mdi);
 }
 
-bool CmdTestMDI1::isActive(void)
+bool CmdTestMDI1::isActive()
 {
     return getMainWindow()->activeWindow();
 }
@@ -672,7 +672,7 @@ void CmdTestMDI2::activated(int iMsg)
     }
 }
 
-bool CmdTestMDI2::isActive(void)
+bool CmdTestMDI2::isActive()
 {
     return getMainWindow()->activeWindow();
 }
@@ -700,7 +700,7 @@ void CmdTestMDI3::activated(int iMsg)
     mdi->show();
 }
 
-bool CmdTestMDI3::isActive(void)
+bool CmdTestMDI3::isActive()
 {
     return getMainWindow()->activeWindow();
 }
@@ -808,7 +808,7 @@ void CmdTestConsoleOutput::activated(int iMsg)
 
 namespace Gui {
 
-void CreateTestCommands(void)
+void CreateTestCommands()
 {
     CommandManager &rcCmdMgr = Application::Instance->commandManager();
 

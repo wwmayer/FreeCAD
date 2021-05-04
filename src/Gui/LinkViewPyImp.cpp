@@ -52,7 +52,7 @@ int LinkViewPy::PyInit(PyObject* /*args*/, PyObject* /*kwd*/)
 
 
 // returns a string which represent the object e.g. when printed in python
-std::string LinkViewPy::representation(void) const
+std::string LinkViewPy::representation() const
 {
     return "<Link view>";
 }
@@ -342,7 +342,7 @@ int LinkViewPy::setCustomAttributes(const char*, PyObject*)
     return 0;
 }
 
-Py::Object LinkViewPy::getRootNode(void) const
+Py::Object LinkViewPy::getRootNode() const
 {
     try {
         SoNode* node = getLinkViewPtr()->getLinkRoot();

@@ -994,7 +994,7 @@ bool Application::sendHasMsgToFocusView(const char* pMsg)
     return false;
 }
 
-Gui::MDIView* Application::activeView(void) const
+Gui::MDIView* Application::activeView() const
 {
     if (activeDocument())
         return activeDocument()->getActiveView();
@@ -1026,12 +1026,12 @@ void Application::activateView(const Base::Type& type, bool create)
 }
 
 /// Getter for the active view
-Gui::Document* Application::activeDocument(void) const
+Gui::Document* Application::activeDocument() const
 {
     return d->activeDocument;
 }
 
-Gui::Document* Application::editDocument(void) const
+Gui::Document* Application::editDocument() const
 {
     return d->editDocument;
 }
@@ -1174,7 +1174,7 @@ void Application::detachView(Gui::BaseView* pcView)
     d->passive.remove(pcView);
 }
 
-void Application::onUpdate(void)
+void Application::onUpdate()
 {
     // update all documents
     std::map<const App::Document*, Gui::Document*>::iterator It;
@@ -1204,7 +1204,7 @@ void Application::viewActivated(MDIView* pcView)
 }
 
 
-void Application::updateActive(void)
+void Application::updateActive()
 {
     activeDocument()->onUpdate();
 }
@@ -1511,7 +1511,7 @@ QString Application::workbenchMenuText(const QString& wb) const
     return QString();
 }
 
-QStringList Application::workbenches(void) const
+QStringList Application::workbenches() const
 {
     // If neither 'HiddenWorkbench' nor 'ExtraWorkbench' is set then all workbenches are returned.
     const std::map<std::string,std::string>& config = App::Application::Config();
@@ -1601,17 +1601,17 @@ void Application::setupContextMenu(const char* recipient, MenuItem* items) const
     }
 }
 
-bool Application::isClosing(void)
+bool Application::isClosing()
 {
     return d->isClosing;
 }
 
-MacroManager *Application::macroManager(void)
+MacroManager *Application::macroManager()
 {
     return d->macroMngr;
 }
 
-CommandManager &Application::commandManager(void)
+CommandManager &Application::commandManager()
 {
     return d->commandManager;
 }
@@ -1692,7 +1692,7 @@ static void init_resources()
     Q_INIT_RESOURCE(translation);
 }
 
-void Application::initApplication(void)
+void Application::initApplication()
 {
     static bool init = false;
     if (init) {
@@ -1714,7 +1714,7 @@ void Application::initApplication(void)
     }
 }
 
-void Application::initTypes(void)
+void Application::initTypes()
 {
     // views
     Gui::BaseView                               ::init();
@@ -1782,7 +1782,7 @@ void Application::initTypes(void)
             (ViewProviderDocumentObject::getClassTypeId());
 }
 
-void Application::initOpenInventor(void)
+void Application::initOpenInventor()
 {
     // init the Inventor subsystem
     SoDB::init();
@@ -1790,12 +1790,12 @@ void Application::initOpenInventor(void)
     SoFCDB::init();
 }
 
-void Application::runInitGuiScript(void)
+void Application::runInitGuiScript()
 {
     Base::Interpreter().runString(Base::ScriptFactory().ProduceScript("FreeCADGuiInit"));
 }
 
-void Application::runApplication(void)
+void Application::runApplication()
 {
     const std::map<std::string,std::string>& cfg = App::Application::Config();
     std::map<std::string,std::string>::const_iterator it;

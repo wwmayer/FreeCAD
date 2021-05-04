@@ -44,16 +44,16 @@ public:
     DlgRunExternal(QWidget* parent = nullptr, Qt::WindowFlags fl = Qt::WindowFlags());
     virtual ~DlgRunExternal();
 
-    int Do(void);
+    int Do();
 
     QString ProcName;
     QStringList arguments;
 
 protected Q_SLOTS:
-    virtual void reject(void);
-    virtual void accept(void);
-    virtual void abort(void);
-    virtual void advanced(void);
+    virtual void reject();
+    virtual void accept();
+    virtual void abort();
+    virtual void advanced();
     void finished (int exitCode, QProcess::ExitStatus exitStatus);
     void on_chooseProgram_clicked();
 

@@ -109,7 +109,7 @@ DlgMacroExecuteImp::~DlgMacroExecuteImp()
 /**
  * Fills up the list with all macro files found in the specified location.
  */
-void DlgMacroExecuteImp::fillUpList(void)
+void DlgMacroExecuteImp::fillUpList()
 {
     // lists all files in macro path
     QDir dir(this->macroPath, QLatin1String("*.FCMacro *.py"));

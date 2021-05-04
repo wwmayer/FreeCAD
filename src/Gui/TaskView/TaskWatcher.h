@@ -50,11 +50,11 @@ public:
     TaskWatcher(const char* Filter);
     virtual ~TaskWatcher();
 
-    std::vector<QWidget*> &getWatcherContent(void);
+    std::vector<QWidget*> &getWatcherContent();
 
 public:
     /// is called wenn the document or the Selection changes. 
-    virtual bool shouldShow(void);
+    virtual bool shouldShow();
 
 protected:
     /// List of TaskBoxes of that dialog
@@ -74,7 +74,7 @@ public:
 
 public:
     /// is called wenn the document or the Selection changes. 
-    virtual bool shouldShow(void);
+    virtual bool shouldShow();
 
 };
 
@@ -90,7 +90,7 @@ public:
 
 public:
     /// is called wenn the document or the Selection changes. 
-    virtual bool shouldShow(void);
+    virtual bool shouldShow();
 
 };
 
@@ -107,7 +107,7 @@ public:
 
 public:
     /// is called wenn the document or the Selection changes. 
-    virtual bool shouldShow(void);
+    virtual bool shouldShow();
 
 };
 

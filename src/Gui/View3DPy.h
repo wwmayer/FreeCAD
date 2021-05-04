@@ -56,7 +56,7 @@ public:
 class View3DInventorPy : public Py::PythonExtension<View3DInventorPy>
 {
 public:
-    static void init_type(void);    // announce properties and methods
+    static void init_type();    // announce properties and methods
 
     View3DInventorPy(View3DInventor *vi);
     ~View3DInventorPy();

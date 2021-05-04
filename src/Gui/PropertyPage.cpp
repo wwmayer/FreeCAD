@@ -144,7 +144,7 @@ void PreferenceUiForm::changeEvent(QEvent *e)
 }
 
 template <typename PW>
-void PreferenceUiForm::loadPrefWidgets(void)
+void PreferenceUiForm::loadPrefWidgets()
 {
     QList<PW> pw = form->findChildren<PW>();
     for (typename QList<PW>::iterator it = pw.begin(); it != pw.end(); ++it)
@@ -152,7 +152,7 @@ void PreferenceUiForm::loadPrefWidgets(void)
 }
 
 template <typename PW>
-void PreferenceUiForm::savePrefWidgets(void)
+void PreferenceUiForm::savePrefWidgets()
 {
     QList<PW> pw = form->findChildren<PW>();
     for (typename QList<PW>::iterator it = pw.begin(); it != pw.end(); ++it)

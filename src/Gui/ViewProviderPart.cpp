@@ -80,7 +80,7 @@ void ViewProviderPart::setupContextMenu(QMenu* menu, QObject* receiver, const ch
     ViewProviderDragger::setupContextMenu(menu, receiver, member);
 }
 
-bool ViewProviderPart::doubleClicked(void)
+bool ViewProviderPart::doubleClicked()
 {
     //make the part the active one
 

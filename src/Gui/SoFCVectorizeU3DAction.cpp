@@ -57,7 +57,7 @@ public:
 
 class SoVectorizePoint : public SoVectorizeItem {
 public:
-    SoVectorizePoint(void) {
+    SoVectorizePoint() {
         this->type = POINT;
         this->vidx = 0;
         this->size = 1.0f;
@@ -70,7 +70,7 @@ public:
 
 class SoVectorizeTriangle : public SoVectorizeItem {
 public:
-    SoVectorizeTriangle(void) {
+    SoVectorizeTriangle() {
         this->type = TRIANGLE;
     }
     int vidx[3];      // indices to BSPtree coordinates
@@ -79,7 +79,7 @@ public:
 
 class SoVectorizeLine : public SoVectorizeItem {
 public:
-    SoVectorizeLine(void) {
+    SoVectorizeLine() {
         this->type = LINE;
         vidx[0] = 0;
         vidx[1] = 0;
@@ -96,7 +96,7 @@ public:
 
 class SoVectorizeText : public SoVectorizeItem {
 public:
-    SoVectorizeText(void) {
+    SoVectorizeText() {
         this->type = TEXT;
         this->fontsize = 10;
         this->col = 0;
@@ -119,7 +119,7 @@ public:
 
 class SoVectorizeImage : public SoVectorizeItem {
 public:
-    SoVectorizeImage(void) {
+    SoVectorizeImage() {
         this->type = IMAGE;
         this->image.data = nullptr;
         this->image.nc = 0;
@@ -158,7 +158,7 @@ SbBool SoU3DVectorOutput::openFile (const char *filename)
     return this->file.is_open();
 }
 
-void SoU3DVectorOutput::closeFile (void)
+void SoU3DVectorOutput::closeFile ()
 {
     if (this->file.is_open())
         this->file.close();
@@ -291,7 +291,7 @@ void SoFCVectorizeU3DActionP::printImage(const SoVectorizeImage * item) const
 
 SO_ACTION_SOURCE(SoFCVectorizeU3DAction)
 
-void SoFCVectorizeU3DAction::initClass(void)
+void SoFCVectorizeU3DAction::initClass()
 {
     SO_ACTION_INIT_CLASS(SoFCVectorizeU3DAction, SoVectorizeAction);
     //SO_ACTION_ADD_METHOD(SoNode, SoFCVectorizeU3DAction::actionMethod);
@@ -310,7 +310,7 @@ SoFCVectorizeU3DAction::~SoFCVectorizeU3DAction()
 }
 
 SoU3DVectorOutput *
-SoFCVectorizeU3DAction::getU3DOutput(void) const
+SoFCVectorizeU3DAction::getU3DOutput() const
 {
     return static_cast<SoU3DVectorOutput*>(SoVectorizeAction::getOutput());
 }
@@ -332,7 +332,7 @@ void SoFCVectorizeU3DAction::endTraversal(SoNode * node)
     inherited::endTraversal(node);
 }
 
-void SoFCVectorizeU3DAction::printHeader(void) const
+void SoFCVectorizeU3DAction::printHeader() const
 {
     std::ostream& str = this->getU3DOutput()->getFileStream();
     str << "FILE_FORMAT \"IDTF\"" << std::endl
@@ -356,15 +356,15 @@ void SoFCVectorizeU3DAction::printHeader(void) const
     str << Base::tabs(0) << "}" << std::endl;
 }
 
-void SoFCVectorizeU3DAction::printFooter(void) const
+void SoFCVectorizeU3DAction::printFooter() const
 {
 }
 
-void SoFCVectorizeU3DAction::printViewport(void) const
+void SoFCVectorizeU3DAction::printViewport() const
 {
 }
 
-void SoFCVectorizeU3DAction::printBackground(void) const
+void SoFCVectorizeU3DAction::printBackground() const
 {
     //SbVec2f mul = getRotatedViewportSize();
     //SbVec2f add = getRotatedViewportStartpos();
