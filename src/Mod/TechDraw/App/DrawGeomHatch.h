@@ -61,16 +61,16 @@ public:
     App::PropertyFloatConstraint ScalePattern;
 
     virtual short mustExecute() const override;
-    virtual App::DocumentObjectExecReturn *execute(void) override;
+    virtual App::DocumentObjectExecReturn *execute() override;
     virtual void onChanged(const App::Property* prop) override;
-    virtual const char* getViewProviderName(void) const override {
+    virtual const char* getViewProviderName() const override {
         return "TechDrawGui::ViewProviderGeomHatch";
     }
-    virtual PyObject *getPyObject(void) override;
-    virtual void unsetupObject(void) override;
+    virtual PyObject *getPyObject() override;
+    virtual void unsetupObject() override;
 
 
-    DrawViewPart* getSourceView(void) const;
+    DrawViewPart* getSourceView() const;
 
     std::vector<LineSet> getFaceOverlay(int i = 0);
     std::vector<LineSet> getTrimmedLines(int i = 0);
@@ -88,7 +88,7 @@ public:
     static TopoDS_Edge makeLine(Base::Vector3d s, Base::Vector3d e);
     static std::vector<PATLineSpec> getDecodedSpecsFromFile(std::string fileSpec, std::string myPattern);
     static TopoDS_Face extractFace(DrawViewPart* source, int iface );
-    static std::string prefGeomHatchFile(void);
+    static std::string prefGeomHatchFile();
     static std::string prefGeomHatchName();
     static App::Color prefGeomHatchColor();
 
@@ -96,10 +96,10 @@ public:
 protected:
     virtual void onDocumentRestored() override;
     virtual void setupObject() override;
-    void setupPatIncluded(void);
+    void setupPatIncluded();
     void replacePatIncluded(std::string newPatFile);
 
-    void makeLineSets(void);
+    void makeLineSets();
 
     std::vector<PATLineSpec> getDecodedSpecsFromFile();
     std::vector<LineSet> m_lineSets;

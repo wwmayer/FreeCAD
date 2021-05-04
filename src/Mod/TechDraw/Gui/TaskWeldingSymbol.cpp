@@ -448,7 +448,7 @@ void TaskWeldingSymbol::onSymbolSelected(QString symbolPath,
     }
 }
 
-void TaskWeldingSymbol::collectArrowData(void)
+void TaskWeldingSymbol::collectArrowData()
 {
 //    Base::Console().Message("TWS::collectArrowData()\n");
     m_arrowOut.toBeSaved = true;
@@ -462,7 +462,7 @@ void TaskWeldingSymbol::collectArrowData(void)
     m_arrowOut.tileName = "";
 }
 
-void TaskWeldingSymbol::collectOtherData(void)
+void TaskWeldingSymbol::collectOtherData()
 {
 //    Base::Console().Message("TWS::collectOtherData()\n");
     m_otherOut.toBeSaved = true;
@@ -476,7 +476,7 @@ void TaskWeldingSymbol::collectOtherData(void)
     m_otherOut.tileName = "";
 }
 
-void TaskWeldingSymbol::getTileFeats(void)
+void TaskWeldingSymbol::getTileFeats()
 {
 //    Base::Console().Message("TWS::getTileFeats()\n");
     std::vector<TechDraw::DrawTileWeld*> tiles = m_weldFeat->getTiles();
@@ -502,7 +502,7 @@ void TaskWeldingSymbol::getTileFeats(void)
 }
 
 //******************************************************************************
-TechDraw::DrawWeldSymbol* TaskWeldingSymbol::createWeldingSymbol(void)
+TechDraw::DrawWeldSymbol* TaskWeldingSymbol::createWeldingSymbol()
 {
 //    Base::Console().Message("TWS::createWeldingSymbol()\n");
 
@@ -549,7 +549,7 @@ TechDraw::DrawWeldSymbol* TaskWeldingSymbol::createWeldingSymbol(void)
     return newSym;
 }
 
-void TaskWeldingSymbol::updateWeldingSymbol(void)
+void TaskWeldingSymbol::updateWeldingSymbol()
 {
 //    Base::Console().Message("TWS::updateWeldingSymbol()\n");
     std::string symbolName = m_weldFeat->getNameInDocument();
@@ -575,7 +575,7 @@ void TaskWeldingSymbol::updateWeldingSymbol(void)
                            symbolName.c_str(), tailText.c_str());
 }
 
-void TaskWeldingSymbol::updateTiles(void)
+void TaskWeldingSymbol::updateTiles()
 {
 //    Base::Console().Message("TWS::updateTiles()\n");
     getTileFeats();

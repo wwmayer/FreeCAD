@@ -66,7 +66,7 @@ void ViewProviderTile::setDisplayMode(const char* ModeName)
     ViewProviderDocumentObject::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderTile::getDisplayModes(void) const
+std::vector<std::string> ViewProviderTile::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderDocumentObject::getDisplayModes();

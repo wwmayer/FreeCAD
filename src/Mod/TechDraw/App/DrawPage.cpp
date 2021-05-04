@@ -73,7 +73,7 @@ const char* DrawPage::ProjectionTypeEnums[] = { "First Angle",
                                                 "Third Angle",
                                                 nullptr };
 
-DrawPage::DrawPage(void)
+DrawPage::DrawPage()
 {
     static const char *group = "Page";
     nowUnsetting = false;
@@ -161,7 +161,7 @@ void DrawPage::onChanged(const App::Property* prop)
 }
 
 //Page is just a container. It doesn't "do" anything.
-App::DocumentObjectExecReturn *DrawPage::execute(void)
+App::DocumentObjectExecReturn *DrawPage::execute()
 {
     return App::DocumentObject::StdReturn;
 }
@@ -182,7 +182,7 @@ short DrawPage::mustExecute() const
     return App::DocumentObject::mustExecute();
 }
 
-PyObject *DrawPage::getPyObject(void)
+PyObject *DrawPage::getPyObject()
 {
     if (PythonObject.is(Py::_None())){
         // ref counter is set to 1
@@ -314,7 +314,7 @@ int DrawPage::removeView(App::DocumentObject *docObj)
     return Views.getSize();
 }
 
-void DrawPage::requestPaint(void)
+void DrawPage::requestPaint()
 {
     signalGuiPaint(this);
 }
@@ -383,7 +383,7 @@ void DrawPage::updateAllViews()
 
 }
 
-std::vector<App::DocumentObject*> DrawPage::getAllViews(void) 
+std::vector<App::DocumentObject*> DrawPage::getAllViews() 
 {
     auto views = Views.getValues();   //list of docObjects
     std::vector<App::DocumentObject*> allViews;
@@ -440,7 +440,7 @@ void DrawPage::unsetupObject()
     Template.setValue(nullptr);
 }
 
-int DrawPage::getNextBalloonIndex(void)
+int DrawPage::getNextBalloonIndex()
 {
     int result = NextBalloonIndex.getValue();
     int newValue = result + 1;
@@ -471,7 +471,7 @@ void DrawPage::handleChangedPropertyType(
 }
 
 //allow/prevent drawing updates for all Pages
-bool DrawPage::GlobalUpdateDrawings(void)
+bool DrawPage::GlobalUpdateDrawings()
 {
     Base::Reference<ParameterGrp> hGrp = App::GetApplication().GetUserParameter()
           .GetGroup("BaseApp")->GetGroup("Preferences")->GetGroup("Mod/TechDraw/General");
@@ -480,7 +480,7 @@ bool DrawPage::GlobalUpdateDrawings(void)
 }
 
 //allow/prevent a single page to update despite GlobalUpdateDrawings setting
-bool DrawPage::AllowPageOverride(void)
+bool DrawPage::AllowPageOverride()
 {
     Base::Reference<ParameterGrp> hGrp = App::GetApplication().GetUserParameter()
           .GetGroup("BaseApp")->GetGroup("Preferences")->GetGroup("Mod/TechDraw/General");
@@ -494,7 +494,7 @@ bool DrawPage::AllowPageOverride(void)
 namespace App {
 /// @cond DOXERR
 PROPERTY_SOURCE_TEMPLATE(TechDraw::DrawPagePython, TechDraw::DrawPage)
-template<> const char* TechDraw::DrawPagePython::getViewProviderName(void) const {
+template<> const char* TechDraw::DrawPagePython::getViewProviderName() const {
     return "TechDrawGui::ViewProviderPage";
 }
 /// @endcond

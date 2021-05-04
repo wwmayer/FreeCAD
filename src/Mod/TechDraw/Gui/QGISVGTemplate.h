@@ -59,7 +59,7 @@ public:
 protected:
     void openFile(const QFile &file);
     void load (const QString & fileName);
-    void createClickHandles(void);
+    void createClickHandles();
 
 protected:
     bool firstTime;

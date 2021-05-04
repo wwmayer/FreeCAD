@@ -61,7 +61,7 @@ void ViewProviderSpreadsheet::setDisplayMode(const char* ModeName)
     ViewProviderSymbol::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderSpreadsheet::getDisplayModes(void) const
+std::vector<std::string> ViewProviderSpreadsheet::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderSymbol::getDisplayModes();

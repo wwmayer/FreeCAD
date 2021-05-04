@@ -51,9 +51,9 @@ public:
     void alignTo(QGIProjGroup *, const QString &alignment);
 
     virtual void updateView(bool update = false) override;
-    virtual void rotateView(void) override;
+    virtual void rotateView() override;
 
-    virtual void drawBorder(void) override;
+    virtual void drawBorder() override;
 
 protected:
     virtual bool sceneEventFilter(QGraphicsItem* watched, QEvent *event) override;
@@ -66,7 +66,7 @@ protected:
 
 private:
     /// Convenience function
-    TechDraw::DrawProjGroup * getDrawView(void) const;
+    TechDraw::DrawProjGroup * getDrawView() const;
 
     QGraphicsItem* m_origin;
     QPoint mousePos;

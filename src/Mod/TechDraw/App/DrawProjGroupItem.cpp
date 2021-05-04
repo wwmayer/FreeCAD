@@ -60,7 +60,7 @@ const char* DrawProjGroupItem::TypeEnums[] = {"Front",
 
 PROPERTY_SOURCE(TechDraw::DrawProjGroupItem, TechDraw::DrawViewPart)
 
-DrawProjGroupItem::DrawProjGroupItem(void)
+DrawProjGroupItem::DrawProjGroupItem()
 {
     Type.setEnums(TypeEnums);
     ADD_PROPERTY(Type, ((long)0));
@@ -101,7 +101,7 @@ void DrawProjGroupItem::onChanged(const App::Property *prop)
     TechDraw::DrawViewPart::onChanged(prop);
 }
 
-bool DrawProjGroupItem::isLocked(void) const
+bool DrawProjGroupItem::isLocked() const
 {
     if (isAnchor()) {                             //Anchor view is always locked to DPG
         return true;
@@ -109,7 +109,7 @@ bool DrawProjGroupItem::isLocked(void) const
     return DrawView::isLocked();
 }
 
-bool DrawProjGroupItem::showLock(void) const
+bool DrawProjGroupItem::showLock() const
 {
     bool result = DrawView::showLock();
     DrawProjGroup* parent = getPGroup();
@@ -126,7 +126,7 @@ bool DrawProjGroupItem::showLock(void) const
     return result;
 }
 
-App::DocumentObjectExecReturn *DrawProjGroupItem::execute(void)
+App::DocumentObjectExecReturn *DrawProjGroupItem::execute()
 {
 //    Base::Console().Message("DPGI::execute(%s)\n",Label.getValue());
 
@@ -189,7 +189,7 @@ DrawProjGroup* DrawProjGroupItem::getPGroup() const
     return result;
 }
 
-bool DrawProjGroupItem::isAnchor(void) const
+bool DrawProjGroupItem::isAnchor() const
 {
     bool result = false;
     auto group = getPGroup();
@@ -236,7 +236,7 @@ gp_Ax2 DrawProjGroupItem::getViewAxis(const Base::Vector3d& pt,
     return viewAxis;
 }
 
-Base::Vector3d DrawProjGroupItem::getXDirection(void) const
+Base::Vector3d DrawProjGroupItem::getXDirection() const
 {
 //    Base::Console().Message("DPGI::getXDirection() - %s\n", Label.getValue());
     Base::Vector3d result(1.0, 0.0, 0.0);               //default X
@@ -320,7 +320,7 @@ double DrawProjGroupItem::getRotateAngle()
     return angle;
 }
 
-double DrawProjGroupItem::getScale(void) const
+double DrawProjGroupItem::getScale() const
 {
     double result = 1.0;
     auto pgroup = getPGroup();
@@ -349,7 +349,7 @@ void DrawProjGroupItem::unsetupObject()
     DrawViewPart::unsetupObject();
 }
 
-PyObject *DrawProjGroupItem::getPyObject(void)
+PyObject *DrawProjGroupItem::getPyObject()
 {
     if (PythonObject.is(Py::_None())) {
         // ref counter is set to 1

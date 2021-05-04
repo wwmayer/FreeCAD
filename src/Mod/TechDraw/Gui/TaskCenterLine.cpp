@@ -340,7 +340,7 @@ void TaskCenterLine::onFlipChanged()
 
 
 //******************************************************************************
-void TaskCenterLine::createCenterLine(void)
+void TaskCenterLine::createCenterLine()
 {
 //    Base::Console().Message("TCL::createCenterLine() - m_type: %d\n", m_type);
     Gui::Command::openCommand(QT_TRANSLATE_NOOP("Command", "Create CenterLine"));
@@ -385,7 +385,7 @@ void TaskCenterLine::createCenterLine(void)
     Gui::Command::commitCommand();
 }
 
-void TaskCenterLine::updateCenterLine(void)
+void TaskCenterLine::updateCenterLine()
 {
 //    Base::Console().Message("TCL::updateCenterLine()\n");
     Gui::Command::openCommand(QT_TRANSLATE_NOOP("Command", "Edit CenterLine"));
@@ -456,7 +456,7 @@ QColor TaskCenterLine::getCenterColor()
     return PreferencesGui::centerQColor();
 }
 
-double TaskCenterLine::getExtendBy(void)
+double TaskCenterLine::getExtendBy()
 {
     Base::Reference<ParameterGrp> hGrp = App::GetApplication().GetUserParameter().GetGroup("BaseApp")->
                                          GetGroup("Preferences")->GetGroup("Mod/TechDraw/Decorations");

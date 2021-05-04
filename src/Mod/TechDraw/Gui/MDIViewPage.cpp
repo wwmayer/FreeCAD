@@ -176,7 +176,7 @@ MDIViewPage::~MDIViewPage()
     connectDeletedObject.disconnect();
 }
 
-void MDIViewPage::addChildrenToPage(void)
+void MDIViewPage::addChildrenToPage()
 {
      // A fresh page is added and we iterate through its collected children and add these to Canvas View  -MLP
      // if docobj is a featureviewcollection (ex orthogroup), add its child views. if there are ever children that have children,
@@ -209,7 +209,7 @@ void MDIViewPage::addChildrenToPage(void)
     viewAll();
 }
 
-void MDIViewPage::matchSceneRectToTemplate(void)
+void MDIViewPage::matchSceneRectToTemplate()
 {
     App::DocumentObject *obj = m_vpPage->getDrawPage()->Template.getValue();
     auto pageTemplate( dynamic_cast<TechDraw::DrawTemplate *>(obj) );
@@ -221,7 +221,7 @@ void MDIViewPage::matchSceneRectToTemplate(void)
     }
 }
 
-void MDIViewPage::setDimensionGroups(void)
+void MDIViewPage::setDimensionGroups()
 {
     const std::vector<QGIView *> &allItems = m_view->getViews();
     std::vector<QGIView *>::const_iterator itInspect;
@@ -238,7 +238,7 @@ void MDIViewPage::setDimensionGroups(void)
     }
 }
 
-void MDIViewPage::setBalloonGroups(void)
+void MDIViewPage::setBalloonGroups()
 {
     const std::vector<QGIView *> &allItems = m_view->getViews();
     std::vector<QGIView *>::const_iterator itInspect;
@@ -255,7 +255,7 @@ void MDIViewPage::setBalloonGroups(void)
     }
 }
 
-void MDIViewPage::setLeaderGroups(void)
+void MDIViewPage::setLeaderGroups()
 {
 //    Base::Console().Message("MDIVP::setLeaderGroups()\n");
     const std::vector<QGIView *> &allItems = m_view->getViews();
@@ -327,7 +327,7 @@ QPointF MDIViewPage::getTemplateCenter(TechDraw::DrawTemplate *obj)
     return result;
 }
 
-void MDIViewPage::centerOnPage(void)
+void MDIViewPage::centerOnPage()
 {
     App::DocumentObject *obj = m_vpPage->getDrawPage()->Template.getValue();
     auto pageTemplate( dynamic_cast<TechDraw::DrawTemplate *>(obj) );
@@ -808,12 +808,12 @@ void MDIViewPage::contextMenuEvent(QContextMenuEvent *event)
     menu.exec(event->globalPos());
 }
 
-void MDIViewPage::toggleFrame(void)
+void MDIViewPage::toggleFrame()
 {
     m_vpPage->toggleFrameState();
 }
 
-void MDIViewPage::toggleKeepUpdated(void)
+void MDIViewPage::toggleKeepUpdated()
 {
     bool state = m_vpPage->getDrawPage()->KeepUpdated.getValue();
     m_vpPage->getDrawPage()->KeepUpdated.setValue(!state);
@@ -1105,7 +1105,7 @@ void MDIViewPage::sceneSelectionChanged()
 }
 
 //Note: Qt says: "no guarantee of selection order"!!!
-void MDIViewPage::setTreeToSceneSelect(void)
+void MDIViewPage::setTreeToSceneSelect()
 {
     bool saveBlock = blockConnection(true); // block selectionChanged signal from Tree/Observer
     blockSelection(true);

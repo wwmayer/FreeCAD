@@ -71,7 +71,7 @@ App::PropertyFloatConstraint::Constraints DrawView::scaleRange = {Precision::Con
 
 PROPERTY_SOURCE(TechDraw::DrawView, App::DocumentObject)
 
-DrawView::DrawView(void):
+DrawView::DrawView():
     autoPos(true),
     mouseMove(false)
 {
@@ -93,7 +93,7 @@ DrawView::~DrawView()
 {
 }
 
-App::DocumentObjectExecReturn *DrawView::recompute(void)
+App::DocumentObjectExecReturn *DrawView::recompute()
 {
     try {
         return App::DocumentObject::recompute();
@@ -106,7 +106,7 @@ App::DocumentObjectExecReturn *DrawView::recompute(void)
     }
 }
 
-App::DocumentObjectExecReturn *DrawView::execute(void)
+App::DocumentObjectExecReturn *DrawView::execute()
 {
 //    Base::Console().Message("DV::execute() - %s touched: %d\n", getNameInDocument(), isTouched());
     if (findParentPage() == nullptr) {
@@ -121,7 +121,7 @@ App::DocumentObjectExecReturn *DrawView::execute(void)
     return App::DocumentObject::StdReturn;
 }
 
-void DrawView::checkScale(void)
+void DrawView::checkScale()
 {
     TechDraw::DrawPage *page = findParentPage();
     if(page &&
@@ -180,18 +180,18 @@ void DrawView::onChanged(const App::Property* prop)
     App::DocumentObject::onChanged(prop);
 }
 
-bool DrawView::isLocked(void) const
+bool DrawView::isLocked() const
 {
     return LockPosition.getValue();
 }
 
-bool DrawView::showLock(void) const
+bool DrawView::showLock() const
 {
     return true;
 }
 
 //override this for View inside a group (ex DPGI in DPG)
-void DrawView::handleXYLock(void) 
+void DrawView::handleXYLock() 
 {
     if (isLocked()) {
         if (!X.testStatus(App::Property::ReadOnly)) {
@@ -274,7 +274,7 @@ bool DrawView::isInClip()
     return false;
 }
 
-DrawViewClip* DrawView::getClipGroup(void)
+DrawViewClip* DrawView::getClipGroup()
 {
     std::vector<App::DocumentObject*> parent = getInList();
     App::DocumentObject* obj = nullptr;
@@ -290,7 +290,7 @@ DrawViewClip* DrawView::getClipGroup(void)
     return result;
 }
 
-double DrawView::autoScale(void) const
+double DrawView::autoScale() const
 {
     auto page = findParentPage();
     double w = page->getPageWidth();
@@ -317,7 +317,7 @@ double DrawView::autoScale(double pw, double ph) const
     return sensibleScale;
 }
 
-bool DrawView::checkFit(void) const
+bool DrawView::checkFit() const
 {
     auto page = findParentPage();
     return checkFit(page);
@@ -359,7 +359,7 @@ void DrawView::setPosition(double x, double y, bool force)
 }
 
 //TODO: getScale is no longer needed and could revert to Scale.getValue
-double DrawView::getScale(void) const
+double DrawView::getScale() const
 {
     auto result = Scale.getValue();
     if (!(result > 0.0)) {
@@ -460,7 +460,7 @@ void DrawView::handleChangedPropertyType(
     }
 }
 
-bool DrawView::keepUpdated(void)
+bool DrawView::keepUpdated()
 {
 //    Base::Console().Message("DV::keepUpdated() - %s\n", getNameInDocument());
     bool result = false;
@@ -487,7 +487,7 @@ bool DrawView::keepUpdated(void)
     return result;
 }
 
-int DrawView::prefScaleType(void)
+int DrawView::prefScaleType()
 {
     Base::Reference<ParameterGrp> hGrp = App::GetApplication().GetUserParameter()
           .GetGroup("BaseApp")->GetGroup("Preferences")->GetGroup("Mod/TechDraw/General");
@@ -495,7 +495,7 @@ int DrawView::prefScaleType(void)
     return result;
 }
 
-double DrawView::prefScale(void)
+double DrawView::prefScale()
 {
     Base::Reference<ParameterGrp> hGrp = App::GetApplication().GetUserParameter()
           .GetGroup("BaseApp")->GetGroup("Preferences")->GetGroup("Mod/TechDraw/General");
@@ -503,13 +503,13 @@ double DrawView::prefScale(void)
     return result;
 }
 
-void DrawView::requestPaint(void)
+void DrawView::requestPaint()
 {
 //    Base::Console().Message("DV::requestPaint() - %s\n", getNameInDocument());
     signalGuiPaint(this);
 }
 
-PyObject *DrawView::getPyObject(void)
+PyObject *DrawView::getPyObject()
 {
     if (PythonObject.is(Py::_None())) {
         // ref counter is set to 1
@@ -523,7 +523,7 @@ PyObject *DrawView::getPyObject(void)
 namespace App {
 /// @cond DOXERR
 PROPERTY_SOURCE_TEMPLATE(TechDraw::DrawViewPython, TechDraw::DrawView)
-template<> const char* TechDraw::DrawViewPython::getViewProviderName(void) const {
+template<> const char* TechDraw::DrawViewPython::getViewProviderName() const {
     return "TechDrawGui::ViewProviderDrawingView";
 }
 /// @endcond

@@ -54,26 +54,26 @@ public:
 
     virtual void attach(App::DocumentObject *);
 /*    virtual void setDisplayMode(const char* ModeName);*/
-    virtual bool useNewSelectionModel(void) const {return false;}
+    virtual bool useNewSelectionModel() const {return false;}
 /*    virtual std::vector<std::string> getDisplayModes(void) const;*/
     virtual void updateData(const App::Property*);
     virtual void onChanged(const App::Property* p);
     virtual bool setEdit(int ModNum);
     virtual void unsetEdit(int ModNum);
-    virtual bool doubleClicked(void);
+    virtual bool doubleClicked();
     virtual bool onDelete(const std::vector<std::string> &);
     virtual bool canDelete(App::DocumentObject* obj) const;
 
     static const char* LineStyleEnums[];
 
-    std::vector<App::DocumentObject*> claimChildren(void) const;
+    std::vector<App::DocumentObject*> claimChildren() const;
 
     virtual TechDraw::DrawLeaderLine* getViewObject() const;
     TechDraw::DrawLeaderLine* getFeature()  const;
 
 protected:
-    double getDefLineWeight(void);
-    App::Color getDefLineColor(void);
+    double getDefLineWeight();
+    App::Color getDefLineColor();
     virtual void handleChangedPropertyType(Base::XMLReader &reader, const char *TypeName, App::Property * prop);
 
 private:

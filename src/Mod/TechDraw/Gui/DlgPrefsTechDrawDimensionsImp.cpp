@@ -109,7 +109,7 @@ void DlgPrefsTechDrawDimensionsImp::changeEvent(QEvent *e)
     }
 }
 
-int DlgPrefsTechDrawDimensionsImp::prefArrowStyle(void) const
+int DlgPrefsTechDrawDimensionsImp::prefArrowStyle() const
 {
     return PreferencesGui::dimArrowStyle();
 }

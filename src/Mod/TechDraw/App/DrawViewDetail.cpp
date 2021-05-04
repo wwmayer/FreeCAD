@@ -189,7 +189,7 @@ void DrawViewDetail::onChanged(const App::Property* prop)
     DrawView::onChanged(prop);
 }
 
-App::DocumentObjectExecReturn *DrawViewDetail::execute(void)
+App::DocumentObjectExecReturn *DrawViewDetail::execute()
 {
 //    Base::Console().Message("DVD::execute() - %s\n", Label.getValue());
     if (!keepUpdated()) {
@@ -455,7 +455,7 @@ double DrawViewDetail::getFudgeRadius()
     return Radius.getValue() * m_fudge;
 }
 
-bool DrawViewDetail::debugDetail(void) const
+bool DrawViewDetail::debugDetail() const
 {
     Base::Reference<ParameterGrp> hGrp = App::GetApplication().GetUserParameter()
         .GetGroup("BaseApp")->GetGroup("Preferences")->GetGroup("Mod/TechDraw/debug");
@@ -483,7 +483,7 @@ void DrawViewDetail::getParameters()
 namespace App {
 /// @cond DOXERR
 PROPERTY_SOURCE_TEMPLATE(TechDraw::DrawViewDetailPython, TechDraw::DrawViewDetail)
-template<> const char* TechDraw::DrawViewDetailPython::getViewProviderName(void) const {
+template<> const char* TechDraw::DrawViewDetailPython::getViewProviderName() const {
     return "TechDrawGui::ViewProviderViewPart";
 }
 /// @endcond

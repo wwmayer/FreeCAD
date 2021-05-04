@@ -55,7 +55,7 @@ public:
     void setViewSymbolFeature(TechDraw::DrawViewSymbol *obj);
 
     virtual void draw() override;
-    virtual void rotateView(void) override;
+    virtual void rotateView() override;
 
 
 protected:

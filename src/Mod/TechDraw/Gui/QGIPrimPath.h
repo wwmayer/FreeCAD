@@ -67,7 +67,7 @@ public:
     void setFill(QBrush b);
     void resetFill();
     void setFillColor(QColor c);
-    QColor getFillColor(void) { return m_colDefFill; }
+    QColor getFillColor() { return m_colDefFill; }
     void setFillOverride(bool b) { m_fillOverride = b; }
 
 protected:
@@ -76,11 +76,11 @@ protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
-    virtual QColor getNormalColor(void);
-    virtual QColor getPreColor(void);
-    virtual QColor getSelectColor(void);
-    Base::Reference<ParameterGrp> getParmGroup(void);
-    virtual Qt::PenCapStyle prefCapStyle(void);
+    virtual QColor getNormalColor();
+    virtual QColor getPreColor();
+    virtual QColor getSelectColor();
+    Base::Reference<ParameterGrp> getParmGroup();
+    virtual Qt::PenCapStyle prefCapStyle();
 
     bool isHighlighted;
 

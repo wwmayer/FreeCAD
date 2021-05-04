@@ -36,8 +36,8 @@ namespace TechDrawGui
 class TechDrawGuiExport Rez
 {
 public:
-    static double getParameter(void);
-    static double getRezFactor(void);
+    static double getParameter();
+    static double getRezFactor();
     static void setRezFactor(double f);
 //turn App side value to Gui side value
     static double guiX(double x);

@@ -53,10 +53,10 @@ class TechDrawGuiExport QGITile : public QGIDecoration
 {
 public:
     explicit QGITile(TechDraw::DrawTileWeld*);
-    ~QGITile(void);
+    ~QGITile();
 
     enum {Type = QGraphicsItem::UserType + 325};
-    int type(void) const { return Type;}
+    int type() const { return Type;}
 
     virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr );
     virtual QRectF boundingRect() const;
@@ -71,28 +71,28 @@ public:
     void setTileScale(double s);
     void setTailRight(bool b) { m_tailRight = b; }
     void setAltWeld(bool b) { m_altWeld = b; }
-    bool isTailRight(void);
-    virtual void draw(void);
+    bool isTailRight();
+    virtual void draw();
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
-    QColor getTileColor(void) const;
+    QColor getTileColor() const;
     void setPrettyNormal();
     void setPrettyPre();
     void setPrettySel();
 
-    double getSymbolWidth(void) const;
-    double getSymbolHeight(void) const;
-    double getSymbolFactor(void) const;
+    double getSymbolWidth() const;
+    double getSymbolHeight() const;
+    double getSymbolFactor() const;
     QByteArray getSvgString(QString svgPath);
 
-    QString prefTextFont(void) const;
-    double prefFontSize(void) const;
-    void makeSymbol(void);
-    void makeText(void);
+    QString prefTextFont() const;
+    double prefFontSize() const;
+    void makeSymbol();
+    void makeText();
 
-    bool getAltWeld(void);
+    bool getAltWeld();
     bool isReadable(QString filePath);
     std::string getStringFromFile(std::string inSpec);
 

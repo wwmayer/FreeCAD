@@ -201,7 +201,7 @@ void TaskCosmeticLine::setUiEdit()
 }
 
 //******************************************************************************
-void TaskCosmeticLine::createCosmeticLine(void)
+void TaskCosmeticLine::createCosmeticLine()
 {
     double x = ui->qsbx1->value().getValue();
     double y = ui->qsby1->value().getValue();
@@ -229,7 +229,7 @@ void TaskCosmeticLine::createCosmeticLine(void)
     m_ce = m_partFeat->getCosmeticEdge(m_tag);
 }
 
-void TaskCosmeticLine::updateCosmeticLine(void)
+void TaskCosmeticLine::updateCosmeticLine()
 {
     double x = ui->qsbx1->value().getValue();
     double y = ui->qsby1->value().getValue();

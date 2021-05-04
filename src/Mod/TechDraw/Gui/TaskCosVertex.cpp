@@ -151,7 +151,7 @@ void TaskCosVertex::setUiPrimary()
     ui->dsbY->setUnit(Base::Unit::Length);
 }
 
-void TaskCosVertex::updateUi(void)
+void TaskCosVertex::updateUi()
 {
     double x = m_savePoint.x();
     double y = - m_savePoint.y();
@@ -202,7 +202,7 @@ void TaskCosVertex::onTrackerClicked(bool b)
     enableTaskButtons(false);
 }
 
-void TaskCosVertex::startTracker(void)
+void TaskCosVertex::startTracker()
 {
 //    Base::Console().Message("TCV::startTracker()\n");
     if (m_trackerMode == QGTracker::TrackerMode::None) {
@@ -271,7 +271,7 @@ void TaskCosVertex::onTrackerFinished(std::vector<QPointF> pts, QGIView* qgParen
 
 }
 
-void TaskCosVertex::removeTracker(void)
+void TaskCosVertex::removeTracker()
 {
 //    Base::Console().Message("TCV::removeTracker()\n");
     if ( (m_tracker != nullptr) &&
@@ -290,7 +290,7 @@ void TaskCosVertex::setEditCursor(QCursor c)
     }
 }
 
-void TaskCosVertex::abandonEditSession(void)
+void TaskCosVertex::abandonEditSession()
 {
     QString msg = tr("In progress edit abandoned. Start over.");
     getMainWindow()->statusBar()->show();

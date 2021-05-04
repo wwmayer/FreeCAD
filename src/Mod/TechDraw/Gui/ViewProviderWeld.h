@@ -51,22 +51,22 @@ public:
 
     virtual void attach(App::DocumentObject *);
     virtual void setDisplayMode(const char* ModeName);
-    virtual bool useNewSelectionModel(void) const {return false;}
+    virtual bool useNewSelectionModel() const {return false;}
     /// returns a list of all possible modes
-    virtual std::vector<std::string> getDisplayModes(void) const;
+    virtual std::vector<std::string> getDisplayModes() const;
     virtual void updateData(const App::Property*);
     virtual void onChanged(const App::Property* p);
-    virtual std::vector<App::DocumentObject*> claimChildren(void) const;
+    virtual std::vector<App::DocumentObject*> claimChildren() const;
     virtual bool setEdit(int ModNum);
     virtual void unsetEdit(int ModNum);
-    virtual bool doubleClicked(void);
+    virtual bool doubleClicked();
 
     virtual TechDraw::DrawWeldSymbol* getViewObject() const;
     virtual TechDraw::DrawWeldSymbol* getFeature() const;
 
-    std::string prefFontName(void);
-    double prefFontSize(void);
-    double prefTileTextAdjust(void);
+    std::string prefFontName();
+    double prefFontSize();
+    double prefTileTextAdjust();
     virtual bool onDelete(const std::vector<std::string> &);
     virtual bool canDelete(App::DocumentObject* obj) const;
     

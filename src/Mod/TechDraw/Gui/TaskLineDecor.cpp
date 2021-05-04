@@ -104,7 +104,7 @@ void TaskLineDecor::initUi()
     ui->cb_Visible->setCurrentIndex(m_visible);
 }
 
-void TaskLineDecor::getDefaults(void) 
+void TaskLineDecor::getDefaults() 
 {
 //    Base::Console().Message("TLD::getDefaults()\n");
     m_style = LineFormat::getDefEdgeStyle();
@@ -154,35 +154,35 @@ void TaskLineDecor::getDefaults(void)
     }
 }
 
-void TaskLineDecor::onStyleChanged(void)
+void TaskLineDecor::onStyleChanged()
 {
     m_style = ui->cb_Style->currentIndex() + 1;
     applyDecorations();
     m_partFeat->requestPaint();
 }
 
-void TaskLineDecor::onColorChanged(void)
+void TaskLineDecor::onColorChanged()
 {
     m_color.setValue<QColor>(ui->cc_Color->color());
     applyDecorations();
     m_partFeat->requestPaint();
 }
 
-void TaskLineDecor::onWeightChanged(void)
+void TaskLineDecor::onWeightChanged()
 {
     m_weight = ui->dsb_Weight->value().getValue();
     applyDecorations();
     m_partFeat->requestPaint();
 }
 
-void TaskLineDecor::onVisibleChanged(void)
+void TaskLineDecor::onVisibleChanged()
 {
     m_visible = ui->cb_Visible->currentIndex();
     applyDecorations();
     m_partFeat->requestPaint();
 }
 
-void TaskLineDecor::applyDecorations(void)
+void TaskLineDecor::applyDecorations()
 {
 //    Base::Console().Message("TLD::applyDecorations()\n");
     for (auto& e: m_edges) {
@@ -289,7 +289,7 @@ void TaskRestoreLines::initUi()
     ui->l_Center->setText(QString::number(countInvisibleCenters()));
 }
 
-void TaskRestoreLines::onAllPressed(void)
+void TaskRestoreLines::onAllPressed()
 {
 //    Base::Console().Message("TRL::onAllPressed()\n");
     onGeometryPressed();
@@ -297,7 +297,7 @@ void TaskRestoreLines::onAllPressed(void)
     onCenterPressed();
 }
 
-void TaskRestoreLines::onGeometryPressed(void)
+void TaskRestoreLines::onGeometryPressed()
 {
 //    Base::Console().Message("TRL::onGeometryPressed()\n");
     restoreInvisibleGeoms();
@@ -305,7 +305,7 @@ void TaskRestoreLines::onGeometryPressed(void)
     ui->l_All->setText(QString::number(countInvisibleLines()));
 }
 
-void TaskRestoreLines::onCosmeticPressed(void)
+void TaskRestoreLines::onCosmeticPressed()
 {
 //    Base::Console().Message("TRL::onCosmeticPressed()\n");
     restoreInvisibleCosmetics();
@@ -313,7 +313,7 @@ void TaskRestoreLines::onCosmeticPressed(void)
     ui->l_All->setText(QString::number(countInvisibleLines()));
 }
 
-void TaskRestoreLines::onCenterPressed(void)
+void TaskRestoreLines::onCenterPressed()
 {
 //    Base::Console().Message("TRL::onCenterPressed()\n");
     restoreInvisibleCenters();
@@ -321,7 +321,7 @@ void TaskRestoreLines::onCenterPressed(void)
     ui->l_All->setText(QString::number(countInvisibleLines()));
 }
 
-int TaskRestoreLines::countInvisibleLines(void)
+int TaskRestoreLines::countInvisibleLines()
 {
     int result = 0;
     result += countInvisibleGeoms();
@@ -330,7 +330,7 @@ int TaskRestoreLines::countInvisibleLines(void)
     return result;
 }
 
-int TaskRestoreLines::countInvisibleGeoms(void)
+int TaskRestoreLines::countInvisibleGeoms()
 {
     int iGeoms = 0;
     const std::vector<TechDraw::GeomFormat*> geoms = m_partFeat->GeomFormats.getValues();
@@ -342,7 +342,7 @@ int TaskRestoreLines::countInvisibleGeoms(void)
     return iGeoms;
 }
 
-int TaskRestoreLines::countInvisibleCosmetics(void)
+int TaskRestoreLines::countInvisibleCosmetics()
 {
     int iCosmos = 0;
     const std::vector<TechDraw::CosmeticEdge*> cosmos = m_partFeat->CosmeticEdges.getValues();
@@ -354,7 +354,7 @@ int TaskRestoreLines::countInvisibleCosmetics(void)
     return iCosmos++;
 }
 
-int TaskRestoreLines::countInvisibleCenters(void)
+int TaskRestoreLines::countInvisibleCenters()
 {
     int iCenter = 0;
     const std::vector<TechDraw::CenterLine*> centers = m_partFeat->CenterLines.getValues();
@@ -366,14 +366,14 @@ int TaskRestoreLines::countInvisibleCenters(void)
     return iCenter++;
 }
 
-void TaskRestoreLines::restoreInvisibleLines(void)
+void TaskRestoreLines::restoreInvisibleLines()
 {
     restoreInvisibleGeoms();
     restoreInvisibleCosmetics();
     restoreInvisibleCenters();
 }
 
-void TaskRestoreLines::restoreInvisibleGeoms(void)
+void TaskRestoreLines::restoreInvisibleGeoms()
 {
     const std::vector<TechDraw::GeomFormat*> geoms = m_partFeat->GeomFormats.getValues();
     for (auto& g : geoms) {
@@ -385,7 +385,7 @@ void TaskRestoreLines::restoreInvisibleGeoms(void)
     m_parent->apply(false);                   //don't undo the work we just did
 }
 
-void TaskRestoreLines::restoreInvisibleCosmetics(void)
+void TaskRestoreLines::restoreInvisibleCosmetics()
 {
     const std::vector<TechDraw::CosmeticEdge*> cosmos = m_partFeat->CosmeticEdges.getValues();
     for (auto& c : cosmos) {
@@ -397,7 +397,7 @@ void TaskRestoreLines::restoreInvisibleCosmetics(void)
     m_parent->apply(false);                   //don't undo the work we just did
 }
 
-void TaskRestoreLines::restoreInvisibleCenters(void)
+void TaskRestoreLines::restoreInvisibleCenters()
 {
     const std::vector<TechDraw::CenterLine*> centers = m_partFeat->CenterLines.getValues();
     for (auto& c : centers) {

@@ -101,7 +101,7 @@ QStringList TaskHatch::listToQ(std::vector<std::string> in)
     return result;
 }
 
-void TaskHatch::onFileChanged(void)
+void TaskHatch::onFileChanged()
 {
     m_file = ui->fcFile->fileName().toUtf8().constData();
     m_hatch->HatchPattern.setValue(m_file);

@@ -46,7 +46,7 @@ class TechDrawGuiExport QGMText : public QGCustomText
 Q_OBJECT
 
 public:
-    explicit QGMText(void);
+    explicit QGMText();
     ~QGMText() {}
 
     enum {Type = QGraphicsItem::UserType + 300};
@@ -57,7 +57,7 @@ public:
 
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
     virtual void showBox(bool b) { m_showBox = b; }
-    virtual bool showBox(void) { return m_showBox; }
+    virtual bool showBox() { return m_showBox; }
 
     virtual void setPrettyNormal() override;
     virtual void setPrettyPre() override;

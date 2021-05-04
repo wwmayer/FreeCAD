@@ -77,7 +77,7 @@ public:
     std::string symbolPath;
     std::string symbolString;
     std::string tileName;
-    void init(void) {
+    void init() {
         toBeSaved = false;
         arrowSide = true;
         row = 0;
@@ -128,18 +128,18 @@ protected Q_SLOTS:
 
 protected:
     void changeEvent(QEvent *e);
-    void setUiPrimary(void);
+    void setUiPrimary();
     void setUiEdit();
 
-    TechDraw::DrawWeldSymbol* createWeldingSymbol(void);
-    void updateWeldingSymbol(void);
+    TechDraw::DrawWeldSymbol* createWeldingSymbol();
+    void updateWeldingSymbol();
 
 /*    std::vector<App::DocumentObject*> createTiles(void);*/
-    void getTileFeats(void);
-    void updateTiles(void);
+    void getTileFeats();
+    void updateTiles();
 
-    void collectArrowData(void);
-    void collectOtherData(void);
+    void collectArrowData();
+    void collectOtherData();
 
     std::string prefSymbolDir();
 
@@ -191,7 +191,7 @@ public:
     virtual bool reject();
     /// is called by the framework if the user presses the help button
     virtual void helpRequested() { return;}
-    virtual bool isAllowedAlterDocument(void) const
+    virtual bool isAllowedAlterDocument() const
                         { return false; }
     void update();
 

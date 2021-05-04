@@ -306,7 +306,7 @@ void CmdTechDrawHatch::activated(int iMsg)
 }
 
 
-bool CmdTechDrawHatch::isActive(void)
+bool CmdTechDrawHatch::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this);
@@ -375,7 +375,7 @@ void CmdTechDrawGeometricHatch::activated(int iMsg)
     getDocument()->recompute();
 }
 
-bool CmdTechDrawGeometricHatch::isActive(void)
+bool CmdTechDrawGeometricHatch::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this);
@@ -428,7 +428,7 @@ void CmdTechDrawImage::activated(int iMsg)
     }
 }
 
-bool CmdTechDrawImage::isActive(void)
+bool CmdTechDrawImage::isActive()
 {
     return DrawGuiUtil::needPage(this);
 }
@@ -473,7 +473,7 @@ void CmdTechDrawToggleFrame::activated(int iMsg)
     }
 }
 
-bool CmdTechDrawToggleFrame::isActive(void)
+bool CmdTechDrawToggleFrame::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this,false);
@@ -481,7 +481,7 @@ bool CmdTechDrawToggleFrame::isActive(void)
 }
 
 
-void CreateTechDrawCommandsDecorate(void)
+void CreateTechDrawCommandsDecorate()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 

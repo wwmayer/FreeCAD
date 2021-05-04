@@ -335,7 +335,7 @@ QRectF QGTracker::boundingRect() const
     return scene()->sceneRect();
 }
 
-QPainterPath QGTracker::shape(void) const
+QPainterPath QGTracker::shape() const
 {
     QPainterPath result;
     result.addRect(boundingRect());
@@ -460,7 +460,7 @@ void QGTracker::setPoint(std::vector<QPointF> pts)
     setPrettyNormal();
 }
 
-std::vector<Base::Vector3d> QGTracker::convertPoints(void)
+std::vector<Base::Vector3d> QGTracker::convertPoints()
 {
     std::vector<Base::Vector3d> result;
     for (auto& p: m_points) {
@@ -470,7 +470,7 @@ std::vector<Base::Vector3d> QGTracker::convertPoints(void)
     return result;
 }
 
-void QGTracker::terminateDrawing(void)
+void QGTracker::terminateDrawing()
 {
 //    Base::Console().Message("QGTracker::terminateDrawing()\n");
     m_track->hide();

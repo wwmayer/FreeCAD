@@ -36,7 +36,7 @@ class TechDrawGuiExport ViewProviderCosmeticExtension : public Gui::ViewProvider
 
 public:
     /// Constructor
-    ViewProviderCosmeticExtension(void);
+    ViewProviderCosmeticExtension();
     virtual ~ViewProviderCosmeticExtension() = default;
 
     virtual QIcon extensionMergeGreyableOverlayIcons(const QIcon & orig) const override;

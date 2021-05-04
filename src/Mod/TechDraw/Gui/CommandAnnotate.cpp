@@ -143,7 +143,7 @@ void CmdTechDrawLeaderLine::activated(int iMsg)
     Gui::Selection().clearSelection();
 }
 
-bool CmdTechDrawLeaderLine::isActive(void)
+bool CmdTechDrawLeaderLine::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, false);
@@ -195,7 +195,7 @@ void CmdTechDrawRichTextAnnotation::activated(int iMsg)
     Gui::Selection().clearSelection();
 }
 
-bool CmdTechDrawRichTextAnnotation::isActive(void)
+bool CmdTechDrawRichTextAnnotation::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     return havePage;
@@ -249,7 +249,7 @@ void CmdTechDrawCosmeticVertexGroup::activated(int iMsg)
     Gui::Selection().clearSelection();
 }
 
-Gui::Action * CmdTechDrawCosmeticVertexGroup::createAction(void)
+Gui::Action * CmdTechDrawCosmeticVertexGroup::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -301,7 +301,7 @@ void CmdTechDrawCosmeticVertexGroup::languageChange()
     arc3->setStatusTip(arc3->toolTip());
 }
 
-bool CmdTechDrawCosmeticVertexGroup::isActive(void)
+bool CmdTechDrawCosmeticVertexGroup::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, true);
@@ -435,7 +435,7 @@ void CmdTechDrawCosmeticVertex::activated(int iMsg)
     Gui::Selection().clearSelection();
 }
 
-bool CmdTechDrawCosmeticVertex::isActive(void)
+bool CmdTechDrawCosmeticVertex::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, true);
@@ -474,7 +474,7 @@ void CmdTechDrawMidpoints::activated(int iMsg)
     Gui::Selection().clearSelection();
 }
 
-bool CmdTechDrawMidpoints::isActive(void)
+bool CmdTechDrawMidpoints::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, true);
@@ -513,7 +513,7 @@ void CmdTechDrawQuadrants::activated(int iMsg)
     Gui::Selection().clearSelection();
 }
 
-bool CmdTechDrawQuadrants::isActive(void)
+bool CmdTechDrawQuadrants::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, true);
@@ -555,7 +555,7 @@ void CmdTechDrawAnnotation::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdTechDrawAnnotation::isActive(void)
+bool CmdTechDrawAnnotation::isActive()
 {
     return DrawGuiUtil::needPage(this);
 }
@@ -605,7 +605,7 @@ void CmdTechDrawCenterLineGroup::activated(int iMsg)
     };
 }
 
-Gui::Action * CmdTechDrawCenterLineGroup::createAction(void)
+Gui::Action * CmdTechDrawCenterLineGroup::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -657,7 +657,7 @@ void CmdTechDrawCenterLineGroup::languageChange()
     arc3->setStatusTip(arc3->toolTip());
 }
 
-bool CmdTechDrawCenterLineGroup::isActive(void)
+bool CmdTechDrawCenterLineGroup::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, true);
@@ -695,7 +695,7 @@ void CmdTechDrawFaceCenterLine::activated(int iMsg)
     execCenterLine(this);
 }
 
-bool CmdTechDrawFaceCenterLine::isActive(void)
+bool CmdTechDrawFaceCenterLine::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, false);
@@ -805,7 +805,7 @@ void CmdTechDraw2LineCenterLine::activated(int iMsg)
     exec2LineCenterLine(this);
 }
 
-bool CmdTechDraw2LineCenterLine::isActive(void)
+bool CmdTechDraw2LineCenterLine::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, true);
@@ -884,7 +884,7 @@ void CmdTechDraw2PointCenterLine::activated(int iMsg)
     Gui::Selection().clearSelection();
 }
 
-bool CmdTechDraw2PointCenterLine::isActive(void)
+bool CmdTechDraw2PointCenterLine::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, true);
@@ -998,7 +998,7 @@ void CmdTechDraw2PointCosmeticLine::activated(int iMsg)
     Gui::Selection().clearSelection();
 }
 
-bool CmdTechDraw2PointCosmeticLine::isActive(void)
+bool CmdTechDraw2PointCosmeticLine::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, true);
@@ -1235,7 +1235,7 @@ void CmdTechDrawCosmeticEraser::activated(int iMsg)
     }
 }
 
-bool CmdTechDrawCosmeticEraser::isActive(void)
+bool CmdTechDrawCosmeticEraser::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, true);
@@ -1314,7 +1314,7 @@ void CmdTechDrawDecorateLine::activated(int iMsg)
     Gui::Selection().clearSelection();
 }
 
-bool CmdTechDrawDecorateLine::isActive(void)
+bool CmdTechDrawDecorateLine::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, true);
@@ -1379,7 +1379,7 @@ void CmdTechDrawShowAll::activated(int iMsg)
     }
 }
 
-bool CmdTechDrawShowAll::isActive(void)
+bool CmdTechDrawShowAll::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, true);
@@ -1443,7 +1443,7 @@ void CmdTechDrawWeldSymbol::activated(int iMsg)
     Gui::Selection().clearSelection();
 }
 
-bool CmdTechDrawWeldSymbol::isActive(void)
+bool CmdTechDrawWeldSymbol::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this, false);
@@ -1451,7 +1451,7 @@ bool CmdTechDrawWeldSymbol::isActive(void)
 }
 
 
-void CreateTechDrawCommandsAnnotate(void)
+void CreateTechDrawCommandsAnnotate()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 

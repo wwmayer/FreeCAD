@@ -52,12 +52,12 @@ public:
     App::PropertyColor       LineColor;
 
     virtual void attach(App::DocumentObject *);
-    virtual bool useNewSelectionModel(void) const {return false;}
+    virtual bool useNewSelectionModel() const {return false;}
     virtual void updateData(const App::Property*);
     virtual void onChanged(const App::Property* p);
     virtual bool setEdit(int ModNum);
     virtual void unsetEdit(int ModNum);
-    virtual bool doubleClicked(void);
+    virtual bool doubleClicked();
     virtual bool canDelete(App::DocumentObject* obj) const;
 
     static const char* LineStyleEnums[];
@@ -66,10 +66,10 @@ public:
     TechDraw::DrawRichAnno* getFeature()  const;
 
 protected:
-    App::Color getDefLineColor(void);
-    std::string getDefFont(void);
-    double getDefFontSize(void);
-    double getDefLineWeight(void);
+    App::Color getDefLineColor();
+    std::string getDefFont();
+    double getDefFontSize();
+    double getDefLineWeight();
     virtual void handleChangedPropertyType(Base::XMLReader &reader, const char *TypeName, App::Property * prop);
 
 private:

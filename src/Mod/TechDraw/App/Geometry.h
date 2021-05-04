@@ -88,14 +88,14 @@ class TechDrawExport BaseGeom
         int ref3D;                      //obs?
         TopoDS_Edge occEdge;            //projected Edge
         bool cosmetic;
-        int source(void) { return m_source; }
+        int source() { return m_source; }
         void source(int s) { m_source = s; }
-        int sourceIndex(void) { return m_sourceIndex; }
+        int sourceIndex() { return m_sourceIndex; }
         void sourceIndex(int si) { m_sourceIndex = si; }
-        std::string getCosmeticTag(void) { return cosmeticTag; }
+        std::string getCosmeticTag() { return cosmeticTag; }
         void setCosmeticTag(std::string t) { cosmeticTag = t; }
 
-        virtual std::string toString(void) const;
+        virtual std::string toString() const;
 /*        virtual bool fromCSV(std::string s);*/
         virtual void Save(Base::Writer& w) const;
         virtual void Restore(Base::XMLReader& r);
@@ -109,13 +109,13 @@ class TechDrawExport BaseGeom
         Base::Vector3d nearPoint(const BaseGeom* p);
         static BaseGeom* baseFactory(TopoDS_Edge edge);
         static bool validateEdge(TopoDS_Edge edge);
-        bool closed(void);
+        bool closed();
         BaseGeom* copy();
         std::string dump();
 
         //Uniqueness
         boost::uuids::uuid getTag() const;
-        virtual std::string getTagAsString(void) const;
+        virtual std::string getTagAsString() const;
 
 protected:
         int m_source;         //0 - geom, 1 - cosmetic edge, 2 - centerline
@@ -133,13 +133,13 @@ typedef std::vector<BaseGeom *> BaseGeomPtrVector;        //obs?
 class TechDrawExport Circle: public BaseGeom
 {
     public:
-        Circle(void);
+        Circle();
         Circle(const TopoDS_Edge &e);
         Circle(Base::Vector3d center, double radius);
         ~Circle() = default;
 
     public:
-        virtual std::string toString(void) const override;
+        virtual std::string toString() const override;
 /*        virtual bool fromCSV(std::string s) override;*/
         virtual void Save(Base::Writer& w) const override;
         virtual void Restore(Base::XMLReader& r) override;
@@ -191,11 +191,11 @@ class TechDrawExport AOC: public Circle
     public:
         AOC(const TopoDS_Edge &e);
         AOC(Base::Vector3d c, double r, double s, double e);
-        AOC(void);
+        AOC();
         ~AOC() = default;
 
     public:
-        virtual std::string toString(void) const override;
+        virtual std::string toString() const override;
 /*        virtual bool fromCSV(std::string s) override;*/
         virtual void Save(Base::Writer& w) const override;
         virtual void Restore(Base::XMLReader& r) override;
@@ -249,8 +249,8 @@ class TechDrawExport BSpline: public BaseGeom
         bool cw;
         bool isArc;
 
-        bool isLine(void);
-        bool isCircle(void);
+        bool isLine();
+        bool isCircle();
         TopoDS_Edge asCircle(bool& isArc);
         void getCircleParms(bool& isCircle, double& radius, Base::Vector3d& center, bool& isArc);
         bool intersectsArc(Base::Vector3d p1,Base::Vector3d p2);
@@ -264,12 +264,12 @@ class TechDrawExport Generic: public BaseGeom
         Generic();
         ~Generic() = default;
 
-        virtual std::string toString(void) const override;
+        virtual std::string toString() const override;
 /*        virtual bool fromCSV(std::string s) override;*/
         virtual void Save(Base::Writer& w) const override;
         virtual void Restore(Base::XMLReader& r) override;
-        Base::Vector3d asVector(void);
-        double slope(void);
+        Base::Vector3d asVector();
+        double slope();
         Base::Vector3d apparentInter(Generic* g);
         std::vector<Base::Vector3d> points;
 };
@@ -283,7 +283,7 @@ class TechDrawExport Wire
         Wire(const TopoDS_Wire &w);
         ~Wire();
 
-        TopoDS_Wire toOccWire(void) const;
+        TopoDS_Wire toOccWire() const;
         void dump(std::string s);
         std::vector<BaseGeom *> geoms;
 };
@@ -294,7 +294,7 @@ class TechDrawExport Face
     public:
         Face() = default;
         ~Face();
-        TopoDS_Face toOccFace(void) const;
+        TopoDS_Face toOccFace() const;
         std::vector<Wire *> wires;
 };
 
@@ -318,7 +318,7 @@ class TechDrawExport Vertex
         bool isCenter;
         TopoDS_Vertex occVertex;
         bool isEqual(Vertex* v, double tol);
-        Base::Vector3d point(void) const { return Base::Vector3d(pnt.x,pnt.y,0.0); }
+        Base::Vector3d point() const { return Base::Vector3d(pnt.x,pnt.y,0.0); }
         void point(Base::Vector3d v){ pnt = Base::Vector3d(v.x, v.y); }
         bool cosmetic;
         int cosmeticLink;                 //deprec. use cosmeticTag
@@ -329,7 +329,7 @@ class TechDrawExport Vertex
         double y() {return pnt.y;}
 
         boost::uuids::uuid getTag() const;
-        virtual std::string getTagAsString(void) const;
+        virtual std::string getTagAsString() const;
 
     protected:
         //Uniqueness

@@ -53,15 +53,15 @@ public:
 
     virtual void attach(App::DocumentObject *);
     virtual void setDisplayMode(const char* ModeName);
-    virtual bool useNewSelectionModel(void) const {return false;}
+    virtual bool useNewSelectionModel() const {return false;}
     /// returns a list of all possible modes
-    virtual std::vector<std::string> getDisplayModes(void) const;
+    virtual std::vector<std::string> getDisplayModes() const;
     virtual void updateData(const App::Property*);
     virtual void onChanged(const App::Property* p);
     virtual void setupContextMenu(QMenu*, QObject*, const char*);
     virtual bool setEdit(int ModNum);
     virtual void unsetEdit(int ModNum);
-    virtual bool doubleClicked(void);
+    virtual bool doubleClicked();
     virtual bool canDelete(App::DocumentObject* obj) const;
     void startDefaultEditMode();
 

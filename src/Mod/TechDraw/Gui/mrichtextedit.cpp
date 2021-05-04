@@ -681,18 +681,18 @@ void MRichTextEdit::insertImage() {
                 QFileInfo(file).suffix().toUpper());
 }
 
-void MRichTextEdit::onSave(void)
+void MRichTextEdit::onSave()
 {
     QString result = toHtml();
     Q_EMIT saveText(result);
 }
 
-void MRichTextEdit::onExit(void)
+void MRichTextEdit::onExit()
 {
     Q_EMIT editorFinished();
 }
 
-void MRichTextEdit::onSelectionChanged(void)
+void MRichTextEdit::onSelectionChanged()
 {
 //    qDebug() << "MRTE::onSelectionChanged()";
     if (hasMultipleSizes()) {
@@ -708,7 +708,7 @@ void MRichTextEdit::onSelectionChanged(void)
 }
 
 //does selection have multiple sizes?
-bool MRichTextEdit::hasMultipleSizes(void)
+bool MRichTextEdit::hasMultipleSizes()
 {
 //    qDebug() << "MRTE::hasMultipleSizes()";
     bool result = false;
@@ -757,7 +757,7 @@ void MRichTextEdit::setDefFontSize(int fs)
     textSize(newSize);
 }
 
-int MRichTextEdit::getDefFontSizeNum(void)
+int MRichTextEdit::getDefFontSizeNum()
 {
 //    Base::Console().Message("MRTE::getDefFontSizeNum()\n");
     double fontSize = TechDraw::Preferences::dimFontSizeMM();
@@ -770,7 +770,7 @@ int MRichTextEdit::getDefFontSizeNum(void)
     return ptsSize;
 }
 
-QString MRichTextEdit::getDefFontSize(void)
+QString MRichTextEdit::getDefFontSize()
 {
 //    Base::Console().Message("MRTE::getDefFontSize()\n");
     QString result = QString::number(getDefFontSizeNum());
@@ -783,7 +783,7 @@ void MRichTextEdit::setDefFont(QString f)
     m_defFont = f;
 }
 
-QFont MRichTextEdit::getDefFont(void)
+QFont MRichTextEdit::getDefFont()
 {
     QString family = Base::Tools::fromStdString(Preferences::labelFont());
     m_defFont = family;

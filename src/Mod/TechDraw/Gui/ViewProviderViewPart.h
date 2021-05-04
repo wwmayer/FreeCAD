@@ -63,25 +63,25 @@ public:
 
     virtual void attach(App::DocumentObject *);
     virtual void setDisplayMode(const char* ModeName);
-    virtual bool useNewSelectionModel(void) const {return false;}
+    virtual bool useNewSelectionModel() const {return false;}
     /// returns a list of all possible modes
-    virtual std::vector<std::string> getDisplayModes(void) const;
+    virtual std::vector<std::string> getDisplayModes() const;
     virtual bool onDelete(const std::vector<std::string> &);
     virtual bool canDelete(App::DocumentObject* obj) const;
     virtual bool setEdit(int ModNum);
     virtual void unsetEdit(int ModNum);
-    virtual bool doubleClicked(void);
+    virtual bool doubleClicked();
 
 public:
     virtual void onChanged(const App::Property *prop);
     virtual void updateData(const App::Property*);
     virtual void handleChangedPropertyType(Base::XMLReader &reader, const char *TypeName, App::Property * prop);
-    App::Color prefSectionColor(void);
-    App::Color prefHighlightColor(void);
-    int prefHighlightStyle(void);
+    App::Color prefSectionColor();
+    App::Color prefHighlightColor();
+    int prefHighlightStyle();
 
 
-    virtual std::vector<App::DocumentObject*> claimChildren(void) const;
+    virtual std::vector<App::DocumentObject*> claimChildren() const;
 
     virtual TechDraw::DrawViewPart* getViewObject() const;
     TechDraw::DrawViewPart* getViewPart() const;

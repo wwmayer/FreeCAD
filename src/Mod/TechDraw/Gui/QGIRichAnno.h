@@ -70,18 +70,18 @@ public:
                         const QStyleOptionGraphicsItem * option,
                         QWidget * widget = nullptr ) override;
     virtual QRectF boundingRect() const override;
-    virtual QPainterPath shape(void) const override;
+    virtual QPainterPath shape() const override;
 
     virtual void drawBorder() override;
     virtual void updateView(bool update = false) override;
 
-    void setTextItem(void);
+    void setTextItem();
 
-    virtual TechDraw::DrawRichAnno* getFeature(void);
+    virtual TechDraw::DrawRichAnno* getFeature();
     QPen rectPen() const;
 
     void setExporting(bool b) { m_isExporting = b; }
-    bool getExporting(void) { return m_isExporting; }
+    bool getExporting() { return m_isExporting; }
 
 
 public Q_SLOTS:
@@ -95,8 +95,8 @@ protected:
     virtual QVariant itemChange( GraphicsItemChange change,
                                  const QVariant &value ) override;
     void setLineSpacing(int lineSpacing);
-    double prefPointSize(void);
-    QFont prefFont(void);
+    double prefPointSize();
+    QFont prefFont();
 
     bool m_isExporting;
     QGCustomText* m_text;

@@ -34,7 +34,7 @@
 using namespace TechDraw;
 
 // returns a string which represents the object e.g. when printed in python
-std::string GeomFormatPy::representation(void) const
+std::string GeomFormatPy::representation() const
 {
     return "<GeomFormat object>";
 }
@@ -107,7 +107,7 @@ PyObject* GeomFormatPy::copy(PyObject *args)
     return cpy;
 }
 
-Py::String GeomFormatPy::getTag(void) const
+Py::String GeomFormatPy::getTag() const
 {
     std::string tmp = boost::uuids::to_string(getGeomFormatPtr()->getTag());
     return Py::String(tmp);

@@ -96,7 +96,7 @@ void ViewProviderBalloon::setDisplayMode(const char* ModeName)
     ViewProviderDrawingView::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderBalloon::getDisplayModes(void) const
+std::vector<std::string> ViewProviderBalloon::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderDrawingView::getDisplayModes();
@@ -104,7 +104,7 @@ std::vector<std::string> ViewProviderBalloon::getDisplayModes(void) const
     return StrList;
 }
 
-bool ViewProviderBalloon::doubleClicked(void)
+bool ViewProviderBalloon::doubleClicked()
 {
     startDefaultEditMode();
     return true;

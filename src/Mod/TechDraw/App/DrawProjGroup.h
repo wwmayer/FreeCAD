@@ -73,7 +73,7 @@ public:
 
     Base::BoundBox3d getBoundingBox() const;
     double calculateAutomaticScale() const;
-    virtual QRectF getRect(void) const override;
+    virtual QRectF getRect() const override;
     /// Check if container has a view of a specific type
     bool hasProjection(const char *viewProjType) const;
 
@@ -99,47 +99,47 @@ public:
     /** @name methods override Feature */
     //@{
     /// recalculate the Feature
-    virtual App::DocumentObjectExecReturn *execute(void) override;
+    virtual App::DocumentObjectExecReturn *execute() override;
     //@}
 
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const override {
+    virtual const char* getViewProviderName() const override {
         return "TechDrawGui::ViewProviderProjGroup";
     }
     //return PyObject as DrawProjGroupPy
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
 
     /// Determines either "First Angle" or "Third Angle".
-    App::Enumeration usedProjectionType(void);
+    App::Enumeration usedProjectionType();
 
     /// Allowed projection types - either Document, First Angle or Third Angle
     static const char* ProjectionTypeEnums[];
 
-    bool hasAnchor(void);
+    bool hasAnchor();
     void setAnchorDirection(Base::Vector3d dir);
-    Base::Vector3d getAnchorDirection(void);
-    TechDraw::DrawProjGroupItem* getAnchor(void);
+    Base::Vector3d getAnchorDirection();
+    TechDraw::DrawProjGroupItem* getAnchor();
     std::pair<Base::Vector3d,Base::Vector3d> getDirsFromFront(DrawProjGroupItem* view);
     std::pair<Base::Vector3d,Base::Vector3d> getDirsFromFront(std::string viewType);
 
     void updateSecondaryDirs();
 
-    void rotateRight(void);
-    void rotateLeft(void);
-    void rotateUp(void);
-    void rotateDown(void);
-    void spinCW(void);
-    void spinCCW(void);
+    void rotateRight();
+    void rotateLeft();
+    void rotateUp();
+    void rotateDown();
+    void spinCW();
+    void spinCCW();
     
     void dumpISO(const char * title);
     std::vector<DrawProjGroupItem*> getViewsAsDPGI();
 
-    void recomputeChildren(void);
-    void updateChildrenScale(void);
-    void autoPositionChildren(void);
-    void updateChildrenEnforce(void);
+    void recomputeChildren();
+    void updateChildrenScale();
+    void autoPositionChildren();
+    void updateChildrenEnforce();
 
-    std::vector<App::DocumentObject*> getAllSources(void) const;
+    std::vector<App::DocumentObject*> getAllSources() const;
 
 
 protected:
@@ -172,13 +172,13 @@ protected:
                        double &width, double &height) const;
 
     /// Returns pointer to our page, or NULL if it couldn't be located
-    TechDraw::DrawPage * getPage(void) const;
+    TechDraw::DrawPage * getPage() const;
 
-    void updateChildrenSource(void);
-    void updateChildrenLock(void);
-    void updateViews(void);
+    void updateChildrenSource();
+    void updateChildrenLock();
+    void updateViews();
     int getViewIndex(const char *viewTypeCStr) const;
-    int getDefProjConv(void) const;
+    int getDefProjConv() const;
     Base::Vector3d dir2vec(gp_Dir d);
     gp_Dir vec2dir(Base::Vector3d v);
 

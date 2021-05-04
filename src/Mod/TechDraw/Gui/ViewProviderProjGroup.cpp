@@ -83,7 +83,7 @@ void ViewProviderProjGroup::setDisplayMode(const char* ModeName)
     ViewProviderDrawingView::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderProjGroup::getDisplayModes(void) const
+std::vector<std::string> ViewProviderProjGroup::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderDrawingView::getDisplayModes();
@@ -144,7 +144,7 @@ void ViewProviderProjGroup::unsetEdit(int ModNum)
     }
 }
 
-bool ViewProviderProjGroup::doubleClicked(void)
+bool ViewProviderProjGroup::doubleClicked()
 {
     setEdit(0);
     return true;
@@ -234,7 +234,7 @@ bool ViewProviderProjGroup::canDelete(App::DocumentObject *obj) const
     return true;
 }
 
-std::vector<App::DocumentObject*> ViewProviderProjGroup::claimChildren(void) const
+std::vector<App::DocumentObject*> ViewProviderProjGroup::claimChildren() const
 {
     // Collect any child fields
     std::vector<App::DocumentObject*> temp;

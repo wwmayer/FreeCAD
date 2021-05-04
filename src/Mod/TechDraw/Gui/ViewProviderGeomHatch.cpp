@@ -96,7 +96,7 @@ void ViewProviderGeomHatch::setDisplayMode(const char* ModeName)
     ViewProviderDocumentObject::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderGeomHatch::getDisplayModes(void) const
+std::vector<std::string> ViewProviderGeomHatch::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderDocumentObject::getDisplayModes();
@@ -136,7 +136,7 @@ void ViewProviderGeomHatch::unsetEdit(int ModNum)
     }
 }
 
-bool ViewProviderGeomHatch::doubleClicked(void)
+bool ViewProviderGeomHatch::doubleClicked()
 {
     setEdit(0);
     return true;
@@ -165,7 +165,7 @@ void ViewProviderGeomHatch::updateData(const App::Property* prop)
     Gui::ViewProviderDocumentObject::updateData(prop);
 }
 
-void ViewProviderGeomHatch::updateGraphic(void)
+void ViewProviderGeomHatch::updateGraphic()
 {
     TechDraw::DrawGeomHatch* dc = getViewObject();
     if (dc) {
@@ -184,7 +184,7 @@ void ViewProviderGeomHatch::updateGraphic(void)
    }
 }
 
-void ViewProviderGeomHatch::getParameters(void)
+void ViewProviderGeomHatch::getParameters()
 {
     int lgNumber = Preferences::lineGroup();
     auto lg = TechDraw::LineGroup::lineGroupFactory(lgNumber);

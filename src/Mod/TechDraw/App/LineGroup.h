@@ -40,7 +40,7 @@ public:
     void setWeight(std::string s, double weight);
 //    void setWeight(const char* s, double weight);
     void dump(const char* title);
-    std::string getName(void) { return m_name; }
+    std::string getName() { return m_name; }
     void setName(std::string s) { m_name = s; }
 
     //static support function: split comma separated string of values into vector of numbers
@@ -58,7 +58,7 @@ public:
 
 
 protected:
-    void init(void);
+    void init();
 
     std::string m_name;
     double      m_thin;

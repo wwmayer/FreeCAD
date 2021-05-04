@@ -60,7 +60,7 @@ public:
     virtual ~PropertyCosmeticEdgeList();
 
     virtual void setSize(int newSize);
-    virtual int getSize(void) const;
+    virtual int getSize() const;
 
     /** Sets the property
      */
@@ -73,20 +73,20 @@ public:
         return _lValueList[idx];
     }
 
-    const std::vector<CosmeticEdge*> &getValues(void) const {
+    const std::vector<CosmeticEdge*> &getValues() const {
         return _lValueList;
     }
 
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
     virtual void setPyObject(PyObject *);
 
     virtual void Save(Base::Writer &writer) const;
     virtual void Restore(Base::XMLReader &reader);
 
-    virtual App::Property *Copy(void) const;
+    virtual App::Property *Copy() const;
     virtual void Paste(const App::Property &from);
 
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
 
 private:
     std::vector<CosmeticEdge*> _lValueList;

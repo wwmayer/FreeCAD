@@ -111,7 +111,7 @@ public:
     TechDraw::DrawPage * getDrawPage();
 
     void setExporting(bool enable);
-    virtual void refreshViews(void);
+    virtual void refreshViews();
 
 
     /// Renders the page to SVG with filename.
@@ -155,7 +155,7 @@ private:
     int m_reverseScroll;
     QLabel *balloonCursor;
     QPoint balloonCursorPos;
-    void cancelBalloonPlacing(void);
+    void cancelBalloonPlacing();
 
     QPoint panOrigin;
     bool panningActive;

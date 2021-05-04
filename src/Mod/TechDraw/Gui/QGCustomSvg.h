@@ -40,7 +40,7 @@ namespace TechDrawGui
 class TechDrawGuiExport QGCustomSvg : public QGraphicsSvgItem
 {
 public:
-    explicit QGCustomSvg(void);
+    explicit QGCustomSvg();
     ~QGCustomSvg();
 
     enum {Type = QGraphicsItem::UserType + 131};

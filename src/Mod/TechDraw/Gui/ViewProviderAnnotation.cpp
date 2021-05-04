@@ -67,7 +67,7 @@ void ViewProviderAnnotation::setDisplayMode(const char* ModeName)
     ViewProviderDrawingView::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderAnnotation::getDisplayModes(void) const
+std::vector<std::string> ViewProviderAnnotation::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderDrawingView::getDisplayModes();

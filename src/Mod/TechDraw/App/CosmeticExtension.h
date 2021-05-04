@@ -88,7 +88,7 @@ public:
     virtual void            removeGeomFormat(std::string tag);
 
 
-    PyObject* getExtensionPyObject(void);
+    PyObject* getExtensionPyObject();
 
 protected:
 /*    virtual void extHandleChangedPropertyName(Base::XMLReader &reader, */

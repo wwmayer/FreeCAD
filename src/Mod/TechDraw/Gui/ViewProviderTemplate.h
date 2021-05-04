@@ -46,17 +46,17 @@ public:
 
     virtual void attach(App::DocumentObject *) override;
     virtual void setDisplayMode(const char* ModeName) override;
-    virtual bool useNewSelectionModel(void) const override {return false;}
+    virtual bool useNewSelectionModel() const override {return false;}
     /// returns a list of all possible modes
-    virtual std::vector<std::string> getDisplayModes(void) const override;
+    virtual std::vector<std::string> getDisplayModes() const override;
     virtual void updateData(const App::Property*) override;
     virtual void onChanged(const App::Property *prop) override;
-    virtual void hide(void) override;
-    virtual void show(void) override;
-    virtual bool isShow(void) const override;
-    QGITemplate* getQTemplate(void);
+    virtual void hide() override;
+    virtual void show() override;
+    virtual bool isShow() const override;
+    QGITemplate* getQTemplate();
     TechDraw::DrawTemplate* getTemplate() const;
-    MDIViewPage* getMDIViewPage(void) const;
+    MDIViewPage* getMDIViewPage() const;
     virtual Gui::MDIView *getMDIView() const override;
 
     void setMarkers(bool state);

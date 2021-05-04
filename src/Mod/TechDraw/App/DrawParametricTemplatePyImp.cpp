@@ -34,7 +34,7 @@
 using namespace TechDraw;
 
 // returns a string which represents the object e.g. when printed in python
-std::string DrawParametricTemplatePy::representation(void) const
+std::string DrawParametricTemplatePy::representation() const
 {
     return "<TechDraw::DrawParametricTemplate>";
 }
@@ -80,7 +80,7 @@ PyObject* DrawParametricTemplatePy::drawLine(PyObject *args)
 
 }
 
-Py::Long DrawParametricTemplatePy::getGeometryCount(void) const
+Py::Long DrawParametricTemplatePy::getGeometryCount() const
 {
     int size = getDrawParametricTemplatePtr()->getGeometry().size();
     return Py::Long(size);

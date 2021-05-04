@@ -44,7 +44,7 @@ class TechDrawGuiExport QGMarker : public QObject, public QGIVertex
     Q_OBJECT
 public:
     explicit QGMarker(int idx);
-    virtual ~QGMarker(void) {}
+    virtual ~QGMarker() {}
 
     enum {Type = QGraphicsItem::UserType + 302};
     int type() const override { return Type;}
@@ -60,7 +60,7 @@ Q_SIGNALS:
     void dragging(QPointF pos, int idx);
     void dragFinished(QPointF pos, int idx);
     void doubleClick(QPointF pos, int idx);
-    void endEdit(void);
+    void endEdit();
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
@@ -90,21 +90,21 @@ public:
     virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr ) override;
 
     void inEdit(bool b) { m_inEdit = b; }
-    bool inEdit(void)   { return m_inEdit; }
+    bool inEdit()   { return m_inEdit; }
     void startPathEdit(std::vector<QPointF> pathPoints);
 
     void showMarkers(std::vector<QPointF> points);
     void clearMarkers();
 
-    std::vector<QPointF> getDeltasFromLeader(void);
+    std::vector<QPointF> getDeltasFromLeader();
 
     void setScale(double s) { m_scale = s; }
-    double getScale(void)   { return m_scale; }
+    double getScale()   { return m_scale; }
 
     void setPoints(std::vector<QPointF> pts) { m_ghostPoints = pts; }
 
     void updateParent();
-    void drawGhost(void);
+    void drawGhost();
 
     void dumpGhostPoints(const char* text);
     void dumpMarkerPos(const char* text);
@@ -115,7 +115,7 @@ public Q_SLOTS:
     void onDragFinished(QPointF pos, int index);
     void onDragging(QPointF pos, int index);
     void onDoubleClick(QPointF pos, int markerIndex);
-    void onEndEdit(void);
+    void onEndEdit();
 
 Q_SIGNALS:
     void pointsUpdated(QPointF attach, std::vector<QPointF> deltas);
@@ -127,7 +127,7 @@ protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
-    double getEdgeFuzz(void) const;
+    double getEdgeFuzz() const;
 
     std::vector<QPointF> m_ghostPoints;
     std::vector<QGMarker*> m_markers;

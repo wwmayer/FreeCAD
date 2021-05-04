@@ -84,7 +84,7 @@ void ViewProviderWeld::setDisplayMode(const char* ModeName)
     ViewProviderDrawingView::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderWeld::getDisplayModes(void) const
+std::vector<std::string> ViewProviderWeld::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderDrawingView::getDisplayModes();
@@ -107,7 +107,7 @@ void ViewProviderWeld::onChanged(const App::Property* p)
     ViewProviderDrawingView::onChanged(p);
 }
 
-std::vector<App::DocumentObject*> ViewProviderWeld::claimChildren(void) const
+std::vector<App::DocumentObject*> ViewProviderWeld::claimChildren() const
 {
     // Collect any child Document Objects and put them in the right place in the Feature tree
     // valid children of a DrawWeldSymbol are:
@@ -155,24 +155,24 @@ void ViewProviderWeld::unsetEdit(int ModNum)
     }
 }
 
-bool ViewProviderWeld::doubleClicked(void)
+bool ViewProviderWeld::doubleClicked()
 {
 //    Base::Console().Message("VPW::doubleClicked()\n");
     setEdit(ViewProvider::Default);
     return true;
 }
 
-std::string ViewProviderWeld::prefFontName(void)
+std::string ViewProviderWeld::prefFontName()
 {
     return Preferences::labelFont();
 }
 
-double ViewProviderWeld::prefFontSize(void)
+double ViewProviderWeld::prefFontSize()
 {
     return Preferences::labelFontSizeMM();
 }
 
-double ViewProviderWeld::prefTileTextAdjust(void)
+double ViewProviderWeld::prefTileTextAdjust()
 {
     Base::Reference<ParameterGrp> hGrp = App::GetApplication().GetUserParameter()
                                          .GetGroup("BaseApp")->GetGroup("Preferences")->

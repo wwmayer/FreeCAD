@@ -55,7 +55,7 @@ using namespace std;
 PROPERTY_SOURCE(TechDraw::DrawHatch, App::DocumentObject)
 
 
-DrawHatch::DrawHatch(void)
+DrawHatch::DrawHatch()
 {
     static const char *vgroup = "Hatch";
 
@@ -90,7 +90,7 @@ void DrawHatch::onChanged(const App::Property* prop)
     App::DocumentObject::onChanged(prop);
 }
 
-App::DocumentObjectExecReturn *DrawHatch::execute(void)
+App::DocumentObjectExecReturn *DrawHatch::execute()
 {
     DrawViewPart* parent = getSourceView();
     if (parent) {
@@ -99,14 +99,14 @@ App::DocumentObjectExecReturn *DrawHatch::execute(void)
     return App::DocumentObject::StdReturn;
 }
 
-DrawViewPart* DrawHatch::getSourceView(void) const
+DrawViewPart* DrawHatch::getSourceView() const
 {
     App::DocumentObject* obj = Source.getValue();
     DrawViewPart* result = dynamic_cast<DrawViewPart*>(obj);
     return result;
 }
 
-PyObject *DrawHatch::getPyObject(void)
+PyObject *DrawHatch::getPyObject()
 {
     if (PythonObject.is(Py::_None())) {
         // ref counter is set to 1
@@ -180,7 +180,7 @@ bool DrawHatch::removeSub(int i)
     return removeSub(ss.str());
 }
 
-bool DrawHatch::empty(void)
+bool DrawHatch::empty()
 {
     const std::vector<std::string> &sourceNames = Source.getSubValues();
     return sourceNames.empty();
@@ -226,7 +226,7 @@ void DrawHatch::setupObject()
     App::DocumentObject::setupObject();
 }
 
-void DrawHatch::setupSvgIncluded(void)
+void DrawHatch::setupSvgIncluded()
 {
 //    Base::Console().Message("DH::setupSvgIncluded()\n");
     App::Document* doc = getDocument();
@@ -247,7 +247,7 @@ void DrawHatch::setupSvgIncluded(void)
     }
 }
 
-void DrawHatch::unsetupObject(void)
+void DrawHatch::unsetupObject()
 {
 //    Base::Console().Message("DH::unsetupObject() - status: %lu  removing: %d \n", getStatus(), isRemoving());
     App::DocumentObject* source = Source.getValue();
@@ -259,7 +259,7 @@ void DrawHatch::unsetupObject(void)
 }
 
 //standard preference getters
-std::string DrawHatch::prefSvgHatch(void)
+std::string DrawHatch::prefSvgHatch()
 {
     Base::Reference<ParameterGrp> hGrp = App::GetApplication().GetUserParameter()
         .GetGroup("BaseApp")->GetGroup("Preferences")->GetGroup("Mod/TechDraw/Files");
@@ -276,7 +276,7 @@ std::string DrawHatch::prefSvgHatch(void)
     return result;
 }
 
-App::Color DrawHatch::prefSvgHatchColor(void)
+App::Color DrawHatch::prefSvgHatchColor()
 {
     Base::Reference<ParameterGrp> hGrp = App::GetApplication().GetUserParameter()
         .GetGroup("BaseApp")->GetGroup("Preferences")->GetGroup("Mod/TechDraw/Colors");
@@ -291,7 +291,7 @@ App::Color DrawHatch::prefSvgHatchColor(void)
 namespace App {
 /// @cond DOXERR
 PROPERTY_SOURCE_TEMPLATE(TechDraw::DrawHatchPython, TechDraw::DrawHatch)
-template<> const char* TechDraw::DrawHatchPython::getViewProviderName(void) const {
+template<> const char* TechDraw::DrawHatchPython::getViewProviderName() const {
     return "TechDrawGui::ViewProviderHatch";
 }
 /// @endcond

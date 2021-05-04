@@ -75,7 +75,7 @@ void ViewProviderProjGroupItem::setDisplayMode(const char* ModeName)
     ViewProviderViewPart::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderProjGroupItem::getDisplayModes(void) const
+std::vector<std::string> ViewProviderProjGroupItem::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderViewPart::getDisplayModes();
@@ -141,7 +141,7 @@ void ViewProviderProjGroupItem::unsetEdit(int ModNum)
     Gui::Control().closeDialog();
 }
 
-bool ViewProviderProjGroupItem::doubleClicked(void)
+bool ViewProviderProjGroupItem::doubleClicked()
 {
     return true;
 }

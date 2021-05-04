@@ -55,7 +55,7 @@ const char* DrawViewAnnotation::TextStyleEnums[]= {"Normal",
                                       "Bold-Italic",
                                       nullptr};
 
-DrawViewAnnotation::DrawViewAnnotation(void)
+DrawViewAnnotation::DrawViewAnnotation()
 {
     static const char *vgroup = "Annotation";
 
@@ -133,7 +133,7 @@ QRectF DrawViewAnnotation::getRect() const
     return result;
 }
 
-App::DocumentObjectExecReturn *DrawViewAnnotation::execute(void)
+App::DocumentObjectExecReturn *DrawViewAnnotation::execute()
 {
     requestPaint();
     return TechDraw::DrawView::execute();
@@ -144,7 +144,7 @@ App::DocumentObjectExecReturn *DrawViewAnnotation::execute(void)
 namespace App {
 /// @cond DOXERR
 PROPERTY_SOURCE_TEMPLATE(TechDraw::DrawViewAnnotationPython, TechDraw::DrawViewAnnotation)
-template<> const char* TechDraw::DrawViewAnnotationPython::getViewProviderName(void) const {
+template<> const char* TechDraw::DrawViewAnnotationPython::getViewProviderName() const {
     return "TechDrawGui::ViewProviderAnnotation";
 }
 /// @endcond

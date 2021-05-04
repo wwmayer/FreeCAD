@@ -475,7 +475,7 @@ void CosmeticExtension::removeGeomFormat(std::string delTag)
 }
 
 //================================================================================
-PyObject* CosmeticExtension::getExtensionPyObject(void) {
+PyObject* CosmeticExtension::getExtensionPyObject() {
     if (ExtensionPythonObject.is(Py::_None())){
         // ref counter is set to 1
         ExtensionPythonObject = Py::Object(new CosmeticExtensionPy(this),true);

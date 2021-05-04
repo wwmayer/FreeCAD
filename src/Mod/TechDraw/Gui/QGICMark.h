@@ -41,14 +41,14 @@ public:
     virtual QRectF boundingRect() const override;
     virtual QPainterPath shape() const override;
 
-    void draw(void);
+    void draw();
     float getSize() { return m_size; }
     void setSize(float s);
     float getThick() { return m_width; }
     void setThick(float t);
     virtual void setPrettyNormal() override;
 
-    double getMarkFuzz(void) const;
+    double getMarkFuzz() const;
 
 protected:
     QColor getCMarkColor();

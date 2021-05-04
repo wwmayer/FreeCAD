@@ -72,7 +72,7 @@ protected:
     void makeHighlight();
     void makeReference();
     void setTools();
-    int getHoleStyle(void);
+    int getHoleStyle();
 
 /*    bool m_dragging;*/
 

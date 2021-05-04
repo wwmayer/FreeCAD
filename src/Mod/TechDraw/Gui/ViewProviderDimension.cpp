@@ -111,7 +111,7 @@ void ViewProviderDimension::setDisplayMode(const char* ModeName)
     ViewProviderDrawingView::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderDimension::getDisplayModes(void) const
+std::vector<std::string> ViewProviderDimension::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderDrawingView::getDisplayModes();
@@ -119,7 +119,7 @@ std::vector<std::string> ViewProviderDimension::getDisplayModes(void) const
     return StrList;
 }
 
-bool ViewProviderDimension::doubleClicked(void)
+bool ViewProviderDimension::doubleClicked()
 {
     startDefaultEditMode();
     return true;

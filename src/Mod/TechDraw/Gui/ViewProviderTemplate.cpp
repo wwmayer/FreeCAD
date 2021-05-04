@@ -86,7 +86,7 @@ void ViewProviderTemplate::setDisplayMode(const char* ModeName)
     ViewProviderDocumentObject::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderTemplate::getDisplayModes(void) const
+std::vector<std::string> ViewProviderTemplate::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderDocumentObject::getDisplayModes();
@@ -128,7 +128,7 @@ void ViewProviderTemplate::onChanged(const App::Property *prop)
     Gui::ViewProviderDocumentObject::onChanged(prop);
 }
 
-void ViewProviderTemplate::show(void)
+void ViewProviderTemplate::show()
 {
     QGITemplate* qTemplate = getQTemplate();
     if (qTemplate != nullptr) {
@@ -138,7 +138,7 @@ void ViewProviderTemplate::show(void)
     ViewProviderDocumentObject::show();
 }
 
-void ViewProviderTemplate::hide(void)
+void ViewProviderTemplate::hide()
 {
     QGITemplate* qTemplate = getQTemplate();
     if (qTemplate != nullptr) {
@@ -148,12 +148,12 @@ void ViewProviderTemplate::hide(void)
     ViewProviderDocumentObject::hide();
 }
 
-bool ViewProviderTemplate::isShow(void) const
+bool ViewProviderTemplate::isShow() const
 {
     return Visibility.getValue();
 }
 
-QGITemplate* ViewProviderTemplate::getQTemplate(void)
+QGITemplate* ViewProviderTemplate::getQTemplate()
 {
     QGITemplate *result = nullptr;
     TechDraw::DrawTemplate* dt = getTemplate();
@@ -213,7 +213,7 @@ bool ViewProviderTemplate::onDelete(const std::vector<std::string> &)
         return false;
 }
 
-MDIViewPage* ViewProviderTemplate::getMDIViewPage(void) const
+MDIViewPage* ViewProviderTemplate::getMDIViewPage() const
 {
     MDIViewPage* myMdi = nullptr;
     auto t = getTemplate();

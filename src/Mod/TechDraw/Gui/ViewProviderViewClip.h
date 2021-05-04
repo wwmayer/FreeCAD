@@ -43,20 +43,20 @@ public:
 
     virtual void attach(App::DocumentObject *);
     virtual void setDisplayMode(const char* ModeName);
-    virtual bool useNewSelectionModel(void) const {return false;}
+    virtual bool useNewSelectionModel() const {return false;}
     /// returns a list of all possible modes
-    virtual std::vector<std::string> getDisplayModes(void) const;
+    virtual std::vector<std::string> getDisplayModes() const;
 
     virtual TechDraw::DrawViewClip* getViewObject() const;
     TechDraw::DrawViewClip* getObject() const;
     virtual void updateData(const App::Property* prop);
 
     /// Hide the object in the view
-    virtual void hide(void);
+    virtual void hide();
     /// Show the object in the view
-    virtual void show(void);
-    virtual bool isShow(void) const;
-    std::vector<App::DocumentObject*> claimChildren(void) const;
+    virtual void show();
+    virtual bool isShow() const;
+    std::vector<App::DocumentObject*> claimChildren() const;
 
     virtual bool canDelete(App::DocumentObject* obj) const;
 

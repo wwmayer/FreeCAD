@@ -38,7 +38,7 @@ namespace TechDrawGui
 class TechDrawGuiExport QGCustomLabel : public QGraphicsTextItem
 {
 public:
-    explicit QGCustomLabel(void);
+    explicit QGCustomLabel();
     ~QGCustomLabel() {}
 
     enum {Type = QGraphicsItem::UserType + 135};

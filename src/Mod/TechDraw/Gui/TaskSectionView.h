@@ -66,12 +66,12 @@ protected:
     void saveSectionState();
     void restoreSectionState();
 
-    bool apply(void);
+    bool apply();
     void applyQuick(std::string dir);
-    void applyAligned(void);
+    void applyAligned();
 
-    void createSectionView(void);
-    void updateSectionView(void);
+    void createSectionView();
+    void updateSectionView();
 
     void setUiPrimary();
     void setUiEdit();
@@ -80,8 +80,8 @@ protected:
     void enableAll(bool b);
 
     void failNoObject(std::string objName);
-    bool isBaseValid(void);
-    bool isSectionValid(void);
+    bool isBaseValid();
+    bool isSectionValid();
 
 private:
     std::unique_ptr<Ui_TaskSectionView> ui;
@@ -141,9 +141,9 @@ public:
 
     void update();
 
-    virtual bool isAllowedAlterSelection(void) const
+    virtual bool isAllowedAlterSelection() const
     { return false; }
-    virtual bool isAllowedAlterDocument(void) const
+    virtual bool isAllowedAlterDocument() const
     { return false; }
 
 protected:

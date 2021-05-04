@@ -157,7 +157,7 @@ void CmdTechDrawPageDefault::activated(int iMsg)
     }
 }
 
-bool CmdTechDrawPageDefault::isActive(void)
+bool CmdTechDrawPageDefault::isActive()
 {
     return hasActiveDocument();
 }
@@ -236,7 +236,7 @@ void CmdTechDrawPageTemplate::activated(int iMsg)
     }
 }
 
-bool CmdTechDrawPageTemplate::isActive(void)
+bool CmdTechDrawPageTemplate::isActive()
 {
     return hasActiveDocument();
 }
@@ -271,7 +271,7 @@ void CmdTechDrawRedrawPage::activated(int iMsg)
     page->redrawCommand();
 }
 
-bool CmdTechDrawRedrawPage::isActive(void)
+bool CmdTechDrawRedrawPage::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this,false);
@@ -416,7 +416,7 @@ void CmdTechDrawView::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdTechDrawView::isActive(void)
+bool CmdTechDrawView::isActive()
 {
     return DrawGuiUtil::needPage(this);
 }
@@ -450,7 +450,7 @@ void CmdTechDrawActiveView::activated(int iMsg)
     Gui::Control().showDialog(new TaskDlgActiveView(page));
 }
 
-bool CmdTechDrawActiveView::isActive(void)
+bool CmdTechDrawActiveView::isActive()
 {
     return DrawGuiUtil::needPage(this);
 }
@@ -494,7 +494,7 @@ void CmdTechDrawSectionView::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdTechDrawSectionView::isActive(void)
+bool CmdTechDrawSectionView::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this);
@@ -543,7 +543,7 @@ void CmdTechDrawDetailView::activated(int iMsg)
     Gui::Control().showDialog(new TaskDlgDetail(dvp));
 }
 
-bool CmdTechDrawDetailView::isActive(void)
+bool CmdTechDrawDetailView::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this);
@@ -696,7 +696,7 @@ void CmdTechDrawProjectionGroup::activated(int iMsg)
     Gui::Control().showDialog(new TaskDlgProjGroup(multiView,true));
 }
 
-bool CmdTechDrawProjectionGroup::isActive(void)
+bool CmdTechDrawProjectionGroup::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool taskInProgress = false;
@@ -839,7 +839,7 @@ void CmdTechDrawBalloon::activated(int iMsg)
 
 }
 
-bool CmdTechDrawBalloon::isActive(void)
+bool CmdTechDrawBalloon::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveView = DrawGuiUtil::needView(this);
@@ -881,7 +881,7 @@ void CmdTechDrawClipGroup::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdTechDrawClipGroup::isActive(void)
+bool CmdTechDrawClipGroup::isActive()
 {
     return DrawGuiUtil::needPage(this);
 }
@@ -955,7 +955,7 @@ void CmdTechDrawClipGroupAdd::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdTechDrawClipGroupAdd::isActive(void)
+bool CmdTechDrawClipGroupAdd::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveClip = false;
@@ -1028,7 +1028,7 @@ void CmdTechDrawClipGroupRemove::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdTechDrawClipGroupRemove::isActive(void)
+bool CmdTechDrawClipGroupRemove::isActive()
 {
     bool havePage = DrawGuiUtil::needPage(this);
     bool haveClip = false;
@@ -1093,7 +1093,7 @@ void CmdTechDrawSymbol::activated(int iMsg)
     }
 }
 
-bool CmdTechDrawSymbol::isActive(void)
+bool CmdTechDrawSymbol::isActive()
 {
     return DrawGuiUtil::needPage(this);
 }
@@ -1159,7 +1159,7 @@ void CmdTechDrawDraftView::activated(int iMsg)
     }
 }
 
-bool CmdTechDrawDraftView::isActive(void)
+bool CmdTechDrawDraftView::isActive()
 {
     return DrawGuiUtil::needPage(this);
 }
@@ -1224,7 +1224,7 @@ void CmdTechDrawArchView::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdTechDrawArchView::isActive(void)
+bool CmdTechDrawArchView::isActive()
 {
     return DrawGuiUtil::needPage(this);
 }
@@ -1273,7 +1273,7 @@ void CmdTechDrawSpreadsheetView::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdTechDrawSpreadsheetView::isActive(void)
+bool CmdTechDrawSpreadsheetView::isActive()
 {
     //need a Page and a SpreadSheet::Sheet
     bool havePage = DrawGuiUtil::needPage(this);
@@ -1328,7 +1328,7 @@ void CmdTechDrawExportPageSVG::activated(int iMsg)
     }
 }
 
-bool CmdTechDrawExportPageSVG::isActive(void)
+bool CmdTechDrawExportPageSVG::isActive()
 {
     return DrawGuiUtil::needPage(this);
 }
@@ -1393,12 +1393,12 @@ void CmdTechDrawExportPageDXF::activated(int iMsg)
 }
 
 
-bool CmdTechDrawExportPageDXF::isActive(void)
+bool CmdTechDrawExportPageDXF::isActive()
 {
     return DrawGuiUtil::needPage(this);
 }
 
-void CreateTechDrawCommands(void)
+void CreateTechDrawCommands()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 

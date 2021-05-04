@@ -126,7 +126,7 @@ void ViewProviderLeader::unsetEdit(int ModNum)
     }
 }
 
-bool ViewProviderLeader::doubleClicked(void)
+bool ViewProviderLeader::doubleClicked()
 {
 //    Base::Console().Message("VPL::doubleClicked()\n");
     setEdit(ViewProvider::Default);
@@ -163,7 +163,7 @@ void ViewProviderLeader::onChanged(const App::Property* p)
     ViewProviderDrawingView::onChanged(p);
 }
 
-std::vector<App::DocumentObject*> ViewProviderLeader::claimChildren(void) const
+std::vector<App::DocumentObject*> ViewProviderLeader::claimChildren() const
 {
     // Collect any child Document Objects and put them in the right place in the Feature tree
     // valid children of a ViewLeader are:
@@ -197,7 +197,7 @@ TechDraw::DrawLeaderLine* ViewProviderLeader::getFeature() const
     return dynamic_cast<TechDraw::DrawLeaderLine*>(pcObject);
 }
 
-double ViewProviderLeader::getDefLineWeight(void)
+double ViewProviderLeader::getDefLineWeight()
 {
     double result = 0.0;
     int lgNumber = Preferences::lineGroup();
@@ -207,7 +207,7 @@ double ViewProviderLeader::getDefLineWeight(void)
     return result;
 }
 
-App::Color ViewProviderLeader::getDefLineColor(void)
+App::Color ViewProviderLeader::getDefLineColor()
 {
     return PreferencesGui::leaderColor();
 }

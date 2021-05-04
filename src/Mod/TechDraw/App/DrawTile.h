@@ -45,13 +45,13 @@ public:
     App::PropertyInteger      TileColumn;
 
     virtual short mustExecute() const;
-    virtual App::DocumentObjectExecReturn *execute(void);
+    virtual App::DocumentObjectExecReturn *execute();
 
-    virtual const char* getViewProviderName(void) const {
+    virtual const char* getViewProviderName() const {
         return "TechDrawGui::ViewProviderTile";
     }
-    virtual PyObject *getPyObject(void);
-    virtual DrawView* getParent(void) const;
+    virtual PyObject *getPyObject();
+    virtual DrawView* getParent() const;
 
 protected:
     virtual void onChanged(const App::Property* prop);

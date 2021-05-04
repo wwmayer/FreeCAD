@@ -242,17 +242,17 @@ void QGIBalloonLabel::setDimString(QString t, qreal maxWidth)
     m_labelText->setTextWidth(maxWidth);
 }
 
-void QGIBalloonLabel::setPrettySel(void)
+void QGIBalloonLabel::setPrettySel()
 {
     m_labelText->setPrettySel();
 }
 
-void QGIBalloonLabel::setPrettyPre(void)
+void QGIBalloonLabel::setPrettyPre()
 {
     m_labelText->setPrettyPre();
 }
 
-void QGIBalloonLabel::setPrettyNormal(void)
+void QGIBalloonLabel::setPrettyNormal()
 {
     m_labelText->setPrettyNormal();
 }
@@ -841,7 +841,7 @@ void QGIViewBalloon::drawBalloon(bool dragged)
     }
 }
 
-void QGIViewBalloon::setPrettyPre(void)
+void QGIViewBalloon::setPrettyPre()
 {
     arrow->setPrettyPre();
     //TODO: primPath needs override for fill
@@ -851,7 +851,7 @@ void QGIViewBalloon::setPrettyPre(void)
     balloonLines->setPrettyPre();
 }
 
-void QGIViewBalloon::setPrettySel(void)
+void QGIViewBalloon::setPrettySel()
 {
 //    Base::Console().Message("QGIVBal::setPrettySel()\n");
     arrow->setPrettySel();
@@ -860,7 +860,7 @@ void QGIViewBalloon::setPrettySel(void)
     balloonLines->setPrettySel();
 }
 
-void QGIViewBalloon::setPrettyNormal(void)
+void QGIViewBalloon::setPrettyNormal()
 {
     arrow->setPrettyNormal();
 //    balloonShape->setFill(Qt::white, Qt::SolidPattern);
@@ -869,7 +869,7 @@ void QGIViewBalloon::setPrettyNormal(void)
 }
 
 
-void QGIViewBalloon::drawBorder(void)
+void QGIViewBalloon::drawBorder()
 {
 //Dimensions have no border!
 //    Base::Console().Message("TRACE - QGIViewDimension::drawBorder - doing nothing!\n");
@@ -891,7 +891,7 @@ void QGIViewBalloon::paint ( QPainter * painter, const QStyleOptionGraphicsItem 
     setPens();
 }
 
-void QGIViewBalloon::setSvgPens(void)
+void QGIViewBalloon::setSvgPens()
 {
     double svgLineFactor = 3.0;                     //magic number.  should be a setting somewhere.
     balloonLines->setWidth(m_lineWidth/svgLineFactor);
@@ -899,7 +899,7 @@ void QGIViewBalloon::setSvgPens(void)
     arrow->setWidth(arrow->getWidth()/svgLineFactor);
 }
 
-void QGIViewBalloon::setPens(void)
+void QGIViewBalloon::setPens()
 {
     balloonLines->setWidth(m_lineWidth);
     balloonShape->setWidth(m_lineWidth);

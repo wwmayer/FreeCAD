@@ -183,7 +183,7 @@ QGVPage::~QGVPage()
 
 }
 
-void QGVPage::cancelBalloonPlacing(void)
+void QGVPage::cancelBalloonPlacing()
 {
         getDrawPage()->balloonPlacing = false;
         balloonCursor->hide();
@@ -752,7 +752,7 @@ void QGVPage::setHighQualityAntialiasing(bool highQualityAntialiasing)
 #endif
 }
 
-void QGVPage::refreshViews(void)
+void QGVPage::refreshViews()
 {
 //    Base::Console().Message("QGVP::refreshViews()\n");
     QList<QGraphicsItem*> list = scene()->items();

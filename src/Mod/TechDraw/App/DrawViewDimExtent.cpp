@@ -62,7 +62,7 @@ using namespace TechDraw;
 
 PROPERTY_SOURCE(TechDraw::DrawViewDimExtent, TechDraw::DrawViewDimension)
 
-DrawViewDimExtent::DrawViewDimExtent(void)
+DrawViewDimExtent::DrawViewDimExtent()
 {
     App::PropertyLinkSubList       Source;                       //DrawViewPart & SubElements(Edges)
                                                                  //Cosmetic End points are stored in DVD::References2d
@@ -101,7 +101,7 @@ short DrawViewDimExtent::mustExecute() const
     return DrawViewDimension::mustExecute();
 }
 
-App::DocumentObjectExecReturn *DrawViewDimExtent::execute(void)
+App::DocumentObjectExecReturn *DrawViewDimExtent::execute()
 {
 //    Base::Console().Message("DVDE::execute() - %s\n", getNameInDocument());
     if (!keepUpdated()) {
@@ -165,7 +165,7 @@ App::DocumentObjectExecReturn *DrawViewDimExtent::execute(void)
 }
 
 //getSubValues returns a garbage 1st entry if there are no subelements.
-std::vector<std::string> DrawViewDimExtent::getSubNames(void)
+std::vector<std::string> DrawViewDimExtent::getSubNames()
 {
     std::vector<std::string> result;
     std::vector<std::string> edgeNames = Source.getSubValues();
@@ -241,7 +241,7 @@ void DrawViewDimExtent::unsetupObject()
     dvp->enforceRecompute();
 }
 
-PyObject *DrawViewDimExtent::getPyObject(void)
+PyObject *DrawViewDimExtent::getPyObject()
 {
     if (PythonObject.is(Py::_None())) {
         // ref counter is set to 1

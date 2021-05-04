@@ -38,7 +38,7 @@ namespace TechDrawGui
 class TechDrawGuiExport QGDisplayArea : public QGraphicsItemGroup
 {
 public:
-    explicit QGDisplayArea(void);
+    explicit QGDisplayArea();
     ~QGDisplayArea() {}
 
     enum {Type = QGraphicsItem::UserType + 137};

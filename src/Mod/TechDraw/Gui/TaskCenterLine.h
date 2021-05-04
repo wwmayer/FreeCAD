@@ -89,7 +89,7 @@ public:
     virtual bool accept();
     virtual bool reject();
     virtual void setCreateMode(bool b) { m_createMode = b; }
-    virtual bool getCreateMode(void) { return m_createMode; }
+    virtual bool getCreateMode() { return m_createMode; }
     void updateTask();
     void saveButtons(QPushButton* btnOK,
                      QPushButton* btnCancel);
@@ -102,16 +102,16 @@ protected:
     void changeEvent(QEvent *e);
 
     void blockButtons(bool b);
-    void setUiPrimary(void);
-    void setUiEdit(void);
+    void setUiPrimary();
+    void setUiEdit();
 
-    void createCenterLine(void);
-    void create2Lines(void);
-    void create2Points(void);
+    void createCenterLine();
+    void create2Lines();
+    void create2Points();
 
-    void updateCenterLine(void);
-    void update2Lines(void);
-    void update2Points(void);
+    void updateCenterLine();
+    void update2Lines();
+    void update2Points();
 
     double getCenterWidth();
     QColor getCenterColor();
@@ -176,7 +176,7 @@ public:
     virtual bool reject();
     /// is called by the framework if the user presses the help button
     virtual void helpRequested() { return;}
-    virtual bool isAllowedAlterDocument(void) const
+    virtual bool isAllowedAlterDocument() const
                         { return false; }
     void update();
 

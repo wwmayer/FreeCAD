@@ -75,9 +75,9 @@ protected:
     void changeEvent(QEvent *e);
 
     void blockButtons(bool b);
-    void setUiPrimary(void);
+    void setUiPrimary();
 
-    TechDraw::DrawViewSymbol* createActiveView(void);
+    TechDraw::DrawViewSymbol* createActiveView();
 
 private:
     std::unique_ptr<Ui_TaskActiveView> ui;
@@ -110,7 +110,7 @@ public:
     virtual bool reject();
     /// is called by the framework if the user presses the help button
     virtual void helpRequested() { return;}
-    virtual bool isAllowedAlterDocument(void) const
+    virtual bool isAllowedAlterDocument() const
                         { return false; }
     void update();
 

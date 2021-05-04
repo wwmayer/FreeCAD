@@ -157,7 +157,7 @@ void QGIViewImage::drawImage()
     }
 }
 
-void QGIViewImage::rotateView(void)
+void QGIViewImage::rotateView()
 {
     QRectF r = m_cliparea->boundingRect();
     m_cliparea->setTransformOriginPoint(r.center());

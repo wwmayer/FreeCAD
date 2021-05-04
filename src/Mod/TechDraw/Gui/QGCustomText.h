@@ -63,12 +63,12 @@ public:
     virtual void justifyRightAt(QPointF centerPos, bool vCenter = true);
     virtual void justifyRightAt(double cX, double cY, bool vCenter = true);
 
-    virtual double getHeight(void);
-    virtual double getWidth(void);
+    virtual double getHeight();
+    virtual double getWidth();
     
-    virtual QColor getNormalColor(void);
-    virtual QColor getPreColor(void);
-    virtual QColor getSelectColor(void);
+    virtual QColor getNormalColor();
+    virtual QColor getPreColor();
+    virtual QColor getSelectColor();
     virtual void setColor(QColor c);
 
     virtual void setTightBounding(bool tight);
@@ -81,7 +81,7 @@ protected:
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
-    Base::Reference<ParameterGrp> getParmGroup(void);
+    Base::Reference<ParameterGrp> getParmGroup();
 
     bool isHighlighted;
     bool tightBounding;  // Option to use tighter boundingRect(), works only for plaintext QGCustomText

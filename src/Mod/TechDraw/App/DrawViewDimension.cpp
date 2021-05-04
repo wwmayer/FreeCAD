@@ -103,7 +103,7 @@ static const App::PropertyQuantityConstraint::Constraints ToleranceConstraint = 
 // constraint to force positive values
 static const App::PropertyQuantityConstraint::Constraints PositiveConstraint = { 0.0, DBL_MAX, 0.1 };
 
-DrawViewDimension::DrawViewDimension(void)
+DrawViewDimension::DrawViewDimension()
 {
     ADD_PROPERTY_TYPE(References2D, (nullptr,nullptr), "", (App::Prop_None), "Projected Geometry References");
     References2D.setScope(App::LinkScope::Global);
@@ -366,7 +366,7 @@ short DrawViewDimension::mustExecute() const
     return DrawView::mustExecute();
 }
 
-App::DocumentObjectExecReturn *DrawViewDimension::execute(void)
+App::DocumentObjectExecReturn *DrawViewDimension::execute()
 {
     if (!keepUpdated()) {
         return App::DocumentObject::StdReturn;
@@ -667,7 +667,7 @@ App::DocumentObjectExecReturn *DrawViewDimension::execute(void)
     return DrawView::execute();
 }
 
-bool DrawViewDimension::isMultiValueSchema(void) const
+bool DrawViewDimension::isMultiValueSchema() const
 {
     bool result = false;
     bool angularMeasure = false;
@@ -1363,12 +1363,12 @@ void DrawViewDimension::saveArrowPositions(const Base::Vector2d positions[])
 
 //return position within parent view of dimension arrow heads/dimline endpoints
 //note positions are in apparent coord (inverted y).
-pointPair DrawViewDimension::getArrowPositions(void)
+pointPair DrawViewDimension::getArrowPositions()
 {
     return m_arrowPositions;
 }
 
-bool DrawViewDimension::has2DReferences(void) const
+bool DrawViewDimension::has2DReferences() const
 {
 //    Base::Console().Message("DVD::has2DReferences() - %s\n",getNameInDocument());
     bool result = false;
@@ -1392,12 +1392,12 @@ bool DrawViewDimension::has2DReferences(void) const
     return result;
 }
 
-bool DrawViewDimension::has3DReferences(void) const
+bool DrawViewDimension::has3DReferences() const
 {
     return (References3D.getSize() > 0);
 }
 
-bool DrawViewDimension::hasOverUnderTolerance(void) const
+bool DrawViewDimension::hasOverUnderTolerance() const
 {
     bool result = false;
     if (ArbitraryTolerances.getValue() ||
@@ -1508,7 +1508,7 @@ std::string DrawViewDimension::getDefaultFormatSpec(bool isToleranceFormat) cons
 //    return result;
 //}
 
-PyObject *DrawViewDimension::getPyObject(void)
+PyObject *DrawViewDimension::getPyObject()
 {
     if (PythonObject.is(Py::_None())) {
         // ref counter is set to 1

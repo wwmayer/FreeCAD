@@ -125,7 +125,7 @@ void ViewProviderPage::setDisplayMode(const char* ModeName)
     ViewProviderDocumentObject::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderPage::getDisplayModes(void) const
+std::vector<std::string> ViewProviderPage::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderDocumentObject::getDisplayModes();
@@ -133,20 +133,20 @@ std::vector<std::string> ViewProviderPage::getDisplayModes(void) const
     return StrList;
 }
 
-void ViewProviderPage::show(void)
+void ViewProviderPage::show()
 {
     Visibility.setValue(true);
     showMDIViewPage();
 }
 
-void ViewProviderPage::hide(void)
+void ViewProviderPage::hide()
 {
     Visibility.setValue(false);
     removeMDIView();
     ViewProviderDocumentObject::hide();
 }
 
-void ViewProviderPage::removeMDIView(void)
+void ViewProviderPage::removeMDIView()
 {
     if (!m_mdiView.isNull()) {                                //m_mdiView is a QPointer
         // https://forum.freecadweb.org/viewtopic.php?f=3&t=22797&p=182614#p182614
@@ -272,7 +272,7 @@ bool ViewProviderPage::setEdit(int ModNum)
     return rc;
 }
 
-bool ViewProviderPage::doubleClicked(void)
+bool ViewProviderPage::doubleClicked()
 {
     show();
     Gui::getMainWindow()->setActiveWindow(m_mdiView);
@@ -312,7 +312,7 @@ bool ViewProviderPage::showMDIViewPage()
     return true;
 }
 
-std::vector<App::DocumentObject*> ViewProviderPage::claimChildren(void) const
+std::vector<App::DocumentObject*> ViewProviderPage::claimChildren() const
 {
     std::vector<App::DocumentObject*> temp;
 
@@ -417,12 +417,12 @@ void ViewProviderPage::finishRestoring()
     Gui::ViewProviderDocumentObject::finishRestoring();
 }
 
-bool ViewProviderPage::isShow(void) const
+bool ViewProviderPage::isShow() const
 {
     return Visibility.getValue();
 }
 
-bool ViewProviderPage::getFrameState(void)
+bool ViewProviderPage::getFrameState()
 {
     bool result = ShowFrames.getValue();
     return result;
@@ -433,7 +433,7 @@ void ViewProviderPage::setFrameState(bool state)
     ShowFrames.setValue(state);
 }
 
-void ViewProviderPage::toggleFrameState(void)
+void ViewProviderPage::toggleFrameState()
 {
 //    Base::Console().Message("VPP::toggleFrameState()\n");
     if (m_graphicsView != nullptr) {

@@ -122,7 +122,7 @@ QStringList TaskGeomHatch::listToQ(std::vector<std::string> in)
     return result;
 }
 
-void TaskGeomHatch::onFileChanged(void)
+void TaskGeomHatch::onFileChanged()
 {
     m_file = ui->fcFile->fileName().toUtf8().constData();
     std::vector<std::string> names = PATLineSpec::getPatternList(m_file);

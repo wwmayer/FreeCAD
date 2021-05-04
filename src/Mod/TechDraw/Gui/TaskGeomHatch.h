@@ -59,7 +59,7 @@ public:
     bool getCreateMode() { return m_createMode; }
 
 protected Q_SLOTS:
-    void onFileChanged(void);
+    void onFileChanged();
 
 protected:
     void changeEvent(QEvent *e);
@@ -115,7 +115,7 @@ public:
     virtual bool reject();
     /// is called by the framework if the user presses the help button
     virtual void helpRequested() { return;}
-    virtual bool isAllowedAlterDocument(void) const
+    virtual bool isAllowedAlterDocument() const
     { return false; }
     void setCreateMode(bool b);
 

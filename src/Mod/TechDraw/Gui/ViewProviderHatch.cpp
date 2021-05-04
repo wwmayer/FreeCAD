@@ -88,7 +88,7 @@ void ViewProviderHatch::setDisplayMode(const char* ModeName)
     ViewProviderDocumentObject::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderHatch::getDisplayModes(void) const
+std::vector<std::string> ViewProviderHatch::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderDocumentObject::getDisplayModes();
@@ -129,7 +129,7 @@ void ViewProviderHatch::unsetEdit(int ModNum)
     }
 }
 
-bool ViewProviderHatch::doubleClicked(void)
+bool ViewProviderHatch::doubleClicked()
 {
     setEdit(0);
     return true;

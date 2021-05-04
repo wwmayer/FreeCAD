@@ -89,7 +89,7 @@ const char* DrawViewBalloon::balloonTypeEnums[]= {"Circular",
                                                   "Rectangle",
                                                   nullptr};
 
-DrawViewBalloon::DrawViewBalloon(void)
+DrawViewBalloon::DrawViewBalloon()
 {
     ADD_PROPERTY_TYPE(Text, (""), "", App::Prop_None, "The text to be displayed");
     ADD_PROPERTY_TYPE(SourceView, (nullptr), "", (App::PropertyType)(App::Prop_None), "Source view for balloon");
@@ -218,7 +218,7 @@ short DrawViewBalloon::mustExecute() const
     return DrawView::mustExecute();
 }
 
-void DrawViewBalloon::handleXYLock(void) {
+void DrawViewBalloon::handleXYLock() {
     if (isLocked()) {
         if (!OriginX.testStatus(App::Property::ReadOnly)) {
             OriginX.setStatus(App::Property::ReadOnly, true);
@@ -249,7 +249,7 @@ DrawViewPart* DrawViewBalloon::getViewPart() const
     return result;
 }
 
-App::DocumentObjectExecReturn *DrawViewBalloon::execute(void)
+App::DocumentObjectExecReturn *DrawViewBalloon::execute()
 {
     requestPaint();
     return App::DocumentObject::execute();
@@ -263,7 +263,7 @@ void DrawViewBalloon::setOrigin(Base::Vector3d newOrigin)
     origin = QPointF(newOrigin.x, newOrigin.y);
 }
 
-double DrawViewBalloon::prefKinkLength(void) const
+double DrawViewBalloon::prefKinkLength() const
 {
     Base::Reference<ParameterGrp> hGrp = App::GetApplication().GetUserParameter().
                                          GetGroup("BaseApp")->GetGroup("Preferences")->
@@ -272,7 +272,7 @@ double DrawViewBalloon::prefKinkLength(void) const
     return length;
 }
 
-int DrawViewBalloon::prefShape(void) const
+int DrawViewBalloon::prefShape() const
 {
     Base::Reference<ParameterGrp> hGrp = App::GetApplication().GetUserParameter()
           .GetGroup("BaseApp")->GetGroup("Preferences")->GetGroup("Mod/TechDraw/Decorations");
@@ -280,7 +280,7 @@ int DrawViewBalloon::prefShape(void) const
     return result;
 }
 
-int DrawViewBalloon::prefEnd(void) const
+int DrawViewBalloon::prefEnd() const
 {
     return Preferences::balloonArrow();
 }

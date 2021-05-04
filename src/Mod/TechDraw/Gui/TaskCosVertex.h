@@ -86,15 +86,15 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
-    void startTracker(void);
-    void removeTracker(void);
-    void abandonEditSession(void);
+    void startTracker();
+    void removeTracker();
+    void abandonEditSession();
 
     void addCosVertex(QPointF qPos);
 
     void blockButtons(bool b);
-    void setUiPrimary(void);
-    void updateUi(void);
+    void setUiPrimary();
+    void updateUi();
     void setEditCursor(QCursor c);
 
    QGIView* findParentQGIV();
@@ -145,7 +145,7 @@ public:
     virtual bool reject();
     /// is called by the framework if the user presses the help button
     virtual void helpRequested() { return;}
-    virtual bool isAllowedAlterDocument(void) const
+    virtual bool isAllowedAlterDocument() const
                         { return false; }
     void update();
 

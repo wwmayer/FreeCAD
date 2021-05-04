@@ -209,7 +209,7 @@ void TaskProjGroup::viewToggled(bool toggle)
     wc.restoreCursor();
 }
 
-void TaskProjGroup::rotateButtonClicked(void)
+void TaskProjGroup::rotateButtonClicked()
 {
     if ( multiView && ui ) {
         const QObject *clicked = sender();
@@ -298,7 +298,7 @@ void TaskProjGroup::AutoDistributeClicked(bool b)
     multiView->recomputeFeature();
 }
 
-void TaskProjGroup::spacingChanged(void)
+void TaskProjGroup::spacingChanged()
 {
     if (blockUpdate) {
         return;

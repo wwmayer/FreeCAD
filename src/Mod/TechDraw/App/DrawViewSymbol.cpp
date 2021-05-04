@@ -59,7 +59,7 @@ using namespace std;
 PROPERTY_SOURCE(TechDraw::DrawViewSymbol, TechDraw::DrawView)
 
 
-DrawViewSymbol::DrawViewSymbol(void)
+DrawViewSymbol::DrawViewSymbol()
 {
     static const char *vgroup = "Drawing view";
 
@@ -132,7 +132,7 @@ void DrawViewSymbol::onChanged(const App::Property* prop)
     TechDraw::DrawView::onChanged(prop);
 }
 
-App::DocumentObjectExecReturn *DrawViewSymbol::execute(void)
+App::DocumentObjectExecReturn *DrawViewSymbol::execute()
 {
 //    Base::Console().Message("DVS::execute() \n");
 //    //dvs::execute is pretty fast. doesn't need to be blocked?
@@ -259,7 +259,7 @@ short DrawViewSymbol::mustExecute() const
 }
 
 
-PyObject *DrawViewSymbol::getPyObject(void)
+PyObject *DrawViewSymbol::getPyObject()
 {
     if (PythonObject.is(Py::_None())) {
         // ref counter is set to 1
@@ -273,7 +273,7 @@ PyObject *DrawViewSymbol::getPyObject(void)
 namespace App {
 /// @cond DOXERR
 PROPERTY_SOURCE_TEMPLATE(TechDraw::DrawViewSymbolPython, TechDraw::DrawViewSymbol)
-template<> const char* TechDraw::DrawViewSymbolPython::getViewProviderName(void) const {
+template<> const char* TechDraw::DrawViewSymbolPython::getViewProviderName() const {
     return "TechDrawGui::ViewProviderSymbol";
 }
 /// @endcond

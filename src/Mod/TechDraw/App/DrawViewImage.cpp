@@ -48,7 +48,7 @@ using namespace std;
 PROPERTY_SOURCE(TechDraw::DrawViewImage, TechDraw::DrawView)
 
 
-DrawViewImage::DrawViewImage(void)
+DrawViewImage::DrawViewImage()
 {
     static const char *vgroup = "Image";
 
@@ -75,7 +75,7 @@ void DrawViewImage::onChanged(const App::Property* prop)
     TechDraw::DrawView::onChanged(prop);
 }
 
-App::DocumentObjectExecReturn *DrawViewImage::execute(void)
+App::DocumentObjectExecReturn *DrawViewImage::execute()
 {
     requestPaint();
     return DrawView::execute();
@@ -93,7 +93,7 @@ QRectF DrawViewImage::getRect() const
 namespace App {
 /// @cond DOXERR
 PROPERTY_SOURCE_TEMPLATE(TechDraw::DrawViewImagePython, TechDraw::DrawViewImage)
-template<> const char* TechDraw::DrawViewImagePython::getViewProviderName(void) const {
+template<> const char* TechDraw::DrawViewImagePython::getViewProviderName() const {
     return "TechDrawGui::ViewProviderImage";
 }
 /// @endcond

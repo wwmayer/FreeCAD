@@ -38,7 +38,7 @@ namespace TechDrawGui
 class TechDrawGuiExport QGCustomBorder : public QGraphicsRectItem
 {
 public:
-    explicit QGCustomBorder(void);
+    explicit QGCustomBorder();
     ~QGCustomBorder() {}
 
     enum {Type = QGraphicsItem::UserType + 136};
