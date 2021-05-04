@@ -77,7 +77,7 @@ short Revolution::mustExecute() const
     return ProfileBased::mustExecute();
 }
 
-App::DocumentObjectExecReturn *Revolution::execute(void)
+App::DocumentObjectExecReturn *Revolution::execute()
 {
     // Validate parameters
     double angle = Angle.getValue();
@@ -187,7 +187,7 @@ App::DocumentObjectExecReturn *Revolution::execute(void)
     }
 }
 
-bool Revolution::suggestReversed(void)
+bool Revolution::suggestReversed()
 {
     try {
         updateAxis();
@@ -198,7 +198,7 @@ bool Revolution::suggestReversed(void)
     return ProfileBased::getReversedAngle(Base.getValue(), Axis.getValue()) < 0.0;
 }
 
-void Revolution::updateAxis(void)
+void Revolution::updateAxis()
 {
     App::DocumentObject *pcReferenceAxis = ReferenceAxis.getValue();
     const std::vector<std::string> &subReferenceAxis = ReferenceAxis.getSubValues();

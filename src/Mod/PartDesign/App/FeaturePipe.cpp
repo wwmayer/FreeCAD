@@ -110,7 +110,7 @@ short Pipe::mustExecute() const
     return ProfileBased::mustExecute();
 }
 
-App::DocumentObjectExecReturn *Pipe::execute(void)
+App::DocumentObjectExecReturn *Pipe::execute()
 {
     std::vector<TopoDS_Wire> wires;
     try {

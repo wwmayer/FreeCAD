@@ -43,10 +43,10 @@ public:
 
 private Q_SLOTS:
     void onLengthChanged(double);
-    void onRefDeleted(void);
+    void onRefDeleted();
 
 protected:
-    double getLength(void) const;
+    double getLength() const;
     virtual void clearButtons(const selectionModes notThis);
     bool event(QEvent *e);
     void changeEvent(QEvent *e);

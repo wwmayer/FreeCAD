@@ -69,13 +69,13 @@ protected:
     void changeEvent(QEvent *e) override;
 
 private:
-    double getLength(void) const;
-    double getLength2(void) const;
-    double getOffset(void) const;
-    int    getMode(void) const;
-    bool   getMidplane(void) const;
-    bool   getReversed(void) const;
-    QString getFaceName(void) const;
+    double getLength() const;
+    double getLength2() const;
+    double getOffset() const;
+    int    getMode() const;
+    bool   getMidplane() const;
+    bool   getReversed() const;
+    QString getFaceName() const;
 
     void onSelectionChanged(const Gui::SelectionChanges& msg) override;
     void updateUI(int index);

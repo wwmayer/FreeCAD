@@ -377,37 +377,37 @@ void TaskPocketParameters::onFaceName(const QString& text)
     }
 }
 
-double TaskPocketParameters::getLength(void) const
+double TaskPocketParameters::getLength() const
 {
     return ui->lengthEdit->value().getValue();
 }
 
-double TaskPocketParameters::getLength2(void) const
+double TaskPocketParameters::getLength2() const
 {
     return ui->lengthEdit2->value().getValue();
 }
 
-double TaskPocketParameters::getOffset(void) const
+double TaskPocketParameters::getOffset() const
 {
     return ui->offsetEdit->value().getValue();
 }
 
-bool   TaskPocketParameters::getReversed(void) const
+bool   TaskPocketParameters::getReversed() const
 {
     return ui->checkBoxReversed->isChecked();
 }
 
-bool   TaskPocketParameters::getMidplane(void) const
+bool   TaskPocketParameters::getMidplane() const
 {
     return ui->checkBoxMidplane->isChecked();
 }
 
-int TaskPocketParameters::getMode(void) const
+int TaskPocketParameters::getMode() const
 {
     return ui->changeMode->currentIndex();
 }
 
-QString TaskPocketParameters::getFaceName(void) const
+QString TaskPocketParameters::getFaceName() const
 {
     // 'Up to face' mode
     if (getMode() == 3) {
@@ -475,7 +475,7 @@ void TaskPocketParameters::changeEvent(QEvent *e)
     }
 }
 
-void TaskPocketParameters::saveHistory(void)
+void TaskPocketParameters::saveHistory()
 {
     // save the user values to history
     ui->lengthEdit->pushToHistory();

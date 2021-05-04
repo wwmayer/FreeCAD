@@ -55,10 +55,10 @@ public:
     
     virtual void attach(App::DocumentObject *) override;
 
-    virtual bool doubleClicked(void) override;
+    virtual bool doubleClicked() override;
     virtual void setupContextMenu(QMenu* menu, QObject* receiver, const char* member) override;
 
-    virtual std::vector< std::string > getDisplayModes(void) const override;
+    virtual std::vector< std::string > getDisplayModes() const override;
     virtual void setDisplayMode(const char* ModeName) override;
     virtual void setOverrideMode(const std::string& mode) override;
 

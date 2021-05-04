@@ -359,7 +359,7 @@ void TaskPadParameters::onZDirectionEditChanged(double len)
     updateDirectionEdits();
 }
 
-void TaskPadParameters::updateDirectionEdits(void)
+void TaskPadParameters::updateDirectionEdits()
 {
     PartDesign::Pad* pcPad = static_cast<PartDesign::Pad*>(vp->getObject());
     // we don't want to execute the onChanged edits, but just update their contents
@@ -456,62 +456,62 @@ void TaskPadParameters::onFaceName(const QString& text)
     }
 }
 
-double TaskPadParameters::getLength(void) const
+double TaskPadParameters::getLength() const
 {
     return ui->lengthEdit->value().getValue();
 }
 
-double TaskPadParameters::getLength2(void) const
+double TaskPadParameters::getLength2() const
 {
     return ui->lengthEdit2->value().getValue();
 }
 
-bool   TaskPadParameters::getAlongSketchNormal(void) const
+bool   TaskPadParameters::getAlongSketchNormal() const
 {
     return ui->checkBoxAlongDirection->isChecked();
 }
 
-bool   TaskPadParameters::getCustom(void) const
+bool   TaskPadParameters::getCustom() const
 {
     return ui->groupBoxDirection->isChecked();
 }
 
-double TaskPadParameters::getXDirection(void) const
+double TaskPadParameters::getXDirection() const
 {
     return ui->XDirectionEdit->value();
 }
 
-double TaskPadParameters::getYDirection(void) const
+double TaskPadParameters::getYDirection() const
 {
     return ui->YDirectionEdit->value();
 }
 
-double TaskPadParameters::getZDirection(void) const
+double TaskPadParameters::getZDirection() const
 {
     return ui->ZDirectionEdit->value();
 }
 
-double TaskPadParameters::getOffset(void) const
+double TaskPadParameters::getOffset() const
 {
     return ui->offsetEdit->value().getValue();
 }
 
-bool   TaskPadParameters::getReversed(void) const
+bool   TaskPadParameters::getReversed() const
 {
     return ui->checkBoxReversed->isChecked();
 }
 
-bool   TaskPadParameters::getMidplane(void) const
+bool   TaskPadParameters::getMidplane() const
 {
     return ui->checkBoxMidplane->isChecked();
 }
 
-int TaskPadParameters::getMode(void) const
+int TaskPadParameters::getMode() const
 {
     return ui->changeMode->currentIndex();
 }
 
-QString TaskPadParameters::getFaceName(void) const
+QString TaskPadParameters::getFaceName() const
 {
     // 'Up to face' mode
     if (getMode() == 3) {
@@ -585,7 +585,7 @@ void TaskPadParameters::changeEvent(QEvent *e)
     }
 }
 
-void TaskPadParameters::saveHistory(void)
+void TaskPadParameters::saveHistory()
 {
     // save the user values to history
     ui->lengthEdit->pushToHistory();

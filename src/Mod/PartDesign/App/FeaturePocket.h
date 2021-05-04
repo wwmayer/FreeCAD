@@ -54,10 +54,10 @@ public:
       * If Midplane is true, then the extrusion will extend for half of the length on both sides of the sketch plane
       * The created material will be cut out of the sketch support
       */
-    App::DocumentObjectExecReturn *execute(void);
+    App::DocumentObjectExecReturn *execute();
     short mustExecute() const;
     /// returns the type name of the view provider
-    const char* getViewProviderName(void) const {
+    const char* getViewProviderName() const {
         return "PartDesignGui::ViewProviderPocket";
     }
     //@}

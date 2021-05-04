@@ -153,7 +153,7 @@ PartDesign::Body *getBody(bool messageIfNot, bool autoActivate, bool assertModer
     return activeBody;
 }
 
-void needActiveBodyError(void)
+void needActiveBodyError()
 {
     QMessageBox::warning( Gui::getMainWindow(),
         QObject::tr("Active Body Required"),

@@ -89,7 +89,7 @@ short Pocket::mustExecute() const
     return ProfileBased::mustExecute();
 }
 
-App::DocumentObjectExecReturn *Pocket::execute(void)
+App::DocumentObjectExecReturn *Pocket::execute()
 {
     // Handle legacy features, these typically have Type set to 3 (previously NULL, now UpToFace),
     // empty FaceName (because it didn't exist) and a value for Length

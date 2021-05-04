@@ -80,7 +80,7 @@ Transformed::Transformed()
     this->Refine.setValue(hGrp->GetBool("RefineModel", false));
 }
 
-void Transformed::positionBySupport(void)
+void Transformed::positionBySupport()
 {
     // TODO May be here better to throw exception (silent=false) (2015-07-27, Fat-Zer)
     Part::Feature *support = getBaseObject(/* silent =*/ true);
@@ -203,7 +203,7 @@ short Transformed::mustExecute() const
     return PartDesign::Feature::mustExecute();
 }
 
-App::DocumentObjectExecReturn *Transformed::execute(void)
+App::DocumentObjectExecReturn *Transformed::execute()
 {
     std::string overlapMode = Overlap.getValueAsString();
     bool overlapDetectionMode = overlapMode == "Detect";

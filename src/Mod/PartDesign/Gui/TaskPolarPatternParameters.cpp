@@ -356,7 +356,7 @@ void TaskPolarPatternParameters::onUpdateView(bool on)
     }
 }
 
-void TaskPolarPatternParameters::onFeatureDeleted(void)
+void TaskPolarPatternParameters::onFeatureDeleted()
 {
     PartDesign::Transformed* pcTransformed = getObject();
     std::vector<App::DocumentObject*> originals = pcTransformed->Originals.getValues();
@@ -379,17 +379,17 @@ void TaskPolarPatternParameters::getAxis(App::DocumentObject*& obj, std::vector<
     sub = lnk.getSubValues();
 }
 
-bool TaskPolarPatternParameters::getReverse(void) const
+bool TaskPolarPatternParameters::getReverse() const
 {
     return ui->checkReverse->isChecked();
 }
 
-double TaskPolarPatternParameters::getAngle(void) const
+double TaskPolarPatternParameters::getAngle() const
 {
     return ui->polarAngle->value().getValue();
 }
 
-unsigned TaskPolarPatternParameters::getOccurrences(void) const
+unsigned TaskPolarPatternParameters::getOccurrences() const
 {
     return ui->spinOccurrences->value();
 }

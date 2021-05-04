@@ -171,7 +171,7 @@ void TaskThicknessParameters::clearButtons(const selectionModes notThis)
     DressUpView->highlightReferences(false);
 }
 
-void TaskThicknessParameters::onRefDeleted(void)
+void TaskThicknessParameters::onRefDeleted()
 {
     // assure we we are not in selection mode
     exitSelectionMode();
@@ -256,7 +256,7 @@ void TaskThicknessParameters::onModeChanged(int mode) {
     hideOnError();
 }
 
-double TaskThicknessParameters::getValue(void) const
+double TaskThicknessParameters::getValue() const
 {
     return ui->Value->value().getValue();
 }
@@ -271,7 +271,7 @@ void TaskThicknessParameters::onReversedChanged(const bool on) {
     hideOnError();
 }
 
-bool TaskThicknessParameters::getReversed(void) const
+bool TaskThicknessParameters::getReversed() const
 {
     return ui->checkReverse->isChecked();
 }
@@ -285,17 +285,17 @@ void TaskThicknessParameters::onIntersectionChanged(const bool on) {
     hideOnError();
 }
 
-bool TaskThicknessParameters::getIntersection(void) const
+bool TaskThicknessParameters::getIntersection() const
 {
     return ui->checkIntersection->isChecked();
 }
 
-int TaskThicknessParameters::getJoinType(void) const {
+int TaskThicknessParameters::getJoinType() const {
     
     return ui->joinComboBox->currentIndex();
 }
 
-int TaskThicknessParameters::getMode(void) const {
+int TaskThicknessParameters::getMode() const {
 
     return ui->modeComboBox->currentIndex();
 }

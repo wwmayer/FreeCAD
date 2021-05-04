@@ -926,7 +926,7 @@ bool TaskPrimitiveParameters::reject()
     return true;
 }
 
-QDialogButtonBox::StandardButtons TaskPrimitiveParameters::getStandardButtons(void) const {
+QDialogButtonBox::StandardButtons TaskPrimitiveParameters::getStandardButtons() const {
     return Gui::TaskView::TaskDialog::getStandardButtons();
 }
 

@@ -51,7 +51,7 @@ PartDesign::Body *getBody(bool messageIfNot, bool autoActivate=true, bool assert
         App::DocumentObject **topParent=nullptr, std::string *subname=nullptr);
 
 /// Display error when there are existing Body objects, but none are active
-void needActiveBodyError(void);
+void needActiveBodyError();
 
 /// Create a Body object in doc, set it active, and return pointer to it
 PartDesign::Body * makeBody(App::Document *doc);

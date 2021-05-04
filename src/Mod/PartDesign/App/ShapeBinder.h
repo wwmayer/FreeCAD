@@ -54,14 +54,14 @@ public:
     static void getFilteredReferences(App::PropertyLinkSubList* prop, App::GeoFeature*& object, std::vector< std::string >& subobjects);
     static Part::TopoShape buildShapeFromReferences(App::GeoFeature* obj, std::vector< std::string > subs);
 
-    const char* getViewProviderName(void) const override {
+    const char* getViewProviderName() const override {
         return "PartDesignGui::ViewProviderShapeBinder";
     }
 
 protected:
     virtual void handleChangedPropertyType(Base::XMLReader &reader, const char * TypeName, App::Property * prop) override;
-    virtual short int mustExecute(void) const override;
-    virtual App::DocumentObjectExecReturn* execute(void) override;
+    virtual short int mustExecute() const override;
+    virtual App::DocumentObjectExecReturn* execute() override;
 
 private:
     void slotChangedObject(const App::DocumentObject& Obj, const App::Property& Prop);
@@ -77,7 +77,7 @@ public:
     typedef Part::Feature inherited;
 
     SubShapeBinder();
-    const char* getViewProviderName(void) const override {
+    const char* getViewProviderName() const override {
         return "PartDesignGui::ViewProviderSubShapeBinder";
     }
 
@@ -110,7 +110,7 @@ public:
             Base::Matrix4D *mat=nullptr, bool transform=true, int depth=0) const override;
 
 protected:
-    virtual App::DocumentObjectExecReturn* execute(void) override;
+    virtual App::DocumentObjectExecReturn* execute() override;
     virtual void onChanged(const App::Property *prop) override;
 
     virtual void handleChangedPropertyType(

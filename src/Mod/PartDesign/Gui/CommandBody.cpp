@@ -294,7 +294,7 @@ void CmdPartDesignBody::activated(int iMsg)
     updateActive();
 }
 
-bool CmdPartDesignBody::isActive(void)
+bool CmdPartDesignBody::isActive()
 {
     return hasActiveDocument() && !PartDesignGui::isLegacyWorkflow ( getDocument () );
 }
@@ -510,7 +510,7 @@ void CmdPartDesignMigrate::activated(int iMsg)
     updateActive();
 }
 
-bool CmdPartDesignMigrate::isActive(void)
+bool CmdPartDesignMigrate::isActive()
 {
     return hasActiveDocument();
 }
@@ -588,7 +588,7 @@ void CmdPartDesignMoveTip::activated(int iMsg)
     updateActive();
 }
 
-bool CmdPartDesignMoveTip::isActive(void)
+bool CmdPartDesignMoveTip::isActive()
 {
     return hasActiveDocument();
 }
@@ -644,7 +644,7 @@ void CmdPartDesignDuplicateSelection::activated(int iMsg)
     updateActive();
 }
 
-bool CmdPartDesignDuplicateSelection::isActive(void)
+bool CmdPartDesignDuplicateSelection::isActive()
 {
     return hasActiveDocument();
 }
@@ -810,7 +810,7 @@ void CmdPartDesignMoveFeature::activated(int iMsg)
     updateActive();
 }
 
-bool CmdPartDesignMoveFeature::isActive(void)
+bool CmdPartDesignMoveFeature::isActive()
 {
     return hasActiveDocument () && !PartDesignGui::isLegacyWorkflow ( getDocument () );
 }
@@ -960,7 +960,7 @@ void CmdPartDesignMoveFeatureInTree::activated(int iMsg)
     updateActive();
 }
 
-bool CmdPartDesignMoveFeatureInTree::isActive(void)
+bool CmdPartDesignMoveFeatureInTree::isActive()
 {
     return hasActiveDocument () && !PartDesignGui::isLegacyWorkflow ( getDocument () );
 }
@@ -970,7 +970,7 @@ bool CmdPartDesignMoveFeatureInTree::isActive(void)
 // Initialization
 //===========================================================================
 
-void CreatePartDesignBodyCommands(void)
+void CreatePartDesignBodyCommands()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 

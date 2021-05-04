@@ -70,7 +70,7 @@ ShapeBinder::~ShapeBinder()
     this->connectDocumentChangedObject.disconnect();
 }
 
-short int ShapeBinder::mustExecute(void) const {
+short int ShapeBinder::mustExecute() const {
 
     if (Support.isTouched())
         return 1;
@@ -80,7 +80,7 @@ short int ShapeBinder::mustExecute(void) const {
     return Part::Feature::mustExecute();
 }
 
-App::DocumentObjectExecReturn* ShapeBinder::execute(void) {
+App::DocumentObjectExecReturn* ShapeBinder::execute() {
 
     if (!this->isRestoring()) {
         App::GeoFeature* obj = nullptr;
@@ -589,7 +589,7 @@ void SubShapeBinder::slotRecomputedObject(const App::DocumentObject& Obj) {
     }
 }
 
-App::DocumentObjectExecReturn* SubShapeBinder::execute(void) {
+App::DocumentObjectExecReturn* SubShapeBinder::execute() {
     if(BindMode.getValue()==0)
         update(UpdateForced);
     return inherited::execute();

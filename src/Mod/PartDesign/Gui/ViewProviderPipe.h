@@ -47,7 +47,7 @@ public:
     virtual ~ViewProviderPipe();
 
     /// grouping handling 
-    std::vector<App::DocumentObject*> claimChildren(void)const;
+    std::vector<App::DocumentObject*> claimChildren()const;
     void setupContextMenu(QMenu*, QObject*, const char*);
     bool doubleClicked();
 
@@ -55,7 +55,7 @@ public:
     void highlightReferences(Reference mode, bool on);
     
 protected:
-    virtual QIcon getIcon(void) const;
+    virtual QIcon getIcon() const;
     virtual bool setEdit(int ModNum);
     virtual void unsetEdit(int ModNum);
     

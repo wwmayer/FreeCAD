@@ -37,7 +37,7 @@ public:
     CoordinateSystem();
     virtual ~CoordinateSystem();
 
-    const char* getViewProviderName(void) const override {
+    const char* getViewProviderName() const override {
         return "PartDesignGui::ViewProviderDatumCoordinateSystem";
     }
 

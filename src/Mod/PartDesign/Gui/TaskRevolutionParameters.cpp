@@ -315,7 +315,7 @@ void TaskRevolutionParameters::onReversed(bool on)
     recomputeFeature();
 }
 
-double TaskRevolutionParameters::getAngle(void) const
+double TaskRevolutionParameters::getAngle() const
 {
     return ui->revolveAngle->value().getValue();
 }
@@ -340,12 +340,12 @@ void TaskRevolutionParameters::getReferenceAxis(App::DocumentObject*& obj, std::
     }
 }
 
-bool TaskRevolutionParameters::getMidplane(void) const
+bool TaskRevolutionParameters::getMidplane() const
 {
     return ui->checkBoxMidplane->isChecked();
 }
 
-bool TaskRevolutionParameters::getReversed(void) const
+bool TaskRevolutionParameters::getReversed() const
 {
     return ui->checkBoxReversed->isChecked();
 }

@@ -50,7 +50,7 @@ private Q_SLOTS:
     void onSize2Changed(double);
     void onAngleChanged(double);
     void onFlipDirection(bool);
-    void onRefDeleted(void);
+    void onRefDeleted();
 
 protected:
     virtual void clearButtons(const selectionModes notThis);
@@ -58,11 +58,11 @@ protected:
     void changeEvent(QEvent *e);
     virtual void onSelectionChanged(const Gui::SelectionChanges& msg);
 
-    int getType(void) const;
-    double getSize(void) const;
-    double getSize2(void) const;
-    double getAngle(void) const;
-    bool getFlipDirection(void) const;
+    int getType() const;
+    double getSize() const;
+    double getSize2() const;
+    double getAngle() const;
+    bool getFlipDirection() const;
 
 private:
     void setUpUI(PartDesign::Chamfer* pcChamfer);

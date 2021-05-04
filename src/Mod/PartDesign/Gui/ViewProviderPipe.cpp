@@ -55,7 +55,7 @@ ViewProviderPipe::~ViewProviderPipe()
 {
 }
 
-std::vector<App::DocumentObject*> ViewProviderPipe::claimChildren(void)const
+std::vector<App::DocumentObject*> ViewProviderPipe::claimChildren()const
 {
     std::vector<App::DocumentObject*> temp;
 
@@ -89,7 +89,7 @@ void ViewProviderPipe::setupContextMenu(QMenu* menu, QObject* receiver, const ch
     PartDesignGui::ViewProvider::setupContextMenu(menu, receiver, member);
 }
 
-bool ViewProviderPipe::doubleClicked(void)
+bool ViewProviderPipe::doubleClicked()
 {
     return PartDesignGui::setEdit(pcObject);
 }
@@ -198,7 +198,7 @@ void ViewProviderPipe::highlightReferences(Part::Feature* base, const std::vecto
     }
 }
 
-QIcon ViewProviderPipe::getIcon(void) const {
+QIcon ViewProviderPipe::getIcon() const {
     QString str = QString::fromLatin1("PartDesign_");
     auto* prim = static_cast<PartDesign::Pipe*>(getObject());
     if(prim->getAddSubType() == PartDesign::FeatureAddSub::Additive)

@@ -120,7 +120,7 @@ public:
     ~TaskPrimitiveParameters();
 
 protected:
-    virtual QDialogButtonBox::StandardButtons getStandardButtons(void) const;
+    virtual QDialogButtonBox::StandardButtons getStandardButtons() const;
 
     virtual bool accept();
     virtual bool reject();

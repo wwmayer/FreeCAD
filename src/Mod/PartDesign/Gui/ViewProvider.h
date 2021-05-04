@@ -48,7 +48,7 @@ public:
     /// destructor
     virtual ~ViewProvider();
 
-    virtual bool doubleClicked(void) override;
+    virtual bool doubleClicked() override;
     void updateData(const App::Property*) override;
     void onChanged(const App::Property* prop) override;
 
@@ -68,7 +68,7 @@ public:
     //Returns the ViewProvider of the body the feature belongs to, or NULL, if not in a body
     ViewProviderBody* getBodyViewProvider();
 
-    virtual PyObject* getPyObject(void) override;
+    virtual PyObject* getPyObject() override;
 
     virtual QIcon mergeColorfulOverlayIcons (const QIcon & orig) const override;
 

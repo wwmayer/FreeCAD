@@ -48,7 +48,7 @@ Part::Feature* FeatureBase::getBaseObject(bool) const {
     return nullptr;
 }
 
-short int FeatureBase::mustExecute(void) const {
+short int FeatureBase::mustExecute() const {
         
     if(BaseFeature.isTouched())
         return 1;
@@ -57,7 +57,7 @@ short int FeatureBase::mustExecute(void) const {
 }
 
 
-App::DocumentObjectExecReturn* FeatureBase::execute(void) {
+App::DocumentObjectExecReturn* FeatureBase::execute() {
        
     if(!BaseFeature.getValue())
         return new App::DocumentObjectExecReturn("BaseFeature link is not set");

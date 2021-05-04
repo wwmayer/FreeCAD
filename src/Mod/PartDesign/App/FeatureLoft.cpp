@@ -72,7 +72,7 @@ short Loft::mustExecute() const
     return ProfileBased::mustExecute();
 }
 
-App::DocumentObjectExecReturn *Loft::execute(void)
+App::DocumentObjectExecReturn *Loft::execute()
 {
 
     std::vector<TopoDS_Wire> wires;

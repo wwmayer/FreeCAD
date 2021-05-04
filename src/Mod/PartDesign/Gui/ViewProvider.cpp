@@ -62,7 +62,7 @@ ViewProvider::~ViewProvider()
 {
 }
 
-bool ViewProvider::doubleClicked(void)
+bool ViewProvider::doubleClicked()
 {
 #if 0
     // TODO May be move to setEdit()? (2015-07-26, Fat-Zer)

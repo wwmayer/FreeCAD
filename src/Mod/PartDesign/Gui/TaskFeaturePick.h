@@ -122,13 +122,13 @@ public:
     /// is called by the framework if the dialog is rejected (Cancel)
     virtual bool reject();
     /// is called by the framework if the user presses the help button
-    virtual bool isAllowedAlterDocument(void) const
+    virtual bool isAllowedAlterDocument() const
     { return false; }
 
     void showExternal(bool val);
 
     /// returns for Close and Help button
-    virtual QDialogButtonBox::StandardButtons getStandardButtons(void) const
+    virtual QDialogButtonBox::StandardButtons getStandardButtons() const
     { return QDialogButtonBox::Ok|QDialogButtonBox::Cancel; }
 
 

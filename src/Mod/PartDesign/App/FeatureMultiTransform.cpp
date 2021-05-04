@@ -49,7 +49,7 @@ MultiTransform::MultiTransform()
     Transformations.setSize(0);
 }
 
-void MultiTransform::positionBySupport(void)
+void MultiTransform::positionBySupport()
 {
     PartDesign::Transformed::positionBySupport();
     std::vector<App::DocumentObject*> transFeatures = Transformations.getValues();

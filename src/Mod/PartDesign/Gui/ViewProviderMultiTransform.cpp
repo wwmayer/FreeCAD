@@ -39,7 +39,7 @@ TaskDlgFeatureParameters *ViewProviderMultiTransform::getEditDialog() {
     return new TaskDlgMultiTransformParameters (this);
 }
 
-std::vector<App::DocumentObject*> ViewProviderMultiTransform::claimChildren(void) const
+std::vector<App::DocumentObject*> ViewProviderMultiTransform::claimChildren() const
 {
     PartDesign::MultiTransform* pcMultiTransform = static_cast<PartDesign::MultiTransform*>(getObject());
     if (pcMultiTransform == nullptr)

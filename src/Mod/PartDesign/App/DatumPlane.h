@@ -44,7 +44,7 @@ public:
     App::PropertyLength Width;
 
     virtual void onChanged(const App::Property *prop);
-    const char* getViewProviderName(void) const {
+    const char* getViewProviderName() const {
         return "PartDesignGui::ViewProviderDatumPlane";
     }
 

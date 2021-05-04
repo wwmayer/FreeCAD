@@ -64,23 +64,23 @@ public:
 
     /** @name methods override feature */
     //@{
-    App::DocumentObjectExecReturn *execute(void);
+    App::DocumentObjectExecReturn *execute();
     short mustExecute() const;
     /// returns the type name of the view provider
-    const char* getViewProviderName(void) const {
+    const char* getViewProviderName() const {
         return "PartDesignGui::ViewProviderHelix";
     }
     //@}
 
     void proposeParameters(bool force = false);
-    double safePitch(void);
+    double safePitch();
 
 protected:
     /// updates Axis from ReferenceAxis
-    void updateAxis(void);
+    void updateAxis();
 
     /// generate helix and move it to the right location.
-    TopoDS_Shape generateHelixPath(void);
+    TopoDS_Shape generateHelixPath();
 
     // project shape on plane. Used for detecting self intersection.
     TopoDS_Shape projectShape(const TopoDS_Shape& input, const gp_Ax2& plane);

@@ -74,21 +74,21 @@ protected:
     void changeEvent(QEvent *e) override;
 
 private:
-    double getLength(void) const;
-    double getLength2(void) const;
-    bool   getAlongSketchNormal(void) const;
-    bool   getCustom(void) const;
-    double getXDirection(void) const;
-    double getYDirection(void) const;
-    double getZDirection(void) const;
-    double getOffset(void) const;
-    bool   getReversed(void) const;
-    bool   getMidplane(void) const;
-    int    getMode(void) const;
-    QString getFaceName(void) const;
+    double getLength() const;
+    double getLength2() const;
+    bool   getAlongSketchNormal() const;
+    bool   getCustom() const;
+    double getXDirection() const;
+    double getYDirection() const;
+    double getZDirection() const;
+    double getOffset() const;
+    bool   getReversed() const;
+    bool   getMidplane() const;
+    int    getMode() const;
+    QString getFaceName() const;
     void onSelectionChanged(const Gui::SelectionChanges& msg) override;
     void updateUI(int index);
-    void updateDirectionEdits(void);
+    void updateDirectionEdits();
 
 private:
     QWidget* proxy;

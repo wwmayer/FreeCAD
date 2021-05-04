@@ -100,7 +100,7 @@ short Pad::mustExecute() const
     return ProfileBased::mustExecute();
 }
 
-App::DocumentObjectExecReturn *Pad::execute(void)
+App::DocumentObjectExecReturn *Pad::execute()
 {
     // Validate parameters
     double L = Length.getValue();

@@ -64,7 +64,7 @@ TaskDlgFeatureParameters *ViewProviderHelix::getEditDialog()
     return new TaskDlgHelixParameters( this );
 }
 
-QIcon ViewProviderHelix::getIcon(void) const {
+QIcon ViewProviderHelix::getIcon() const {
     QString str = QString::fromLatin1("PartDesign_");
     auto* prim = static_cast<PartDesign::Helix*>(getObject());
     if(prim->getAddSubType() == PartDesign::FeatureAddSub::Additive)
@@ -93,7 +93,7 @@ void ViewProviderHelix::unsetEdit(int ModNum)
     PartDesignGui::ViewProvider::unsetEdit(ModNum);
 }
 
-std::vector<App::DocumentObject*> ViewProviderHelix::claimChildren(void) const {
+std::vector<App::DocumentObject*> ViewProviderHelix::claimChildren() const {
     std::vector<App::DocumentObject*> temp;
     App::DocumentObject* sketch = static_cast<PartDesign::ProfileBased*>(getObject())->Profile.getValue();
     if (sketch != nullptr && sketch->isDerivedFrom(Part::Part2DObject::getClassTypeId()))

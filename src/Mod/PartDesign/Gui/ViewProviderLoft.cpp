@@ -55,7 +55,7 @@ ViewProviderLoft::~ViewProviderLoft()
 {
 }
 
-std::vector<App::DocumentObject*> ViewProviderLoft::claimChildren(void)const
+std::vector<App::DocumentObject*> ViewProviderLoft::claimChildren()const
 {
     std::vector<App::DocumentObject*> temp;
 
@@ -81,7 +81,7 @@ void ViewProviderLoft::setupContextMenu(QMenu* menu, QObject* receiver, const ch
     PartDesignGui::ViewProvider::setupContextMenu(menu, receiver, member);
 }
 
-bool ViewProviderLoft::doubleClicked(void)
+bool ViewProviderLoft::doubleClicked()
 {
     return PartDesignGui::setEdit(pcObject);
 }
@@ -165,7 +165,7 @@ void ViewProviderLoft::highlightReferences(const bool /*on*/, bool /*auxiliary*/
     }*/
 }
 
-QIcon ViewProviderLoft::getIcon(void) const {
+QIcon ViewProviderLoft::getIcon() const {
     QString str = QString::fromLatin1("PartDesign_");
     auto* prim = static_cast<PartDesign::Loft*>(getObject());
     if(prim->getAddSubType() == PartDesign::FeatureAddSub::Additive)

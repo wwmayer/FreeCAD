@@ -39,7 +39,7 @@ public:
     virtual ~ViewProviderLoft();
 
     /// grouping handling 
-    std::vector<App::DocumentObject*> claimChildren(void)const;
+    std::vector<App::DocumentObject*> claimChildren()const;
     void setupContextMenu(QMenu*, QObject*, const char*);
     bool doubleClicked();
 
@@ -51,7 +51,7 @@ protected:
     virtual void unsetEdit(int ModNum);
     virtual TaskDlgFeatureParameters* getEditDialog();
     
-    virtual QIcon getIcon(void) const;
+    virtual QIcon getIcon() const;
     
 private:
     std::vector<App::Color> originalLineColors;

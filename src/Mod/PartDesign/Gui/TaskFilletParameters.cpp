@@ -149,7 +149,7 @@ void TaskFilletParameters::clearButtons(const selectionModes notThis)
     DressUpView->highlightReferences(false);
 }
 
-void TaskFilletParameters::onRefDeleted(void)
+void TaskFilletParameters::onRefDeleted()
 {
     // assure we we are not in selection mode
     exitSelectionMode();
@@ -212,7 +212,7 @@ void TaskFilletParameters::onLengthChanged(double len)
     hideOnError();   
 }
 
-double TaskFilletParameters::getLength(void) const
+double TaskFilletParameters::getLength() const
 {
     return ui->filletRadius->value().getValue();
 }
