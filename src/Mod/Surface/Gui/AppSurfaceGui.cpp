@@ -69,7 +69,7 @@ PyMOD_INIT_FUNC(SurfaceGui)
 {
     if (!Gui::Application::Instance) {
         PyErr_SetString(PyExc_ImportError, "Cannot load Gui module in console application.");
-        PyMOD_Return(0);
+        PyMOD_Return(nullptr);
     }
 
     Base::Interpreter().runString("import Surface");
