@@ -220,7 +220,7 @@ void CmdPointsConvert::activated(int iMsg)
             std::vector<Base::Vector3d> normals;
             data->getPoints(vertexes, normals, static_cast<float>(tol));
             if (!vertexes.empty()) {
-                Points::Feature* fea = 0;
+                Points::Feature* fea = nullptr;
                 if (vertexes.size() == normals.size()) {
                     fea = static_cast<Points::Feature*>(Base::Type::fromName("Points::FeatureCustom").createInstance());
                     if (!fea) {

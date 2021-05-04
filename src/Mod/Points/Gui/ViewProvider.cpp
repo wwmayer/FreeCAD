@@ -650,8 +650,8 @@ template class PointsGuiExport ViewProviderPythonFeatureT<PointsGui::ViewProvide
 
 void ViewProviderPointsBuilder::buildNodes(const App::Property* prop, std::vector<SoNode*>& nodes) const
 {
-    SoCoordinate3 *pcPointsCoord=0;
-    SoPointSet *pcPoints=0;
+    SoCoordinate3 *pcPointsCoord=nullptr;
+    SoPointSet *pcPoints=nullptr;
 
     if (nodes.empty()) {
         pcPointsCoord = new SoCoordinate3();

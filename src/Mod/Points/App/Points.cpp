@@ -79,7 +79,7 @@ Data::Segment* PointKernel::getSubElement(const char* /*Type*/, unsigned long /*
     //    return 0;
     //}
 
-    return 0;
+    return nullptr;
 }
 
 void PointKernel::transformGeometry(const Base::Matrix4D &rclMat)

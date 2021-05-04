@@ -44,7 +44,7 @@ PointsGrid::PointsGrid (const PointKernel &rclM)
 }
 
 PointsGrid::PointsGrid (void)
-: _pclPoints(NULL),
+: _pclPoints(nullptr),
   _ulCtElements(0),
   _ulCtGridsX(POINTS_CT_GRID), _ulCtGridsY(POINTS_CT_GRID), _ulCtGridsZ(POINTS_CT_GRID),
   _fGridLenX(0.0f), _fGridLenY(0.0f), _fGridLenZ(0.0f),
@@ -96,7 +96,7 @@ void PointsGrid::Attach (const PointKernel &rclM)
 void PointsGrid::Clear (void)
 {
   _aulGrid.clear();
-  _pclPoints = NULL;  
+  _pclPoints = nullptr;  
 }
 
 void PointsGrid::Rebuild (unsigned long ulX, unsigned long ulY, unsigned long ulZ)
@@ -124,7 +124,7 @@ void PointsGrid::Rebuild (int iCtGridPerAxis)
 
 void PointsGrid::InitGrid (void)
 {
-  assert(_pclPoints != NULL);
+  assert(_pclPoints != nullptr);
 
   unsigned long i, j;
 
@@ -647,7 +647,7 @@ void PointsGrid::Validate (const PointKernel &rclPoints)
 
 void PointsGrid::Validate (void)
 {
-  if (_pclPoints == NULL)
+  if (_pclPoints == nullptr)
     return;
 
   if (_pclPoints->size() != _ulCtElements)
