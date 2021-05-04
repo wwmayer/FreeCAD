@@ -52,7 +52,7 @@ namespace bp = boost::placeholders;
 
 EXTENSION_PROPERTY_SOURCE(App::LinkBaseExtension, App::DocumentObjectExtension)
 
-LinkBaseExtension::LinkBaseExtension(void)
+LinkBaseExtension::LinkBaseExtension()
     :myOwner(0),enableLabelCache(false),hasOldSubElement(false)
 {
     initExtensionType(LinkBaseExtension::getExtensionClassTypeId());
@@ -68,7 +68,7 @@ LinkBaseExtension::~LinkBaseExtension()
 {
 }
 
-PyObject* LinkBaseExtension::getExtensionPyObject(void) {
+PyObject* LinkBaseExtension::getExtensionPyObject() {
     if (ExtensionPythonObject.is(Py::_None())){
         // ref counter is set to 1
         ExtensionPythonObject = Py::Object(new LinkBaseExtensionPy(this),true);
@@ -179,7 +179,7 @@ void LinkBaseExtension::setProperty(int idx, Property *prop) {
     }
 }
 
-App::DocumentObjectExecReturn *LinkBaseExtension::extensionExecute(void) {
+App::DocumentObjectExecReturn *LinkBaseExtension::extensionExecute() {
     // The actual value of LinkRecompouted is not important, just to notify view
     // provider that the link (in fact, its dependents, i.e. linked ones) have
     // recomputed.
@@ -244,7 +244,7 @@ App::DocumentObjectExecReturn *LinkBaseExtension::extensionExecute(void) {
     return inherited::extensionExecute();
 }
 
-short LinkBaseExtension::extensionMustExecute(void) {
+short LinkBaseExtension::extensionMustExecute() {
     auto link = getLink();
     if(!link) return 0;
     return link->mustExecute();
@@ -1455,7 +1455,7 @@ template class AppExport ExtensionPythonT<LinkBaseExtension>;
 
 EXTENSION_PROPERTY_SOURCE(App::LinkExtension, App::LinkBaseExtension)
 
-LinkExtension::LinkExtension(void)
+LinkExtension::LinkExtension()
 {
     initExtensionType(LinkExtension::getExtensionClassTypeId());
 
@@ -1495,7 +1495,7 @@ bool Link::canLinkProperties() const {
 
 namespace App {
 PROPERTY_SOURCE_TEMPLATE(App::LinkPython, App::Link)
-template<> const char* App::LinkPython::getViewProviderName(void) const {
+template<> const char* App::LinkPython::getViewProviderName() const {
     return "Gui::ViewProviderLinkPython";
 }
 template class AppExport FeaturePythonT<App::Link>;
@@ -1522,7 +1522,7 @@ bool LinkElement::canDelete() const {
 
 namespace App {
 PROPERTY_SOURCE_TEMPLATE(App::LinkElementPython, App::LinkElement)
-template<> const char* App::LinkElementPython::getViewProviderName(void) const {
+template<> const char* App::LinkElementPython::getViewProviderName() const {
     return "Gui::ViewProviderLinkPython";
 }
 template class AppExport FeaturePythonT<App::LinkElement>;
@@ -1541,7 +1541,7 @@ LinkGroup::LinkGroup() {
 
 namespace App {
 PROPERTY_SOURCE_TEMPLATE(App::LinkGroupPython, App::LinkGroup)
-template<> const char* App::LinkGroupPython::getViewProviderName(void) const {
+template<> const char* App::LinkGroupPython::getViewProviderName() const {
     return "Gui::ViewProviderLinkPython";
 }
 template class AppExport FeaturePythonT<App::LinkGroup>;

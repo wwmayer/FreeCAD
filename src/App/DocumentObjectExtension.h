@@ -49,8 +49,8 @@ public:
     const App::DocumentObject* getExtendedObject() const;
 
     //override if execution is necessary
-    virtual short extensionMustExecute(void);
-    virtual App::DocumentObjectExecReturn *extensionExecute(void);
+    virtual short extensionMustExecute();
+    virtual App::DocumentObjectExecReturn *extensionExecute();
 
 
     /// get called after setting the document
@@ -62,11 +62,11 @@ public:
     /// get called when object is going to be removed from the document
     virtual void onExtendedUnsetupObject();
 
-    virtual PyObject* getExtensionPyObject(void) override;
+    virtual PyObject* getExtensionPyObject() override;
 
     /// returns the type name of the ViewProviderExtension which is automatically attached
     /// to the viewprovider object when it is initiated
-    virtual const char* getViewProviderExtensionName(void) const {return "";}
+    virtual const char* getViewProviderExtensionName() const {return "";}
 
     /** Get the sub object by name
      * @sa DocumentObject::getSubObject()

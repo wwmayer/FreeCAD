@@ -71,7 +71,7 @@ public:
     };
 
     /// Constructor
-    ComplexGeoData(void);
+    ComplexGeoData();
     /// Destructor
     virtual ~ComplexGeoData();
 
@@ -81,7 +81,7 @@ public:
      *  List of different subelement types
      *  its NOT a list of the subelements itself
      */
-    virtual std::vector<const char*> getElementTypes(void) const=0;
+    virtual std::vector<const char*> getElementTypes() const=0;
     virtual unsigned long countSubElements(const char* Type) const=0;
     /// get the subelement by type and number
     virtual Segment* getSubElement(const char* Type, unsigned long) const=0;
@@ -125,7 +125,7 @@ public:
      * This method has to be handled by the child classes.
      * the actual placement and matrix is not part of this class.
      */
-    virtual Base::Matrix4D getTransform(void) const = 0;
+    virtual Base::Matrix4D getTransform() const = 0;
     //@}
 
     /** @name Modification */
@@ -137,7 +137,7 @@ public:
     /** @name Getting basic geometric entities */
     //@{
     /// Get the bound box
-    virtual Base::BoundBox3d getBoundBox(void)const=0;
+    virtual Base::BoundBox3d getBoundBox()const=0;
     /** Get point from line object intersection  */
     virtual Base::Vector3d getPointFromLineIntersection(
         const Base::Vector3f& base,

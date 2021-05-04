@@ -61,7 +61,7 @@ DocumentObjectExecReturn *DocumentObject::StdReturn = nullptr;
 // DocumentObject
 //===========================================================================
 
-DocumentObject::DocumentObject(void)
+DocumentObject::DocumentObject()
     : ExpressionEngine(),_pDoc(nullptr),pcNameInDocument(nullptr),_Id(0)
 {
     // define Label of type 'Output' to avoid being marked as touched after relabeling
@@ -80,7 +80,7 @@ DocumentObject::DocumentObject(void)
     Visibility.setStatus(Property::NoModify,true);
 }
 
-DocumentObject::~DocumentObject(void)
+DocumentObject::~DocumentObject()
 {
     if (!PythonObject.is(Py::_None())){
         Base::PyGILStateLocker lock;
@@ -95,7 +95,7 @@ DocumentObject::~DocumentObject(void)
     }
 }
 
-App::DocumentObjectExecReturn *DocumentObject::recompute(void)
+App::DocumentObjectExecReturn *DocumentObject::recompute()
 {
     //check if the links are valid before making the recompute
     if(!GeoFeatureGroupExtension::areLinksValid(this)) {
@@ -124,7 +124,7 @@ App::DocumentObjectExecReturn *DocumentObject::recompute(void)
     return ret;
 }
 
-DocumentObjectExecReturn *DocumentObject::execute(void)
+DocumentObjectExecReturn *DocumentObject::execute()
 {
     return executeExtensions();
 }
@@ -181,7 +181,7 @@ bool DocumentObject::isTouched() const
  * This can be useful to recompute the feature without
  * having to change one of its input properties.
  */
-void DocumentObject::enforceRecompute(void)
+void DocumentObject::enforceRecompute()
 {
     touch(false);
 }
@@ -192,7 +192,7 @@ void DocumentObject::enforceRecompute(void)
  * returns a value > 0.
  * @return true if document object must be recomputed, false if not.
  */
-bool DocumentObject::mustRecompute(void) const
+bool DocumentObject::mustRecompute() const
 {
     if (StatusBits.test(ObjectStatus::Enforce))
         return true;
@@ -200,7 +200,7 @@ bool DocumentObject::mustRecompute(void) const
     return mustExecute() > 0;
 }
 
-short DocumentObject::mustExecute(void) const
+short DocumentObject::mustExecute() const
 {
     if (ExpressionEngine.isTouched())
         return 1;
@@ -215,7 +215,7 @@ short DocumentObject::mustExecute(void) const
     return 0;
 }
 
-const char* DocumentObject::getStatusString(void) const
+const char* DocumentObject::getStatusString() const
 {
     if (isError()) {
         const char* text = getDocument()->getErrorDescription(this);
@@ -346,7 +346,7 @@ std::vector<App::DocumentObject*> DocumentObject::getInList(void) const
 
 #else // ifndef USE_OLD_DAG
 
-const std::vector<App::DocumentObject*> &DocumentObject::getInList(void) const
+const std::vector<App::DocumentObject*> &DocumentObject::getInList() const
 {
     return _inList;
 }
@@ -398,7 +398,7 @@ std::vector<App::DocumentObject*> DocumentObject::getInListRecursive(void) const
 // of objects. And this may not be the worst case. getInListEx() has no such
 // problem.
 
-std::vector<App::DocumentObject*> DocumentObject::getInListRecursive(void) const {
+std::vector<App::DocumentObject*> DocumentObject::getInListRecursive() const {
     std::set<App::DocumentObject*> inSet;
     std::vector<App::DocumentObject*> res;
     getInListEx(inSet,true,&res);
@@ -495,7 +495,7 @@ void _getOutListRecursive(std::set<DocumentObject*>& objSet,
     }
 }
 
-std::vector<App::DocumentObject*> DocumentObject::getOutListRecursive(void) const
+std::vector<App::DocumentObject*> DocumentObject::getOutListRecursive() const
 {
     // number of objects in document is a good estimate in result size
     int maxDepth = GetApplication().checkLinkDepth(0);
@@ -647,7 +647,7 @@ void DocumentObject::onLostLinkToObject(DocumentObject*)
 
 }
 
-App::Document *DocumentObject::getDocument(void) const
+App::Document *DocumentObject::getDocument() const
 {
     return _pDoc;
 }
@@ -768,7 +768,7 @@ void DocumentObject::clearOutListCache() const {
     _outListCached = false;
 }
 
-PyObject *DocumentObject::getPyObject(void)
+PyObject *DocumentObject::getPyObject()
 {
     if (PythonObject.is(Py::_None())) {
         // ref counter is set to 1

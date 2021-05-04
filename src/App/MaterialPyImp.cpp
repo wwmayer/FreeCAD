@@ -80,7 +80,7 @@ int MaterialPy::PyInit(PyObject* args, PyObject* kwds)
 }
 
 // returns a string which represents the object e.g. when printed in python
-std::string MaterialPy::representation(void) const
+std::string MaterialPy::representation() const
 {
     return std::string("<Material object>");
 }
@@ -96,7 +96,7 @@ PyObject* MaterialPy::set(PyObject * args)
     Py_Return;
 }
 
-Py::Tuple MaterialPy::getAmbientColor(void) const
+Py::Tuple MaterialPy::getAmbientColor() const
 {
     Py::Tuple tuple(4);
     tuple.setItem(0, Py::Float(getMaterialPtr()->ambientColor.r));
@@ -117,7 +117,7 @@ void MaterialPy::setAmbientColor(Py::Tuple arg)
     getMaterialPtr()->ambientColor = c;
 }
 
-Py::Tuple MaterialPy::getDiffuseColor(void) const
+Py::Tuple MaterialPy::getDiffuseColor() const
 {
     Py::Tuple tuple(4);
     tuple.setItem(0, Py::Float(getMaterialPtr()->diffuseColor.r));
@@ -138,7 +138,7 @@ void MaterialPy::setDiffuseColor(Py::Tuple arg)
     getMaterialPtr()->diffuseColor = c;
 }
 
-Py::Tuple MaterialPy::getEmissiveColor(void) const
+Py::Tuple MaterialPy::getEmissiveColor() const
 {
     Py::Tuple tuple(4);
     tuple.setItem(0, Py::Float(getMaterialPtr()->emissiveColor.r));
@@ -159,7 +159,7 @@ void MaterialPy::setEmissiveColor(Py::Tuple arg)
     getMaterialPtr()->emissiveColor = c;
 }
 
-Py::Tuple MaterialPy::getSpecularColor(void) const
+Py::Tuple MaterialPy::getSpecularColor() const
 {
     Py::Tuple tuple(4);
     tuple.setItem(0, Py::Float(getMaterialPtr()->specularColor.r));
@@ -180,7 +180,7 @@ void MaterialPy::setSpecularColor(Py::Tuple arg)
     getMaterialPtr()->specularColor = c;
 }
 
-Py::Float MaterialPy::getShininess(void) const
+Py::Float MaterialPy::getShininess() const
 {
     return Py::Float(getMaterialPtr()->shininess);
 }
@@ -190,7 +190,7 @@ void MaterialPy::setShininess(Py::Float arg)
     getMaterialPtr()->shininess = (float)arg;
 }
 
-Py::Float MaterialPy::getTransparency(void) const
+Py::Float MaterialPy::getTransparency() const
 {
     return Py::Float(getMaterialPtr()->transparency);
 }

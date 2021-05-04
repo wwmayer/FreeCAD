@@ -78,7 +78,7 @@ Enumeration::~Enumeration()
     }
 }
 
-void Enumeration::tearDown(void)
+void Enumeration::tearDown()
 {
     // Ugly...
     char **plEnums = const_cast<char **>(_EnumArray);
@@ -237,7 +237,7 @@ bool Enumeration::contains(const char *value) const
     }
 }
 
-const char * Enumeration::getCStr(void) const
+const char * Enumeration::getCStr() const
 {
     // using string methods without set, use setEnums(const char** plEnums) first!
     //assert(_EnumArray);
@@ -249,7 +249,7 @@ const char * Enumeration::getCStr(void) const
     return _EnumArray[_index];
 }
 
-int Enumeration::getInt(void) const
+int Enumeration::getInt() const
 {
     if (!isValid() || _index < 0 || _index > _maxVal) {
         return -1;
@@ -258,7 +258,7 @@ int Enumeration::getInt(void) const
     return _index;
 }
 
-std::vector<std::string> Enumeration::getEnumVector(void) const
+std::vector<std::string> Enumeration::getEnumVector() const
 {
     // using string methods without set, use setEnums(const char** plEnums) first!
     if (!_EnumArray)
@@ -276,12 +276,12 @@ std::vector<std::string> Enumeration::getEnumVector(void) const
     return result;
 }
 
-const char ** Enumeration::getEnums(void) const
+const char ** Enumeration::getEnums() const
 {
     return _EnumArray;
 }
 
-bool Enumeration::isValid(void) const
+bool Enumeration::isValid() const
 {
     return (_EnumArray != nullptr && _index >= 0 && _index <= _maxVal);
 }
@@ -325,7 +325,7 @@ bool Enumeration::operator==(const char *other) const
     return (strcmp(getCStr(), other) == 0);
 }
 
-void Enumeration::findMaxVal(void)
+void Enumeration::findMaxVal()
 {
     if (_EnumArray == nullptr) {
         _maxVal = -1;

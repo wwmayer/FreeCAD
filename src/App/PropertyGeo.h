@@ -81,21 +81,21 @@ public:
 
     /** This method returns a string representation of the property
      */
-    const Base::Vector3d &getValue(void) const;
-    const char* getEditorName(void) const override {
+    const Base::Vector3d &getValue() const;
+    const char* getEditorName() const override {
         return "Gui::PropertyEditor::PropertyVectorItem";
     }
 
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
     virtual void setPyObject(PyObject *) override;
 
     virtual void Save (Base::Writer &writer) const override;
     virtual void Restore(Base::XMLReader &reader) override;
 
-    virtual Property *Copy(void) const override;
+    virtual Property *Copy() const override;
     virtual void Paste(const Property &from) override;
 
-    virtual unsigned int getMemSize (void) const override {
+    virtual unsigned int getMemSize () const override {
         return sizeof(Base::Vector3d);
     }
 
@@ -133,7 +133,7 @@ public:
         return Base::Unit::Length;
     }
 
-    const char* getEditorName(void) const {
+    const char* getEditorName() const {
         return "Gui::PropertyEditor::PropertyVectorDistanceItem";
     }
 };
@@ -159,7 +159,7 @@ public:
         return Base::Unit::Length;
     }
 
-    const char* getEditorName(void) const {
+    const char* getEditorName() const {
         return "Gui::PropertyEditor::PropertyPositionItem";
     }
 };
@@ -185,7 +185,7 @@ public:
         return Base::Unit::Length;
     }
 
-    const char* getEditorName(void) const {
+    const char* getEditorName() const {
         return "Gui::PropertyEditor::PropertyDirectionItem";
     }
 };
@@ -212,7 +212,7 @@ public:
     void setValue(double x, double y, double z);
     using inherited::setValue;
 
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
 
     virtual void Save (Base::Writer &writer) const override;
     virtual void Restore(Base::XMLReader &reader) override;
@@ -220,11 +220,11 @@ public:
     virtual void SaveDocFile (Base::Writer &writer) const override;
     virtual void RestoreDocFile(Base::Reader &reader) override;
 
-    virtual Property *Copy(void) const override;
+    virtual Property *Copy() const override;
     virtual void Paste(const Property &from) override;
 
-    virtual unsigned int getMemSize (void) const override;
-    const char* getEditorName(void) const override {
+    virtual unsigned int getMemSize () const override;
+    const char* getEditorName() const override {
         return "Gui::PropertyEditor::PropertyVectorListItem";
     }
 
@@ -259,21 +259,21 @@ public:
 
     /** This method returns a string representation of the property
      */
-    const Base::Matrix4D &getValue(void) const;
-    const char* getEditorName(void) const {
+    const Base::Matrix4D &getValue() const;
+    const char* getEditorName() const {
         return "Gui::PropertyEditor::PropertyMatrixItem";
     }
 
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
     virtual void setPyObject(PyObject *);
 
     virtual void Save (Base::Writer &writer) const;
     virtual void Restore(Base::XMLReader &reader);
 
-    virtual Property *Copy(void) const;
+    virtual Property *Copy() const;
     virtual void Paste(const Property &from);
 
-    virtual unsigned int getMemSize (void) const {
+    virtual unsigned int getMemSize () const {
         return sizeof(Base::Matrix4D);
     }
 
@@ -315,7 +315,7 @@ public:
 
     /** This method returns a string representation of the property
      */
-    const Base::Placement &getValue(void) const;
+    const Base::Placement &getValue() const;
 
     /// Get valid paths for this property; used by auto completer
     void getPaths(std::vector<ObjectIdentifier> &paths) const override;
@@ -326,20 +326,20 @@ public:
 
     virtual bool getPyPathValue(const ObjectIdentifier &path, Py::Object &res) const override;
 
-    const char* getEditorName(void) const override {
+    const char* getEditorName() const override {
         return "Gui::PropertyEditor::PropertyPlacementItem";
     }
 
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
     virtual void setPyObject(PyObject *) override;
 
     virtual void Save (Base::Writer &writer) const override;
     virtual void Restore(Base::XMLReader &reader) override;
 
-    virtual Property *Copy(void) const override;
+    virtual Property *Copy() const override;
     virtual void Paste(const Property &from) override;
 
-    virtual unsigned int getMemSize (void) const override {
+    virtual unsigned int getMemSize () const override {
         return sizeof(Base::Placement);
     }
 
@@ -371,9 +371,9 @@ public:
 
     /** This method returns the linked DocumentObject
      */
-    App::Placement * getPlacementObject(void) const;
+    App::Placement * getPlacementObject() const;
 
-    virtual Property *Copy(void) const;
+    virtual Property *Copy() const;
     virtual void Paste(const Property &from);
 };
 
@@ -390,7 +390,7 @@ public:
 
     virtual ~PropertyPlacementList();
 
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
 
     virtual void Save (Base::Writer &writer) const override;
     virtual void Restore(Base::XMLReader &reader) override;
@@ -398,10 +398,10 @@ public:
     virtual void SaveDocFile (Base::Writer &writer) const override;
     virtual void RestoreDocFile(Base::Reader &reader) override;
 
-    virtual Property *Copy(void) const override;
+    virtual Property *Copy() const override;
     virtual void Paste(const Property &from) override;
 
-    virtual unsigned int getMemSize (void) const override;
+    virtual unsigned int getMemSize () const override;
 
 protected:
     Base::Placement getPyValue(PyObject *) const override;

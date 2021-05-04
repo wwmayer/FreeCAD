@@ -69,7 +69,7 @@ ColorModel& ColorModel::operator = (const ColorModel &rclM)
     return *this;
 }
 
-ColorField::ColorField (void)
+ColorField::ColorField ()
   : _clModel(ColorModelTria())
 {
     set(ColorModelTria(), -1.0f, 1.0f, 13);
@@ -117,7 +117,7 @@ void ColorField::setColorModel (const ColorModel &rclModel)
     rebuild();
 }
 
-void ColorField::rebuild (void)
+void ColorField::rebuild ()
 {
     unsigned short usInd1, usInd2, usStep, i;
 
@@ -164,7 +164,7 @@ void ColorField::interpolate (Color clCol1, unsigned short usInd1, Color clCol2,
 }
 
 
-ColorGradient::ColorGradient (void)
+ColorGradient::ColorGradient ()
 :  _tColorModel(TRIA),
    _tStyle(ZERO_BASED),
    _bOutsideGrayed(false),
@@ -230,7 +230,7 @@ void ColorGradient::set (float fMin, float fMax, unsigned short usCt, TStyle tS,
     rebuild();
 }
 
-void ColorGradient::rebuild (void)
+void ColorGradient::rebuild ()
 {
     switch (_tStyle)
     {
@@ -255,7 +255,7 @@ void ColorGradient::rebuild (void)
     }
 }
 
-unsigned short ColorGradient::getMinColors (void) const
+unsigned short ColorGradient::getMinColors () const
 {
     switch (_tStyle)
     {
@@ -279,7 +279,7 @@ void ColorGradient::setColorModel (TColorModel tModel)
     rebuild();
 }
 
-void ColorGradient::setColorModel (void)
+void ColorGradient::setColorModel ()
 {
     switch (_tColorModel)
     {
@@ -330,7 +330,7 @@ void ColorGradient::setColorModel (void)
     }
 }
 
-ColorLegend::ColorLegend (void)
+ColorLegend::ColorLegend ()
 : _bOutsideGrayed(false)
 {
     // default  green, red
@@ -457,7 +457,7 @@ bool ColorLegend::remove (unsigned long ulPos)
     return false;
 }
 
-void ColorLegend::removeFirst (void)
+void ColorLegend::removeFirst ()
 {
     if (_aclColorFields.size() > 0)
     {
@@ -467,7 +467,7 @@ void ColorLegend::removeFirst (void)
     }
 }
 
-void ColorLegend::removeLast (void)
+void ColorLegend::removeLast ()
 {
     if (_aclColorFields.size() > 0)
     {

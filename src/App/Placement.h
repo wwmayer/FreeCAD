@@ -55,11 +55,11 @@ public:
 
 
   /// Constructor
-  Placement(void);
+  Placement();
   virtual ~Placement();
 
   /// returns the type name of the ViewProvider
-  virtual const char* getViewProviderName(void) const {
+  virtual const char* getViewProviderName() const {
       return "Gui::ViewProviderPlacement";
   }
 

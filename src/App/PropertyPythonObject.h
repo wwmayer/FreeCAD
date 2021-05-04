@@ -49,13 +49,13 @@ class AppExport PropertyPythonObject : public Property
     TYPESYSTEM_HEADER();
 
 public:
-    PropertyPythonObject(void);
+    PropertyPythonObject();
     virtual ~PropertyPythonObject();
 
     void setValue(Py::Object);
     Py::Object getValue() const;
 
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
     virtual void setPyObject(PyObject *);
 
     /** Use Python's pickle module to save the object */
@@ -65,8 +65,8 @@ public:
     virtual void SaveDocFile (Base::Writer &writer) const;
     virtual void RestoreDocFile(Base::Reader &reader);
 
-    virtual unsigned int getMemSize (void) const;
-    virtual Property *Copy(void) const;
+    virtual unsigned int getMemSize () const;
+    virtual Property *Copy() const;
     virtual void Paste(const Property &from);
 
     std::string toString() const;

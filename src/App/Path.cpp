@@ -31,7 +31,7 @@
 using namespace App;
 
 
-Path::Path(void)
+Path::Path()
 {
 }
 
@@ -40,7 +40,7 @@ Path::Path(const std::vector<Base::Persistence *> &PathVector)
 {
 }
 
-Path::~Path(void)
+Path::~Path()
 {
 }
 

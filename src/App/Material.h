@@ -225,7 +225,7 @@ public:
      */
     //@{
     /** Sets the USER_DEFINED material type. The user must set the colors afterwards. */
-    Material(void);
+    Material();
     /** Defines the colors and shininess for the material \a MatName. If \a MatName isn't defined then USER_DEFINED is
      * set and the user must define the colors itself.
      */

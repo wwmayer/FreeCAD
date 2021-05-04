@@ -58,7 +58,7 @@ public:
     void onChanged(const Property* prop);
     void onDocumentRestored();
     std::string getViewProviderName();
-    PyObject *getPyObject(void);
+    PyObject *getPyObject();
 
     bool getSubObject(App::DocumentObject *&ret, const char *subname, PyObject **pyObj, 
             Base::Matrix4D *mat, bool transform, int depth) const;
@@ -188,7 +188,7 @@ public:
         return imp->mustExecute()?1:0;
     }
     /// recalculate the Feature
-    virtual DocumentObjectExecReturn *execute(void) override {
+    virtual DocumentObjectExecReturn *execute() override {
         try {
             bool handled = imp->execute();
             if (!handled)
@@ -199,14 +199,14 @@ public:
         }
         return DocumentObject::StdReturn;
     }
-    virtual const char* getViewProviderNameOverride(void) const override {
+    virtual const char* getViewProviderNameOverride() const override {
         viewProviderName = imp->getViewProviderName();
         if(viewProviderName.size())
             return viewProviderName.c_str();
         return FeatureT::getViewProviderNameOverride();
     }
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const override {
+    virtual const char* getViewProviderName() const override {
         return FeatureT::getViewProviderName();
         //return "Gui::ViewProviderPythonFeature";
     }
@@ -304,7 +304,7 @@ public:
         return FeatureT::canLoadPartial();
     }
 
-    PyObject *getPyObject(void) override {
+    PyObject *getPyObject() override {
         if (FeatureT::PythonObject.is(Py::_None())) {
             // ref counter is set to 1
             FeatureT::PythonObject = Py::Object(imp->getPyObject(),true);

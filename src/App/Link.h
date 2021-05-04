@@ -257,8 +257,8 @@ public:
     bool extensionGetLinkedObject(DocumentObject *&ret,
             bool recurse, Base::Matrix4D *mat, bool transform, int depth) const override;
 
-    virtual App::DocumentObjectExecReturn *extensionExecute(void) override;
-    virtual short extensionMustExecute(void) override;
+    virtual App::DocumentObjectExecReturn *extensionExecute() override;
+    virtual short extensionMustExecute() override;
     virtual void extensionOnChanged(const Property* p) override;
     virtual void onExtendedUnsetupObject () override;
     virtual void onExtendedDocumentRestored() override;
@@ -267,7 +267,7 @@ public:
     virtual int extensionIsElementVisible(const char *) override;
     virtual bool extensionHasChildElement() const override;
 
-    virtual PyObject* getExtensionPyObject(void) override;
+    virtual PyObject* getExtensionPyObject() override;
 
     virtual Property *extensionGetPropertyByName(const char* name) const override;
 
@@ -458,9 +458,9 @@ public:
 
     LINK_PROPS_DEFINE(LINK_PARAMS_LINK)
 
-    Link(void);
+    Link();
 
-    const char* getViewProviderName(void) const override{
+    const char* getViewProviderName() const override{
         return "Gui::ViewProviderLink";
     }
 
@@ -499,7 +499,7 @@ public:
     LINK_PROPS_DEFINE(LINK_PARAMS_ELEMENT)
 
     LinkElement();
-    const char* getViewProviderName(void) const override{
+    const char* getViewProviderName() const override{
         return "Gui::ViewProviderLink";
     }
 
@@ -538,7 +538,7 @@ public:
 
     LinkGroup();
 
-    const char* getViewProviderName(void) const override{
+    const char* getViewProviderName() const override{
         return "Gui::ViewProviderLink";
     }
 

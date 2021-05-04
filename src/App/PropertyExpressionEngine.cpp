@@ -715,7 +715,7 @@ void PropertyExpressionEngine::renameObjectIdentifiers(const std::map<ObjectIden
     }
 }
 
-PyObject *PropertyExpressionEngine::getPyObject(void)
+PyObject *PropertyExpressionEngine::getPyObject()
 {
     Py::List list;
     for (ExpressionMap::const_iterator it = expressions.begin(); it != expressions.end(); ++it) {

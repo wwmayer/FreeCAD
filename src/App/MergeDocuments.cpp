@@ -144,7 +144,7 @@ MergeDocuments::~MergeDocuments()
     connectImport.disconnect();
 }
 
-unsigned int MergeDocuments::getMemSize (void) const
+unsigned int MergeDocuments::getMemSize () const
 {
     return 0;
 }

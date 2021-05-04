@@ -71,7 +71,7 @@ PropertyFileIncluded::~PropertyFileIncluded()
     }
 }
 
-void PropertyFileIncluded::aboutToSetValue(void)
+void PropertyFileIncluded::aboutToSetValue()
 {
     // This is a trick to check in Copy() if it is called
     // directly from outside or by the Undo/Redo mechanism.
@@ -85,7 +85,7 @@ void PropertyFileIncluded::aboutToSetValue(void)
     this->StatusBits.reset(10);
 }
 
-std::string PropertyFileIncluded::getDocTransientPath(void) const
+std::string PropertyFileIncluded::getDocTransientPath() const
 {
     std::string path;
     PropertyContainer *co = getContainer();
@@ -107,13 +107,13 @@ std::string PropertyFileIncluded::getUniqueFileName(const std::string& path, con
     return fi.filePath();
 }
 
-std::string PropertyFileIncluded::getExchangeTempFile(void) const
+std::string PropertyFileIncluded::getExchangeTempFile() const
 {
     return Base::FileInfo::getTempFileName(Base::FileInfo
         (getValue()).fileName().c_str(), getDocTransientPath().c_str());
 }
 
-std::string PropertyFileIncluded::getOriginalFileName(void) const
+std::string PropertyFileIncluded::getOriginalFileName() const
 {
     return _OriginalName;
 }
@@ -239,12 +239,12 @@ void PropertyFileIncluded::setValue(const char* sFile, const char* sName)
     }
 }
 
-const char* PropertyFileIncluded::getValue(void) const
+const char* PropertyFileIncluded::getValue() const
 {
      return _cValue.c_str();
 }
 
-PyObject *PropertyFileIncluded::getPyObject(void)
+PyObject *PropertyFileIncluded::getPyObject()
 {
     PyObject *p = PyUnicode_DecodeUTF8(_cValue.c_str(),_cValue.size(),nullptr);
     if (!p) {
@@ -471,7 +471,7 @@ void PropertyFileIncluded::RestoreDocFile(Base::Reader &reader)
     hasSetValue();
 }
 
-Property *PropertyFileIncluded::Copy(void) const
+Property *PropertyFileIncluded::Copy() const
 {
     std::unique_ptr<PropertyFileIncluded> prop(new PropertyFileIncluded());
 
@@ -571,7 +571,7 @@ void PropertyFileIncluded::Paste(const Property &from)
     hasSetValue();
 }
 
-unsigned int PropertyFileIncluded::getMemSize (void) const
+unsigned int PropertyFileIncluded::getMemSize () const
 {
     unsigned int mem = Property::getMemSize();
     mem += _cValue.size();
@@ -600,7 +600,7 @@ void PropertyFile::setFilter(const std::string f)
     m_filter = f;
 }
 
-std::string PropertyFile::getFilter(void) const
+std::string PropertyFile::getFilter() const
 {
     return m_filter;
 }

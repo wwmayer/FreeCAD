@@ -41,12 +41,12 @@ TYPESYSTEM_SOURCE_ABSTRACT(Data::Segment , Base::BaseClass)
 TYPESYSTEM_SOURCE_ABSTRACT(Data::ComplexGeoData , Base::Persistence)
 
 
-ComplexGeoData::ComplexGeoData(void)
+ComplexGeoData::ComplexGeoData()
     :Tag(0)
 {
 }
 
-ComplexGeoData::~ComplexGeoData(void)
+ComplexGeoData::~ComplexGeoData()
 {
 }
 

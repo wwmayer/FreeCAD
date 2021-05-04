@@ -45,7 +45,7 @@ public:
   virtual Color getColor(float fVal) const = 0;
 
 protected:
-  ValueFloatToRGB (void) {}
+  ValueFloatToRGB () {}
   virtual ~ValueFloatToRGB () {}
 };
 
@@ -64,7 +64,7 @@ public:
 class AppExport ColorModelTria : public ColorModel
 {
 public:
-  ColorModelTria (void) : ColorModel(5)
+  ColorModelTria () : ColorModel(5)
   {
     _pclColors[0] = Color( 0, 0, 1);
     _pclColors[1] = Color( 0, 1, 1);
@@ -77,7 +77,7 @@ public:
 class AppExport ColorModelTriaBottom : public ColorModel
 {
 public:
-  ColorModelTriaBottom (void) : ColorModel(3)
+  ColorModelTriaBottom () : ColorModel(3)
   {
     _pclColors[0] = Color( 0, 0, 1);
     _pclColors[1] = Color( 0, 1, 1);
@@ -88,7 +88,7 @@ public:
 class AppExport ColorModelTriaTop : public ColorModel
 {
 public:
-  ColorModelTriaTop (void) : ColorModel(3)
+  ColorModelTriaTop () : ColorModel(3)
   {
     _pclColors[0] = Color( 0, 1, 0);
     _pclColors[1] = Color( 1, 1, 0);
@@ -99,7 +99,7 @@ public:
 class AppExport ColorModelInverseTria : public ColorModel
 {
 public:
-  ColorModelInverseTria (void) : ColorModel(5)
+  ColorModelInverseTria () : ColorModel(5)
   {
     _pclColors[0] = Color( 1, 0, 0);
     _pclColors[1] = Color( 1, 1, 0);
@@ -112,7 +112,7 @@ public:
 class AppExport ColorModelInverseTriaTop : public ColorModel
 {
 public:
-  ColorModelInverseTriaTop (void) : ColorModel(3)
+  ColorModelInverseTriaTop () : ColorModel(3)
   {
     _pclColors[2] = Color( 0, 0, 1);
     _pclColors[1] = Color( 0, 1, 1);
@@ -123,7 +123,7 @@ public:
 class AppExport ColorModelInverseTriaBottom : public ColorModel
 {
 public:
-  ColorModelInverseTriaBottom (void) : ColorModel(3)
+  ColorModelInverseTriaBottom () : ColorModel(3)
   {
     _pclColors[2] = Color( 0, 1, 0);
     _pclColors[1] = Color( 1, 1, 0);
@@ -134,7 +134,7 @@ public:
 class AppExport ColorModelGray : public ColorModel
 {
 public:
-  ColorModelGray (void) : ColorModel(2)
+  ColorModelGray () : ColorModel(2)
   {
     _pclColors[0] = Color( 0, 0, 0);
     _pclColors[1] = Color( 1, 1, 1);
@@ -144,7 +144,7 @@ public:
 class AppExport ColorModelGrayBottom : public ColorModel
 {
 public:
-  ColorModelGrayBottom (void) : ColorModel(2)
+  ColorModelGrayBottom () : ColorModel(2)
   {
     _pclColors[0] = Color( 0.0f, 0.0f, 0.0f);
     _pclColors[1] = Color( 0.5f, 0.5f, 0.5f);
@@ -154,7 +154,7 @@ public:
 class AppExport ColorModelGrayTop : public ColorModel
 {
 public:
-  ColorModelGrayTop (void) : ColorModel(2)
+  ColorModelGrayTop () : ColorModel(2)
   {
     _pclColors[0] = Color( 0.5f, 0.5f, 0.5f);
     _pclColors[1] = Color( 1.0f, 1.0f, 1.0f);
@@ -164,7 +164,7 @@ public:
 class AppExport ColorModelInverseGray : public ColorModel
 {
 public:
-  ColorModelInverseGray (void) : ColorModel(2)
+  ColorModelInverseGray () : ColorModel(2)
   {
     _pclColors[0] = Color( 1, 1, 1);
     _pclColors[1] = Color( 0, 0, 0);
@@ -174,7 +174,7 @@ public:
 class AppExport ColorModelInverseGrayBottom : public ColorModel
 {
 public:
-  ColorModelInverseGrayBottom (void) : ColorModel(2)
+  ColorModelInverseGrayBottom () : ColorModel(2)
   {
     _pclColors[0] = Color( 1.0f, 1.0f, 1.0f);
     _pclColors[1] = Color( 0.5f, 0.5f, 0.5f);
@@ -184,7 +184,7 @@ public:
 class AppExport ColorModelInverseGrayTop : public ColorModel
 {
 public:
-  ColorModelInverseGrayTop (void) : ColorModel(2)
+  ColorModelInverseGrayTop () : ColorModel(2)
   {
     _pclColors[0] = Color( 0.5f, 0.5f, 0.5f);
     _pclColors[1] = Color( 0.0f, 0.0f, 0.0f);
@@ -194,24 +194,24 @@ public:
 class AppExport ColorField
 {
 public:
-  ColorField (void);
+  ColorField ();
   ColorField (const ColorField &rclCF);
   ColorField (const ColorModel &rclModel, float fMin, float fMax, unsigned short usCt);
   virtual ~ColorField ();
 
   ColorField& operator = (const ColorField &rclCF);
 
-  unsigned short getCountColors (void) const { return _usCtColors; }
+  unsigned short getCountColors () const { return _usCtColors; }
   void set (const ColorModel &rclModel, float fMin, float fMax, unsigned short usCt);
   void setCountColors (unsigned short usCt) { set(_clModel, _fMin, _fMax, usCt); }
   void setRange (float fMin, float fMax) { set(_clModel, fMin, fMax, _usCtColors); }
   void getRange (float &rfMin, float &rfMax) { rfMin = _fMin; rfMax = _fMax; }
-  unsigned short getMinColors (void) const { return _clModel._usColors; }
+  unsigned short getMinColors () const { return _clModel._usColors; }
   void setColorModel (const ColorModel &rclModel);
-  const ColorModel& getColorModel (void) const { return _clModel; }
+  const ColorModel& getColorModel () const { return _clModel; }
   void setDirect (unsigned short usInd, Color clCol) { _aclField[usInd] = clCol; }
-  float getMinValue (void) const { return _fMin; }
-  float getMaxValue (void) const { return _fMax; }
+  float getMinValue () const { return _fMin; }
+  float getMaxValue () const { return _fMax; }
 
   Color getColor (unsigned short usIndex) const { return _aclField[usIndex]; }
   inline Color  getColor (float fVal) const;
@@ -224,7 +224,7 @@ protected:
   unsigned short      _usCtColors;
   std::vector<Color>  _aclField;
 
-  void rebuild (void);
+  void rebuild ();
   void interpolate (Color clCol1, unsigned short usPos1, Color clCol2, unsigned short usPos2);
 };
 
@@ -275,7 +275,7 @@ public:
   enum TStyle { FLOW, ZERO_BASED };
   enum TColorModel { TRIA, INVERSE_TRIA, GRAY, INVERSE_GRAY };
 
-  ColorGradient (void);
+  ColorGradient ();
   ColorGradient (float fMin, float fMax, unsigned short usCtColors, TStyle tS, bool bOG = false);
   ColorGradient (const ColorGradient &rclCR);
 
@@ -284,18 +284,18 @@ public:
   void set (float fMin, float fMax, unsigned short usCt, TStyle tS, bool bOG);
   void setRange (float fMin, float fMax) { set(fMin, fMax, _usCtColors, _tStyle, _bOutsideGrayed); }
   void getRange (float &rfMin, float &rfMax) const { rfMin = _fMin; rfMax = _fMax; }
-  unsigned short getCountColors (void) const { return _usCtColors; }
+  unsigned short getCountColors () const { return _usCtColors; }
   void setCountColors (unsigned short usCt) { set(_fMin, _fMax, usCt, _tStyle, _bOutsideGrayed); }
   void setStyle (TStyle tS) { set(_fMin, _fMax, _usCtColors, tS, _bOutsideGrayed); }
-  unsigned short getMinColors (void) const;
-  TStyle getStyle (void) const { return _tStyle; }
+  unsigned short getMinColors () const;
+  TStyle getStyle () const { return _tStyle; }
   void setOutsideGrayed (bool bGrayed) { _bOutsideGrayed = bGrayed; }
-  bool isOutsideGrayed (void) const { return _bOutsideGrayed; }
+  bool isOutsideGrayed () const { return _bOutsideGrayed; }
   void setColorModel (TColorModel tModel);
-  TColorModel getColorModelType (void) const { return _tColorModel; }
-  inline const ColorModel& getColorModel (void) const;
-  float getMinValue (void) const { return _fMin; }
-  float getMaxValue (void) const { return _fMax; }
+  TColorModel getColorModelType () const { return _tColorModel; }
+  inline const ColorModel& getColorModel () const;
+  float getMinValue () const { return _fMin; }
+  float getMaxValue () const { return _fMax; }
 
   inline Color  getColor (float fVal) const;
   inline unsigned short getColorIndex (float fVal) const;
@@ -309,15 +309,15 @@ protected:
   bool           _bOutsideGrayed;
   ColorModel       _clTotal, _clTop, _clBottom;
 
-  void  rebuild (void);
-  void  setColorModel (void);
+  void  rebuild ();
+  void  setColorModel ();
 };
 
 
 class AppExport ColorLegend
 {
 public:
-  ColorLegend (void);
+  ColorLegend ();
   ColorLegend (const ColorLegend &rclCL);
   virtual ~ColorLegend () {}
 
@@ -329,8 +329,8 @@ public:
   bool addMin (const std::string &rclName);
   bool addMax (const std::string &rclName);
   bool remove (unsigned long ulPos);
-  void removeFirst (void);
-  void removeLast (void);
+  void removeFirst ();
+  void removeLast ();
 
   Color getColor (unsigned long ulPos) const;
   uint32_t  getPackedColor (unsigned long ulPos) const;
@@ -342,9 +342,9 @@ public:
   bool setText (unsigned long ulPos, const std::string &rclName);
   unsigned long hasNumberOfFields () const { return static_cast<unsigned long>(_aclColorFields.size()); }
   void setOutsideGrayed (bool bOS) { _bOutsideGrayed = bOS; }
-  bool isOutsideGrayed (void) const { return _bOutsideGrayed; }
-  inline float  getMinValue (void) const;
-  inline float  getMaxValue (void) const;
+  bool isOutsideGrayed () const { return _bOutsideGrayed; }
+  inline float  getMinValue () const;
+  inline float  getMaxValue () const;
 
   inline Color getColor (float fVal) const;
   inline unsigned short getColorIndex (float fVal) const;
@@ -398,12 +398,12 @@ inline unsigned short ColorLegend::getColorIndex (float fVal) const
     return pI - _aclValues.begin() - 1;
 }
 
-inline float ColorLegend::getMinValue (void) const
+inline float ColorLegend::getMinValue () const
 {
   return *_aclValues.begin();
 }
 
-inline float ColorLegend::getMaxValue (void) const
+inline float ColorLegend::getMaxValue () const
 {
   return *(_aclValues.end()-1);
 }
@@ -463,7 +463,7 @@ inline unsigned short ColorGradient::getColorIndex (float fVal) const
   }
 }
 
-inline const ColorModel& ColorGradient::getColorModel (void) const
+inline const ColorModel& ColorGradient::getColorModel () const
 {
   if ( _tStyle == ZERO_BASED )
   {

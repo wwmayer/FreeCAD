@@ -594,7 +594,7 @@ public:
 
     /** This method returns the linked DocumentObject
      */
-    App::DocumentObject * getValue(void) const;
+    App::DocumentObject * getValue() const;
 
     /** Returns the link type checked
      */
@@ -603,23 +603,23 @@ public:
    /** Returns the link type checked
      */
     template <typename _type>
-    inline _type getValue(void) const {
+    inline _type getValue() const {
         return _pcLink ? dynamic_cast<_type>(_pcLink) : 0;
     }
 
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
     virtual void setPyObject(PyObject *) override;
 
     virtual void Save (Base::Writer &writer) const override;
     virtual void Restore(Base::XMLReader &reader) override;
 
-    virtual Property *Copy(void) const override;
+    virtual Property *Copy() const override;
     virtual void Paste(const Property &from) override;
 
-    virtual unsigned int getMemSize (void) const override {
+    virtual unsigned int getMemSize () const override {
         return sizeof(App::DocumentObject *);
     }
-    virtual const char* getEditorName(void) const override
+    virtual const char* getEditorName() const override
     { return "Gui::PropertyEditor::PropertyLinkItem"; }
 
     virtual void getLinks(std::vector<App::DocumentObject *> &objs,
@@ -700,16 +700,16 @@ public:
 
     void set1Value(int idx, DocumentObject * const &value) override;
 
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
 
     virtual void Save(Base::Writer &writer) const override;
     virtual void Restore(Base::XMLReader &reader) override;
 
-    virtual Property *Copy(void) const override;
+    virtual Property *Copy() const override;
     virtual void Paste(const Property &from) override;
 
-    virtual unsigned int getMemSize(void) const override;
-    virtual const char* getEditorName(void) const override
+    virtual unsigned int getMemSize() const override;
+    virtual const char* getEditorName() const override
     { return "Gui::PropertyEditor::PropertyLinkListItem"; }
 
     virtual void getLinks(std::vector<App::DocumentObject *> &objs,
@@ -797,10 +797,10 @@ public:
 
     /** This method returns the linked DocumentObject
      */
-    App::DocumentObject * getValue(void) const;
+    App::DocumentObject * getValue() const;
 
     /// return the list of sub elements
-    const std::vector<std::string>& getSubValues(void) const;
+    const std::vector<std::string>& getSubValues() const;
 
     /// return the list of sub elements with mapped names
     const std::vector<ShadowSub> &getShadowSubs() const {
@@ -819,20 +819,20 @@ public:
    /** Returns the link type checked
      */
     template <typename _type>
-    inline _type getValue(void) const {
+    inline _type getValue() const {
         return _pcLinkSub ? dynamic_cast<_type>(_pcLinkSub) : 0;
     }
 
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
     virtual void setPyObject(PyObject *) override;
 
     virtual void Save (Base::Writer &writer) const override;
     virtual void Restore(Base::XMLReader &reader) override;
 
-    virtual Property *Copy(void) const override;
+    virtual Property *Copy() const override;
     virtual void Paste(const Property &from) override;
 
-    virtual const char* getEditorName(void) const override
+    virtual const char* getEditorName() const override
     { return "Gui::PropertyEditor::PropertyLinkItem"; }
 
     /// Return a copy of the property if any changes caused by importing external object
@@ -844,7 +844,7 @@ public:
     virtual Property *CopyOnLinkReplace(const App::DocumentObject *parent,
             App::DocumentObject *oldObj, App::DocumentObject *newObj) const override;
 
-    virtual unsigned int getMemSize (void) const override {
+    virtual unsigned int getMemSize () const override {
         return sizeof(App::DocumentObject *);
     }
 
@@ -916,7 +916,7 @@ public:
     virtual void afterRestore() override;
     virtual void onContainerRestored() override;
 
-    int getSize(void) const;
+    int getSize() const;
     void setSize(int newSize);
 
     /** Sets the property.
@@ -935,7 +935,7 @@ public:
      */
     void setValue(App::DocumentObject *lValue, const std::vector<std::string> &SubList=std::vector<std::string>());
 
-    const std::vector<DocumentObject*> &getValues(void) const {
+    const std::vector<DocumentObject*> &getValues() const {
         return _lValueList;
     }
 
@@ -949,7 +949,7 @@ public:
      */
     DocumentObject* getValue() const;
 
-    const std::vector<std::string> &getSubValues(void) const {
+    const std::vector<std::string> &getSubValues() const {
         return _lSubList;
     }
 
@@ -968,16 +968,16 @@ public:
     void setSubListValues(const std::vector<SubSet>&);
     std::vector<SubSet> getSubListValues(bool newStyle=false) const;
 
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
     virtual void setPyObject(PyObject *) override;
 
     virtual void Save (Base::Writer &writer) const override;
     virtual void Restore(Base::XMLReader &reader) override;
 
-    virtual Property *Copy(void) const override;
+    virtual Property *Copy() const override;
     virtual void Paste(const Property &from) override;
 
-    virtual const char* getEditorName(void) const override
+    virtual const char* getEditorName() const override
     { return "Gui::PropertyEditor::PropertyLinkListItem"; }
 
     /// Return a copy of the property if any changes caused by importing external object
@@ -989,7 +989,7 @@ public:
     virtual Property *CopyOnLinkReplace(const App::DocumentObject *parent,
             App::DocumentObject *oldObj, App::DocumentObject *newObj) const override;
 
-    virtual unsigned int getMemSize (void) const override;
+    virtual unsigned int getMemSize () const override;
 
     virtual void updateElementReference(
             DocumentObject *feature,bool reverse=false, bool notify=false) override;
@@ -1085,7 +1085,7 @@ public:
     virtual void Save (Base::Writer &writer) const override;
     virtual void Restore(Base::XMLReader &reader) override;
 
-    virtual Property *Copy(void) const override;
+    virtual Property *Copy() const override;
     virtual void Paste(const Property &from) override;
 
     /// Return a copy of the property if any changes caused by importing external object
@@ -1097,7 +1097,7 @@ public:
     virtual Property *CopyOnLinkReplace(const App::DocumentObject *parent,
             App::DocumentObject *oldObj, App::DocumentObject *newObj) const override;
 
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
     virtual void setPyObject(PyObject *) override;
 
     friend class DocInfo;
@@ -1119,7 +1119,7 @@ public:
 
     virtual bool adjustLink(const std::set<App::DocumentObject *> &inList) override;
 
-    const std::vector<std::string>& getSubValues(void) const {
+    const std::vector<std::string>& getSubValues() const {
         return _SubList;
     }
     const std::vector<ShadowSub > &getShadowSubs() const {
@@ -1175,9 +1175,9 @@ public:
 
     virtual bool upgrade(Base::XMLReader &reader, const char *typeName) override;
 
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
 
-    virtual const char* getEditorName(void) const override
+    virtual const char* getEditorName() const override
     { return "Gui::PropertyEditor::PropertyLinkItem"; }
 };
 
@@ -1199,7 +1199,7 @@ public:
     virtual void afterRestore() override;
     virtual void onContainerRestored() override;
 
-    int getSize(void) const;
+    int getSize() const;
 
     /** Sets the property.
      * setValue(0, whatever) clears the property
@@ -1222,7 +1222,7 @@ public:
      */
     void setValue(App::DocumentObject *lValue, const std::vector<std::string> &SubList={});
 
-    std::vector<DocumentObject*> getValues(void) const;
+    std::vector<DocumentObject*> getValues() const;
 
     const std::string getPyReprString() const;
 
@@ -1246,16 +1246,16 @@ public:
         return _Links;
     }
 
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
     virtual void setPyObject(PyObject *) override;
 
     virtual void Save (Base::Writer &writer) const override;
     virtual void Restore(Base::XMLReader &reader) override;
 
-    virtual Property *Copy(void) const override;
+    virtual Property *Copy() const override;
     virtual void Paste(const Property &from) override;
 
-    virtual const char* getEditorName(void) const override
+    virtual const char* getEditorName() const override
     { return "Gui::PropertyEditor::PropertyLinkListItem"; }
 
     virtual Property *CopyOnImportExternal(const std::map<std::string,std::string> &nameMap) const override;
@@ -1266,7 +1266,7 @@ public:
     virtual Property *CopyOnLinkReplace(const App::DocumentObject *parent,
             App::DocumentObject *oldObj, App::DocumentObject *newObj) const override;
 
-    virtual unsigned int getMemSize (void) const override;
+    virtual unsigned int getMemSize () const override;
 
     virtual void updateElementReference(
             DocumentObject *feature,bool reverse=false, bool notify=false) override;
@@ -1307,7 +1307,7 @@ public:
     PropertyXLinkList();
     virtual ~PropertyXLinkList();
 
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
     virtual void setPyObject(PyObject *) override;
 };
 

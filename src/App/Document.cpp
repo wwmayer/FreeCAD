@@ -934,7 +934,7 @@ void Document::exportGraphviz(std::ostream& out) const
 //  return false;
 //}
 
-bool Document::checkOnCycle(void)
+bool Document::checkOnCycle()
 {/*
   std::vector < default_color_type > color(num_vertices(_DepList), white_color);
   graph_traits < DependencyList >::vertex_iterator vi, vi_end;
@@ -1429,12 +1429,12 @@ void Document::setUndoMode(int iMode)
     d->iUndoMode = iMode;
 }
 
-int Document::getUndoMode(void) const
+int Document::getUndoMode() const
 {
     return d->iUndoMode;
 }
 
-unsigned int Document::getUndoMemSize (void) const
+unsigned int Document::getUndoMemSize () const
 {
     return d->UndoMemSize;
 }
@@ -1449,7 +1449,7 @@ void Document::setMaxUndoStackSize(unsigned int UndoMaxStackSize)
      d->UndoMaxStackSize = UndoMaxStackSize;
 }
 
-unsigned int Document::getMaxUndoStackSize(void)const
+unsigned int Document::getMaxUndoStackSize()const
 {
     return d->UndoMaxStackSize;
 }
@@ -2210,7 +2210,7 @@ Document::importObjects(Base::XMLReader& reader)
     return objs;
 }
 
-unsigned int Document::getMemSize (void) const
+unsigned int Document::getMemSize () const
 {
     unsigned int size = 0;
 
@@ -2271,7 +2271,7 @@ bool Document::saveCopy(const char* _file) const
 }
 
 // Save the document under the name it has been opened
-bool Document::save (void)
+bool Document::save ()
 {
     if(testStatus(Document::PartialDoc)) {
         FC_ERR("Partial loaded document '" << Label.getValue() << "' cannot be saved");
@@ -2930,7 +2930,7 @@ bool Document::isTouched() const
     return false;
 }
 
-vector<DocumentObject*> Document::getTouched(void) const
+vector<DocumentObject*> Document::getTouched() const
 {
     vector<DocumentObject*> result;
 
@@ -2951,7 +2951,7 @@ bool Document::isClosable() const
     return testStatus(Document::Closable);
 }
 
-int Document::countObjects(void) const
+int Document::countObjects() const
 {
    return static_cast<int>(d->objectArray.size());
 }
@@ -4456,7 +4456,7 @@ DocumentObject* Document::moveObject(DocumentObject* obj, bool recursive)
     return objs.back();
 }
 
-DocumentObject * Document::getActiveObject(void) const
+DocumentObject * Document::getActiveObject() const
 {
     return d->activeObject;
 }
@@ -4619,7 +4619,7 @@ int Document::countObjectsOfType(const Base::Type& typeId) const
     return ct;
 }
 
-PyObject * Document::getPyObject(void)
+PyObject * Document::getPyObject()
 {
     return Py::new_reference_to(DocumentPythonObject);
 }

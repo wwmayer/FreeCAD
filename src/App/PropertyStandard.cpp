@@ -2679,7 +2679,7 @@ unsigned int PropertyMaterialList::getMemSize() const
 
 TYPESYSTEM_SOURCE(App::PropertyPersistentObject , App::PropertyString)
 
-PyObject *PropertyPersistentObject::getPyObject(void){
+PyObject *PropertyPersistentObject::getPyObject(){
     if(_pObject)
         return _pObject->getPyObject();
     return inherited::getPyObject();
@@ -2705,7 +2705,7 @@ void PropertyPersistentObject::Restore(Base::XMLReader &reader){
     reader.readEndElement(ELEMENT_PERSISTENT_OBJ);
 }
 
-Property *PropertyPersistentObject::Copy(void) const{
+Property *PropertyPersistentObject::Copy() const{
     auto *p= new PropertyPersistentObject();
     p->_cValue = _cValue;
     p->_pObject = _pObject;

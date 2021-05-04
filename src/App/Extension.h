@@ -244,7 +244,7 @@ public:
 
     bool isPythonExtension() {return m_isPythonExtension;}
 
-    virtual PyObject* getExtensionPyObject(void);
+    virtual PyObject* getExtensionPyObject();
 
 
     /** @name Access properties */

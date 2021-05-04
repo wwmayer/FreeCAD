@@ -38,7 +38,7 @@ using namespace Data;
 using namespace Base;
 
 // returns a string which represent the object e.g. when printed in python
-std::string ComplexGeoDataPy::representation(void) const
+std::string ComplexGeoDataPy::representation() const
 {
     return std::string("<ComplexGeoData object>");
 }
@@ -82,12 +82,12 @@ PyObject*  ComplexGeoDataPy::getFacesFromSubelement(PyObject *args)
     return Py::new_reference_to(tuple);
 }
 
-Py::Object ComplexGeoDataPy::getBoundBox(void) const
+Py::Object ComplexGeoDataPy::getBoundBox() const
 {
     return Py::BoundingBox(getComplexGeoDataPtr()->getBoundBox());
 }
 
-Py::Object ComplexGeoDataPy::getPlacement(void) const
+Py::Object ComplexGeoDataPy::getPlacement() const
 {
     return Py::Placement(getComplexGeoDataPtr()->getPlacement());
 }
@@ -106,7 +106,7 @@ void  ComplexGeoDataPy::setPlacement(Py::Object arg)
     }
 }
 
-Py::Object ComplexGeoDataPy::getMatrix(void) const
+Py::Object ComplexGeoDataPy::getMatrix() const
 {
     return Py::Matrix(getComplexGeoDataPtr()->getTransform());
 }

@@ -496,7 +496,7 @@ bool Application::closeDocument(const char* name)
     return true;
 }
 
-void Application::closeAllDocuments(void)
+void Application::closeAllDocuments()
 {
     Base::FlagToggler<bool> flag(_isClosingAll);
     std::map<std::string,Document*>::iterator pos;
@@ -886,7 +886,7 @@ Document* Application::openDocumentPrivate(const char * FileName,
     }
 }
 
-Document* Application::getActiveDocument(void) const
+Document* Application::getActiveDocument() const
 {
     return _pActiveDoc;
 }
@@ -956,12 +956,12 @@ Application::TransactionSignaller::~TransactionSignaller() {
     }
 }
 
-const char* Application::getHomePath(void) const
+const char* Application::getHomePath() const
 {
     return _mConfig["AppHomePath"].c_str();
 }
 
-const char* Application::getExecutableName(void) const
+const char* Application::getExecutableName() const
 {
     return _mConfig["ExeName"].c_str();
 }
@@ -1062,12 +1062,12 @@ bool Application::hasLinksTo(const DocumentObject *obj) const {
     return !getLinksTo(obj,0,1).empty();
 }
 
-ParameterManager & Application::GetSystemParameter(void)
+ParameterManager & Application::GetSystemParameter()
 {
     return *_pcSysParamMngr;
 }
 
-ParameterManager & Application::GetUserParameter(void)
+ParameterManager & Application::GetUserParameter()
 {
     return *_pcUserParamMngr;
 }
@@ -1081,7 +1081,7 @@ ParameterManager * Application::GetParameterSet(const char* sName) const
         return nullptr;
 }
 
-const std::map<std::string,ParameterManager *> & Application::GetParameterSetList(void) const
+const std::map<std::string,ParameterManager *> & Application::GetParameterSetList() const
 {
     return mpcPramManager;
 }
@@ -1208,7 +1208,7 @@ std::vector<std::string> Application::getImportTypes(const char* Module) const
     return types;
 }
 
-std::vector<std::string> Application::getImportTypes(void) const
+std::vector<std::string> Application::getImportTypes() const
 {
     std::vector<std::string> types;
     for (std::vector<FileTypeItem>::const_iterator it = _mImportTypes.begin(); it != _mImportTypes.end(); ++it) {
@@ -1239,7 +1239,7 @@ std::map<std::string, std::string> Application::getImportFilters(const char* Typ
     return moduleFilter;
 }
 
-std::map<std::string, std::string> Application::getImportFilters(void) const
+std::map<std::string, std::string> Application::getImportFilters() const
 {
     std::map<std::string, std::string> filter;
     for (std::vector<FileTypeItem>::const_iterator it = _mImportTypes.begin(); it != _mImportTypes.end(); ++it) {
@@ -1331,7 +1331,7 @@ std::vector<std::string> Application::getExportTypes(const char* Module) const
     return types;
 }
 
-std::vector<std::string> Application::getExportTypes(void) const
+std::vector<std::string> Application::getExportTypes() const
 {
     std::vector<std::string> types;
     for (std::vector<FileTypeItem>::const_iterator it = _mExportTypes.begin(); it != _mExportTypes.end(); ++it) {
@@ -1362,7 +1362,7 @@ std::map<std::string, std::string> Application::getExportFilters(const char* Typ
     return moduleFilter;
 }
 
-std::map<std::string, std::string> Application::getExportFilters(void) const
+std::map<std::string, std::string> Application::getExportFilters() const
 {
     std::map<std::string, std::string> filter;
     for (std::vector<FileTypeItem>::const_iterator it = _mExportTypes.begin(); it != _mExportTypes.end(); ++it) {
@@ -1497,7 +1497,7 @@ void Application::cleanupUnits()
     }
 }
 
-void Application::destruct(void)
+void Application::destruct()
 {
     // saving system parameter
     Console().Log("Saving system parameter...\n");
@@ -1547,7 +1547,7 @@ void Application::destruct(void)
     ParameterManager::Terminate();
 }
 
-void Application::destructObserver(void)
+void Application::destructObserver()
 {
     if ( _pConsoleObserverFile ) {
         Console().DetachObserver(_pConsoleObserverFile);
@@ -1726,7 +1726,7 @@ void Application::init(int argc, char ** argv)
     }
 }
 
-void Application::initTypes(void)
+void Application::initTypes()
 {
     // Base types
     Base::Type                      ::init();
@@ -2092,7 +2092,7 @@ void Application::SaveEnv(const char* s)
         mConfig[s] = c;
 }
 
-void Application::initApplication(void)
+void Application::initApplication()
 {
     // interpreter and Init script ==========================================================
     // register scripts
@@ -2217,7 +2217,7 @@ std::list<std::string> Application::processFiles(const std::list<std::string>& f
     return processed; // successfully processed files
 }
 
-void Application::processCmdLineFiles(void)
+void Application::processCmdLineFiles()
 {
     // process files passed to command line
     std::list<std::string> files = getCmdLineFiles();
@@ -2300,7 +2300,7 @@ void Application::logStatus()
     }
 }
 
-void Application::LoadParameters(void)
+void Application::LoadParameters()
 {
     // Init parameter sets ===========================================================
     //
