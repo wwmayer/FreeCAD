@@ -152,7 +152,7 @@ void CmdSurfaceFilling::activated(int iMsg)
     doCommand(Doc, "Gui.ActiveDocument.setEdit('%s',0)", FeatName.c_str());
 }
 
-bool CmdSurfaceFilling::isActive(void)
+bool CmdSurfaceFilling::isActive()
 {
     return hasActiveDocument();
 }
@@ -174,7 +174,7 @@ CmdSurfaceGeomFillSurface::CmdSurfaceGeomFillSurface()
     sPixmap       = "Surface_GeomFillSurface";
 }
 
-bool CmdSurfaceGeomFillSurface::isActive(void)
+bool CmdSurfaceGeomFillSurface::isActive()
 {
     return hasActiveDocument();
 }
@@ -211,7 +211,7 @@ void CmdSurfaceCurveOnMesh::activated(int)
                   "FreeCADGui.runCommand('MeshPart_CurveOnMesh')\n");
 }
 
-bool CmdSurfaceCurveOnMesh::isActive(void)
+bool CmdSurfaceCurveOnMesh::isActive()
 {
     if (Gui::Control().activeDialog())
         return false;
@@ -262,7 +262,7 @@ void CmdSurfaceExtendFace::activated(int)
     }
 }
 
-bool CmdSurfaceExtendFace::isActive(void)
+bool CmdSurfaceExtendFace::isActive()
 {
     return Gui::Selection().countObjectsOfType(Part::Feature::getClassTypeId()) == 1;
 }
@@ -291,12 +291,12 @@ void CmdSurfaceSections::activated(int iMsg)
     doCommand(Doc, "Gui.ActiveDocument.setEdit('%s',0)", FeatName.c_str());
 }
 
-bool CmdSurfaceSections::isActive(void)
+bool CmdSurfaceSections::isActive()
 {
     return hasActiveDocument();
 }
 
-void CreateSurfaceCommands(void)
+void CreateSurfaceCommands()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 /*
