@@ -57,7 +57,7 @@
 #include <Gui/BitmapFactory.h>
 #include <Gui/Application.h>
 
-void PrintInitHelp(void);
+void PrintInitHelp();
 
 const char sBanner[] = "\xc2\xa9 Juergen Riegel, Werner Mayer, Yorik van Havre and others 2001-2021\n"\
 "FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.\n"\
