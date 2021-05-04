@@ -181,7 +181,7 @@ void GeometryObject::projectShape(const TopoDS_Shape& input,
 
     auto start = chrono::high_resolution_clock::now();
 
-    Handle(HLRBRep_Algo) brep_hlr = NULL;
+    Handle(HLRBRep_Algo) brep_hlr = nullptr;
     try {
         brep_hlr = new HLRBRep_Algo();
         brep_hlr->Add(input, m_isoCount);
@@ -316,7 +316,7 @@ void GeometryObject::projectShapeWithPolygonAlgo(const TopoDS_Shape& input,
 
     auto start = chrono::high_resolution_clock::now();
 
-    Handle(HLRBRep_PolyAlgo) brep_hlrPoly = NULL;
+    Handle(HLRBRep_PolyAlgo) brep_hlrPoly = nullptr;
 
     try {
         TopExp_Explorer faces(inCopy, TopAbs_FACE);

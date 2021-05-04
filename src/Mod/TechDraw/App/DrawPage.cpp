@@ -71,7 +71,7 @@ PROPERTY_SOURCE(TechDraw::DrawPage, App::DocumentObject)
 
 const char* DrawPage::ProjectionTypeEnums[] = { "First Angle",
                                                 "Third Angle",
-                                                NULL };
+                                                nullptr };
 
 DrawPage::DrawPage(void)
 {
@@ -81,9 +81,9 @@ DrawPage::DrawPage(void)
 
     ADD_PROPERTY_TYPE(KeepUpdated, (Preferences::keepPagesUpToDate()),
                                              group, (App::PropertyType)(App::Prop_Output), "Keep page in sync with model");
-    ADD_PROPERTY_TYPE(Template, (0), group, (App::PropertyType)(App::Prop_None), "Attached Template");
+    ADD_PROPERTY_TYPE(Template, (nullptr), group, (App::PropertyType)(App::Prop_None), "Attached Template");
     Template.setScope(App::LinkScope::Global);
-    ADD_PROPERTY_TYPE(Views, (0), group, (App::PropertyType)(App::Prop_None), "Attached Views");
+    ADD_PROPERTY_TYPE(Views, (nullptr), group, (App::PropertyType)(App::Prop_None), "Attached Views");
     Views.setScope(App::LinkScope::Global);
 
     // Projection Properties
@@ -137,7 +137,7 @@ void DrawPage::onChanged(const App::Property* prop)
             const std::vector<App::DocumentObject*> &vals = Views.getValues();
             for(std::vector<App::DocumentObject *>::const_iterator it = vals.begin(); it < vals.end(); ++it) {
                 TechDraw::DrawView *view = dynamic_cast<TechDraw::DrawView *>(*it);
-                if (view != NULL && view->ScaleType.isValue("Page")) {
+                if (view != nullptr && view->ScaleType.isValue("Page")) {
                     if(std::abs(view->Scale.getValue() - Scale.getValue()) > FLT_EPSILON) {
                        view->Scale.setValue(Scale.getValue());
                     }
@@ -149,7 +149,7 @@ void DrawPage::onChanged(const App::Property* prop)
       const std::vector<App::DocumentObject*> &vals = Views.getValues();
       for(std::vector<App::DocumentObject *>::const_iterator it = vals.begin(); it < vals.end(); ++it) {
           TechDraw::DrawProjGroup *view = dynamic_cast<TechDraw::DrawProjGroup *>(*it);
-          if (view != NULL && view->ProjectionType.isValue("Default")) {
+          if (view != nullptr && view->ProjectionType.isValue("Default")) {
               view->ProjectionType.touch();
           }
       }
@@ -194,7 +194,7 @@ PyObject *DrawPage::getPyObject(void)
 
 bool DrawPage::hasValidTemplate() const
 {
-    App::DocumentObject *obj = 0;
+    App::DocumentObject *obj = nullptr;
     obj = Template.getValue();
 
     if(obj && obj->isDerivedFrom(TechDraw::DrawTemplate::getClassTypeId())) {
@@ -210,7 +210,7 @@ bool DrawPage::hasValidTemplate() const
 
 double DrawPage::getPageWidth() const
 {
-    App::DocumentObject *obj = 0;
+    App::DocumentObject *obj = nullptr;
     obj = Template.getValue();
 
     if( obj && obj->isDerivedFrom(TechDraw::DrawTemplate::getClassTypeId()) ) {
@@ -223,7 +223,7 @@ double DrawPage::getPageWidth() const
 
 double DrawPage::getPageHeight() const
 {
-    App::DocumentObject *obj = 0;
+    App::DocumentObject *obj = nullptr;
     obj = Template.getValue();
 
     if(obj) {

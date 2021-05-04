@@ -360,8 +360,8 @@ private:
         Py::String dxfReturn;
 
         try {
-            App::DocumentObject* obj = 0;
-            TechDraw::DrawViewPart* dvp = 0;
+            App::DocumentObject* obj = nullptr;
+            TechDraw::DrawViewPart* dvp = nullptr;
             Drawing::DXFOutput dxfOut;
             std::string dxfText;
             std::stringstream ss;
@@ -417,8 +417,8 @@ private:
         std::string grpHead2 = "\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" stroke-miterlimit=\"4\">\n";
         std::string grpTail  = "</g>\n";
         try {
-            App::DocumentObject* obj = 0;
-            TechDraw::DrawViewPart* dvp = 0;
+            App::DocumentObject* obj = nullptr;
+            TechDraw::DrawViewPart* dvp = nullptr;
             Drawing::SVGOutput svgOut;
             std::string svgText;
             std::stringstream ss;
@@ -575,8 +575,8 @@ private:
         try {
             ImpExpDxfWrite writer(filePath);
             writer.init();
-            App::DocumentObject* obj = 0;
-            TechDraw::DrawViewPart* dvp = 0;
+            App::DocumentObject* obj = nullptr;
+            TechDraw::DrawViewPart* dvp = nullptr;
             if (PyObject_TypeCheck(viewObj, &(TechDraw::DrawViewPartPy::Type))) {
                 obj = static_cast<App::DocumentObjectPy*>(viewObj)->getDocumentObjectPtr();
                 dvp = static_cast<TechDraw::DrawViewPart*>(obj);
@@ -609,8 +609,8 @@ private:
         try {
             ImpExpDxfWrite writer(filePath);
             writer.init();
-            App::DocumentObject* obj = 0;
-            TechDraw::DrawPage* dp = 0;
+            App::DocumentObject* obj = nullptr;
+            TechDraw::DrawPage* dp = nullptr;
             if (PyObject_TypeCheck(pageObj, &(TechDraw::DrawPagePy::Type))) {
                 obj = static_cast<App::DocumentObjectPy*>(pageObj)->getDocumentObjectPtr();
                 dp = static_cast<TechDraw::DrawPage*>(obj);

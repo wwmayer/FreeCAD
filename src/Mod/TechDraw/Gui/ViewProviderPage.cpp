@@ -85,7 +85,7 @@ PROPERTY_SOURCE(TechDrawGui::ViewProviderPage, Gui::ViewProviderDocumentObject)
 // Construction/Destruction
 
 ViewProviderPage::ViewProviderPage()
-  : m_mdiView(0),
+  : m_mdiView(nullptr),
     m_docReady(true),
     m_pageName(""),
     m_graphicsView(nullptr)
@@ -316,7 +316,7 @@ std::vector<App::DocumentObject*> ViewProviderPage::claimChildren(void) const
 {
     std::vector<App::DocumentObject*> temp;
 
-    App::DocumentObject *templateFeat = 0;
+    App::DocumentObject *templateFeat = nullptr;
     templateFeat = getDrawPage()->Template.getValue();
 
     if (templateFeat) {
@@ -382,7 +382,7 @@ MDIViewPage* ViewProviderPage::getMDIViewPage() const
 {
     if (m_mdiView.isNull()) {
         Base::Console().Log("INFO - ViewProviderPage::getMDIViewPage has no m_mdiView!\n");
-        return 0;
+        return nullptr;
     } else {
         return m_mdiView;
     }

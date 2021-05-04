@@ -63,7 +63,7 @@ using namespace TechDraw;
 const char* DrawView::ScaleTypeEnums[]= {"Page",
                                          "Automatic",
                                          "Custom",
-                                         NULL};
+                                         nullptr};
 App::PropertyFloatConstraint::Constraints DrawView::scaleRange = {Precision::Confusion(),
                                                                   std::numeric_limits<double>::max(),
                                                                   (0.1)}; // increment by 0.1
@@ -243,8 +243,8 @@ void DrawView::onDocumentRestored()
 DrawPage* DrawView::findParentPage() const
 {
     // Get Feature Page
-    DrawPage *page = 0;
-    DrawViewCollection *collection = 0;
+    DrawPage *page = nullptr;
+    DrawViewCollection *collection = nullptr;
     std::vector<App::DocumentObject*> parent = getInList();
     for (std::vector<App::DocumentObject*>::iterator it = parent.begin(); it != parent.end(); ++it) {
         if ((*it)->getTypeId().isDerivedFrom(DrawPage::getClassTypeId())) {

@@ -266,7 +266,7 @@ void CmdTechDrawRadiusDimension::activated(int iMsg)
         return;
 
     std::vector<Gui::SelectionObject> selection = getSelection().getSelectionEx();
-    TechDraw::DrawViewPart * objFeat = 0;
+    TechDraw::DrawViewPart * objFeat = nullptr;
     std::vector<std::string> SubNames;
 
     std::vector<Gui::SelectionObject>::iterator itSel = selection.begin();
@@ -279,7 +279,7 @@ void CmdTechDrawRadiusDimension::activated(int iMsg)
     TechDraw::DrawPage* page = objFeat->findParentPage();
     std::string PageName = page->getNameInDocument();
 
-    TechDraw::DrawViewDimension *dim = 0;
+    TechDraw::DrawViewDimension *dim = nullptr;
     std::string FeatName = getUniqueObjectName("Dimension");
 
     std::vector<App::DocumentObject *> objs;
@@ -388,7 +388,7 @@ void CmdTechDrawDiameterDimension::activated(int iMsg)
         return;
 
     std::vector<Gui::SelectionObject> selection = getSelection().getSelectionEx();
-    TechDraw::DrawViewPart * objFeat = 0;
+    TechDraw::DrawViewPart * objFeat = nullptr;
     std::vector<std::string> SubNames;
 
     std::vector<Gui::SelectionObject>::iterator itSel = selection.begin();
@@ -401,7 +401,7 @@ void CmdTechDrawDiameterDimension::activated(int iMsg)
     TechDraw::DrawPage* page = objFeat->findParentPage();
     std::string PageName = page->getNameInDocument();
 
-    TechDraw::DrawViewDimension *dim = 0;
+    TechDraw::DrawViewDimension *dim = nullptr;
     std::string FeatName = getUniqueObjectName("Dimension");
 
     std::vector<App::DocumentObject *> objs;
@@ -509,7 +509,7 @@ void CmdTechDrawLengthDimension::activated(int iMsg)
         return;
 
     std::vector<Gui::SelectionObject> selection = getSelection().getSelectionEx();
-    TechDraw::DrawViewPart * objFeat = 0;
+    TechDraw::DrawViewPart * objFeat = nullptr;
     std::vector<std::string> SubNames;
 
     std::vector<Gui::SelectionObject>::iterator itSel = selection.begin();
@@ -522,7 +522,7 @@ void CmdTechDrawLengthDimension::activated(int iMsg)
     TechDraw::DrawPage* page = objFeat->findParentPage();
     std::string PageName = page->getNameInDocument();
 
-    TechDraw::DrawViewDimension *dim = 0;
+    TechDraw::DrawViewDimension *dim = nullptr;
     std::string FeatName = getUniqueObjectName("Dimension");
     std::string dimType;
 
@@ -610,7 +610,7 @@ void CmdTechDrawHorizontalDimension::activated(int iMsg)
         return;
 
     std::vector<Gui::SelectionObject> selection = getSelection().getSelectionEx();
-    TechDraw::DrawViewPart * objFeat = 0;
+    TechDraw::DrawViewPart * objFeat = nullptr;
     std::vector<std::string> SubNames;
 
     std::vector<Gui::SelectionObject>::iterator itSel = selection.begin();
@@ -623,7 +623,7 @@ void CmdTechDrawHorizontalDimension::activated(int iMsg)
     TechDraw::DrawPage* page = objFeat->findParentPage();
     std::string PageName = page->getNameInDocument();
 
-    TechDraw::DrawViewDimension *dim = 0;
+    TechDraw::DrawViewDimension *dim = nullptr;
     std::string FeatName = getUniqueObjectName("Dimension");
     std::string dimType;
 
@@ -712,7 +712,7 @@ void CmdTechDrawVerticalDimension::activated(int iMsg)
         return;
 
     std::vector<Gui::SelectionObject> selection = getSelection().getSelectionEx();
-    TechDraw::DrawViewPart * objFeat = 0;
+    TechDraw::DrawViewPart * objFeat = nullptr;
     std::vector<std::string> SubNames;
 
     std::vector<Gui::SelectionObject>::iterator itSel = selection.begin();
@@ -725,7 +725,7 @@ void CmdTechDrawVerticalDimension::activated(int iMsg)
     TechDraw::DrawPage* page = objFeat->findParentPage();
     std::string PageName = page->getNameInDocument();
 
-    TechDraw::DrawViewDimension *dim = 0;
+    TechDraw::DrawViewDimension *dim = nullptr;
     std::string FeatName = getUniqueObjectName("Dimension");
     std::string dimType;
 
@@ -812,7 +812,7 @@ void CmdTechDrawAngleDimension::activated(int iMsg)
         return;
 
     std::vector<Gui::SelectionObject> selection = getSelection().getSelectionEx();
-    TechDraw::DrawViewPart * objFeat = 0;
+    TechDraw::DrawViewPart * objFeat = nullptr;
     std::vector<std::string> SubNames;
 
     std::vector<Gui::SelectionObject>::iterator itSel = selection.begin();
@@ -825,7 +825,7 @@ void CmdTechDrawAngleDimension::activated(int iMsg)
     TechDraw::DrawPage* page = objFeat->findParentPage();
     std::string PageName = page->getNameInDocument();
 
-    TechDraw::DrawViewDimension *dim = 0;
+    TechDraw::DrawViewDimension *dim = nullptr;
     std::string FeatName = getUniqueObjectName("Dimension");
 
     std::vector<App::DocumentObject *> objs;
@@ -900,7 +900,7 @@ void CmdTechDraw3PtAngleDimension::activated(int iMsg)
         return;
 
     std::vector<Gui::SelectionObject> selection = getSelection().getSelectionEx();
-    TechDraw::DrawViewPart * objFeat = 0;
+    TechDraw::DrawViewPart * objFeat = nullptr;
     std::vector<std::string> SubNames;
 
     std::vector<Gui::SelectionObject>::iterator itSel = selection.begin();
@@ -913,7 +913,7 @@ void CmdTechDraw3PtAngleDimension::activated(int iMsg)
     TechDraw::DrawPage* page = objFeat->findParentPage();
     std::string PageName = page->getNameInDocument();
 
-    TechDraw::DrawViewDimension *dim = 0;
+    TechDraw::DrawViewDimension *dim = nullptr;
     std::string FeatName = getUniqueObjectName("Dimension");
 
     std::vector<App::DocumentObject *> objs;
@@ -994,10 +994,10 @@ void CmdTechDrawLinkDimension::activated(int iMsg)
     if (!result)
         return;
 
-    std::vector<Gui::SelectionObject> selection = getSelection().getSelectionEx(0,
+    std::vector<Gui::SelectionObject> selection = getSelection().getSelectionEx(nullptr,
             App::DocumentObject::getClassTypeId(),0);
 
-    App::DocumentObject* obj3D = 0;
+    App::DocumentObject* obj3D = nullptr;
     std::vector<App::DocumentObject*> parts;
     std::vector<std::string> subs;
 
@@ -1356,7 +1356,7 @@ void CmdTechDrawLandmarkDimension::activated(int iMsg)
     std::string parentName = dvp->getNameInDocument();
     std::string PageName = page->getNameInDocument();
 
-    TechDraw::LandmarkDimension *dim = 0;
+    TechDraw::LandmarkDimension *dim = nullptr;
     std::string FeatName = getUniqueObjectName("LandmarkDim");
 
     openCommand(QT_TRANSLATE_NOOP("Command", "Create Dimension"));

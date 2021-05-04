@@ -313,7 +313,7 @@ void CmdTechDrawView::activated(int iMsg)
     std::string faceName;
     int resolve = 1;                                //mystery
     bool single = false;                            //mystery
-    auto selection = getSelection().getSelectionEx(0,
+    auto selection = getSelection().getSelectionEx(nullptr,
                                                    App::DocumentObject::getClassTypeId(),
                                                    resolve,
                                                    single);
@@ -591,7 +591,7 @@ void CmdTechDrawProjectionGroup::activated(int iMsg)
     std::string faceName;
     int resolve = 1;                                //mystery
     bool single = false;                            //mystery
-    auto selection = getSelection().getSelectionEx(0,
+    auto selection = getSelection().getSelectionEx(nullptr,
                                                    App::DocumentObject::getClassTypeId(),
                                                    resolve,
                                                    single);
@@ -913,8 +913,8 @@ void CmdTechDrawClipGroupAdd::activated(int iMsg)
        return;
    }
 
-    TechDraw::DrawViewClip* clip = 0;
-    TechDraw::DrawView* view = 0;
+    TechDraw::DrawViewClip* clip = nullptr;
+    TechDraw::DrawView* view = nullptr;
     std::vector<Gui::SelectionObject>::iterator itSel = selection.begin();
     for (; itSel != selection.end(); itSel++)  {
         if ((*itSel).getObject()->isDerivedFrom(TechDraw::DrawViewClip::getClassTypeId())) {

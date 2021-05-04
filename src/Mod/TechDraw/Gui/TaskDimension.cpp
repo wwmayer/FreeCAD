@@ -300,7 +300,7 @@ TaskDlgDimension::TaskDlgDimension(QGIViewDimension *parent, ViewProviderDimensi
     TaskDialog()
 {
     widget  = new TaskDimension(parent, dimensionVP);
-    taskbox = new Gui::TaskView::TaskBox(Gui::BitmapFactory().pixmap("TechDraw_Dimension"), widget->windowTitle(), true, 0);
+    taskbox = new Gui::TaskView::TaskBox(Gui::BitmapFactory().pixmap("TechDraw_Dimension"), widget->windowTitle(), true, nullptr);
     taskbox->groupLayout()->addWidget(widget);
     Content.push_back(taskbox);
     setAutoCloseOnTransactionChange(true);
