@@ -48,11 +48,11 @@ App::DocumentObject *ActiveObjectList::getObject(const ObjectInfo &info, bool re
     if(subname) *subname = info.subname;
     auto obj = info.obj;
     if(!obj || !obj->getNameInDocument())
-        return 0;
+        return nullptr;
     if(info.subname.size()) {
         obj = obj->getSubObject(info.subname.c_str());
         if(!obj)
-            return 0;
+            return nullptr;
     }
     return resolve?obj->getLinkedObject(true):obj;
 }
@@ -75,7 +75,7 @@ void ActiveObjectList::setHighlight(const ObjectInfo &info, HighlightMode mode, 
 Gui::ActiveObjectList::ObjectInfo Gui::ActiveObjectList::getObjectInfo(App::DocumentObject *obj, const char *subname) const
 {
     ObjectInfo info;
-    info.obj = 0;
+    info.obj = nullptr;
     if(!obj || !obj->getNameInDocument())
         return info;
     if(subname) {

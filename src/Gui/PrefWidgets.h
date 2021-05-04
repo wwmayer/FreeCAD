@@ -105,7 +105,7 @@ class GuiExport PrefSpinBox : public QSpinBox, public PrefWidget
   Q_PROPERTY( QByteArray prefPath  READ paramGrpPath  WRITE setParamGrpPath  )
 
 public:
-  PrefSpinBox ( QWidget * parent = 0 );
+  PrefSpinBox ( QWidget * parent = nullptr );
   virtual ~PrefSpinBox();
 
 protected:
@@ -125,7 +125,7 @@ class GuiExport PrefDoubleSpinBox : public QDoubleSpinBox, public PrefWidget
   Q_PROPERTY( QByteArray prefPath  READ paramGrpPath  WRITE setParamGrpPath  )
 
 public:
-  PrefDoubleSpinBox ( QWidget * parent = 0 );
+  PrefDoubleSpinBox ( QWidget * parent = nullptr );
   virtual ~PrefDoubleSpinBox();
 
 protected:
@@ -146,7 +146,7 @@ class GuiExport PrefLineEdit : public QLineEdit, public PrefWidget
   Q_PROPERTY( QByteArray prefPath  READ paramGrpPath  WRITE setParamGrpPath  )
 
 public:
-  PrefLineEdit ( QWidget * parent = 0 );
+  PrefLineEdit ( QWidget * parent = nullptr );
   virtual ~PrefLineEdit();
 
 protected:
@@ -167,7 +167,7 @@ class GuiExport PrefFileChooser : public FileChooser, public PrefWidget
   Q_PROPERTY( QByteArray prefPath  READ paramGrpPath  WRITE setParamGrpPath  )
 
 public:
-  PrefFileChooser ( QWidget * parent = 0 );
+  PrefFileChooser ( QWidget * parent = nullptr );
   virtual ~PrefFileChooser();
 
 protected:
@@ -188,7 +188,7 @@ class GuiExport PrefComboBox : public QComboBox, public PrefWidget
   Q_PROPERTY( QByteArray prefPath  READ paramGrpPath  WRITE setParamGrpPath  )
 
 public:
-  PrefComboBox ( QWidget * parent = 0 );
+  PrefComboBox ( QWidget * parent = nullptr );
   virtual ~PrefComboBox();
 
 protected:
@@ -209,7 +209,7 @@ class GuiExport PrefCheckBox : public QCheckBox, public PrefWidget
   Q_PROPERTY( QByteArray prefPath  READ paramGrpPath  WRITE setParamGrpPath  )
 
 public:
-  PrefCheckBox ( QWidget * parent = 0 );
+  PrefCheckBox ( QWidget * parent = nullptr );
   virtual ~PrefCheckBox();
 
 protected:
@@ -230,7 +230,7 @@ class GuiExport PrefRadioButton : public QRadioButton, public PrefWidget
   Q_PROPERTY( QByteArray prefPath  READ paramGrpPath  WRITE setParamGrpPath  )
 
 public:
-  PrefRadioButton ( QWidget * parent = 0 );
+  PrefRadioButton ( QWidget * parent = nullptr );
   virtual ~PrefRadioButton();
 
 protected:
@@ -251,7 +251,7 @@ class GuiExport PrefSlider : public QSlider, public PrefWidget
   Q_PROPERTY( QByteArray prefPath  READ paramGrpPath  WRITE setParamGrpPath  )
 
 public:
-  PrefSlider ( QWidget * parent = 0 );
+  PrefSlider ( QWidget * parent = nullptr );
   virtual ~PrefSlider();
 
 protected:
@@ -272,7 +272,7 @@ class GuiExport PrefColorButton : public ColorButton, public PrefWidget
   Q_PROPERTY( QByteArray prefPath  READ paramGrpPath  WRITE setParamGrpPath  )
 
 public:
-  PrefColorButton ( QWidget * parent = 0 );
+  PrefColorButton ( QWidget * parent = nullptr );
   virtual ~PrefColorButton();
 
 protected:
@@ -294,7 +294,7 @@ class GuiExport PrefUnitSpinBox : public QuantitySpinBox, public PrefWidget
     Q_PROPERTY( QByteArray prefPath  READ paramGrpPath  WRITE setParamGrpPath  )
 
 public:
-    PrefUnitSpinBox ( QWidget * parent = 0 );
+    PrefUnitSpinBox ( QWidget * parent = nullptr );
     virtual ~PrefUnitSpinBox();
 
 protected:
@@ -317,7 +317,7 @@ class GuiExport PrefQuantitySpinBox : public QuantitySpinBox
     Q_PROPERTY(int historySize READ historySize WRITE setHistorySize)
 
 public:
-    PrefQuantitySpinBox (QWidget * parent = 0);
+    PrefQuantitySpinBox (QWidget * parent = nullptr);
     virtual ~PrefQuantitySpinBox();
 
     /// set the input field to the last used value (works only if the setParamGrpPath() was called)
@@ -363,7 +363,7 @@ class GuiExport PrefFontBox : public QFontComboBox, public PrefWidget
   Q_PROPERTY( QByteArray prefPath  READ paramGrpPath  WRITE setParamGrpPath  )
 
 public:
-  PrefFontBox ( QWidget * parent = 0 );
+  PrefFontBox ( QWidget * parent = nullptr );
   virtual ~PrefFontBox();
 
 protected:

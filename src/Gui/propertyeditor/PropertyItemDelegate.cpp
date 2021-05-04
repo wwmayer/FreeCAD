@@ -44,7 +44,7 @@ using namespace Gui::PropertyEditor;
 
 
 PropertyItemDelegate::PropertyItemDelegate(QObject* parent)
-    : QItemDelegate(parent), expressionEditor(0)
+    : QItemDelegate(parent), expressionEditor(nullptr)
     , pressed(false), changed(false)
 {
 }
@@ -125,17 +125,17 @@ QWidget * PropertyItemDelegate::createEditor (QWidget * parent, const QStyleOpti
                                               const QModelIndex & index ) const
 {
     if (!index.isValid())
-        return 0;
+        return nullptr;
 
     PropertyItem *childItem = static_cast<PropertyItem*>(index.internalPointer());
     if (!childItem)
-        return 0;
+        return nullptr;
 
     FC_LOG("create editor " << index.row() << "," << index.column());
 
     PropertyEditor *parentEditor = qobject_cast<PropertyEditor*>(this->parent());
     QWidget* editor;
-    expressionEditor = 0;
+    expressionEditor = nullptr;
     if(parentEditor && parentEditor->isBinding())
         expressionEditor = editor = childItem->createExpressionEditor(parent, this, SLOT(valueChanged()));
     else

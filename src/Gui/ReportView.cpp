@@ -319,12 +319,12 @@ public:
     {
         if (replace_stdout) {
             Py_DECREF(replace_stdout);
-            replace_stdout = 0;
+            replace_stdout = nullptr;
         }
 
         if (replace_stderr) {
             Py_DECREF(replace_stderr);
-            replace_stderr = 0;
+            replace_stderr = nullptr;
         }
     }
 
@@ -339,12 +339,12 @@ public:
 };
 
 bool ReportOutput::Data::redirected_stdout = false;
-PyObject* ReportOutput::Data::default_stdout = 0;
-PyObject* ReportOutput::Data::replace_stdout = 0;
+PyObject* ReportOutput::Data::default_stdout = nullptr;
+PyObject* ReportOutput::Data::replace_stdout = nullptr;
 
 bool ReportOutput::Data::redirected_stderr = false;
-PyObject* ReportOutput::Data::default_stderr = 0;
-PyObject* ReportOutput::Data::replace_stderr = 0;
+PyObject* ReportOutput::Data::default_stderr = nullptr;
+PyObject* ReportOutput::Data::replace_stderr = nullptr;
 
 /* TRANSLATOR Gui::DockWnd::ReportOutput */
 

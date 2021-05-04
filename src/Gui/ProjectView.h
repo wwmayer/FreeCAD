@@ -45,7 +45,7 @@ class ProjectWidget : public QTreeView
     Q_OBJECT
 
 public:
-    ProjectWidget(QWidget* parent=0);
+    ProjectWidget(QWidget* parent=nullptr);
     ~ProjectWidget();
 
 private:

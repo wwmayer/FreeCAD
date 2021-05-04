@@ -81,7 +81,7 @@ Keyboard::translateEvent(QEvent * event)
   case QEvent::KeyRelease:
     return PRIVATE(this)->keyEvent((QKeyEvent *) event);
   default:
-    return NULL;
+    return nullptr;
   }
 }
 

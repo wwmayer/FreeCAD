@@ -85,7 +85,7 @@ class SoFCColorBarProxyObject : public QObject
 {
 public:
     SoFCColorBarProxyObject(SoFCColorBar* b)
-        : QObject(0), bar(b) {}
+        : QObject(nullptr), bar(b) {}
     ~SoFCColorBarProxyObject() {}
     void customEvent(QEvent *)
     {

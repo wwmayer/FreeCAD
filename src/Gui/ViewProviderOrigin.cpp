@@ -76,7 +76,7 @@ ViewProviderOrigin::ViewProviderOrigin()
 
 ViewProviderOrigin::~ViewProviderOrigin() {
     pcGroupChildren->unref();
-    pcGroupChildren = 0;
+    pcGroupChildren = nullptr;
 }
 
 std::vector<App::DocumentObject*> ViewProviderOrigin::claimChildren(void) const {

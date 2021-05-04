@@ -168,7 +168,7 @@ void SIM::Coin3D::Quarter::SoQTQuarterAdaptor::init()
     m_seekdistanceabs = false;
     m_seekperiod = 2.0f;
     m_inseekmode = false;
-    m_storedcamera = 0;
+    m_storedcamera = nullptr;
     m_viewingflag = false;
     pickRadius = 5.0;
 
@@ -318,7 +318,7 @@ void SIM::Coin3D::Quarter::SoQTQuarterAdaptor::setViewing(SbBool enable)
     if(m_viewingflag) {
         SoGLRenderAction* action = getSoRenderManager()->getGLRenderAction();
 
-        if(action != NULL)
+        if(action != nullptr)
             SoLocateHighlight::turnOffCurrentHighlight(action);
     }
 }

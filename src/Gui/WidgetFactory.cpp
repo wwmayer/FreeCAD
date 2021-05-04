@@ -160,7 +160,7 @@ PythonToCppFunc toCppPointerCheckFuncQuantity(PyObject* obj)
     if (PyObject_TypeCheck(obj, &(Base::QuantityPy::Type)))
         return toCppPointerConvFuncQuantity;
     else
-        return 0;
+        return nullptr;
 }
 
 void BaseQuantity_PythonToCpp_QVariant(PyObject* pyIn, void* cppOut)
@@ -173,7 +173,7 @@ PythonToCppFunc isBaseQuantity_PythonToCpp_QVariantConvertible(PyObject* obj)
 {
     if (PyObject_TypeCheck(obj, &(Base::QuantityPy::Type)))
         return BaseQuantity_PythonToCpp_QVariant;
-    return 0;
+    return nullptr;
 }
 
 #if defined (HAVE_PYSIDE)
@@ -366,7 +366,7 @@ QObject* PythonWrapper::toQObject(const Py::Object& pyobject)
     return reinterpret_cast<QObject*>(ptr);
 #endif
 
-    return 0;
+    return nullptr;
 }
 
 QGraphicsItem* PythonWrapper::toQGraphicsItem(PyObject* pyPtr)
@@ -419,7 +419,7 @@ QIcon *PythonWrapper::toQIcon(PyObject *pyobj)
 #else
     Q_UNUSED(pyobj);
 #endif
-    return 0;
+    return nullptr;
 }
 
 Py::Object PythonWrapper::fromQObject(QObject* object, const char* className)
@@ -608,20 +608,20 @@ void PythonWrapper::setParent(PyObject* pyWdg, QObject* parent)
 
 // ----------------------------------------------------
 
-Gui::WidgetFactoryInst* Gui::WidgetFactoryInst::_pcSingleton = NULL;
+Gui::WidgetFactoryInst* Gui::WidgetFactoryInst::_pcSingleton = nullptr;
 
 WidgetFactoryInst& WidgetFactoryInst::instance()
 {
-    if (_pcSingleton == 0L)
+    if (_pcSingleton == nullptr)
         _pcSingleton = new WidgetFactoryInst;
     return *_pcSingleton;
 }
 
 void WidgetFactoryInst::destruct ()
 {
-    if (_pcSingleton != 0)
+    if (_pcSingleton != nullptr)
         delete _pcSingleton;
-    _pcSingleton = 0;
+    _pcSingleton = nullptr;
 }
 
 /**
@@ -640,7 +640,7 @@ QWidget* WidgetFactoryInst::createWidget (const char* sName, QWidget* parent) co
 #else
         Base::Console().Log("\"%s\" is not registered\n", sName);
 #endif
-        return 0;
+        return nullptr;
     }
 
     try {
@@ -656,7 +656,7 @@ QWidget* WidgetFactoryInst::createWidget (const char* sName, QWidget* parent) co
         Base::Console().Log("%s does not inherit from \"QWidget\"\n", sName);
 #endif
         delete w;
-        return 0;
+        return nullptr;
     }
 
     // set the parent to the widget
@@ -682,7 +682,7 @@ Gui::Dialog::PreferencePage* WidgetFactoryInst::createPreferencePage (const char
 #else
         Base::Console().Log("Cannot create an instance of \"%s\"\n", sName);
 #endif
-        return 0;
+        return nullptr;
     }
 
     if (qobject_cast<Gui::Dialog::PreferencePage*>(w)) {
@@ -695,7 +695,7 @@ Gui::Dialog::PreferencePage* WidgetFactoryInst::createPreferencePage (const char
         Base::Console().Error("%s does not inherit from 'Gui::Dialog::PreferencePage'\n", sName);
 #endif
         delete w;
-        return 0;
+        return nullptr;
     }
 
     // set the parent to the widget
@@ -717,7 +717,7 @@ QWidget* WidgetFactoryInst::createPrefWidget(const char* sName, QWidget* parent,
     QWidget* w = createWidget(sName);
     // this widget class is not registered
     if (!w)
-        return 0; // no valid QWidget object
+        return nullptr; // no valid QWidget object
 
     // set the parent to the widget
     w->setParent(parent);
@@ -734,7 +734,7 @@ QWidget* WidgetFactoryInst::createPrefWidget(const char* sName, QWidget* parent,
         Base::Console().Error("%s does not inherit from \"PrefWidget\"\n", w->metaObject()->className());
 #endif
         delete w;
-        return 0;
+        return nullptr;
     }
 
     return w;
@@ -887,7 +887,7 @@ QWidget* UiLoader::createWidget(const QString & className, QWidget * parent,
 {
     if (this->cw.contains(className))
         return QUiLoader::createWidget(className, parent, name);
-    QWidget* w = 0;
+    QWidget* w = nullptr;
     if (WidgetFactory().CanProduce((const char*)className.toLatin1()))
         w = WidgetFactory().createWidget((const char*)className.toLatin1(), parent);
     if (w) w->setObjectName(name);
@@ -899,7 +899,7 @@ QWidget* UiLoader::createWidget(const QString & className, QWidget * parent,
 PyObject *UiLoaderPy::PyMake(struct _typeobject * /*type*/, PyObject * args, PyObject * /*kwds*/)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return 0;
+        return nullptr;
     return new UiLoaderPy();
 }
 
@@ -939,8 +939,8 @@ Py::Object UiLoaderPy::load(const Py::Tuple& args)
     if (wrap.loadCoreModule()) {
         std::string fn;
         QFile file;
-        QIODevice* device = 0;
-        QWidget* parent = 0;
+        QIODevice* device = nullptr;
+        QWidget* parent = nullptr;
         if (wrap.toCString(args[0], fn)) {
             file.setFileName(QString::fromUtf8(fn.c_str()));
             if (!file.open(QFile::ReadOnly))
@@ -993,7 +993,7 @@ Py::Object UiLoaderPy::createWidget(const Py::Tuple& args)
     std::string className;
     className = str.as_std_string("utf-8");
     // 2nd argument
-    QWidget* parent = 0;
+    QWidget* parent = nullptr;
     if (wrap.loadCoreModule() && args.size() > 1) {
         QObject* object = wrap.toQObject(args[1]);
         if (object)
@@ -1024,7 +1024,7 @@ Py::Object UiLoaderPy::createWidget(const Py::Tuple& args)
 
 // ----------------------------------------------------
 
-WidgetFactorySupplier* WidgetFactorySupplier::_pcSingleton = 0L;
+WidgetFactorySupplier* WidgetFactorySupplier::_pcSingleton = nullptr;
 
 WidgetFactorySupplier & WidgetFactorySupplier::instance()
 {
@@ -1039,7 +1039,7 @@ void WidgetFactorySupplier::destruct()
     // delete the widget factory and all its producers first
     WidgetFactoryInst::destruct();
     delete _pcSingleton;
-    _pcSingleton=0;
+    _pcSingleton=nullptr;
 }
 
 // ----------------------------------------------------
@@ -1092,13 +1092,13 @@ void* PrefPagePyProducer::Produce () const
         QWidget* widget = new Gui::Dialog::PreferencePagePython(page);
         if (!widget->layout()) {
             delete widget;
-            widget = 0;
+            widget = nullptr;
         }
         return widget;
     }
     catch (Py::Exception&) {
         PyErr_Print();
-        return 0;
+        return nullptr;
     }
 }
 
@@ -1243,7 +1243,7 @@ void PyResource::init_type()
     add_varargs_method("connect",&PyResource::connect);
 }
 
-PyResource::PyResource() : myDlg(0)
+PyResource::PyResource() : myDlg(nullptr)
 {
 }
 
@@ -1300,7 +1300,7 @@ void PyResource::load(const char* name)
         }
     }
 
-    QWidget* w=0;
+    QWidget* w=nullptr;
     try {
         UiLoader loader;
         loader.setLanguageChangeEnabled(true);
@@ -1335,7 +1335,7 @@ bool PyResource::connect(const char* sender, const char* signal, PyObject* cb)
     if ( !myDlg )
         return false;
 
-    QObject* objS=0L;
+    QObject* objS=nullptr;
     QList<QWidget*> list = myDlg->findChildren<QWidget*>();
     QList<QWidget*>::const_iterator it = list.begin();
     QObject *obj;

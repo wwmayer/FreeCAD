@@ -152,7 +152,7 @@
 
 using namespace SIM::Coin3D::Quarter;
 
-static QuarterP * self = NULL;
+static QuarterP * self = nullptr;
 
 /*!
   initialize Quarter, and implicitly Coin
@@ -189,7 +189,7 @@ Quarter::clean(void)
   bool initCoin = self->initCoin;
 
   delete self;
-  self = NULL;
+  self = nullptr;
 
   if (initCoin) {
     // SoDB::finish() will clean up everything that has been

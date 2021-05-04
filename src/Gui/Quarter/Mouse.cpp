@@ -131,9 +131,9 @@ Mouse::translateEvent(QEvent * event)
     return PRIVATE(this)->mouseWheelEvent((QWheelEvent *) event);
   case QEvent::Resize:
     PRIVATE(this)->resizeEvent((QResizeEvent *) event);
-    return NULL;
+    return nullptr;
   default:
-    return NULL;
+    return nullptr;
   }
 }
 

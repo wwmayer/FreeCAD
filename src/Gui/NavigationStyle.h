@@ -159,7 +159,7 @@ public:
     void startSelection(SelectionMode = Lasso);
     void stopSelection();
     SbBool isSelecting() const;
-    const std::vector<SbVec2s>& getPolygon(SelectionRole* role=0) const;
+    const std::vector<SbVec2s>& getPolygon(SelectionRole* role=nullptr) const;
 
     void setOrbitStyle(OrbitStyle style);
     OrbitStyle getOrbitStyle() const;

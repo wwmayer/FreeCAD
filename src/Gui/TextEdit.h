@@ -58,7 +58,7 @@ class GuiExport TextEdit : public QPlainTextEdit
     Q_OBJECT
 
 public:
-    TextEdit(QWidget *parent = 0);
+    TextEdit(QWidget *parent = nullptr);
     virtual ~TextEdit();
 
 private Q_SLOTS:
@@ -82,7 +82,7 @@ class GuiExport TextEditor : public TextEdit, public WindowParameter
     Q_OBJECT
 
 public:
-    TextEditor(QWidget *parent = 0);
+    TextEditor(QWidget *parent = nullptr);
     ~TextEditor();
     void setSyntaxHighlighter(SyntaxHighlighter*);
 

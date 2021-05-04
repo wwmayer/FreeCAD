@@ -37,7 +37,7 @@ class GuiExport PropertyPage : public QWidget
     Q_OBJECT
 
 public:
-    PropertyPage(QWidget* parent = 0);
+    PropertyPage(QWidget* parent = nullptr);
     virtual ~PropertyPage();
 
     bool isModified();
@@ -67,7 +67,7 @@ class GuiExport PreferencePage : public QWidget
     Q_OBJECT
 
 public:
-    PreferencePage(QWidget* parent = 0);
+    PreferencePage(QWidget* parent = nullptr);
     virtual ~PreferencePage();
 
 public Q_SLOTS:
@@ -86,7 +86,7 @@ class GuiExport PreferenceUiForm : public PreferencePage
     Q_OBJECT
 
 public:
-    PreferenceUiForm(const QString& fn, QWidget* parent = 0);
+    PreferenceUiForm(const QString& fn, QWidget* parent = nullptr);
     virtual ~PreferenceUiForm();
 
     void loadSettings();
@@ -113,7 +113,7 @@ class GuiExport CustomizeActionPage : public QWidget
     Q_OBJECT
 
 public:
-    CustomizeActionPage(QWidget* parent = 0);
+    CustomizeActionPage(QWidget* parent = nullptr);
     virtual ~CustomizeActionPage();
 
 protected:

@@ -172,7 +172,7 @@ Action* CommandBase::getAction() const
 Action * CommandBase::createAction()
 {
     // does nothing
-    return 0;
+    return nullptr;
 }
 
 void CommandBase::setMenuText(const char* s)
@@ -214,7 +214,7 @@ void CommandBase::setAccel(const char* s)
 Command::Command(const char* name)
     : CommandBase(nullptr)
     , sName(name)
-    , sHelpUrl(0)
+    , sHelpUrl(nullptr)
 {
     sAppModule  = "FreeCAD";
     sGroup      = QT_TR_NOOP("Standard");
@@ -284,7 +284,7 @@ App::Document* Command::getDocument(const char* Name) const
         if (pcDoc)
             return pcDoc->getDocument();
         else
-            return 0l;
+            return nullptr;
     }
 }
 
@@ -294,7 +294,7 @@ App::DocumentObject* Command::getObject(const char* Name) const
     if (pDoc)
         return pDoc->getObject(Name);
     else
-        return 0;
+        return nullptr;
 }
 
 int Command::_busy;
@@ -308,7 +308,7 @@ public:
         cancel();
     }
     void cancel() {
-        Application::Instance->macroManager()->addLine(MacroManager::Cmt,0,true);
+        Application::Instance->macroManager()->addLine(MacroManager::Cmt,nullptr,true);
     }
 };
 
@@ -329,7 +329,7 @@ private:
 };
 
 void Command::setupCheckable(int iMsg) {
-    QAction *action = 0;
+    QAction *action = nullptr;
     Gui::ActionGroup* pcActionGroup = qobject_cast<Gui::ActionGroup*>(_pcAction);
     if(pcActionGroup) {
         QList<QAction*> a = pcActionGroup->actions();
@@ -525,12 +525,12 @@ void Command::setEnabled(bool on)
 
 bool Command::hasActiveDocument(void) const
 {
-    return getActiveGuiDocument() != 0;
+    return getActiveGuiDocument() != nullptr;
 }
 /// true when there is a document and a Feature with Name
 bool Command::hasObject(const char* Name)
 {
-    return getDocument() != 0 && getDocument()->getObject(Name) != 0;
+    return getDocument() != nullptr && getDocument()->getObject(Name) != nullptr;
 }
 
 Gui::SelectionSingleton&  Command::getSelection(void)
@@ -760,7 +760,7 @@ void Command::_copyVisual(const char *file, int line, const App::DocumentObject 
                         objCmd.c_str(),attr_to,getObjectCmd(obj).c_str(),it->second.c_str());
                 return;
             }
-            auto linked = obj->getLinkedObject(false,0,false,depth);
+            auto linked = obj->getLinkedObject(false,nullptr,false,depth);
             if(!linked || linked==obj)
                 break;
             obj = linked;
@@ -1150,7 +1150,7 @@ void MacroCommand::load()
             macro->setStatusTip   ( (*it)->GetASCII( "Statustip"  ).c_str() );
             if ((*it)->GetASCII("Pixmap", "nix") != "nix")
                 macro->setPixmap    ( (*it)->GetASCII( "Pixmap"     ).c_str() );
-            macro->setAccel       ( (*it)->GetASCII( "Accel",0    ).c_str() );
+            macro->setAccel       ( (*it)->GetASCII( "Accel",nullptr    ).c_str() );
             macro->systemMacro = (*it)->GetBool("System", false);
             Application::Instance->commandManager().addCommand( macro );
         }
@@ -1247,7 +1247,7 @@ void PythonCommand::activated(int iMsg)
     if (Activation.empty()) {
         try {
             if (isCheckable()) {
-                Interpreter().runMethod(_pcPyCommand, "Activated", "", 0, "(i)", iMsg);
+                Interpreter().runMethod(_pcPyCommand, "Activated", "", nullptr, "(i)", iMsg);
             }
             else {
                 Interpreter().runMethodVoid(_pcPyCommand, "Activated");
@@ -1309,7 +1309,7 @@ const char* PythonCommand::getHelpUrl(void) const
 
 Action * PythonCommand::createAction(void)
 {
-    QAction* qtAction = new QAction(0);
+    QAction* qtAction = new QAction(nullptr);
     Action *pcAction;
 
     pcAction = new Action(this, qtAction, getMainWindow());
@@ -1360,7 +1360,7 @@ const char* PythonCommand::getStatusTip() const
 const char* PythonCommand::getPixmap() const
 {
     const char* ret = getResource("Pixmap");
-    return (ret && ret[0] != '\0') ? ret : 0;
+    return (ret && ret[0] != '\0') ? ret : nullptr;
 }
 
 const char* PythonCommand::getAccel() const
@@ -1660,7 +1660,7 @@ const char* PythonGroupCommand::getStatusTip() const
 const char* PythonGroupCommand::getPixmap() const
 {
     const char* ret = getResource("Pixmap");
-    return (ret && ret[0] != '\0') ? ret : 0;
+    return (ret && ret[0] != '\0') ? ret : nullptr;
 }
 
 const char* PythonGroupCommand::getAccel() const

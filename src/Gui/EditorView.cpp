@@ -79,7 +79,7 @@ public:
  *  name 'name'.
  */
 EditorView::EditorView(QPlainTextEdit* editor, QWidget* parent)
-    : MDIView(0,parent,Qt::WindowFlags()), WindowParameter( "Editor" )
+    : MDIView(nullptr,parent,Qt::WindowFlags()), WindowParameter( "Editor" )
 {
     d = new EditorViewP;
     d->lock = false;
@@ -618,7 +618,7 @@ void PythonEditorView::executeScript()
 {
     // always save the macro when it is modified
     if (EditorView::onHasMsg("Save"))
-        EditorView::onMsg("Save", 0);
+        EditorView::onMsg("Save", nullptr);
     try {
         Application::Instance->macroManager()->run(Gui::MacroManager::File,fileName().toUtf8());
     }

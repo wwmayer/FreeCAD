@@ -141,7 +141,7 @@ using namespace std;
 namespace sp = std::placeholders;
 
 
-Application* Application::Instance = 0L;
+Application* Application::Instance = nullptr;
 
 namespace Gui {
 
@@ -149,8 +149,8 @@ namespace Gui {
 struct ApplicationP
 {
     ApplicationP(bool GUIenabled) :
-    activeDocument(0L),
-    editDocument(0L),
+    activeDocument(nullptr),
+    editDocument(nullptr),
     isClosing(false),
     startingUp(true)
     {
@@ -185,10 +185,10 @@ FreeCADGui_subgraphFromObject(PyObject * /*self*/, PyObject *args)
 {
     PyObject *o;
     if (!PyArg_ParseTuple(args, "O!",&(App::DocumentObjectPy::Type), &o))
-        return NULL;
+        return nullptr;
     App::DocumentObject* obj = static_cast<App::DocumentObjectPy*>(o)->getDocumentObjectPtr();
     std::string vp = obj->getViewProviderName();
-    SoNode* node = 0;
+    SoNode* node = nullptr;
     try {
         Base::BaseClass* base = static_cast<Base::BaseClass*>(Base::Type::createInstanceByName(vp.c_str(), true));
         if (base && base->getTypeId().isDerivedFrom(Gui::ViewProviderDocumentObject::getClassTypeId())) {
@@ -223,7 +223,7 @@ FreeCADGui_subgraphFromObject(PyObject * /*self*/, PyObject *args)
             }
 
             type += " *";
-            PyObject* proxy = 0;
+            PyObject* proxy = nullptr;
             proxy = Base::Interpreter().createSWIGPointerObj("pivy.coin", type.c_str(), (void*)node, 1);
             return Py::new_reference_to(Py::Object(proxy, true));
         }
@@ -231,7 +231,7 @@ FreeCADGui_subgraphFromObject(PyObject * /*self*/, PyObject *args)
     catch (const Base::Exception& e) {
         if (node) node->unref();
         PyErr_SetString(PyExc_RuntimeError, e.what());
-        return 0;
+        return nullptr;
     }
 
     Py_INCREF(Py_None);
@@ -247,7 +247,7 @@ FreeCADGui_exportSubgraph(PyObject * /*self*/, PyObject *args)
     if (!PyArg_ParseTuple(args, "OO|s", &proxy, &output, &format))
         return nullptr;
 
-    void* ptr = 0;
+    void* ptr = nullptr;
     try {
         Base::Interpreter().convertSWIGPointerObj("pivy.coin", "SoNode *", proxy, &ptr, 0);
         SoNode* node = reinterpret_cast<SoNode*>(ptr);
@@ -266,7 +266,7 @@ FreeCADGui_exportSubgraph(PyObject * /*self*/, PyObject *args)
             }
 
             Base::PyStreambuf buf(output);
-            std::ostream str(0);
+            std::ostream str(nullptr);
             str.rdbuf(&buf);
             str << buffer;
         }
@@ -284,7 +284,7 @@ static PyObject *
 FreeCADGui_getSoDBVersion(PyObject * /*self*/, PyObject *args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return NULL;
+        return nullptr;
     return PyUnicode_FromString(SoDB::getVersion());
 }
 
@@ -300,7 +300,7 @@ struct PyMethodDef FreeCADGui_methods[] = {
      "getSoDBVersion() -> String\n\n"
      "Return a text string containing the name\n"
      "of the Coin library and version information"},
-    {NULL, NULL, 0, NULL}  /* sentinel */
+    {nullptr, nullptr, 0, nullptr}  /* sentinel */
 };
 
 } // namespace Gui
@@ -374,7 +374,7 @@ Application::Application(bool GUIenabled)
                 PyModuleDef_HEAD_INIT,
                 "FreeCADGui", FreeCADGui_doc, -1,
                 Application::Methods,
-                NULL, NULL, NULL, NULL
+                nullptr, nullptr, nullptr, nullptr
             };
             module = PyModule_Create(&FreeCADGuiModuleDef);
 
@@ -404,7 +404,7 @@ Application::Application(bool GUIenabled)
             PyModuleDef_HEAD_INIT,
             "Selection", "Selection module", -1,
             SelectionSingleton::Methods,
-            NULL, NULL, NULL, NULL
+            nullptr, nullptr, nullptr, nullptr
         };
         PyObject* pSelectionModule = PyModule_Create(&SelectionModuleDef);
         Py_INCREF(pSelectionModule);
@@ -431,10 +431,10 @@ Application::Application(bool GUIenabled)
     PyObject *module = PyImport_AddModule("FreeCADGui");
     PyMethodDef *meth = FreeCADGui_methods;
     PyObject *dict = PyModule_GetDict(module);
-    for (; meth->ml_name != NULL; meth++) {
+    for (; meth->ml_name != nullptr; meth++) {
         PyObject *descr;
-        descr = PyCFunction_NewEx(meth,0,0);
-        if (descr == NULL)
+        descr = PyCFunction_NewEx(meth,nullptr,nullptr);
+        if (descr == nullptr)
             break;
         if (PyDict_SetItemString(dict, meth->ml_name, descr) != 0)
             break;
@@ -506,7 +506,7 @@ Application::~Application()
     //App::GetApplication().Detach(this);
 
     delete d;
-    Instance = 0;
+    Instance = nullptr;
 }
 
 
@@ -532,7 +532,7 @@ void Application::open(const char* FileName, const char* Module)
         qApp->processEvents(); // an update is needed otherwise the new view isn't shown
     }
 
-    if (Module != 0) {
+    if (Module != nullptr) {
         try {
             if (File.hasExtension("FCStd")) {
                 bool handled = false;
@@ -594,7 +594,7 @@ void Application::importFrom(const char* FileName, const char* DocName, const ch
     string unicodepath = Base::Tools::escapedUnicodeFromUtf8(File.filePath().c_str());
     unicodepath = Base::Tools::escapeEncodeFilename(unicodepath);
 
-    if (Module != 0) {
+    if (Module != nullptr) {
         try {
             // issue module loading
             Command::doCommand(Command::App, "import %s", Module);
@@ -685,7 +685,7 @@ void Application::exportTo(const char* FileName, const char* DocName, const char
     string unicodepath = Base::Tools::escapedUnicodeFromUtf8(File.filePath().c_str());
     unicodepath = Base::Tools::escapeEncodeFilename(unicodepath);
 
-    if (Module != 0) {
+    if (Module != nullptr) {
         try {
             std::vector<App::DocumentObject*> sel = Gui::Selection().getObjectsOfType
                 (App::DocumentObject::getClassTypeId(),DocName);
@@ -801,7 +801,7 @@ void Application::slotDeleteDocument(const App::Document& Doc)
     // If the active document gets destructed we must set it to 0. If there are further existing documents then the
     // view that becomes active sets the active document again. So, we needn't worry about this.
     if (d->activeDocument == doc->second)
-        setActiveDocument(0);
+        setActiveDocument(nullptr);
 
     // For exception-safety use a smart pointer
     unique_ptr<Document> delDoc (doc->second);
@@ -999,7 +999,7 @@ Gui::MDIView* Application::activeView(void) const
     if (activeDocument())
         return activeDocument()->getActiveView();
     else
-        return NULL;
+        return nullptr;
 }
 
 /**
@@ -1038,14 +1038,14 @@ Gui::Document* Application::editDocument(void) const
 
 Gui::MDIView* Application::editViewOfNode(SoNode *node) const
 {
-    return d->editDocument?d->editDocument->getViewOfNode(node):0;
+    return d->editDocument?d->editDocument->getViewOfNode(node):nullptr;
 }
 
 void Application::setEditDocument(Gui::Document *doc) {
     if(doc == d->editDocument)
         return;
     if(!doc)
-        d->editDocument = 0;
+        d->editDocument = nullptr;
     for(auto &v : d->documents)
         v.second->_resetEdit();
     d->editDocument = doc;
@@ -1126,7 +1126,7 @@ Gui::Document* Application::getDocument(const char* name) const
     if ( it!=d->documents.end() )
         return it->second;
     else
-        return 0;
+        return nullptr;
 }
 
 Gui::Document* Application::getDocument(const App::Document* pDoc) const
@@ -1135,7 +1135,7 @@ Gui::Document* Application::getDocument(const App::Document* pDoc) const
     if ( it!=d->documents.end() )
         return it->second;
     else
-        return 0;
+        return nullptr;
 }
 
 void Application::showViewProvider(const App::DocumentObject* obj)
@@ -1152,7 +1152,7 @@ void Application::hideViewProvider(const App::DocumentObject* obj)
 
 Gui::ViewProvider* Application::getViewProvider(const App::DocumentObject* obj) const
 {
-    App::Document* doc = obj ? obj->getDocument() : 0;
+    App::Document* doc = obj ? obj->getDocument() : nullptr;
     if (doc) {
         Gui::Document* gui = getDocument(doc);
         if (gui) {
@@ -1161,7 +1161,7 @@ Gui::ViewProvider* Application::getViewProvider(const App::DocumentObject* obj) 
         }
     }
 
-    return 0;
+    return nullptr;
 }
 
 void Application::attachView(Gui::BaseView* pcView)
@@ -1264,13 +1264,13 @@ bool Application::activateWorkbench(const char* name)
     Base::PyGILStateLocker lock;
     // we check for the currently active workbench and call its 'Deactivated'
     // method, if available
-    PyObject* pcOldWorkbench = 0;
+    PyObject* pcOldWorkbench = nullptr;
     if (oldWb) {
         pcOldWorkbench = PyDict_GetItemString(_pcWorkbenchDictionary, oldWb->name().c_str());
     }
 
     // get the python workbench object from the dictionary
-    PyObject* pcWorkbench = 0;
+    PyObject* pcWorkbench = nullptr;
     pcWorkbench = PyDict_GetItemString(_pcWorkbenchDictionary, name);
     // test if the workbench exists
     if (!pcWorkbench)
@@ -1577,7 +1577,7 @@ void Application::setupContextMenu(const char* recipient, MenuItem* items) const
         if (actWb->getTypeId().isDerivedFrom(PythonWorkbench::getClassTypeId())) {
             static_cast<PythonWorkbench*>(actWb)->clearContextMenu();
             Base::PyGILStateLocker lock;
-            PyObject* pWorkbench = 0;
+            PyObject* pWorkbench = nullptr;
             pWorkbench = PyDict_GetItemString(_pcWorkbenchDictionary, actWb->name().c_str());
 
             try {
@@ -1620,7 +1620,7 @@ CommandManager &Application::commandManager(void)
 // Init, Destruct and singleton
 
 typedef void (*_qt_msg_handler_old)(QtMsgType, const QMessageLogContext &, const QString &);
-_qt_msg_handler_old old_qtmsg_handler = 0;
+_qt_msg_handler_old old_qtmsg_handler = nullptr;
 
 void messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
@@ -2170,7 +2170,7 @@ void Application::runApplication(void)
     mainApp.initSpaceball(&mw);
 
 #ifdef FC_DEBUG // redirect Coin messages to FreeCAD
-    SoDebugError::setHandlerCallback( messageHandlerCoin, 0 );
+    SoDebugError::setHandlerCallback( messageHandlerCoin, nullptr );
 #endif
 
 
@@ -2415,7 +2415,7 @@ void Application::checkForPreviousCrashes()
 }
 
 App::Document *Application::reopen(App::Document *doc) {
-    if(!doc) return 0;
+    if(!doc) return nullptr;
     std::string name = doc->FileName.getValue();
     std::set<const Gui::Document*> untouchedDocs;
     for(auto &v : d->documents) {
@@ -2443,7 +2443,7 @@ App::Document *Application::reopen(App::Document *doc) {
             if(gdoc) {
                 setActiveDocument(gdoc);
                 if(!gdoc->setActiveView())
-                    gdoc->setActiveView(0,View3DInventor::getClassTypeId());
+                    gdoc->setActiveView(nullptr,View3DInventor::getClassTypeId());
             }
             return doc;
         }
@@ -2452,7 +2452,7 @@ App::Document *Application::reopen(App::Document *doc) {
             App::GetApplication().openDocument(file.c_str(),false);
     }
 
-    doc = 0;
+    doc = nullptr;
     for(auto &v : d->documents) {
         if(name == v.first->FileName.getValue())
             doc = const_cast<App::Document*>(v.first);

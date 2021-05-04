@@ -337,7 +337,7 @@ NaviCubeImplementation::NaviCubeImplementation(
 	OnChange(*hGrp, "ButtonColor");
 	OnChange(*hGrp, "CubeSize");
 
-	m_PickingFramebuffer = NULL;
+	m_PickingFramebuffer = nullptr;
 	m_Menu = createNaviCubeMenu();
 }
 
@@ -751,7 +751,7 @@ void NaviCubeImplementation::initNaviCube(QtGLWidget* gl) {
 
 	// first create front and backside of faces
 	float gap = 0.12f;
-	m_Textures[TEX_FRONT_FACE] = createCubeFaceTex(gl, gap, NULL, SHAPE_SQUARE);
+	m_Textures[TEX_FRONT_FACE] = createCubeFaceTex(gl, gap, nullptr, SHAPE_SQUARE);
 
     vector<string> labels = NaviCubeImplementation::m_labels;
 
@@ -803,7 +803,7 @@ void NaviCubeImplementation::initNaviCube(QtGLWidget* gl) {
 	addFace(x, z, TEX_BOTTOM, TEX_FRONT_FACE, TEX_BOTTOM, true);
 
 	// add corner faces
-	m_Textures[TEX_CORNER_FACE] = createCubeFaceTex(gl, gap, NULL, SHAPE_CORNER);
+	m_Textures[TEX_CORNER_FACE] = createCubeFaceTex(gl, gap, nullptr, SHAPE_CORNER);
 	// we need to rotate to the edge, thus matrix for rotation angle of 54.7 deg
 	cs = cos(atan(sqrt(2.0)));
 	sn = sin(atan(sqrt(2.0)));
@@ -840,7 +840,7 @@ void NaviCubeImplementation::initNaviCube(QtGLWidget* gl) {
 	addFace(x, z, TEX_CORNER_FACE, TEX_CORNER_FACE, TEX_TOP_REAR_RIGHT);
 
 	// add edge faces
-	m_Textures[TEX_EDGE_FACE] = createCubeFaceTex(gl, gap, NULL, SHAPE_EDGE);
+	m_Textures[TEX_EDGE_FACE] = createCubeFaceTex(gl, gap, nullptr, SHAPE_EDGE);
 	// first back to top side
 	x[0] = 1; x[1] = 0; x[2] = 0;
 	z[0] = 0; z[1] = 0; z[2] = 1;
@@ -954,7 +954,7 @@ void NaviCubeImplementation::drawNaviCube(bool pickMode) {
     // FIXME actually now that we have Qt5, we could probably do this earlier (as we do not need the opengl context)
 	if (!m_NaviCubeInitialised) {
 		QtGLWidget* gl = static_cast<QtGLWidget*>(m_View3DInventorViewer->viewport());
-		if (gl == NULL)
+		if (gl == nullptr)
 			return;
 		initNaviCube(gl);
 		m_NaviCubeInitialised = true;

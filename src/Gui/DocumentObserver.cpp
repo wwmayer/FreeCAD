@@ -202,7 +202,7 @@ std::string ViewProviderT::getAppDocumentPython() const
 
 ViewProviderDocumentObject* ViewProviderT::getViewProvider() const
 {
-    ViewProviderDocumentObject* obj = 0;
+    ViewProviderDocumentObject* obj = nullptr;
     Document* doc = getDocument();
     if (doc) {
         obj = dynamic_cast<ViewProviderDocumentObject*>(doc->getViewProviderByName(object.c_str()));

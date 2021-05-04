@@ -49,7 +49,7 @@ using namespace Gui::TaskView;
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 TaskWatcher::TaskWatcher(const char* Filter)
-    : QObject(0),SelectionFilter(Filter)
+    : QObject(nullptr),SelectionFilter(Filter)
 {
     
 }
@@ -89,7 +89,7 @@ TaskWatcherCommands::TaskWatcherCommands(const char* Filter,const char* commands
     if (commands) {
         CommandManager &mgr = Gui::Application::Instance->commandManager();
         Gui::TaskView::TaskBox *tb = new Gui::TaskView::TaskBox
-            (BitmapFactory().pixmap(pixmap), tr(name), true, 0);
+            (BitmapFactory().pixmap(pixmap), tr(name), true, nullptr);
 
         for (const char** i=commands;*i;i++) {
             Command *c = mgr.getCommandByName(*i);
@@ -122,7 +122,7 @@ bool TaskWatcherCommands::shouldShow()
 TaskWatcherCommandsEmptyDoc::TaskWatcherCommandsEmptyDoc(const char* commands[],
                                                          const char* name,
                                                          const char* pixmap )
-    : TaskWatcherCommands(0,commands,name,pixmap)
+    : TaskWatcherCommands(nullptr,commands,name,pixmap)
 {
 }
 
@@ -147,7 +147,7 @@ bool TaskWatcherCommandsEmptyDoc::shouldShow()
 TaskWatcherCommandsEmptySelection::TaskWatcherCommandsEmptySelection(const char* commands[],
                                                          const char* name,
                                                          const char* pixmap )
-    : TaskWatcherCommands(0,commands,name,pixmap)
+    : TaskWatcherCommands(nullptr,commands,name,pixmap)
 {
 }
 

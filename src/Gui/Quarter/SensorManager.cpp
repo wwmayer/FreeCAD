@@ -74,7 +74,7 @@ SensorManager::SensorManager(void)
 SensorManager::~SensorManager()
 {
   // remove the Coin callback before shutting down
-  SoDB::getSensorManager()->setChangedCallback(NULL, NULL);
+  SoDB::getSensorManager()->setChangedCallback(nullptr, nullptr);
 
   if (this->signalthread->isRunning()) {
     this->signalthread->stopThread();

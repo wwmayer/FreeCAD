@@ -166,7 +166,7 @@ void ExpressionSpinBox::openFormulaDialog()
     PropertyQuantity *  qprop = freecad_dynamic_cast<PropertyQuantity>(getPath().getProperty());
     Unit unit;
 
-    if (qprop != 0)
+    if (qprop != nullptr)
         unit = qprop->getUnit();
 
     Gui::Dialog::DlgExpressionInput* box = new Gui::Dialog::DlgExpressionInput(getPath(), getExpression(), unit, spinbox);
@@ -270,7 +270,7 @@ class UIntSpinBoxPrivate
 public:
     UnsignedValidator * mValidator;
 
-    UIntSpinBoxPrivate() : mValidator(0)
+    UIntSpinBoxPrivate() : mValidator(nullptr)
     {
     }
     uint mapToUInt( int v ) const
@@ -319,7 +319,7 @@ UIntSpinBox::UIntSpinBox (QWidget* parent)
 UIntSpinBox::~UIntSpinBox()
 {
     delete d->mValidator;
-    delete d; d = 0;
+    delete d; d = nullptr;
 }
 
 void UIntSpinBox::setRange(uint minVal, uint maxVal)

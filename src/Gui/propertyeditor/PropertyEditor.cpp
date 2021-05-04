@@ -238,7 +238,7 @@ void PropertyEditor::setupTransaction(const QModelIndex &index) {
     str << tr("Edit").toUtf8().constData() << ' ';
     for(auto prop : items) {
         if(prop->getContainer()!=obj) {
-            obj = 0;
+            obj = nullptr;
             break;
         }
     }
@@ -257,7 +257,7 @@ void PropertyEditor::onItemActivated ( const QModelIndex & index )
 {
     if(index.column() != 1)
         return;
-    edit(model()->buddy(index),AllEditTriggers,0);
+    edit(model()->buddy(index),AllEditTriggers,nullptr);
     setupTransaction(index);
 }
 
@@ -322,7 +322,7 @@ void PropertyEditor::closeEditor (QWidget * editor, QAbstractItemDelegate::EndEd
         }
         lastIndex = index;
         setCurrentIndex(index);
-        edit(index,AllEditTriggers,0);
+        edit(index,AllEditTriggers,nullptr);
     }
     setupTransaction(currentIndex());
 }
@@ -631,7 +631,7 @@ void PropertyEditor::contextMenuEvent(QContextMenuEvent *) {
         if(contextIndex == currentIndex()) {
             closePersistentEditor(contextIndex);
             Base::FlagToggler<> flag(binding);
-            edit(contextIndex,AllEditTriggers,0);
+            edit(contextIndex,AllEditTriggers,nullptr);
             setupTransaction(contextIndex);
         }
         break;

@@ -170,9 +170,9 @@ RotTransDragger::RotTransDragger()
 
 RotTransDragger::~RotTransDragger()
 {
-   if (rotFieldSensor!=NULL)
+   if (rotFieldSensor!=nullptr)
      delete rotFieldSensor;
-   if (translFieldSensor!=NULL)
+   if (translFieldSensor!=nullptr)
      delete translFieldSensor;
 }
 
@@ -274,7 +274,7 @@ RotTransDragger::setUpConnections(SbBool onOff, SbBool doItAlways)
 
 
      // Call the sensor CB to make things up-to-date.
-     fieldSensorCB(this, NULL);
+     fieldSensorCB(this, nullptr);
 
      // Connect the field sensors
      if (translFieldSensor->getAttachedField() != &translation)
@@ -320,9 +320,9 @@ RotTransDragger::setUpConnections(SbBool onOff, SbBool doItAlways)
       unregisterChildDragger(ZD);
 
      // Disconnect the field sensors.
-     if (translFieldSensor->getAttachedField()!=NULL)
+     if (translFieldSensor->getAttachedField()!=nullptr)
         translFieldSensor->detach();
-     if (rotFieldSensor->getAttachedField()!=NULL)
+     if (rotFieldSensor->getAttachedField()!=nullptr)
         rotFieldSensor->detach();
 
      SoDragger::setUpConnections(onOff, doItAlways);
@@ -379,7 +379,7 @@ RotTransDragger::invalidateSurroundScaleCB(void *parent, SoDragger *)
    // Invalidate the surroundScale, if it exists.
    SoSurroundScale *mySS = SO_CHECK_PART(
             myParentDragger, "surroundScale", SoSurroundScale);
-   if (mySS != NULL)
+   if (mySS != nullptr)
       mySS->invalidate();
 }
 

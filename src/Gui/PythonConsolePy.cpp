@@ -80,7 +80,7 @@ Py::Object PythonStdout::write(const Py::Tuple& args)
     try {
         Py::Object output(args[0]);
         if (PyUnicode_Check(output.ptr())) {
-            PyObject* unicode = PyUnicode_AsEncodedString(output.ptr(), "utf-8", 0);
+            PyObject* unicode = PyUnicode_AsEncodedString(output.ptr(), "utf-8", nullptr);
             if (unicode) {
                 const char* string = PyBytes_AsString(unicode);
                 int maxlen = qstrlen(string) > 10000 ? 10000 : -1;
@@ -157,7 +157,7 @@ Py::Object PythonStderr::write(const Py::Tuple& args)
     try {
         Py::Object output(args[0]);
         if (PyUnicode_Check(output.ptr())) {
-            PyObject* unicode = PyUnicode_AsEncodedString(output.ptr(), "utf-8", 0);
+            PyObject* unicode = PyUnicode_AsEncodedString(output.ptr(), "utf-8", nullptr);
             if (unicode) {
                 const char* string = PyBytes_AsString(unicode);
                 int maxlen = qstrlen(string) > 10000 ? 10000 : -1;
@@ -233,7 +233,7 @@ Py::Object OutputStdout::write(const Py::Tuple& args)
     try {
         Py::Object output(args[0]);
         if (PyUnicode_Check(output.ptr())) {
-            PyObject* unicode = PyUnicode_AsEncodedString(output.ptr(), "utf-8", 0);
+            PyObject* unicode = PyUnicode_AsEncodedString(output.ptr(), "utf-8", nullptr);
             if (unicode) {
                 const char* string = PyBytes_AsString(unicode);
                 Base::Console().Message("%s",string);
@@ -308,7 +308,7 @@ Py::Object OutputStderr::write(const Py::Tuple& args)
     try {
         Py::Object output(args[0]);
         if (PyUnicode_Check(output.ptr())) {
-            PyObject* unicode = PyUnicode_AsEncodedString(output.ptr(), "utf-8", 0);
+            PyObject* unicode = PyUnicode_AsEncodedString(output.ptr(), "utf-8", nullptr);
             if (unicode) {
                 const char* string = PyBytes_AsString(unicode);
                 Base::Console().Error("%s",string);

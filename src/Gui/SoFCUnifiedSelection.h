@@ -106,7 +106,7 @@ private:
         const SoPickedPoint *pp;
         ViewProviderDocumentObject *vpd;
         std::string element;
-        PickedInfo():pp(0),vpd(0)
+        PickedInfo():pp(nullptr),vpd(nullptr)
         {}
     };
 

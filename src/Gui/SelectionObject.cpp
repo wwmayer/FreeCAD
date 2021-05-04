@@ -74,7 +74,7 @@ const App::DocumentObject * SelectionObject::getObject(void) const
         if (doc && !FeatName.empty())
             return doc->getObject(FeatName.c_str());
     }
-    return 0;
+    return nullptr;
 }
 
 App::DocumentObject * SelectionObject::getObject(void)
@@ -84,7 +84,7 @@ App::DocumentObject * SelectionObject::getObject(void)
         if (doc && !FeatName.empty())
             return doc->getObject(FeatName.c_str());
     }
-    return 0;
+    return nullptr;
 }
 
 bool SelectionObject::isObjectTypeOf(const Base::Type& typeId) const

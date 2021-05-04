@@ -67,19 +67,19 @@ public:
   SbList <const QtGLWidget *> widgetlist;
 };
 
-static SbList <QuarterWidgetP_cachecontext *> * cachecontext_list = NULL;
+static SbList <QuarterWidgetP_cachecontext *> * cachecontext_list = nullptr;
 
 QuarterWidgetP::QuarterWidgetP(QuarterWidget * masterptr, const QtGLWidget * sharewidget)
 : master(masterptr),
-  scene(NULL),
-  eventfilter(NULL),
-  interactionmode(NULL),
-  sorendermanager(NULL),
-  soeventmanager(NULL),
+  scene(nullptr),
+  eventfilter(nullptr),
+  interactionmode(nullptr),
+  sorendermanager(nullptr),
+  soeventmanager(nullptr),
   initialsorendermanager(false),
   initialsoeventmanager(false),
-  headlight(NULL),
-  cachecontext(NULL),
+  headlight(nullptr),
+  cachecontext(nullptr),
   contextmenuenabled(true),
   autoredrawenabled(true),
   interactionmodeenabled(false),
@@ -87,7 +87,7 @@ QuarterWidgetP::QuarterWidgetP(QuarterWidget * masterptr, const QtGLWidget * sha
   clearwindow(true),
   addactions(true),
   device_pixel_ratio(1.0),
-  contextmenu(NULL)
+  contextmenu(nullptr)
 {
   this->cachecontext = findCacheContext(masterptr, sharewidget);
 
@@ -121,7 +121,7 @@ QuarterWidgetP::searchForCamera(SoNode * root)
       return (SoCamera *) node;
     }
   }
-  return NULL;
+  return nullptr;
 }
 
 uint32_t
@@ -133,7 +133,7 @@ QuarterWidgetP::getCacheContextId(void) const
 QuarterWidgetP_cachecontext *
 QuarterWidgetP::findCacheContext(QuarterWidget * widget, const QtGLWidget * sharewidget)
 {
-  if (cachecontext_list == NULL) {
+  if (cachecontext_list == nullptr) {
     // FIXME: static memory leak
     cachecontext_list = new SbList <QuarterWidgetP_cachecontext*>;
   }

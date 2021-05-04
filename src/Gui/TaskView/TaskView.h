@@ -82,9 +82,9 @@ class GuiExport TaskGroup : public QSint::ActionBox, public TaskContent
     Q_OBJECT
 
 public:
-    explicit TaskGroup(QWidget *parent = 0);
-    explicit TaskGroup(const QString & headerText, QWidget *parent = 0);
-    explicit TaskGroup(const QPixmap & icon, const QString & headerText, QWidget *parent = 0);
+    explicit TaskGroup(QWidget *parent = nullptr);
+    explicit TaskGroup(const QString & headerText, QWidget *parent = nullptr);
+    explicit TaskGroup(const QPixmap & icon, const QString & headerText, QWidget *parent = nullptr);
     ~TaskGroup();
 
 protected:
@@ -107,7 +107,7 @@ public:
 #else
     /** Constructor. Creates TaskBox without header.
       */
-    explicit TaskBox(QWidget *parent = 0);
+    explicit TaskBox(QWidget *parent = nullptr);
 
     /** Constructor. Creates TaskBox with header's
         text set to \a title, but with no icon.
@@ -116,7 +116,7 @@ public:
       */
     explicit TaskBox(const QString& title,
                      bool expandable = true,
-                     QWidget *parent = 0);
+                     QWidget *parent = nullptr);
 
     /** Constructor. Creates TaskBox with header's
         text set to \a title and icon set to \a icon.
@@ -126,7 +126,7 @@ public:
     explicit TaskBox(const QPixmap& icon,
                      const QString& title,
                      bool expandable = true,
-                     QWidget *parent = 0);
+                     QWidget *parent = nullptr);
     virtual QSize minimumSizeHint() const;
 #endif
     ~TaskBox();
@@ -147,7 +147,7 @@ class GuiExport TaskPanel : public QSint::ActionPanel
     Q_OBJECT
 
 public:
-    explicit TaskPanel(QWidget *parent = 0);
+    explicit TaskPanel(QWidget *parent = nullptr);
     virtual ~TaskPanel();
     virtual QSize minimumSizeHint() const;
 };
@@ -159,7 +159,7 @@ class GuiExport TaskWidget : public QWidget, public TaskContent
     Q_OBJECT
 
 public:
-    TaskWidget(QWidget *parent=0);
+    TaskWidget(QWidget *parent=nullptr);
     ~TaskWidget();
 };
 
@@ -173,7 +173,7 @@ class GuiExport TaskView : public QScrollArea, public Gui::SelectionSingleton::O
     Q_OBJECT
 
 public:
-    TaskView(QWidget *parent = 0);
+    TaskView(QWidget *parent = nullptr);
     ~TaskView();
 
     /// Observer message from the Selection

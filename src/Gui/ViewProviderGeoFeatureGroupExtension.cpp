@@ -50,7 +50,7 @@ ViewProviderGeoFeatureGroupExtension::ViewProviderGeoFeatureGroupExtension()
 ViewProviderGeoFeatureGroupExtension::~ViewProviderGeoFeatureGroupExtension()
 {
     pcGroupChildren->unref();
-    pcGroupChildren = 0;
+    pcGroupChildren = nullptr;
 }
 
 

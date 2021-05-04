@@ -323,7 +323,7 @@ PyObject* CommandPy::getAction(PyObject *args)
 
 PyObject *CommandPy::getCustomAttributes(const char* /*attr*/) const
 {
-    return 0;
+    return nullptr;
 }
 
 int CommandPy::setCustomAttributes(const char* /*attr*/, PyObject* /*obj*/)

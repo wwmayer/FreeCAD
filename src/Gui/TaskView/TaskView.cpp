@@ -373,7 +373,7 @@ QSize TaskPanel::minimumSizeHint() const
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 TaskView::TaskView(QWidget *parent)
-    : QScrollArea(parent),ActiveDialog(0),ActiveCtrl(0)
+    : QScrollArea(parent),ActiveDialog(nullptr),ActiveCtrl(nullptr)
 {
     //addWidget(new TaskEditControl(this));
     //addWidget(new TaskAppearance(this));
@@ -636,10 +636,10 @@ void TaskView::removeDialog(void)
     if (ActiveCtrl) {
         taskPanel->removeWidget(ActiveCtrl);
         delete ActiveCtrl;
-        ActiveCtrl = 0;
+        ActiveCtrl = nullptr;
     }
 
-    TaskDialog* remove = NULL;
+    TaskDialog* remove = nullptr;
     if (ActiveDialog) {
         // See 'accept' and 'reject'
         if (ActiveDialog->property("taskview_accept_or_reject").isNull()) {
@@ -648,7 +648,7 @@ void TaskView::removeDialog(void)
                 taskPanel->removeWidget(*it);
             }
             remove = ActiveDialog;
-            ActiveDialog = 0;
+            ActiveDialog = nullptr;
         }
         else {
             ActiveDialog->setProperty("taskview_remove_dialog", true);

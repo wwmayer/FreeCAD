@@ -47,7 +47,7 @@ TYPESYSTEM_SOURCE_ABSTRACT(Gui::AbstractSplitView,Gui::MDIView)
 AbstractSplitView::AbstractSplitView(Gui::Document* pcDocument, QWidget* parent, Qt::WindowFlags wflags)
   : MDIView(pcDocument,parent, wflags)
 {
-    _viewerPy = 0;
+    _viewerPy = nullptr;
     // important for highlighting
     setMouseTracking(true);
 }
@@ -59,7 +59,7 @@ AbstractSplitView::~AbstractSplitView()
         delete *it;
     }
     if (_viewerPy) {
-        static_cast<AbstractSplitViewPy*>(_viewerPy)->_view = 0;
+        static_cast<AbstractSplitViewPy*>(_viewerPy)->_view = nullptr;
         Py_DECREF(_viewerPy);
     }
 }
@@ -67,7 +67,7 @@ AbstractSplitView::~AbstractSplitView()
 void AbstractSplitView::deleteSelf()
 {
     for (std::vector<View3DInventorViewer*>::iterator it = _viewer.begin(); it != _viewer.end(); ++it) {
-        (*it)->setSceneGraph(0);
+        (*it)->setSceneGraph(nullptr);
     }
     MDIView::deleteSelf();
 }
@@ -117,7 +117,7 @@ void AbstractSplitView::setupSettings()
 
 View3DInventorViewer* AbstractSplitView::getViewer(unsigned int n) const
 {
-    return (_viewer.size() > n ? _viewer[n] : 0);
+    return (_viewer.size() > n ? _viewer[n] : nullptr);
 }
 
 /// Observer message from the ParameterGrp
@@ -486,7 +486,7 @@ Py::Object AbstractSplitViewPy::fitAll(const Py::Tuple& args)
     testExistence();
 
     try {
-        _view->onMsg("ViewFit", 0);
+        _view->onMsg("ViewFit", nullptr);
     }
     catch (const Base::Exception& e) {
         throw Py::RuntimeError(e.what());
@@ -507,7 +507,7 @@ Py::Object AbstractSplitViewPy::viewBottom(const Py::Tuple& args)
     testExistence();
 
     try {
-        _view->onMsg("ViewBottom", 0);
+        _view->onMsg("ViewBottom", nullptr);
     }
     catch (const Base::Exception& e) {
         throw Py::RuntimeError(e.what());
@@ -529,7 +529,7 @@ Py::Object AbstractSplitViewPy::viewFront(const Py::Tuple& args)
     testExistence();
 
     try {
-        _view->onMsg("ViewFront", 0);
+        _view->onMsg("ViewFront", nullptr);
     }
     catch (const Base::Exception& e) {
         throw Py::RuntimeError(e.what());
@@ -551,7 +551,7 @@ Py::Object AbstractSplitViewPy::viewLeft(const Py::Tuple& args)
     testExistence();
 
     try {
-        _view->onMsg("ViewLeft", 0);
+        _view->onMsg("ViewLeft", nullptr);
     }
     catch (const Base::Exception& e) {
         throw Py::RuntimeError(e.what());
@@ -573,7 +573,7 @@ Py::Object AbstractSplitViewPy::viewRear(const Py::Tuple& args)
     testExistence();
 
     try {
-        _view->onMsg("ViewRear", 0);
+        _view->onMsg("ViewRear", nullptr);
     }
     catch (const Base::Exception& e) {
         throw Py::RuntimeError(e.what());
@@ -595,7 +595,7 @@ Py::Object AbstractSplitViewPy::viewRight(const Py::Tuple& args)
     testExistence();
 
     try {
-        _view->onMsg("ViewRight", 0);
+        _view->onMsg("ViewRight", nullptr);
     }
     catch (const Base::Exception& e) {
         throw Py::RuntimeError(e.what());
@@ -617,7 +617,7 @@ Py::Object AbstractSplitViewPy::viewTop(const Py::Tuple& args)
     testExistence();
 
     try {
-        _view->onMsg("ViewTop", 0);
+        _view->onMsg("ViewTop", nullptr);
     }
     catch (const Base::Exception& e) {
         throw Py::RuntimeError(e.what());
@@ -639,7 +639,7 @@ Py::Object AbstractSplitViewPy::viewIsometric(const Py::Tuple& args)
     testExistence();
 
     try {
-        _view->onMsg("ViewAxo", 0);
+        _view->onMsg("ViewAxo", nullptr);
     }
     catch (const Base::Exception& e) {
         throw Py::RuntimeError(e.what());
@@ -702,7 +702,7 @@ Py::Object AbstractSplitViewPy::close(const Py::Tuple& args)
     _view->close();
     if (_view->parentWidget())
         _view->parentWidget()->deleteLater();
-    _view = 0;
+    _view = nullptr;
 
     return Py::None();
 }
@@ -739,7 +739,7 @@ SplitView3DInventor::SplitView3DInventor(int views, Gui::Document* pcDocument, Q
     while (views < 2)
         views ++;
 
-    QSplitter* mainSplitter = 0;
+    QSplitter* mainSplitter = nullptr;
 
     // if views < 3 show them as a row
     if (views <= 3) {

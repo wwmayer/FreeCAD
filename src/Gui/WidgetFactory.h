@@ -51,8 +51,8 @@ public:
     bool toCString(const Py::Object&, std::string&);
     QObject* toQObject(const Py::Object&);
     QGraphicsItem* toQGraphicsItem(PyObject* ptr);
-    Py::Object fromQObject(QObject*, const char* className=0);
-    Py::Object fromQWidget(QWidget*, const char* className=0);
+    Py::Object fromQObject(QObject*, const char* className=nullptr);
+    Py::Object fromQWidget(QWidget*, const char* className=nullptr);
     const char* getWrapperName(QObject*) const;
     /*!
       Create a Python wrapper for the icon. The icon must be created on the heap
@@ -89,8 +89,8 @@ public:
     static WidgetFactoryInst& instance();
     static void destruct ();
 
-    QWidget* createWidget (const char* sName, QWidget* parent=0) const;
-    Gui::Dialog::PreferencePage* createPreferencePage (const char* sName, QWidget* parent=0) const;
+    QWidget* createWidget (const char* sName, QWidget* parent=nullptr) const;
+    Gui::Dialog::PreferencePage* createPreferencePage (const char* sName, QWidget* parent=nullptr) const;
     QWidget* createPrefWidget(const char* sName, QWidget* parent, const char* sPref);
 
 private:
@@ -116,14 +116,14 @@ inline WidgetFactoryInst& WidgetFactory()
 class UiLoader : public QUiLoader
 {
 public:
-    UiLoader(QObject* parent=0);
+    UiLoader(QObject* parent=nullptr);
     virtual ~UiLoader();
 
     /**
      * Creates a widget of the type \a className with the parent \a parent.
      * For more details see the documentation to QWidgetFactory.
      */
-    QWidget* createWidget(const QString & className, QWidget * parent=0,
+    QWidget* createWidget(const QString & className, QWidget * parent=nullptr,
                           const QString& name = QString());
 private:
     QStringList cw;
@@ -462,7 +462,7 @@ class GuiExport PreferencePagePython : public PreferencePage
     Q_OBJECT
 
 public:
-    PreferencePagePython(const Py::Object& dlg, QWidget* parent = 0);
+    PreferencePagePython(const Py::Object& dlg, QWidget* parent = nullptr);
     virtual ~PreferencePagePython();
 
     void loadSettings();

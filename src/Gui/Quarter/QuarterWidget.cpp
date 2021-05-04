@@ -152,7 +152,7 @@ class CustomGLWidget : public QOpenGLWidget {
 public:
     QSurfaceFormat myFormat;
 
-    CustomGLWidget(const QSurfaceFormat& format, QWidget* parent = 0, const QOpenGLWidget* shareWidget = 0, Qt::WindowFlags f = Qt::WindowFlags())
+    CustomGLWidget(const QSurfaceFormat& format, QWidget* parent = nullptr, const QOpenGLWidget* shareWidget = nullptr, Qt::WindowFlags f = Qt::WindowFlags())
      : QOpenGLWidget(parent, f), myFormat(format)
     {
         Q_UNUSED(shareWidget);
@@ -308,7 +308,7 @@ QuarterWidget::constructor(const QtGLFormat & format, const QtGLWidget * sharewi
   PRIVATE(this)->eventfilter = new EventFilter(this);
   PRIVATE(this)->interactionmode = new InteractionMode(this);
 
-  PRIVATE(this)->currentStateMachine = NULL;
+  PRIVATE(this)->currentStateMachine = nullptr;
 
   PRIVATE(this)->headlight = new SoDirectionalLight;
   PRIVATE(this)->headlight->ref();
@@ -364,10 +364,10 @@ QuarterWidget::~QuarterWidget()
     delete PRIVATE(this)->currentStateMachine;
   }
   PRIVATE(this)->headlight->unref();
-  PRIVATE(this)->headlight = NULL;
-  this->setSceneGraph(NULL);
-  this->setSoRenderManager(NULL);
-  this->setSoEventManager(NULL);
+  PRIVATE(this)->headlight = nullptr;
+  this->setSceneGraph(nullptr);
+  this->setSoRenderManager(nullptr);
+  this->setSoEventManager(nullptr);
   delete PRIVATE(this)->eventfilter;
   delete PRIVATE(this);
 }
@@ -653,11 +653,11 @@ QuarterWidget::setSceneGraph(SoNode * node)
 
   if (PRIVATE(this)->scene) {
     PRIVATE(this)->scene->unref();
-    PRIVATE(this)->scene = NULL;
+    PRIVATE(this)->scene = nullptr;
   }
 
-  SoCamera * camera = NULL;
-  SoSeparator * superscene = NULL;
+  SoCamera * camera = nullptr;
+  SoSeparator * superscene = nullptr;
   bool viewall = false;
 
   if (node) {
@@ -702,10 +702,10 @@ void
 QuarterWidget::setSoRenderManager(SoRenderManager * manager)
 {
   bool carrydata = false;
-  SoNode * scene = NULL;
-  SoCamera * camera = NULL;
+  SoNode * scene = nullptr;
+  SoCamera * camera = nullptr;
   SbViewportRegion vp;
-  if (PRIVATE(this)->sorendermanager && (manager != NULL)) {
+  if (PRIVATE(this)->sorendermanager && (manager != nullptr)) {
     scene = PRIVATE(this)->sorendermanager->getSceneGraph();
     camera = PRIVATE(this)->sorendermanager->getCamera();
     vp = PRIVATE(this)->sorendermanager->getViewportRegion();
@@ -747,10 +747,10 @@ void
 QuarterWidget::setSoEventManager(SoEventManager * manager)
 {
   bool carrydata = false;
-  SoNode * scene = NULL;
-  SoCamera * camera = NULL;
+  SoNode * scene = nullptr;
+  SoCamera * camera = nullptr;
   SbViewportRegion vp;
-  if (PRIVATE(this)->soeventmanager && (manager != NULL)) {
+  if (PRIVATE(this)->soeventmanager && (manager != nullptr)) {
     scene = PRIVATE(this)->soeventmanager->getSceneGraph();
     camera = PRIVATE(this)->soeventmanager->getCamera();
     vp = PRIVATE(this)->soeventmanager->getViewportRegion();
@@ -833,7 +833,7 @@ bool
 QuarterWidget::updateDevicePixelRatio(void) {
     qreal dev_pix_ratio = 1.0;
     QWidget* winwidg = window();
-    QWindow* win = NULL;
+    QWindow* win = nullptr;
     if(winwidg) {
         win = winwidg->windowHandle();
     }
@@ -1175,8 +1175,8 @@ void
 QuarterWidget::removeStateMachine(SoScXMLStateMachine * statemachine)
 {
   SoEventManager * em = this->getSoEventManager();
-  statemachine->setSceneGraphRoot(NULL);
-  statemachine->setActiveCamera(NULL);
+  statemachine->setSceneGraphRoot(nullptr);
+  statemachine->setActiveCamera(nullptr);
   em->removeSoScXMLStateMachine(statemachine);
 }
 
@@ -1276,7 +1276,7 @@ QuarterWidget::setNavigationModeFile(const QUrl & url)
     if (PRIVATE(this)->currentStateMachine) {
       this->removeStateMachine(PRIVATE(this)->currentStateMachine);
       delete PRIVATE(this)->currentStateMachine;
-      PRIVATE(this)->currentStateMachine = NULL;
+      PRIVATE(this)->currentStateMachine = nullptr;
       PRIVATE(this)->navigationModeFile = url;
     }
     return;
@@ -1287,7 +1287,7 @@ QuarterWidget::setNavigationModeFile(const QUrl & url)
   }
 
   QByteArray filenametmp = filename.toLocal8Bit();
-  ScXMLStateMachine * stateMachine = NULL;
+  ScXMLStateMachine * stateMachine = nullptr;
 
   if (filenametmp.startsWith("coin:")){
     stateMachine = ScXML::readFile(filenametmp.data());

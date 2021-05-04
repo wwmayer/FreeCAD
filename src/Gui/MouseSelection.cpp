@@ -45,7 +45,7 @@
 
 using namespace Gui;
 
-AbstractMouseSelection::AbstractMouseSelection() : _pcView3D(0)
+AbstractMouseSelection::AbstractMouseSelection() : _pcView3D(nullptr)
 {
     m_iXold = 0;
     m_iYold = 0;
@@ -70,7 +70,7 @@ void AbstractMouseSelection::releaseMouseModel()
         terminate();
 
         _pcView3D->getWidget()->setCursor(m_cPrevCursor);
-        _pcView3D = 0;
+        _pcView3D = nullptr;
     }
 }
 

@@ -47,9 +47,9 @@ typedef void SoQTQuarterAdaptorCB(void* data, SoQTQuarterAdaptor* viewer);
 class QUARTER_DLL_API SoQTQuarterAdaptor :  public QuarterWidget {
 
 public:
-    explicit SoQTQuarterAdaptor(QWidget* parent = 0, const QtGLWidget* sharewidget = 0, Qt::WindowFlags f = Qt::WindowFlags());
-    explicit SoQTQuarterAdaptor(const QtGLFormat& format, QWidget* parent = 0, const QtGLWidget* shareWidget = 0, Qt::WindowFlags f = Qt::WindowFlags());
-    explicit SoQTQuarterAdaptor(QtGLContext* context, QWidget* parent = 0, const QtGLWidget* sharewidget = 0, Qt::WindowFlags f = Qt::WindowFlags());
+    explicit SoQTQuarterAdaptor(QWidget* parent = nullptr, const QtGLWidget* sharewidget = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
+    explicit SoQTQuarterAdaptor(const QtGLFormat& format, QWidget* parent = nullptr, const QtGLWidget* shareWidget = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
+    explicit SoQTQuarterAdaptor(QtGLContext* context, QWidget* parent = nullptr, const QtGLWidget* sharewidget = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
     virtual ~SoQTQuarterAdaptor();
 
     //the functions available in soqtviewer but missing in quarter
@@ -70,10 +70,10 @@ public:
     void interactiveCountDec(void);
     int  getInteractiveCount(void) const;
 
-    void addStartCallback(SoQTQuarterAdaptorCB* func, void* data = NULL);
-    void addFinishCallback(SoQTQuarterAdaptorCB* func, void* data = NULL);
-    void removeStartCallback(SoQTQuarterAdaptorCB* func, void* data = NULL);
-    void removeFinishCallback(SoQTQuarterAdaptorCB* func, void* data = NULL);
+    void addStartCallback(SoQTQuarterAdaptorCB* func, void* data = nullptr);
+    void addFinishCallback(SoQTQuarterAdaptorCB* func, void* data = nullptr);
+    void removeStartCallback(SoQTQuarterAdaptorCB* func, void* data = nullptr);
+    void removeFinishCallback(SoQTQuarterAdaptorCB* func, void* data = nullptr);
 
     virtual void setSeekMode(SbBool enable);
     SbBool isSeekMode(void) const;

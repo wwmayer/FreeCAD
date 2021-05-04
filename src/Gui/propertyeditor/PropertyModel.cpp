@@ -183,7 +183,7 @@ QStringList PropertyModel::propertyPathFromIndex(const QModelIndex& index) const
                 path.push_front(item->propertyName());
                 item = item->parent();
             }
-            while (item != this->rootItem && item != 0);
+            while (item != this->rootItem && item != nullptr);
         }
     }
 
@@ -240,7 +240,7 @@ void PropertyModel::buildUp(const PropertyModel::PropertyList& props)
     for (jt = props.begin(); jt != props.end(); ++jt) {
         App::Property* prop = jt->second.front();
         const char* group = prop->getGroup();
-        bool isEmpty = (group == 0 || group[0] == '\0');
+        bool isEmpty = (group == nullptr || group[0] == '\0');
         std::string grp = isEmpty ? QT_TRANSLATE_NOOP("App::Property", "Base") : group;
         propGroup[grp].emplace_back(jt->first,jt->second);
     }
@@ -316,7 +316,7 @@ void PropertyModel::appendProperty(const App::Property& prop)
         }
 
         const char* group = prop.getGroup();
-        bool isEmpty = (group == 0 || group[0] == '\0');
+        bool isEmpty = (group == nullptr || group[0] == '\0');
         std::string grp = isEmpty ? QT_TRANSLATE_NOOP("App::Property", "Base") : group;
         QString groupName = QString::fromStdString(grp);
 

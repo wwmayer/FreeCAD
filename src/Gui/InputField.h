@@ -77,7 +77,7 @@ class GuiExport InputField : public ExpressionLineEdit, public ExpressionBinding
 
 
 public:
-    InputField (QWidget * parent = 0);
+    InputField (QWidget * parent = nullptr);
     virtual ~InputField();
 
     /// set the field with a quantity

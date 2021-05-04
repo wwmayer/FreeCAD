@@ -977,17 +977,17 @@ class SoBoxSelectionRenderActionP {
 public:
     SoBoxSelectionRenderActionP(SoBoxSelectionRenderAction * master)
       : master(master)
-      , searchaction(0)
-      , selectsearch(0)
-      , camerasearch(0)
-      , bboxaction(0)
-      , basecolor(0)
-      , postprocpath(0)
-      , highlightPath(0)
-      , localRoot(0)
-      , xform(0)
-      , cube(0)
-      , drawstyle(0)
+      , searchaction(nullptr)
+      , selectsearch(nullptr)
+      , camerasearch(nullptr)
+      , bboxaction(nullptr)
+      , basecolor(nullptr)
+      , postprocpath(nullptr)
+      , highlightPath(nullptr)
+      , localRoot(nullptr)
+      , xform(nullptr)
+      , cube(nullptr)
+      , drawstyle(nullptr)
     {
 
     }
@@ -1055,7 +1055,7 @@ SoBoxSelectionRenderActionP::initBoxGraph()
 void
 SoBoxSelectionRenderActionP::updateBbox(const SoPath * path)
 {
-    if (this->camerasearch == NULL) {
+    if (this->camerasearch == nullptr) {
         this->camerasearch = new SoSearchAction;
     }
 
@@ -1072,7 +1072,7 @@ SoBoxSelectionRenderActionP::updateBbox(const SoPath * path)
     this->localRoot->insertChild(this->camerasearch->getPath()->getTail(), 0);
     this->camerasearch->reset();
 
-    if (this->bboxaction == NULL) {
+    if (this->bboxaction == nullptr) {
         this->bboxaction = new SoGetBoundingBoxAction(SbViewportRegion(100, 100));
     }
     this->bboxaction->setViewportRegion(PUBLIC(this)->getViewportRegion());
@@ -1147,15 +1147,15 @@ SoBoxSelectionRenderAction::constructorCommon(void)
     PRIVATE(this)->basecolor->rgb.setValue(1.0f, 0.0f, 0.0f);
     PRIVATE(this)->drawstyle->linePattern = 0xffff;
     PRIVATE(this)->drawstyle->lineWidth = 1.0f;
-    PRIVATE(this)->searchaction = NULL;
-    PRIVATE(this)->selectsearch = NULL;
-    PRIVATE(this)->camerasearch = NULL;
-    PRIVATE(this)->bboxaction = NULL;
+    PRIVATE(this)->searchaction = nullptr;
+    PRIVATE(this)->selectsearch = nullptr;
+    PRIVATE(this)->camerasearch = nullptr;
+    PRIVATE(this)->bboxaction = nullptr;
 
     // SoBase-derived objects should be dynamically allocated.
     PRIVATE(this)->postprocpath = new SoTempPath(32);
     PRIVATE(this)->postprocpath->ref();
-    PRIVATE(this)->highlightPath = 0;
+    PRIVATE(this)->highlightPath = nullptr;
 }
 
 SoBoxSelectionRenderAction::~SoBoxSelectionRenderAction(void)
@@ -1179,7 +1179,7 @@ SoBoxSelectionRenderAction::apply(SoNode * node)
 {
     SoGLRenderAction::apply(node);
     if (this->hlVisible) {
-        if (PRIVATE(this)->searchaction == NULL) {
+        if (PRIVATE(this)->searchaction == nullptr) {
             PRIVATE(this)->searchaction = new SoSearchAction;
         }
         PRIVATE(this)->searchaction->setType(SoFCSelection::getClassTypeId());
@@ -1194,7 +1194,7 @@ SoBoxSelectionRenderAction::apply(SoNode * node)
                 assert(selection->getTypeId().isDerivedFrom(SoFCSelection::getClassTypeId()));
                 if (selection->selected.getValue() && selection->style.getValue() == SoFCSelection::BOX) {
                     PRIVATE(this)->basecolor->rgb.setValue(selection->colorSelection.getValue());
-                    if (PRIVATE(this)->selectsearch == NULL) {
+                    if (PRIVATE(this)->selectsearch == nullptr) {
                         PRIVATE(this)->selectsearch = new SoSearchAction;
                     }
                     PRIVATE(this)->selectsearch->setType(SoShape::getClassTypeId());
@@ -1213,7 +1213,7 @@ SoBoxSelectionRenderAction::apply(SoNode * node)
                          selection->style.getValue() == SoFCSelection::BOX) {
                     PRIVATE(this)->basecolor->rgb.setValue(selection->colorHighlight.getValue());
 
-                    if (PRIVATE(this)->selectsearch == NULL) {
+                    if (PRIVATE(this)->selectsearch == nullptr) {
                       PRIVATE(this)->selectsearch = new SoSearchAction;
                     }
                     PRIVATE(this)->selectsearch->setType(SoShape::getClassTypeId());
@@ -1250,7 +1250,7 @@ SoBoxSelectionRenderAction::apply(SoPath * path)
         // This happens when dehighlighting the current shape
         if (PRIVATE(this)->highlightPath == path) {
             PRIVATE(this)->highlightPath->unref();
-            PRIVATE(this)->highlightPath = 0;
+            PRIVATE(this)->highlightPath = nullptr;
             // FIXME: Doing a redraw to remove the shown bounding box causes
             // some problems when moving the mouse from one shape to another
             // because this will destroy the box immediately
@@ -1261,7 +1261,7 @@ SoBoxSelectionRenderAction::apply(SoPath * path)
                  selection->style.getValue() == SoFCSelection::BOX) {
             PRIVATE(this)->basecolor->rgb.setValue(selection->colorHighlight.getValue());
 
-            if (PRIVATE(this)->selectsearch == NULL) {
+            if (PRIVATE(this)->selectsearch == nullptr) {
               PRIVATE(this)->selectsearch = new SoSearchAction;
             }
             PRIVATE(this)->selectsearch->setType(SoShape::getClassTypeId());

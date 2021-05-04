@@ -336,9 +336,9 @@ void CommandView::goClicked(const QModelIndex &index)
 CommandNode::CommandNode(NodeType typeIn)
 {
     nodeType = typeIn;
-    parent = 0;
+    parent = nullptr;
     children.clear();
-    aCommand = 0;
+    aCommand = nullptr;
 }
 
 CommandNode::~CommandNode()
@@ -350,14 +350,14 @@ CommandNode::~CommandNode()
 
 CommandModel::CommandModel(QObject *parent) : QAbstractItemModel(parent)
 {
-    rootNode = 0;
+    rootNode = nullptr;
     initialize();
 }
 
 CommandModel::~CommandModel()
 {
     delete rootNode;
-    rootNode = 0;
+    rootNode = nullptr;
 }
 
 QModelIndex CommandModel::index(int row, int column, const QModelIndex &parent) const
@@ -507,7 +507,7 @@ void CommandModel::goAddMacro(const QByteArray &macroName)
     else
         macrosIndex = indexList.at(0);
 
-    Command *command = 0;
+    Command *command = nullptr;
     command = Application::Instance->commandManager().getCommandByName(macroName);
     if (!command)
         return;

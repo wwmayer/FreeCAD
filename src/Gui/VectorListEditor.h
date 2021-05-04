@@ -61,7 +61,7 @@ class VectorTableDelegate : public QItemDelegate
     Q_OBJECT
 
 public:
-    VectorTableDelegate(int decimals, QObject *parent = 0);
+    VectorTableDelegate(int decimals, QObject *parent = nullptr);
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
                           const QModelIndex &index) const;

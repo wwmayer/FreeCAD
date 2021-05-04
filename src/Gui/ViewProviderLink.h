@@ -147,7 +147,7 @@ public:
     std::vector<std::string> getSubNames() const;
     ViewProviderDocumentObject *getLinkedView() const;
 
-    Base::BoundBox3d getBoundBox(ViewProviderDocumentObject *vpd=0) const;
+    Base::BoundBox3d getBoundBox(ViewProviderDocumentObject *vpd=nullptr) const;
 
     void setInvalid();
 
@@ -248,7 +248,7 @@ public:
     void enableCenterballDragger(bool enable);
     bool isUsingCenterballDragger() const { return useCenterballDragger; }
 
-    std::map<std::string, App::Color> getElementColors(const char *subname=0) const override;
+    std::map<std::string, App::Color> getElementColors(const char *subname=nullptr) const override;
     void setElementColors(const std::map<std::string, App::Color> &colors) override;
 
     void setOverrideMode(const std::string &mode) override;
@@ -263,7 +263,7 @@ public:
     virtual void getPropertyList(std::vector<App::Property*> &List) const override;
 
     virtual ViewProviderDocumentObject *getLinkedViewProvider(
-            std::string *subname=0, bool recursive=false) const override;
+            std::string *subname=nullptr, bool recursive=false) const override;
 
     virtual bool allowOverride(const App::DocumentObject &) const override {
         return true;
@@ -273,7 +273,7 @@ protected:
     bool setEdit(int ModNum) override;
     void setEditViewer(View3DInventorViewer*, int ModNum) override;
     void unsetEditViewer(View3DInventorViewer*) override;
-    bool linkEdit(const App::LinkBaseExtension *ext=0) const;
+    bool linkEdit(const App::LinkBaseExtension *ext=nullptr) const;
 
     enum LinkType {
         LinkTypeNone,
@@ -281,8 +281,8 @@ protected:
         LinkTypeSubs,
     };
 
-    bool hasElements(const App::LinkBaseExtension *ext = 0) const;
-    bool isGroup(const App::LinkBaseExtension *ext=0, bool plainGroup=false) const;
+    bool hasElements(const App::LinkBaseExtension *ext = nullptr) const;
+    bool isGroup(const App::LinkBaseExtension *ext=nullptr, bool plainGroup=false) const;
     const App::LinkBaseExtension *getLinkExtension() const;
     App::LinkBaseExtension *getLinkExtension();
 
@@ -297,9 +297,9 @@ protected:
     void applyMaterial();
     void applyColors();
 
-    void checkIcon(const App::LinkBaseExtension *ext=0);
+    void checkIcon(const App::LinkBaseExtension *ext=nullptr);
 
-    ViewProvider *getLinkedView(bool real,const App::LinkBaseExtension *ext=0) const;
+    ViewProvider *getLinkedView(bool real,const App::LinkBaseExtension *ext=nullptr) const;
 
     bool initDraggingPlacement();
     bool callDraggerProxy(const char *fname, bool update);
