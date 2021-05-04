@@ -37,7 +37,7 @@ using namespace ImageGui;
 /* TRANSLATOR ImageGui::ImageView */
 
 ImageView::ImageView(QWidget* parent)
-  : MDIView(0, parent), _ignoreCloseEvent(false)
+  : MDIView(nullptr, parent), _ignoreCloseEvent(false)
 {
   // Create an OpenGL widget for displaying images
 #if QT_VERSION >=0x050000

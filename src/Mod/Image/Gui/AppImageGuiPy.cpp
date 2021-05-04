@@ -58,7 +58,7 @@ private:
     Py::Object open(const Py::Tuple& args)
     {
         char* Name;
-        const char* DocName=0;
+        const char* DocName=nullptr;
         if (!PyArg_ParseTuple(args.ptr(), "et|s","utf-8",&Name,&DocName))
             throw Py::Exception();
 
@@ -73,7 +73,7 @@ private:
 
         // Extract image into a general RGB format recognised by the ImageView class
         int format = IB_CF_RGB24;
-        unsigned char *pPixelData = NULL;
+        unsigned char *pPixelData = nullptr;
         if (imageq.isNull() == false) {
             pPixelData = new unsigned char[3 * (unsigned long)imageq.width() * (unsigned long)imageq.height()];
             unsigned char *pPix = pPixelData;
