@@ -62,7 +62,7 @@ ConstraintFixed::ConstraintFixed()
     Normals.setValues(std::vector<Base::Vector3d>());
 }
 
-App::DocumentObjectExecReturn *ConstraintFixed::execute(void)
+App::DocumentObjectExecReturn *ConstraintFixed::execute()
 {
     return Constraint::execute();
 }

@@ -42,7 +42,7 @@ public:
     virtual ~ViewProviderResult();
 
     // shows solid in the tree
-    virtual bool isShow(void) const
+    virtual bool isShow() const
     { return true; }
 
     //bool doubleClicked(void);

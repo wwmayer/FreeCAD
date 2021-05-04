@@ -1009,7 +1009,7 @@ std::list<int> FemMesh::getElementNodes(int id) const
     return result;
 }
 
-std::set<int> FemMesh::getEdgesOnly(void) const
+std::set<int> FemMesh::getEdgesOnly() const
 {
     std::set<int> resultIDs;
 
@@ -1046,7 +1046,7 @@ std::set<int> FemMesh::getEdgesOnly(void) const
     return resultIDs;
 }
 
-std::set<int> FemMesh::getFacesOnly(void) const
+std::set<int> FemMesh::getFacesOnly() const
 {
     // How it works ATM:
     // for each face
@@ -2319,7 +2319,7 @@ void FemMesh::write(const char *FileName) const
 
 // ==== Base class implementer ==============================================================
 
-unsigned int FemMesh::getMemSize (void) const
+unsigned int FemMesh::getMemSize () const
 {
     return 0;
 }
@@ -2434,12 +2434,12 @@ void FemMesh::setTransform(const Base::Matrix4D& rclTrf)
     _Mtrx = rclTrf;
 }
 
-Base::Matrix4D FemMesh::getTransform(void) const
+Base::Matrix4D FemMesh::getTransform() const
 {
     return _Mtrx;
 }
 
-Base::BoundBox3d FemMesh::getBoundBox(void) const
+Base::BoundBox3d FemMesh::getBoundBox() const
 {
     Base::BoundBox3d box;
 
@@ -2457,7 +2457,7 @@ Base::BoundBox3d FemMesh::getBoundBox(void) const
     return box;
 }
 
-std::vector<const char*> FemMesh::getElementTypes(void) const
+std::vector<const char*> FemMesh::getElementTypes() const
 {
     std::vector<const char*> temp;
     temp.push_back("Vertex");
@@ -2483,7 +2483,7 @@ Data::Segment* FemMesh::getSubElement(const char* /*Type*/, unsigned long /*n*/)
     return nullptr;
 }
 
-struct Fem::FemMesh::FemMeshInfo FemMesh::getInfo(void) const{
+struct Fem::FemMesh::FemMeshInfo FemMesh::getInfo() const{
 
     struct FemMeshInfo rtrn;
 
@@ -2524,7 +2524,7 @@ struct Fem::FemMesh::FemMeshInfo FemMesh::getInfo(void) const{
 //            );
 //        }
 
-Base::Quantity FemMesh::getVolume(void)const
+Base::Quantity FemMesh::getVolume()const
 {
     SMDS_VolumeIteratorPtr aVolIter = myMesh->GetMeshDS()->volumesIterator();
 

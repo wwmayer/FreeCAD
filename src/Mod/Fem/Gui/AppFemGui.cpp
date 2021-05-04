@@ -77,7 +77,7 @@
 
 
 // use a different name to CreateCommand()
-void CreateFemCommands(void);
+void CreateFemCommands();
 
 void loadFemResource()
 {

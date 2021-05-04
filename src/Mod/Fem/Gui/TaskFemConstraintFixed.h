@@ -50,7 +50,7 @@ public:
     const std::string getReferences() const;
 
 private Q_SLOTS:
-    void onReferenceDeleted(void);
+    void onReferenceDeleted();
     void addToSelection();
     void removeFromSelection();
 

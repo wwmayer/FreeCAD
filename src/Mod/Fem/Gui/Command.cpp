@@ -320,7 +320,7 @@ void CmdFemConstraintBearing::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintBearing::isActive(void)
+bool CmdFemConstraintBearing::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -365,7 +365,7 @@ void CmdFemConstraintContact::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintContact::isActive(void)
+bool CmdFemConstraintContact::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -408,7 +408,7 @@ void CmdFemConstraintDisplacement::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintDisplacement::isActive(void)
+bool CmdFemConstraintDisplacement::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -450,7 +450,7 @@ void CmdFemConstraintFixed::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintFixed::isActive(void)
+bool CmdFemConstraintFixed::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -493,7 +493,7 @@ void CmdFemConstraintFluidBoundary::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintFluidBoundary::isActive(void)
+bool CmdFemConstraintFluidBoundary::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -537,7 +537,7 @@ void CmdFemConstraintForce::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintForce::isActive(void)
+bool CmdFemConstraintForce::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -578,7 +578,7 @@ void CmdFemConstraintGear::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintGear::isActive(void)
+bool CmdFemConstraintGear::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -623,7 +623,7 @@ void CmdFemConstraintHeatflux::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintHeatflux::isActive(void)
+bool CmdFemConstraintHeatflux::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -666,7 +666,7 @@ void CmdFemConstraintInitialTemperature::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintInitialTemperature::isActive(void)
+bool CmdFemConstraintInitialTemperature::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -708,7 +708,7 @@ void CmdFemConstraintPlaneRotation::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintPlaneRotation::isActive(void)
+bool CmdFemConstraintPlaneRotation::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -753,7 +753,7 @@ void CmdFemConstraintPressure::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintPressure::isActive(void)
+bool CmdFemConstraintPressure::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -799,7 +799,7 @@ void CmdFemConstraintPulley::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintPulley::isActive(void)
+bool CmdFemConstraintPulley::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -842,7 +842,7 @@ void CmdFemConstraintTemperature::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintTemperature::isActive(void)
+bool CmdFemConstraintTemperature::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -888,7 +888,7 @@ void CmdFemConstraintTransform::activated(int)
     doCommand(Gui,"Gui.activeDocument().setEdit('%s')",FeatName.c_str());
 }
 
-bool CmdFemConstraintTransform::isActive(void)
+bool CmdFemConstraintTransform::isActive()
 {
     return FemGui::ActiveAnalysisObserver::instance()->hasActiveObject();
 }
@@ -1024,7 +1024,7 @@ void CmdFemDefineNodesSet::activated(int)
     }
 }
 
-bool CmdFemDefineNodesSet::isActive(void)
+bool CmdFemDefineNodesSet::isActive()
 {
     // Check for the selected mesh feature (all Mesh types)
     if (getSelection().countObjectsOfType(Fem::FemMeshObject::getClassTypeId()) != 1)
@@ -1082,7 +1082,7 @@ void CmdFemCreateNodesSet::activated(int)
     }
 }
 
-bool CmdFemCreateNodesSet::isActive(void)
+bool CmdFemCreateNodesSet::isActive()
 {
     return hasActiveDocument();
 }
@@ -1216,7 +1216,7 @@ void CmdFemPostClipFilter::activated(int)
     setupFilter(this, "Clip");
 }
 
-bool CmdFemPostClipFilter::isActive(void)
+bool CmdFemPostClipFilter::isActive()
 {
     return hasActiveDocument();
 }
@@ -1242,7 +1242,7 @@ void CmdFemPostCutFilter::activated(int)
     setupFilter(this, "Cut");
 }
 
-bool CmdFemPostCutFilter::isActive(void)
+bool CmdFemPostCutFilter::isActive()
 {
     return hasActiveDocument();
 }
@@ -1268,7 +1268,7 @@ void CmdFemPostDataAlongLineFilter::activated(int)
     setupFilter(this, "DataAlongLine");
 }
 
-bool CmdFemPostDataAlongLineFilter::isActive(void)
+bool CmdFemPostDataAlongLineFilter::isActive()
 {
     return hasActiveDocument();
 }
@@ -1296,7 +1296,7 @@ void CmdFemPostDataAtPointFilter::activated(int)
 
 }
 
-bool CmdFemPostDataAtPointFilter::isActive(void)
+bool CmdFemPostDataAtPointFilter::isActive()
 {
     return hasActiveDocument();
 }
@@ -1353,7 +1353,7 @@ void CmdFemPostLinearizedStressesFilter::activated(int)
 
 }
 
-bool CmdFemPostLinearizedStressesFilter::isActive(void)
+bool CmdFemPostLinearizedStressesFilter::isActive()
 {
     return hasActiveDocument();
 }
@@ -1379,7 +1379,7 @@ void CmdFemPostScalarClipFilter::activated(int)
     setupFilter(this, "ScalarClip");
 }
 
-bool CmdFemPostScalarClipFilter::isActive(void)
+bool CmdFemPostScalarClipFilter::isActive()
 {
     return hasActiveDocument();
 }
@@ -1405,7 +1405,7 @@ void CmdFemPostWarpVectorFilter::activated(int)
     setupFilter(this, "WarpVector");
 }
 
-bool CmdFemPostWarpVectorFilter::isActive(void)
+bool CmdFemPostWarpVectorFilter::isActive()
 {
     return hasActiveDocument();
 }
@@ -1499,7 +1499,7 @@ void CmdFemPostFunctions::activated(int iMsg)
     pcAction->setIcon(a[iMsg]->icon());
 }
 
-Gui::Action * CmdFemPostFunctions::createAction(void)
+Gui::Action * CmdFemPostFunctions::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -1542,7 +1542,7 @@ void CmdFemPostFunctions::languageChange()
 
 }
 
-bool CmdFemPostFunctions::isActive(void)
+bool CmdFemPostFunctions::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -1577,7 +1577,7 @@ void CmdFemPostApllyChanges::activated(int iMsg)
         hGrp->SetBool("PostAutoRecompute", false);
 }
 
-bool CmdFemPostApllyChanges::isActive(void)
+bool CmdFemPostApllyChanges::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -1585,7 +1585,7 @@ bool CmdFemPostApllyChanges::isActive(void)
         return false;
 }
 
-Gui::Action * CmdFemPostApllyChanges::createAction(void)
+Gui::Action * CmdFemPostApllyChanges::createAction()
 {
     Gui::Action *pcAction = Command::createAction();
     pcAction->setCheckable(true);
@@ -1653,7 +1653,7 @@ void CmdFemPostPipelineFromResult::activated(int)
     }
 }
 
-bool CmdFemPostPipelineFromResult::isActive(void)
+bool CmdFemPostPipelineFromResult::isActive()
 {
     return hasActiveDocument();
 }
@@ -1663,7 +1663,7 @@ bool CmdFemPostPipelineFromResult::isActive(void)
 
 //================================================================================================
 //================================================================================================
-void CreateFemCommands(void)
+void CreateFemCommands()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 

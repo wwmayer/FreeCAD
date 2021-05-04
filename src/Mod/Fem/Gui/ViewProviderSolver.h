@@ -52,11 +52,11 @@ public:
     ~ViewProviderSolver();
 
     // shows solid in the tree
-    virtual bool isShow(void) const {
+    virtual bool isShow() const {
         return Visibility.getValue();
     }
     /// A list of all possible display modes
-    virtual std::vector<std::string> getDisplayModes(void) const;
+    virtual std::vector<std::string> getDisplayModes() const;
 };
 
 typedef Gui::ViewProviderPythonFeatureT<ViewProviderSolver> ViewProviderSolverPython;

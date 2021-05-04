@@ -190,7 +190,7 @@ void ViewProviderFemPostObject::attach(App::DocumentObject *pcObj)
     (void)setupPipeline();
 }
 
-SoSeparator* ViewProviderFemPostObject::getFrontRoot(void) const {
+SoSeparator* ViewProviderFemPostObject::getFrontRoot() const {
 
     return m_colorRoot;
 }
@@ -218,7 +218,7 @@ void ViewProviderFemPostObject::setDisplayMode(const char* ModeName)
     ViewProviderDocumentObject::setDisplayMode( ModeName );
 }
 
-std::vector<std::string> ViewProviderFemPostObject::getDisplayModes(void) const
+std::vector<std::string> ViewProviderFemPostObject::getDisplayModes() const
 {
     std::vector<std::string> StrList;
     StrList.push_back("Outline");
@@ -553,7 +553,7 @@ void ViewProviderFemPostObject::onChanged(const App::Property* prop) {
     ViewProviderDocumentObject::onChanged(prop);
 }
 
-bool ViewProviderFemPostObject::doubleClicked(void) {
+bool ViewProviderFemPostObject::doubleClicked() {
     // work around for a problem in VTK implementation: https://forum.freecadweb.org/viewtopic.php?t=10587&start=130#p125688
     // check if backlight is enabled
     ParameterGrp::handle hGrp = App::GetApplication().GetParameterGroupByPath("User parameter:BaseApp/Preferences/View");
@@ -622,12 +622,12 @@ void ViewProviderFemPostObject::unsetEdit(int ModNum) {
     }
 }
 
-void ViewProviderFemPostObject::hide(void) {
+void ViewProviderFemPostObject::hide() {
     Gui::ViewProviderDocumentObject::hide();
     m_colorStyle->style = SoDrawStyle::INVISIBLE;
 }
 
-void ViewProviderFemPostObject::show(void) {
+void ViewProviderFemPostObject::show() {
     Gui::ViewProviderDocumentObject::show();
     m_colorStyle->style = SoDrawStyle::FILLED;
 }

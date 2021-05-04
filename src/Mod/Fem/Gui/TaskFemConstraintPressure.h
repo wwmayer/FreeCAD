@@ -55,7 +55,7 @@ public:
     bool get_Reverse()const;
 
 private Q_SLOTS:
-    void onReferenceDeleted(void);
+    void onReferenceDeleted();
     void onCheckReverse(bool);
     void addToSelection();
     void removeFromSelection();

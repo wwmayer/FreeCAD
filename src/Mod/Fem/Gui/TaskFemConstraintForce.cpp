@@ -342,7 +342,7 @@ void TaskFemConstraintForce::onCheckReverse(const bool pressed)
     pcConstraint->Reversed.setValue(pressed);
 }
 
-double TaskFemConstraintForce::getForce(void) const
+double TaskFemConstraintForce::getForce() const
 {
     return ui->spinForce->value().getValue();
 }
@@ -357,7 +357,7 @@ const std::string TaskFemConstraintForce::getReferences() const
     return TaskFemConstraint::getReferences(items);
 }
 
-const std::string TaskFemConstraintForce::getDirectionName(void) const
+const std::string TaskFemConstraintForce::getDirectionName() const
 {
     std::string dir = ui->lineDirection->text().toStdString();
     if (dir.empty())
@@ -367,7 +367,7 @@ const std::string TaskFemConstraintForce::getDirectionName(void) const
     return dir.substr(0, pos).c_str();
 }
 
-const std::string TaskFemConstraintForce::getDirectionObject(void) const
+const std::string TaskFemConstraintForce::getDirectionObject() const
 {
     std::string dir = ui->lineDirection->text().toStdString();
     if (dir.empty())

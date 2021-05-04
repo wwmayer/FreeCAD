@@ -42,7 +42,7 @@ ViewProviderFemPostPipeline::~ViewProviderFemPostPipeline()
 {
 }
 
-std::vector< App::DocumentObject* > ViewProviderFemPostPipeline::claimChildren(void) const {
+std::vector< App::DocumentObject* > ViewProviderFemPostPipeline::claimChildren() const {
 
     Fem::FemPostPipeline* pipeline = static_cast<Fem::FemPostPipeline*>(getObject());
     std::vector<App::DocumentObject*> children;
@@ -54,7 +54,7 @@ std::vector< App::DocumentObject* > ViewProviderFemPostPipeline::claimChildren(v
     return children;
 }
 
-std::vector< App::DocumentObject* > ViewProviderFemPostPipeline::claimChildren3D(void) const {
+std::vector< App::DocumentObject* > ViewProviderFemPostPipeline::claimChildren3D() const {
 
     return claimChildren();
 }

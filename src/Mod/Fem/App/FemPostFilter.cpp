@@ -67,7 +67,7 @@ void FemPostFilter::setActiveFilterPipeline(std::string name) {
     }
 }
 
-DocumentObjectExecReturn* FemPostFilter::execute(void) {
+DocumentObjectExecReturn* FemPostFilter::execute() {
 
     if(!m_pipelines.empty() && !m_activePipeline.empty()) {
         FemPostFilter::FilterPipeline& pipe = m_pipelines[m_activePipeline];
@@ -113,7 +113,7 @@ vtkDataObject* FemPostFilter::getInputData() {
 
 PROPERTY_SOURCE(Fem::FemPostClipFilter, Fem::FemPostFilter)
 
-FemPostClipFilter::FemPostClipFilter(void) : FemPostFilter() {
+FemPostClipFilter::FemPostClipFilter() : FemPostFilter() {
 
     ADD_PROPERTY_TYPE(Function, (nullptr), "Clip", App::Prop_None, "The function object which defines the clip regions");
     ADD_PROPERTY_TYPE(InsideOut, (false), "Clip", App::Prop_None, "Invert the clip direction");
@@ -164,7 +164,7 @@ void FemPostClipFilter::onChanged(const Property* prop) {
     Fem::FemPostFilter::onChanged(prop);
 }
 
-short int FemPostClipFilter::mustExecute(void) const {
+short int FemPostClipFilter::mustExecute() const {
 
     if(Function.isTouched() ||
        InsideOut.isTouched() ||
@@ -175,7 +175,7 @@ short int FemPostClipFilter::mustExecute(void) const {
     else return App::DocumentObject::mustExecute();
 }
 
-DocumentObjectExecReturn* FemPostClipFilter::execute(void) {
+DocumentObjectExecReturn* FemPostClipFilter::execute() {
 
     if(!m_extractor->GetImplicitFunction())
         return StdReturn;
@@ -185,7 +185,7 @@ DocumentObjectExecReturn* FemPostClipFilter::execute(void) {
 
 PROPERTY_SOURCE(Fem::FemPostDataAlongLineFilter, Fem::FemPostFilter)
 
-FemPostDataAlongLineFilter::FemPostDataAlongLineFilter(void) : FemPostFilter() {
+FemPostDataAlongLineFilter::FemPostDataAlongLineFilter() : FemPostFilter() {
 
     ADD_PROPERTY_TYPE(Point1,(Base::Vector3d(0.0,0.0,0.0)), "DataAlongLine", App::Prop_None, "The point 1 used to define end point of line");
     ADD_PROPERTY_TYPE(Point2,(Base::Vector3d(0.0,0.0,1.0)), "DataAlongLine", App::Prop_None, "The point 2 used to define end point of line");
@@ -230,7 +230,7 @@ FemPostDataAlongLineFilter::~FemPostDataAlongLineFilter() {
 
 }
 
-DocumentObjectExecReturn* FemPostDataAlongLineFilter::execute(void) {
+DocumentObjectExecReturn* FemPostDataAlongLineFilter::execute() {
 
     //recalculate the filter
     return Fem::FemPostFilter::execute();
@@ -255,7 +255,7 @@ void FemPostDataAlongLineFilter::onChanged(const Property* prop) {
     Fem::FemPostFilter::onChanged(prop);
 }
 
-short int FemPostDataAlongLineFilter::mustExecute(void) const {
+short int FemPostDataAlongLineFilter::mustExecute() const {
 
     if(Point1.isTouched() ||
        Point2.isTouched() ||
@@ -304,7 +304,7 @@ void FemPostDataAlongLineFilter::GetAxisData() {
 
 PROPERTY_SOURCE(Fem::FemPostDataAtPointFilter, Fem::FemPostFilter)
 
-FemPostDataAtPointFilter::FemPostDataAtPointFilter(void) : FemPostFilter() {
+FemPostDataAtPointFilter::FemPostDataAtPointFilter() : FemPostFilter() {
 
     ADD_PROPERTY_TYPE(Center,(Base::Vector3d(0.0,0.0,1.0)), "DataAtPoint", App::Prop_None, "The center used to define the center of the point");
     ADD_PROPERTY_TYPE(Radius,(0), "DataAtPoint", App::Prop_None, "The point 2 used to define end point of line");
@@ -345,7 +345,7 @@ FemPostDataAtPointFilter::~FemPostDataAtPointFilter() {
 
 }
 
-DocumentObjectExecReturn* FemPostDataAtPointFilter::execute(void) {
+DocumentObjectExecReturn* FemPostDataAtPointFilter::execute() {
 
     //recalculate the filter
     return Fem::FemPostFilter::execute();
@@ -363,7 +363,7 @@ void FemPostDataAtPointFilter::onChanged(const Property* prop) {
     Fem::FemPostFilter::onChanged(prop);
 }
 
-short int FemPostDataAtPointFilter::mustExecute(void) const {
+short int FemPostDataAtPointFilter::mustExecute() const {
 
     if(Center.isTouched()){
 
@@ -400,7 +400,7 @@ void FemPostDataAtPointFilter::GetPointData() {
 
 PROPERTY_SOURCE(Fem::FemPostScalarClipFilter, Fem::FemPostFilter)
 
-FemPostScalarClipFilter::FemPostScalarClipFilter(void) : FemPostFilter() {
+FemPostScalarClipFilter::FemPostScalarClipFilter() : FemPostFilter() {
 
     ADD_PROPERTY_TYPE(Value, (0), "Clip", App::Prop_None, "The scalar value used to clip the selected field");
     ADD_PROPERTY_TYPE(Scalars, (long(0)), "Clip", App::Prop_None, "The field used to clip");
@@ -420,7 +420,7 @@ FemPostScalarClipFilter::~FemPostScalarClipFilter() {
 
 }
 
-DocumentObjectExecReturn* FemPostScalarClipFilter::execute(void) {
+DocumentObjectExecReturn* FemPostScalarClipFilter::execute() {
 
     std::string val;
     if(m_scalarFields.getEnums() && Scalars.getValue() >= 0)
@@ -471,7 +471,7 @@ void FemPostScalarClipFilter::onChanged(const Property* prop) {
     Fem::FemPostFilter::onChanged(prop);
 }
 
-short int FemPostScalarClipFilter::mustExecute(void) const {
+short int FemPostScalarClipFilter::mustExecute() const {
 
     if(Value.isTouched() ||
        InsideOut.isTouched() ||
@@ -501,7 +501,7 @@ void FemPostScalarClipFilter::setConstraintForField() {
 
 PROPERTY_SOURCE(Fem::FemPostWarpVectorFilter, Fem::FemPostFilter)
 
-FemPostWarpVectorFilter::FemPostWarpVectorFilter(void): FemPostFilter() {
+FemPostWarpVectorFilter::FemPostWarpVectorFilter(): FemPostFilter() {
 
     ADD_PROPERTY_TYPE(Factor, (0), "Warp", App::Prop_None, "The factor by which the vector is added to the node positions");
     ADD_PROPERTY_TYPE(Vector, (long(0)), "Warp", App::Prop_None, "The field added to the node position");
@@ -519,7 +519,7 @@ FemPostWarpVectorFilter::~FemPostWarpVectorFilter() {
 }
 
 
-DocumentObjectExecReturn* FemPostWarpVectorFilter::execute(void) {
+DocumentObjectExecReturn* FemPostWarpVectorFilter::execute() {
 
     std::string val;
     if(m_vectorFields.getEnums() && Vector.getValue() >= 0)
@@ -566,7 +566,7 @@ void FemPostWarpVectorFilter::onChanged(const Property* prop) {
     Fem::FemPostFilter::onChanged(prop);
 }
 
-short int FemPostWarpVectorFilter::mustExecute(void) const {
+short int FemPostWarpVectorFilter::mustExecute() const {
 
     if(Factor.isTouched() ||
        Vector.isTouched()) {
@@ -579,7 +579,7 @@ short int FemPostWarpVectorFilter::mustExecute(void) const {
 
 PROPERTY_SOURCE(Fem::FemPostCutFilter, Fem::FemPostFilter)
 
-FemPostCutFilter::FemPostCutFilter(void) : FemPostFilter() {
+FemPostCutFilter::FemPostCutFilter() : FemPostFilter() {
 
     ADD_PROPERTY_TYPE(Function, (nullptr), "Cut", App::Prop_None, "The function object which defines the clip cut function");
 
@@ -607,7 +607,7 @@ void FemPostCutFilter::onChanged(const Property* prop) {
     Fem::FemPostFilter::onChanged(prop);
 }
 
-short int FemPostCutFilter::mustExecute(void) const {
+short int FemPostCutFilter::mustExecute() const {
 
     if(Function.isTouched()) {
 
@@ -616,7 +616,7 @@ short int FemPostCutFilter::mustExecute(void) const {
     else return App::DocumentObject::mustExecute();
 }
 
-DocumentObjectExecReturn* FemPostCutFilter::execute(void) {
+DocumentObjectExecReturn* FemPostCutFilter::execute() {
 
     if(!m_cutter->GetCutFunction())
         return StdReturn;

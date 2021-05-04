@@ -53,7 +53,7 @@ FemResultObject::~FemResultObject()
 {
 }
 
-short FemResultObject::mustExecute(void) const
+short FemResultObject::mustExecute() const
 {
     return 0;
 }
@@ -72,12 +72,12 @@ PyObject *FemResultObject::getPyObject()
 namespace App {
 /// @cond DOXERR
 PROPERTY_SOURCE_TEMPLATE(Fem::FemResultObjectPython, Fem::FemResultObject)
-template<> const char* Fem::FemResultObjectPython::getViewProviderName(void) const {
+template<> const char* Fem::FemResultObjectPython::getViewProviderName() const {
     return "FemGui::ViewProviderResultPython";
 }
 /// @endcond
 
-template<> PyObject* Fem::FemResultObjectPython::getPyObject(void) {
+template<> PyObject* Fem::FemResultObjectPython::getPyObject() {
     if (PythonObject.is(Py::_None())) {
         // ref counter is set to 1
         PythonObject = Py::Object(new App::FeaturePythonPyT<App::DocumentObjectPy>(this),true);

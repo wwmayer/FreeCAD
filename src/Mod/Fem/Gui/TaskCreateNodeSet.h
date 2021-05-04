@@ -62,8 +62,8 @@ public:
     ViewProviderFemMesh * MeshViewProvider;
 
 private Q_SLOTS:
-    void Poly(void);
-    void Pick(void);
+    void Poly();
+    void Pick();
     void SwitchMethod(int Value);
 
 protected:

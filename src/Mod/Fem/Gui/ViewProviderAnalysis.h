@@ -43,9 +43,9 @@ public:
     /// destructor.
     virtual ~ViewProviderFemAnalysis();
 
-    virtual bool doubleClicked(void);
+    virtual bool doubleClicked();
 
-    virtual std::vector<App::DocumentObject*> claimChildren(void)const;
+    virtual std::vector<App::DocumentObject*> claimChildren()const;
     /// Asks the view provider if the given object can be deleted.
     virtual bool canDelete(App::DocumentObject* obj) const;
 
@@ -54,15 +54,15 @@ public:
 
     virtual bool onDelete(const std::vector<std::string> &);
     /// A list of all possible display modes
-    virtual std::vector<std::string> getDisplayModes(void) const;
+    virtual std::vector<std::string> getDisplayModes() const;
     // shows solid in the tree
-    virtual bool isShow(void) const {
+    virtual bool isShow() const {
         return Visibility.getValue();
     }
     /// Hide the object in the view
-    virtual void hide(void);
+    virtual void hide();
     /// Show the object in the view
-    virtual void show(void);
+    virtual void show();
 
     /** @name Drag and drop */
     //@{

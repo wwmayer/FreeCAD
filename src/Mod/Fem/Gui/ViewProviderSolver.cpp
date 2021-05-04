@@ -54,7 +54,7 @@ ViewProviderSolver::~ViewProviderSolver()
 
 }
 
-std::vector<std::string> ViewProviderSolver::getDisplayModes(void) const
+std::vector<std::string> ViewProviderSolver::getDisplayModes() const
 {
     return { "Solver" };
 }

@@ -41,18 +41,18 @@ class AppFemExport FemMeshObject : public App::GeoFeature
 
 public:
     /// Constructor
-    FemMeshObject(void);
+    FemMeshObject();
     virtual ~FemMeshObject();
 
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const {
+    virtual const char* getViewProviderName() const {
         return "FemGui::ViewProviderFemMesh";
     }
-    virtual App::DocumentObjectExecReturn *execute(void) {
+    virtual App::DocumentObjectExecReturn *execute() {
         return App::DocumentObject::StdReturn;
     }
-    virtual short mustExecute(void) const;
-    virtual PyObject *getPyObject(void);
+    virtual short mustExecute() const;
+    virtual PyObject *getPyObject();
 
     PropertyFemMesh FemMesh;
 
