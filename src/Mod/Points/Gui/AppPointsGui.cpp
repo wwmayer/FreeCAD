@@ -38,7 +38,7 @@
 #include <Mod/Points/App/PropertyPointKernel.h>
 
 // use a different name to CreateCommand()
-void CreatePointsCommands(void);
+void CreatePointsCommands();
 
 void loadPointsResource()
 {

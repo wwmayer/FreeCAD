@@ -36,7 +36,7 @@
 using namespace Points;
 
 // returns a string which represents the object e.g. when printed in python
-std::string PointsPy::representation(void) const
+std::string PointsPy::representation() const
 {
     return std::string("<PointKernel object>");
 }
@@ -217,12 +217,12 @@ PyObject* PointsPy::fromValid(PyObject * args)
     }
 }
 
-Py::Long PointsPy::getCountPoints(void) const
+Py::Long PointsPy::getCountPoints() const
 {
     return Py::Long((long)getPointKernelPtr()->size());
 }
 
-Py::List PointsPy::getPoints(void) const
+Py::List PointsPy::getPoints() const
 {
     Py::List PointList;
     const PointKernel* points = getPointKernelPtr();

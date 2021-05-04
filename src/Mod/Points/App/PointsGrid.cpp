@@ -43,7 +43,7 @@ PointsGrid::PointsGrid (const PointKernel &rclM)
   RebuildGrid();
 }
 
-PointsGrid::PointsGrid (void)
+PointsGrid::PointsGrid ()
 : _pclPoints(nullptr),
   _ulCtElements(0),
   _ulCtGridsX(POINTS_CT_GRID), _ulCtGridsY(POINTS_CT_GRID), _ulCtGridsZ(POINTS_CT_GRID),
@@ -93,7 +93,7 @@ void PointsGrid::Attach (const PointKernel &rclM)
   RebuildGrid();
 }
 
-void PointsGrid::Clear (void)
+void PointsGrid::Clear ()
 {
   _aulGrid.clear();
   _pclPoints = nullptr;  
@@ -122,7 +122,7 @@ void PointsGrid::Rebuild (int iCtGridPerAxis)
   RebuildGrid();
 }
 
-void PointsGrid::InitGrid (void)
+void PointsGrid::InitGrid ()
 {
   assert(_pclPoints != nullptr);
 
@@ -645,7 +645,7 @@ void PointsGrid::Validate (const PointKernel &rclPoints)
     RebuildGrid();
 }
 
-void PointsGrid::Validate (void)
+void PointsGrid::Validate ()
 {
   if (_pclPoints == nullptr)
     return;
@@ -677,7 +677,7 @@ bool PointsGrid::Verify() const
   return true;
 }
 
-void PointsGrid::RebuildGrid (void)
+void PointsGrid::RebuildGrid ()
 {
   _ulCtElements = _pclPoints->size();
 

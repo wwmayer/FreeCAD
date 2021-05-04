@@ -247,7 +247,7 @@ void ViewProviderPoints::setDisplayMode(const char* ModeName)
     ViewProviderGeometryObject::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderPoints::getDisplayModes(void) const
+std::vector<std::string> ViewProviderPoints::getDisplayModes() const
 {
     std::vector<std::string> StrList;
     StrList.push_back("Points");
