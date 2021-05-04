@@ -42,7 +42,7 @@ class RobotExport TrajectoryDressUpObject : public TrajectoryObject
 
 public:
     /// Constructor
-    TrajectoryDressUpObject(void);
+    TrajectoryDressUpObject();
     virtual ~TrajectoryDressUpObject();
 
     App::PropertyLink         Source;
@@ -56,10 +56,10 @@ public:
 
 
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const {
+    virtual const char* getViewProviderName() const {
         return "RobotGui::ViewProviderTrajectoryDressUp";
     }
-    virtual App::DocumentObjectExecReturn *execute(void);
+    virtual App::DocumentObjectExecReturn *execute();
 
     static const char* ContTypeEnums[];
     static const char* AddTypeEnums[];

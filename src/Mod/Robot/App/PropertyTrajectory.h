@@ -48,7 +48,7 @@ public:
     /// set the part shape
     void setValue(const Trajectory&);
     /// get the part shape
-    const Trajectory &getValue(void) const;
+    const Trajectory &getValue() const;
     //@}
 
  
@@ -60,7 +60,7 @@ public:
 
     /** @name Python interface */
     //@{
-    PyObject* getPyObject(void);
+    PyObject* getPyObject();
     void setPyObject(PyObject *value);
     //@}
 
@@ -69,9 +69,9 @@ public:
     void Save (Base::Writer &writer) const;
     void Restore(Base::XMLReader &reader);
 
-    App::Property *Copy(void) const;
+    App::Property *Copy() const;
     void Paste(const App::Property &from);
-    unsigned int getMemSize (void) const;
+    unsigned int getMemSize () const;
     //@}
 
 private:

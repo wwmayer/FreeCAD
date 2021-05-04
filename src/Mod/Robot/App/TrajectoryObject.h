@@ -40,18 +40,18 @@ class RobotExport TrajectoryObject : public App::GeoFeature
 
 public:
     /// Constructor
-    TrajectoryObject(void);
+    TrajectoryObject();
     virtual ~TrajectoryObject();
 
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const {
+    virtual const char* getViewProviderName() const {
         return "RobotGui::ViewProviderTrajectory";
     }
-    virtual App::DocumentObjectExecReturn *execute(void) {
+    virtual App::DocumentObjectExecReturn *execute() {
         return App::DocumentObject::StdReturn;
     }
-    virtual short mustExecute(void) const;
-    virtual PyObject *getPyObject(void);
+    virtual short mustExecute() const;
+    virtual PyObject *getPyObject();
 
 	App::PropertyPlacement Base;
 	PropertyTrajectory     Trajectory;

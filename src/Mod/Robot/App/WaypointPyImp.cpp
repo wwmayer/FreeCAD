@@ -40,7 +40,7 @@ using namespace Robot;
 using namespace Base;
 
 // returns a string which represents the object e.g. when printed in python
-std::string WaypointPy::representation(void) const
+std::string WaypointPy::representation() const
 {
     double A,B,C;
     //PlacementPy::PointerType ptr = reinterpret_cast<PlacementPy::PointerType>(_pcTwinPointer);
@@ -142,7 +142,7 @@ int WaypointPy::PyInit(PyObject* args, PyObject* kwd)
 }
 
 
-Py::Float WaypointPy::getVelocity(void) const
+Py::Float WaypointPy::getVelocity() const
 {
     return Py::Float(getWaypointPtr()->Velocity);
 }
@@ -153,7 +153,7 @@ void  WaypointPy::setVelocity(Py::Float arg)
 }
 
 
-Py::String WaypointPy::getName(void) const
+Py::String WaypointPy::getName() const
 {
     return Py::String(getWaypointPtr()->Name.c_str());
 }
@@ -163,7 +163,7 @@ void WaypointPy::setName(Py::String arg)
     getWaypointPtr()->Name = arg.as_std_string("ascii");
 }
 
-Py::String WaypointPy::getType(void) const
+Py::String WaypointPy::getType() const
 {
     if(getWaypointPtr()->Type == Waypoint::PTP)
         return Py::String("PTP");
@@ -195,7 +195,7 @@ void WaypointPy::setType(Py::String arg)
 }
 
 
-Py::Object WaypointPy::getPos(void) const
+Py::Object WaypointPy::getPos() const
 {
     return Py::Object(new PlacementPy(new Placement(getWaypointPtr()->EndPos)),true);
 }
@@ -208,7 +208,7 @@ void WaypointPy::setPos(Py::Object arg)
         getWaypointPtr()->EndPos = *static_cast<Base::PlacementPy*>((*arg))->getPlacementPtr();
 }
 
-Py::Boolean WaypointPy::getCont(void) const
+Py::Boolean WaypointPy::getCont() const
 {
     return Py::Boolean(getWaypointPtr()->Cont);
 }
@@ -218,7 +218,7 @@ void WaypointPy::setCont(Py::Boolean arg)
     getWaypointPtr()->Cont = (bool)arg;
 }
 
-Py::Long WaypointPy::getTool(void) const
+Py::Long WaypointPy::getTool() const
 {
     return Py::Long((long)getWaypointPtr()->Tool);
 }
@@ -232,7 +232,7 @@ void WaypointPy::setTool(Py::Long arg)
         throw Py::ValueError("negative tool not allowed!");
 }
 
-Py::Long WaypointPy::getBase(void) const
+Py::Long WaypointPy::getBase() const
 {
     return Py::Long((long)getWaypointPtr()->Base);
 }

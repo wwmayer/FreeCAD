@@ -1102,7 +1102,7 @@ public:
      inline Frame2(const Rotation2& R,const Vector2& V);
      explicit inline Frame2(const Vector2& V);
      explicit inline Frame2(const Rotation2& R);
-     inline Frame2(void);
+     inline Frame2();
      inline Frame2(const Frame2& arg);
      inline void Make4x4(double* d);
 

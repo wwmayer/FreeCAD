@@ -63,8 +63,8 @@ protected:
     static void sDraggerMotionCallback(void *data, SoDragger *dragger);
     void DraggerMotionCallback(SoDragger *dragger);
 
-    void setDragger(void);
-    void resetDragger(void);
+    void setDragger();
+    void resetDragger();
 
     Gui::SoFCSelection    * pcRobotRoot;
     Gui::SoFCSelection    * pcSimpleRoot;

@@ -53,17 +53,17 @@ public:
     Trajectory &operator=(const Trajectory&);
 
 	// from base class
-    virtual unsigned int getMemSize (void) const;
+    virtual unsigned int getMemSize () const;
 	virtual void Save (Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
 
 	// interface
-    void generateTrajectory(void);
+    void generateTrajectory();
     void addWaypoint(const Waypoint &WPnt);
-    unsigned int getSize(void) const{return vpcWaypoints.size();}
+    unsigned int getSize() const{return vpcWaypoints.size();}
     const Waypoint &getWaypoint(unsigned int pos)const {return *vpcWaypoints[pos];}
     std::string getUniqueWaypointName(const char *Name) const;
-    const std::vector<Waypoint*> &getWaypoints(void)const{return vpcWaypoints;}
+    const std::vector<Waypoint*> &getWaypoints()const{return vpcWaypoints;}
 
     /// delete the last n waypoints
     void deleteLast(unsigned int n=1);

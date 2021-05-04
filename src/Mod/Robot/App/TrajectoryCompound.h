@@ -41,16 +41,16 @@ class RobotExport TrajectoryCompound : public TrajectoryObject
 
 public:
     /// Constructor
-    TrajectoryCompound(void);
+    TrajectoryCompound();
     virtual ~TrajectoryCompound();
 
     App::PropertyLinkList     Source;
 
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const {
+    virtual const char* getViewProviderName() const {
         return "RobotGui::ViewProviderTrajectoryCompound";
     }
-    virtual App::DocumentObjectExecReturn *execute(void);
+    virtual App::DocumentObjectExecReturn *execute();
 
 protected:
     /// get called by the container when a property has changed

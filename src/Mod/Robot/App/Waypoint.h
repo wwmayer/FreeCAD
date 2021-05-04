@@ -62,7 +62,7 @@ public:
     ~Waypoint();
 
     // from base class
-    virtual unsigned int getMemSize (void) const;
+    virtual unsigned int getMemSize () const;
     virtual void Save (Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
 

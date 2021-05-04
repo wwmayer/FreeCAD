@@ -36,7 +36,7 @@ class RobotGuiExport ViewProviderTrajectoryCompound: public ViewProviderTrajecto
 public:
         
     /// grouping handling 
-    std::vector<App::DocumentObject*> claimChildren(void)const;
+    std::vector<App::DocumentObject*> claimChildren()const;
 
 protected:
     virtual bool setEdit(int ModNum);

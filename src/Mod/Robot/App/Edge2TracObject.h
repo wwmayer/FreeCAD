@@ -41,7 +41,7 @@ class RobotExport Edge2TracObject : public TrajectoryObject
 
 public:
     /// Constructor
-    Edge2TracObject(void);
+    Edge2TracObject();
     virtual ~Edge2TracObject();
 
     App::PropertyLinkSub         Source;
@@ -54,10 +54,10 @@ public:
     int NbrOfEdges;
 
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const {
+    virtual const char* getViewProviderName() const {
         return "RobotGui::ViewProviderEdge2TracObject";
     }
-    virtual App::DocumentObjectExecReturn *execute(void);
+    virtual App::DocumentObjectExecReturn *execute();
 
 protected:
     /// get called by the container when a property has changed
