@@ -1023,7 +1023,7 @@ void MeshKernel::RebuildNeighbours (unsigned long index)
     }
 }
 
-void MeshKernel::RebuildNeighbours (void)
+void MeshKernel::RebuildNeighbours ()
 {
     // complete rebuild
     RebuildNeighbours(0);

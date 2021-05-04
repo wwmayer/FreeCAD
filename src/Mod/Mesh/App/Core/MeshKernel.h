@@ -65,11 +65,11 @@ class MeshExport MeshKernel
 {
 public:
     /// Construction
-    MeshKernel (void);
+    MeshKernel ();
     /// Construction
     MeshKernel (const MeshKernel &rclMesh);
     /// Destruction
-    ~MeshKernel (void)
+    ~MeshKernel ()
     { Clear(); }
 
     /** @name I/O methods */
@@ -82,25 +82,25 @@ public:
     /** @name Querying */
     //@{
     /// Returns the number of facets
-    unsigned long CountFacets (void) const
+    unsigned long CountFacets () const
     { return static_cast<unsigned long>(_aclFacetArray.size()); }
     /// Returns the number of edge
-    unsigned long CountEdges (void) const;
+    unsigned long CountEdges () const;
     // Returns the number of points
-    unsigned long CountPoints (void) const
+    unsigned long CountPoints () const
     { return static_cast<unsigned long>(_aclPointArray.size()); }
     /// Returns the number of required memory in bytes
-    unsigned int GetMemSize (void) const
+    unsigned int GetMemSize () const
     { return static_cast<unsigned int>(_aclPointArray.size() * sizeof(MeshPoint) +
                                        _aclFacetArray.size() * sizeof(MeshFacet)); }
     /// Determines the bounding box
-    const Base::BoundBox3f& GetBoundBox (void) const
+    const Base::BoundBox3f& GetBoundBox () const
     { return _clBoundBox; }
 
     /** Forces a recalculation of the bounding box. This method should be called after
      * the removal of points.or after a transformation of the data structure.
      */
-    void RecalcBoundBox (void);
+    void RecalcBoundBox ();
 
     /** Returns the point at the given index. This method is rather slow and should be
      * called occasionally only. For fast access the MeshPointIterator interfsce should
@@ -138,11 +138,11 @@ public:
     std::vector<unsigned long> HasFacets (const MeshPointIterator &rclIter) const;
 
     /** Returns true if the data structure is valid. */
-    bool IsValid (void) const
+    bool IsValid () const
     { return _bValid; }
 
     /** Returns the array of all data points. */
-    const MeshPointArray& GetPoints (void) const { return _aclPointArray; }
+    const MeshPointArray& GetPoints () const { return _aclPointArray; }
     /** Returns an array of points to the given indices. The indices
      * must not be out of range.
      */
@@ -155,7 +155,7 @@ public:
     }
 
     /** Returns the array of all facets */
-    const MeshFacetArray& GetFacets (void) const { return _aclFacetArray; }
+    const MeshFacetArray& GetFacets () const { return _aclFacetArray; }
     /** Returns an array of facets to the given indices. The indices
      * must not be out of range.
      */
@@ -374,11 +374,11 @@ public:
     /** Removes all as INVALID marked points and facets from the structure. */
     void RemoveInvalids ();
     /** Rebuilds the neighbour indices for all facets. */
-    void RebuildNeighbours (void);
+    void RebuildNeighbours ();
     /** Removes unreferenced points or facets with invalid indices from the mesh. */
     void Cleanup();
     /** Clears the whole data structure. */
-    void Clear (void);
+    void Clear ();
     /** Replaces the current data structure with the structure built up of the array 
      * of triangles given in \a rclFAry.
      */

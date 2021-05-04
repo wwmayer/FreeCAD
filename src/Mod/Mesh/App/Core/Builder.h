@@ -113,7 +113,7 @@ private:
 
 public:
     MeshBuilder(MeshKernel &rclM);
-    ~MeshBuilder(void);
+    ~MeshBuilder();
 
     /**
      * Set the tolerance for the comparison of points. Normally you don't need to set the tolerance.
@@ -189,7 +189,7 @@ private:
 public:
     typedef int size_type;
     MeshFastBuilder(MeshKernel &rclM);
-    ~MeshFastBuilder(void);
+    ~MeshFastBuilder();
 
     /** Initializes the class. Must be done before adding facets 
      * @param ctFacets count of facets.

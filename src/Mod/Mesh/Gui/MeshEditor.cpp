@@ -150,7 +150,7 @@ const char* ViewProviderFace::getDefaultDisplayMode() const
     return "Marker";
 }
 
-std::vector<std::string> ViewProviderFace::getDisplayModes(void) const
+std::vector<std::string> ViewProviderFace::getDisplayModes() const
 {
     std::vector<std::string> modes;
     modes.push_back("Marker");

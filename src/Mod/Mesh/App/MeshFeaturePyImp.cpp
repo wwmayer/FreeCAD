@@ -37,7 +37,7 @@ using namespace Mesh;
 
 
 // returns a string which represent the object e.g. when printed in python
-std::string MeshFeaturePy::representation(void) const
+std::string MeshFeaturePy::representation() const
 {
     std::stringstream str;
     str << getFeaturePtr()->getTypeId().getName() << " object at " << getFeaturePtr();

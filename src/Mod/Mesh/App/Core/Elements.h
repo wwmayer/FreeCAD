@@ -108,11 +108,11 @@ public:
 
   /** @name Construction */
   //@{
-  MeshPoint (void) : _ucFlag(0), _ulProp(0) { }
+  MeshPoint () : _ucFlag(0), _ulProp(0) { }
   inline MeshPoint (float x, float y, float z);
   inline MeshPoint (const Base::Vector3f &rclPt);
   inline MeshPoint (const MeshPoint &rclPt);
-  ~MeshPoint (void) { }
+  ~MeshPoint () { }
   //@}
 
 public:
@@ -126,11 +126,11 @@ public:
   { const_cast<MeshPoint*>(this)->_ucFlag &= ~static_cast<unsigned char>(tF); }
   bool IsFlag (TFlagType tF) const
   { return (_ucFlag & static_cast<unsigned char>(tF)) == static_cast<unsigned char>(tF);  }
-  void ResetInvalid (void) const
+  void ResetInvalid () const
   { ResetFlag(INVALID); }
-  void  SetInvalid (void) const
+  void  SetInvalid () const
   { SetFlag(INVALID); }
-  bool IsValid (void) const
+  bool IsValid () const
   { return !IsFlag(INVALID); }
   void SetProperty(unsigned long uP) const
   { const_cast<MeshPoint*>(this)->_ulProp = uP; }
@@ -156,7 +156,7 @@ public:
 class MeshExport MeshGeomEdge
 {
 public:
-  MeshGeomEdge (void) : _bBorder(false) {}
+  MeshGeomEdge () : _bBorder(false) {}
 
   /** Checks if the edge is inside the bounding box or intersects with it. */
   bool ContainedByOrIntersectBoundingBox (const Base::BoundBox3f &rclBB ) const;
@@ -215,10 +215,10 @@ public:
 public:
   /** @name Construction */
   //@{
-  inline MeshFacet (void);
+  inline MeshFacet ();
   inline MeshFacet(const MeshFacet &rclF);
   inline MeshFacet(unsigned long p1,unsigned long p2,unsigned long p3,unsigned long n1=ULONG_MAX,unsigned long n2=ULONG_MAX,unsigned long n3=ULONG_MAX);
-  ~MeshFacet (void) { }
+  ~MeshFacet () { }
   //@}
 
   /** @name Flag state
@@ -231,7 +231,7 @@ public:
   { const_cast<MeshFacet*>(this)->_ucFlag &= ~static_cast<unsigned char>(tF); }
   bool IsFlag (TFlagType tF) const
   { return (_ucFlag & static_cast<unsigned char>(tF)) == static_cast<unsigned char>(tF); }
-  void ResetInvalid (void) const
+  void ResetInvalid () const
   { ResetFlag(INVALID); }
   void SetProperty(unsigned long uP) const
   { const_cast<MeshFacet*>(this)->_ulProp = uP; }
@@ -240,9 +240,9 @@ public:
    * (e.g. deletion of several facets) but must not be set permanently.
    * From outside the data-structure must not have invalid facets.
    */
-  void  SetInvalid (void) const
+  void  SetInvalid () const
   { SetFlag(INVALID); }
-  bool IsValid (void) const
+  bool IsValid () const
   { return !IsFlag(INVALID); }
   //@}
 
@@ -315,7 +315,7 @@ public:
   /** Checks whether the facet is degenerated to a line of point. */
   inline bool IsDegenerated() const;
   /** Flips the orientation of the facet. */
-  void FlipNormal (void)
+  void FlipNormal ()
   {
     std::swap(_aulPoints[1], _aulPoints[2]);
     std::swap(_aulNeighbours[0], _aulNeighbours[2]);
@@ -338,11 +338,11 @@ public:
   /** @name Construction */
   //@{
   /// default constructor
-  MeshGeomFacet (void); 
+  MeshGeomFacet (); 
   /// Constructor with the corner points
   MeshGeomFacet (const Base::Vector3f &v1,const Base::Vector3f &v2,const Base::Vector3f &v3);
    /// Destruction
-  ~MeshGeomFacet (void) { }
+  ~MeshGeomFacet () { }
   //@}
 
 public:
@@ -403,7 +403,7 @@ public:
   /**
    * Calculates the facet normal for storing internally.
    */
-  inline void CalcNormal (void);
+  inline void CalcNormal ();
   /**
    * Arrange the facet normal so the both vectors have the same orientation.
    */
@@ -411,9 +411,9 @@ public:
   /**
    * Adjusts the facet's orientation to its normal.
    */
-  inline void AdjustCirculationDirection (void);
+  inline void AdjustCirculationDirection ();
   /** Invalidate the normal. It will be recomputed when querying it. */
-  void NormalInvalid (void) { _bNormalCalculated = false; }
+  void NormalInvalid () { _bNormalCalculated = false; }
   /** Query the flag state of the facet. */
   bool IsFlag (MeshFacet::TFlagType tF) const
   { return (_ucFlag & static_cast<unsigned char>(tF)) == static_cast<unsigned char>(tF); }
@@ -424,13 +424,13 @@ public:
   void ResetFlag (MeshFacet::TFlagType tF)
   { _ucFlag &= ~static_cast<unsigned char>(tF); }
   /** Calculates the facet's gravity point. */
-  inline Base::Vector3f GetGravityPoint (void) const;
+  inline Base::Vector3f GetGravityPoint () const;
   /** Returns the normal of the facet. */
-  inline Base::Vector3f GetNormal (void) const;
+  inline Base::Vector3f GetNormal () const;
   /** Sets the facet's normal. */
   inline void SetNormal (const Base::Vector3f &rclNormal);
   /** Returns the wrapping bounding box. */
-  inline Base::BoundBox3f GetBoundBox (void) const;
+  inline Base::BoundBox3f GetBoundBox () const;
   /** Calculates the perimeter of the facet. */
   inline float Perimeter() const;
   /** Calculates the area of a facet. */
@@ -545,13 +545,13 @@ public:
   /** @name Construction */
   //@{
   // constructor
-  MeshPointArray (void) { }
+  MeshPointArray () { }
   // constructor
   MeshPointArray (unsigned long ulSize) : TMeshPointArray(ulSize) { }
   /// copy-constructor
   MeshPointArray (const MeshPointArray&);
   // Destructor
-  ~MeshPointArray (void) { }
+  ~MeshPointArray () { }
   //@}
 
   /** @name Flag state
@@ -563,7 +563,7 @@ public:
   /// Resets the flag for all points
   void ResetFlag (MeshPoint::TFlagType tF) const;
   /// Sets all points invalid
-  void ResetInvalid (void) const;
+  void ResetInvalid () const;
   /// Sets the property for all points
   void SetProperty (unsigned long ulVal) const;
   //@}
@@ -599,13 +599,13 @@ public:
     /** @name Construction */
     //@{
     /// constructor
-    MeshFacetArray (void) { }
+    MeshFacetArray () { }
     /// constructor
     MeshFacetArray (unsigned long ulSize) : TMeshFacetArray(ulSize) { }
     /// copy-constructor
     MeshFacetArray (const MeshFacetArray&);
     /// destructor
-    ~MeshFacetArray (void) { }
+    ~MeshFacetArray () { }
     //@}
 
     /** @name Flag state
@@ -618,7 +618,7 @@ public:
     /// Resets the flag for all facets. 
     void ResetFlag (MeshFacet::TFlagType tF) const;
     /// Sets all facets invalid
-    void ResetInvalid (void) const;
+    void ResetInvalid () const;
     /// Sets the property for all facets
     void SetProperty (unsigned long ulVal) const;
     //@}
@@ -765,14 +765,14 @@ inline float MeshGeomFacet::DistancePlaneToPoint (const Base::Vector3f &rclPoint
     return float(fabs(rclPoint.DistanceToPlane(_aclPoints[0], GetNormal())));
 }
 
-inline void MeshGeomFacet::CalcNormal (void)
+inline void MeshGeomFacet::CalcNormal ()
 {
     _clNormal = (_aclPoints[1] - _aclPoints[0]) % (_aclPoints[2] - _aclPoints[0]);
     _clNormal.Normalize();
     _bNormalCalculated = true;
 }
 
-inline Base::Vector3f MeshGeomFacet::GetNormal (void) const
+inline Base::Vector3f MeshGeomFacet::GetNormal () const
 {
     if (_bNormalCalculated == false)
         const_cast<MeshGeomFacet*>(this)->CalcNormal();
@@ -795,19 +795,19 @@ inline void MeshGeomFacet::ArrangeNormal (const Base::Vector3f &rclN)
         _clNormal = -_clNormal;
 }
 
-inline Base::Vector3f MeshGeomFacet::GetGravityPoint (void) const
+inline Base::Vector3f MeshGeomFacet::GetGravityPoint () const
 {
     return (1.0f / 3.0f) * (_aclPoints[0] + _aclPoints[1] + _aclPoints[2]);
 }
 
-inline void MeshGeomFacet::AdjustCirculationDirection (void)
+inline void MeshGeomFacet::AdjustCirculationDirection ()
 {
     Base::Vector3f clN = (_aclPoints[1] - _aclPoints[0]) % (_aclPoints[2] - _aclPoints[0]);
     if ((clN * _clNormal) < 0.0f)
         std::swap(_aclPoints[1], _aclPoints[2]);
 }
 
-inline Base::BoundBox3f MeshGeomFacet::GetBoundBox (void) const
+inline Base::BoundBox3f MeshGeomFacet::GetBoundBox () const
 {
     return Base::BoundBox3f(_aclPoints, 3);
 }
@@ -857,7 +857,7 @@ inline bool MeshGeomFacet::IntersectWithPlane (const Base::Vector3f &rclBase, co
              (bD0 == (_aclPoints[2].DistanceToPlane(rclBase, rclNormal) > 0.0f)));
 }
 
-inline MeshFacet::MeshFacet (void)
+inline MeshFacet::MeshFacet ()
 : _ucFlag(0),
   _ulProp(0)
 {

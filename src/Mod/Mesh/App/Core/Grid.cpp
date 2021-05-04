@@ -45,7 +45,7 @@ MeshGrid::MeshGrid (const MeshKernel &rclM)
 {
 }
 
-MeshGrid::MeshGrid (void)
+MeshGrid::MeshGrid ()
 : _pclMesh(nullptr),
   _ulCtElements(0),
   _ulCtGridsX(MESH_CT_GRID), _ulCtGridsY(MESH_CT_GRID), _ulCtGridsZ(MESH_CT_GRID),
@@ -60,7 +60,7 @@ void MeshGrid::Attach (const MeshKernel &rclM)
   RebuildGrid();
 }
 
-void MeshGrid::Clear (void)
+void MeshGrid::Clear ()
 {
   _aulGrid.clear();
   _pclMesh = nullptr;  
@@ -89,7 +89,7 @@ void MeshGrid::Rebuild (int iCtGridPerAxis)
   RebuildGrid();
 }
 
-void MeshGrid::InitGrid (void)
+void MeshGrid::InitGrid ()
 {
   assert(_pclMesh != nullptr);
 
@@ -728,7 +728,7 @@ void MeshFacetGrid::Validate (const MeshKernel &rclMesh)
     RebuildGrid();
 }
 
-void MeshFacetGrid::Validate (void)
+void MeshFacetGrid::Validate ()
 {
   if (_pclMesh == nullptr)
     return;
@@ -761,7 +761,7 @@ bool MeshFacetGrid::Verify() const
   return true;
 }
 
-void MeshFacetGrid::RebuildGrid (void)
+void MeshFacetGrid::RebuildGrid ()
 {
   _ulCtElements = _pclMesh->CountFacets();
 
@@ -1027,7 +1027,7 @@ MeshPointGrid::MeshPointGrid (const MeshKernel &rclM)
   RebuildGrid();
 }
 
-MeshPointGrid::MeshPointGrid (void)
+MeshPointGrid::MeshPointGrid ()
  : MeshGrid() 
 {
 }
@@ -1070,7 +1070,7 @@ void MeshPointGrid::Validate (const MeshKernel &rclMesh)
     RebuildGrid();
 }
 
-void MeshPointGrid::Validate (void)
+void MeshPointGrid::Validate ()
 {
   if (_pclMesh == nullptr)
     return;
@@ -1103,7 +1103,7 @@ bool MeshPointGrid::Verify() const
   return true;
 }
 
-void MeshPointGrid::RebuildGrid (void)
+void MeshPointGrid::RebuildGrid ()
 {
   _ulCtElements = _pclMesh->CountPoints();
 

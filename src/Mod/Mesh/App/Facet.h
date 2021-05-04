@@ -47,7 +47,7 @@ public:
     Facet(const Facet& f);
     ~Facet();
 
-    bool isBound(void) const {return Index != ULONG_MAX;}
+    bool isBound() const {return Index != ULONG_MAX;}
     void operator = (const Facet& f);
 
     unsigned long Index;

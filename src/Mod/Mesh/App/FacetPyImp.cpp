@@ -34,7 +34,7 @@
 using namespace Mesh;
 
 // returns a string which represent the object e.g. when printed in python
-std::string FacetPy::representation(void) const
+std::string FacetPy::representation() const
 {
     FacetPy::PointerType ptr = getFacetPtr();
     std::stringstream str;
@@ -78,17 +78,17 @@ PyObject*  FacetPy::unbound(PyObject *args)
     Py_Return;
 }
 
-Py::Long FacetPy::getIndex(void) const
+Py::Long FacetPy::getIndex() const
 {
     return Py::Long((long) getFacetPtr()->Index);
 }
 
-Py::Boolean FacetPy::getBound(void) const
+Py::Boolean FacetPy::getBound() const
 {
     return Py::Boolean(getFacetPtr()->Index != UINT_MAX);
 }
 
-Py::Object FacetPy::getNormal(void) const
+Py::Object FacetPy::getNormal() const
 {
     Base::VectorPy* normal = new Base::VectorPy(getFacetPtr()->GetNormal());
     normal->setConst();
@@ -166,7 +166,7 @@ PyObject*  FacetPy::isDeformed(PyObject *args)
     return Py::new_reference_to(Py::Boolean(tria.IsDeformed(fCosOfMinAngle, fCosOfMaxAngle)));
 }
 
-Py::List FacetPy::getPoints(void) const
+Py::List FacetPy::getPoints() const
 {
     FacetPy::PointerType face = this->getFacetPtr();
 
@@ -182,7 +182,7 @@ Py::List FacetPy::getPoints(void) const
     return pts;
 }
 
-Py::Tuple FacetPy::getPointIndices(void) const
+Py::Tuple FacetPy::getPointIndices() const
 {
     FacetPy::PointerType face = this->getFacetPtr();
     if (!face->isBound())
@@ -195,7 +195,7 @@ Py::Tuple FacetPy::getPointIndices(void) const
     return idxTuple;
 }
 
-Py::Tuple FacetPy::getNeighbourIndices(void) const
+Py::Tuple FacetPy::getNeighbourIndices() const
 {
     FacetPy::PointerType face = this->getFacetPtr();
     if (!face->isBound()) {
@@ -209,7 +209,7 @@ Py::Tuple FacetPy::getNeighbourIndices(void) const
     return idxTuple;
 }
 
-Py::Float FacetPy::getArea(void) const
+Py::Float FacetPy::getArea() const
 {
     FacetPy::PointerType face = this->getFacetPtr();
     if (!face->isBound()) {
@@ -221,7 +221,7 @@ Py::Float FacetPy::getArea(void) const
     return Py::Float(tria.Area());
 }
 
-Py::Float FacetPy::getAspectRatio(void) const
+Py::Float FacetPy::getAspectRatio() const
 {
     FacetPy::PointerType face = this->getFacetPtr();
     if (!face->isBound()) {
@@ -233,7 +233,7 @@ Py::Float FacetPy::getAspectRatio(void) const
     return Py::Float(tria.AspectRatio());
 }
 
-Py::Float FacetPy::getAspectRatio2(void) const
+Py::Float FacetPy::getAspectRatio2() const
 {
     FacetPy::PointerType face = this->getFacetPtr();
     if (!face->isBound()) {
@@ -245,7 +245,7 @@ Py::Float FacetPy::getAspectRatio2(void) const
     return Py::Float(tria.AspectRatio2());
 }
 
-Py::Float FacetPy::getRoundness(void) const
+Py::Float FacetPy::getRoundness() const
 {
     FacetPy::PointerType face = this->getFacetPtr();
     if (!face->isBound()) {
@@ -257,7 +257,7 @@ Py::Float FacetPy::getRoundness(void) const
     return Py::Float(tria.Roundness());
 }
 
-Py::Tuple FacetPy::getCircumCircle(void) const
+Py::Tuple FacetPy::getCircumCircle() const
 {
     FacetPy::PointerType face = this->getFacetPtr();
     if (!face->isBound()) {
@@ -274,7 +274,7 @@ Py::Tuple FacetPy::getCircumCircle(void) const
     return tuple;
 }
 
-Py::Tuple FacetPy::getInCircle(void) const
+Py::Tuple FacetPy::getInCircle() const
 {
     FacetPy::PointerType face = this->getFacetPtr();
     if (!face->isBound()) {

@@ -59,7 +59,7 @@ public:
   /// Construction
   SetOperations (const MeshKernel &cutMesh1, const MeshKernel &cutMesh2, MeshKernel &result, OperationType opType, float minDistanceToPoint = 1e-5f);
   /// Destruction
-  virtual ~SetOperations (void);
+  virtual ~SetOperations ();
 
 public:
 

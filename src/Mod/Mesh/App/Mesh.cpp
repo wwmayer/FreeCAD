@@ -90,7 +90,7 @@ MeshObject::~MeshObject()
 {
 }
 
-std::vector<const char*> MeshObject::getElementTypes(void) const
+std::vector<const char*> MeshObject::getElementTypes() const
 {
     std::vector<const char*> temp;
     temp.push_back("Face"); // that's the mesh itself
@@ -142,12 +142,12 @@ void MeshObject::setTransform(const Base::Matrix4D& rclTrf)
     _Mtrx = rclTrf;
 }
 
-Base::Matrix4D MeshObject::getTransform(void) const
+Base::Matrix4D MeshObject::getTransform() const
 {
     return _Mtrx;
 }
 
-Base::BoundBox3d MeshObject::getBoundBox(void)const
+Base::BoundBox3d MeshObject::getBoundBox()const
 {
     const_cast<MeshCore::MeshKernel&>(_kernel).RecalcBoundBox();
     Base::BoundBox3f Bnd = _kernel.GetBoundBox();
@@ -331,7 +331,7 @@ void MeshObject::getFaces(std::vector<Base::Vector3d> &Points,std::vector<Facet>
     }
 }
 
-unsigned int MeshObject::getMemSize (void) const
+unsigned int MeshObject::getMemSize () const
 {
     return _kernel.GetMemSize();
 }
@@ -941,7 +941,7 @@ void MeshObject::offsetSpecial(float fSize, float zmax, float zmin)
     }
 }
 
-void MeshObject::clear(void)
+void MeshObject::clear()
 {
     _kernel.Clear();
     this->_segments.clear();

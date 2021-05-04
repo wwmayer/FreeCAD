@@ -59,7 +59,7 @@ SetOperations::SetOperations (const MeshKernel &cutMesh1, const MeshKernel &cutM
 {
 }
 
-SetOperations::~SetOperations (void)
+SetOperations::~SetOperations ()
 {
 }
 

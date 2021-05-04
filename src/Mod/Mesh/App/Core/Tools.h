@@ -60,7 +60,7 @@ public:
 
 protected:
   /** Subsamples the mesh. */
-  void SampleAllFacets (void);
+  void SampleAllFacets ();
   inline bool CheckDistToFacet (const MeshFacet &rclF);     // check distance to facet, add points inner radius
   bool AccumulateNeighbours (const MeshFacet &rclF, unsigned long ulFIdx); // accumulate the sample neighbours facet
   inline bool InnerPoint (const Base::Vector3f &rclPt) const;

@@ -1208,7 +1208,7 @@ void MeshAlgorithm::CheckFacets(const Base::ViewProjMethod* pclProj, const Base:
     }
 }
 
-float MeshAlgorithm::Surface (void) const
+float MeshAlgorithm::Surface () const
 {
     float              fTotal = 0.0f;
     MeshFacetIterator clFIter(_rclMesh);
@@ -1714,7 +1714,7 @@ float MeshAlgorithm::CalculateMinimumGridLength(float fLength, const Base::Bound
 
 // ----------------------------------------------------
 
-void MeshRefPointToFacets::Rebuild (void)
+void MeshRefPointToFacets::Rebuild ()
 {
     _map.clear();
 
@@ -1876,7 +1876,7 @@ void MeshRefPointToFacets::RemoveFacet(unsigned long facetIndex)
 
 //----------------------------------------------------------------------------
 
-void MeshRefFacetToFacets::Rebuild (void)
+void MeshRefFacetToFacets::Rebuild ()
 {
     _map.clear();
 
@@ -1913,7 +1913,7 @@ MeshRefFacetToFacets::GetIndices(unsigned long pos1, unsigned long pos2) const
 
 //----------------------------------------------------------------------------
 
-void MeshRefPointToPoints::Rebuild (void)
+void MeshRefPointToPoints::Rebuild ()
 {
     _map.clear();
 
@@ -1984,7 +1984,7 @@ void MeshRefPointToPoints::RemoveNeighbour(unsigned long pos, unsigned long face
 
 //----------------------------------------------------------------------------
 
-void MeshRefEdgeToFacets::Rebuild (void)
+void MeshRefEdgeToFacets::Rebuild ()
 {
     _map.clear();
 
@@ -2016,7 +2016,7 @@ MeshRefEdgeToFacets::operator[] (const MeshEdge& edge) const
 
 //----------------------------------------------------------------------------
 
-void MeshRefNormalToPoints::Rebuild (void)
+void MeshRefNormalToPoints::Rebuild ()
 {
     _norm.clear();
 

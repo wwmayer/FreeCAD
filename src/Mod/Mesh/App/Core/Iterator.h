@@ -67,18 +67,18 @@ public:
   /** @name Access methods */
   //@{
   /// Access to the element the iterator points to.
-  const MeshGeomFacet& operator*(void)
+  const MeshGeomFacet& operator*()
   { return Dereference(); }
   /// Access to the element the iterator points to.
-  const MeshGeomFacet* operator->(void)
+  const MeshGeomFacet* operator->()
   { return &Dereference(); }
   /// Increments the iterator. It points then to the next element if the
   /// end is not reached.
-  const MeshFacetIterator& operator ++ (void)
+  const MeshFacetIterator& operator ++ ()
   { ++_clIter; return *this; }
   /// Decrements the iterator. It points then to the previous element if the beginning
   /// is not reached.
-  const MeshFacetIterator& operator -- (void)
+  const MeshFacetIterator& operator -- ()
   { --_clIter; return *this; }
   /// Increments the iterator by \a k positions.
   const MeshFacetIterator& operator += (int k)
@@ -98,42 +98,42 @@ public:
   bool operator == (const MeshFacetIterator &rclI) const
   { return _clIter == rclI._clIter; }
   /// Sets the iterator to the beginning of the array.
-  void Begin (void)
+  void Begin ()
   { _clIter = _rclFAry.begin(); }
   /// Sets the iterator to the end of the array.
-  void End (void)
+  void End ()
   { _clIter = _rclFAry.end(); }
   /// Returns the current position of the iterator in the array.
-  unsigned long Position (void) const
+  unsigned long Position () const
   { return _clIter - _rclFAry.begin(); }
   /// Checks if the end is already reached.
-  bool EndReached (void) const
+  bool EndReached () const
   { return !(_clIter < _rclFAry.end()); }
   /// Sets the iterator to the beginning of the array.
-  void  Init (void)
+  void  Init ()
   { Begin(); }
   /// Checks if the end is not yet reached.
-  bool More (void) const
+  bool More () const
   { return !EndReached(); }
   /// Increments the iterator.
-  void  Next (void)
+  void  Next ()
   { operator++(); }
   /// Sets the iterator to a given position.
   inline bool Set (unsigned long ulIndex);
   /// Returns the topologic facet.
-  inline MeshFacet GetIndices (void) const
+  inline MeshFacet GetIndices () const
   { return *_clIter; }
   /// Returns the topologic facet.
-  inline const MeshFacet& GetReference (void) const
+  inline const MeshFacet& GetReference () const
   { return *_clIter; }
   /// Returns iterators pointing to the current facet's neighbours.
   inline void GetNeighbours (MeshFacetIterator &rclN0, MeshFacetIterator &rclN1, MeshFacetIterator &rclN2) const;
   /// Sets the iterator to the current facet's neighbour of the side \a usN.
   inline void SetToNeighbour (unsigned short usN);
   /// Returns the property information to the current facet.
-  inline unsigned long GetProperty (void) const;
+  inline unsigned long GetProperty () const;
   /// Checks if the iterator points to a valid element inside the array.
-  inline bool IsValid (void) const
+  inline bool IsValid () const
   { return (_clIter >= _rclFAry.begin()) && (_clIter < _rclFAry.end()); }
   //@}
   /** @name Flag state
@@ -150,7 +150,7 @@ public:
   //@}
 
 protected:
-  inline const MeshGeomFacet& Dereference (void);
+  inline const MeshGeomFacet& Dereference ();
 
 protected:
   const MeshKernel&     _rclMesh;
@@ -189,18 +189,18 @@ public:
   /** @name Access methods */
   //@{
   /// Access to the element the iterator points to.
-  const MeshPoint& operator*(void) const
+  const MeshPoint& operator*() const
   { return Dereference(); }
   /// Access to the element the iterator points to.
-  const MeshPoint* operator->(void) const
+  const MeshPoint* operator->() const
   { return &Dereference(); }
   /// Increments the iterator. It points then to the next element if the
   /// end is not reached.
-  const MeshPointIterator& operator ++ (void)
+  const MeshPointIterator& operator ++ ()
   { ++_clIter; return *this; }
   /// Decrements the iterator. It points then to the previous element if the beginning
   /// is not reached.
-  const MeshPointIterator& operator -- (void)
+  const MeshPointIterator& operator -- ()
   { --_clIter; return *this; }
   /// Assignment.
   inline MeshPointIterator& operator = (const MeshPointIterator &rpI);
@@ -214,30 +214,30 @@ public:
   bool operator == (const MeshPointIterator &rclI) const
   { return _clIter == rclI._clIter; }
   /// Sets the iterator to the beginning of the array.
-  void Begin (void)
+  void Begin ()
   { _clIter = _rclPAry.begin(); }
   /// Sets the iterator to the end of the array.
-  void End (void)
+  void End ()
   { _clIter = _rclPAry.end(); }
   /// Returns the current position of the iterator in the array.
-  unsigned long Position (void) const
+  unsigned long Position () const
   { return _clIter - _rclPAry.begin(); }
   /// Checks if the end is already reached.
-  bool EndReached (void) const
+  bool EndReached () const
   { return !(_clIter < _rclPAry.end()); }
   /// Sets the iterator to the beginning of the array.
-  void  Init (void)
+  void  Init ()
   { Begin(); }
   /// Checks if the end is not yet reached.
-  bool More (void) const
+  bool More () const
   { return !EndReached(); }
   /// Increments the iterator.
-  void  Next (void)
+  void  Next ()
   { operator++(); }
   /// Sets the iterator to a given position.
   inline bool Set (unsigned long ulIndex);
   /// Checks if the iterator points to a valid element inside the array.
-  inline bool IsValid (void) const
+  inline bool IsValid () const
   { return (_clIter >= _rclPAry.begin()) && (_clIter < _rclPAry.end()); }
   //@}
   /** @name Flag state
@@ -254,7 +254,7 @@ public:
   //@}
 
 protected:
-  inline const MeshPoint& Dereference (void) const;
+  inline const MeshPoint& Dereference () const;
 
 protected:
   const MeshKernel& _rclMesh;
@@ -274,9 +274,9 @@ public:
   inline MeshFastFacetIterator (const MeshKernel &rclM);
   virtual ~MeshFastFacetIterator () {}
 
-  void Init (void) { _clIter = _rclFAry.begin(); }
-  inline void Next (void);
-  bool More (void) { return _clIter != _rclFAry.end(); }
+  void Init () { _clIter = _rclFAry.begin(); }
+  inline void Next ();
+  bool More () { return _clIter != _rclFAry.end(); }
 
   Base::Vector3f _afPoints[3];
 
@@ -299,7 +299,7 @@ inline MeshFastFacetIterator::MeshFastFacetIterator (const MeshKernel &rclM)
 {
 }
 
-inline void MeshFastFacetIterator::Next (void)
+inline void MeshFastFacetIterator::Next ()
 {
   const unsigned long *paulPt = _clIter->_aulPoints;
   Base::Vector3f *pfPt = _afPoints;
@@ -344,7 +344,7 @@ inline void MeshFacetIterator::Transform( const Base::Matrix4D& rclTrf )
   _clTrf != tmp ? _bApply = true : _bApply = false;
 }
 
-inline const MeshGeomFacet& MeshFacetIterator::Dereference (void)
+inline const MeshGeomFacet& MeshFacetIterator::Dereference ()
 {
   MeshFacet rclF             = *_clIter;
   const unsigned long *paulPt        = &(_clIter->_aulPoints[0]);
@@ -386,7 +386,7 @@ inline MeshFacetIterator& MeshFacetIterator::operator = (const MeshFacetIterator
   return *this;
 }
 
-inline unsigned long MeshFacetIterator::GetProperty (void) const
+inline unsigned long MeshFacetIterator::GetProperty () const
 {
   return _clIter->_ulProp;
 }
@@ -442,7 +442,7 @@ inline void MeshPointIterator::Transform( const Base::Matrix4D& rclTrf )
   _clTrf != tmp ? _bApply = true : _bApply = false;
 }
 
-inline const MeshPoint& MeshPointIterator::Dereference (void) const
+inline const MeshPoint& MeshPointIterator::Dereference () const
 { // We change only the value of the point but not the actual iterator
   const_cast<MeshPointIterator*>(this)->_clPoint = *_clIter;
   if ( _bApply )

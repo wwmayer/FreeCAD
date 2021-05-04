@@ -133,7 +133,7 @@ unsigned long MeshSearchNeighbours::NeighboursFromFacet (unsigned long ulFacetId
     return ulVisited;
 }
 
-void MeshSearchNeighbours::SampleAllFacets (void)
+void MeshSearchNeighbours::SampleAllFacets ()
 {
     if (_aclSampledFacets.size() == _rclMesh.CountFacets())
         return; // already sampled, do nothing

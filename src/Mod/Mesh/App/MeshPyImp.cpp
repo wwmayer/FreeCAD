@@ -112,7 +112,7 @@ int MeshPy::PyInit(PyObject* args, PyObject*)
 }
 
 // returns a string which represent the object e.g. when printed in python
-std::string MeshPy::representation(void) const
+std::string MeshPy::representation() const
 {
     // Note: As the return type is 'const char*' we cannot create a temporary char array neither on the stack because the array would be freed
     // when leaving the scope nor on the heap because we would have a memory leak.
@@ -1937,27 +1937,27 @@ PyObject* MeshPy::getCurvaturePerVertex(PyObject* args)
     return Py::new_reference_to(list);
 }
 
-Py::Long MeshPy::getCountPoints(void) const
+Py::Long MeshPy::getCountPoints() const
 {
     return Py::Long((long)getMeshObjectPtr()->countPoints());
 }
 
-Py::Long MeshPy::getCountEdges(void) const
+Py::Long MeshPy::getCountEdges() const
 {
     return Py::Long((long)getMeshObjectPtr()->countEdges());
 }
 
-Py::Long MeshPy::getCountFacets(void) const
+Py::Long MeshPy::getCountFacets() const
 {
     return Py::Long((long)getMeshObjectPtr()->countFacets());
 }
 
-Py::Float MeshPy::getArea(void) const
+Py::Float MeshPy::getArea() const
 {
     return Py::Float(getMeshObjectPtr()->getSurface());
 }
 
-Py::Float MeshPy::getVolume(void) const
+Py::Float MeshPy::getVolume() const
 {
     return Py::Float(getMeshObjectPtr()->getVolume());
 }
@@ -1972,7 +1972,7 @@ int MeshPy::setCustomAttributes(const char* /*attr*/, PyObject* /*obj*/)
     return 0; 
 }
 
-Py::List MeshPy::getPoints(void) const
+Py::List MeshPy::getPoints() const
 {
     Py::List PointList;
     unsigned int Index=0;
@@ -1983,7 +1983,7 @@ Py::List MeshPy::getPoints(void) const
     return PointList;
 }
 
-Py::List MeshPy::getFacets(void) const
+Py::List MeshPy::getFacets() const
 {
     Py::List FacetList;
     MeshObject* mesh = getMeshObjectPtr();
@@ -1993,7 +1993,7 @@ Py::List MeshPy::getFacets(void) const
     return FacetList;
 }
 
-Py::Tuple MeshPy::getTopology(void) const
+Py::Tuple MeshPy::getTopology() const
 {
     std::vector<Base::Vector3d> Points;
     std::vector<Data::ComplexGeoData::Facet> Facets;

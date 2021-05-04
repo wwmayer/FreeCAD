@@ -43,7 +43,7 @@ MeshBuilder::MeshBuilder (MeshKernel& kernel) : _meshKernel(kernel), _seq(nullpt
     _fSaveTolerance = MeshDefinitions::_fMinPointDistanceD1;
 }
 
-MeshBuilder::~MeshBuilder (void)
+MeshBuilder::~MeshBuilder ()
 {
     MeshDefinitions::_fMinPointDistanceD1 = _fSaveTolerance;
     delete this->_seq;
@@ -290,7 +290,7 @@ MeshFastBuilder::MeshFastBuilder(MeshKernel &rclM) : _meshKernel(rclM), p(new Pr
 {
 }
 
-MeshFastBuilder::~MeshFastBuilder(void)
+MeshFastBuilder::~MeshFastBuilder()
 {
     delete p;
 }

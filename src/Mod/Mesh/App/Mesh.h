@@ -92,7 +92,7 @@ public:
      *  List of different subelement types
      *  its NOT a list of the subelements itself
      */
-    virtual std::vector<const char*> getElementTypes(void) const;
+    virtual std::vector<const char*> getElementTypes() const;
     virtual unsigned long countSubElements(const char* Type) const;
     /// get the subelement by type and number
     virtual Data::Segment* getSubElement(const char* Type, unsigned long) const;
@@ -105,7 +105,7 @@ public:
     //@}
 
     void setTransform(const Base::Matrix4D& rclTrf);
-    Base::Matrix4D getTransform(void) const;
+    Base::Matrix4D getTransform() const;
     void transformGeometry(const Base::Matrix4D &rclMat);
 
     /**
@@ -137,17 +137,17 @@ public:
     //@}
 
     void setKernel(const MeshCore::MeshKernel& m);
-    MeshCore::MeshKernel& getKernel(void)
+    MeshCore::MeshKernel& getKernel()
     { return _kernel; }
-    const MeshCore::MeshKernel& getKernel(void) const
+    const MeshCore::MeshKernel& getKernel() const
     { return _kernel; }
 
-    virtual Base::BoundBox3d getBoundBox(void)const;
+    virtual Base::BoundBox3d getBoundBox()const;
 
     /** @name I/O */
     //@{
     // Implemented from Persistence
-    unsigned int getMemSize (void) const;
+    unsigned int getMemSize () const;
     void Save (Base::Writer &writer) const;
     void SaveDocFile (Base::Writer &writer) const;
     void Restore(Base::XMLReader &reader);
@@ -210,7 +210,7 @@ public:
     void offsetSpecial2(float fSize);
     void offsetSpecial(float fSize, float zmax, float zmin);
     /// clears the Mesh
-    void clear(void);
+    void clear();
     void transformToEigenSystem();
     Base::Matrix4D getEigenSystem(Base::Vector3d& v) const;
     void movePoint(unsigned long, const Base::Vector3d& v);

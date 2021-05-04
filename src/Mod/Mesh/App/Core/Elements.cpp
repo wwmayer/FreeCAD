@@ -83,7 +83,7 @@ void MeshPointArray::SetProperty (unsigned long ulVal) const
   for (_TConstIterator pP = begin(); pP != end(); ++pP) pP->SetProperty(ulVal);
 }
 
-void MeshPointArray::ResetInvalid (void) const
+void MeshPointArray::ResetInvalid () const
 {
   for (_TConstIterator pP = begin(); pP != end(); ++pP) pP->ResetInvalid();
 }
@@ -165,7 +165,7 @@ void MeshFacetArray::SetProperty (unsigned long ulVal) const
   for (_TConstIterator pF = begin(); pF != end(); ++pF) pF->SetProperty(ulVal);
 }
 
-void MeshFacetArray::ResetInvalid (void) const
+void MeshFacetArray::ResetInvalid () const
 {
   for (_TConstIterator pF = begin(); pF != end(); ++pF) pF->ResetInvalid();
 }
@@ -352,7 +352,7 @@ void MeshGeomEdge::ClosestPointsToLine(const Base::Vector3f &linePt, const Base:
 
 // -----------------------------------------------------------------
 
-MeshGeomFacet::MeshGeomFacet (void) 
+MeshGeomFacet::MeshGeomFacet () 
   : _bNormalCalculated(false),
     _ucFlag(0), _ulProp(0)
 { 

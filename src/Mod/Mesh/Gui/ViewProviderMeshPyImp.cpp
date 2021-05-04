@@ -36,7 +36,7 @@
 using namespace MeshGui;
 
 // returns a string which represents the object e.g. when printed in python
-std::string ViewProviderMeshPy::representation(void) const
+std::string ViewProviderMeshPy::representation() const
 {
     std::stringstream str;
     str << "<View provider object at " << getViewProviderDocumentObjectPtr() << ">";

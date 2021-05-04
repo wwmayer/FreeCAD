@@ -41,10 +41,10 @@ struct MeshExport MeshHelpPoint
   inline bool operator < (const MeshHelpPoint &rclObj) const;
   inline bool operator == (const MeshHelpPoint &rclObj) const;
 
-  unsigned long Index (void) const
+  unsigned long Index () const
   { return _ulInd >> 2; }
 
-  unsigned long Corner (void) const
+  unsigned long Corner () const
   { return _ulInd & 3; }
 
   MeshPoint _clPt;
@@ -64,10 +64,10 @@ struct MeshPointBuilder: public std::vector<MeshHelpPoint>
  */
 struct MeshExport MeshHelpBuilderEdge
 {
-  unsigned long Side (void) const
+  unsigned long Side () const
   { return _ulFIndex & 3; }
 
-  unsigned long Index (void) const
+  unsigned long Index () const
   { return _ulFIndex >> 2; }
 
   inline void Set (unsigned long ulInd1, unsigned long ulInd2,

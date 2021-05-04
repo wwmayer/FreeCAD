@@ -50,7 +50,7 @@ public:
         :Vector3d(vec),Index(index),Mesh(obj)
     {}
 
-    bool isBound(void) const {return Index != UINT_MAX;}
+    bool isBound() const {return Index != UINT_MAX;}
 
     unsigned int Index;
     Base::Reference<MeshObject> Mesh;

@@ -67,8 +67,8 @@ typedef Math<double> Mathd;
 class MeshExport MeshDefinitions
 {
 public:
-  MeshDefinitions (void);
-  virtual ~MeshDefinitions (void)
+  MeshDefinitions ();
+  virtual ~MeshDefinitions ()
   {}
 
   static float  _fMinPointDistance;

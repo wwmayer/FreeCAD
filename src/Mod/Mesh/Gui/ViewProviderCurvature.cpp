@@ -155,13 +155,13 @@ void ViewProviderMeshCurvature::onChanged(const App::Property* prop)
     ViewProviderDocumentObject::onChanged(prop);
 }
 
-void ViewProviderMeshCurvature::hide(void)
+void ViewProviderMeshCurvature::hide()
 {
     inherited::hide();
     pcColorStyle->style = SoDrawStyle::INVISIBLE;
 }
 
-void ViewProviderMeshCurvature::show(void)
+void ViewProviderMeshCurvature::show()
 {
     inherited::show();
     pcColorStyle->style = SoDrawStyle::FILLED;
@@ -317,7 +317,7 @@ void ViewProviderMeshCurvature::updateData(const App::Property* prop)
     }
 }
 
-SoSeparator* ViewProviderMeshCurvature::getFrontRoot(void) const
+SoSeparator* ViewProviderMeshCurvature::getFrontRoot() const
 {
     return pcColorRoot;
 }
@@ -389,7 +389,7 @@ const char* ViewProviderMeshCurvature::getDefaultDisplayMode() const
     return "Absolute curvature";
 }
 
-std::vector<std::string> ViewProviderMeshCurvature::getDisplayModes(void) const
+std::vector<std::string> ViewProviderMeshCurvature::getDisplayModes() const
 {
     std::vector<std::string> StrList = inherited::getDisplayModes();
 

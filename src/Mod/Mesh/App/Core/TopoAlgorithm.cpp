@@ -48,7 +48,7 @@ MeshTopoAlgorithm::MeshTopoAlgorithm (MeshKernel &rclM)
 {
 }
 
-MeshTopoAlgorithm::~MeshTopoAlgorithm (void)
+MeshTopoAlgorithm::~MeshTopoAlgorithm ()
 {
   if ( _needsCleanup )
     Cleanup();
@@ -1623,14 +1623,14 @@ void MeshTopoAlgorithm::RemoveComponents(unsigned long count)
     _rclMesh.DeleteFacets(removeFacets);
 }
 
-void MeshTopoAlgorithm::HarmonizeNormals (void)
+void MeshTopoAlgorithm::HarmonizeNormals ()
 {
   std::vector<unsigned long> uIndices = MeshEvalOrientation(_rclMesh).GetIndices();
   for ( std::vector<unsigned long>::iterator it = uIndices.begin(); it != uIndices.end(); ++it )
     _rclMesh._aclFacetArray[*it].FlipNormal();
 }
 
-void MeshTopoAlgorithm::FlipNormals (void)
+void MeshTopoAlgorithm::FlipNormals ()
 {
   for (MeshFacetArray::_TIterator i = _rclMesh._aclFacetArray.begin(); i < _rclMesh._aclFacetArray.end(); ++i)
     i->FlipNormal();

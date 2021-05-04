@@ -169,7 +169,7 @@ MeshSearchNeighbourFacetsVisitor::MeshSearchNeighbourFacetsVisitor (const MeshKe
 {
 }
 
-std::vector<unsigned long> MeshSearchNeighbourFacetsVisitor::GetAndReset (void)
+std::vector<unsigned long> MeshSearchNeighbourFacetsVisitor::GetAndReset ()
 {
     MeshAlgorithm(_rclMeshBase).ResetFacetsFlag(_vecFacets, MeshFacet::VISIT);
     return _vecFacets;

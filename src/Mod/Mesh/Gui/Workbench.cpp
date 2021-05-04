@@ -101,7 +101,7 @@ public:
         taskbox->groupLayout()->addWidget(box);
         Content.push_back(taskbox);
     }
-    bool shouldShow(void)
+    bool shouldShow()
     {
         return true;
     }

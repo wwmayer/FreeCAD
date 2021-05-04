@@ -44,7 +44,7 @@ using namespace MeshCore;
 PROPERTY_SOURCE(Mesh::SegmentByMesh, Mesh::Feature)
 
 
-SegmentByMesh::SegmentByMesh(void)
+SegmentByMesh::SegmentByMesh()
 {
     ADD_PROPERTY(Source  ,(nullptr));
     ADD_PROPERTY(Tool    ,(nullptr));
@@ -63,7 +63,7 @@ short SegmentByMesh::mustExecute() const
     return 0;
 }
 
-App::DocumentObjectExecReturn *SegmentByMesh::execute(void)
+App::DocumentObjectExecReturn *SegmentByMesh::execute()
 {
     Mesh::PropertyMeshKernel *kernel=nullptr;
     App::DocumentObject* mesh = Source.getValue();

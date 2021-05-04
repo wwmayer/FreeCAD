@@ -47,7 +47,7 @@
 
 using namespace MeshCore;
 
-MeshKernel::MeshKernel (void)
+MeshKernel::MeshKernel ()
 : _bValid(true)
 {
     _clBoundBox.SetVoid();
@@ -414,7 +414,7 @@ void MeshKernel::Cleanup()
     meshCleanup.RemoveInvalids();
 }
 
-void MeshKernel::Clear (void)
+void MeshKernel::Clear ()
 {
     _aclPointArray.clear();
     _aclFacetArray.clear();
@@ -1055,7 +1055,7 @@ void MeshKernel::Smooth(int iterations, float stepsize)
     LaplaceSmoothing(*this).Smooth(iterations);
 }
 
-void MeshKernel::RecalcBoundBox (void)
+void MeshKernel::RecalcBoundBox ()
 {
     _clBoundBox.SetVoid();
     for (MeshPointArray::_TConstIterator pI = _aclPointArray.begin(); pI != _aclPointArray.end(); pI++)
@@ -1202,7 +1202,7 @@ void MeshKernel::GetEdges (std::vector<MeshGeomEdge>& edges) const
     }
 }
 
-unsigned long MeshKernel::CountEdges (void) const
+unsigned long MeshKernel::CountEdges () const
 {
     unsigned long openEdges = 0, closedEdges = 0;
 

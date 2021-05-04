@@ -61,7 +61,7 @@
 
 
 // use a different name to CreateCommand()
-void CreateMeshCommands(void);
+void CreateMeshCommands();
 
 void loadMeshResource()
 {

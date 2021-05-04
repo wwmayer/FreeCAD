@@ -58,7 +58,7 @@ public:
     void attach(App::DocumentObject* obj);
     void setDisplayMode(const char* ModeName);
     const char* getDefaultDisplayMode() const;
-    std::vector<std::string> getDisplayModes(void) const;
+    std::vector<std::string> getDisplayModes() const;
     SoPickedPoint* getPickedPoint(const SbVec2s& pos, const Gui::View3DInventorViewer* viewer) const;
 
     ViewProviderMesh* mesh;

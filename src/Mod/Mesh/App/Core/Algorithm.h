@@ -58,7 +58,7 @@ public:
   /// Construction
   MeshAlgorithm (const MeshKernel &rclM) : _rclMesh(rclM) { }
   /// Destruction
-  ~MeshAlgorithm (void) { }
+  ~MeshAlgorithm () { }
 
 public:
   /**
@@ -261,7 +261,7 @@ public:
    */
   void GetBorderPoints (const std::vector<unsigned long> &raclFacetIndices, std::set<unsigned long> &raclResultPointsIndices) const;
   /** Computes the surface of the mesh. */
-  float Surface (void) const;
+  float Surface () const;
   /** Subsamples the mesh with point distance \a fDist and stores the points in \a rclPoints. */
   void SubSampleByDist  (float fDist, std::vector<Base::Vector3f> &rclPoints) const;
   /**
@@ -375,11 +375,11 @@ public:
     MeshRefPointToFacets (const MeshKernel &rclM) : _rclMesh(rclM) 
     { Rebuild(); }
     /// Destruction
-    ~MeshRefPointToFacets (void)
+    ~MeshRefPointToFacets ()
     { }
 
     /// Rebuilds up data structure
-    void Rebuild (void);
+    void Rebuild ();
     const std::set<unsigned long>& operator[] (unsigned long) const;
     std::vector<unsigned long> GetIndices(unsigned long, unsigned long) const;
     std::vector<unsigned long> GetIndices(unsigned long, unsigned long, unsigned long) const;
@@ -414,10 +414,10 @@ public:
     MeshRefFacetToFacets (const MeshKernel &rclM) : _rclMesh(rclM)
     { Rebuild(); }
     /// Destruction
-    ~MeshRefFacetToFacets (void)
+    ~MeshRefFacetToFacets ()
     { }
     /// Rebuilds up data structure
-    void Rebuild (void);
+    void Rebuild ();
 
     /// Returns a set of facets sharing one or more points with the facet with
     /// index \a ulFacetIndex.
@@ -443,11 +443,11 @@ public:
     MeshRefPointToPoints (const MeshKernel &rclM) : _rclMesh(rclM) 
     { Rebuild(); }
     /// Destruction
-    ~MeshRefPointToPoints (void)
+    ~MeshRefPointToPoints ()
     { }
 
     /// Rebuilds up data structure
-    void Rebuild (void);
+    void Rebuild ();
     const std::set<unsigned long>& operator[] (unsigned long) const;
     Base::Vector3f GetNormal(unsigned long) const;
     float GetAverageEdgeLength(unsigned long) const;
@@ -472,11 +472,11 @@ public:
     MeshRefEdgeToFacets (const MeshKernel &rclM) : _rclMesh(rclM) 
     { Rebuild(); }
     /// Destruction
-    ~MeshRefEdgeToFacets (void)
+    ~MeshRefEdgeToFacets ()
     { }
 
     /// Rebuilds up data structure
-    void Rebuild (void);
+    void Rebuild ();
     const std::pair<unsigned long, unsigned long>& operator[] (const MeshEdge&) const;
 
 protected:
@@ -511,11 +511,11 @@ public:
     MeshRefNormalToPoints (const MeshKernel &rclM) : _rclMesh(rclM) 
     { Rebuild(); }
     /// Destruction
-    ~MeshRefNormalToPoints (void)
+    ~MeshRefNormalToPoints ()
     { }
 
     /// Rebuilds up data structure
-    void Rebuild (void);
+    void Rebuild ();
     const Base::Vector3f& operator[] (unsigned long) const;
 
 protected:

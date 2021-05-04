@@ -46,7 +46,7 @@ using namespace std;
 PROPERTY_SOURCE(Mesh::SetOperations, Mesh::Feature)
 
 
-SetOperations::SetOperations(void)
+SetOperations::SetOperations()
 {
     ADD_PROPERTY(Source1  ,(nullptr));
     ADD_PROPERTY(Source2  ,(nullptr));
@@ -67,7 +67,7 @@ short SetOperations::mustExecute() const
     return 0;
 }
 
-App::DocumentObjectExecReturn *SetOperations::execute(void)
+App::DocumentObjectExecReturn *SetOperations::execute()
 {
     Mesh::Feature *mesh1  = dynamic_cast<Mesh::Feature*>(Source1.getValue());
     Mesh::Feature *mesh2  = dynamic_cast<Mesh::Feature*>(Source2.getValue());

@@ -177,7 +177,7 @@ ViewProviderExport::~ViewProviderExport()
 {
 }
 
-std::vector<std::string> ViewProviderExport::getDisplayModes(void) const
+std::vector<std::string> ViewProviderExport::getDisplayModes() const
 {
     std::vector<std::string> mode;
     mode.push_back("");
@@ -625,7 +625,7 @@ void ViewProviderMesh::setDisplayMode(const char* ModeName)
     ViewProviderGeometryObject::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderMesh::getDisplayModes(void) const
+std::vector<std::string> ViewProviderMesh::getDisplayModes() const
 {
     std::vector<std::string> StrList;
 

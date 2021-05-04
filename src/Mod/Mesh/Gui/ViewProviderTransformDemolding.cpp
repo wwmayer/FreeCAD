@@ -131,7 +131,7 @@ void ViewProviderMeshTransformDemolding::attach(App::DocumentObject *pcFeat)
   //SbVector3f Center = boxAction->getCenter();
 }
 
-void ViewProviderMeshTransformDemolding::calcNormalVector(void)
+void ViewProviderMeshTransformDemolding::calcNormalVector()
 {
   const MeshKernel& cMesh = static_cast<Feature*>(pcObject)->Mesh.getValue().getKernel();
 
@@ -178,7 +178,7 @@ void ViewProviderMeshTransformDemolding::sDragEndCallback(void *This, SoDragger 
   static_cast<ViewProviderMeshTransformDemolding*>(This)->DragEndCallback();
 }
 
-void ViewProviderMeshTransformDemolding::DragEndCallback(void)
+void ViewProviderMeshTransformDemolding::DragEndCallback()
 {
   SbRotation rot = pcTrackballDragger->rotation.getValue();
   calcMaterialIndex(rot);
@@ -187,7 +187,7 @@ void ViewProviderMeshTransformDemolding::DragEndCallback(void)
 
 }
 
-void ViewProviderMeshTransformDemolding::valueChangedCallback(void)
+void ViewProviderMeshTransformDemolding::valueChangedCallback()
 {
   //Base::Console().Log("Value change Callback\n");
   //setTransformation(pcTrackballDragger->getMotionMatrix());
@@ -217,7 +217,7 @@ const char* ViewProviderMeshTransformDemolding::getDefaultDisplayMode() const
   return "Demold";
 }
 
-std::vector<std::string> ViewProviderMeshTransformDemolding::getDisplayModes(void) const
+std::vector<std::string> ViewProviderMeshTransformDemolding::getDisplayModes() const
 {
   std::vector<std::string> StrList = ViewProviderMesh::getDisplayModes();
   StrList.push_back("Demold");

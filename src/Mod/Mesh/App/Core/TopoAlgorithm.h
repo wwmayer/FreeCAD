@@ -53,7 +53,7 @@ class MeshExport MeshTopoAlgorithm
 public:
     // construction/destruction
     MeshTopoAlgorithm (MeshKernel &rclM);
-    virtual ~MeshTopoAlgorithm (void);
+    virtual ~MeshTopoAlgorithm ();
 
 public:
     /** @name Topological Operations */
@@ -273,11 +273,11 @@ public:
     /**
      * Harmonizes the normals.
      */
-    void HarmonizeNormals (void);
+    void HarmonizeNormals ();
     /** 
      * Flips the normals.
      */
-    void FlipNormals (void);
+    void FlipNormals ();
     /**
      * Caching facility.
      */

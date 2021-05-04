@@ -334,7 +334,7 @@ SO_NODE_SOURCE(SoFCMeshPickNode)
 /*!
   Constructor.
 */
-SoFCMeshPickNode::SoFCMeshPickNode(void) : meshGrid(nullptr)
+SoFCMeshPickNode::SoFCMeshPickNode() : meshGrid(nullptr)
 {
     SO_NODE_CONSTRUCTOR(SoFCMeshPickNode);
 
@@ -350,7 +350,7 @@ SoFCMeshPickNode::~SoFCMeshPickNode()
 }
 
 // Doc from superclass.
-void SoFCMeshPickNode::initClass(void)
+void SoFCMeshPickNode::initClass()
 {
     SO_NODE_INIT_CLASS(SoFCMeshPickNode, SoNode, "Node");
 }
@@ -406,7 +406,7 @@ SO_NODE_SOURCE(SoFCMeshGridNode)
 /*!
   Constructor.
 */
-SoFCMeshGridNode::SoFCMeshGridNode(void)
+SoFCMeshGridNode::SoFCMeshGridNode()
 {
     SO_NODE_CONSTRUCTOR(SoFCMeshGridNode);
 
@@ -423,7 +423,7 @@ SoFCMeshGridNode::~SoFCMeshGridNode()
 }
 
 // Doc from superclass.
-void SoFCMeshGridNode::initClass(void)
+void SoFCMeshGridNode::initClass()
 {
     SO_NODE_INIT_CLASS(SoFCMeshGridNode, SoNode, "Node");
 }
@@ -493,7 +493,7 @@ SO_NODE_SOURCE(SoFCMeshObjectNode)
 /*!
   Constructor.
 */
-SoFCMeshObjectNode::SoFCMeshObjectNode(void)
+SoFCMeshObjectNode::SoFCMeshObjectNode()
 {
     SO_NODE_CONSTRUCTOR(SoFCMeshObjectNode);
 
@@ -508,7 +508,7 @@ SoFCMeshObjectNode::~SoFCMeshObjectNode()
 }
 
 // Doc from superclass.
-void SoFCMeshObjectNode::initClass(void)
+void SoFCMeshObjectNode::initClass()
 {
     SO_NODE_INIT_CLASS(SoFCMeshObjectNode, SoNode, "Node");
 
