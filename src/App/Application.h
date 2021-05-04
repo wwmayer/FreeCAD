@@ -86,14 +86,14 @@ public:
      * The second name is a UTF8 name of any kind. It's that name normally shown to
      * the user and stored in the App::Document::Name property.
      */
-    App::Document* newDocument(const char * Name=0l, const char * UserName=0l,
+    App::Document* newDocument(const char * Name=nullptr, const char * UserName=nullptr,
             bool createView=true, bool tempDoc=false);
     /// Closes the document \a name and removes it from the application.
     bool closeDocument(const char* name);
     /// find a unique document name
     std::string getUniqueDocumentName(const char *Name, bool tempDoc=false) const;
     /// Open an existing document from a file
-    App::Document* openDocument(const char * FileName=0l, bool createView=true);
+    App::Document* openDocument(const char * FileName=nullptr, bool createView=true);
     /** Open multiple documents
      *
      * @param filenames: input file names
@@ -112,9 +112,9 @@ public:
      * This function will also open any external referenced files.
      */
     std::vector<Document*> openDocuments(const std::vector<std::string> &filenames,
-            const std::vector<std::string> *paths=0,
-            const std::vector<std::string> *labels=0,
-            std::vector<std::string> *errs=0,
+            const std::vector<std::string> *paths=nullptr,
+            const std::vector<std::string> *labels=nullptr,
+            std::vector<std::string> *errs=nullptr,
             bool createView = true);
     /// Retrieve the active document
     App::Document* getActiveDocument(void) const;
@@ -157,7 +157,7 @@ public:
      */
     int setActiveTransaction(const char *name, bool persist=false);
     /// Return the current active transaction name and ID
-    const char *getActiveTransaction(int *tid=0) const;
+    const char *getActiveTransaction(int *tid=nullptr) const;
     /** Commit/abort current active transactions
      *
      * @param abort: whether to abort or commit the transactions
@@ -373,7 +373,7 @@ public:
      system's temporary directory but can be customized by the user.
      */
     static std::string getTempPath();
-    static std::string getTempFileName(const char* FileName=0);
+    static std::string getTempFileName(const char* FileName=nullptr);
     static std::string getUserAppDataDir();
     static std::string getUserMacroDir();
     static std::string getResourceDir();

@@ -246,7 +246,7 @@ const char* PropertyFileIncluded::getValue(void) const
 
 PyObject *PropertyFileIncluded::getPyObject(void)
 {
-    PyObject *p = PyUnicode_DecodeUTF8(_cValue.c_str(),_cValue.size(),0);
+    PyObject *p = PyUnicode_DecodeUTF8(_cValue.c_str(),_cValue.size(),nullptr);
     if (!p) {
         throw Base::UnicodeError("PropertyFileIncluded: UTF-8 conversion failure");
     }
@@ -256,7 +256,7 @@ PyObject *PropertyFileIncluded::getPyObject(void)
 namespace App {
 const char* getNameFromFile(PyObject* value)
 {
-    const char* string = 0;
+    const char* string = nullptr;
     PyObject *oname = PyObject_GetAttrString (value, "name");
     if (oname) {
         if (PyUnicode_Check (oname)) {

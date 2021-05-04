@@ -153,7 +153,7 @@ const char *Application::getActiveTransaction(int *id) const {
     if(Transaction::getLastID() == _activeTransactionID)
         tid = _activeTransactionID;
     if(id) *id = tid;
-    return tid?_activeTransactionName.c_str():0;
+    return tid?_activeTransactionName.c_str():nullptr;
 }
 
 void Application::closeActiveTransaction(bool abort, int id) {

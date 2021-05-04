@@ -132,7 +132,7 @@ void FeaturePythonImp::onBeforeChange(const Property* prop)
     Base::PyGILStateLocker lock;
     try {
         const char *prop_name = object->getPropertyName(prop);
-        if(prop_name == 0)
+        if(prop_name == nullptr)
             return;
         if (has__object__) {
             Py::Tuple args(1);
@@ -186,7 +186,7 @@ void FeaturePythonImp::onChanged(const Property* prop)
     Base::PyGILStateLocker lock;
     try {
         const char *prop_name = object->getPropertyName(prop);
-        if(prop_name == 0)
+        if(prop_name == nullptr)
             return;
         if (has__object__) {
             Py::Tuple args(1);
@@ -247,7 +247,7 @@ bool FeaturePythonImp::getSubObject(DocumentObject *&ret, const char *subname,
 
         Py::Object res(Base::pyCall(py_getSubObject.ptr(),args.ptr()));
         if(res.isNone()) {
-            ret = 0;
+            ret = nullptr;
             return true;
         }
         if(!res.isTrue())
@@ -271,7 +271,7 @@ bool FeaturePythonImp::getSubObject(DocumentObject *&ret, const char *subname,
                 *pyObj = Py::new_reference_to(Py::None());
         }
         if(seq.getItem(0).isNone())
-            ret = 0;
+            ret = nullptr;
         else
             ret = static_cast<DocumentObjectPy*>(seq.getItem(0).ptr())->getDocumentObjectPtr();
         return true;
@@ -283,7 +283,7 @@ bool FeaturePythonImp::getSubObject(DocumentObject *&ret, const char *subname,
         }
         Base::PyException e; // extract the Python error text
         e.ReportException();
-        ret = 0;
+        ret = nullptr;
         return true;
     }
 }
@@ -365,7 +365,7 @@ bool FeaturePythonImp::getLinkedObject(DocumentObject *&ret, bool recurse,
         }
         Base::PyException e; // extract the Python error text
         e.ReportException();
-        ret = 0;
+        ret = nullptr;
         return true;
     }
 }

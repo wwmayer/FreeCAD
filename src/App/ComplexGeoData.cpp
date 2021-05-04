@@ -166,7 +166,7 @@ const std::string &ComplexGeoData::elementMapPrefix() {
 const char *ComplexGeoData::isMappedElement(const char *name) {
     if(name && boost::starts_with(name,elementMapPrefix()))
         return name+elementMapPrefix().size();
-    return 0;
+    return nullptr;
 }
 
 std::string ComplexGeoData::newElementName(const char *name) {

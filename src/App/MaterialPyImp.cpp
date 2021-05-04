@@ -40,13 +40,13 @@ PyObject *MaterialPy::PyMake(struct _typeobject *, PyObject *, PyObject *)  // P
 // constructor method
 int MaterialPy::PyInit(PyObject* args, PyObject* kwds)
 {
-    PyObject* diffuse = 0;
-    PyObject* ambient = 0;
-    PyObject* specular = 0;
-    PyObject* emissive = 0;
-    PyObject* shininess = 0;
-    PyObject* transparency = 0;
-    static char* kwds_colors[] = { "DiffuseColor", "AmbientColor", "SpecularColor", "EmissiveColor", "Shininess", "Transparency", NULL };
+    PyObject* diffuse = nullptr;
+    PyObject* ambient = nullptr;
+    PyObject* specular = nullptr;
+    PyObject* emissive = nullptr;
+    PyObject* shininess = nullptr;
+    PyObject* transparency = nullptr;
+    static char* kwds_colors[] = { "DiffuseColor", "AmbientColor", "SpecularColor", "EmissiveColor", "Shininess", "Transparency", nullptr };
 
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "|OOOOOO", kwds_colors,
         &diffuse, &ambient, &specular, &emissive, &shininess, &transparency))
@@ -89,7 +89,7 @@ PyObject* MaterialPy::set(PyObject * args)
 {
     char *pstr;
     if (!PyArg_ParseTuple(args, "s", &pstr))     // convert args: Python->C
-        return NULL;                             // NULL triggers exception
+        return nullptr;                             // NULL triggers exception
 
     getMaterialPtr()->set(pstr);
 
@@ -202,7 +202,7 @@ void MaterialPy::setTransparency(Py::Float arg)
 
 PyObject *MaterialPy::getCustomAttributes(const char* /*attr*/) const
 {
-    return 0;
+    return nullptr;
 }
 
 int MaterialPy::setCustomAttributes(const char* /*attr*/, PyObject* /*obj*/)

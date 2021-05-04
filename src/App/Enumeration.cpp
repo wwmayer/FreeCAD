@@ -33,7 +33,7 @@
 using namespace App;
 
 Enumeration::Enumeration()
-    : _EnumArray(NULL), _ownEnumArray(false), _index(0), _maxVal(-1)
+    : _EnumArray(nullptr), _ownEnumArray(false), _index(0), _maxVal(-1)
 {
 }
 
@@ -59,7 +59,7 @@ Enumeration::Enumeration(const char *valStr)
 #else
      _EnumArray[0] = strdup(valStr);
 #endif
-     _EnumArray[1] = NULL;
+     _EnumArray[1] = nullptr;
 }
 
 Enumeration::Enumeration(const char **list, const char *valStr)
@@ -72,7 +72,7 @@ Enumeration::Enumeration(const char **list, const char *valStr)
 Enumeration::~Enumeration()
 {
     if (_ownEnumArray) {
-        if (_EnumArray != NULL) {
+        if (_EnumArray != nullptr) {
             tearDown();
         }
     }
@@ -84,13 +84,13 @@ void Enumeration::tearDown(void)
     char **plEnums = const_cast<char **>(_EnumArray);
 
     // Delete C Strings first
-    while (*plEnums != NULL) {
+    while (*plEnums != nullptr) {
         free(*(plEnums++));
     }
 
     delete [] _EnumArray;
 
-    _EnumArray = NULL;
+    _EnumArray = nullptr;
     _ownEnumArray = false;
     _maxVal = -1;
 }
@@ -98,7 +98,7 @@ void Enumeration::tearDown(void)
 void Enumeration::setEnums(const char **plEnums)
 {
     std::string oldValue;
-    bool preserve = (isValid() && plEnums != NULL);
+    bool preserve = (isValid() && plEnums != nullptr);
     if (preserve) {
         const char* str = getCStr();
         if (str)
@@ -147,7 +147,7 @@ void Enumeration::setEnums(const std::vector<std::string> &values)
 #endif
     }
 
-    _EnumArray[i] = 0; // null termination
+    _EnumArray[i] = nullptr; // null termination
 
     // Other state variables
     _maxVal = static_cast<int>(values.size() - 1);
@@ -175,7 +175,7 @@ void Enumeration::setValue(const char *value)
     // search for the right entry
     while (1) {
         // end of list? set zero
-        if (*plEnums == NULL) {
+        if (*plEnums == nullptr) {
             _index = 0;
             break;
         }
@@ -229,7 +229,7 @@ bool Enumeration::contains(const char *value) const
     // search for the right entry
     while (1) {
         // end of list?
-        if (*plEnums == NULL)
+        if (*plEnums == nullptr)
             return false;
         if (strcmp(*plEnums, value) == 0)
             return true;
@@ -243,7 +243,7 @@ const char * Enumeration::getCStr(void) const
     //assert(_EnumArray);
 
     if (!isValid() || _index < 0 || _index > _maxVal) {
-        return NULL;
+        return nullptr;
     }
 
     return _EnumArray[_index];
@@ -268,7 +268,7 @@ std::vector<std::string> Enumeration::getEnumVector(void) const
     const char **plEnums = _EnumArray;
 
     // end of list?
-    while (*plEnums != NULL) {
+    while (*plEnums != nullptr) {
         result.push_back(*plEnums);
         ++plEnums;
     }
@@ -283,7 +283,7 @@ const char ** Enumeration::getEnums(void) const
 
 bool Enumeration::isValid(void) const
 {
-    return (_EnumArray != NULL && _index >= 0 && _index <= _maxVal);
+    return (_EnumArray != nullptr && _index >= 0 && _index <= _maxVal);
 }
 
 Enumeration & Enumeration::operator=(const Enumeration &other)
@@ -310,7 +310,7 @@ Enumeration & Enumeration::operator=(const Enumeration &other)
 
 bool Enumeration::operator==(const Enumeration &other) const
 {
-    if (getCStr() == NULL || other.getCStr() == NULL) {
+    if (getCStr() == nullptr || other.getCStr() == nullptr) {
         return false;
     }
     return (strcmp(getCStr(), other.getCStr()) == 0);
@@ -318,7 +318,7 @@ bool Enumeration::operator==(const Enumeration &other) const
 
 bool Enumeration::operator==(const char *other) const
 {
-    if (getCStr() == NULL) {
+    if (getCStr() == nullptr) {
         return false;
     }
 
@@ -327,7 +327,7 @@ bool Enumeration::operator==(const char *other) const
 
 void Enumeration::findMaxVal(void)
 {
-    if (_EnumArray == NULL) {
+    if (_EnumArray == nullptr) {
         _maxVal = -1;
         return;
     }
@@ -337,7 +337,7 @@ void Enumeration::findMaxVal(void)
     // the NULL terminator doesn't belong to the range of
     // valid values
     int i = -1;
-    while (*(plEnums++) != NULL) {
+    while (*(plEnums++) != nullptr) {
         ++i;
         // very unlikely to have enums with more then 5000 entries!
         assert(i < 5000);

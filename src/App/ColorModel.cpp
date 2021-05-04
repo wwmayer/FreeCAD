@@ -32,14 +32,14 @@ using namespace App;
 
 
 ColorModel::ColorModel (unsigned short usCt)
-  : _usColors(usCt), _pclColors(0)
+  : _usColors(usCt), _pclColors(nullptr)
 {
     if (usCt > 0)
         _pclColors = new Color[usCt];
 }
 
 ColorModel::ColorModel (const ColorModel &rclM)
-  : _pclColors(0)
+  : _pclColors(nullptr)
 {
     *this = rclM;
 }
@@ -56,7 +56,7 @@ ColorModel& ColorModel::operator = (const ColorModel &rclM)
         return *this;
 
     delete [] _pclColors;
-    _pclColors = 0;
+    _pclColors = nullptr;
 
     _usColors = rclM._usColors;
     if (_usColors == 0)

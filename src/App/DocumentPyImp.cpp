@@ -54,12 +54,12 @@ std::string DocumentPy::representation(void) const
 PyObject*  DocumentPy::save(PyObject * args)
 {
     if (!PyArg_ParseTuple(args, ""))     // convert args: Python->C
-        return NULL;                    // NULL triggers exception
+        return nullptr;                    // NULL triggers exception
 
     PY_TRY {
         if (!getDocumentPtr()->save()) {
             PyErr_SetString(PyExc_ValueError, "Object attribute 'FileName' is not set");
-            return NULL;
+            return nullptr;
         }
     } PY_CATCH;
 
@@ -67,7 +67,7 @@ PyObject*  DocumentPy::save(PyObject * args)
     Base::FileInfo fi(filename);
     if (!fi.isReadable()) {
         PyErr_Format(PyExc_IOError, "No such file or directory: '%s'", filename);
-        return NULL;
+        return nullptr;
     }
 
     Py_Return;
@@ -77,7 +77,7 @@ PyObject*  DocumentPy::saveAs(PyObject * args)
 {
     char* fn;
     if (!PyArg_ParseTuple(args, "et", "utf-8", &fn))
-        return NULL;
+        return nullptr;
 
     std::string utf8Name = fn;
     PyMem_Free(fn);
@@ -92,7 +92,7 @@ PyObject*  DocumentPy::saveCopy(PyObject * args)
 {
     char* fn;
     if (!PyArg_ParseTuple(args, "s", &fn))     // convert args: Python->C
-        return NULL;                    // NULL triggers exception
+        return nullptr;                    // NULL triggers exception
 
     PY_TRY {
         getDocumentPtr()->saveCopy(fn);
@@ -102,25 +102,25 @@ PyObject*  DocumentPy::saveCopy(PyObject * args)
 
 PyObject*  DocumentPy::load(PyObject * args)
 {
-    char* filename=0;
+    char* filename=nullptr;
     if (!PyArg_ParseTuple(args, "s", &filename))
-        return NULL;
+        return nullptr;
     if (!filename || *filename == '\0') {
         PyErr_Format(PyExc_ValueError, "Path is empty");
-        return NULL;
+        return nullptr;
     }
 
     getDocumentPtr()->FileName.setValue(filename);
     Base::FileInfo fi(filename);
     if (!fi.isReadable()) {
         PyErr_Format(PyExc_IOError, "No such file or directory: '%s'", filename);
-        return NULL;
+        return nullptr;
     }
     try {
         getDocumentPtr()->restore();
     } catch (...) {
         PyErr_Format(PyExc_IOError, "Reading from file '%s' failed", filename);
-        return NULL;
+        return nullptr;
     }
     Py_Return;
 }
@@ -128,22 +128,22 @@ PyObject*  DocumentPy::load(PyObject * args)
 PyObject*  DocumentPy::restore(PyObject * args)
 {
     if (!PyArg_ParseTuple(args, ""))     // convert args: Python->C
-        return NULL;                    // NULL triggers exception
+        return nullptr;                    // NULL triggers exception
     const char* filename = getDocumentPtr()->FileName.getValue();
     if (!filename || *filename == '\0') {
         PyErr_Format(PyExc_ValueError, "Object attribute 'FileName' is not set");
-        return NULL;
+        return nullptr;
     }
     Base::FileInfo fi(filename);
     if (!fi.isReadable()) {
         PyErr_Format(PyExc_IOError, "No such file or directory: '%s'", filename);
-        return NULL;
+        return nullptr;
     }
     try {
         getDocumentPtr()->restore();
     } catch (...) {
         PyErr_Format(PyExc_IOError, "Reading from file '%s' failed", filename);
-        return NULL;
+        return nullptr;
     }
     Py_Return;
 }
@@ -152,7 +152,7 @@ PyObject*  DocumentPy::mergeProject(PyObject * args)
 {
     char* filename;
     if (!PyArg_ParseTuple(args, "s", &filename))     // convert args: Python->C
-        return NULL;                             // NULL triggers exception
+        return nullptr;                             // NULL triggers exception
 
     PY_TRY {
         Base::FileInfo fi(filename);
@@ -166,9 +166,9 @@ PyObject*  DocumentPy::mergeProject(PyObject * args)
 
 PyObject*  DocumentPy::exportGraphviz(PyObject * args)
 {
-    char* fn=0;
+    char* fn=nullptr;
     if (!PyArg_ParseTuple(args, "|s",&fn))     // convert args: Python->C
-        return NULL;                    // NULL triggers exception
+        return nullptr;                    // NULL triggers exception
     if (fn) {
         Base::FileInfo fi(fn);
         Base::ofstream str(fi);
@@ -185,16 +185,16 @@ PyObject*  DocumentPy::exportGraphviz(PyObject * args)
 
 PyObject*  DocumentPy::addObject(PyObject *args, PyObject *kwd)
 {
-    char *sType,*sName=0,*sViewType=0;
-    PyObject* obj=0;
-    PyObject* view=0;
+    char *sType,*sName=nullptr,*sViewType=nullptr;
+    PyObject* obj=nullptr;
+    PyObject* view=nullptr;
     PyObject *attach=Py_False;
-    static char *kwlist[] = {"type","name","objProxy","viewProxy","attach","viewType",NULL};
+    static char *kwlist[] = {"type","name","objProxy","viewProxy","attach","viewType",nullptr};
     if (!PyArg_ParseTupleAndKeywords(args,kwd,"s|sOOOs",
                 kwlist, &sType,&sName,&obj,&view,&attach,&sViewType))
-        return NULL;
+        return nullptr;
 
-    DocumentObject *pcFtr = 0;
+    DocumentObject *pcFtr = nullptr;
 
     if (!obj || !PyObject_IsTrue(attach)) {
         pcFtr = getDocumentPtr()->addObject(sType,sName,true,sViewType);
@@ -271,7 +271,7 @@ PyObject*  DocumentPy::removeObject(PyObject *args)
 {
     char *sName;
     if (!PyArg_ParseTuple(args, "s",&sName))     // convert args: Python->C
-        return NULL;                             // NULL triggers exception
+        return nullptr;                             // NULL triggers exception
 
 
     DocumentObject *pcFtr = getDocumentPtr()->getObject(sName);
@@ -290,7 +290,7 @@ PyObject*  DocumentPy::copyObject(PyObject *args)
 {
     PyObject *obj, *rec=Py_False, *retAll=Py_False;
     if (!PyArg_ParseTuple(args, "O|OO",&obj,&rec,&retAll))
-        return NULL;    // NULL triggers exception
+        return nullptr;    // NULL triggers exception
 
     std::vector<App::DocumentObject*> objs;
     bool single = false;
@@ -299,7 +299,7 @@ PyObject*  DocumentPy::copyObject(PyObject *args)
         for (Py_ssize_t i=0;i<seq.size();++i) {
             if (!PyObject_TypeCheck(seq[i].ptr(),&DocumentObjectPy::Type)) {
                 PyErr_SetString(PyExc_TypeError, "Expect element in sequence to be of type document object");
-                return 0;
+                return nullptr;
             }
             objs.push_back(static_cast<DocumentObjectPy*>(seq[i].ptr())->getDocumentObjectPtr());
         }
@@ -307,7 +307,7 @@ PyObject*  DocumentPy::copyObject(PyObject *args)
     else if (!PyObject_TypeCheck(obj,&DocumentObjectPy::Type)) {
         PyErr_SetString(PyExc_TypeError,
             "Expect first argument to be either a document object or sequence of document objects");
-        return 0;
+        return nullptr;
     }
     else {
         objs.push_back(static_cast<DocumentObjectPy*>(obj)->getDocumentObjectPtr());
@@ -330,7 +330,7 @@ PyObject*  DocumentPy::importLinks(PyObject *args)
 {
     PyObject *obj = Py_None;
     if (!PyArg_ParseTuple(args, "|O",&obj))
-        return NULL;    // NULL triggers exception
+        return nullptr;    // NULL triggers exception
 
     std::vector<App::DocumentObject*> objs;
     if (PySequence_Check(obj)) {
@@ -338,7 +338,7 @@ PyObject*  DocumentPy::importLinks(PyObject *args)
         for (Py_ssize_t i=0;i<seq.size();++i) {
             if (!PyObject_TypeCheck(seq[i].ptr(),&DocumentObjectPy::Type)) {
                 PyErr_SetString(PyExc_TypeError, "Expect element in sequence to be of type document object");
-                return 0;
+                return nullptr;
             }
             objs.push_back(static_cast<DocumentObjectPy*>(seq[i].ptr())->getDocumentObjectPtr());
         }
@@ -349,7 +349,7 @@ PyObject*  DocumentPy::importLinks(PyObject *args)
     else if (!PyObject_TypeCheck(obj,&DocumentObjectPy::Type)) {
         PyErr_SetString(PyExc_TypeError,
             "Expect first argument to be either a document object or sequence of document objects");
-        return 0;
+        return nullptr;
     }
     else {
         objs.push_back(static_cast<DocumentObjectPy*>(obj)->getDocumentObjectPtr());
@@ -372,7 +372,7 @@ PyObject*  DocumentPy::moveObject(PyObject *args)
 {
     PyObject *obj, *rec=Py_False;
     if (!PyArg_ParseTuple(args, "O!|O!",&(DocumentObjectPy::Type),&obj,&PyBool_Type,&rec))
-        return NULL;    // NULL triggers exception
+        return nullptr;    // NULL triggers exception
 
     DocumentObjectPy* docObj = static_cast<DocumentObjectPy*>(obj);
     DocumentObject* move = getDocumentPtr()->moveObject(docObj->getDocumentObjectPtr(), PyObject_IsTrue(rec) ? true : false);
@@ -387,9 +387,9 @@ PyObject*  DocumentPy::moveObject(PyObject *args)
 
 PyObject*  DocumentPy::openTransaction(PyObject *args)
 {
-    PyObject *value = 0;
+    PyObject *value = nullptr;
     if (!PyArg_ParseTuple(args, "|O",&value))
-        return NULL;    // NULL triggers exception
+        return nullptr;    // NULL triggers exception
     std::string cmd;
 
 
@@ -401,7 +401,7 @@ PyObject*  DocumentPy::openTransaction(PyObject *args)
     }
     else {
         PyErr_SetString(PyExc_TypeError, "string or unicode expected");
-        return NULL;
+        return nullptr;
     }
 
     getDocumentPtr()->openTransaction(cmd.c_str());
@@ -411,7 +411,7 @@ PyObject*  DocumentPy::openTransaction(PyObject *args)
 PyObject*  DocumentPy::abortTransaction(PyObject * args)
 {
     if (!PyArg_ParseTuple(args, ""))     // convert args: Python->C
-        return NULL;                    // NULL triggers exception
+        return nullptr;                    // NULL triggers exception
     getDocumentPtr()->abortTransaction();
     Py_Return;
 }
@@ -419,7 +419,7 @@ PyObject*  DocumentPy::abortTransaction(PyObject * args)
 PyObject*  DocumentPy::commitTransaction(PyObject * args)
 {
     if (!PyArg_ParseTuple(args, ""))     // convert args: Python->C
-        return NULL;                    // NULL triggers exception
+        return nullptr;                    // NULL triggers exception
     getDocumentPtr()->commitTransaction();
     Py_Return;
 }
@@ -431,7 +431,7 @@ Py::Boolean DocumentPy::getHasPendingTransaction() const {
 PyObject*  DocumentPy::undo(PyObject * args)
 {
     if (!PyArg_ParseTuple(args, ""))     // convert args: Python->C
-        return NULL;                    // NULL triggers exception
+        return nullptr;                    // NULL triggers exception
     if (getDocumentPtr()->getAvailableUndos())
         getDocumentPtr()->undo();
     Py_Return;
@@ -440,7 +440,7 @@ PyObject*  DocumentPy::undo(PyObject * args)
 PyObject*  DocumentPy::redo(PyObject * args)
 {
     if (!PyArg_ParseTuple(args, ""))     // convert args: Python->C
-        return NULL;                    // NULL triggers exception
+        return nullptr;                    // NULL triggers exception
     if (getDocumentPtr()->getAvailableRedos())
         getDocumentPtr()->redo();
     Py_Return;
@@ -449,7 +449,7 @@ PyObject*  DocumentPy::redo(PyObject * args)
 PyObject*  DocumentPy::clearUndos(PyObject * args)
 {
     if (!PyArg_ParseTuple(args, ""))     // convert args: Python->C
-        return NULL;                    // NULL triggers exception
+        return nullptr;                    // NULL triggers exception
     getDocumentPtr()->clearUndos();
     Py_Return;
 }
@@ -485,7 +485,7 @@ PyObject*  DocumentPy::recompute(PyObject * args)
         if (PyObject_IsTrue(checkCycle))
             options = Document::DepNoCycle;
 
-        int objectCount = getDocumentPtr()->recompute(objs, PyObject_IsTrue(force), 0, options);
+        int objectCount = getDocumentPtr()->recompute(objs, PyObject_IsTrue(force), nullptr, options);
 
         // Document::recompute() hides possibly raised Python exceptions by its features
         // So, check if an error is set and return null if yes
@@ -500,10 +500,10 @@ PyObject*  DocumentPy::recompute(PyObject * args)
 PyObject*  DocumentPy::getObject(PyObject *args)
 {
     long id = -1;
-    char *sName = 0;
+    char *sName = nullptr;
     if (!PyArg_ParseTuple(args, "s",&sName))  {   // convert args: Python->C
         if (!PyArg_ParseTuple(args, "l", &id))
-            return NULL;                             // NULL triggers exception
+            return nullptr;                             // NULL triggers exception
     }
 
     DocumentObject *pcFtr = sName?getDocumentPtr()->getObject(sName):getDocumentPtr()->getObjectByID(id);
@@ -517,7 +517,7 @@ PyObject*  DocumentPy::getObjectsByLabel(PyObject *args)
 {
     char *sName;
     if (!PyArg_ParseTuple(args, "s",&sName))     // convert args: Python->C
-        return NULL;                             // NULL triggers exception
+        return nullptr;                             // NULL triggers exception
 
     Py::List list;
     std::string name = sName;
@@ -556,7 +556,7 @@ PyObject*  DocumentPy::findObjects(PyObject *args, PyObject *kwds)
     }
     catch (const boost::regex_error& e) {
         PyErr_SetString(PyExc_RuntimeError, e.what());
-        return 0;
+        return nullptr;
     }
 
     Py_ssize_t index=0;
@@ -577,7 +577,7 @@ Py::Object DocumentPy::getActiveObject(void) const
 PyObject*  DocumentPy::supportedTypes(PyObject *args)
 {
     if (!PyArg_ParseTuple(args, ""))     // convert args: Python->C
-        return NULL;                    // NULL triggers exception
+        return nullptr;                    // NULL triggers exception
 
     std::vector<Base::Type> ary;
     Base::Type::getAllDerivedFrom(App::DocumentObject::getClassTypeId(), ary);
@@ -697,7 +697,7 @@ PyObject* DocumentPy::getTempFileName(PyObject *args)
 {
     PyObject *value;
     if (!PyArg_ParseTuple(args, "O",&value))
-        return NULL;    // NULL triggers exception
+        return nullptr;    // NULL triggers exception
 
     std::string string;
     if (PyUnicode_Check(value)) {
@@ -715,7 +715,7 @@ PyObject* DocumentPy::getTempFileName(PyObject *args)
     // delete the created file, we need only the name...
     fileName.deleteFile();
 
-    PyObject *p = PyUnicode_DecodeUTF8(fileName.filePath().c_str(),fileName.filePath().size(),0);
+    PyObject *p = PyUnicode_DecodeUTF8(fileName.filePath().c_str(),fileName.filePath().size(),nullptr);
     if (!p) {
         throw Base::UnicodeError("UTF8 conversion failure at PropertyString::getPyObject()");
     }
@@ -730,16 +730,16 @@ PyObject *DocumentPy::getCustomAttributes(const char* attr) const
     // wise it wouldn't be possible to address this attribute any more.
     // The object must then be addressed by the getObject() method directly.
     App::Property* prop = getPropertyContainerPtr()->getPropertyByName(attr);
-    if (prop) return 0;
-    if (this->ob_type->tp_dict == NULL) {
+    if (prop) return nullptr;
+    if (this->ob_type->tp_dict == nullptr) {
         if (PyType_Ready(this->ob_type) < 0)
-            return 0;
+            return nullptr;
     }
     PyObject* item = PyDict_GetItemString(this->ob_type->tp_dict, attr);
-    if (item) return 0;
+    if (item) return nullptr;
     // search for an object with this name
     DocumentObject* obj = getDocumentPtr()->getObject(attr);
-    return (obj ? obj->getPyObject() : 0);
+    return (obj ? obj->getPyObject() : nullptr);
 }
 
 int DocumentPy::setCustomAttributes(const char* attr, PyObject *)
@@ -751,7 +751,7 @@ int DocumentPy::setCustomAttributes(const char* attr, PyObject *)
     // The object must then be addressed by the getObject() method directly.
     App::Property* prop = getPropertyContainerPtr()->getPropertyByName(attr);
     if (prop) return 0;
-    if (this->ob_type->tp_dict == NULL) {
+    if (this->ob_type->tp_dict == nullptr) {
         if (PyType_Ready(this->ob_type) < 0)
             return 0;
     }
@@ -776,14 +776,14 @@ PyObject* DocumentPy::getLinksTo(PyObject *args)
     int options = 0;
     short count = 0;
     if (!PyArg_ParseTuple(args, "|Oih", &pyobj,&options, &count))
-        return NULL;
+        return nullptr;
 
     PY_TRY {
-        DocumentObject *obj = 0;
+        DocumentObject *obj = nullptr;
         if (pyobj!=Py_None) {
             if (!PyObject_TypeCheck(pyobj,&DocumentObjectPy::Type)) {
                 PyErr_SetString(PyExc_TypeError, "Expect the first argument of type document object");
-                return 0;
+                return nullptr;
             }
             obj = static_cast<DocumentObjectPy*>(pyobj)->getDocumentObjectPtr();
         }
@@ -822,7 +822,7 @@ Py::List DocumentPy::getOutList(void) const
 PyObject *DocumentPy::getDependentDocuments(PyObject *args) {
     PyObject *sort = Py_True;
     if (!PyArg_ParseTuple(args, "|O", &sort))
-        return 0;
+        return nullptr;
     PY_TRY {
         auto docs = getDocumentPtr()->getDependentDocuments(PyObject_IsTrue(sort));
         Py::List ret;

@@ -84,7 +84,7 @@ class AppExport PropertyQuantityConstraint : public PropertyQuantity
     TYPESYSTEM_HEADER();
 
 public:
-    PropertyQuantityConstraint(void):_ConstStruct(0){}
+    PropertyQuantityConstraint(void):_ConstStruct(nullptr){}
     virtual ~PropertyQuantityConstraint(){}
 
     /// Constraint methods

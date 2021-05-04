@@ -136,7 +136,7 @@ void ComplexGeoDataPy::setTag(Py::Int tag) {
 
 PyObject *ComplexGeoDataPy::getCustomAttributes(const char* /*attr*/) const
 {
-    return 0;
+    return nullptr;
 }
 
 int ComplexGeoDataPy::setCustomAttributes(const char* /*attr*/, PyObject* /*obj*/)

@@ -283,7 +283,7 @@ public:
     bool extensionIsDerivedFrom(const Base::Type type) const {return getExtensionTypeId().isDerivedFrom(type);}
 protected:
     static void initExtensionSubclass(Base::Type &toInit,const char* ClassName, const char *ParentName,
-                                      Base::Type::instantiationMethod method=0);
+                                      Base::Type::instantiationMethod method=nullptr);
     //@}
 
     virtual void extensionOnChanged(const Property* p) {(void)(p);}

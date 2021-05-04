@@ -85,7 +85,7 @@ public:
     PropertyFileIncluded(void);
     virtual ~PropertyFileIncluded();
 
-    void setValue(const char* sFile, const char* sName=0);
+    void setValue(const char* sFile, const char* sName=nullptr);
     const char* getValue(void) const;
 
     virtual const char* getEditorName(void) const

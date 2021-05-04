@@ -50,7 +50,7 @@ TYPESYSTEM_SOURCE_ABSTRACT(App::Property , Base::Persistence)
 
 // Here is the implementation! Description should take place in the header file!
 Property::Property()
-  :father(0), myName(0)
+  :father(nullptr), myName(nullptr)
 {
 
 }
@@ -232,7 +232,7 @@ Property *Property::Copy(void) const
 {
     // have to be reimplemented by a subclass!
     assert(0);
-    return 0;
+    return nullptr;
 }
 
 void Property::Paste(const Property& /*from*/)

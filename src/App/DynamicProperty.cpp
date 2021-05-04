@@ -77,7 +77,7 @@ Property *DynamicProperty::getDynamicPropertyByName(const char* name) const
     auto it = index.find(name);
     if (it != index.end())
         return it->property;
-    return 0;
+    return nullptr;
 }
 
 std::vector<std::string> DynamicProperty::getDynamicPropertyNames() const
@@ -116,7 +116,7 @@ const char* DynamicProperty::getPropertyGroup(const Property* prop) const
     auto it = index.find(const_cast<Property*>(prop));
     if(it!=index.end())
         return it->group.c_str();
-    return 0;
+    return nullptr;
 }
 
 const char* DynamicProperty::getPropertyGroup(const char *name) const
@@ -125,7 +125,7 @@ const char* DynamicProperty::getPropertyGroup(const char *name) const
     auto it = index.find(name);
     if (it != index.end())
         return it->group.c_str();
-    return 0;
+    return nullptr;
 }
 
 const char* DynamicProperty::getPropertyDocumentation(const Property* prop) const
@@ -134,7 +134,7 @@ const char* DynamicProperty::getPropertyDocumentation(const Property* prop) cons
     auto it = index.find(const_cast<Property*>(prop));
     if(it!=index.end())
         return it->doc.c_str();
-    return 0;
+    return nullptr;
 }
 
 const char* DynamicProperty::getPropertyDocumentation(const char *name) const
@@ -143,7 +143,7 @@ const char* DynamicProperty::getPropertyDocumentation(const char *name) const
     auto it = index.find(name);
     if (it != index.end())
         return it->doc.c_str();
-    return 0;
+    return nullptr;
 }
 
 Property* DynamicProperty::addDynamicProperty(PropertyContainer &pc, const char* type,
@@ -151,7 +151,7 @@ Property* DynamicProperty::addDynamicProperty(PropertyContainer &pc, const char*
 {
     Base::BaseClass* base = static_cast<Base::BaseClass*>(Base::Type::createInstanceByName(type,true));
     if (!base)
-        return 0;
+        return nullptr;
     if (!base->getTypeId().isDerivedFrom(Property::getClassTypeId())) {
         delete base;
         std::stringstream str;
@@ -265,11 +265,11 @@ Property *DynamicProperty::restore(PropertyContainer &pc,
         const char *PropName, const char *TypeName, Base::XMLReader &reader)
 {
     if (!reader.hasAttribute("group"))
-        return 0;
+        return nullptr;
 
     short attribute = 0;
     bool readonly = false, hidden = false;
-    const char *group=0, *doc=0, *attr=0, *ro=0, *hide=0;
+    const char *group=nullptr, *doc=nullptr, *attr=nullptr, *ro=nullptr, *hide=nullptr;
     group = reader.getAttribute("group");
     if (reader.hasAttribute("doc"))
         doc = reader.getAttribute("doc");
@@ -303,5 +303,5 @@ const char *DynamicProperty::getPropertyName(const Property *prop) const
     auto it = index.find(const_cast<Property*>(prop));
     if(it != index.end())
         return it->getName();
-    return 0;
+    return nullptr;
 }

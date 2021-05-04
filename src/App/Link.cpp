@@ -61,7 +61,7 @@ LinkBaseExtension::LinkBaseExtension(void)
     EXTENSION_ADD_PROPERTY_TYPE(_ChildCache, (), " Link",
             PropertyType(Prop_Hidden|Prop_NoPersist|Prop_ReadOnly),0);
     _ChildCache.setScope(LinkScope::Global);
-    props.resize(PropMax,0);
+    props.resize(PropMax,nullptr);
 }
 
 LinkBaseExtension::~LinkBaseExtension()
@@ -97,14 +97,14 @@ const LinkBaseExtension::PropInfoMap &LinkBaseExtension::getPropertyInfoMap() co
 Property *LinkBaseExtension::getProperty(int idx) {
     if(idx>=0 && idx<(int)props.size())
         return props[idx];
-    return 0;
+    return nullptr;
 }
 
 Property *LinkBaseExtension::getProperty(const char *name) {
     const auto &info = getPropertyInfoMap();
     auto it = info.find(name);
     if(it == info.end())
-        return 0;
+        return nullptr;
     return getProperty(it->second.index);
 }
 
@@ -115,7 +115,7 @@ void LinkBaseExtension::setProperty(int idx, Property *prop) {
 
     if(props[idx]) {
         props[idx]->setStatus(Property::LockDynamic,false);
-        props[idx] = 0;
+        props[idx] = nullptr;
     }
     if(!prop)
         return;
@@ -132,7 +132,7 @@ void LinkBaseExtension::setProperty(int idx, Property *prop) {
 
     switch(idx) {
     case PropLinkMode: {
-        static const char *linkModeEnums[] = {"None","Auto Delete","Auto Link","Auto Unlink",0};
+        static const char *linkModeEnums[] = {"None","Auto Delete","Auto Link","Auto Unlink",nullptr};
         auto propLinkMode = freecad_dynamic_cast<PropertyEnumeration>(prop);
         if(!propLinkMode->getEnums())
             propLinkMode->setEnums(linkModeEnums);
@@ -157,7 +157,7 @@ void LinkBaseExtension::setProperty(int idx, Property *prop) {
         // LinkedObject property), because it is for holding array elements.
         if(getElementListProperty())
             getElementListProperty()->setStatus(
-                    Property::Immutable,getLinkedObjectProperty()!=0);
+                    Property::Immutable,getLinkedObjectProperty()!=nullptr);
         break;
     case PropVisibilityList:
         getVisibilityListProperty()->setStatus(Property::Immutable,true);
@@ -191,7 +191,7 @@ App::DocumentObjectExecReturn *LinkBaseExtension::extensionExecute(void) {
             return new App::DocumentObjectExecReturn("Link broken");
 
         App::DocumentObject *container = getContainer();
-        PropertyPythonObject *proxy = 0;
+        PropertyPythonObject *proxy = nullptr;
         if(getLinkExecuteProperty()
                 && !boost::iequals(getLinkExecuteValue(), "none")
                 && (!myOwner || !container->getDocument()->getObjectByID(myOwner)))
@@ -252,10 +252,10 @@ short LinkBaseExtension::extensionMustExecute(void) {
 
 App::GroupExtension *LinkBaseExtension::linkedPlainGroup() const {
     if(mySubElements.size() && mySubElements[0].size())
-        return 0;
+        return nullptr;
     auto linked = getTrueLinkedObject(false);
     if(!linked)
-        return 0;
+        return nullptr;
     return linked->getExtensionByType<GroupExtension>(true,false);
 }
 
@@ -279,7 +279,7 @@ App::PropertyBool *LinkBaseExtension::_getShowElementProperty() const {
     auto prop = getShowElementProperty();
     if(prop && !linkedPlainGroup())
         return const_cast<App::PropertyBool*>(prop);
-    return 0;
+    return nullptr;
 }
 
 bool LinkBaseExtension::_getShowElementValue() const {
@@ -293,7 +293,7 @@ App::PropertyInteger *LinkBaseExtension::_getElementCountProperty() const {
     auto prop = getElementCountProperty();
     if(prop && !linkedPlainGroup())
         return const_cast<App::PropertyInteger*>(prop);
-    return 0;
+    return nullptr;
 }
 
 int LinkBaseExtension::_getElementCountValue() const {
@@ -378,7 +378,7 @@ DocumentObject *LinkBaseExtension::getLink(int depth) const{
     GetApplication().checkLinkDepth(depth,false);
     if(getLinkedObjectProperty())
         return getLinkedObjectValue();
-    return 0;
+    return nullptr;
 }
 
 int LinkBaseExtension::getArrayIndex(const char *subname, const char **psubname) {
@@ -410,7 +410,7 @@ int LinkBaseExtension::getElementIndex(const char *subname, const char **psubnam
 
     if(isdigit(subname[0])) {
         // If the name start with digits, treat as index reference
-        idx = getArrayIndex(subname,0);
+        idx = getArrayIndex(subname,nullptr);
         if(idx<0) return -1;
         if(_getElementCountProperty()) {
             if(idx>=_getElementCountValue())
@@ -428,7 +428,7 @@ int LinkBaseExtension::getElementIndex(const char *subname, const char **psubnam
             if(boost::algorithm::starts_with(name,ownerName.c_str())) {
                 for(const char *txt=dot-1;txt>=name+ownerName.size();--txt) {
                     if(*txt == 'i') {
-                        idx = getArrayIndex(txt+1,0);
+                        idx = getArrayIndex(txt+1,nullptr);
                         if(idx<0 || idx>=_getElementCountValue())
                             idx = -1;
                         break;
@@ -583,7 +583,7 @@ bool LinkBaseExtension::extensionGetSubObjects(std::vector<std::string> &ret, in
 bool LinkBaseExtension::extensionGetSubObject(DocumentObject *&ret, const char *subname,
         PyObject **pyObj, Base::Matrix4D *mat, bool transform, int depth) const
 {
-    ret = 0;
+    ret = nullptr;
     auto obj = getContainer();
     if(!subname || !subname[0]) {
         ret = const_cast<DocumentObject*>(obj);
@@ -617,9 +617,9 @@ bool LinkBaseExtension::extensionGetSubObject(DocumentObject *&ret, const char *
             }
             auto linked = getTrueLinkedObject(false,&_mat,depth);
             if(linked && linked!=obj) {
-                linked->getSubObject(mySubElements.empty()?0:mySubElements.front().c_str(),
+                linked->getSubObject(mySubElements.empty()?nullptr:mySubElements.front().c_str(),
                                      pyObj,&_mat,false,depth+1);
-                checkGeoElementMap(obj,linked,pyObj,0);
+                checkGeoElementMap(obj,linked,pyObj,nullptr);
             }
         }
         return true;
@@ -665,7 +665,7 @@ bool LinkBaseExtension::extensionGetSubObject(DocumentObject *&ret, const char *
 
     Base::Matrix4D matNext;
     if(mat) matNext = *mat;
-    ret = linked->getSubObject(subname,pyObj,mat?&matNext:0,false,depth+1);
+    ret = linked->getSubObject(subname,pyObj,mat?&matNext:nullptr,false,depth+1);
     std::string postfix;
     if(ret) {
         // do not resolve the link if we are the last referenced object
@@ -689,7 +689,7 @@ bool LinkBaseExtension::extensionGetSubObject(DocumentObject *&ret, const char *
                 *mat = matNext;
         }
     }
-    checkGeoElementMap(obj,linked,pyObj,postfix.size()?postfix.c_str():0);
+    checkGeoElementMap(obj,linked,pyObj,postfix.size()?postfix.c_str():nullptr);
     return true;
 }
 
@@ -719,21 +719,21 @@ DocumentObject *LinkBaseExtension::getTrueLinkedObject(
     if(noElement && extensionIsDerivedFrom(LinkElement::getExtensionClassTypeId())
             && !static_cast<const LinkElement*>(this)->canDelete())
     {
-        return 0;
+        return nullptr;
     }
 
     auto ret = getLink(depth);
-    if(!ret) return 0;
+    if(!ret) return nullptr;
     bool transform = linkTransform();
     const char *subname = getSubName();
     if(subname || (mat && transform)) {
-        ret = ret->getSubObject(subname,0,mat,transform,depth+1);
+        ret = ret->getSubObject(subname,nullptr,mat,transform,depth+1);
         transform = false;
     }
     if(ret && recurse)
         ret = ret->getLinkedObject(recurse,mat,transform,depth+1);
     if(ret && !ret->getNameInDocument())
-        return 0;
+        return nullptr;
     return ret;
 }
 
@@ -742,7 +742,7 @@ bool LinkBaseExtension::extensionGetLinkedObject(DocumentObject *&ret,
 {
     if(mat)
         *mat *= getTransform(transform);
-    ret = 0;
+    ret = nullptr;
     if(!_getElementCountValue())
         ret = getTrueLinkedObject(recurse,mat,depth);
     if(!ret)
@@ -915,7 +915,7 @@ void LinkBaseExtension::update(App::DocumentObject *parent, const Property *prop
             getElementListProperty()->setValues(std::vector<App::DocumentObject*>());
 
             if(getPlacementListProperty()) {
-                getPlacementListProperty()->setStatus(Property::User3,getScaleListProperty()!=0);
+                getPlacementListProperty()->setStatus(Property::User3,getScaleListProperty()!=nullptr);
                 getPlacementListProperty()->setValue(placements);
                 getPlacementListProperty()->setStatus(Property::User3,false);
             }
@@ -1144,13 +1144,13 @@ void LinkBaseExtension::syncElementList() {
 
         element->myOwner = ownerID;
 
-        element->LinkTransform.setStatus(Property::Hidden,transform!=0);
-        element->LinkTransform.setStatus(Property::Immutable,transform!=0);
+        element->LinkTransform.setStatus(Property::Hidden,transform!=nullptr);
+        element->LinkTransform.setStatus(Property::Immutable,transform!=nullptr);
         if(transform && element->LinkTransform.getValue()!=transform->getValue())
             element->LinkTransform.setValue(transform->getValue());
 
-        element->LinkedObject.setStatus(Property::Hidden,link!=0);
-        element->LinkedObject.setStatus(Property::Immutable,link!=0);
+        element->LinkedObject.setStatus(Property::Hidden,link!=nullptr);
+        element->LinkedObject.setStatus(Property::Immutable,link!=nullptr);
         if(xlink) {
             if(element->LinkedObject.getValue()!=xlink->getValue() ||
                element->LinkedObject.getSubValues()!=xlink->getSubValues())
@@ -1256,7 +1256,7 @@ void LinkBaseExtension::setLink(int index, DocumentObject *obj,
         if(linkProp || !getElementListProperty())
             LINK_THROW(Base::RuntimeError,"Cannot set link element");
 
-        DocumentObject *old = 0;
+        DocumentObject *old = nullptr;
         const auto &elements = getElementListProperty()->getValues();
         if(!obj) {
             if(index>=(int)elements.size())
@@ -1386,7 +1386,7 @@ const char *LinkBaseExtension::flattenSubname(const char *subname) const {
         const char *sub = subname;
         std::string s;
         for(const char* dot=strchr(sub,'.');dot;sub=dot+1,dot=strchr(sub,'.')) {
-            DocumentObject *obj = 0;
+            DocumentObject *obj = nullptr;
             s.clear();
             s.append(sub,dot+1);
             extensionGetSubObject(obj,s.c_str());
@@ -1403,7 +1403,7 @@ void LinkBaseExtension::expandSubname(std::string &subname) const {
     if(!_ChildCache.getSize())
         return;
 
-    const char *pos = 0;
+    const char *pos = nullptr;
     int index = getElementIndex(subname.c_str(),&pos);
     if(index<0)
         return;
@@ -1438,7 +1438,7 @@ Property *LinkBaseExtension::extensionGetPropertyByName(const char* name) const 
                 return linked->getPropertyByName(name);
         }
     }
-    return 0;
+    return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

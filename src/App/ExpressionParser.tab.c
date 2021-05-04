@@ -1781,19 +1781,19 @@ yyreduce:
 
   case 57:
 #line 178 "ExpressionParser.y" /* yacc.c:1646  */
-    { (yyval.component) = Expression::createComponent((yyvsp[-2].expr),0,0,true); }
+    { (yyval.component) = Expression::createComponent((yyvsp[-2].expr),nullptr,nullptr,true); }
 #line 1786 "ExpressionParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
 #line 179 "ExpressionParser.y" /* yacc.c:1646  */
-    { (yyval.component) = Expression::createComponent(0,(yyvsp[-1].expr)); }
+    { (yyval.component) = Expression::createComponent(nullptr,(yyvsp[-1].expr)); }
 #line 1792 "ExpressionParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
 #line 180 "ExpressionParser.y" /* yacc.c:1646  */
-    { (yyval.component) = Expression::createComponent(0,0,(yyvsp[-1].expr)); }
+    { (yyval.component) = Expression::createComponent(nullptr,nullptr,(yyvsp[-1].expr)); }
 #line 1798 "ExpressionParser.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1805,13 +1805,13 @@ yyreduce:
 
   case 61:
 #line 182 "ExpressionParser.y" /* yacc.c:1646  */
-    { (yyval.component) = Expression::createComponent((yyvsp[-4].expr),0,(yyvsp[-1].expr)); }
+    { (yyval.component) = Expression::createComponent((yyvsp[-4].expr),nullptr,(yyvsp[-1].expr)); }
 #line 1810 "ExpressionParser.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
 #line 183 "ExpressionParser.y" /* yacc.c:1646  */
-    { (yyval.component) = Expression::createComponent(0,(yyvsp[-3].expr),(yyvsp[-1].expr)); }
+    { (yyval.component) = Expression::createComponent(nullptr,(yyvsp[-3].expr),(yyvsp[-1].expr)); }
 #line 1816 "ExpressionParser.tab.c" /* yacc.c:1646  */
     break;
 

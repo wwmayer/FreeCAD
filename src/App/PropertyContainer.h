@@ -114,7 +114,7 @@ struct AppExport PropertyData
 
   const PropertyData*     parentPropertyData;
 
-  void addProperty(OffsetBase offsetBase,const char* PropName, Property *Prop, const char* PropertyGroup= 0, PropertyType = Prop_None, const char* PropertyDocu= 0 );
+  void addProperty(OffsetBase offsetBase,const char* PropName, Property *Prop, const char* PropertyGroup= nullptr, PropertyType = Prop_None, const char* PropertyDocu= nullptr );
 
   const PropertySpec *findProperty(OffsetBase offsetBase,const char* PropName) const;
   const PropertySpec *findProperty(OffsetBase offsetBase,const Property* prop) const;
@@ -131,7 +131,7 @@ struct AppExport PropertyData
   void getPropertyMap(OffsetBase offsetBase,std::map<std::string,Property*> &Map) const;
   void getPropertyList(OffsetBase offsetBase,std::vector<Property*> &List) const;
 
-  void merge(PropertyData *other=0) const;
+  void merge(PropertyData *other=nullptr) const;
   void split(PropertyData *other);
 };
 
@@ -192,8 +192,8 @@ public:
   /// check if the named property is hidden
   bool isHidden(const char *name) const;
   virtual App::Property* addDynamicProperty(
-        const char* type, const char* name=0,
-        const char* group=0, const char* doc=0,
+        const char* type, const char* name=nullptr,
+        const char* group=nullptr, const char* doc=nullptr,
         short attr=0, bool ro=false, bool hidden=false);
 
   DynamicProperty::PropData getDynamicPropertyData(const Property* prop) const {

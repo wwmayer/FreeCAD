@@ -216,7 +216,7 @@ std::string DocumentObjectT::getDocumentPython() const
 
 DocumentObject* DocumentObjectT::getObject() const
 {
-    DocumentObject* obj = 0;
+    DocumentObject* obj = nullptr;
     Document* doc = getDocument();
     if (doc) {
         obj = doc->getObject(object.c_str());
@@ -258,7 +258,7 @@ Property *DocumentObjectT::getProperty() const {
     auto obj = getObject();
     if(obj)
         return obj->getPropertyByName(property.c_str());
-    return 0;
+    return nullptr;
 }
 
 // -----------------------------------------------------------------------------
@@ -377,7 +377,7 @@ App::DocumentObject *SubObjectT::getSubObject() const {
     auto obj = getObject();
     if(obj)
         return obj->getSubObject(subname.c_str());
-    return 0;
+    return nullptr;
 }
 
 std::string SubObjectT::getSubObjectPython(bool force) const {

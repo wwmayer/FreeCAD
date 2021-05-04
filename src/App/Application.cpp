@@ -172,8 +172,8 @@ using namespace std;
 
 ParameterManager *App::Application::_pcSysParamMngr;
 ParameterManager *App::Application::_pcUserParamMngr;
-Base::ConsoleObserverStd  *Application::_pConsoleObserverStd =0;
-Base::ConsoleObserverFile *Application::_pConsoleObserverFile =0;
+Base::ConsoleObserverStd  *Application::_pConsoleObserverStd =nullptr;
+Base::ConsoleObserverFile *Application::_pConsoleObserverFile =nullptr;
 
 AppExport std::map<std::string,std::string> Application::mConfig;
 BaseExport extern PyObject* Base::BaseExceptionFreeCADError;
@@ -209,7 +209,7 @@ init_freecad_base_module(void)
     static struct PyModuleDef BaseModuleDef = {
         PyModuleDef_HEAD_INIT,
         "__FreeCADBase__", Base_doc, -1,
-        NULL, NULL, NULL, NULL, NULL
+        nullptr, nullptr, nullptr, nullptr, nullptr
     };
     return PyModule_Create(&BaseModuleDef);
 }
@@ -224,13 +224,13 @@ init_freecad_module(void)
         PyModuleDef_HEAD_INIT,
         "FreeCAD", FreeCAD_doc, -1,
         __AppMethods,
-        NULL, NULL, NULL, NULL
+        nullptr, nullptr, nullptr, nullptr
     };
     return PyModule_Create(&FreeCADModuleDef);
 }
 
 Application::Application(std::map<std::string,std::string> &mConfig)
-  : _mConfig(mConfig), _pActiveDoc(0), _isRestoring(false),_allowPartial(false)
+  : _mConfig(mConfig), _pActiveDoc(nullptr), _isRestoring(false),_allowPartial(false)
   , _isClosingAll(false), _objCount(-1), _activeTransactionID(0)
   , _activeTransactionGuard(0), _activeTransactionTmpName(false)
 {
@@ -256,7 +256,7 @@ Application::Application(std::map<std::string,std::string> &mConfig)
         PyModuleDef_HEAD_INIT,
         "__FreeCADConsole__", Console_doc, -1,
         ConsoleSingleton::Methods,
-        NULL, NULL, NULL, NULL
+        nullptr, nullptr, nullptr, nullptr
     };
     PyObject* pConsoleModule = PyModule_Create(&ConsoleModuleDef);
 
@@ -283,11 +283,11 @@ Application::Application(std::map<std::string,std::string> &mConfig)
         PyDict_SetItemString(modules, "__FreeCADBase__", pBaseModule);
     }
 
-    Base::BaseExceptionFreeCADError = PyErr_NewException("Base.FreeCADError", PyExc_RuntimeError, NULL);
+    Base::BaseExceptionFreeCADError = PyErr_NewException("Base.FreeCADError", PyExc_RuntimeError, nullptr);
     Py_INCREF(Base::BaseExceptionFreeCADError);
     PyModule_AddObject(pBaseModule, "FreeCADError", Base::BaseExceptionFreeCADError);
 
-    Base::BaseExceptionFreeCADAbort = PyErr_NewException("Base.FreeCADAbort", PyExc_BaseException, NULL);
+    Base::BaseExceptionFreeCADAbort = PyErr_NewException("Base.FreeCADAbort", PyExc_BaseException, nullptr);
     Py_INCREF(Base::BaseExceptionFreeCADAbort);
     PyModule_AddObject(pBaseModule, "FreeCADAbort", Base::BaseExceptionFreeCADAbort);
 
@@ -336,7 +336,7 @@ Application::Application(std::map<std::string,std::string> &mConfig)
         PyModuleDef_HEAD_INIT,
         "Units", "The Unit API", -1,
         Base::UnitsApi::Methods,
-        NULL, NULL, NULL, NULL
+        nullptr, nullptr, nullptr, nullptr
     };
     PyObject* pUnitsModule = PyModule_Create(&UnitsModuleDef);
     Base::Interpreter().addType(&Base::QuantityPy  ::Type,pUnitsModule,"Quantity");
@@ -484,7 +484,7 @@ bool Application::closeDocument(const char* name)
 
     // For exception-safety use a smart pointer
     if (_pActiveDoc == pos->second)
-        setActiveDocument((Document*)0);
+        setActiveDocument((Document*)nullptr);
     std::unique_ptr<Document> delDoc (pos->second);
     DocMap.erase( pos );
 
@@ -511,7 +511,7 @@ App::Document* Application::getDocument(const char *Name) const
     pos = DocMap.find(Name);
 
     if (pos == DocMap.end())
-        return 0;
+        return nullptr;
 
     return pos->second;
 }
@@ -522,7 +522,7 @@ const char * Application::getDocumentName(const App::Document* doc) const
         if (it->second == doc)
             return it->first.c_str();
 
-    return 0;
+    return nullptr;
 }
 
 std::vector<App::Document*> Application::getDocuments() const
@@ -617,10 +617,10 @@ public:
 
 Document* Application::openDocument(const char * FileName, bool createView) {
     std::vector<std::string> filenames(1,FileName);
-    auto docs = openDocuments(filenames,0,0,0,createView);
+    auto docs = openDocuments(filenames,nullptr,nullptr,nullptr,createView);
     if(docs.size())
         return docs.front();
-    return 0;
+    return nullptr;
 }
 
 std::vector<Document*> Application::openDocuments(const std::vector<std::string> &filenames,
@@ -671,7 +671,7 @@ std::vector<Document*> Application::openDocuments(const std::vector<std::string>
             DocTiming timing;
 
             const char *path = name;
-            const char *label = 0;
+            const char *label = nullptr;
             if (isMainDoc) {
                 if (paths && paths->size()>count)
                     path = (*paths)[count].c_str();
@@ -834,16 +834,16 @@ Document* Application::openDocumentPrivate(const char * FileName,
                     }
                 }
                 if(!reopen)
-                    return 0;
+                    return nullptr;
             }
             auto &names = _pendingDocMap[FileName];
             names.clear();
             _pendingDocsReopen.push_back(FileName);
-            return 0;
+            return nullptr;
         }
 
         if(!isMainDoc)
-            return 0;
+            return nullptr;
 
         return it->second;
     }
@@ -914,7 +914,7 @@ void Application::setActiveDocument(const char *Name)
 {
     // If no active document is set, resort to a default.
     if (*Name == '\0') {
-        _pActiveDoc = 0;
+        _pActiveDoc = nullptr;
         return;
     }
 
@@ -1078,7 +1078,7 @@ ParameterManager * Application::GetParameterSet(const char* sName) const
     if ( it != mpcPramManager.end() )
         return it->second;
     else
-        return 0;
+        return nullptr;
 }
 
 const std::map<std::string,ParameterManager *> & Application::GetParameterSetList(void) const
@@ -1474,7 +1474,7 @@ void Application::slotChangePropertyEditor(const App::Document &doc, const App::
 //**************************************************************************
 // Init, Destruct and singleton
 
-Application * Application::_pcSingleton = 0;
+Application * Application::_pcSingleton = nullptr;
 
 int Application::_argc;
 char ** Application::_argv;
@@ -1524,8 +1524,8 @@ void Application::destruct(void)
     }
 
     paramMgr.clear();
-    _pcSysParamMngr = 0;
-    _pcUserParamMngr = 0;
+    _pcSysParamMngr = nullptr;
+    _pcUserParamMngr = nullptr;
 
 #ifdef FC_DEBUG
     // Do this only in debug mode for memory leak checkers
@@ -1552,12 +1552,12 @@ void Application::destructObserver(void)
     if ( _pConsoleObserverFile ) {
         Console().DetachObserver(_pConsoleObserverFile);
         delete _pConsoleObserverFile;
-        _pConsoleObserverFile = 0;
+        _pConsoleObserverFile = nullptr;
     }
     if ( _pConsoleObserverStd ) {
         Console().DetachObserver(_pConsoleObserverStd);
         delete _pConsoleObserverStd;
-        _pConsoleObserverStd = 0;
+        _pConsoleObserverStd = nullptr;
     }
 }
 
@@ -1598,12 +1598,12 @@ void printBacktrace(size_t skip=0)
     char **symbols = backtrace_symbols(callstack, nFrames);
 
     for (size_t i = skip; i < nFrames; i++) {
-        char *demangled = NULL;
+        char *demangled = nullptr;
         int status = -1;
         Dl_info info;
         if (dladdr(callstack[i], &info) && info.dli_sname && info.dli_fname) {
             if (info.dli_sname[0] == '_') {
-                demangled = abi::__cxa_demangle(info.dli_sname, NULL, 0, &status);
+                demangled = abi::__cxa_demangle(info.dli_sname, nullptr, nullptr, &status);
             }
         }
 
@@ -1997,7 +1997,7 @@ void Application::initConfig(int argc, char ** argv)
         Console().AttachObserver(_pConsoleObserverFile);
     }
     else
-        _pConsoleObserverFile = 0;
+        _pConsoleObserverFile = nullptr;
 
     // Banner ===========================================================
     if (!(mConfig["RunMode"] == "Cmd")) {
@@ -2130,7 +2130,7 @@ void Application::initApplication(void)
     }
 
     // seed randomizer
-    srand(time(0));
+    srand(time(nullptr));
 }
 
 std::list<std::string> Application::getCmdLineFiles()
@@ -2773,7 +2773,7 @@ void Application::ExtractUserPath()
 #if defined(FC_OS_LINUX) || defined(FC_OS_CYGWIN) || defined(FC_OS_BSD)
     // Default paths for the user specific stuff
     struct passwd *pwd = getpwuid(getuid());
-    if (pwd == NULL)
+    if (pwd == nullptr)
         throw Base::RuntimeError("Getting HOME path from system failed!");
     mConfig["UserHomePath"] = pwd->pw_dir;
     if (!userHome.isEmpty()) {

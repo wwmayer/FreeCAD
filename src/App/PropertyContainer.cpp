@@ -55,7 +55,7 @@ TYPESYSTEM_SOURCE(App::PropertyContainer,Base::Persistence)
 // Here's the implementation! Description should take place in the header file!
 PropertyContainer::PropertyContainer()
 {
-    propertyData.parentPropertyData = 0;
+    propertyData.parentPropertyData = nullptr;
 }
 
 PropertyContainer::~PropertyContainer()
@@ -472,7 +472,7 @@ const PropertyData::PropertySpec *PropertyData::findProperty(OffsetBase offsetBa
     auto it = index.find(PropName);
     if(it != index.end())
         return &(*it);
-    return 0;
+    return nullptr;
 }
 
 const PropertyData::PropertySpec *PropertyData::findProperty(OffsetBase offsetBase,const Property* prop) const
@@ -480,14 +480,14 @@ const PropertyData::PropertySpec *PropertyData::findProperty(OffsetBase offsetBa
     merge();
     int diff = offsetBase.getOffsetTo(prop);
     if(diff<0)
-        return 0;
+        return nullptr;
 
     auto &index = propertyData.get<2>();
     auto it = index.find(diff);
     if(it!=index.end())
         return &(*it);
   
-    return 0;
+    return nullptr;
 }
 
 const char* PropertyData::getName(OffsetBase offsetBase,const Property* prop) const
@@ -497,7 +497,7 @@ const char* PropertyData::getName(OffsetBase offsetBase,const Property* prop) co
   if(Spec)
     return Spec->Name;
   else
-    return 0;
+    return nullptr;
 }
 
 short PropertyData::getType(OffsetBase offsetBase,const Property* prop) const
@@ -527,7 +527,7 @@ const char* PropertyData::getGroup(OffsetBase offsetBase,const Property* prop) c
   if(Spec)
     return Spec->Group;
   else
-    return 0;
+    return nullptr;
 }
 
 const char* PropertyData::getGroup(OffsetBase offsetBase,const char* name) const
@@ -537,7 +537,7 @@ const char* PropertyData::getGroup(OffsetBase offsetBase,const char* name) const
   if(Spec)
     return Spec->Group;
   else
-    return 0;
+    return nullptr;
 }
 
 const char* PropertyData::getDocumentation(OffsetBase offsetBase,const Property* prop) const
@@ -547,7 +547,7 @@ const char* PropertyData::getDocumentation(OffsetBase offsetBase,const Property*
   if(Spec)
     return Spec->Docu;
   else
-    return 0;
+    return nullptr;
 }
 
 const char* PropertyData::getDocumentation(OffsetBase offsetBase,const char* name) const
@@ -557,7 +557,7 @@ const char* PropertyData::getDocumentation(OffsetBase offsetBase,const char* nam
   if(Spec)
     return Spec->Docu;
   else
-    return 0;
+    return nullptr;
 }
 
 Property *PropertyData::getPropertyByName(OffsetBase offsetBase,const char* name) const
@@ -567,7 +567,7 @@ Property *PropertyData::getPropertyByName(OffsetBase offsetBase,const char* name
   if(Spec)
     return (Property *) (Spec->Offset + offsetBase.getOffset());
   else
-    return 0;
+    return nullptr;
 }
 
 void PropertyData::getPropertyMap(OffsetBase offsetBase,std::map<std::string,Property*> &Map) const

@@ -49,7 +49,7 @@ class Document;
 typedef std::unique_ptr<Expression> ExpressionPtr;
 
 AppExport bool isAnyEqual(const App::any &v1, const App::any &v2);
-AppExport Base::Quantity anyToQuantity(const App::any &value, const char *errmsg = 0);
+AppExport Base::Quantity anyToQuantity(const App::any &value, const char *errmsg = nullptr);
 
 typedef std::map<App::DocumentObject*, std::map<std::string, std::vector<ObjectIdentifier> > > ExpressionDeps;
 class AppExport ExpressionVisitor {
@@ -59,7 +59,7 @@ public:
     virtual void aboutToChange() {}
     virtual int changed() const { return 0;}
     virtual void reset() {}
-    virtual App::PropertyLinkBase* getPropertyLink() {return 0;}
+    virtual App::PropertyLinkBase* getPropertyLink() {return nullptr;}
 
 protected:
     void getIdentifiers(Expression &e, std::set<App::ObjectIdentifier> &); 
@@ -141,8 +141,8 @@ public:
     void getDeps(ExpressionDeps &deps) const;
     ExpressionDeps getDeps() const;
 
-    std::set<App::DocumentObject*> getDepObjects(std::vector<std::string> *labels=0) const;
-    void getDepObjects(std::set<App::DocumentObject*> &, std::vector<std::string> *labels=0) const;
+    std::set<App::DocumentObject*> getDepObjects(std::vector<std::string> *labels=nullptr) const;
+    void getDepObjects(std::set<App::DocumentObject*> &, std::vector<std::string> *labels=nullptr) const;
 
     ExpressionPtr importSubNames(const std::map<std::string,std::string> &nameMap) const;
 
@@ -171,8 +171,8 @@ public:
     typedef std::vector<Component*> ComponentList;
 
     static Component *createComponent(const std::string &n);
-    static Component *createComponent(Expression *e1, Expression *e2=0,
-            Expression *e3=0, bool isRange=false);
+    static Component *createComponent(Expression *e1, Expression *e2=nullptr,
+            Expression *e3=nullptr, bool isRange=false);
 
     bool hasComponent() const {return !components.empty();}
 
