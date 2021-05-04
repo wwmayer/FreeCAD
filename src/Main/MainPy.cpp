@@ -113,7 +113,7 @@ PyMOD_INIT_FUNC(FreeCAD)
     if ((ret == 0) || (!info.dli_fname)) {
         free(argv);
         PyErr_SetString(PyExc_ImportError, "Cannot get path of the FreeCAD module!");
-        return 0;
+        return nullptr;
     }
 
     argv[0] = (char*)malloc(PATH_MAX);
@@ -183,7 +183,7 @@ PyMOD_INIT_FUNC(FreeCAD)
 #else
 # error "Implement: Retrieve the path of the module for your platform."
 #endif
-    argv[argc] = 0;
+    argv[argc] = nullptr;
 
     try {
         // Inits the Application
