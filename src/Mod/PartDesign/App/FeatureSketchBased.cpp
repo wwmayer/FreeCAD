@@ -89,10 +89,10 @@ PROPERTY_SOURCE(PartDesign::ProfileBased, PartDesign::FeatureAddSub)
 
 ProfileBased::ProfileBased()
 {
-    ADD_PROPERTY_TYPE(Profile,(0),"SketchBased", App::Prop_None, "Reference to sketch");
+    ADD_PROPERTY_TYPE(Profile,(nullptr),"SketchBased", App::Prop_None, "Reference to sketch");
     ADD_PROPERTY_TYPE(Midplane,(0),"SketchBased", App::Prop_None, "Extrude symmetric to sketch face");
     ADD_PROPERTY_TYPE(Reversed, (0),"SketchBased", App::Prop_None, "Reverse extrusion direction");
-    ADD_PROPERTY_TYPE(UpToFace,(0),"SketchBased",(App::PropertyType)(App::Prop_None),"Face where feature will end");
+    ADD_PROPERTY_TYPE(UpToFace,(nullptr),"SketchBased",(App::PropertyType)(App::Prop_None),"Face where feature will end");
     ADD_PROPERTY_TYPE(AllowMultiFace,(false),"SketchBased", App::Prop_None, "Allow multiple faces in profile");
 }
 
@@ -210,7 +210,7 @@ TopoDS_Shape ProfileBased::getVerifiedFace(bool silent) const {
                     if(!shape.hasSubShape(TopAbs_WIRE))
                         shape = shape.makEWires();
                     if(shape.hasSubShape(TopAbs_WIRE))
-                        shape = shape.makEFace(0,"Part::FaceMakerCheese");
+                        shape = shape.makEFace(nullptr,"Part::FaceMakerCheese");
                     else
                         err = "Cannot make face from profile";
                 } else if (faces.size() == 1)
@@ -398,7 +398,7 @@ void ProfileBased::onChanged(const App::Property* prop)
 {
     if (prop == &Profile) {
         // if attached to a sketch then mark it as read-only
-        this->Placement.setStatus(App::Property::ReadOnly, Profile.getValue() != 0);
+        this->Placement.setStatus(App::Property::ReadOnly, Profile.getValue() != nullptr);
     }
 
     FeatureAddSub::onChanged(prop);
@@ -411,7 +411,7 @@ void ProfileBased::getUpToFaceFromLinkSub(TopoDS_Face& upToFace,
     App::DocumentObject* ref = refFace.getValue();
     std::vector<std::string> subStrings = refFace.getSubValues();
 
-    if (ref == NULL)
+    if (ref == nullptr)
         throw Base::ValueError("SketchBased: Up to face: No face selected");
 
     if (ref->getTypeId().isDerivedFrom(App::Plane::getClassTypeId())) {
@@ -1044,7 +1044,7 @@ void ProfileBased::getAxis(const App::DocumentObject *pcReferenceAxis, const std
                           Base::Vector3d& base, Base::Vector3d& dir, bool checkPerpendicular)
 {
     dir = Base::Vector3d(0,0,0); // If unchanged signals that no valid axis was found
-    if (pcReferenceAxis == NULL)
+    if (pcReferenceAxis == nullptr)
         return;
 
     App::DocumentObject* profile = Profile.getValue();
@@ -1223,11 +1223,11 @@ void ProfileBased::Restore(Base::XMLReader& reader) {
 
                 if (name != "") {
                     App::Document* document = getDocument();
-                    DocumentObject* object = document ? document->getObject(name.c_str()) : 0;
+                    DocumentObject* object = document ? document->getObject(name.c_str()) : nullptr;
                     Profile.setValue(object, vec);
                 }
                 else {
-                    Profile.setValue(0, vec);
+                    Profile.setValue(nullptr, vec);
                 }
             }
             else if (prop && strcmp(prop->getTypeId().getName(), TypeName) == 0)

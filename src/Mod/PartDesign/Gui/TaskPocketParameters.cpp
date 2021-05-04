@@ -83,7 +83,7 @@ TaskPocketParameters::TaskPocketParameters(ViewProviderPocket *PocketView,QWidge
     std::vector<std::string> subStrings = pcPocket->UpToFace.getSubValues();
     std::string upToFace;
     int faceId = -1;
-    if ((obj != NULL) && !subStrings.empty()) {
+    if ((obj != nullptr) && !subStrings.empty()) {
         upToFace = subStrings.front();
         if (upToFace.substr(0,4) == "Face")
             faceId = std::atoi(&upToFace[4]);

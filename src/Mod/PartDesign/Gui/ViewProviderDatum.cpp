@@ -106,7 +106,7 @@ ViewProviderDatum::ViewProviderDatum()
     Transparency.setValue (col.a * 100);
 
     oldWb = "";
-    oldTip = NULL;
+    oldTip = nullptr;
 }
 
 ViewProviderDatum::~ViewProviderDatum()
@@ -223,7 +223,7 @@ SoDetail* ViewProviderDatum::getDetail(const char* subelement) const
         return detail;
    }
 
-    return NULL;
+    return nullptr;
 }
 
 bool ViewProviderDatum::isSelectable(void) const
@@ -250,7 +250,7 @@ bool ViewProviderDatum::setEdit(int ModNum)
         Gui::TaskView::TaskDialog *dlg = Gui::Control().activeDialog();
         TaskDlgDatumParameters *datumDlg = qobject_cast<TaskDlgDatumParameters *>(dlg);
         if (datumDlg && datumDlg->getViewProvider() != this)
-            datumDlg = 0; // another datum feature left open its task panel
+            datumDlg = nullptr; // another datum feature left open its task panel
         if (dlg && !datumDlg) {
             QMessageBox msgBox;
             msgBox.setText(QObject::tr("A dialog is already open in the task panel"));
@@ -298,7 +298,7 @@ bool ViewProviderDatum::doubleClicked(void)
     PartDesign::Body* activeBody = activeView->getActiveObject<PartDesign::Body*>(PDBODYKEY);
     auto datumBody = PartDesignGui::getBodyFor(pcDatum, false);
 
-    if (datumBody != NULL) {
+    if (datumBody != nullptr) {
         if (datumBody != activeBody) {
             Gui::Command::doCommand(Gui::Command::Gui,
                     "Gui.ActiveDocument.ActiveView.setActiveObject('%s',%s)",

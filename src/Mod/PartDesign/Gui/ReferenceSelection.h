@@ -49,7 +49,7 @@ public:
     ReferenceSelection(const App::DocumentObject* support_,
                        const bool edge_, const bool plane_, const bool planar_,
                        const bool point_ = false, bool whole_ = false, bool circle_ = false)
-        : Gui::SelectionFilterGate((Gui::SelectionFilter*)0),
+        : Gui::SelectionFilterGate((Gui::SelectionFilter*)nullptr),
           support(support_), edge(edge_), plane(plane_),
           planar(planar_), point(point_), allowOtherBody(true), whole(whole_), circle(circle_)
     {
@@ -67,7 +67,7 @@ class NoDependentsSelection : public Gui::SelectionFilterGate
 
 public:
     NoDependentsSelection(const App::DocumentObject* support_)
-        : Gui::SelectionFilterGate((Gui::SelectionFilter*)0), support(support_)
+        : Gui::SelectionFilterGate((Gui::SelectionFilter*)nullptr), support(support_)
     {
     }
     /**
@@ -83,7 +83,7 @@ class CombineSelectionFilterGates: public Gui::SelectionFilterGate
 
 public:
     CombineSelectionFilterGates(std::unique_ptr<Gui::SelectionFilterGate> &filter1_, std::unique_ptr<Gui::SelectionFilterGate> &filter2_)
-        : Gui::SelectionFilterGate((Gui::SelectionFilter*)0), filter1(std::move(filter1_)), filter2(std::move(filter2_))
+        : Gui::SelectionFilterGate((Gui::SelectionFilter*)nullptr), filter1(std::move(filter1_)), filter2(std::move(filter2_))
     {
     }
     bool allow(App::Document* pDoc, App::DocumentObject* pObj, const char* sSubName) override;

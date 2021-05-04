@@ -54,7 +54,7 @@ PROPERTY_SOURCE(PartDesign::Loft, PartDesign::ProfileBased)
 
 Loft::Loft()
 {
-    ADD_PROPERTY_TYPE(Sections,(0),"Loft",App::Prop_None,"List of sections");
+    ADD_PROPERTY_TYPE(Sections,(nullptr),"Loft",App::Prop_None,"List of sections");
     Sections.setSize(0);
     ADD_PROPERTY_TYPE(Ruled,(false),"Loft",App::Prop_None,"Create ruled surface");
     ADD_PROPERTY_TYPE(Closed,(false),"Loft",App::Prop_None,"Close Last to First Profile");

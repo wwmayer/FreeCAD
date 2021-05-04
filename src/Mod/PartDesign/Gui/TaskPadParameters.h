@@ -49,7 +49,7 @@ class TaskPadParameters : public TaskSketchBasedParameters
     Q_OBJECT
 
 public:
-    TaskPadParameters(ViewProviderPad *PadView, QWidget *parent = 0, bool newObj=false);
+    TaskPadParameters(ViewProviderPad *PadView, QWidget *parent = nullptr, bool newObj=false);
     ~TaskPadParameters();
 
     virtual void saveHistory() override;

@@ -60,7 +60,7 @@ PROPERTY_SOURCE(PartDesign::ShapeBinder, Part::Feature)
 
 ShapeBinder::ShapeBinder()
 {
-    ADD_PROPERTY_TYPE(Support, (0,0), "",(App::PropertyType)(App::Prop_None),"Support of the geometry");
+    ADD_PROPERTY_TYPE(Support, (nullptr,nullptr), "",(App::PropertyType)(App::Prop_None),"Support of the geometry");
     Placement.setStatus(App::Property::Hidden, true);
     ADD_PROPERTY_TYPE(TraceSupport, (false), "", App::Prop_None, "Trace support shape");
 }
@@ -278,7 +278,7 @@ PROPERTY_SOURCE(PartDesign::SubShapeBinder, Part::Feature)
 
 SubShapeBinder::SubShapeBinder()
 {
-    ADD_PROPERTY_TYPE(Support, (0), "",(App::PropertyType)(App::Prop_None), "Support of the geometry");
+    ADD_PROPERTY_TYPE(Support, (nullptr), "",(App::PropertyType)(App::Prop_None), "Support of the geometry");
     Support.setStatus(App::Property::ReadOnly, true);
     ADD_PROPERTY_TYPE(Fuse, (false), "Base",App::Prop_None,"Fuse solids from bound shapes");
     ADD_PROPERTY_TYPE(MakeFace, (true), "Base",App::Prop_None,"Create face using wires from bound shapes");
@@ -292,10 +292,10 @@ SubShapeBinder::SubShapeBinder()
             "Enable partial loading, which disables auto loading of external document for"
             "external bound object.");
     PartialLoad.setStatus(App::Property::PartialTrigger,true);
-    static const char *BindModeEnum[] = {"Synchronized", "Frozen", "Detached", 0};
+    static const char *BindModeEnum[] = {"Synchronized", "Frozen", "Detached", nullptr};
     BindMode.setEnums(BindModeEnum);
 
-    ADD_PROPERTY_TYPE(Context, (0), "Base", App::Prop_Hidden,
+    ADD_PROPERTY_TYPE(Context, (nullptr), "Base", App::Prop_Hidden,
             "Stores the context of this binder. It is used for monitoring and auto updating\n"
             "the relative placement of the bound shape");
     Context.setScope(App::LinkScope::Hidden);
@@ -359,7 +359,7 @@ void SubShapeBinder::update(SubShapeBinder::UpdateOption options) {
     auto parent = Context.getValue();
     std::string parentSub  = Context.getSubName(false);
     if(!Relative.getValue()) 
-        parent = 0;
+        parent = nullptr;
     else {
         if(parent && parent->getSubObject(parentSub.c_str())==this) {
             auto parents = parent->getParents();
@@ -368,7 +368,7 @@ void SubShapeBinder::update(SubShapeBinder::UpdateOption options) {
                 parentSub = parents.begin()->second + parentSub;
             }
         } else
-            parent = 0;
+            parent = nullptr;
         if(!parent && parentSub.empty()) {
             auto parents = getParents();
             if(parents.size()) {
@@ -399,7 +399,7 @@ void SubShapeBinder::update(SubShapeBinder::UpdateOption options) {
                 }
             }else{
                 Base::Matrix4D mat;
-                auto sobj = resolved->getSubObject(resolvedSub.c_str(),0,&mat);
+                auto sobj = resolved->getSubObject(resolvedSub.c_str(),nullptr,&mat);
                 if(sobj!=this) {
                     FC_LOG(getFullName() << " skip invalid parent " << resolved->getFullName() 
                             << '.' << resolvedSub);
@@ -545,7 +545,7 @@ void SubShapeBinder::update(SubShapeBinder::UpdateOption options) {
         {
             result = result.makEWires();
             try {
-                result = result.makEFace(0);
+                result = result.makEFace(nullptr);
             }catch(...){}
         }
 
@@ -567,7 +567,7 @@ void SubShapeBinder::update(SubShapeBinder::UpdateOption options) {
         if(!prop || !prop->isDerivedFrom(App::PropertyMatrix::getClassTypeId())) {
             if(prop)
                 removeDynamicProperty(name);
-            prop = addDynamicProperty("App::PropertyMatrix",name,"Cache",0,0,false,true);
+            prop = addDynamicProperty("App::PropertyMatrix",name,"Cache",nullptr,0,false,true);
         }
         caches.erase(name);
         static_cast<App::PropertyMatrix*>(prop)->setValue(v.second);
@@ -617,11 +617,11 @@ void SubShapeBinder::onChanged(const App::Property *prop) {
             if(Support.getSubListValues().size()) {
                 update(); 
                 if(BindMode.getValue() == 2)
-                    Support.setValue(0);
+                    Support.setValue(nullptr);
             }
         }else if(prop == &BindMode) {
            if(BindMode.getValue() == 2)
-               Support.setValue(0);
+               Support.setValue(nullptr);
            else if(BindMode.getValue() == 0)
                update();
            checkPropertyStatus();
@@ -646,7 +646,7 @@ void SubShapeBinder::setLinks(std::map<App::DocumentObject *, std::vector<std::s
 {
     if(values.empty()) {
         if(reset) {
-            Support.setValue(0);
+            Support.setValue(nullptr);
             Shape.setValue(Part::TopoShape());
         }
         return;

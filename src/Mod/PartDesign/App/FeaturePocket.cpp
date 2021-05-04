@@ -55,7 +55,7 @@ using namespace PartDesign;
 
 /* TRANSLATOR PartDesign::Pocket */
 
-const char* Pocket::TypeEnums[]= {"Length","ThroughAll","UpToFirst","UpToFace","TwoLengths",NULL};
+const char* Pocket::TypeEnums[]= {"Length","ThroughAll","UpToFirst","UpToFace","TwoLengths",nullptr};
 
 PROPERTY_SOURCE(PartDesign::Pocket, PartDesign::ProfileBased)
 
@@ -67,7 +67,7 @@ Pocket::Pocket()
     Type.setEnums(TypeEnums);
     ADD_PROPERTY_TYPE(Length,(100.0),"Pocket",App::Prop_None,"Pocket length");
     ADD_PROPERTY_TYPE(Length2,(100.0),"Pocket",App::Prop_None,"P");
-    ADD_PROPERTY_TYPE(UpToFace,(0),"Pocket",App::Prop_None,"Face where pocket will end");
+    ADD_PROPERTY_TYPE(UpToFace,(nullptr),"Pocket",App::Prop_None,"Face where pocket will end");
     ADD_PROPERTY_TYPE(Offset,(0.0),"Pocket",App::Prop_None,"Offset from face in which pocket will end");
     static const App::PropertyQuantityConstraint::Constraints signedLengthConstraint = {-DBL_MAX, DBL_MAX, 1.0};
     Offset.setConstraints ( &signedLengthConstraint );
@@ -94,7 +94,7 @@ App::DocumentObjectExecReturn *Pocket::execute(void)
     // Handle legacy features, these typically have Type set to 3 (previously NULL, now UpToFace),
     // empty FaceName (because it didn't exist) and a value for Length
     if (std::string(Type.getValueAsString()) == "UpToFace" &&
-        (UpToFace.getValue() == NULL && Length.getValue() > Precision::Confusion()))
+        (UpToFace.getValue() == nullptr && Length.getValue() > Precision::Confusion()))
         Type.setValue("Length");
 
     // Validate parameters
@@ -106,7 +106,7 @@ App::DocumentObjectExecReturn *Pocket::execute(void)
     if ((std::string(Type.getValueAsString()) == "TwoLengths") && (L < Precision::Confusion()))
         return new App::DocumentObjectExecReturn("Pocket: Second length of pocket too small");
 
-    Part::Feature* obj = 0;
+    Part::Feature* obj = nullptr;
     TopoDS_Shape profileshape;
     try {
         obj = getVerifiedObject();

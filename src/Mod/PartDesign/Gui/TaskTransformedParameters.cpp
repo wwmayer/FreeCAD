@@ -271,7 +271,7 @@ void TaskTransformedParameters::fillAxisCombo(ComboLinks &combolinks,
     }
 
     //add "Select reference"
-    combolinks.addLink(0,std::string(),tr("Select reference..."));
+    combolinks.addLink(nullptr,std::string(),tr("Select reference..."));
 }
 
 void TaskTransformedParameters::fillPlanesCombo(ComboLinks &combolinks,
@@ -307,7 +307,7 @@ void TaskTransformedParameters::fillPlanesCombo(ComboLinks &combolinks,
     }
 
     //add "Select reference"
-    combolinks.addLink(0,std::string(),tr("Select reference..."));
+    combolinks.addLink(nullptr,std::string(),tr("Select reference..."));
 }
 
 void TaskTransformedParameters::recomputeFeature() {
@@ -446,7 +446,7 @@ void TaskTransformedParameters::indexesMoved()
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 TaskDlgTransformedParameters::TaskDlgTransformedParameters(ViewProviderTransformed *TransformedView_)
-    : TaskDlgFeatureParameters(TransformedView_), parameter(0)
+    : TaskDlgFeatureParameters(TransformedView_), parameter(nullptr)
 {
     assert(vp);
     message = new TaskTransformedMessages(getTransformedView());
@@ -476,7 +476,7 @@ bool TaskDlgTransformedParameters::reject()
 
 
 ComboLinks::ComboLinks(QComboBox &combo)
-    : doc(0)
+    : doc(nullptr)
 {
     this->_combo = &combo;
     _combo->clear();
@@ -490,7 +490,7 @@ int ComboLinks::addLink(const App::PropertyLinkSub &lnk, QString itemText)
     this->linksInList.push_back(new App::PropertyLinkSub());
     App::PropertyLinkSub &newitem = *(linksInList[linksInList.size()-1]);
     newitem.Paste(lnk);
-    if (newitem.getValue() && this->doc == 0)
+    if (newitem.getValue() && this->doc == nullptr)
         this->doc = newitem.getValue()->getDocument();
     return linksInList.size()-1;
 }
@@ -503,7 +503,7 @@ int ComboLinks::addLink(App::DocumentObject *linkObj, std::string linkSubname, Q
     this->linksInList.push_back(new App::PropertyLinkSub());
     App::PropertyLinkSub &newitem = *(linksInList[linksInList.size()-1]);
     newitem.setValue(linkObj,std::vector<std::string>(1,linkSubname));
-    if (newitem.getValue() && this->doc == 0)
+    if (newitem.getValue() && this->doc == nullptr)
         this->doc = newitem.getValue()->getDocument();
     return linksInList.size()-1;
 }

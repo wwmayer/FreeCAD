@@ -60,13 +60,13 @@ using namespace PartDesign;
 
 namespace PartDesign {
 
-const char* Transformed::OverlapEnums[] = { "Detect", "Overlap mode", "Non-overlap mode", NULL};
+const char* Transformed::OverlapEnums[] = { "Detect", "Overlap mode", "Non-overlap mode", nullptr};
 
 PROPERTY_SOURCE(PartDesign::Transformed, PartDesign::Feature)
 
 Transformed::Transformed()
 {
-    ADD_PROPERTY(Originals,(0));
+    ADD_PROPERTY(Originals,(nullptr));
     Originals.setSize(0);
     Placement.setStatus(App::Property::ReadOnly, true);
 
@@ -97,7 +97,7 @@ Part::Feature* Transformed::getBaseObject(bool silent) const {
     const char* err = nullptr;
     const std::vector<App::DocumentObject*> & originals = Originals.getValues();
     // NOTE: may be here supposed to be last origin but in order to keep the old behaviour keep here first
-    App::DocumentObject* firstOriginal = originals.empty() ? NULL : originals.front();
+    App::DocumentObject* firstOriginal = originals.empty() ? nullptr : originals.front();
     if (firstOriginal) {
         if(firstOriginal->isDerivedFrom(Part::Feature::getClassTypeId())) {
             rv = static_cast<Part::Feature*>(firstOriginal);
@@ -122,7 +122,7 @@ App::DocumentObject* Transformed::getSketchObject() const
         return (static_cast<PartDesign::ProfileBased*>(originals.front()))->getVerifiedSketch(true);
     }
     else if (!originals.empty() && originals.front()->getTypeId().isDerivedFrom(PartDesign::FeatureAddSub::getClassTypeId())) {
-        return NULL;
+        return nullptr;
     }
     else if (this->getTypeId().isDerivedFrom(LinearPattern::getClassTypeId())) {
         // if Originals is empty then try the linear pattern's Direction property
@@ -140,7 +140,7 @@ App::DocumentObject* Transformed::getSketchObject() const
         return pattern->MirrorPlane.getValue();
     }
     else {
-        return 0;
+        return nullptr;
     }
 }
 

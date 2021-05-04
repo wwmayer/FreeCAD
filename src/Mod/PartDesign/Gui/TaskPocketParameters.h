@@ -49,7 +49,7 @@ class TaskPocketParameters : public TaskSketchBasedParameters
     Q_OBJECT
 
 public:
-    TaskPocketParameters(ViewProviderPocket *PocketView, QWidget *parent = 0, bool newObj=false);
+    TaskPocketParameters(ViewProviderPocket *PocketView, QWidget *parent = nullptr, bool newObj=false);
     ~TaskPocketParameters();
 
     virtual void saveHistory() override;

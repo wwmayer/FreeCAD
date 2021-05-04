@@ -132,7 +132,7 @@ bool ReferenceSelection::allow(App::Document* pDoc, App::DocumentObject* pObj, c
     }
 
     if (!allowOtherBody) {
-        if (support == NULL)
+        if (support == nullptr)
             return false;
         if (pObj != support)
             return false;
@@ -263,7 +263,7 @@ bool getReferencedSelection(const App::DocumentObject* thisObj, const Gui::Selec
 
 QString getRefStr(const App::DocumentObject* obj, const std::vector<std::string>& sub)
 {
-    if (obj == NULL)
+    if (obj == nullptr)
         return QString::fromLatin1("");
 
     if (PartDesign::Feature::isDatum(obj))
@@ -277,7 +277,7 @@ QString getRefStr(const App::DocumentObject* obj, const std::vector<std::string>
 
 std::string buildLinkSubPythonStr(const App::DocumentObject* obj, const std::vector<std::string>& subs)
 {
-    if ( obj == NULL)
+    if ( obj == nullptr)
         return "None";
 
     std::string result("[");
@@ -292,7 +292,7 @@ std::string buildLinkSubPythonStr(const App::DocumentObject* obj, const std::vec
 std::string buildLinkSingleSubPythonStr(const App::DocumentObject* obj,
         const std::vector<std::string>& subs)
 {
-    if (obj == NULL)
+    if (obj == nullptr)
         return "None";
 
     if (PartDesign::Feature::isDatum(obj))
@@ -310,7 +310,7 @@ std::string buildLinkListPythonStr(const std::vector<App::DocumentObject*> & obj
     std::string result("[");
 
     for (std::vector<App::DocumentObject*>::const_iterator o = objs.begin(); o != objs.end(); o++)
-        result += Gui::Command::getObjectCmd(*o,0,",");
+        result += Gui::Command::getObjectCmd(*o,nullptr,",");
     result += "]";
 
     return result;

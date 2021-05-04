@@ -48,7 +48,7 @@ std::string BodyPy::representation(void) const
 
 PyObject *BodyPy::getCustomAttributes(const char* /*attr*/) const
 {
-    return 0;
+    return nullptr;
 }
 
 int BodyPy::setCustomAttributes(const char* /*attr*/, PyObject* /*obj*/)
@@ -63,7 +63,7 @@ PyObject* BodyPy::insertObject(PyObject *args)
     PyObject* afterPy = Py_False;
     if (!PyArg_ParseTuple(args, "O!O|O!", &(App::DocumentObjectPy::Type), &featurePy,
                                           &targetPy, &PyBool_Type, &afterPy)) {
-        return 0;
+        return nullptr;
     }
 
     App::DocumentObject* feature = static_cast<App::DocumentObjectPy*>(featurePy)->getDocumentObjectPtr();
@@ -74,7 +74,7 @@ PyObject* BodyPy::insertObject(PyObject *args)
 
     if (!Body::isAllowed(feature)) {
         PyErr_SetString(PyExc_SystemError, "Only PartDesign features, datum features and sketches can be inserted into a Body");
-        return 0;
+        return nullptr;
     }
 
     bool after = PyObject_IsTrue(afterPy) ? true : false;
@@ -85,7 +85,7 @@ PyObject* BodyPy::insertObject(PyObject *args)
     }
     catch (Base::Exception& e) {
         PyErr_SetString(PyExc_SystemError, e.what());
-        return 0;
+        return nullptr;
     }
 
     Py_Return;

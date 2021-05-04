@@ -52,7 +52,7 @@ class TaskBoxPrimitives : public Gui::TaskView::TaskBox,
     Q_OBJECT
 
 public:
-    TaskBoxPrimitives(ViewProviderPrimitive* vp, QWidget* parent = 0);
+    TaskBoxPrimitives(ViewProviderPrimitive* vp, QWidget* parent = nullptr);
     ~TaskBoxPrimitives();
 
     bool setPrimitive(App::DocumentObject *);

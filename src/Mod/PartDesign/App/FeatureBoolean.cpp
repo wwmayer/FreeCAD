@@ -50,7 +50,7 @@ namespace PartDesign {
 
 PROPERTY_SOURCE_WITH_EXTENSIONS(PartDesign::Boolean, PartDesign::Feature)
 
-const char* Boolean::TypeEnums[]= {"Fuse","Cut","Common",NULL};
+const char* Boolean::TypeEnums[]= {"Fuse","Cut","Common",nullptr};
 
 Boolean::Boolean()
 {

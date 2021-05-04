@@ -226,7 +226,7 @@ void TaskHelixParameters::fillAxisCombo(bool forceRefill)
         }
 
         //add "Select reference"
-        addAxisToCombo(0,std::string(),tr("Select reference..."));
+        addAxisToCombo(nullptr,std::string(),tr("Select reference..."));
     }//endif forceRefill
 
     //add current link, if not in list
@@ -393,7 +393,7 @@ void TaskHelixParameters::onAxisChanged(int num)
         oldRefName = oldSubRefAxis.front();
 
     App::PropertyLinkSub &lnk = *(axesInList[num]);
-    if (lnk.getValue() == 0) {
+    if (lnk.getValue() == nullptr) {
         // enter reference selection mode
         TaskSketchBasedParameters::onSelectReference(true, true, false, true, true);
         return;
@@ -472,7 +472,7 @@ TaskHelixParameters::~TaskHelixParameters()
 {
     try {
         //hide the parts coordinate system axis for selection
-        PartDesign::Body * body = vp ? PartDesign::Body::findBodyOf(vp->getObject()) : 0;
+        PartDesign::Body * body = vp ? PartDesign::Body::findBodyOf(vp->getObject()) : nullptr;
         if (body) {
             App::Origin *origin = body->getOrigin();
             ViewProviderOrigin* vpOrigin;
@@ -500,7 +500,7 @@ void TaskHelixParameters::getReferenceAxis(App::DocumentObject*& obj, std::vecto
 
     int num = ui->axis->currentIndex();
     const App::PropertyLinkSub &lnk = *(axesInList[num]);
-    if (lnk.getValue() == 0) {
+    if (lnk.getValue() == nullptr) {
         throw Base::RuntimeError("Still in reference selection mode; reference wasn't selected yet");
     } else {
         PartDesign::ProfileBased* pcRevolution = static_cast<PartDesign::ProfileBased*>(vp->getObject());

@@ -67,7 +67,7 @@ const double PI = 3.14159265359;
 
 using namespace PartDesign;
 
-const char* Helix::ModeEnums[] = {"pitch-height-angle", "pitch-turns-angle", "height-turns-angle", "height-turns-growth", NULL};
+const char* Helix::ModeEnums[] = {"pitch-height-angle", "pitch-turns-angle", "height-turns-angle", "height-turns-growth", nullptr};
 
 PROPERTY_SOURCE(PartDesign::Helix, PartDesign::ProfileBased)
 
@@ -90,7 +90,7 @@ Helix::Helix()
     ADD_PROPERTY_TYPE(Angle, (0.0), "Helix", App::Prop_None, "Angle");
     ADD_PROPERTY_TYPE(Growth, (0.0), "Helix", App::Prop_None, "Growth");
     Angle.setConstraints(&floatAngle);
-    ADD_PROPERTY_TYPE(ReferenceAxis, (0), "Helix", App::Prop_None, "Reference axis of revolution");
+    ADD_PROPERTY_TYPE(ReferenceAxis, (nullptr), "Helix", App::Prop_None, "Reference axis of revolution");
     ADD_PROPERTY_TYPE(Mode, (long(0)), "Helix", App::Prop_None, "Helix input mode");
     ADD_PROPERTY_TYPE(Outside, (long(0)), "Helix", App::Prop_None, "Outside");
     ADD_PROPERTY_TYPE(HasBeenEdited, (long(0)), "Helix", App::Prop_None, "HasBeenEdited");

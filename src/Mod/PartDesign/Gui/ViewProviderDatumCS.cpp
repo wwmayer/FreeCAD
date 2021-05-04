@@ -85,7 +85,7 @@ ViewProviderDatumCoordinateSystem::ViewProviderDatumCoordinateSystem()
     autoZoom = new Gui::SoAutoZoomTranslation;
     autoZoom->ref();
 
-    labelSwitch = 0;
+    labelSwitch = nullptr;
 }
 
 ViewProviderDatumCoordinateSystem::~ViewProviderDatumCoordinateSystem()
@@ -268,6 +268,6 @@ SoDetail* ViewProviderDatumCoordinateSystem::getDetail(const char* subelement) c
          detail->setLineIndex(2);
          return detail;
     }
-    return NULL;
+    return nullptr;
 }
 
