@@ -2250,7 +2250,7 @@ PyObject *Geom2dTrimmedCurve::getPyObject(void)
     }
 
     PyErr_SetString(PyExc_RuntimeError, "Unknown curve type");
-    return 0;
+    return nullptr;
 }
 
 // ------------------------------------------------------------------

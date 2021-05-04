@@ -132,7 +132,7 @@ const char* AttachEngine::eMapModeStrings[]= {
     "OYZ",
     "OYX",
 
-    NULL};
+    nullptr};
 
 //this list must be in sync with eRefType enum.
 //These strings are used only by Py interface of Attacher. Strings for use in Gui are in Mod/Part/Gui/AttacherTexts.cpp
@@ -160,7 +160,7 @@ const char* AttachEngine::eRefTypeStrings[]= {
     "Object",
     "Solid",
     "Wire",
-    NULL
+    nullptr
 };
 
 

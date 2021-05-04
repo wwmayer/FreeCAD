@@ -63,7 +63,7 @@ namespace bp = boost::placeholders;
 PROPERTY_SOURCE(PartGui::ViewProviderSpline, PartGui::ViewProviderPartExt)
 
 ViewProviderSpline::ViewProviderSpline()
-    : pcControlPoints(0)
+    : pcControlPoints(nullptr)
 {
     sPixmap = "Part_Spline_Parametric";
     ADD_PROPERTY(ControlPoints,(false));

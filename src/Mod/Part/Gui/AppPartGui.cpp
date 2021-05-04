@@ -110,7 +110,7 @@ PyMOD_INIT_FUNC(PartGui)
 {
     if (!Gui::Application::Instance) {
         PyErr_SetString(PyExc_ImportError, "Cannot load Gui module in console application.");
-        PyMOD_Return(0);
+        PyMOD_Return(nullptr);
     }
 
     // load needed modules
@@ -119,7 +119,7 @@ PyMOD_INIT_FUNC(PartGui)
     }
     catch(const Base::Exception& e) {
         PyErr_SetString(PyExc_ImportError, e.what());
-        PyMOD_Return(0);
+        PyMOD_Return(nullptr);
     }
 
     PyObject* partGuiModule = PartGui::initModule();
@@ -137,7 +137,7 @@ PyMOD_INIT_FUNC(PartGui)
         "AttachEngineResources",
         "AttachEngineResources", -1,
         AttacherGui::AttacherGuiPy::Methods,
-        NULL, NULL, NULL, NULL
+        nullptr, nullptr, nullptr, nullptr
     };
     PyObject* pAttachEngineTextsModule = PyModule_Create(&pAttachEngineTextsModuleDef);
 

@@ -41,7 +41,7 @@ class FaceColors : public QWidget, public Gui::SelectionObserver
     Q_OBJECT
 
 public:
-    FaceColors(ViewProviderPartExt* vp, QWidget* parent = 0);
+    FaceColors(ViewProviderPartExt* vp, QWidget* parent = nullptr);
     ~FaceColors();
 
     void open();

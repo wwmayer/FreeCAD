@@ -174,13 +174,13 @@ void ViewProviderPartExt::getNormals(const TopoDS_Face&  theFace,
     const Poly_Array1OfTriangle& aTriangles = aPolyTri->Triangles();
     const TColgp_Array1OfPnt2d*  aNodesUV   = aPolyTri->HasUVNodes() && !aSurf.IsNull()
             ? &aPolyTri->UVNodes()
-            : NULL;
+            : nullptr;
     Standard_Integer aTri[3];
 
     for(Standard_Integer aNodeIter = aNodes.Lower(); aNodeIter <= aNodes.Upper(); ++aNodeIter)
     {
         // try to retrieve normal from real surface first, when UV coordinates are available
-        if(aNodesUV == NULL
+        if(aNodesUV == nullptr
                 || GeomLib::NormEstim(aSurf, aNodesUV->Value(aNodeIter), aTol, theNormals(aNodeIter)) > 1)
         {
             // compute flat normals
@@ -227,8 +227,8 @@ void ViewProviderPartExt::getNormals(const TopoDS_Face&  theFace,
 App::PropertyFloatConstraint::Constraints ViewProviderPartExt::sizeRange = {1.0,64.0,1.0};
 App::PropertyFloatConstraint::Constraints ViewProviderPartExt::tessRange = {0.01,100.0,0.01};
 App::PropertyQuantityConstraint::Constraints ViewProviderPartExt::angDeflectionRange = {1.0,180.0,0.05};
-const char* ViewProviderPartExt::LightingEnums[]= {"One side","Two side",NULL};
-const char* ViewProviderPartExt::DrawStyleEnums[]= {"Solid","Dashed","Dotted","Dashdot",NULL};
+const char* ViewProviderPartExt::LightingEnums[]= {"One side","Two side",nullptr};
+const char* ViewProviderPartExt::DrawStyleEnums[]= {"Solid","Dashed","Dotted","Dashdot",nullptr};
 
 ViewProviderPartExt::ViewProviderPartExt() 
 {
@@ -447,7 +447,7 @@ void ViewProviderPartExt::onChanged(const App::Property* prop)
             }
 
             App::PropertyContainer* parent = ShapeMaterial.getContainer();
-            ShapeMaterial.setContainer(0);
+            ShapeMaterial.setContainer(nullptr);
             ShapeMaterial.setTransparency(trans);
             ShapeMaterial.setContainer(parent);
         }
@@ -622,7 +622,7 @@ SoDetail* ViewProviderPartExt::getDetail(const char* subelement) const
         element = element.substr(0,pos);
     }
 
-    SoDetail* detail = 0;
+    SoDetail* detail = nullptr;
     if (index < 0)
         return detail;
     if (element == "Face") {

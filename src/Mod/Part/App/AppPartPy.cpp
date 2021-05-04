@@ -779,7 +779,7 @@ private:
     }
     Py::Object show(const Py::Tuple& args)
     {
-        PyObject *pcObj = 0;
+        PyObject *pcObj = nullptr;
         char *name = "Shape";
         if (!PyArg_ParseTuple(args.ptr(), "O!|s", &(TopoShapePy::Type), &pcObj, &name))
             throw Py::Exception();
@@ -895,7 +895,7 @@ private:
     Py::Object makeFace(const Py::Tuple& args)
     {
         try {
-            char* className = 0;
+            char* className = nullptr;
             PyObject* pcPyShapeOrList = nullptr;
             PyErr_Clear();
             if (PyArg_ParseTuple(args.ptr(), "Os", &pcPyShapeOrList, &className)) {
@@ -943,7 +943,7 @@ private:
     {
         // TODO: BRepFeat_SplitShape
         PyObject *obj;
-        PyObject *surf=0;
+        PyObject *surf=nullptr;
         if (!PyArg_ParseTuple(args.ptr(), "O|O!", &obj, &TopoShapeFacePy::Type, &surf))
             throw Py::Exception();
 
@@ -1051,7 +1051,7 @@ private:
     Py::Object makePlane(const Py::Tuple& args)
     {
         double length, width;
-        PyObject *pPnt=0, *pDirZ=0, *pDirX=0;
+        PyObject *pPnt=nullptr, *pDirZ=nullptr, *pDirX=nullptr;
         if (!PyArg_ParseTuple(args.ptr(), "dd|O!O!O!", &length, &width,
                                                  &(Base::VectorPy::Type), &pPnt,
                                                  &(Base::VectorPy::Type), &pDirZ,
@@ -1104,7 +1104,7 @@ private:
     Py::Object makeBox(const Py::Tuple& args)
     {
         double length, width, height;
-        PyObject *pPnt=0, *pDir=0;
+        PyObject *pPnt=nullptr, *pDir=nullptr;
         if (!PyArg_ParseTuple(args.ptr(), "ddd|O!O!",
             &length, &width, &height,
             &(Base::VectorPy::Type), &pPnt,
@@ -1143,7 +1143,7 @@ private:
     Py::Object makeWedge(const Py::Tuple& args)
     {
         double xmin, ymin, zmin, z2min, x2min, xmax, ymax, zmax, z2max, x2max;
-        PyObject *pPnt=0, *pDir=0;
+        PyObject *pPnt=nullptr, *pDir=nullptr;
         if (!PyArg_ParseTuple(args.ptr(), "dddddddddd|O!O!",
             &xmin, &ymin, &zmin, &z2min, &x2min, &xmax, &ymax, &zmax, &z2max, &x2max,
             &(Base::VectorPy::Type), &pPnt, &(Base::VectorPy::Type), &pDir))
@@ -1220,7 +1220,7 @@ private:
         BRepBuilderAPI_MakeEdge makeEdge(gp_Pnt(pnt1.x, pnt1.y, pnt1.z),
                                          gp_Pnt(pnt2.x, pnt2.y, pnt2.z));
 
-        const char *error=0;
+        const char *error=nullptr;
         switch (makeEdge.Error())
         {
         case BRepBuilderAPI_EdgeDone:
@@ -1292,7 +1292,7 @@ private:
     Py::Object makeCircle(const Py::Tuple& args)
     {
         double radius, angle1=0.0, angle2=360;
-        PyObject *pPnt=0, *pDir=0;
+        PyObject *pPnt=nullptr, *pDir=nullptr;
         if (!PyArg_ParseTuple(args.ptr(), "d|O!O!dd",
             &radius,
             &(Base::VectorPy::Type), &pPnt,
@@ -1328,7 +1328,7 @@ private:
     Py::Object makeSphere(const Py::Tuple& args)
     {
         double radius, angle1=-90, angle2=90, angle3=360;
-        PyObject *pPnt=0, *pDir=0;
+        PyObject *pPnt=nullptr, *pDir=nullptr;
         if (!PyArg_ParseTuple(args.ptr(), "d|O!O!ddd",
             &radius,
             &(Base::VectorPy::Type), &pPnt,
@@ -1358,7 +1358,7 @@ private:
     Py::Object makeCylinder(const Py::Tuple& args)
     {
         double radius, height, angle=360;
-        PyObject *pPnt=0, *pDir=0;
+        PyObject *pPnt=nullptr, *pDir=nullptr;
         if (!PyArg_ParseTuple(args.ptr(), "dd|O!O!d",
             &radius, &height,
             &(Base::VectorPy::Type), &pPnt,
@@ -1388,7 +1388,7 @@ private:
     Py::Object makeCone(const Py::Tuple& args)
     {
         double radius1, radius2,  height, angle=360;
-        PyObject *pPnt=0, *pDir=0;
+        PyObject *pPnt=nullptr, *pDir=nullptr;
         if (!PyArg_ParseTuple(args.ptr(), "ddd|O!O!d",
             &radius1, &radius2, &height,
             &(Base::VectorPy::Type), &pPnt,
@@ -1418,7 +1418,7 @@ private:
     Py::Object makeTorus(const Py::Tuple& args)
     {
         double radius1, radius2, angle1=0.0, angle2=360, angle=360;
-        PyObject *pPnt=0, *pDir=0;
+        PyObject *pPnt=nullptr, *pDir=nullptr;
         if (!PyArg_ParseTuple(args.ptr(), "dd|O!O!ddd",
             &radius1, &radius2,
             &(Base::VectorPy::Type), &pPnt,
@@ -1506,7 +1506,7 @@ private:
     {
         double vmin = DBL_MAX, vmax=-DBL_MAX;
         double angle=360;
-        PyObject *pPnt=0, *pDir=0, *pCrv;
+        PyObject *pPnt=nullptr, *pDir=nullptr, *pCrv;
         Handle(Geom_Curve) curve;
         union PyType_Object defaultType = {&Part::TopoShapeSolidPy::Type};
         PyObject* type = defaultType.o;
@@ -1888,7 +1888,7 @@ private:
         double height;
         double track = 0;
 
-        Py_UNICODE *unichars = NULL;
+        Py_UNICODE *unichars = nullptr;
         Py_ssize_t pysize;
 
         PyObject *CharList;
@@ -1985,7 +1985,7 @@ private:
     }
     Py::Object exportUnits(const Py::Tuple& args)
     {
-        char* unit=0;
+        char* unit=nullptr;
         if (!PyArg_ParseTuple(args.ptr(), "|s", &unit))
             throw Py::Exception();
 
@@ -2164,7 +2164,7 @@ private:
         try {
             TopoDS_Shape* shape = new TopoDS_Shape();
             (*shape) = static_cast<TopoShapePy*>(pcObj)->getTopoShapePtr()->getShape();
-            PyObject* proxy = 0;
+            PyObject* proxy = nullptr;
             proxy = Base::Interpreter().createSWIGPointerObj("OCC.TopoDS", "TopoDS_Shape *", (void*)shape, 1);
             return Py::asObject(proxy);
         }
@@ -2193,15 +2193,15 @@ private:
 
     Py::Object getShape(const Py::Tuple& args, const Py::Dict &kwds) {
         PyObject *pObj;
-        const char *subname = 0;
-        PyObject *pyMat = 0;
+        const char *subname = nullptr;
+        PyObject *pyMat = nullptr;
         PyObject *needSubElement = Py_False;
         PyObject *transform = Py_True;
         PyObject *noElementMap = Py_False;
         PyObject *refine = Py_False;
         short retType = 0;
         static char* kwd_list[] = {"obj", "subname", "mat", 
-            "needSubElement","transform","retType","noElementMap","refine",0};
+            "needSubElement","transform","retType","noElementMap","refine",nullptr};
         if(!PyArg_ParseTupleAndKeywords(args.ptr(), kwds.ptr(), "O!|sO!OOhOO", kwd_list,
                 &App::DocumentObjectPy::Type, &pObj, &subname, &Base::MatrixPy::Type, &pyMat, 
                 &needSubElement,&transform,&retType,&noElementMap,&refine))
@@ -2209,7 +2209,7 @@ private:
 
         App::DocumentObject *obj = 
             static_cast<App::DocumentObjectPy*>(pObj)->getDocumentObjectPtr();
-        App::DocumentObject *subObj = 0;
+        App::DocumentObject *subObj = nullptr;
         Base::Matrix4D mat;
         if(pyMat)
             mat = *static_cast<Base::MatrixPy*>(pyMat)->getMatrixPtr();

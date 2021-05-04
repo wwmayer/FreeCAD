@@ -260,7 +260,7 @@ PyObject* AttachEnginePy::getModeInfo(PyObject* args)
 {
     char* modeName;
     if (!PyArg_ParseTuple(args, "s", &modeName))
-        return 0;
+        return nullptr;
 
     try {
         AttachEngine &attacher = *(this->getAttachEnginePtr());
@@ -316,7 +316,7 @@ PyObject* AttachEnginePy::getRefTypeOfShape(PyObject* args)
 {
     PyObject *pcObj;
     if (!PyArg_ParseTuple(args, "O!", &(Part::TopoShapePy::Type), &pcObj))
-        return NULL;
+        return nullptr;
 
     try{
         TopoDS_Shape shape = static_cast<Part::TopoShapePy*>(pcObj)->getTopoShapePtr()->getShape();
@@ -330,7 +330,7 @@ PyObject* AttachEnginePy::isFittingRefType(PyObject* args)
     char* type_shape_str;
     char* type_need_str;
     if (!PyArg_ParseTuple(args, "ss", &type_shape_str, &type_need_str))
-        return 0;
+        return nullptr;
     try {
         eRefType type_shape = AttachEngine::getRefTypeByName(std::string(type_shape_str));
         eRefType type_need = AttachEngine::getRefTypeByName(std::string(type_need_str));
@@ -343,7 +343,7 @@ PyObject* AttachEnginePy::downgradeRefType(PyObject* args)
 {
     char* type_shape_str;
     if (!PyArg_ParseTuple(args, "s", &type_shape_str))
-        return 0;
+        return nullptr;
     try {
         eRefType type_shape = AttachEngine::getRefTypeByName(std::string(type_shape_str));
         eRefType result = AttachEngine::downgradeType(type_shape);
@@ -355,7 +355,7 @@ PyObject* AttachEnginePy::getRefTypeInfo(PyObject* args)
 {
     char* typeName;
     if (!PyArg_ParseTuple(args, "s", &typeName))
-        return 0;
+        return nullptr;
 
     try {
         AttachEngine &attacher = *(this->getAttachEnginePtr());
@@ -398,7 +398,7 @@ PyObject* AttachEnginePy::getRefTypeInfo(PyObject* args)
 PyObject* AttachEnginePy::copy(PyObject* args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return 0;
+        return nullptr;
 
     return new AttachEnginePy(this->getAttachEnginePtr()->copy());
 }
@@ -407,7 +407,7 @@ PyObject* AttachEnginePy::calculateAttachedPlacement(PyObject* args)
 {
     PyObject *pcObj;
     if (!PyArg_ParseTuple(args, "O!", &(Base::PlacementPy::Type), &pcObj))
-        return NULL;
+        return nullptr;
     try{
         const Base::Placement& plm = *(static_cast<const Base::PlacementPy*>(pcObj)->getPlacementPtr());
         Base::Placement result;
@@ -420,13 +420,13 @@ PyObject* AttachEnginePy::calculateAttachedPlacement(PyObject* args)
         return new Base::PlacementPy(new Base::Placement(result));
     } ATTACHERPY_STDCATCH_METH;
 
-    return NULL;
+    return nullptr;
 }
 
 PyObject* AttachEnginePy::suggestModes(PyObject* args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return 0;
+        return nullptr;
 
     try {
         AttachEngine &attacher = *(this->getAttachEnginePtr());
@@ -509,7 +509,7 @@ PyObject* AttachEnginePy::readParametersFromFeature(PyObject* args)
 {
     PyObject* obj;
     if (!PyArg_ParseTuple(args, "O!",&(App::DocumentObjectPy::Type),&obj))
-        return NULL;    // NULL triggers exception
+        return nullptr;    // NULL triggers exception
 
     try{
         App::DocumentObjectPy* dobjpy = static_cast<App::DocumentObjectPy*>(obj);
@@ -533,7 +533,7 @@ PyObject* AttachEnginePy::writeParametersToFeature(PyObject* args)
 {
     PyObject* obj;
     if (!PyArg_ParseTuple(args, "O!",&(App::DocumentObjectPy::Type),&obj))
-        return NULL;    // NULL triggers exception
+        return nullptr;    // NULL triggers exception
 
     try{
         App::DocumentObjectPy* dobjpy = static_cast<App::DocumentObjectPy*>(obj);
@@ -555,7 +555,7 @@ PyObject* AttachEnginePy::writeParametersToFeature(PyObject* args)
 
 PyObject* AttachEnginePy::getCustomAttributes(const char*) const
 {
-    return 0;
+    return nullptr;
 }
 
 int AttachEnginePy::setCustomAttributes(const char*,PyObject*)
