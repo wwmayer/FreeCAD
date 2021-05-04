@@ -60,7 +60,7 @@ public:
     SheetView(Gui::Document* pcDocument, App::DocumentObject* docObj, QWidget* parent);
     ~SheetView();
 
-    const char *getName(void) const {return "SheetView";}
+    const char *getName() const {return "SheetView";}
 
     bool onMsg(const char* pMsg,const char** ppReturn);
     bool onHasMsg(const char* pMsg) const;
@@ -77,7 +77,7 @@ public:
 
     void deleteSelection();
 
-    PyObject *getPyObject(void);
+    PyObject *getPyObject();
 
     virtual void deleteSelf();
 

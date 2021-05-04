@@ -62,10 +62,10 @@ class SpreadsheetExport PropertySpreadsheetQuantity : public App::PropertyQuanti
 {
     TYPESYSTEM_HEADER();
 public:
-    PropertySpreadsheetQuantity(void){}
+    PropertySpreadsheetQuantity(){}
     virtual ~PropertySpreadsheetQuantity(){}
 
-    virtual Property *Copy(void) const;
+    virtual Property *Copy() const;
     virtual void Paste(const Property &from);
 };
 
@@ -80,7 +80,7 @@ public:
     virtual ~Sheet();
 
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const {
+    virtual const char* getViewProviderName() const {
         return "SpreadsheetGui::ViewProviderSheet";
     }
 
@@ -159,9 +159,9 @@ public:
 
     App::Property *getPropertyByName(const char *name) const;
 
-    virtual short mustExecute(void) const;
+    virtual short mustExecute() const;
 
-    App::DocumentObjectExecReturn *execute(void);
+    App::DocumentObjectExecReturn *execute();
 
     bool getCellAddress(const App::Property *prop, App::CellAddress &address);
 

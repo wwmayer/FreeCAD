@@ -50,7 +50,7 @@ public:
         return i != end() ? i->second : defaultWidth;
     }
 
-    virtual Property *Copy(void) const;
+    virtual Property *Copy() const;
 
     virtual void Paste(const Property &from);
 
@@ -64,7 +64,7 @@ public:
 
     const std::set<int> & getDirty() const { return dirty; }
 
-    PyObject *getPyObject(void);
+    PyObject *getPyObject();
 
     void clear();
 

@@ -375,7 +375,7 @@ void Sheet::setCell(CellAddress address, const char * value)
   * @returns The Python object.
   */
 
-PyObject *Sheet::getPyObject(void)
+PyObject *Sheet::getPyObject()
 {
     if (PythonObject.is(Py::_None())){
         // ref counter is set to 1
@@ -803,7 +803,7 @@ void Sheet::recomputeCell(CellAddress p)
   *
   */
 
-DocumentObjectExecReturn *Sheet::execute(void)
+DocumentObjectExecReturn *Sheet::execute()
 {
     // Remove all aliases first
     removeAliases();
@@ -959,7 +959,7 @@ DocumentObjectExecReturn *Sheet::execute(void)
   *
   */
 
-short Sheet::mustExecute(void) const
+short Sheet::mustExecute() const
 {
     if (cellErrors.size() > 0 || cells.isDirty())
         return 1;
@@ -1497,10 +1497,10 @@ void PropertySpreadsheetQuantity::Paste(const Property &from)
 namespace App {
 /// @cond DOXERR
 PROPERTY_SOURCE_TEMPLATE(Spreadsheet::SheetPython, Spreadsheet::Sheet)
-template<> const char* Spreadsheet::SheetPython::getViewProviderName(void) const {
+template<> const char* Spreadsheet::SheetPython::getViewProviderName() const {
     return "SpreadsheetGui::ViewProviderSheet";
 }
-template<> PyObject* Spreadsheet::SheetPython::getPyObject(void) {
+template<> PyObject* Spreadsheet::SheetPython::getPyObject() {
     if (PythonObject.is(Py::_None())) {
         // ref counter is set to 1
         PythonObject = Py::Object(new FeaturePythonPyT<Spreadsheet::SheetPy>(this),true);

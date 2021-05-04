@@ -64,7 +64,7 @@ public:
     virtual void afterRestore() override;
     virtual void onContainerRestored() override;
 
-    virtual Property *Copy(void) const override;
+    virtual Property *Copy() const override;
 
     virtual void Paste(const Property &from) override;
 
@@ -140,7 +140,7 @@ public:
 
     void removeColumns(int col, int count);
 
-    virtual unsigned int getMemSize (void) const override;
+    virtual unsigned int getMemSize () const override;
 
     bool mergeCells(App::CellAddress from, App::CellAddress to);
 
@@ -158,7 +158,7 @@ public:
 
     void recomputeDependencies(App::CellAddress key);
 
-    PyObject *getPyObject(void) override;
+    PyObject *getPyObject() override;
     void setPyObject(PyObject *) override;
 
     void invalidateDependants(const App::DocumentObject *docObj);

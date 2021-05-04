@@ -48,7 +48,7 @@
 #include "SpreadsheetView.h"
 
 // use a different name to CreateCommand()
-void CreateSpreadsheetCommands(void);
+void CreateSpreadsheetCommands();
 
 void loadSpreadsheetResource()
 {

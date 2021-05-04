@@ -50,7 +50,7 @@ public:
         return *this;
     }
 
-    virtual App::Property *Copy(void) const;
+    virtual App::Property *Copy() const;
 
     virtual void Paste(const App::Property &from);
 
@@ -64,7 +64,7 @@ public:
 
     const std::set<int> & getDirty() const { return dirty; }
 
-    PyObject *getPyObject(void);
+    PyObject *getPyObject();
 
     static const int defaultHeight;
 
