@@ -41,7 +41,7 @@ class SketcherValidation : public QWidget
     Q_OBJECT
 
 public:
-    SketcherValidation(Sketcher::SketchObject* Obj, QWidget* parent = 0);
+    SketcherValidation(Sketcher::SketchObject* Obj, QWidget* parent = nullptr);
     ~SketcherValidation();
 
 protected:

@@ -397,7 +397,7 @@ void CmdSketcherConvertToNURB::activated(int iMsg)
 
     // get the selection
     std::vector<Gui::SelectionObject> selection;
-    selection = getSelection().getSelectionEx(0, Sketcher::SketchObject::getClassTypeId());
+    selection = getSelection().getSelectionEx(nullptr, Sketcher::SketchObject::getClassTypeId());
 
     // only one sketch with its subelements are allowed to be selected
     if (selection.size() != 1) {
@@ -465,7 +465,7 @@ void CmdSketcherIncreaseDegree::activated(int iMsg)
 
     // get the selection
     std::vector<Gui::SelectionObject> selection;
-    selection = getSelection().getSelectionEx(0, Sketcher::SketchObject::getClassTypeId());
+    selection = getSelection().getSelectionEx(nullptr, Sketcher::SketchObject::getClassTypeId());
 
     // only one sketch with its subelements are allowed to be selected
     if (selection.size() != 1) {
@@ -538,7 +538,7 @@ void CmdSketcherDecreaseDegree::activated(int iMsg)
 
     // get the selection
     std::vector<Gui::SelectionObject> selection;
-    selection = getSelection().getSelectionEx(0, Sketcher::SketchObject::getClassTypeId());
+    selection = getSelection().getSelectionEx(nullptr, Sketcher::SketchObject::getClassTypeId());
 
     // only one sketch with its subelements are allowed to be selected
     if (selection.size() != 1) {
@@ -624,7 +624,7 @@ void CmdSketcherIncreaseKnotMultiplicity::activated(int iMsg)
 
     // get the selection
     std::vector<Gui::SelectionObject> selection;
-    selection = getSelection().getSelectionEx(0, Sketcher::SketchObject::getClassTypeId());
+    selection = getSelection().getSelectionEx(nullptr, Sketcher::SketchObject::getClassTypeId());
 
     // only one sketch with its subelements are allowed to be selected
     if (selection.size() != 1) {
@@ -778,7 +778,7 @@ void CmdSketcherDecreaseKnotMultiplicity::activated(int iMsg)
 
     // get the selection
     std::vector<Gui::SelectionObject> selection;
-    selection = getSelection().getSelectionEx(0, Sketcher::SketchObject::getClassTypeId());
+    selection = getSelection().getSelectionEx(nullptr, Sketcher::SketchObject::getClassTypeId());
 
     // only one sketch with its subelements are allowed to be selected
     if (selection.size() != 1) {

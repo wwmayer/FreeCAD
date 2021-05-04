@@ -710,7 +710,7 @@ int SketchSelection::setUp(void)
 {
     std::vector<Gui::SelectionObject> selection = Gui::Selection().getSelectionEx();
 
-    Sketcher::SketchObject *SketchObj=0;
+    Sketcher::SketchObject *SketchObj=nullptr;
     std::vector<std::string> SketchSubNames;
     std::vector<std::string> SupportSubNames;
 
@@ -794,7 +794,7 @@ namespace SketcherGui {
         App::DocumentObject* object;
     public:
         GenericConstraintSelection(App::DocumentObject* obj)
-            : Gui::SelectionFilterGate((Gui::SelectionFilter*)0)
+            : Gui::SelectionFilterGate((Gui::SelectionFilter*)nullptr)
             , object(obj), allowedSelTypes(0)
         {}
 

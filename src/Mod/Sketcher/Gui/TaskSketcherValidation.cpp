@@ -64,7 +64,7 @@ using namespace Gui::TaskView;
 /* TRANSLATOR SketcherGui::SketcherValidation */
 
 SketcherValidation::SketcherValidation(Sketcher::SketchObject* Obj, QWidget* parent)
-: QWidget(parent), ui(new Ui_TaskSketcherValidation()), sketch(Obj), sketchAnalyser(Obj), coincidenceRoot(0)
+: QWidget(parent), ui(new Ui_TaskSketcherValidation()), sketch(Obj), sketchAnalyser(Obj), coincidenceRoot(nullptr)
 {
     ui->setupUi(this);
     ui->fixButton->setEnabled(false);
@@ -346,7 +346,7 @@ void SketcherValidation::hidePoints()
     if (coincidenceRoot) {
         Gui::ViewProvider* vp = Gui::Application::Instance->getViewProvider(sketch);
         vp->getRoot()->removeChild(coincidenceRoot);
-        coincidenceRoot = 0;
+        coincidenceRoot = nullptr;
     }
 }
 
@@ -391,7 +391,7 @@ TaskSketcherValidation::TaskSketcherValidation(Sketcher::SketchObject* Obj)
 {
     QWidget* widget = new SketcherValidation(Obj);
     Gui::TaskView::TaskBox* taskbox = new Gui::TaskView::TaskBox(
-        QPixmap(), widget->windowTitle(), true, 0);
+        QPixmap(), widget->windowTitle(), true, nullptr);
     taskbox->groupLayout()->addWidget(widget);
     Content.push_back(taskbox);
 }

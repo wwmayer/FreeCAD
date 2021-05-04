@@ -254,7 +254,7 @@ void ElementView::keyPressEvent(QKeyEvent * event)
 /* TRANSLATOR SketcherGui::TaskSketcherElements */
 
 TaskSketcherElements::TaskSketcherElements(ViewProviderSketch *sketchView)
-    : TaskBox(Gui::BitmapFactory().pixmap("document-new"),tr("Elements"),true, 0)
+    : TaskBox(Gui::BitmapFactory().pixmap("document-new"),tr("Elements"),true, nullptr)
     , sketchView(sketchView)
     , ui(new Ui_TaskSketcherElements())
     , focusItemIndex(-1)
@@ -465,13 +465,13 @@ void TaskSketcherElements::on_listWidgetElements_itemSelectionChanged(void)
     if(focusItemIndex>-1 && focusItemIndex<ui->listWidgetElements->count())
       itf=static_cast<ElementItem*>(ui->listWidgetElements->item(focusItemIndex));
     else
-      itf=NULL;
+      itf=nullptr;
 
     bool multipleselection=true; // ctrl type of selection in listWidget
     bool multipleconsecutiveselection=false; // shift type of selection in listWidget
 
     if (!inhibitSelectionUpdate) {
-        if(itf!=NULL) {
+        if(itf!=nullptr) {
             switch(element){
             case 0:
                 itf->isLineSelected=!itf->isLineSelected;

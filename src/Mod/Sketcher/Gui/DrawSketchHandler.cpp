@@ -62,7 +62,7 @@ using namespace Sketcher;
 //**************************************************************************
 // Construction/Destruction
 
-DrawSketchHandler::DrawSketchHandler() : sketchgui(0) {}
+DrawSketchHandler::DrawSketchHandler() : sketchgui(nullptr) {}
 
 DrawSketchHandler::~DrawSketchHandler() {}
 

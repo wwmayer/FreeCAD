@@ -176,7 +176,7 @@ SbVec2s ViewProviderSketch::newCursorPos;
 /// Data structure while editing the sketch
 struct EditData {
     EditData():
-    sketchHandler(0),
+    sketchHandler(nullptr),
     buttonPress(false),
     handleEscapeButton(false),
     DragPoint(-1),
@@ -191,34 +191,34 @@ struct EditData {
     blockedPreselection(false),
     FullyConstrained(false),
     //ActSketch(0), // if you are wondering, it went to SketchObject, accessible via getSolvedSketch() and via SketchObject interface as appropriate
-    EditRoot(0),
-    PointsMaterials(0),
-    CurvesMaterials(0),
-    RootCrossMaterials(0),
-    EditCurvesMaterials(0),
-    EditMarkersMaterials(0),
-    PointsCoordinate(0),
-    CurvesCoordinate(0),
-    RootCrossCoordinate(0),
-    EditCurvesCoordinate(0),
-    EditMarkersCoordinate(0),
-    CurveSet(0),
-    RootCrossSet(0),
-    EditCurveSet(0),
-    EditMarkerSet(0),
-    PointSet(0),
-    textX(0),
-    textPos(0),
-    constrGroup(0),
-    infoGroup(0),
-    pickStyleAxes(0),
-    PointsDrawStyle(0),
-    CurvesDrawStyle(0),
-    RootCrossDrawStyle(0),
-    EditCurvesDrawStyle(0),
-    EditMarkersDrawStyle(0),
-    ConstraintDrawStyle(0),
-    InformationDrawStyle(0)
+    EditRoot(nullptr),
+    PointsMaterials(nullptr),
+    CurvesMaterials(nullptr),
+    RootCrossMaterials(nullptr),
+    EditCurvesMaterials(nullptr),
+    EditMarkersMaterials(nullptr),
+    PointsCoordinate(nullptr),
+    CurvesCoordinate(nullptr),
+    RootCrossCoordinate(nullptr),
+    EditCurvesCoordinate(nullptr),
+    EditMarkersCoordinate(nullptr),
+    CurveSet(nullptr),
+    RootCrossSet(nullptr),
+    EditCurveSet(nullptr),
+    EditMarkerSet(nullptr),
+    PointSet(nullptr),
+    textX(nullptr),
+    textPos(nullptr),
+    constrGroup(nullptr),
+    infoGroup(nullptr),
+    pickStyleAxes(nullptr),
+    PointsDrawStyle(nullptr),
+    CurvesDrawStyle(nullptr),
+    RootCrossDrawStyle(nullptr),
+    EditCurvesDrawStyle(nullptr),
+    EditMarkersDrawStyle(nullptr),
+    ConstraintDrawStyle(nullptr),
+    InformationDrawStyle(nullptr)
     {}
 
     // pointer to the active handler for new sketch objects
@@ -319,12 +319,12 @@ PROPERTY_SOURCE_WITH_EXTENSIONS(SketcherGui::ViewProviderSketch, PartGui::ViewPr
 
 ViewProviderSketch::ViewProviderSketch()
   : SelectionObserver(false),
-    edit(0),
+    edit(nullptr),
     Mode(STATUS_NONE),
     visibleInformationChanged(true),
     combrepscalehyst(0),
     isShownVirtualSpace(false),
-    listener(0)
+    listener(nullptr)
 {
     PartGui::ViewProviderAttachExtension::initExtension(this);
 
@@ -442,7 +442,7 @@ void ViewProviderSketch::forceUpdateData()
 void ViewProviderSketch::activateHandler(DrawSketchHandler *newHandler)
 {
     assert(edit);
-    assert(edit->sketchHandler == 0);
+    assert(edit->sketchHandler == nullptr);
     edit->sketchHandler = newHandler;
     Mode = STATUS_SKETCH_UseHandler;
     edit->sketchHandler->sketchgui = this;
@@ -458,7 +458,7 @@ void ViewProviderSketch::activateHandler(DrawSketchHandler *newHandler)
 void ViewProviderSketch::deactivateHandler()
 {
     assert(edit);
-    if(edit->sketchHandler != 0){
+    if(edit->sketchHandler != nullptr){
         std::vector<Base::Vector2d> editCurve;
         editCurve.clear();
         drawEdit(editCurve); // erase any line
@@ -467,7 +467,7 @@ void ViewProviderSketch::deactivateHandler()
         edit->sketchHandler->unsetCursor();
         delete(edit->sketchHandler);
     }
-    edit->sketchHandler = 0;
+    edit->sketchHandler = nullptr;
     Mode = STATUS_NONE;
 }
 
@@ -1850,7 +1850,7 @@ std::set<int> ViewProviderSketch::detectPreselectionConstr(const SoPickedPoint *
         if (edit->constrGroup->getChild(i) == tailFather) {
             SoSeparator *sep = static_cast<SoSeparator *>(tailFather);
             if (sep->getNumChildren() > CONSTRAINT_SEPARATOR_INDEX_FIRST_CONSTRAINTID) {
-                SoInfo *constrIds = NULL;
+                SoInfo *constrIds = nullptr;
                 if (tail == sep->getChild(CONSTRAINT_SEPARATOR_INDEX_FIRST_ICON)) {
                     // First icon was hit
                     constrIds = static_cast<SoInfo *>(sep->getChild(CONSTRAINT_SEPARATOR_INDEX_FIRST_CONSTRAINTID));
@@ -3058,7 +3058,7 @@ void ViewProviderSketch::updateColor(void)
         // Non DatumLabel Nodes will have a material excluding coincident
         bool hasMaterial = false;
 
-        SoMaterial *m = 0;
+        SoMaterial *m = nullptr;
         if (!hasDatumLabel && type != Sketcher::Coincident && type != Sketcher::InternalAlignment) {
             hasMaterial = true;
             m = static_cast<SoMaterial *>(s->getChild(CONSTRAINT_SEPARATOR_INDEX_MATERIAL_OR_DATUMLABEL));
@@ -6250,7 +6250,7 @@ bool ViewProviderSketch::setEdit(int ModNum)
     Gui::TaskView::TaskDialog *dlg = Gui::Control().activeDialog();
     TaskDlgEditSketch *sketchDlg = qobject_cast<TaskDlgEditSketch *>(dlg);
     if (sketchDlg && sketchDlg->getSketchView() != this)
-        sketchDlg = 0; // another sketch left open its task panel
+        sketchDlg = nullptr; // another sketch left open its task panel
     if (dlg && !sketchDlg) {
         QMessageBox msgBox;
         msgBox.setText(tr("A dialog is already open in the task panel"));
@@ -6305,7 +6305,7 @@ bool ViewProviderSketch::setEdit(int ModNum)
     auto editDoc = Gui::Application::Instance->editDocument();
     App::DocumentObject *editObj = getSketchObject();
     std::string editSubName;
-    ViewProviderDocumentObject *editVp = 0;
+    ViewProviderDocumentObject *editVp = nullptr;
     if(editDoc) {
         editDoc->getInEdit(&editVp,&editSubName);
         if(editVp)
@@ -6835,7 +6835,7 @@ void ViewProviderSketch::unsetEdit(int ModNum)
         edit->EditRoot->unref();
 
         delete edit;
-        edit = 0;
+        edit = nullptr;
         this->detachSelection();
 
         App::AutoTransaction trans("Sketch recompute");
@@ -6902,7 +6902,7 @@ void ViewProviderSketch::setEditViewer(Gui::View3DInventorViewer* viewer, int Mo
     auto editDoc = Gui::Application::Instance->editDocument();
     editDocName.clear();
     if(editDoc) {
-        ViewProviderDocumentObject *parent=0;
+        ViewProviderDocumentObject *parent=nullptr;
         editDoc->getInEdit(&parent,&editSubName);
         if(parent) {
             editDocName = editDoc->getDocument()->getName();
@@ -7107,7 +7107,7 @@ const Sketcher::Sketch &ViewProviderSketch::getSolvedSketch(void) const
 void ViewProviderSketch::deleteSelected()
 {
     std::vector<Gui::SelectionObject> selection;
-    selection = Gui::Selection().getSelectionEx(0, Sketcher::SketchObject::getClassTypeId());
+    selection = Gui::Selection().getSelectionEx(nullptr, Sketcher::SketchObject::getClassTypeId());
 
     // only one sketch with its subelements are allowed to be selected
     if (selection.size() != 1) {

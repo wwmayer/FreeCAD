@@ -159,7 +159,7 @@ SketcherGui::ViewProviderSketch* getSketchViewprovider(Gui::Document *doc)
             (SketcherGui::ViewProviderSketch::getClassTypeId()) )
             return dynamic_cast<SketcherGui::ViewProviderSketch*>(doc->getInEdit());
     }
-    return 0;
+    return nullptr;
 }
 
 void removeRedundantHorizontalVertical(Sketcher::SketchObject* psketch,
@@ -5025,7 +5025,7 @@ namespace SketcherGui {
         App::DocumentObject* object;
     public:
         FilletSelection(App::DocumentObject* obj)
-            : Gui::SelectionFilterGate((Gui::SelectionFilter*)0), object(obj)
+            : Gui::SelectionFilterGate((Gui::SelectionFilter*)nullptr), object(obj)
         {}
 
         bool allow(App::Document * /*pDoc*/, App::DocumentObject *pObj, const char *sSubName)
@@ -5437,7 +5437,7 @@ namespace SketcherGui {
         App::DocumentObject* object;
     public:
         TrimmingSelection(App::DocumentObject* obj)
-            : Gui::SelectionFilterGate((Gui::SelectionFilter*)0), object(obj)
+            : Gui::SelectionFilterGate((Gui::SelectionFilter*)nullptr), object(obj)
         {}
 
         bool allow(App::Document * /*pDoc*/, App::DocumentObject *pObj, const char *sSubName)
@@ -5598,7 +5598,7 @@ namespace SketcherGui {
         App::DocumentObject* object;
     public:
         ExtendSelection(App::DocumentObject* obj)
-            : Gui::SelectionFilterGate((Gui::SelectionFilter*)0)
+            : Gui::SelectionFilterGate((Gui::SelectionFilter*)nullptr)
             , object(obj)
             , disabled(false)
         {}
@@ -5912,7 +5912,7 @@ namespace SketcherGui {
         App::DocumentObject* object;
     public:
         SplittingSelection(App::DocumentObject* obj)
-            : Gui::SelectionFilterGate((Gui::SelectionFilter*)0), object(obj)
+            : Gui::SelectionFilterGate((Gui::SelectionFilter*)nullptr), object(obj)
         {}
 
         bool allow(App::Document * /*pDoc*/, App::DocumentObject *pObj, const char *sSubName)
@@ -6029,7 +6029,7 @@ namespace SketcherGui {
         App::DocumentObject* object;
     public:
         ExternalSelection(App::DocumentObject* obj)
-            : Gui::SelectionFilterGate((Gui::SelectionFilter*)0), object(obj)
+            : Gui::SelectionFilterGate((Gui::SelectionFilter*)nullptr), object(obj)
         {}
 
         bool allow(App::Document *pDoc, App::DocumentObject *pObj, const char *sSubName)
@@ -6140,7 +6140,7 @@ public:
     {
         if (msg.Type == Gui::SelectionChanges::AddSelection) {
             App::DocumentObject* obj = sketchgui->getObject()->getDocument()->getObject(msg.pObjectName);
-            if (obj == NULL)
+            if (obj == nullptr)
                 throw Base::ValueError("Sketcher: External geometry: Invalid object in selection");
             std::string subName(msg.pSubName);
             if (obj->getTypeId().isDerivedFrom(App::Plane::getClassTypeId()) ||
@@ -6214,7 +6214,7 @@ namespace SketcherGui {
         App::DocumentObject* object;
     public:
         CarbonCopySelection(App::DocumentObject* obj)
-        : Gui::SelectionFilterGate((Gui::SelectionFilter*)0), object(obj)
+        : Gui::SelectionFilterGate((Gui::SelectionFilter*)nullptr), object(obj)
         {}
 
         bool allow(App::Document *pDoc, App::DocumentObject *pObj, const char *sSubName)
@@ -6324,7 +6324,7 @@ namespace SketcherGui {
         {
             if (msg.Type == Gui::SelectionChanges::AddSelection) {
                 App::DocumentObject* obj = sketchgui->getObject()->getDocument()->getObject(msg.pObjectName);
-                if (obj == NULL)
+                if (obj == nullptr)
                     throw Base::ValueError("Sketcher: Carbon Copy: Invalid object in selection");
 
                 if (obj->getTypeId() == Sketcher::SketchObject::getClassTypeId()) {
