@@ -52,7 +52,7 @@ class TaskFemConstraintFluidBoundary : public TaskFemConstraint
     Q_OBJECT
 
 public:
-    TaskFemConstraintFluidBoundary(ViewProviderFemConstraintFluidBoundary *ConstraintView,QWidget *parent = 0);
+    TaskFemConstraintFluidBoundary(ViewProviderFemConstraintFluidBoundary *ConstraintView,QWidget *parent = nullptr);
     virtual ~TaskFemConstraintFluidBoundary();
 
     const Fem::FemSolverObject* getFemSolver(void) const;

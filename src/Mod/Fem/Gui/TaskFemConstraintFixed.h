@@ -45,7 +45,7 @@ class TaskFemConstraintFixed : public TaskFemConstraint
     Q_OBJECT
 
 public:
-    TaskFemConstraintFixed(ViewProviderFemConstraintFixed *ConstraintView,QWidget *parent = 0);
+    TaskFemConstraintFixed(ViewProviderFemConstraintFixed *ConstraintView,QWidget *parent = nullptr);
     ~TaskFemConstraintFixed();
     const std::string getReferences() const;
 

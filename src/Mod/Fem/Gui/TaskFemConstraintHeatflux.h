@@ -48,7 +48,7 @@ class TaskFemConstraintHeatflux : public TaskFemConstraint
     Q_OBJECT
 
 public:
-    TaskFemConstraintHeatflux(ViewProviderFemConstraintHeatflux *ConstraintView,QWidget *parent = 0);
+    TaskFemConstraintHeatflux(ViewProviderFemConstraintHeatflux *ConstraintView,QWidget *parent = nullptr);
     virtual ~TaskFemConstraintHeatflux();
     double getAmbientTemp(void) const;
     /*double getFaceTemp(void) const;*/

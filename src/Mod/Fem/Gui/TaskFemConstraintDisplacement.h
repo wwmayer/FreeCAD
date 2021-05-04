@@ -48,7 +48,7 @@ class TaskFemConstraintDisplacement : public TaskFemConstraint
     Q_OBJECT
 
 public:
-    TaskFemConstraintDisplacement(ViewProviderFemConstraintDisplacement *ConstraintView, QWidget *parent = 0);
+    TaskFemConstraintDisplacement(ViewProviderFemConstraintDisplacement *ConstraintView, QWidget *parent = nullptr);
     ~TaskFemConstraintDisplacement();
     const std::string getReferences() const;
     double get_spinxDisplacement()const;

@@ -52,7 +52,7 @@ class TaskFemConstraintForce : public TaskFemConstraint
     Q_OBJECT
 
 public:
-    TaskFemConstraintForce(ViewProviderFemConstraintForce *ConstraintView,QWidget *parent = 0);
+    TaskFemConstraintForce(ViewProviderFemConstraintForce *ConstraintView,QWidget *parent = nullptr);
     virtual ~TaskFemConstraintForce();
     double getForce(void) const;
     const std::string getReferences() const;

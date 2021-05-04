@@ -48,7 +48,7 @@ class TaskFemConstraintPressure : public TaskFemConstraint
     Q_OBJECT
 
 public:
-    TaskFemConstraintPressure(ViewProviderFemConstraintPressure *ConstraintView,QWidget *parent = 0);
+    TaskFemConstraintPressure(ViewProviderFemConstraintPressure *ConstraintView,QWidget *parent = nullptr);
     ~TaskFemConstraintPressure();
     const std::string getReferences() const;
     double get_Pressure()const;
