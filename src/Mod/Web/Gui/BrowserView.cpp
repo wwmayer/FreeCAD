@@ -170,7 +170,7 @@ void UrlWidget::display()
 class BrowserViewPy : public Py::PythonExtension<BrowserViewPy>
 {
 public:
-    static void init_type(void);    // announce properties and methods
+    static void init_type();    // announce properties and methods
 
     BrowserViewPy(BrowserView* view);
     ~BrowserViewPy();
@@ -666,7 +666,7 @@ void BrowserView::setHtml(const QString& HtmlCode,const QUrl & BaseUrl)
 #endif
 }
 
-void BrowserView::stop(void)
+void BrowserView::stop()
 {
     view->stop();
 }
@@ -779,12 +779,12 @@ bool BrowserView::onHasMsg(const char* pMsg) const
 }
 
 /** Checking on close state. */
-bool BrowserView::canClose(void)
+bool BrowserView::canClose()
 {
     return true;
 }
 
-PyObject* BrowserView::getPyObject(void)
+PyObject* BrowserView::getPyObject()
 {
     static bool init = false;
     if (!init) {

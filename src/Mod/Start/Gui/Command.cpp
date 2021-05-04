@@ -57,7 +57,7 @@ void CmdStartPage::activated(int iMsg)
 }
 
 
-void CreateStartCommands(void)
+void CreateStartCommands()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 
