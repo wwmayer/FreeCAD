@@ -43,7 +43,7 @@ PROPERTY_SOURCE(Raytracing::RayProject, App::DocumentObjectGroup)
 // Feature
 //===========================================================================
 
-RayProject::RayProject(void)
+RayProject::RayProject()
 {
     ADD_PROPERTY_TYPE(PageResult, (nullptr), 0, App::Prop_Output, "Resulting povray Project file");
     ADD_PROPERTY_TYPE(Template, (""), 0, App::Prop_None, "Template for the Povray project");
@@ -66,7 +66,7 @@ void RayProject::onDocumentRestored()
     }
 }
 
-App::DocumentObjectExecReturn *RayProject::execute(void)
+App::DocumentObjectExecReturn *RayProject::execute()
 {
     if (std::string(PageResult.getValue()) == "")
         PageResult.setValue(Template.getValue());

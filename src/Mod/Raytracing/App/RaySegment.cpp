@@ -46,7 +46,7 @@ PROPERTY_SOURCE(Raytracing::RaySegment, App::DocumentObject)
 
 
 
-RaySegment::RaySegment(void) 
+RaySegment::RaySegment() 
 {
     App::PropertyType type = (App::PropertyType)(App::Prop_Output|App::Prop_Hidden);
     ADD_PROPERTY_TYPE(Result ,(nullptr),0,type,"Resulting SVG fragment of that view");
@@ -56,7 +56,7 @@ RaySegment::~RaySegment()
 {
 }
 
-App::DocumentObjectExecReturn *RaySegment::execute(void)
+App::DocumentObjectExecReturn *RaySegment::execute()
 {
     return App::DocumentObject::StdReturn;
 }

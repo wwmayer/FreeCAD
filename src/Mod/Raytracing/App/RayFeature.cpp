@@ -44,7 +44,7 @@ PROPERTY_SOURCE(Raytracing::RayFeature, Raytracing::RaySegment)
 // Feature
 //===========================================================================
 
-RayFeature::RayFeature(void)
+RayFeature::RayFeature()
 {
     ADD_PROPERTY(Source,(nullptr));
     ADD_PROPERTY(Color,(App::Color(0.5f,0.5f,0.5f)));
@@ -62,7 +62,7 @@ short RayFeature::mustExecute() const
     return RaySegment::mustExecute();
 }
 
-App::DocumentObjectExecReturn *RayFeature::execute(void)
+App::DocumentObjectExecReturn *RayFeature::execute()
 {
     std::stringstream result;
     std::string ViewName = getNameInDocument();

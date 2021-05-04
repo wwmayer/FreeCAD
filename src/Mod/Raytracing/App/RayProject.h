@@ -44,7 +44,7 @@ class AppRaytracingExport RayProject: public App::DocumentObjectGroup
 
 public:
     /// Constructor
-    RayProject(void);
+    RayProject();
 
     App::PropertyFileIncluded PageResult;
     App::PropertyFile Template;
@@ -54,9 +54,9 @@ public:
     /** @name methods override Feature */
     //@{
     /// recalculate the Feature
-    App::DocumentObjectExecReturn *execute(void);
+    App::DocumentObjectExecReturn *execute();
     short mustExecute() const;
-    const char* getViewProviderName(void) const {
+    const char* getViewProviderName() const {
         return "RaytracingGui::ViewProviderPovray";
     }
     /// get called after a document has been fully restored

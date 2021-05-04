@@ -44,7 +44,7 @@ class AppRaytracingExport LuxProject: public App::DocumentObjectGroup
 
 public:
     /// Constructor
-    LuxProject(void);
+    LuxProject();
 
     App::PropertyFileIncluded PageResult;
     App::PropertyFile Template;
@@ -54,9 +54,9 @@ public:
     /** @name methods override Feature */
     //@{
     /// recalculate the Feature
-    App::DocumentObjectExecReturn *execute(void);
+    App::DocumentObjectExecReturn *execute();
     short mustExecute() const;
-    const char* getViewProviderName(void) const {
+    const char* getViewProviderName() const {
         return "RaytracingGui::ViewProviderLux";
     }
     /// get called after a document has been fully restored

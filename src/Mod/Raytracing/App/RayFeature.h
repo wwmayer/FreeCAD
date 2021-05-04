@@ -45,7 +45,7 @@ class AppRaytracingExport RayFeature: public Raytracing::RaySegment
     PROPERTY_HEADER(Raytracing::RayFeature);
 public:
     /// Constructor
-    RayFeature(void);
+    RayFeature();
 
     App::PropertyLink       Source;
     App::PropertyColor      Color;
@@ -55,10 +55,10 @@ public:
     //@{
     short mustExecute() const;
     /// recalculate the Feature
-    App::DocumentObjectExecReturn *execute(void);
+    App::DocumentObjectExecReturn *execute();
 
     /// returns the type name of the ViewProvider
-    const char* getViewProviderName(void) const { 
+    const char* getViewProviderName() const { 
         return "Gui::ViewProviderDocumentObject"; 
     }
     //@}

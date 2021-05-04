@@ -56,7 +56,7 @@ ViewProviderLux::~ViewProviderLux()
 {
 }
 
-bool ViewProviderLux::doubleClicked(void)
+bool ViewProviderLux::doubleClicked()
 {
     Gui::Application::Instance->activeDocument()->setEdit(this, (int)ViewProvider::Default);
     return true;
@@ -135,7 +135,7 @@ ViewProviderPovray::~ViewProviderPovray()
 {
 }
 
-bool ViewProviderPovray::doubleClicked(void)
+bool ViewProviderPovray::doubleClicked()
 {
     Gui::Application::Instance->activeDocument()->setEdit(this, (int)ViewProvider::Default);
     return true;

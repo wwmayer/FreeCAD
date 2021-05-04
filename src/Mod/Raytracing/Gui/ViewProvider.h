@@ -39,7 +39,7 @@ public:
     ViewProviderLux();
     virtual ~ViewProviderLux();
 
-    bool doubleClicked(void);
+    bool doubleClicked();
     void setupContextMenu(QMenu* menu, QObject* receiver, const char* member);
 
 protected:
@@ -56,7 +56,7 @@ public:
     ViewProviderPovray();
     virtual ~ViewProviderPovray();
 
-    bool doubleClicked(void);
+    bool doubleClicked();
     void setupContextMenu(QMenu* menu, QObject* receiver, const char* member);
 
 protected:

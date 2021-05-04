@@ -44,7 +44,7 @@ PROPERTY_SOURCE(Raytracing::LuxProject, App::DocumentObjectGroup)
 // Feature
 //===========================================================================
 
-LuxProject::LuxProject(void)
+LuxProject::LuxProject()
 {
     ADD_PROPERTY_TYPE(PageResult, (nullptr), 0, App::Prop_Output, "Resulting Luxrender Scene file");
     ADD_PROPERTY_TYPE(Template, (""), 0, App::Prop_None, "Template for the Luxrender project");
@@ -67,7 +67,7 @@ void LuxProject::onDocumentRestored()
     }
 }
 
-App::DocumentObjectExecReturn *LuxProject::execute(void)
+App::DocumentObjectExecReturn *LuxProject::execute()
 {
     if (std::string(PageResult.getValue()) == "")
         PageResult.setValue(Template.getValue());

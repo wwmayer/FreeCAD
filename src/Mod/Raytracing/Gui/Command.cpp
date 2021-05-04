@@ -158,7 +158,7 @@ void CmdRaytracingWriteCamera::activated(int)
     }
 }
 
-bool CmdRaytracingWriteCamera::isActive(void)
+bool CmdRaytracingWriteCamera::isActive()
 {
     return getGuiApplication()->sendHasMsgToActiveView("GetCamera");
 }
@@ -204,7 +204,7 @@ void CmdRaytracingWritePart::activated(int)
     doCommand(Doc,"%s",out.str().c_str());
 }
 
-bool CmdRaytracingWritePart::isActive(void)
+bool CmdRaytracingWritePart::isActive()
 {
     return Gui::Selection().countObjectsOfType(Part::Feature::getClassTypeId()) == 1;
 }
@@ -293,7 +293,7 @@ void CmdRaytracingWriteView::activated(int)
     }
 }
 
-bool CmdRaytracingWriteView::isActive(void)
+bool CmdRaytracingWriteView::isActive()
 {
     App::Document* doc = App::GetApplication().getActiveDocument();
     if (doc) {
@@ -374,7 +374,7 @@ void CmdRaytracingNewPovrayProject::activated(int iMsg)
     }
 }
 
-Gui::Action * CmdRaytracingNewPovrayProject::createAction(void)
+Gui::Action * CmdRaytracingNewPovrayProject::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -413,7 +413,7 @@ Gui::Action * CmdRaytracingNewPovrayProject::createAction(void)
     return pcAction;
 }
 
-bool CmdRaytracingNewPovrayProject::isActive(void)
+bool CmdRaytracingNewPovrayProject::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -497,7 +497,7 @@ void CmdRaytracingNewPartSegment::activated(int)
     commitCommand();
 }
 
-bool CmdRaytracingNewPartSegment::isActive(void)
+bool CmdRaytracingNewPartSegment::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -563,7 +563,7 @@ void CmdRaytracingExportProject::activated(int)
     }
 }
 
-bool CmdRaytracingExportProject::isActive(void)
+bool CmdRaytracingExportProject::isActive()
 {
     return (getActiveGuiDocument() ? true : false);
 }
@@ -731,7 +731,7 @@ void CmdRaytracingRender::activated(int)
     }
 }
 
-bool CmdRaytracingRender::isActive(void)
+bool CmdRaytracingRender::isActive()
 {
     return (getActiveGuiDocument() ? true : false);
 }
@@ -805,7 +805,7 @@ void CmdRaytracingNewLuxProject::activated(int iMsg)
     }
 }
 
-Gui::Action * CmdRaytracingNewLuxProject::createAction(void)
+Gui::Action * CmdRaytracingNewLuxProject::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -840,7 +840,7 @@ Gui::Action * CmdRaytracingNewLuxProject::createAction(void)
     return pcAction;
 }
 
-bool CmdRaytracingNewLuxProject::isActive(void)
+bool CmdRaytracingNewLuxProject::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -909,12 +909,12 @@ void CmdRaytracingResetCamera::activated(int)
     }
 }
 
-bool CmdRaytracingResetCamera::isActive(void)
+bool CmdRaytracingResetCamera::isActive()
 {
     return (getActiveGuiDocument() ? true : false);
 }
 
-void CreateRaytracingCommands(void)
+void CreateRaytracingCommands()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
     rcCmdMgr.addCommand(new CmdRaytracingWriteCamera());

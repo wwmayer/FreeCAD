@@ -37,7 +37,7 @@
 using namespace RaytracingGui;
 
 // use a different name to CreateCommand()
-void CreateRaytracingCommands(void);
+void CreateRaytracingCommands();
 
 void loadRaytracingResource()
 {
