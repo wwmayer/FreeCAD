@@ -49,7 +49,7 @@ PyMOD_INIT_FUNC(Raytracing)
     }
     catch(const Base::Exception& e) {
         PyErr_SetString(PyExc_ImportError, e.what());
-        PyMOD_Return(0);
+        PyMOD_Return(nullptr);
     }
 
     Raytracing::RaySegment       ::init();

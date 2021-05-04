@@ -244,9 +244,9 @@ void PovTools::writeShape(std::ostream &out, const char *PartName,
 
         // this block mesh the face and transfers it in a C array of vertices and face indexes
         Standard_Integer nbNodesInFace,nbTriInFace;
-        gp_Vec* vertices=0;
-        gp_Vec* vertexnormals=0;
-        long* cons=0;
+        gp_Vec* vertices=nullptr;
+        gp_Vec* vertexnormals=nullptr;
+        long* cons=nullptr;
 
         transferToArray(aFace,&vertices,&vertexnormals,&cons,nbNodesInFace,nbTriInFace);
 
@@ -331,9 +331,9 @@ void PovTools::writeShapeCSV(const char *FileName,
 
         // this block mesh the face and transfers it in a C array of vertices and face indexes
         Standard_Integer nbNodesInFace,nbTriInFace;
-        gp_Vec* vertices=0;
-        gp_Vec* vertexnormals=0;
-        long* cons=0;
+        gp_Vec* vertices=nullptr;
+        gp_Vec* vertexnormals=nullptr;
+        long* cons=nullptr;
 
         transferToArray(aFace,&vertices,&vertexnormals,&cons,nbNodesInFace,nbTriInFace);
 
@@ -372,8 +372,8 @@ void PovTools::transferToArray(const TopoDS_Face& aFace,gp_Vec** vertices,gp_Vec
         Base::Console().Log("Empty face triangulation\n");
         nbNodesInFace =0;
         nbTriInFace = 0;
-        vertices = 0l;
-        cons = 0l;
+        vertices = nullptr;
+        cons = nullptr;
         return;
     }
 
