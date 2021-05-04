@@ -96,7 +96,7 @@ void CmdApproxSurface::activated(int)
     Gui::Control().showDialog(new ReenGui::TaskFitBSplineSurface(objT));
 }
 
-bool CmdApproxSurface::isActive(void)
+bool CmdApproxSurface::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
@@ -195,7 +195,7 @@ void CmdApproxPlane::activated(int)
     }
 }
 
-bool CmdApproxPlane::isActive(void)
+bool CmdApproxPlane::isActive()
 {
     if (getSelection().countObjectsOfType(App::GeoFeature::getClassTypeId()) == 1)
         return true;
@@ -261,7 +261,7 @@ void CmdApproxCylinder::activated(int)
     updateActive();
 }
 
-bool CmdApproxCylinder::isActive(void)
+bool CmdApproxCylinder::isActive()
 {
     if (getSelection().countObjectsOfType(Mesh::Feature::getClassTypeId()) > 0)
         return true;
@@ -308,7 +308,7 @@ void CmdApproxSphere::activated(int)
     updateActive();
 }
 
-bool CmdApproxSphere::isActive(void)
+bool CmdApproxSphere::isActive()
 {
     if (getSelection().countObjectsOfType(Mesh::Feature::getClassTypeId()) > 0)
         return true;
@@ -363,7 +363,7 @@ void CmdApproxPolynomial::activated(int)
     updateActive();
 }
 
-bool CmdApproxPolynomial::isActive(void)
+bool CmdApproxPolynomial::isActive()
 {
     if (getSelection().countObjectsOfType(Mesh::Feature::getClassTypeId()) > 0)
         return true;
@@ -394,7 +394,7 @@ void CmdSegmentation::activated(int)
     Gui::Control().showDialog(dlg);
 }
 
-bool CmdSegmentation::isActive(void)
+bool CmdSegmentation::isActive()
 {
     if (Gui::Control().activeDialog())
         return false;
@@ -424,7 +424,7 @@ void CmdSegmentationManual::activated(int)
     Gui::Control().showDialog(dlg);
 }
 
-bool CmdSegmentationManual::isActive(void)
+bool CmdSegmentationManual::isActive()
 {
     if (Gui::Control().activeDialog())
         return false;
@@ -474,7 +474,7 @@ void CmdSegmentationFromComponents::activated(int)
     doc->recompute();
 }
 
-bool CmdSegmentationFromComponents::isActive(void)
+bool CmdSegmentationFromComponents::isActive()
 {
     if (getSelection().countObjectsOfType(Mesh::Feature::getClassTypeId()) > 0)
         return true;
@@ -541,7 +541,7 @@ void CmdMeshBoundary::activated(int)
     document->commitTransaction();
 }
 
-bool CmdMeshBoundary::isActive(void)
+bool CmdMeshBoundary::isActive()
 {
     return Gui::Selection().countObjectsOfType
         (Mesh::Feature::getClassTypeId()) > 0;
@@ -576,7 +576,7 @@ void CmdPoissonReconstruction::activated(int)
     Gui::Control().showDialog(new ReenGui::TaskPoisson(objT));
 }
 
-bool CmdPoissonReconstruction::isActive(void)
+bool CmdPoissonReconstruction::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
@@ -628,12 +628,12 @@ void CmdViewTriangulation::activated(int)
     }
 }
 
-bool CmdViewTriangulation::isActive(void)
+bool CmdViewTriangulation::isActive()
 {
     return  (Gui::Selection().countObjectsOfType(Points::Structured::getClassTypeId()) > 0);
 }
 
-void CreateReverseEngineeringCommands(void)
+void CreateReverseEngineeringCommands()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
     rcCmdMgr.addCommand(new CmdApproxSurface());
