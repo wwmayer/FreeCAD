@@ -72,7 +72,7 @@ PyMOD_INIT_FUNC(ReverseEngineeringGui)
 {
     if (!Gui::Application::Instance) {
         PyErr_SetString(PyExc_ImportError, "Cannot load Gui module in console application.");
-        PyMOD_Return(0);
+        PyMOD_Return(nullptr);
     }
 
     // load dependent module
@@ -81,7 +81,7 @@ PyMOD_INIT_FUNC(ReverseEngineeringGui)
     }
     catch(const Base::Exception& e) {
         PyErr_SetString(PyExc_ImportError, e.what());
-        PyMOD_Return(0);
+        PyMOD_Return(nullptr);
     }
 
     PyObject* mod = ReverseEngineeringGui::initModule();
