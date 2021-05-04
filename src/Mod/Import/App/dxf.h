@@ -145,11 +145,11 @@ protected:
     //! copy boiler plate file
     std::string getPlateFile(std::string fileSpec);
     void setDataDir(std::string s) { m_dataDir = s; }
-    std::string getHandle(void);
-    std::string getEntityHandle(void);
-    std::string getLayerHandle(void);
-    std::string getBlockHandle(void);
-    std::string getBlkRecordHandle(void);
+    std::string getHandle();
+    std::string getEntityHandle();
+    std::string getLayerHandle();
+    std::string getBlockHandle();
+    std::string getBlkRecordHandle();
 
     std::string m_optionSource;
     int m_version;
@@ -175,8 +175,8 @@ public:
     CDxfWrite(const char* filepath);
     ~CDxfWrite();
     
-    void init(void);
-    void endRun(void);
+    void init();
+    void endRun();
 
     bool Failed(){return m_fail;}
 //    void setOptions(void);
@@ -226,19 +226,19 @@ public:
                          const char* dimText);
 
     void writeDimBlockPreamble();
-    void writeBlockTrailer(void);
+    void writeBlockTrailer();
 
-    void writeHeaderSection(void);
-    void writeTablesSection(void);
-    void writeBlocksSection(void);
-    void writeEntitiesSection(void);
-    void writeObjectsSection(void);
-    void writeClassesSection(void);
+    void writeHeaderSection();
+    void writeTablesSection();
+    void writeBlocksSection();
+    void writeEntitiesSection();
+    void writeObjectsSection();
+    void writeClassesSection();
 
-    void makeLayerTable(void);
-    void makeBlockRecordTableHead(void);
-    void makeBlockRecordTableBody(void);
-    void makeBlockSectionHead(void);
+    void makeLayerTable();
+    void makeBlockRecordTableHead();
+    void makeBlockRecordTableBody();
+    void makeBlockSectionHead();
 };
 
 // derive a class from this and implement it's virtual functions

@@ -35,7 +35,7 @@
 #include "Workbench.h"
 
 // use a different name to CreateCommand()
-void CreateImportCommands(void);
+void CreateImportCommands();
 
 
 namespace ImportGui {

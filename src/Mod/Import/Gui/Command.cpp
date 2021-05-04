@@ -69,7 +69,7 @@ void FCCmdImportReadBREP::activated(int iMsg)
     commitCommand();
 }
 
-bool FCCmdImportReadBREP::isActive(void)
+bool FCCmdImportReadBREP::isActive()
 {
     return getGuiApplication()->activeDocument() != nullptr;
 }
@@ -106,7 +106,7 @@ void ImportStep::activated(int iMsg)
     }
 }
 
-bool ImportStep::isActive(void)
+bool ImportStep::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -146,7 +146,7 @@ void ImportIges::activated(int iMsg)
     }
 }
 
-bool ImportIges::isActive(void)
+bool ImportIges::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -155,7 +155,7 @@ bool ImportIges::isActive(void)
 }
 
 
-void CreateImportCommands(void)
+void CreateImportCommands()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
     rcCmdMgr.addCommand(new FCCmdImportReadBREP());
