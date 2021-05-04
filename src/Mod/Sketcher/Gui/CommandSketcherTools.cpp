@@ -195,7 +195,7 @@ void CmdSketcherCloseShape::activated(int iMsg)
     getSelection().clearSelection();
 }
 
-bool CmdSketcherCloseShape::isActive(void)
+bool CmdSketcherCloseShape::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), true);
 }
@@ -281,7 +281,7 @@ void CmdSketcherConnect::activated(int iMsg)
     getSelection().clearSelection();
 }
 
-bool CmdSketcherConnect::isActive(void)
+bool CmdSketcherConnect::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), true);
 }
@@ -353,7 +353,7 @@ void CmdSketcherSelectConstraints::activated(int iMsg)
     }
 }
 
-bool CmdSketcherSelectConstraints::isActive(void)
+bool CmdSketcherSelectConstraints::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), true);
 }
@@ -397,7 +397,7 @@ void CmdSketcherSelectOrigin::activated(int iMsg)
         Gui::Selection().addSelection(doc_name.c_str(), obj_name.c_str(), ss.str().c_str());
 }
 
-bool CmdSketcherSelectOrigin::isActive(void)
+bool CmdSketcherSelectOrigin::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), false);
 }
@@ -439,7 +439,7 @@ void CmdSketcherSelectVerticalAxis::activated(int iMsg)
       Gui::Selection().addSelection(doc_name.c_str(), obj_name.c_str(), ss.str().c_str());
 }
 
-bool CmdSketcherSelectVerticalAxis::isActive(void)
+bool CmdSketcherSelectVerticalAxis::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), false);
 }
@@ -481,7 +481,7 @@ void CmdSketcherSelectHorizontalAxis::activated(int iMsg)
       Gui::Selection().addSelection(doc_name.c_str(), obj_name.c_str(), ss.str().c_str());
 }
 
-bool CmdSketcherSelectHorizontalAxis::isActive(void)
+bool CmdSketcherSelectHorizontalAxis::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), false);
 }
@@ -533,7 +533,7 @@ void CmdSketcherSelectRedundantConstraints::activated(int iMsg)
     }
 }
 
-bool CmdSketcherSelectRedundantConstraints::isActive(void)
+bool CmdSketcherSelectRedundantConstraints::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), false);
 }
@@ -585,7 +585,7 @@ void CmdSketcherSelectMalformedConstraints::activated(int iMsg)
     }
 }
 
-bool CmdSketcherSelectMalformedConstraints::isActive(void)
+bool CmdSketcherSelectMalformedConstraints::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), false);
 }
@@ -637,7 +637,7 @@ void CmdSketcherSelectPartiallyRedundantConstraints::activated(int iMsg)
     }
 }
 
-bool CmdSketcherSelectPartiallyRedundantConstraints::isActive(void)
+bool CmdSketcherSelectPartiallyRedundantConstraints::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), false);
 }
@@ -688,7 +688,7 @@ void CmdSketcherSelectConflictingConstraints::activated(int iMsg)
     }
 }
 
-bool CmdSketcherSelectConflictingConstraints::isActive(void)
+bool CmdSketcherSelectConflictingConstraints::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), false);
 }
@@ -808,7 +808,7 @@ void CmdSketcherSelectElementsAssociatedWithConstraints::activated(int iMsg)
     }
 }
 
-bool CmdSketcherSelectElementsAssociatedWithConstraints::isActive(void)
+bool CmdSketcherSelectElementsAssociatedWithConstraints::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), true);
 }
@@ -891,7 +891,7 @@ void CmdSketcherSelectElementsWithDoFs::activated(int iMsg)
 
 }
 
-bool CmdSketcherSelectElementsWithDoFs::isActive(void)
+bool CmdSketcherSelectElementsWithDoFs::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), false);
 }
@@ -984,7 +984,7 @@ void CmdSketcherRestoreInternalAlignmentGeometry::activated(int iMsg)
     }
 }
 
-bool CmdSketcherRestoreInternalAlignmentGeometry::isActive(void)
+bool CmdSketcherRestoreInternalAlignmentGeometry::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), true);
 }
@@ -1184,7 +1184,7 @@ void CmdSketcherSymmetry::activated(int iMsg)
     tryAutoRecomputeIfNotSolve(Obj);
 }
 
-bool CmdSketcherSymmetry::isActive(void)
+bool CmdSketcherSymmetry::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), true);
 }
@@ -1502,7 +1502,7 @@ public:
     virtual void activate();
 protected:
     virtual void activated(int iMsg);
-    virtual bool isActive(void);
+    virtual bool isActive();
 };
 
 CmdSketcherCopy::CmdSketcherCopy()
@@ -1531,7 +1531,7 @@ void CmdSketcherCopy::activate()
     SketcherCopy::activate(SketcherCopy::Copy);
 }
 
-bool CmdSketcherCopy::isActive(void)
+bool CmdSketcherCopy::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), true);
 }
@@ -1546,7 +1546,7 @@ public:
     virtual void activate();
 protected:
     virtual void activated(int iMsg);
-    virtual bool isActive(void);
+    virtual bool isActive();
 };
 
 CmdSketcherClone::CmdSketcherClone()
@@ -1574,7 +1574,7 @@ void CmdSketcherClone::activate()
     SketcherCopy::activate(SketcherCopy::Clone);
 }
 
-bool CmdSketcherClone::isActive(void)
+bool CmdSketcherClone::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), true);
 }
@@ -1589,7 +1589,7 @@ public:
     virtual void activate();
 protected:
     virtual void activated(int iMsg);
-    virtual bool isActive(void);
+    virtual bool isActive();
 };
 
 CmdSketcherMove::CmdSketcherMove()
@@ -1617,7 +1617,7 @@ void CmdSketcherMove::activate()
     SketcherCopy::activate(SketcherCopy::Move);
 }
 
-bool CmdSketcherMove::isActive(void)
+bool CmdSketcherMove::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), true);
 }
@@ -1667,7 +1667,7 @@ void CmdSketcherCompCopy::activated(int iMsg)
     }
 }
 
-Gui::Action * CmdSketcherCompCopy::createAction(void)
+Gui::Action * CmdSketcherCompCopy::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -1715,7 +1715,7 @@ void CmdSketcherCompCopy::languageChange()
     move->setStatusTip(QApplication::translate("Sketcher_Move","Moves the geometry taking as reference the last selected point"));
 }
 
-bool CmdSketcherCompCopy::isActive(void)
+bool CmdSketcherCompCopy::isActive()
 {
     return isSketcherAcceleratorActive( getActiveGuiDocument(), true );
 }
@@ -2017,7 +2017,7 @@ void CmdSketcherRectangularArray::activated(int iMsg)
     }
 }
 
-bool CmdSketcherRectangularArray::isActive(void)
+bool CmdSketcherRectangularArray::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), true);
 }
@@ -2078,7 +2078,7 @@ void CmdSketcherDeleteAllGeometry::activated(int iMsg)
     }
 }
 
-bool CmdSketcherDeleteAllGeometry::isActive(void)
+bool CmdSketcherDeleteAllGeometry::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), false);
 }
@@ -2139,12 +2139,12 @@ void CmdSketcherDeleteAllConstraints::activated(int iMsg)
 
 }
 
-bool CmdSketcherDeleteAllConstraints::isActive(void)
+bool CmdSketcherDeleteAllConstraints::isActive()
 {
     return isSketcherAcceleratorActive(getActiveGuiDocument(), false);
 }
 
-void CreateSketcherCommandsConstraintAccel(void)
+void CreateSketcherCommandsConstraintAccel()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 

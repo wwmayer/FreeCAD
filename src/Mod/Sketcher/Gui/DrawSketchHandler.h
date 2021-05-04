@@ -70,14 +70,14 @@ public:
     virtual bool onSelectionChanged(const Gui::SelectionChanges&) { return false; }
     virtual void registerPressedKey(bool /*pressed*/, int /*key*/){}
 
-    virtual void quit(void);
+    virtual void quit();
 
     friend class ViewProviderSketch;
 
     // get the actual highest vertex index, the next use will be +1
-    int getHighestVertexIndex(void);
+    int getHighestVertexIndex();
     // get the actual highest edge index, the next use will be +1
-    int getHighestCurveIndex(void);
+    int getHighestCurveIndex();
 
     int seekAutoConstraint(std::vector<AutoConstraint> &suggestedConstraints,
                            const Base::Vector2d &Pos, const Base::Vector2d &Dir,
@@ -89,7 +89,7 @@ public:
 
     void setPositionText(const Base::Vector2d &Pos, const SbString &text);
     void setPositionText(const Base::Vector2d &Pos);
-    void resetPositionText(void);
+    void resetPositionText();
     void renderSuggestConstraintsCursor(std::vector<AutoConstraint> &suggestedConstraints);
 
 protected:
@@ -104,8 +104,8 @@ protected:
     void setSvgCursor(const QString &svgName, int x, int y,
                       const std::map<unsigned long, unsigned long>& colorMapping = std::map<unsigned long, unsigned long>());
     void addCursorTail(std::vector<QPixmap> &pixmaps);
-    void unsetCursor(void);
-    void applyCursor(void);
+    void unsetCursor();
+    void applyCursor();
     void applyCursor(QCursor &newCursor);
     void setCrosshairColor();
     unsigned long getCrosshairColor();

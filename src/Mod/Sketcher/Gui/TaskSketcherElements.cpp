@@ -451,7 +451,7 @@ void TaskSketcherElements::onSelectionChanged(const Gui::SelectionChanges& msg)
 }
 
 
-void TaskSketcherElements::on_listWidgetElements_itemSelectionChanged(void)
+void TaskSketcherElements::on_listWidgetElements_itemSelectionChanged()
 {
     ui->listWidgetElements->blockSignals(true);
 
@@ -669,7 +669,7 @@ void TaskSketcherElements::leaveEvent (QEvent * event)
     ui->listWidgetElements->clearFocus();
 }
 
-void TaskSketcherElements::slotElementsChanged(void)
+void TaskSketcherElements::slotElementsChanged()
 {
     MultIcon Sketcher_Element_Arc_Edge("Sketcher_Element_Arc_Edge");
     MultIcon Sketcher_Element_Arc_EndPoint("Sketcher_Element_Arc_EndPoint");

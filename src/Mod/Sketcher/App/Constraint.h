@@ -105,17 +105,17 @@ public:
 
     virtual ~Constraint() = default;
 
-    Constraint *clone(void) const; // does copy the tag, it will be treated as a rename by the expression engine.
-    Constraint *copy(void) const; // does not copy the tag, but generates a new one
+    Constraint *clone() const; // does copy the tag, it will be treated as a rename by the expression engine.
+    Constraint *copy() const; // does not copy the tag, but generates a new one
 
     static const int GeoUndef;
 
     // from base class
-    virtual unsigned int getMemSize(void) const override;
+    virtual unsigned int getMemSize() const override;
     virtual void Save(Base::Writer &/*writer*/) const override;
     virtual void Restore(Base::XMLReader &/*reader*/) override;
 
-    virtual PyObject *getPyObject(void) override;
+    virtual PyObject *getPyObject() override;
 
     Base::Quantity getPresentationValue() const;
     inline void setValue(double newValue) {

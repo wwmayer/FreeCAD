@@ -696,7 +696,7 @@ struct SketchSelection{
         Circle,
         Arc
     };
-    int setUp(void);
+    int setUp();
     struct SketchSelectionItem {
         GeoType type;
         int GeoId;
@@ -706,7 +706,7 @@ struct SketchSelection{
     QString ErrorMsg;
 };
 
-int SketchSelection::setUp(void)
+int SketchSelection::setUp()
 {
     std::vector<Gui::SelectionObject> selection = Gui::Selection().getSelectionEx();
 
@@ -861,7 +861,7 @@ protected:
 
     virtual void applyConstraint(std::vector<SelIdPair> &, int) {}
     virtual void activated(int /*iMsg*/);
-    virtual bool isActive(void)
+    virtual bool isActive()
     { return isCreateGeoActive(getActiveGuiDocument()); }
 };
 
@@ -5875,7 +5875,7 @@ void CmdSketcherCompConstrainRadDia::activated(int iMsg)
     pcAction->setIcon(a[iMsg]->icon());
 }
 
-Gui::Action * CmdSketcherCompConstrainRadDia::createAction(void)
+Gui::Action * CmdSketcherCompConstrainRadDia::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -5948,7 +5948,7 @@ void CmdSketcherCompConstrainRadDia::languageChange()
     arc2->setStatusTip(QApplication::translate("Sketcher_ConstrainDiameter", "Fix the diameter of a circle or an arc"));
 }
 
-bool CmdSketcherCompConstrainRadDia::isActive(void)
+bool CmdSketcherCompConstrainRadDia::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -7167,7 +7167,7 @@ void CmdSketcherConstrainSnellsLaw::activated(int iMsg)
     }
 }
 
-bool CmdSketcherConstrainSnellsLaw::isActive(void)
+bool CmdSketcherConstrainSnellsLaw::isActive()
 {
     return isCreateConstraintActive( getActiveGuiDocument() );
 }
@@ -7628,7 +7628,7 @@ void CmdSketcherConstrainInternalAlignment::activated(int iMsg)
     }
 }
 
-bool CmdSketcherConstrainInternalAlignment::isActive(void)
+bool CmdSketcherConstrainInternalAlignment::isActive()
 {
     return isCreateConstraintActive(getActiveGuiDocument());
 }
@@ -7756,7 +7756,7 @@ void CmdSketcherToggleDrivingConstraint::activated(int iMsg)
     }
 }
 
-bool CmdSketcherToggleDrivingConstraint::isActive(void)
+bool CmdSketcherToggleDrivingConstraint::isActive()
 {
     return isCreateGeoActive( getActiveGuiDocument() );
 }
@@ -7840,13 +7840,13 @@ void CmdSketcherToggleActiveConstraint::activated(int iMsg)
     }
 }
 
-bool CmdSketcherToggleActiveConstraint::isActive(void)
+bool CmdSketcherToggleActiveConstraint::isActive()
 {
     return isCreateConstraintActive( getActiveGuiDocument() );
 }
 
 
-void CreateSketcherCommandsConstraints(void)
+void CreateSketcherCommandsConstraints()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 

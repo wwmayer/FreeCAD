@@ -49,7 +49,7 @@
 using namespace Sketcher;
 
 // returns a string which represents the object e.g. when printed in python
-std::string ExternalGeometryFacadePy::representation(void) const
+std::string ExternalGeometryFacadePy::representation() const
 {
     std::stringstream str;
     str << "<ExternalGeometryFacadePy ( Id=";
@@ -133,7 +133,7 @@ PyObject* ExternalGeometryFacadePy::setFlag(PyObject *args)
     Py_Return;
 }
 
-Py::String ExternalGeometryFacadePy::getRef(void) const
+Py::String ExternalGeometryFacadePy::getRef() const
 {
     return Py::String(this->getExternalGeometryFacadePtr()->getRef());
 }
@@ -143,7 +143,7 @@ void ExternalGeometryFacadePy::setRef(Py::String value)
     this->getExternalGeometryFacadePtr()->setRef(value.as_std_string());
 }
 
-Py::Long ExternalGeometryFacadePy::getId(void) const
+Py::Long ExternalGeometryFacadePy::getId() const
 {
     return Py::Long(this->getExternalGeometryFacadePtr()->getId());
 }
@@ -153,7 +153,7 @@ void ExternalGeometryFacadePy::setId(Py::Long Id)
     this->getExternalGeometryFacadePtr()->setId(long(Id));
 }
 
-Py::String ExternalGeometryFacadePy::getInternalType(void) const
+Py::String ExternalGeometryFacadePy::getInternalType() const
 {
     int internaltypeindex = (int)this->getExternalGeometryFacadePtr()->getInternalType();
 
@@ -178,7 +178,7 @@ void ExternalGeometryFacadePy::setInternalType(Py::String arg)
     throw Py::ValueError("Argument is not a valid internal geometry type.");
 }
 
-Py::Boolean ExternalGeometryFacadePy::getBlocked(void) const
+Py::Boolean ExternalGeometryFacadePy::getBlocked() const
 {
     return Py::Boolean(getExternalGeometryFacadePtr()->getBlocked());
 }
@@ -495,7 +495,7 @@ PyObject* ExternalGeometryFacadePy::getExtensions(PyObject *args)
 
 }
 
-Py::Boolean ExternalGeometryFacadePy::getConstruction(void) const
+Py::Boolean ExternalGeometryFacadePy::getConstruction() const
 {
     return Py::Boolean(getExternalGeometryFacadePtr()->getConstruction());
 }
@@ -506,13 +506,13 @@ void  ExternalGeometryFacadePy::setConstruction(Py::Boolean arg)
         getExternalGeometryFacadePtr()->setConstruction(arg);
 }
 
-Py::String ExternalGeometryFacadePy::getTag(void) const
+Py::String ExternalGeometryFacadePy::getTag() const
 {
     std::string tmp = boost::uuids::to_string(getExternalGeometryFacadePtr()->getTag());
     return Py::String(tmp);
 }
 
-Py::Object ExternalGeometryFacadePy::getGeometry(void) const
+Py::Object ExternalGeometryFacadePy::getGeometry() const
 {
     // We return a clone
     std::unique_ptr<Part::Geometry> geo(getExternalGeometryFacadePtr()->getGeometry()->clone());

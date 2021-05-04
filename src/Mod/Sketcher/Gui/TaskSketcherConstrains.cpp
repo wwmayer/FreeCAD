@@ -764,7 +764,7 @@ void TaskSketcherConstrains::on_listWidgetConstraints_emitCenterSelectedItems()
     sketchView->centerSelection();
 }
 
-void TaskSketcherConstrains::on_listWidgetConstraints_itemSelectionChanged(void)
+void TaskSketcherConstrains::on_listWidgetConstraints_itemSelectionChanged()
 {
     std::string doc_name = sketchView->getSketchObject()->getDocument()->getName();
     std::string obj_name = sketchView->getSketchObject()->getNameInDocument();
@@ -872,7 +872,7 @@ void TaskSketcherConstrains::on_listWidgetConstraints_itemChanged(QListWidgetIte
     inEditMode = false;
 }
 
-void TaskSketcherConstrains::slotConstraintsChanged(void)
+void TaskSketcherConstrains::slotConstraintsChanged()
 {
     assert(sketchView);
     // Build up ListView with the constraints

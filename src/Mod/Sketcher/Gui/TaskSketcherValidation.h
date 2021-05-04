@@ -79,7 +79,7 @@ class TaskSketcherValidation : public Gui::TaskView::TaskDialog
 public:
     TaskSketcherValidation(Sketcher::SketchObject* Obj);
     ~TaskSketcherValidation();
-    virtual QDialogButtonBox::StandardButtons getStandardButtons(void) const
+    virtual QDialogButtonBox::StandardButtons getStandardButtons() const
     { return QDialogButtonBox::Close; }
 };
 

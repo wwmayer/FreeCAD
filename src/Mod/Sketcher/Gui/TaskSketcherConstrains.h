@@ -79,16 +79,16 @@ public:
     void onSelectionChanged(const Gui::SelectionChanges& msg);
 
 private:
-    void slotConstraintsChanged(void);
+    void slotConstraintsChanged();
 
 public Q_SLOTS:
     void on_comboBoxFilter_currentIndexChanged(int);
-    void on_listWidgetConstraints_itemSelectionChanged(void);
+    void on_listWidgetConstraints_itemSelectionChanged();
     void on_listWidgetConstraints_itemActivated(QListWidgetItem *item);
     void on_listWidgetConstraints_itemChanged(QListWidgetItem * item);
     void on_listWidgetConstraints_updateDrivingStatus(QListWidgetItem *item, bool status);
     void on_listWidgetConstraints_updateActiveStatus(QListWidgetItem *item, bool status);
-    void on_listWidgetConstraints_emitCenterSelectedItems(void);
+    void on_listWidgetConstraints_emitCenterSelectedItems();
     void on_filterInternalAlignment_stateChanged(int state);
     void on_extendedInformation_stateChanged(int state);
 

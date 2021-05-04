@@ -150,7 +150,7 @@ bool GeometryFacade::getBlocked(const Part::Geometry * geometry)
     return gf->getBlocked();
 }
 
-PyObject * GeometryFacade::getPyObject(void)
+PyObject * GeometryFacade::getPyObject()
 {
     return new GeometryFacadePy(new GeometryFacade(this->Geo));
 }

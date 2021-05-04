@@ -66,7 +66,7 @@ DrawSketchHandler::DrawSketchHandler() : sketchgui(nullptr) {}
 
 DrawSketchHandler::~DrawSketchHandler() {}
 
-void DrawSketchHandler::quit(void)
+void DrawSketchHandler::quit()
 {
     assert(sketchgui);
     sketchgui->drawEdit(std::vector<Base::Vector2d>());
@@ -83,12 +83,12 @@ void DrawSketchHandler::quit(void)
 //**************************************************************************
 // Helpers
 
-int DrawSketchHandler::getHighestVertexIndex(void)
+int DrawSketchHandler::getHighestVertexIndex()
 {
     return sketchgui->getSketchObject()->getHighestVertexIndex();
 }
 
-int DrawSketchHandler::getHighestCurveIndex(void)
+int DrawSketchHandler::getHighestCurveIndex()
 {
     return sketchgui->getSketchObject()->getHighestCurveIndex();
 }
@@ -225,7 +225,7 @@ void DrawSketchHandler::addCursorTail( std::vector<QPixmap> &pixmaps ) {
     }
 }
 
-void DrawSketchHandler::applyCursor(void)
+void DrawSketchHandler::applyCursor()
 {
     applyCursor(actCursor);
 }
@@ -239,7 +239,7 @@ void DrawSketchHandler::applyCursor(QCursor &newCursor)
     }
 }
 
-void DrawSketchHandler::unsetCursor(void)
+void DrawSketchHandler::unsetCursor()
 {
     Gui::MDIView* view = Gui::getMainWindow()->activeWindow();
     if (view && view->isDerivedFrom(Gui::View3DInventor::getClassTypeId())) {
@@ -691,7 +691,7 @@ void DrawSketchHandler::setPositionText(const Base::Vector2d &Pos)
     sketchgui->setPositionText(Pos);
 }
 
-void DrawSketchHandler::resetPositionText(void)
+void DrawSketchHandler::resetPositionText()
 {
     sketchgui->resetPositionText();
 }

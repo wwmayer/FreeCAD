@@ -181,12 +181,12 @@ void CmdSketcherSwitchVirtualSpace::activated(int iMsg)
     }
 }
 
-bool CmdSketcherSwitchVirtualSpace::isActive(void)
+bool CmdSketcherSwitchVirtualSpace::isActive()
 {
     return isSketcherVirtualSpaceActive(getActiveGuiDocument(), false);
 }
 
-void CreateSketcherCommandsVirtualSpace(void)
+void CreateSketcherCommandsVirtualSpace()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 

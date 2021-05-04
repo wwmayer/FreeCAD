@@ -411,7 +411,7 @@ void CmdSketcherCreateLine::updateAction(int mode)
     }
 }
 
-bool CmdSketcherCreateLine::isActive(void)
+bool CmdSketcherCreateLine::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -610,7 +610,7 @@ void CmdSketcherCreateRectangle::updateAction(int mode)
     }
 }
 
-bool CmdSketcherCreateRectangle::isActive(void)
+bool CmdSketcherCreateRectangle::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -1173,7 +1173,7 @@ public:
         return true;
     }
 
-    virtual void quit(void) {
+    virtual void quit() {
         // We must see if we need to create a B-spline before cancelling everything
         // and now just like any other Handler,
 
@@ -1297,7 +1297,7 @@ void CmdSketcherCreatePolyline::updateAction(int mode)
     }
 }
 
-bool CmdSketcherCreatePolyline::isActive(void)
+bool CmdSketcherCreatePolyline::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -1526,7 +1526,7 @@ void CmdSketcherCreateArc::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerArc() );
 }
 
-bool CmdSketcherCreateArc::isActive(void)
+bool CmdSketcherCreateArc::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -1795,7 +1795,7 @@ void CmdSketcherCreate3PointArc::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandler3PointArc() );
 }
 
-bool CmdSketcherCreate3PointArc::isActive(void)
+bool CmdSketcherCreate3PointArc::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -1833,7 +1833,7 @@ void CmdSketcherCompCreateArc::activated(int iMsg)
     pcAction->setIcon(a[iMsg]->icon());
 }
 
-Gui::Action * CmdSketcherCompCreateArc::createAction(void)
+Gui::Action * CmdSketcherCompCreateArc::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -1895,7 +1895,7 @@ void CmdSketcherCompCreateArc::languageChange()
     arc2->setStatusTip(QApplication::translate("Sketcher_Create3PointArc","Create an arc by its end points and a point along the arc"));
 }
 
-bool CmdSketcherCompCreateArc::isActive(void)
+bool CmdSketcherCompCreateArc::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -2056,7 +2056,7 @@ void CmdSketcherCreateCircle::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerCircle() );
 }
 
-bool CmdSketcherCreateCircle::isActive(void)
+bool CmdSketcherCreateCircle::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -2851,7 +2851,7 @@ void CmdSketcherCreateEllipseByCenter::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerEllipse(0) );
 }
 
-bool CmdSketcherCreateEllipseByCenter::isActive(void)
+bool CmdSketcherCreateEllipseByCenter::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -2881,7 +2881,7 @@ void CmdSketcherCreateEllipseBy3Points::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerEllipse(1) );
 }
 
-bool CmdSketcherCreateEllipseBy3Points::isActive(void)
+bool CmdSketcherCreateEllipseBy3Points::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -3208,7 +3208,7 @@ void CmdSketcherCreateArcOfEllipse::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerArcOfEllipse() );
 }
 
-bool CmdSketcherCreateArcOfEllipse::isActive(void)
+bool CmdSketcherCreateArcOfEllipse::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -3550,7 +3550,7 @@ void CmdSketcherCreateArcOfHyperbola::activated(int /*iMsg*/)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerArcOfHyperbola() );
 }
 
-bool CmdSketcherCreateArcOfHyperbola::isActive(void)
+bool CmdSketcherCreateArcOfHyperbola::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -3848,7 +3848,7 @@ void CmdSketcherCreateArcOfParabola::activated(int /*iMsg*/)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerArcOfParabola() );
 }
 
-bool CmdSketcherCreateArcOfParabola::isActive(void)
+bool CmdSketcherCreateArcOfParabola::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -3903,7 +3903,7 @@ void CmdSketcherCompCreateConic::activated(int iMsg)
     pcAction->setIcon(a[iMsg]->icon());
 }
 
-Gui::Action * CmdSketcherCompCreateConic::createAction(void)
+Gui::Action * CmdSketcherCompCreateConic::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -3994,7 +3994,7 @@ void CmdSketcherCompCreateConic::languageChange()
     arcofparabola->setStatusTip(QApplication::translate("Sketcher_CreateArcOfParabola","Create an arc of parabola by its focus, vertex, and endpoints"));
 }
 
-bool CmdSketcherCompCreateConic::isActive(void)
+bool CmdSketcherCompCreateConic::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -4302,7 +4302,7 @@ public:
         return true;
     }
 
-    virtual void quit(void) {
+    virtual void quit() {
         // We must see if we need to create a B-spline before cancelling everything
         // and now just like any other Handler,
 
@@ -4397,7 +4397,7 @@ void CmdSketcherCreateBSpline::activated(int iMsg)
     }
 }*/
 
-bool CmdSketcherCreateBSpline::isActive(void)
+bool CmdSketcherCreateBSpline::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -4427,7 +4427,7 @@ void CmdSketcherCreatePeriodicBSpline::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerBSpline(1) );
 }
 
-bool CmdSketcherCreatePeriodicBSpline::isActive(void)
+bool CmdSketcherCreatePeriodicBSpline::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -4474,7 +4474,7 @@ void CmdSketcherCompCreateBSpline::activated(int iMsg)
     pcAction->setIcon(a[iMsg]->icon());
 }
 
-Gui::Action * CmdSketcherCompCreateBSpline::createAction(void)
+Gui::Action * CmdSketcherCompCreateBSpline::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -4538,7 +4538,7 @@ void CmdSketcherCompCreateBSpline::languageChange()
     periodicbspline->setStatusTip(QApplication::translate("Sketcher_Create_Periodic_BSpline","Create a periodic B-spline by control points"));
 }
 
-bool CmdSketcherCompCreateBSpline::isActive(void)
+bool CmdSketcherCompCreateBSpline::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -4749,7 +4749,7 @@ void CmdSketcherCreate3PointCircle::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandler3PointCircle() );
 }
 
-bool CmdSketcherCreate3PointCircle::isActive(void)
+bool CmdSketcherCreate3PointCircle::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -4787,7 +4787,7 @@ void CmdSketcherCompCreateCircle::activated(int iMsg)
     pcAction->setIcon(a[iMsg]->icon());
 }
 
-Gui::Action * CmdSketcherCompCreateCircle::createAction(void)
+Gui::Action * CmdSketcherCompCreateCircle::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -4849,7 +4849,7 @@ void CmdSketcherCompCreateCircle::languageChange()
     arc2->setStatusTip(QApplication::translate("Sketcher_Create3PointCircle", "Create a circle by 3 rim points"));
 }
 
-bool CmdSketcherCompCreateCircle::isActive(void)
+bool CmdSketcherCompCreateCircle::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -4956,7 +4956,7 @@ void CmdSketcherCreatePoint::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(), new DrawSketchHandlerPoint());
 }
 
-bool CmdSketcherCreatePoint::isActive(void)
+bool CmdSketcherCreatePoint::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -4984,7 +4984,7 @@ void CmdSketcherCreateText::activated(int iMsg)
     Q_UNUSED(iMsg);
 }
 
-bool CmdSketcherCreateText::isActive(void)
+bool CmdSketcherCreateText::isActive()
 {
     return false;
 }
@@ -5012,7 +5012,7 @@ void CmdSketcherCreateDraftLine::activated(int iMsg)
     Q_UNUSED(iMsg);
 }
 
-bool CmdSketcherCreateDraftLine::isActive(void)
+bool CmdSketcherCreateDraftLine::isActive()
 {
     return false;
 }
@@ -5294,7 +5294,7 @@ void CmdSketcherCreateFillet::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(), new DrawSketchHandlerFillet(DrawSketchHandlerFillet::SimpleFillet));
 }
 
-bool CmdSketcherCreateFillet::isActive(void)
+bool CmdSketcherCreateFillet::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -5323,7 +5323,7 @@ void CmdSketcherCreatePointFillet::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(), new DrawSketchHandlerFillet(DrawSketchHandlerFillet::ConstraintPreservingFillet));
 }
 
-bool CmdSketcherCreatePointFillet::isActive(void)
+bool CmdSketcherCreatePointFillet::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -5369,7 +5369,7 @@ void CmdSketcherCompCreateFillets::activated(int iMsg)
     pcAction->setIcon(a[iMsg]->icon());
 }
 
-Gui::Action * CmdSketcherCompCreateFillets::createAction(void)
+Gui::Action * CmdSketcherCompCreateFillets::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -5424,7 +5424,7 @@ void CmdSketcherCompCreateFillets::languageChange()
     pointFillet->setStatusTip(QApplication::translate("Sketcher_CreatePointFillet","Fillet that preserves constraints and intersection point"));
 }
 
-bool CmdSketcherCompCreateFillets::isActive(void)
+bool CmdSketcherCompCreateFillets::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -5584,7 +5584,7 @@ void CmdSketcherTrimming::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(), new DrawSketchHandlerTrimming());
 }
 
-bool CmdSketcherTrimming::isActive(void)
+bool CmdSketcherTrimming::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -5898,7 +5898,7 @@ void CmdSketcherExtend::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(), new DrawSketchHandlerExtend());
 }
 
-bool CmdSketcherExtend::isActive(void)
+bool CmdSketcherExtend::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -6017,7 +6017,7 @@ void CmdSketcherSplit::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(), new DrawSketchHandlerSplitting());
 }
 
-bool CmdSketcherSplit::isActive(void)
+bool CmdSketcherSplit::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -6201,7 +6201,7 @@ void CmdSketcherExternal::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(), new DrawSketchHandlerExternal());
 }
 
-bool CmdSketcherExternal::isActive(void)
+bool CmdSketcherExternal::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -6377,7 +6377,7 @@ namespace SketcherGui {
         ActivateHandler(getActiveGuiDocument(), new DrawSketchHandlerCarbonCopy());
     }
 
-    bool CmdSketcherCarbonCopy::isActive(void)
+    bool CmdSketcherCarbonCopy::isActive()
     {
         return isCreateGeoActive(getActiveGuiDocument());
     }
@@ -6632,7 +6632,7 @@ void CmdSketcherCreateSlot::updateAction(int mode)
     }
 }
 
-bool CmdSketcherCreateSlot::isActive(void)
+bool CmdSketcherCreateSlot::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -6812,7 +6812,7 @@ void CmdSketcherCreateTriangle::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerRegularPolygon(3) );
 }
 
-bool CmdSketcherCreateTriangle::isActive(void)
+bool CmdSketcherCreateTriangle::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -6839,7 +6839,7 @@ void CmdSketcherCreateSquare::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerRegularPolygon(4) );
 }
 
-bool CmdSketcherCreateSquare::isActive(void)
+bool CmdSketcherCreateSquare::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -6866,7 +6866,7 @@ void CmdSketcherCreatePentagon::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerRegularPolygon(5) );
 }
 
-bool CmdSketcherCreatePentagon::isActive(void)
+bool CmdSketcherCreatePentagon::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -6894,7 +6894,7 @@ void CmdSketcherCreateHexagon::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerRegularPolygon(6) );
 }
 
-bool CmdSketcherCreateHexagon::isActive(void)
+bool CmdSketcherCreateHexagon::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -6921,7 +6921,7 @@ void CmdSketcherCreateHeptagon::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerRegularPolygon(7) );
 }
 
-bool CmdSketcherCreateHeptagon::isActive(void)
+bool CmdSketcherCreateHeptagon::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -6948,7 +6948,7 @@ void CmdSketcherCreateOctagon::activated(int iMsg)
     ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerRegularPolygon(8) );
 }
 
-bool CmdSketcherCreateOctagon::isActive(void)
+bool CmdSketcherCreateOctagon::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -6979,7 +6979,7 @@ void CmdSketcherCreateRegularPolygon::activated(int iMsg)
         ActivateHandler(getActiveGuiDocument(),new DrawSketchHandlerRegularPolygon(srpd.sides));
 }
 
-bool CmdSketcherCreateRegularPolygon::isActive(void)
+bool CmdSketcherCreateRegularPolygon::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
@@ -7034,7 +7034,7 @@ void CmdSketcherCompCreateRegularPolygon::activated(int iMsg)
     pcAction->setIcon(a[iMsg]->icon());
 }
 
-Gui::Action * CmdSketcherCompCreateRegularPolygon::createAction(void)
+Gui::Action * CmdSketcherCompCreateRegularPolygon::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -7136,12 +7136,12 @@ void CmdSketcherCompCreateRegularPolygon::languageChange()
     regular->setStatusTip(QApplication::translate("Sketcher_CreateOctagon","Create a regular polygon by its center and by one corner"));
 }
 
-bool CmdSketcherCompCreateRegularPolygon::isActive(void)
+bool CmdSketcherCompCreateRegularPolygon::isActive()
 {
     return isCreateGeoActive(getActiveGuiDocument());
 }
 
-void CreateSketcherCommandsCreateGeo(void)
+void CreateSketcherCommandsCreateGeo()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 

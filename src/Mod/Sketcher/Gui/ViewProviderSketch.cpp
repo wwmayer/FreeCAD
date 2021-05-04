@@ -472,7 +472,7 @@ void ViewProviderSketch::deactivateHandler()
 }
 
 /// removes the active handler
-void ViewProviderSketch::purgeHandler(void)
+void ViewProviderSketch::purgeHandler()
 {
     deactivateHandler();
     Gui::Selection().clearSelection();
@@ -1082,7 +1082,7 @@ bool ViewProviderSketch::mouseButtonPressed(int Button, bool pressed, const SbVe
     return false;
 }
 
-void ViewProviderSketch::editDoubleClicked(void)
+void ViewProviderSketch::editDoubleClicked()
 {
     if (edit->PreselectPoint != -1) {
         Base::Console().Log("double click point:%d\n",edit->PreselectPoint);
@@ -1654,7 +1654,7 @@ Base::Vector3d ViewProviderSketch::seekConstraintPosition(const Base::Vector3d &
     return relPos * step;
 }
 
-bool ViewProviderSketch::isSelectable(void) const
+bool ViewProviderSketch::isSelectable() const
 {
     if (isEditing())
         return false;
@@ -2783,7 +2783,7 @@ void ViewProviderSketch::doBoxSelection(const SbVec2s &startPos, const SbVec2s &
     }
 }
 
-void ViewProviderSketch::updateColor(void)
+void ViewProviderSketch::updateColor()
 {
     assert(edit);
     //Base::Console().Log("Draw preseletion\n");
@@ -3154,7 +3154,7 @@ bool ViewProviderSketch::isPointOnSketch(const SoPickedPoint *pp) const
     return path->containsNode(edit->EditRoot);
 }
 
-bool ViewProviderSketch::doubleClicked(void)
+bool ViewProviderSketch::doubleClicked()
 {
     Gui::Application::Instance->activeDocument()->setEdit(this);
     return true;
@@ -5910,7 +5910,7 @@ Restart:
     }
 }
 
-void ViewProviderSketch::rebuildConstraintsVisual(void)
+void ViewProviderSketch::rebuildConstraintsVisual()
 {
     const std::vector<Sketcher::Constraint *> &constrlist = getSketchObject()->Constraints.getValues();
     // clean up
@@ -6095,7 +6095,7 @@ void ViewProviderSketch::rebuildConstraintsVisual(void)
     }
 }
 
-void ViewProviderSketch::updateVirtualSpace(void)
+void ViewProviderSketch::updateVirtualSpace()
 {
     const std::vector<Sketcher::Constraint *> &constrlist = getSketchObject()->Constraints.getValues();
 
@@ -6616,7 +6616,7 @@ void ViewProviderSketch::UpdateSolverInformation()
 }
 
 
-void ViewProviderSketch::createEditInventorNodes(void)
+void ViewProviderSketch::createEditInventorNodes()
 {
     assert(edit);
 
@@ -6978,7 +6978,7 @@ void ViewProviderSketch::setPositionText(const Base::Vector2d &Pos)
     setPositionText(Pos,text);
 }
 
-void ViewProviderSketch::resetPositionText(void)
+void ViewProviderSketch::resetPositionText()
 {
     edit->textX->string = "";
 }
@@ -7008,7 +7008,7 @@ void ViewProviderSketch::setPreselectPoint(int PreselectPoint)
     }
 }
 
-void ViewProviderSketch::resetPreselectPoint(void)
+void ViewProviderSketch::resetPreselectPoint()
 {
     if (edit) {
         int oldPtId = -1;
@@ -7057,7 +7057,7 @@ void ViewProviderSketch::removeSelectPoint(int SelectPoint)
     }
 }
 
-void ViewProviderSketch::clearSelectPoints(void)
+void ViewProviderSketch::clearSelectPoints()
 {
     if (edit) {
         SbVec3f *pverts = edit->PointsCoordinate->point.startEditing();
@@ -7073,33 +7073,33 @@ void ViewProviderSketch::clearSelectPoints(void)
     }
 }
 
-int ViewProviderSketch::getPreselectPoint(void) const
+int ViewProviderSketch::getPreselectPoint() const
 {
     if (edit)
         return edit->PreselectPoint;
     return -1;
 }
 
-int ViewProviderSketch::getPreselectCurve(void) const
+int ViewProviderSketch::getPreselectCurve() const
 {
     if (edit)
         return edit->PreselectCurve;
     return -1;
 }
 
-int ViewProviderSketch::getPreselectCross(void) const
+int ViewProviderSketch::getPreselectCross() const
 {
     if (edit)
         return edit->PreselectCross;
     return -1;
 }
 
-Sketcher::SketchObject *ViewProviderSketch::getSketchObject(void) const
+Sketcher::SketchObject *ViewProviderSketch::getSketchObject() const
 {
     return dynamic_cast<Sketcher::SketchObject *>(pcObject);
 }
 
-const Sketcher::Sketch &ViewProviderSketch::getSolvedSketch(void) const
+const Sketcher::Sketch &ViewProviderSketch::getSolvedSketch() const
 {
     return const_cast<const Sketcher::SketchObject *>(getSketchObject())->getSolvedSketch();
 }
