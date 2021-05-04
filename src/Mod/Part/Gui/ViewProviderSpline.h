@@ -42,7 +42,7 @@ public:
     // Display properties
     App::PropertyBool ControlPoints;
 
-    QIcon getIcon(void) const;
+    QIcon getIcon() const;
     void updateData(const App::Property* prop);
     void setupContextMenu(QMenu* menu, QObject* receiver, const char* member);
 
@@ -62,7 +62,7 @@ class PartGuiExport ViewProviderSplineExtension : public Gui::ViewProviderExtens
 
 public:
     /// Constructor
-    ViewProviderSplineExtension(void);
+    ViewProviderSplineExtension();
     virtual ~ViewProviderSplineExtension() = default;
 
     App::PropertyBool ControlPoints;

@@ -94,7 +94,7 @@ ViewProvider2DObjectGrid::~ViewProvider2DObjectGrid()
 
 // **********************************************************************************
 
-SoSeparator* ViewProvider2DObjectGrid::createGrid(void)
+SoSeparator* ViewProvider2DObjectGrid::createGrid()
 {
     //double dx = 10 * GridSize.getValue();                       // carpet size
     //double dy = 10 * GridSize.getValue();
@@ -357,7 +357,7 @@ ViewProvider2DObject::~ViewProvider2DObject()
 {
 }
 
-std::vector<std::string> ViewProvider2DObject::getDisplayModes(void) const
+std::vector<std::string> ViewProvider2DObject::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderGeometryObject::getDisplayModes();

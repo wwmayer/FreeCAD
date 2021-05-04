@@ -49,7 +49,7 @@ using namespace Part;
 extern const char* gce_ErrorStatusText(gce_ErrorType et);
 
 // returns a string which represents the object e.g. when printed in python
-std::string PlanePy::representation(void) const
+std::string PlanePy::representation() const
 {
     return "<Plane object>";
 }
@@ -172,7 +172,7 @@ int PlanePy::PyInit(PyObject* args, PyObject* kwds)
     return -1;
 }
 
-Py::Object PlanePy::getPosition(void) const
+Py::Object PlanePy::getPosition() const
 {
     Handle(Geom_Plane) this_surf = Handle(Geom_Plane)::DownCast
         (this->getGeomPlanePtr()->handle());
@@ -212,7 +212,7 @@ void PlanePy::setPosition(Py::Object arg)
     }
 }
 
-Py::Object PlanePy::getAxis(void) const
+Py::Object PlanePy::getAxis() const
 {
     Handle(Geom_ElementarySurface) s = Handle(Geom_ElementarySurface)::DownCast
         (getGeometryPtr()->handle());

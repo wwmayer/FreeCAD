@@ -53,7 +53,7 @@ ViewProviderBox::~ViewProviderBox()
 
 // **********************************************************************************
 
-std::vector<std::string> ViewProviderBox::getDisplayModes(void) const
+std::vector<std::string> ViewProviderBox::getDisplayModes() const
 {
   // get the modes of the father
   std::vector<std::string> StrList;

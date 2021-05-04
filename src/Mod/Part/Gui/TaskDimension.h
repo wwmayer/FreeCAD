@@ -248,7 +248,7 @@ public:
 
   virtual QDialogButtonBox::StandardButtons getStandardButtons() const
       {return QDialogButtonBox::Close;}
-  virtual bool isAllowedAlterDocument(void) const {return false;}
+  virtual bool isAllowedAlterDocument() const {return false;}
   virtual bool needsFullSpace() const {return false;}
 protected:
   virtual void onSelectionChanged(const Gui::SelectionChanges& msg);
@@ -327,7 +327,7 @@ public:
 
   virtual QDialogButtonBox::StandardButtons getStandardButtons() const
       {return QDialogButtonBox::Close;}
-  virtual bool isAllowedAlterDocument(void) const {return false;}
+  virtual bool isAllowedAlterDocument() const {return false;}
   virtual bool needsFullSpace() const {return false;}
 protected:
   virtual void onSelectionChanged(const Gui::SelectionChanges& msg);

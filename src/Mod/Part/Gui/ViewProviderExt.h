@@ -94,7 +94,7 @@ public:
     virtual void attach(App::DocumentObject *) override;
     virtual void setDisplayMode(const char* ModeName) override;
     /// returns a list of all possible modes
-    virtual std::vector<std::string> getDisplayModes(void) const override;
+    virtual std::vector<std::string> getDisplayModes() const override;
     /// Update the view representation
     void reload();
     /// If no other task is pending it opens a dialog to allow to change face colors
@@ -109,7 +109,7 @@ public:
      */
     //@{
     /// indicates if the ViewProvider use the new Selection model
-    virtual bool useNewSelectionModel(void) const override {return true;}
+    virtual bool useNewSelectionModel() const override {return true;}
     /// return a hit element to the selection path or 0
     virtual std::string getElement(const SoDetail*) const override;
     virtual SoDetail* getDetail(const char*) const override;

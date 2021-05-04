@@ -106,7 +106,7 @@ using namespace Part;
 #endif
 
 // returns a string which represents the object e.g. when printed in python
-std::string TopoShapePy::representation(void) const
+std::string TopoShapePy::representation() const
 {
     std::stringstream str;
     str << "<Shape object at " << getTopoShapePtr() << ">";
@@ -2893,7 +2893,7 @@ void TopoShapePy::setLocation(Py::Object o)
 }
 #endif
 
-Py::String TopoShapePy::getShapeType(void) const
+Py::String TopoShapePy::getShapeType() const
 {
     TopoDS_Shape sh = getTopoShapePtr()->getShape();
     if (sh.IsNull())
@@ -2934,7 +2934,7 @@ Py::String TopoShapePy::getShapeType(void) const
     return Py::String(name);
 }
 
-Py::String TopoShapePy::getOrientation(void) const
+Py::String TopoShapePy::getOrientation() const
 {
     TopoDS_Shape sh = getTopoShapePtr()->getShape();
     if (sh.IsNull())
@@ -2987,7 +2987,7 @@ void TopoShapePy::setOrientation(Py::String arg)
     getTopoShapePtr()->setShape(sh);
 }
 
-Py::List TopoShapePy::getSubShapes(void) const
+Py::List TopoShapePy::getSubShapes() const
 {
     Py::List ret;
     const TopoDS_Shape& shape = getTopoShapePtr()->getShape();
@@ -3000,7 +3000,7 @@ Py::List TopoShapePy::getSubShapes(void) const
     return ret;
 }
 
-Py::List TopoShapePy::getFaces(void) const
+Py::List TopoShapePy::getFaces() const
 {
     Py::List ret;
     TopTools_IndexedMapOfShape M;
@@ -3023,7 +3023,7 @@ Py::List TopoShapePy::getFaces(void) const
     return ret;
 }
 
-Py::List TopoShapePy::getVertexes(void) const
+Py::List TopoShapePy::getVertexes() const
 {
     Py::List ret;
     TopTools_IndexedMapOfShape M;
@@ -3046,7 +3046,7 @@ Py::List TopoShapePy::getVertexes(void) const
     return ret;
 }
 
-Py::List TopoShapePy::getShells(void) const
+Py::List TopoShapePy::getShells() const
 {
     Py::List ret;
     TopTools_IndexedMapOfShape M;
@@ -3069,7 +3069,7 @@ Py::List TopoShapePy::getShells(void) const
     return ret;
 }
 
-Py::List TopoShapePy::getSolids(void) const
+Py::List TopoShapePy::getSolids() const
 {
     Py::List ret;
     TopTools_IndexedMapOfShape M;
@@ -3092,7 +3092,7 @@ Py::List TopoShapePy::getSolids(void) const
     return ret;
 }
 
-Py::List TopoShapePy::getCompSolids(void) const
+Py::List TopoShapePy::getCompSolids() const
 {
     Py::List ret;
     TopTools_IndexedMapOfShape M;
@@ -3115,7 +3115,7 @@ Py::List TopoShapePy::getCompSolids(void) const
     return ret;
 }
 
-Py::List TopoShapePy::getEdges(void) const
+Py::List TopoShapePy::getEdges() const
 {
     Py::List ret;
     TopTools_IndexedMapOfShape M;
@@ -3138,7 +3138,7 @@ Py::List TopoShapePy::getEdges(void) const
     return ret;
 }
 
-Py::List TopoShapePy::getWires(void) const
+Py::List TopoShapePy::getWires() const
 {
     Py::List ret;
     TopTools_IndexedMapOfShape M;
@@ -3161,7 +3161,7 @@ Py::List TopoShapePy::getWires(void) const
     return ret;
 }
 
-Py::List TopoShapePy::getCompounds(void) const
+Py::List TopoShapePy::getCompounds() const
 {
     Py::List ret;
     TopTools_IndexedMapOfShape M;
@@ -3184,7 +3184,7 @@ Py::List TopoShapePy::getCompounds(void) const
     return ret;
 }
 
-Py::Float TopoShapePy::getLength(void) const
+Py::Float TopoShapePy::getLength() const
 {
     const TopoDS_Shape& shape = getTopoShapePtr()->getShape();
     if (shape.IsNull())
@@ -3194,7 +3194,7 @@ Py::Float TopoShapePy::getLength(void) const
     return Py::Float(props.Mass());
 }
 
-Py::Float TopoShapePy::getArea(void) const
+Py::Float TopoShapePy::getArea() const
 {
     const TopoDS_Shape& shape = getTopoShapePtr()->getShape();
     if (shape.IsNull())
@@ -3204,7 +3204,7 @@ Py::Float TopoShapePy::getArea(void) const
     return Py::Float(props.Mass());
 }
 
-Py::Float TopoShapePy::getVolume(void) const
+Py::Float TopoShapePy::getVolume() const
 {
     const TopoDS_Shape& shape = getTopoShapePtr()->getShape();
     if (shape.IsNull())

@@ -46,7 +46,7 @@ ViewProviderSphereParametric::~ViewProviderSphereParametric()
 
 }
 
-std::vector<std::string> ViewProviderSphereParametric::getDisplayModes(void) const
+std::vector<std::string> ViewProviderSphereParametric::getDisplayModes() const
 {
   std::vector<std::string> StrList;
 
@@ -72,7 +72,7 @@ ViewProviderEllipsoid::~ViewProviderEllipsoid()
 {
 }
 
-std::vector<std::string> ViewProviderEllipsoid::getDisplayModes(void) const
+std::vector<std::string> ViewProviderEllipsoid::getDisplayModes() const
 {
   std::vector<std::string> StrList;
 

@@ -146,7 +146,7 @@ bool AttachExtension::isAttacherActive() const {
     return _active!=0;
 }
 
-short int AttachExtension::extensionMustExecute(void) {
+short int AttachExtension::extensionMustExecute() {
     return DocumentObjectExtension::extensionMustExecute();
 }
 
@@ -279,7 +279,7 @@ App::PropertyPlacement& AttachExtension::getPlacement() const {
     return *pla;
 }
 
-PyObject* AttachExtension::getExtensionPyObject(void) {
+PyObject* AttachExtension::getExtensionPyObject() {
     
     if (ExtensionPythonObject.is(Py::_None())){
         // ref counter is set to 1

@@ -50,7 +50,7 @@ class PartExport Feature : public App::GeoFeature
 
 public:
     /// Constructor
-    Feature(void);
+    Feature();
     virtual ~Feature();
 
     PropertyPartShape Shape;
@@ -150,7 +150,7 @@ class PartExport FeatureExt : public Feature
     PROPERTY_HEADER(Part::FeatureExt);
 
 public:
-    const char* getViewProviderName(void) const {
+    const char* getViewProviderName() const {
         return "PartGui::ViewProviderPartExt";
     }
 };

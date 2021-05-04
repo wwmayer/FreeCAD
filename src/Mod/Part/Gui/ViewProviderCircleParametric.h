@@ -46,7 +46,7 @@ public:
     /// destructor
     virtual ~ViewProviderCircleParametric();
 
-    std::vector<std::string> getDisplayModes(void) const;
+    std::vector<std::string> getDisplayModes() const;
 
 protected:
 

@@ -40,7 +40,7 @@ public:
     virtual ~ViewProviderExtrusion();
 
     /// grouping handling 
-    std::vector<App::DocumentObject*> claimChildren(void)const;
+    std::vector<App::DocumentObject*> claimChildren()const;
 };
 
 } // namespace PartGui

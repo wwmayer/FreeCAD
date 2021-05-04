@@ -40,7 +40,7 @@
 using namespace Attacher;
 
 // returns a string which represents the object e.g. when printed in python
-std::string AttachEnginePy::representation(void) const
+std::string AttachEnginePy::representation() const
 {
     return std::string("<Attacher::AttachEngine>");
 }
@@ -94,7 +94,7 @@ int AttachEnginePy::PyInit(PyObject* args, PyObject* /*kwd*/)
 }
 
 
-Py::String AttachEnginePy::getAttacherType(void) const
+Py::String AttachEnginePy::getAttacherType() const
 {
     return  Py::String(std::string(this->getAttachEnginePtr()->getTypeId().getName()));
 }
@@ -111,7 +111,7 @@ Py::String AttachEnginePy::getAttacherType(void) const
         throw Py::Exception(Base::BaseExceptionFreeCADError, e.what());\
     }
 
-Py::String AttachEnginePy::getMode(void) const
+Py::String AttachEnginePy::getMode() const
 {
     try {
         AttachEngine &attacher = *(this->getAttachEnginePtr());
@@ -128,7 +128,7 @@ void AttachEnginePy::setMode(Py::String arg)
     } ATTACHERPY_STDCATCH_ATTR;
 }
 
-Py::Object AttachEnginePy::getReferences(void) const
+Py::Object AttachEnginePy::getReferences() const
 {
     try {
         AttachEngine &attacher = *(this->getAttachEnginePtr());
@@ -145,7 +145,7 @@ void AttachEnginePy::setReferences(Py::Object arg)
     } ATTACHERPY_STDCATCH_ATTR;
 }
 
-Py::Object AttachEnginePy::getAttachmentOffset(void) const
+Py::Object AttachEnginePy::getAttachmentOffset() const
 {
     try {
         AttachEngine &attacher = *(this->getAttachEnginePtr());
@@ -168,7 +168,7 @@ void AttachEnginePy::setAttachmentOffset(Py::Object arg)
     } ATTACHERPY_STDCATCH_ATTR;
 }
 
-Py::Boolean AttachEnginePy::getReverse(void) const
+Py::Boolean AttachEnginePy::getReverse() const
 {
     try {
         AttachEngine &attacher = *(this->getAttachEnginePtr());
@@ -184,7 +184,7 @@ void AttachEnginePy::setReverse(Py::Boolean arg)
     } ATTACHERPY_STDCATCH_ATTR;
 }
 
-Py::Float AttachEnginePy::getParameter(void) const
+Py::Float AttachEnginePy::getParameter() const
 {
     try {
         AttachEngine &attacher = *(this->getAttachEnginePtr());
@@ -201,7 +201,7 @@ void AttachEnginePy::setParameter(Py::Float arg)
 }
 
 
-Py::List AttachEnginePy::getCompleteModeList(void) const
+Py::List AttachEnginePy::getCompleteModeList() const
 {
     try {
         Py::List ret;
@@ -213,7 +213,7 @@ Py::List AttachEnginePy::getCompleteModeList(void) const
     } ATTACHERPY_STDCATCH_ATTR;
 }
 
-Py::List AttachEnginePy::getCompleteRefTypeList(void) const
+Py::List AttachEnginePy::getCompleteRefTypeList() const
 {
     try {
         Py::List ret;
@@ -225,7 +225,7 @@ Py::List AttachEnginePy::getCompleteRefTypeList(void) const
     } ATTACHERPY_STDCATCH_ATTR;
 }
 
-Py::List AttachEnginePy::getImplementedModes(void) const
+Py::List AttachEnginePy::getImplementedModes() const
 {
     try {
         Py::List ret;

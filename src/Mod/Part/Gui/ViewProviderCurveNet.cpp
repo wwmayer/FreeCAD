@@ -139,7 +139,7 @@ void ViewProviderCurveNet::setDisplayMode(const char* ModeName)
     ViewProviderGeometryObject::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderCurveNet::getDisplayModes(void) const
+std::vector<std::string> ViewProviderCurveNet::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList;

@@ -42,7 +42,7 @@ FeatureGeometrySet::FeatureGeometrySet()
 }
 
 
-App::DocumentObjectExecReturn *FeatureGeometrySet::execute(void)
+App::DocumentObjectExecReturn *FeatureGeometrySet::execute()
 {
     TopoShape result;
 

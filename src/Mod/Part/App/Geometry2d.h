@@ -55,11 +55,11 @@ public:
     virtual TopoDS_Shape toShape() const = 0;
     virtual const Handle(Geom2d_Geometry)& handle() const = 0;
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     /// returns a cloned object 
-    virtual Geometry2d *clone(void) const = 0;
+    virtual Geometry2d *clone() const = 0;
 
 protected:
     Geometry2d();
@@ -77,19 +77,19 @@ public:
     Geom2dPoint(const Handle(Geom2d_CartesianPoint)&);
     Geom2dPoint(const Base::Vector2d&);
     virtual ~Geom2dPoint();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
     virtual TopoDS_Shape toShape() const;
 
    // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     const Handle(Geom2d_Geometry)& handle() const;
 
-    Base::Vector2d getPoint(void)const;
+    Base::Vector2d getPoint()const;
     void setPoint(const Base::Vector2d&);
 
 private:
@@ -120,14 +120,14 @@ public:
     Geom2dBezierCurve();
     Geom2dBezierCurve(const Handle(Geom2d_BezierCurve)&);
     virtual ~Geom2dBezierCurve();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize (void) const;
+    virtual unsigned int getMemSize () const;
     virtual void Save (Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom2d_BezierCurve)&);
     const Handle(Geom2d_Geometry)& handle() const;
@@ -143,7 +143,7 @@ public:
     Geom2dBSplineCurve();
     Geom2dBSplineCurve(const Handle(Geom2d_BSplineCurve)&);
     virtual ~Geom2dBSplineCurve();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
 
     /*!
      * Set the poles and tangents for the cubic Hermite spline
@@ -172,11 +172,11 @@ public:
     std::list<Geometry2d*> toBiArcs(double tolerance) const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom2d_BSplineCurve)&);
     const Handle(Geom2d_Geometry)& handle() const;
@@ -200,14 +200,14 @@ protected:
 
 public:
     virtual ~Geom2dConic();
-    virtual Geometry2d *clone(void) const = 0;
+    virtual Geometry2d *clone() const = 0;
 
-    Base::Vector2d getLocation(void) const;
+    Base::Vector2d getLocation() const;
     void setLocation(const Base::Vector2d& Center);
     bool isReversed() const;
 
-    virtual unsigned int getMemSize(void) const = 0;
-    virtual PyObject *getPyObject(void) = 0;
+    virtual unsigned int getMemSize() const = 0;
+    virtual PyObject *getPyObject() = 0;
 
     const Handle(Geom2d_Geometry)& handle() const = 0;
 
@@ -224,9 +224,9 @@ protected:
 
 public:
     virtual ~Geom2dArcOfConic();
-    virtual Geometry2d *clone(void) const = 0;
+    virtual Geometry2d *clone() const = 0;
 
-    Base::Vector2d getLocation(void) const;
+    Base::Vector2d getLocation() const;
     void setLocation(const Base::Vector2d& Center);
     bool isReversed() const;
 
@@ -236,8 +236,8 @@ public:
     void getRange(double& u, double& v) const;
     void setRange(double u, double v);
 
-    virtual unsigned int getMemSize(void) const = 0;
-    virtual PyObject *getPyObject(void) = 0;
+    virtual unsigned int getMemSize() const = 0;
+    virtual PyObject *getPyObject() = 0;
 
     const Handle(Geom2d_Geometry)& handle() const = 0;
 
@@ -253,17 +253,17 @@ public:
     Geom2dCircle();
     Geom2dCircle(const Handle(Geom2d_Circle)&);
     virtual ~Geom2dCircle();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
 
-    double getRadius(void) const;
+    double getRadius() const;
     void setRadius(double Radius);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     const Handle(Geom2d_Geometry)& handle() const;
 
@@ -278,17 +278,17 @@ public:
     Geom2dArcOfCircle();
     Geom2dArcOfCircle(const Handle(Geom2d_Circle)&);
     virtual ~Geom2dArcOfCircle();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
 
-    double getRadius(void) const;
+    double getRadius() const;
     void setRadius(double Radius);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom2d_TrimmedCurve)&);
     const Handle(Geom2d_Geometry)& handle() const;
@@ -304,21 +304,21 @@ public:
     Geom2dEllipse();
     Geom2dEllipse(const Handle(Geom2d_Ellipse)&);
     virtual ~Geom2dEllipse();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
 
-    double getMajorRadius(void) const;
+    double getMajorRadius() const;
     void setMajorRadius(double Radius);
-    double getMinorRadius(void) const;
+    double getMinorRadius() const;
     void setMinorRadius(double Radius);
     Base::Vector2d getMajorAxisDir() const;
     void setMajorAxisDir(Base::Vector2d newdir);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom2d_Ellipse) &e);
     const Handle(Geom2d_Geometry)& handle() const;
@@ -334,21 +334,21 @@ public:
     Geom2dArcOfEllipse();
     Geom2dArcOfEllipse(const Handle(Geom2d_Ellipse)&);
     virtual ~Geom2dArcOfEllipse();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
 
-    double getMajorRadius(void) const;
+    double getMajorRadius() const;
     void setMajorRadius(double Radius);
-    double getMinorRadius(void) const;
+    double getMinorRadius() const;
     void setMinorRadius(double Radius);
     Base::Vector2d getMajorAxisDir() const;
     void setMajorAxisDir(Base::Vector2d newdir);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom2d_TrimmedCurve)&);
     const Handle(Geom2d_Geometry)& handle() const;
@@ -364,19 +364,19 @@ public:
     Geom2dHyperbola();
     Geom2dHyperbola(const Handle(Geom2d_Hyperbola)&);
     virtual ~Geom2dHyperbola();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
     
-    double getMajorRadius(void) const;
+    double getMajorRadius() const;
     void setMajorRadius(double Radius);
-    double getMinorRadius(void) const;
+    double getMinorRadius() const;
     void setMinorRadius(double Radius);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     const Handle(Geom2d_Geometry)& handle() const;
 
@@ -391,19 +391,19 @@ public:
     Geom2dArcOfHyperbola();
     Geom2dArcOfHyperbola(const Handle(Geom2d_Hyperbola)&);
     virtual ~Geom2dArcOfHyperbola();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
 
-    double getMajorRadius(void) const;
+    double getMajorRadius() const;
     void setMajorRadius(double Radius);
-    double getMinorRadius(void) const;
+    double getMinorRadius() const;
     void setMinorRadius(double Radius);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom2d_TrimmedCurve)&);
     const Handle(Geom2d_Geometry)& handle() const;
@@ -419,17 +419,17 @@ public:
     Geom2dParabola();
     Geom2dParabola(const Handle(Geom2d_Parabola)&);
     virtual ~Geom2dParabola();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
     
-    double getFocal(void) const;
+    double getFocal() const;
     void setFocal(double length);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     const Handle(Geom2d_Geometry)& handle() const;
 
@@ -444,17 +444,17 @@ public:
     Geom2dArcOfParabola();
     Geom2dArcOfParabola(const Handle(Geom2d_Parabola)&);
     virtual ~Geom2dArcOfParabola();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
 
-    double getFocal(void) const;
+    double getFocal() const;
     void setFocal(double length);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom2d_TrimmedCurve)&);
     const Handle(Geom2d_Geometry)& handle() const;
@@ -471,18 +471,18 @@ public:
     Geom2dLine(const Handle(Geom2d_Line)&);
     Geom2dLine(const Base::Vector2d& Pos, const Base::Vector2d& Dir);
     virtual ~Geom2dLine();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
 
     void setLine(const Base::Vector2d& Pos, const Base::Vector2d& Dir);
-    Base::Vector2d getPos(void) const;
-    Base::Vector2d getDir(void) const;
+    Base::Vector2d getPos() const;
+    Base::Vector2d getDir() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     const Handle(Geom2d_Geometry)& handle() const;
 
@@ -496,7 +496,7 @@ class PartExport Geom2dLineSegment : public Geom2dCurve
 public:
     Geom2dLineSegment();
     virtual ~Geom2dLineSegment();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
 
     Base::Vector2d getStartPoint() const;
     Base::Vector2d getEndPoint() const;
@@ -505,11 +505,11 @@ public:
                    const Base::Vector2d& p2);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom2d_TrimmedCurve)&);
     const Handle(Geom2d_Geometry)& handle() const;
@@ -526,14 +526,14 @@ public:
     Geom2dOffsetCurve(const Handle(Geom2d_Curve)&, double);
     Geom2dOffsetCurve(const Handle(Geom2d_OffsetCurve)&);
     virtual ~Geom2dOffsetCurve();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom2d_OffsetCurve)& c);
     const Handle(Geom2d_Geometry)& handle() const;
@@ -549,14 +549,14 @@ public:
     Geom2dTrimmedCurve();
     Geom2dTrimmedCurve(const Handle(Geom2d_TrimmedCurve)&);
     virtual ~Geom2dTrimmedCurve();
-    virtual Geometry2d *clone(void) const;
+    virtual Geometry2d *clone() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom2d_TrimmedCurve)&);
     const Handle(Geom2d_Geometry)& handle() const;

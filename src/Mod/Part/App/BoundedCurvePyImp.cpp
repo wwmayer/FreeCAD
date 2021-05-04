@@ -37,7 +37,7 @@
 using namespace Part;
 
 // returns a string which represents the object e.g. when printed in python
-std::string BoundedCurvePy::representation(void) const
+std::string BoundedCurvePy::representation() const
 {
     return "<Curve object>";
 }
@@ -56,12 +56,12 @@ int BoundedCurvePy::PyInit(PyObject* /*args*/, PyObject* /*kwd*/)
     return 0;
 }
 
-Py::Object BoundedCurvePy::getStartPoint(void) const
+Py::Object BoundedCurvePy::getStartPoint() const
 {
     return Py::Vector(getGeomBoundedCurvePtr()->getStartPoint());
 }
 
-Py::Object BoundedCurvePy::getEndPoint(void) const
+Py::Object BoundedCurvePy::getEndPoint() const
 {
     return Py::Vector(getGeomBoundedCurvePtr()->getEndPoint());
 }

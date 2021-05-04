@@ -37,7 +37,7 @@ using namespace Part;
 PROPERTY_SOURCE(Part::ImportBrep, Part::Feature)
 
 
-ImportBrep::ImportBrep(void)
+ImportBrep::ImportBrep()
 {
     ADD_PROPERTY(FileName,(""));
 }
@@ -49,7 +49,7 @@ short ImportBrep::mustExecute() const
     return 0;
 }
 
-App::DocumentObjectExecReturn *ImportBrep::execute(void)
+App::DocumentObjectExecReturn *ImportBrep::execute()
 {
     Base::FileInfo fi(FileName.getValue());
     if (!fi.isReadable()) {

@@ -157,7 +157,7 @@ void CmdPartBox2::activated(int iMsg)
     updateActive();
 }
 
-bool CmdPartBox2::isActive(void)
+bool CmdPartBox2::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -198,7 +198,7 @@ void CmdPartBox3::activated(int iMsg)
     updateActive();
 }
 
-bool CmdPartBox3::isActive(void)
+bool CmdPartBox3::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -230,7 +230,7 @@ void CmdPartPrimitives::activated(int iMsg)
     Gui::Control().showDialog(dlg);
 }
 
-bool CmdPartPrimitives::isActive(void)
+bool CmdPartPrimitives::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
@@ -332,7 +332,7 @@ void CmdPartCut::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdPartCut::isActive(void)
+bool CmdPartCut::isActive()
 {
     return getSelection().countObjectsOfType(
             App::DocumentObject::getClassTypeId(),nullptr,3)==2;
@@ -432,7 +432,7 @@ void CmdPartCommon::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdPartCommon::isActive(void)
+bool CmdPartCommon::isActive()
 {
     return getSelection().countObjectsOfType(
             App::DocumentObject::getClassTypeId(),nullptr,3)>=1;
@@ -532,7 +532,7 @@ void CmdPartFuse::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdPartFuse::isActive(void)
+bool CmdPartFuse::isActive()
 {
     return getSelection().countObjectsOfType(
             App::DocumentObject::getClassTypeId(),nullptr,3)>=1;
@@ -576,7 +576,7 @@ void CmdPartCompJoinFeatures::activated(int iMsg)
     pcAction->setIcon(a[iMsg]->icon());
 }
 
-Gui::Action * CmdPartCompJoinFeatures::createAction(void)
+Gui::Action * CmdPartCompJoinFeatures::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -636,7 +636,7 @@ void CmdPartCompJoinFeatures::languageChange()
     }
 }
 
-bool CmdPartCompJoinFeatures::isActive(void)
+bool CmdPartCompJoinFeatures::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -684,7 +684,7 @@ void CmdPartCompSplitFeatures::activated(int iMsg)
     pcAction->setIcon(a[iMsg]->icon());
 }
 
-Gui::Action * CmdPartCompSplitFeatures::createAction(void)
+Gui::Action * CmdPartCompSplitFeatures::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -754,7 +754,7 @@ void CmdPartCompSplitFeatures::languageChange()
     }
 }
 
-bool CmdPartCompSplitFeatures::isActive(void)
+bool CmdPartCompSplitFeatures::isActive()
 {
     if (getActiveGuiDocument())
 #if OCC_VERSION_HEX < 0x060900
@@ -804,7 +804,7 @@ void CmdPartCompCompoundTools::activated(int iMsg)
     pcAction->setIcon(a[iMsg]->icon());
 }
 
-Gui::Action * CmdPartCompCompoundTools::createAction(void)
+Gui::Action * CmdPartCompCompoundTools::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -864,7 +864,7 @@ void CmdPartCompCompoundTools::languageChange()
     }
 }
 
-bool CmdPartCompCompoundTools::isActive(void)
+bool CmdPartCompCompoundTools::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -925,7 +925,7 @@ void CmdPartCompound::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdPartCompound::isActive(void)
+bool CmdPartCompound::isActive()
 {
     return getSelection().countObjectsOfType(
             App::DocumentObject::getClassTypeId(),nullptr,3)>=1;
@@ -974,7 +974,7 @@ void CmdPartSection::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdPartSection::isActive(void)
+bool CmdPartSection::isActive()
 {
     return getSelection().countObjectsOfType(App::DocumentObject::getClassTypeId(),nullptr,3)==2;
 }
@@ -1033,7 +1033,7 @@ void CmdPartImport::activated(int iMsg)
     }
 }
 
-bool CmdPartImport::isActive(void)
+bool CmdPartImport::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -1083,7 +1083,7 @@ void CmdPartExport::activated(int iMsg)
     }
 }
 
-bool CmdPartExport::isActive(void)
+bool CmdPartExport::isActive()
 {
     return Gui::Selection().countObjectsOfType(App::DocumentObject::getClassTypeId(),nullptr,3) > 0;
 }
@@ -1128,7 +1128,7 @@ void CmdPartImportCurveNet::activated(int iMsg)
     }
 }
 
-bool CmdPartImportCurveNet::isActive(void)
+bool CmdPartImportCurveNet::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -1209,7 +1209,7 @@ void CmdPartMakeSolid::activated(int iMsg)
     }
 }
 
-bool CmdPartMakeSolid::isActive(void)
+bool CmdPartMakeSolid::isActive()
 {
     return Gui::Selection().countObjectsOfType
         (App::DocumentObject::getClassTypeId(),nullptr,3) > 0;
@@ -1272,7 +1272,7 @@ void CmdPartReverseShape::activated(int iMsg)
     updateActive();
 }
 
-bool CmdPartReverseShape::isActive(void)
+bool CmdPartReverseShape::isActive()
 {
     return Gui::Selection().countObjectsOfType
         (Part::Feature::getClassTypeId()) > 0;
@@ -1304,7 +1304,7 @@ void CmdPartBoolean::activated(int iMsg)
     Gui::Control().showDialog(dlg);
 }
 
-bool CmdPartBoolean::isActive(void)
+bool CmdPartBoolean::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
@@ -1332,7 +1332,7 @@ void CmdPartExtrude::activated(int iMsg)
     Gui::Control().showDialog(new PartGui::TaskExtrusion());
 }
 
-bool CmdPartExtrude::isActive(void)
+bool CmdPartExtrude::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
@@ -1383,7 +1383,7 @@ void CmdPartMakeFace::activated(int iMsg)
     }
 }
 
-bool CmdPartMakeFace::isActive(void)
+bool CmdPartMakeFace::isActive()
 {
     return (Gui::Selection().countObjectsOfType(App::DocumentObject::getClassTypeId(),nullptr,3) > 0 &&
             !Gui::Control().activeDialog());
@@ -1412,7 +1412,7 @@ void CmdPartRevolve::activated(int iMsg)
     Gui::Control().showDialog(new PartGui::TaskRevolution());
 }
 
-bool CmdPartRevolve::isActive(void)
+bool CmdPartRevolve::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
@@ -1440,7 +1440,7 @@ void CmdPartFillet::activated(int iMsg)
     Gui::Control().showDialog(new PartGui::TaskFilletEdges(nullptr));
 }
 
-bool CmdPartFillet::isActive(void)
+bool CmdPartFillet::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
@@ -1468,7 +1468,7 @@ void CmdPartChamfer::activated(int iMsg)
     Gui::Control().showDialog(new PartGui::TaskChamferEdges(nullptr));
 }
 
-bool CmdPartChamfer::isActive(void)
+bool CmdPartChamfer::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
@@ -1496,7 +1496,7 @@ void CmdPartMirror::activated(int iMsg)
     Gui::Control().showDialog(new PartGui::TaskMirroring());
 }
 
-bool CmdPartMirror::isActive(void)
+bool CmdPartMirror::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
@@ -1534,7 +1534,7 @@ void CmdPartCrossSections::activated(int iMsg)
     Gui::Control().showDialog(dlg);
 }
 
-bool CmdPartCrossSections::isActive(void)
+bool CmdPartCrossSections::isActive()
 {
     return (Gui::Selection().countObjectsOfType(Part::Feature::getClassTypeId()) > 0 &&
             !Gui::Control().activeDialog());
@@ -1564,7 +1564,7 @@ void CmdPartBuilder::activated(int iMsg)
     Gui::Control().showDialog(new PartGui::TaskShapeBuilder());
 }
 
-bool CmdPartBuilder::isActive(void)
+bool CmdPartBuilder::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
@@ -1593,7 +1593,7 @@ void CmdPartLoft::activated(int iMsg)
     Gui::Control().showDialog(new PartGui::TaskLoft());
 }
 
-bool CmdPartLoft::isActive(void)
+bool CmdPartLoft::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
@@ -1622,7 +1622,7 @@ void CmdPartSweep::activated(int iMsg)
     Gui::Control().showDialog(new PartGui::TaskSweep());
 }
 
-bool CmdPartSweep::isActive(void)
+bool CmdPartSweep::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
@@ -1671,7 +1671,7 @@ void CmdPartOffset::activated(int iMsg)
     copyVisual(offset.c_str(), "PointColor", shape->getNameInDocument());
 }
 
-bool CmdPartOffset::isActive(void)
+bool CmdPartOffset::isActive()
 {
     Base::Type partid = Base::Type::fromName("Part::Feature");
     bool objectsSelected = Gui::Selection().countObjectsOfType(partid,nullptr,3) == 1;
@@ -1723,7 +1723,7 @@ void CmdPartOffset2D::activated(int iMsg)
     copyVisual(offset.c_str(), "PointColor", shape->getNameInDocument());
 }
 
-bool CmdPartOffset2D::isActive(void)
+bool CmdPartOffset2D::isActive()
 {
     Base::Type partid = Base::Type::fromName("Part::Feature");
     bool objectsSelected = Gui::Selection().countObjectsOfType(partid,nullptr,3) == 1;
@@ -1766,7 +1766,7 @@ void CmdPartCompOffset::activated(int iMsg)
     pcAction->setIcon(a[iMsg]->icon());
 }
 
-Gui::Action * CmdPartCompOffset::createAction(void)
+Gui::Action * CmdPartCompOffset::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -1816,7 +1816,7 @@ void CmdPartCompOffset::languageChange()
     }
 }
 
-bool CmdPartCompOffset::isActive(void)
+bool CmdPartCompOffset::isActive()
 {
     Base::Type partid = Base::Type::fromName("Part::Feature");
     bool objectsSelected = Gui::Selection().countObjectsOfType(partid,nullptr,3) == 1;
@@ -1891,7 +1891,7 @@ void CmdPartThickness::activated(int iMsg)
     copyVisual(thick.c_str(), "PointColor", shape->getNameInDocument());
 }
 
-bool CmdPartThickness::isActive(void)
+bool CmdPartThickness::isActive()
 {
     Base::Type partid = Base::Type::fromName("Part::Feature");
     bool objectsSelected = Gui::Selection().countObjectsOfType(partid) > 0;
@@ -1983,7 +1983,7 @@ void CmdShapeInfo::activated(int iMsg)
     // }
 }
 
-bool CmdShapeInfo::isActive(void)
+bool CmdShapeInfo::isActive()
 {
     App::Document* doc = App::GetApplication().getActiveDocument();
     if (!doc || doc->countObjectsOfType(Part::Feature::getClassTypeId()) == 0)
@@ -2109,7 +2109,7 @@ void CmdPartRuledSurface::activated(int iMsg)
     updateActive();
 }
 
-bool CmdPartRuledSurface::isActive(void)
+bool CmdPartRuledSurface::isActive()
 {
     return getActiveGuiDocument();
 }
@@ -2141,7 +2141,7 @@ void CmdCheckGeometry::activated(int iMsg)
     Gui::Control().showDialog(dlg);
 }
 
-bool CmdCheckGeometry::isActive(void)
+bool CmdCheckGeometry::isActive()
 {
     Base::Type partid = Base::Type::fromName("Part::Feature");
     bool objectsSelected = Gui::Selection().countObjectsOfType(partid) > 0;
@@ -2180,7 +2180,7 @@ void CmdColorPerFace::activated(int iMsg)
         vp->changeFaceColors();
 }
 
-bool CmdColorPerFace::isActive(void)
+bool CmdColorPerFace::isActive()
 {
     Base::Type partid = Base::Type::fromName("Part::Feature");
     bool objectSelected = Gui::Selection().countObjectsOfType(partid) == 1;
@@ -2213,7 +2213,7 @@ void CmdMeasureLinear::activated(int iMsg)
   PartGui::goDimensionLinearRoot();
 }
 
-bool CmdMeasureLinear::isActive(void)
+bool CmdMeasureLinear::isActive()
 {
   return hasActiveDocument();
 }
@@ -2242,7 +2242,7 @@ void CmdMeasureAngular::activated(int iMsg)
   PartGui::goDimensionAngularRoot();
 }
 
-bool CmdMeasureAngular::isActive(void)
+bool CmdMeasureAngular::isActive()
 {
   return hasActiveDocument();
 }
@@ -2272,7 +2272,7 @@ void CmdMeasureRefresh::activated(int iMsg)
   PartGui::refreshDimensions();
 }
 
-bool CmdMeasureRefresh::isActive(void)
+bool CmdMeasureRefresh::isActive()
 {
   return hasActiveDocument();
 }
@@ -2301,7 +2301,7 @@ void CmdMeasureClearAll::activated(int iMsg)
   PartGui::eraseAllDimensions();
 }
 
-bool CmdMeasureClearAll::isActive(void)
+bool CmdMeasureClearAll::isActive()
 {
   return hasActiveDocument();
 }
@@ -2338,7 +2338,7 @@ void CmdMeasureToggleAll::activated(int iMsg)
     group->SetBool("DimensionsVisible", true);
 }
 
-bool CmdMeasureToggleAll::isActive(void)
+bool CmdMeasureToggleAll::isActive()
 {
   return hasActiveDocument();
 }
@@ -2369,7 +2369,7 @@ void CmdMeasureToggle3d::activated(int iMsg)
   PartGui::toggle3d();
 }
 
-bool CmdMeasureToggle3d::isActive(void)
+bool CmdMeasureToggle3d::isActive()
 {
   return hasActiveDocument();
 }
@@ -2401,7 +2401,7 @@ void CmdMeasureToggleDelta::activated(int iMsg)
   PartGui::toggleDelta();
 }
 
-bool CmdMeasureToggleDelta::isActive(void)
+bool CmdMeasureToggleDelta::isActive()
 {
   return hasActiveDocument();
 }
@@ -2431,7 +2431,7 @@ void CmdBoxSelection::activated(int iMsg)
     sel->start();
 }
 
-bool CmdBoxSelection::isActive(void)
+bool CmdBoxSelection::isActive()
 {
     return hasActiveDocument();
 }
@@ -2463,12 +2463,12 @@ void CmdPartProjectionOnSurface::activated(int iMsg)
     Gui::Control().showDialog(dlg);
 }
 
-bool CmdPartProjectionOnSurface::isActive(void)
+bool CmdPartProjectionOnSurface::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
 
-void CreatePartCommands(void)
+void CreatePartCommands()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 

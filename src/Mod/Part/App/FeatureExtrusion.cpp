@@ -315,7 +315,7 @@ TopoShape Extrusion::extrudeShape(const TopoShape& source, const Extrusion::Extr
 
 }
 
-App::DocumentObjectExecReturn *Extrusion::execute(void)
+App::DocumentObjectExecReturn *Extrusion::execute()
 {
     App::DocumentObject* link = Base.getValue();
     if (!link)

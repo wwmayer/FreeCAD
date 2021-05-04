@@ -41,7 +41,7 @@
 using namespace Part;
 
 // returns a string which represents the object e.g. when printed in python
-std::string ToroidPy::representation(void) const
+std::string ToroidPy::representation() const
 {
     return "<Toroid object>";
 }
@@ -66,7 +66,7 @@ int ToroidPy::PyInit(PyObject* args, PyObject* /*kwd*/)
     return -1;
 }
 
-Py::Float ToroidPy::getMajorRadius(void) const
+Py::Float ToroidPy::getMajorRadius() const
 {
     Handle(Geom_ToroidalSurface) torus = Handle(Geom_ToroidalSurface)::DownCast
         (getGeomToroidPtr()->handle());
@@ -85,7 +85,7 @@ void ToroidPy::setMajorRadius(Py::Float arg)
     }
 }
 
-Py::Float ToroidPy::getMinorRadius(void) const
+Py::Float ToroidPy::getMinorRadius() const
 {
     Handle(Geom_ToroidalSurface) torus = Handle(Geom_ToroidalSurface)::DownCast
         (getGeomToroidPtr()->handle());
@@ -104,7 +104,7 @@ void ToroidPy::setMinorRadius(Py::Float arg)
     }
 }
 
-Py::Object ToroidPy::getCenter(void) const
+Py::Object ToroidPy::getCenter() const
 {
     Handle(Geom_ToroidalSurface) torus = Handle(Geom_ToroidalSurface)::DownCast
         (getGeomToroidPtr()->handle());
@@ -128,7 +128,7 @@ void ToroidPy::setCenter(Py::Object arg)
     }
 }
 
-Py::Object ToroidPy::getAxis(void) const
+Py::Object ToroidPy::getAxis() const
 {
     Handle(Geom_ElementarySurface) s = Handle(Geom_ElementarySurface)::DownCast
         (getGeometryPtr()->handle());
@@ -171,14 +171,14 @@ void ToroidPy::setAxis(Py::Object arg)
     }
 }
 
-Py::Float ToroidPy::getArea(void) const
+Py::Float ToroidPy::getArea() const
 {
     Handle(Geom_ToroidalSurface) torus = Handle(Geom_ToroidalSurface)::DownCast
         (getGeomToroidPtr()->handle());
     return Py::Float(torus->Area()); 
 }
 
-Py::Float ToroidPy::getVolume(void) const
+Py::Float ToroidPy::getVolume() const
 {
     Handle(Geom_ToroidalSurface) torus = Handle(Geom_ToroidalSurface)::DownCast
         (getGeomToroidPtr()->handle());

@@ -125,7 +125,7 @@ bool Revolution::fetchAxisLink(const App::PropertyLinkSub &axisLink,
     return true;
 }
 
-App::DocumentObjectExecReturn *Revolution::execute(void)
+App::DocumentObjectExecReturn *Revolution::execute()
 {
     App::DocumentObject* link = Source.getValue();
     if (!link)

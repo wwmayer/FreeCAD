@@ -40,7 +40,7 @@ using namespace Part;
 extern const char* gce_ErrorStatusText(gce_ErrorType et);
 
 // returns a string which represents the object e.g. when printed in python
-std::string Hyperbola2dPy::representation(void) const
+std::string Hyperbola2dPy::representation() const
 {
     return "<Hyperbola2d object>";
 }
@@ -126,7 +126,7 @@ int Hyperbola2dPy::PyInit(PyObject* args, PyObject* kwds)
     return -1;
 }
 
-Py::Float Hyperbola2dPy::getMajorRadius(void) const
+Py::Float Hyperbola2dPy::getMajorRadius() const
 {
     Handle(Geom2d_Hyperbola) hyperbola = Handle(Geom2d_Hyperbola)::DownCast(getGeom2dHyperbolaPtr()->handle());
     return Py::Float(hyperbola->MajorRadius()); 
@@ -138,7 +138,7 @@ void Hyperbola2dPy::setMajorRadius(Py::Float arg)
     hyperbola->SetMajorRadius((double)arg);
 }
 
-Py::Float Hyperbola2dPy::getMinorRadius(void) const
+Py::Float Hyperbola2dPy::getMinorRadius() const
 {
     Handle(Geom2d_Hyperbola) hyperbola = Handle(Geom2d_Hyperbola)::DownCast(getGeom2dHyperbolaPtr()->handle());
     return Py::Float(hyperbola->MinorRadius()); 
@@ -150,13 +150,13 @@ void Hyperbola2dPy::setMinorRadius(Py::Float arg)
     hyperbola->SetMinorRadius((double)arg);
 }
 
-Py::Float Hyperbola2dPy::getFocal(void) const
+Py::Float Hyperbola2dPy::getFocal() const
 {
     Handle(Geom2d_Hyperbola) hyperbola = Handle(Geom2d_Hyperbola)::DownCast(getGeom2dHyperbolaPtr()->handle());
     return Py::Float(hyperbola->Focal()); 
 }
 
-Py::Object Hyperbola2dPy::getFocus1(void) const
+Py::Object Hyperbola2dPy::getFocus1() const
 {
     Handle(Geom2d_Hyperbola) hyperbola = Handle(Geom2d_Hyperbola)::DownCast(getGeom2dHyperbolaPtr()->handle());
     gp_Pnt2d loc = hyperbola->Focus1();
@@ -169,7 +169,7 @@ Py::Object Hyperbola2dPy::getFocus1(void) const
     return method.apply(arg);
 }
 
-Py::Object Hyperbola2dPy::getFocus2(void) const
+Py::Object Hyperbola2dPy::getFocus2() const
 {
     Handle(Geom2d_Hyperbola) hyperbola = Handle(Geom2d_Hyperbola)::DownCast(getGeom2dHyperbolaPtr()->handle());
     gp_Pnt2d loc = hyperbola->Focus2();

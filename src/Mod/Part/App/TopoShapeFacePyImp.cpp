@@ -100,7 +100,7 @@
 using namespace Part;
 
 // returns a string which represent the object e.g. when printed in python
-std::string TopoShapeFacePy::representation(void) const
+std::string TopoShapeFacePy::representation() const
 {
     std::stringstream str;
     str << "<Face object at " << getTopoShapePtr() << ">";
@@ -930,7 +930,7 @@ Py::Object TopoShapeFacePy::getSurface() const
     throw Py::TypeError("undefined surface type");
 }
 
-Py::Float TopoShapeFacePy::getTolerance(void) const
+Py::Float TopoShapeFacePy::getTolerance() const
 {
     const TopoDS_Face& f = TopoDS::Face(getTopoShapePtr()->getShape());
     return Py::Float(BRep_Tool::Tolerance(f));
@@ -943,7 +943,7 @@ void TopoShapeFacePy::setTolerance(Py::Float tol)
     aBuilder.UpdateFace(f, (double)tol);
 }
 
-Py::Tuple TopoShapeFacePy::getParameterRange(void) const
+Py::Tuple TopoShapeFacePy::getParameterRange() const
 {
     const TopoDS_Face& f = TopoDS::Face(getTopoShapePtr()->getShape());
     BRepAdaptor_Surface adapt(f);
@@ -961,7 +961,7 @@ Py::Tuple TopoShapeFacePy::getParameterRange(void) const
 }
 
 // deprecated
-Py::Object TopoShapeFacePy::getWire(void) const
+Py::Object TopoShapeFacePy::getWire() const
 {
     try {
         Py::Object sys_out(PySys_GetObject(const_cast<char*>("stdout")));
@@ -975,7 +975,7 @@ Py::Object TopoShapeFacePy::getWire(void) const
     return getOuterWire();
 }
 
-Py::Object TopoShapeFacePy::getOuterWire(void) const
+Py::Object TopoShapeFacePy::getOuterWire() const
 {
     const TopoDS_Shape& shape = getTopoShapePtr()->getShape();
     if (shape.IsNull())
@@ -991,7 +991,7 @@ Py::Object TopoShapeFacePy::getOuterWire(void) const
     }
 }
 
-Py::Object TopoShapeFacePy::getMass(void) const
+Py::Object TopoShapeFacePy::getMass() const
 {
     GProp_GProps props;
     BRepGProp::SurfaceProperties(getTopoShapePtr()->getShape(), props);
@@ -999,7 +999,7 @@ Py::Object TopoShapeFacePy::getMass(void) const
     return Py::Float(c);
 }
 
-Py::Object TopoShapeFacePy::getCenterOfMass(void) const
+Py::Object TopoShapeFacePy::getCenterOfMass() const
 {
     GProp_GProps props;
     BRepGProp::SurfaceProperties(getTopoShapePtr()->getShape(), props);
@@ -1007,7 +1007,7 @@ Py::Object TopoShapeFacePy::getCenterOfMass(void) const
     return Py::Vector(Base::Vector3d(c.X(),c.Y(),c.Z()));
 }
 
-Py::Object TopoShapeFacePy::getMatrixOfInertia(void) const
+Py::Object TopoShapeFacePy::getMatrixOfInertia() const
 {
     GProp_GProps props;
     BRepGProp::SurfaceProperties(getTopoShapePtr()->getShape(), props);
@@ -1021,7 +1021,7 @@ Py::Object TopoShapeFacePy::getMatrixOfInertia(void) const
     return Py::Matrix(mat);
 }
 
-Py::Object TopoShapeFacePy::getStaticMoments(void) const
+Py::Object TopoShapeFacePy::getStaticMoments() const
 {
     GProp_GProps props;
     BRepGProp::SurfaceProperties(getTopoShapePtr()->getShape(), props);
@@ -1034,7 +1034,7 @@ Py::Object TopoShapeFacePy::getStaticMoments(void) const
     return tuple;
 }
 
-Py::Dict TopoShapeFacePy::getPrincipalProperties(void) const
+Py::Dict TopoShapeFacePy::getPrincipalProperties() const
 {
     GProp_GProps props;
     BRepGProp::SurfaceProperties(getTopoShapePtr()->getShape(), props);

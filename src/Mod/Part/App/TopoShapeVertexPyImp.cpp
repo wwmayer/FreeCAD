@@ -46,7 +46,7 @@
 using namespace Part;
 
 // returns a string which represents the object e.g. when printed in python
-std::string TopoShapeVertexPy::representation(void) const
+std::string TopoShapeVertexPy::representation() const
 {
     std::stringstream str;
     str << "<Vertex object at " << getTopoShapePtr() << ">";
@@ -140,7 +140,7 @@ int TopoShapeVertexPy::PyInit(PyObject* args, PyObject* /*kwd*/)
     return 0;
 }
 
-Py::Float TopoShapeVertexPy::getTolerance(void) const
+Py::Float TopoShapeVertexPy::getTolerance() const
 {
     const TopoDS_Vertex& v = TopoDS::Vertex(getTopoShapePtr()->getShape());
     return Py::Float(BRep_Tool::Tolerance(v));
@@ -153,7 +153,7 @@ void TopoShapeVertexPy::setTolerance(Py::Float tol)
     aBuilder.UpdateVertex(v, (double)tol);
 }
 
-Py::Float TopoShapeVertexPy::getX(void) const
+Py::Float TopoShapeVertexPy::getX() const
 {
     try {
         const TopoDS_Vertex& v = TopoDS::Vertex(getTopoShapePtr()->getShape());
@@ -165,7 +165,7 @@ Py::Float TopoShapeVertexPy::getX(void) const
     }
 }
 
-Py::Float TopoShapeVertexPy::getY(void) const
+Py::Float TopoShapeVertexPy::getY() const
 {
     try {
         const TopoDS_Vertex& v = TopoDS::Vertex(getTopoShapePtr()->getShape());
@@ -177,7 +177,7 @@ Py::Float TopoShapeVertexPy::getY(void) const
     }
 }
 
-Py::Float TopoShapeVertexPy::getZ(void) const
+Py::Float TopoShapeVertexPy::getZ() const
 {
     try {
         const TopoDS_Vertex& v = TopoDS::Vertex(getTopoShapePtr()->getShape());
@@ -189,7 +189,7 @@ Py::Float TopoShapeVertexPy::getZ(void) const
     }
 }
 
-Py::Object TopoShapeVertexPy::getPoint(void) const
+Py::Object TopoShapeVertexPy::getPoint() const
 {
     try {
         const TopoDS_Vertex& v = TopoDS::Vertex(getTopoShapePtr()->getShape());

@@ -50,7 +50,7 @@
 using namespace Part;
 
 // returns a string which represents the object e.g. when printed in python
-std::string BSplineSurfacePy::representation(void) const
+std::string BSplineSurfacePy::representation() const
 {
     return "<BSplineSurface object>";
 }
@@ -1557,7 +1557,7 @@ PyObject* BSplineSurfacePy::buildFromNSections(PyObject *args)
     }
 }
 
-Py::Long BSplineSurfacePy::getUDegree(void) const
+Py::Long BSplineSurfacePy::getUDegree() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
@@ -1565,7 +1565,7 @@ Py::Long BSplineSurfacePy::getUDegree(void) const
     return Py::Long(deg);
 }
 
-Py::Long BSplineSurfacePy::getVDegree(void) const
+Py::Long BSplineSurfacePy::getVDegree() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
@@ -1573,42 +1573,42 @@ Py::Long BSplineSurfacePy::getVDegree(void) const
     return Py::Long(deg);
 }
 
-Py::Long BSplineSurfacePy::getMaxDegree(void) const
+Py::Long BSplineSurfacePy::getMaxDegree() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
     return Py::Long(surf->MaxDegree()); 
 }
 
-Py::Long BSplineSurfacePy::getNbUPoles(void) const
+Py::Long BSplineSurfacePy::getNbUPoles() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
     return Py::Long(surf->NbUPoles()); 
 }
 
-Py::Long BSplineSurfacePy::getNbVPoles(void) const
+Py::Long BSplineSurfacePy::getNbVPoles() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
     return Py::Long(surf->NbVPoles()); 
 }
 
-Py::Long BSplineSurfacePy::getNbUKnots(void) const
+Py::Long BSplineSurfacePy::getNbUKnots() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
     return Py::Long(surf->NbUKnots()); 
 }
 
-Py::Long BSplineSurfacePy::getNbVKnots(void) const
+Py::Long BSplineSurfacePy::getNbVKnots() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
     return Py::Long(surf->NbVKnots()); 
 }
 
-Py::Object BSplineSurfacePy::getFirstUKnotIndex(void) const
+Py::Object BSplineSurfacePy::getFirstUKnotIndex() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
@@ -1616,7 +1616,7 @@ Py::Object BSplineSurfacePy::getFirstUKnotIndex(void) const
     return Py::Long(index);
 }
 
-Py::Object BSplineSurfacePy::getLastUKnotIndex(void) const
+Py::Object BSplineSurfacePy::getLastUKnotIndex() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
@@ -1624,7 +1624,7 @@ Py::Object BSplineSurfacePy::getLastUKnotIndex(void) const
     return Py::Long(index);
 }
 
-Py::Object BSplineSurfacePy::getFirstVKnotIndex(void) const
+Py::Object BSplineSurfacePy::getFirstVKnotIndex() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
@@ -1632,7 +1632,7 @@ Py::Object BSplineSurfacePy::getFirstVKnotIndex(void) const
     return Py::Long(index);
 }
 
-Py::Object BSplineSurfacePy::getLastVKnotIndex(void) const
+Py::Object BSplineSurfacePy::getLastVKnotIndex() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
@@ -1640,7 +1640,7 @@ Py::Object BSplineSurfacePy::getLastVKnotIndex(void) const
     return Py::Long(index);
 }
 
-Py::List BSplineSurfacePy::getUKnotSequence(void) const
+Py::List BSplineSurfacePy::getUKnotSequence() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
@@ -1656,7 +1656,7 @@ Py::List BSplineSurfacePy::getUKnotSequence(void) const
     return list;
 }
 
-Py::List BSplineSurfacePy::getVKnotSequence(void) const
+Py::List BSplineSurfacePy::getVKnotSequence() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());

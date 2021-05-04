@@ -43,7 +43,7 @@
 using namespace Part;
 
 // returns a string which represents the object e.g. when printed in python
-std::string BezierCurvePy::representation(void) const
+std::string BezierCurvePy::representation() const
 {
     return "<BezierCurve object>";
 }
@@ -346,28 +346,28 @@ PyObject* BezierCurvePy::getResolution(PyObject* args)
         return nullptr;
     }
 }
-Py::Long BezierCurvePy::getDegree(void) const
+Py::Long BezierCurvePy::getDegree() const
 {
     Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());
     return Py::Long(curve->Degree());
 }
 
-Py::Long BezierCurvePy::getMaxDegree(void) const
+Py::Long BezierCurvePy::getMaxDegree() const
 {
     Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());
     return Py::Long(curve->MaxDegree());
 }
 
-Py::Long BezierCurvePy::getNbPoles(void) const
+Py::Long BezierCurvePy::getNbPoles() const
 {
     Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());
     return Py::Long(curve->NbPoles());
 }
 
-Py::Object BezierCurvePy::getStartPoint(void) const
+Py::Object BezierCurvePy::getStartPoint() const
 {
     Handle(Geom_BezierCurve) c = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());
@@ -375,7 +375,7 @@ Py::Object BezierCurvePy::getStartPoint(void) const
     return Py::Vector(Base::Vector3d(pnt.X(), pnt.Y(), pnt.Z()));
 }
 
-Py::Object BezierCurvePy::getEndPoint(void) const
+Py::Object BezierCurvePy::getEndPoint() const
 {
     Handle(Geom_BezierCurve) c = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());

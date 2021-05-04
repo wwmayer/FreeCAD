@@ -43,7 +43,7 @@ class PartExport FeatureReference : public App::GeoFeature
 
 public:
     /// Constructor
-    FeatureReference(void);
+    FeatureReference();
     virtual ~FeatureReference();
 
 	App::PropertyLink Reference;
@@ -51,12 +51,12 @@ public:
     /** @name methods override feature */
     //@{
     /// recalculate the feature
-    virtual App::DocumentObjectExecReturn *execute(void);
-    virtual short mustExecute(void) const;
+    virtual App::DocumentObjectExecReturn *execute();
+    virtual short mustExecute() const;
     //@}
 
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const {
+    virtual const char* getViewProviderName() const {
         return "PartGui::ViewProviderPartReference";
     }
 protected:

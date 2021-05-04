@@ -49,7 +49,7 @@ ViewProviderPlaneParametric::~ViewProviderPlaneParametric()
 
 }
 
-std::vector<std::string> ViewProviderPlaneParametric::getDisplayModes(void) const
+std::vector<std::string> ViewProviderPlaneParametric::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList;
@@ -76,7 +76,7 @@ ViewProviderFace::~ViewProviderFace()
 {
 }
 
-std::vector<App::DocumentObject*> ViewProviderFace::claimChildren(void) const
+std::vector<App::DocumentObject*> ViewProviderFace::claimChildren() const
 {
     return std::vector<App::DocumentObject*>(static_cast<Part::Face*>(getObject())->Sources.getValues());
 }

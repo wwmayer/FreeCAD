@@ -45,9 +45,9 @@ public:
     /** @name methods override feature */
     //@{
     /// recalculate the feature
-    App::DocumentObjectExecReturn *execute(void);
+    App::DocumentObjectExecReturn *execute();
     short mustExecute() const;
-    const char* getViewProviderName(void) const {
+    const char* getViewProviderName() const {
         return "PartGui::ViewProviderRuledSurface";
     }
     //@}
@@ -78,9 +78,9 @@ public:
     /** @name methods override feature */
     //@{
     /// recalculate the feature
-    App::DocumentObjectExecReturn *execute(void);
+    App::DocumentObjectExecReturn *execute();
     short mustExecute() const;
-    const char* getViewProviderName(void) const {
+    const char* getViewProviderName() const {
         return "PartGui::ViewProviderLoft";
     }
     //@}
@@ -108,9 +108,9 @@ public:
     /** @name methods override feature */
     //@{
     /// recalculate the feature
-    App::DocumentObjectExecReturn *execute(void);
+    App::DocumentObjectExecReturn *execute();
     short mustExecute() const;
-    const char* getViewProviderName(void) const {
+    const char* getViewProviderName() const {
         return "PartGui::ViewProviderSweep";
     }
     //@}
@@ -139,9 +139,9 @@ public:
     /** @name methods override feature */
     //@{
     /// recalculate the feature
-    App::DocumentObjectExecReturn *execute(void);
+    App::DocumentObjectExecReturn *execute();
     short mustExecute() const;
-    const char* getViewProviderName(void) const {
+    const char* getViewProviderName() const {
         return "PartGui::ViewProviderThickness";
     }
     //@}
@@ -166,8 +166,8 @@ public:
     /** @name methods override feature */
     //@{
     /// recalculate the feature
-    App::DocumentObjectExecReturn *execute(void);
-    const char* getViewProviderName(void) const {
+    App::DocumentObjectExecReturn *execute();
+    const char* getViewProviderName() const {
         return "PartGui::ViewProviderRefine";
     }
     //@}
@@ -185,8 +185,8 @@ public:
     /** @name methods override feature */
     //@{
     /// recalculate the feature
-    App::DocumentObjectExecReturn* execute(void);
-    const char* getViewProviderName(void) const {
+    App::DocumentObjectExecReturn* execute();
+    const char* getViewProviderName() const {
         return "PartGui::ViewProviderReverse";
     }
     //@}

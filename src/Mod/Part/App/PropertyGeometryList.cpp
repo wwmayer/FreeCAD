@@ -75,7 +75,7 @@ void PropertyGeometryList::setSize(int newSize)
     _lValueList.resize(newSize);
 }
 
-int PropertyGeometryList::getSize(void) const
+int PropertyGeometryList::getSize() const
 {
     return static_cast<int>(_lValueList.size());
 }
@@ -128,7 +128,7 @@ void PropertyGeometryList::set1Value(int idx, std::unique_ptr<Geometry> &&lValue
     hasSetValue();
 }
 
-PyObject *PropertyGeometryList::getPyObject(void)
+PyObject *PropertyGeometryList::getPyObject()
 {
     PyObject* list = PyList_New(getSize());
     for (int i = 0; i < getSize(); i++)
@@ -229,7 +229,7 @@ void PropertyGeometryList::Restore(Base::XMLReader &reader)
     setValues(std::move(values));
 }
 
-App::Property *PropertyGeometryList::Copy(void) const
+App::Property *PropertyGeometryList::Copy() const
 {
     PropertyGeometryList *p = new PropertyGeometryList();
     p->setValues(_lValueList);
@@ -242,7 +242,7 @@ void PropertyGeometryList::Paste(const Property &from)
     setValues(FromList._lValueList);
 }
 
-unsigned int PropertyGeometryList::getMemSize(void) const
+unsigned int PropertyGeometryList::getMemSize() const
 {
     int size = sizeof(PropertyGeometryList);
     for (int i = 0; i < getSize(); i++)

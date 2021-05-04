@@ -47,7 +47,7 @@ short CurveNet::mustExecute() const
     return 0;
 }
 
-App::DocumentObjectExecReturn *CurveNet::execute(void)
+App::DocumentObjectExecReturn *CurveNet::execute()
 {
     Base::FileInfo fi(FileName.getValue());
     if (!fi.isReadable()) {

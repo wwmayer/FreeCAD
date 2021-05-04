@@ -37,7 +37,7 @@ using namespace Attacher;
 
 PROPERTY_SOURCE_ABSTRACT_WITH_EXTENSIONS(Part::Datum, Part::Feature)
 
-Datum::Datum(void)
+Datum::Datum()
 {
     AttachExtension::initExtension(this);
     touch();

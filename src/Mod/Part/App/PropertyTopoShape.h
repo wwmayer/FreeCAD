@@ -52,7 +52,7 @@ public:
     /// set the part shape
     void setValue(const TopoDS_Shape&);
     /// get the part shape
-    const TopoDS_Shape& getValue(void) const;
+    const TopoDS_Shape& getValue() const;
     const TopoShape& getShape() const;
     const Data::ComplexGeoData* getComplexData() const;
     //@}
@@ -71,7 +71,7 @@ public:
 
     /** @name Python interface */
     //@{
-    PyObject* getPyObject(void);
+    PyObject* getPyObject();
     void setPyObject(PyObject *value);
     //@}
 
@@ -83,9 +83,9 @@ public:
     void SaveDocFile (Base::Writer &writer) const;
     void RestoreDocFile(Base::Reader &reader);
 
-    App::Property *Copy(void) const;
+    App::Property *Copy() const;
     void Paste(const App::Property &from);
-    unsigned int getMemSize (void) const;
+    unsigned int getMemSize () const;
     //@}
 
     /// Get valid paths for this property; used by auto completer
@@ -118,7 +118,7 @@ public:
     virtual void setSize(int newSize) {
         _lValueList.resize(newSize);
     }
-    virtual int getSize(void) const {
+    virtual int getSize() const {
         return _lValueList.size();
     }
 
@@ -128,11 +128,11 @@ public:
 
     void setValues (const std::vector<ShapeHistory>& values);
 
-    const std::vector<ShapeHistory> &getValues(void) const {
+    const std::vector<ShapeHistory> &getValues() const {
         return _lValueList;
     }
 
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
     virtual void setPyObject(PyObject *);
 
     virtual void Save (Base::Writer &writer) const;
@@ -141,10 +141,10 @@ public:
     virtual void SaveDocFile (Base::Writer &writer) const;
     virtual void RestoreDocFile(Base::Reader &reader);
 
-    virtual Property *Copy(void) const;
+    virtual Property *Copy() const;
     virtual void Paste(const Property &from);
 
-    virtual unsigned int getMemSize (void) const {
+    virtual unsigned int getMemSize () const {
         return _lValueList.size() * sizeof(ShapeHistory);
     }
 
@@ -171,7 +171,7 @@ public:
     virtual void setSize(int newSize) {
         _lValueList.resize(newSize);
     }
-    virtual int getSize(void) const {
+    virtual int getSize() const {
         return _lValueList.size();
     }
 
@@ -181,11 +181,11 @@ public:
 
     void setValues (const std::vector<FilletElement>& values);
 
-    const std::vector<FilletElement> &getValues(void) const {
+    const std::vector<FilletElement> &getValues() const {
         return _lValueList;
     }
 
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
     virtual void setPyObject(PyObject *);
 
     virtual void Save (Base::Writer &writer) const;
@@ -194,10 +194,10 @@ public:
     virtual void SaveDocFile (Base::Writer &writer) const;
     virtual void RestoreDocFile(Base::Reader &reader);
 
-    virtual Property *Copy(void) const;
+    virtual Property *Copy() const;
     virtual void Paste(const Property &from);
 
-    virtual unsigned int getMemSize (void) const {
+    virtual unsigned int getMemSize () const {
         return _lValueList.size() * sizeof(FilletElement);
     }
 

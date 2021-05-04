@@ -50,7 +50,7 @@ ViewProviderBoolean::~ViewProviderBoolean()
 {
 }
 
-std::vector<App::DocumentObject*> ViewProviderBoolean::claimChildren(void)const
+std::vector<App::DocumentObject*> ViewProviderBoolean::claimChildren()const
 {
     std::vector<App::DocumentObject*> temp;
     temp.push_back(static_cast<Part::Boolean*>(getObject())->Base.getValue());
@@ -59,7 +59,7 @@ std::vector<App::DocumentObject*> ViewProviderBoolean::claimChildren(void)const
     return temp;
 }
 
-QIcon ViewProviderBoolean::getIcon(void) const
+QIcon ViewProviderBoolean::getIcon() const
 {
     App::DocumentObject* obj = getObject();
     if (obj) {
@@ -166,12 +166,12 @@ ViewProviderMultiFuse::~ViewProviderMultiFuse()
 {
 }
 
-std::vector<App::DocumentObject*> ViewProviderMultiFuse::claimChildren(void)const
+std::vector<App::DocumentObject*> ViewProviderMultiFuse::claimChildren()const
 {
     return std::vector<App::DocumentObject*>(static_cast<Part::MultiFuse*>(getObject())->Shapes.getValues());
 }
 
-QIcon ViewProviderMultiFuse::getIcon(void) const
+QIcon ViewProviderMultiFuse::getIcon() const
 {
     return Gui::BitmapFactory().iconFromTheme("Part_Fuse");
 }
@@ -297,12 +297,12 @@ ViewProviderMultiCommon::~ViewProviderMultiCommon()
 {
 }
 
-std::vector<App::DocumentObject*> ViewProviderMultiCommon::claimChildren(void)const
+std::vector<App::DocumentObject*> ViewProviderMultiCommon::claimChildren()const
 {
     return std::vector<App::DocumentObject*>(static_cast<Part::MultiCommon*>(getObject())->Shapes.getValues());
 }
 
-QIcon ViewProviderMultiCommon::getIcon(void) const
+QIcon ViewProviderMultiCommon::getIcon() const
 {
     return Gui::BitmapFactory().iconFromTheme("Part_Common");
 }

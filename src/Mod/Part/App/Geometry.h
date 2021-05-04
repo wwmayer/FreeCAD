@@ -79,20 +79,20 @@ public:
     virtual TopoDS_Shape toShape() const = 0;
     virtual const Handle(Geom_Geometry)& handle() const = 0;
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     /// returns a copy of this object having a new randomly generated tag. If you also want to copy the tag, you may use clone() instead.
     /// For creation of geometry with other handles, with or without the same tag, you may use the constructors and the sethandle functions.
     /// The tag of a geometry can be copied to another geometry using the assignTag function.
-    virtual Geometry *copy(void) const = 0;
+    virtual Geometry *copy() const = 0;
     /// returns a cloned object. A cloned object has the same tag (see getTag) as the original object.
     /// if you want a copy not having the same tag, you can use copy() instead.
     /// If you want a clone with another geometry handle, it is possible to clone an object and then assign another handle or to create an object
     /// via constructor and use assignTag to assign the tag of the other geometry.
     /// If you do not desire to have the same tag, then a copy can be performed by using a constructor (which will generate another tag)
     /// and then, if necessary (e.g. if the constructor did not take a handle as a parameter), set a new handle.
-    Geometry *clone(void) const;
+    Geometry *clone() const;
     /// returns the tag of the geometry object
     boost::uuids::uuid getTag() const;
 
@@ -143,20 +143,20 @@ public:
     GeomPoint(const Handle(Geom_CartesianPoint)&);
     GeomPoint(const Base::Vector3d&);
     virtual ~GeomPoint();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
     virtual TopoDS_Shape toShape() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     const Handle(Geom_Geometry)& handle() const;
     void setHandle(const Handle(Geom_CartesianPoint)&);
 
-    Base::Vector3d getPoint(void)const;
+    Base::Vector3d getPoint()const;
     void setPoint(const Base::Vector3d&);
 
 private:
@@ -201,7 +201,7 @@ public:
                    std::vector<std::pair<Base::Vector3d, Base::Vector3d>>& points,
                    double tol = Precision::Confusion()) const;
 
-    void reverse(void);
+    void reverse();
 
 protected:
     static bool intersect(const Handle(Geom_Curve) c, const Handle(Geom_Curve) c2,
@@ -229,16 +229,16 @@ public:
     GeomBezierCurve(const Handle(Geom_BezierCurve)&);
     GeomBezierCurve(const std::vector<Base::Vector3d>&, const std::vector<double>&);
     virtual ~GeomBezierCurve();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
     std::vector<Base::Vector3d> getPoles() const;
     std::vector<double> getWeights() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize (void) const;
+    virtual unsigned int getMemSize () const;
     virtual void Save (Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_BezierCurve)&);
     const Handle(Geom_Geometry)& handle() const;
@@ -259,7 +259,7 @@ public:
                       int degree, bool periodic=false, bool checkrational = true);
 
     virtual ~GeomBSplineCurve();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     /*!
      * Set the poles and tangents for the cubic Hermite spline
@@ -310,11 +310,11 @@ public:
     void Trim(double u, double v);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_BSplineCurve)&);
     const Handle(Geom_Geometry)& handle() const;
@@ -349,26 +349,26 @@ protected:
 
 public:
     virtual ~GeomConic();
-    virtual Geometry *copy(void) const = 0;
+    virtual Geometry *copy() const = 0;
 
     /*!
      * \deprecated use getLocation
      * \brief getCenter
      */
-    Base::Vector3d getCenter(void) const;
-    Base::Vector3d getLocation(void) const;
+    Base::Vector3d getCenter() const;
+    Base::Vector3d getLocation() const;
     void setLocation(const Base::Vector3d& Center);
     /*!
      * \deprecated use setLocation
      * \brief setCenter
      */
     void setCenter(const Base::Vector3d& Center);
-    double getAngleXU(void) const;
+    double getAngleXU() const;
     void setAngleXU(double angle);
     bool isReversed() const;
 
-    virtual unsigned int getMemSize(void) const = 0;
-    virtual PyObject *getPyObject(void) = 0;
+    virtual unsigned int getMemSize() const = 0;
+    virtual PyObject *getPyObject() = 0;
 
     const Handle(Geom_Geometry)& handle() const = 0;
 };
@@ -380,14 +380,14 @@ public:
     GeomTrimmedCurve();
     GeomTrimmedCurve(const Handle(Geom_TrimmedCurve)&);
     virtual ~GeomTrimmedCurve();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_TrimmedCurve)&);
     const Handle(Geom_Geometry)& handle() const;
@@ -414,7 +414,7 @@ protected:
 
 public:
     virtual ~GeomArcOfConic();
-    virtual Geometry *copy(void) const = 0;
+    virtual Geometry *copy() const = 0;
 
     Base::Vector3d getStartPoint(bool emulateCCWXY) const;
     Base::Vector3d getEndPoint(bool emulateCCWXY) const;
@@ -425,8 +425,8 @@ public:
      * \deprecated use getLocation
      * \brief getCenter
      */
-    Base::Vector3d getCenter(void) const;
-    Base::Vector3d getLocation(void) const;
+    Base::Vector3d getCenter() const;
+    Base::Vector3d getLocation() const;
     void setLocation(const Base::Vector3d& Center);
     /*!
      * \deprecated use setLocation
@@ -441,14 +441,14 @@ public:
     inline virtual void setRange(double u, double v) { setRange(u,v,false);}
 
     bool isReversed() const;
-    double getAngleXU(void) const;
+    double getAngleXU() const;
     void setAngleXU(double angle);
 
     Base::Vector3d getXAxisDir() const;
     void setXAxisDir(const Base::Vector3d& newdir);
 
-    virtual unsigned int getMemSize(void) const = 0;
-    virtual PyObject *getPyObject(void) = 0;
+    virtual unsigned int getMemSize() const = 0;
+    virtual PyObject *getPyObject() = 0;
 
     const Handle(Geom_Geometry)& handle() const = 0;
 };
@@ -460,17 +460,17 @@ public:
     GeomCircle();
     GeomCircle(const Handle(Geom_Circle)&);
     virtual ~GeomCircle();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
-    double getRadius(void) const;
+    double getRadius() const;
     void setRadius(double Radius);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
     virtual GeomBSplineCurve* toNurbs(double first, double last) const;
 
     const Handle(Geom_Geometry)& handle() const;
@@ -488,20 +488,20 @@ public:
     GeomArcOfCircle();
     GeomArcOfCircle(const Handle(Geom_Circle)&);
     virtual ~GeomArcOfCircle();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
-    double getRadius(void) const;
+    double getRadius() const;
     void setRadius(double Radius);
 
     virtual void getRange(double& u, double& v, bool emulateCCWXY) const;
     virtual void setRange(double u, double v, bool emulateCCWXY);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
     virtual GeomBSplineCurve* toNurbs(double first, double last) const;
 
     void setHandle(const Handle(Geom_TrimmedCurve)&);
@@ -517,21 +517,21 @@ public:
     GeomEllipse();
     GeomEllipse(const Handle(Geom_Ellipse)&);
     virtual ~GeomEllipse();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
-    double getMajorRadius(void) const;
+    double getMajorRadius() const;
     void setMajorRadius(double Radius);
-    double getMinorRadius(void) const;
+    double getMinorRadius() const;
     void setMinorRadius(double Radius);
     Base::Vector3d getMajorAxisDir() const;
     void setMajorAxisDir(Base::Vector3d newdir);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
     virtual GeomBSplineCurve* toNurbs(double first, double last) const;
 
     void setHandle(const Handle(Geom_Ellipse) &e);
@@ -548,11 +548,11 @@ public:
     GeomArcOfEllipse();
     GeomArcOfEllipse(const Handle(Geom_Ellipse)&);
     virtual ~GeomArcOfEllipse();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
-    double getMajorRadius(void) const;
+    double getMajorRadius() const;
     void setMajorRadius(double Radius);
-    double getMinorRadius(void) const;
+    double getMinorRadius() const;
     void setMinorRadius(double Radius);
     Base::Vector3d getMajorAxisDir() const;
     void setMajorAxisDir(Base::Vector3d newdir);
@@ -561,11 +561,11 @@ public:
     virtual void setRange(double u, double v, bool emulateCCWXY);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
     virtual GeomBSplineCurve* toNurbs(double first, double last) const;
 
     void setHandle(const Handle(Geom_TrimmedCurve)&);
@@ -581,19 +581,19 @@ public:
     GeomHyperbola();
     GeomHyperbola(const Handle(Geom_Hyperbola)&);
     virtual ~GeomHyperbola();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
-    double getMajorRadius(void) const;
+    double getMajorRadius() const;
     void setMajorRadius(double Radius);
-    double getMinorRadius(void) const;
+    double getMinorRadius() const;
     void setMinorRadius(double Radius);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
     virtual GeomBSplineCurve* toNurbs(double first, double last) const;
 
     const Handle(Geom_Geometry)& handle() const;
@@ -610,11 +610,11 @@ public:
     GeomArcOfHyperbola();
     GeomArcOfHyperbola(const Handle(Geom_Hyperbola)&);
     virtual ~GeomArcOfHyperbola();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
-    double getMajorRadius(void) const;
+    double getMajorRadius() const;
     void setMajorRadius(double Radius);
-    double getMinorRadius(void) const;
+    double getMinorRadius() const;
     void setMinorRadius(double Radius);
     Base::Vector3d getMajorAxisDir() const;
     void setMajorAxisDir(Base::Vector3d newdir);
@@ -623,11 +623,11 @@ public:
     virtual void setRange(double u, double v, bool emulateCCWXY);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
     virtual GeomBSplineCurve* toNurbs(double first, double last) const;
 
     void setHandle(const Handle(Geom_TrimmedCurve)&);
@@ -642,17 +642,17 @@ public:
     GeomParabola();
     GeomParabola(const Handle(Geom_Parabola)&);
     virtual ~GeomParabola();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
-    double getFocal(void) const;
+    double getFocal() const;
     void setFocal(double length);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
     virtual GeomBSplineCurve* toNurbs(double first, double last) const;
 
     const Handle(Geom_Geometry)& handle() const;
@@ -669,22 +669,22 @@ public:
     GeomArcOfParabola();
     GeomArcOfParabola(const Handle(Geom_Parabola)&);
     virtual ~GeomArcOfParabola();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
-    double getFocal(void) const;
+    double getFocal() const;
     void setFocal(double length);
 
-    Base::Vector3d getFocus(void) const;
+    Base::Vector3d getFocus() const;
 
     virtual void getRange(double& u, double& v, bool emulateCCWXY) const;
     virtual void setRange(double u, double v, bool emulateCCWXY);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
     virtual GeomBSplineCurve* toNurbs(double first, double last) const;
 
     void setHandle(const Handle(Geom_TrimmedCurve)&);
@@ -700,18 +700,18 @@ public:
     GeomLine(const Handle(Geom_Line)&);
     GeomLine(const Base::Vector3d& Pos, const Base::Vector3d& Dir);
     virtual ~GeomLine();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     void setLine(const Base::Vector3d& Pos, const Base::Vector3d& Dir);
-    Base::Vector3d getPos(void) const;
-    Base::Vector3d getDir(void) const;
+    Base::Vector3d getPos() const;
+    Base::Vector3d getDir() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     const Handle(Geom_Geometry)& handle() const;
     void setHandle(const Handle(Geom_Line)&);
@@ -727,7 +727,7 @@ public:
     GeomLineSegment();
     GeomLineSegment(const Handle(Geom_Line)& l);
     virtual ~GeomLineSegment();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     Base::Vector3d getStartPoint() const;
     Base::Vector3d getEndPoint() const;
@@ -736,11 +736,11 @@ public:
                    const Base::Vector3d& p2);
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_TrimmedCurve)&);
     void setHandle(const Handle(Geom_Line)&);
@@ -757,14 +757,14 @@ public:
     GeomOffsetCurve(const Handle(Geom_Curve)&, double, Base::Vector3d&);
     GeomOffsetCurve(const Handle(Geom_OffsetCurve)&);
     virtual ~GeomOffsetCurve();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_OffsetCurve)& c);
     const Handle(Geom_Geometry)& handle() const;
@@ -807,14 +807,14 @@ public:
     GeomBezierSurface();
     GeomBezierSurface(const Handle(Geom_BezierSurface)&);
     virtual ~GeomBezierSurface();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_BezierSurface)& b);
     const Handle(Geom_Geometry)& handle() const;
@@ -830,14 +830,14 @@ public:
     GeomBSplineSurface();
     GeomBSplineSurface(const Handle(Geom_BSplineSurface)&);
     virtual ~GeomBSplineSurface();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_BSplineSurface)&);
     const Handle(Geom_Geometry)& handle() const;
@@ -853,14 +853,14 @@ public:
     GeomCylinder();
     GeomCylinder(const Handle(Geom_CylindricalSurface)&);
     virtual ~GeomCylinder();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_CylindricalSurface)&);
     const Handle(Geom_Geometry)& handle() const;
@@ -876,14 +876,14 @@ public:
     GeomCone();
     GeomCone(const Handle(Geom_ConicalSurface)&);
     virtual ~GeomCone();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_ConicalSurface)&);
     const Handle(Geom_Geometry)& handle() const;
@@ -899,14 +899,14 @@ public:
     GeomSphere();
     GeomSphere(const Handle(Geom_SphericalSurface)&);
     virtual ~GeomSphere();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_SphericalSurface)&);
     const Handle(Geom_Geometry)& handle() const;
@@ -922,14 +922,14 @@ public:
     GeomToroid();
     GeomToroid(const Handle(Geom_ToroidalSurface)&);
     virtual ~GeomToroid();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_ToroidalSurface)&);
     const Handle(Geom_Geometry)& handle() const;
@@ -945,14 +945,14 @@ public:
     GeomPlane();
     GeomPlane(const Handle(Geom_Plane)&);
     virtual ~GeomPlane();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_Plane)&);
     const Handle(Geom_Geometry)& handle() const;
@@ -969,14 +969,14 @@ public:
     GeomOffsetSurface(const Handle(Geom_Surface)&, double);
     GeomOffsetSurface(const Handle(Geom_OffsetSurface)&);
     virtual ~GeomOffsetSurface();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_OffsetSurface)& s);
     const Handle(Geom_Geometry)& handle() const;
@@ -994,14 +994,14 @@ public:
     GeomPlateSurface(const GeomPlate_BuildPlateSurface&);
     GeomPlateSurface(const Handle(GeomPlate_Surface)&);
     virtual ~GeomPlateSurface();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(GeomPlate_Surface)& s);
     const Handle(Geom_Geometry)& handle() const;
@@ -1017,14 +1017,14 @@ public:
     GeomTrimmedSurface();
     GeomTrimmedSurface(const Handle(Geom_RectangularTrimmedSurface)&);
     virtual ~GeomTrimmedSurface();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_RectangularTrimmedSurface)& s);
     const Handle(Geom_Geometry)& handle() const;
@@ -1041,14 +1041,14 @@ public:
     GeomSurfaceOfRevolution(const Handle(Geom_Curve)&, const gp_Ax1&);
     GeomSurfaceOfRevolution(const Handle(Geom_SurfaceOfRevolution)&);
     virtual ~GeomSurfaceOfRevolution();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_SurfaceOfRevolution)& c);
     const Handle(Geom_Geometry)& handle() const;
@@ -1065,14 +1065,14 @@ public:
     GeomSurfaceOfExtrusion(const Handle(Geom_Curve)&, const gp_Dir&);
     GeomSurfaceOfExtrusion(const Handle(Geom_SurfaceOfLinearExtrusion)&);
     virtual ~GeomSurfaceOfExtrusion();
-    virtual Geometry *copy(void) const;
+    virtual Geometry *copy() const;
 
     // Persistence implementer ---------------------
-    virtual unsigned int getMemSize(void) const;
+    virtual unsigned int getMemSize() const;
     virtual void Save(Base::Writer &/*writer*/) const;
     virtual void Restore(Base::XMLReader &/*reader*/);
     // Base implementer ----------------------------
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
     void setHandle(const Handle(Geom_SurfaceOfLinearExtrusion)& c);
     const Handle(Geom_Geometry)& handle() const;

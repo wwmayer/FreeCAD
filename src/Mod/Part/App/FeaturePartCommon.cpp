@@ -44,7 +44,7 @@ using namespace Part;
 PROPERTY_SOURCE(Part::Common, Part::Boolean)
 
 
-Common::Common(void)
+Common::Common()
 {
 }
 
@@ -59,7 +59,7 @@ BRepAlgoAPI_BooleanOperation* Common::makeOperation(const TopoDS_Shape& base, co
 PROPERTY_SOURCE(Part::MultiCommon, Part::Feature)
 
 
-MultiCommon::MultiCommon(void)
+MultiCommon::MultiCommon()
 {
     ADD_PROPERTY(Shapes,(nullptr));
     Shapes.setSize(0);
@@ -82,7 +82,7 @@ short MultiCommon::mustExecute() const
     return 0;
 }
 
-App::DocumentObjectExecReturn *MultiCommon::execute(void)
+App::DocumentObjectExecReturn *MultiCommon::execute()
 {
     std::vector<TopoDS_Shape> s;
     std::vector<App::DocumentObject*> obj = Shapes.getValues();
