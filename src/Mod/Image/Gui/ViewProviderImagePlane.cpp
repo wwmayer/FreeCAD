@@ -114,7 +114,7 @@ void ViewProviderImagePlane::setDisplayMode(const char* ModeName)
     ViewProviderGeometryObject::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderImagePlane::getDisplayModes(void) const
+std::vector<std::string> ViewProviderImagePlane::getDisplayModes() const
 {
     std::vector<std::string> StrList;
     StrList.push_back("ImagePlane");

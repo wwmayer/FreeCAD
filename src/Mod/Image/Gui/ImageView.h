@@ -43,8 +43,8 @@ public:
     ImageView(QWidget* parent);
     virtual ~ImageView();
 
-    const char *getName(void) const {return "ImageView";}
-    void onUpdate(void){}
+    const char *getName() const {return "ImageView";}
+    void onUpdate(){}
 
     bool onMsg(const char* ,const char** ){ return true; }
     bool onHasMsg(const char* ) const { return false; }

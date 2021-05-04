@@ -226,7 +226,7 @@ void CmdImageCapturerTest::activated(int iMsg)
 }
 #endif
 
-void CreateImageCommands(void)
+void CreateImageCommands()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 

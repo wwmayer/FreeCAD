@@ -22,7 +22,7 @@
 #include "ViewProviderImagePlane.h"
 
 // use a different name to CreateCommand()
-void CreateImageCommands(void);
+void CreateImageCommands();
 
 void loadImageResource()
 {
