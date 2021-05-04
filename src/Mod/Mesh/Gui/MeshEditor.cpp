@@ -65,7 +65,7 @@ namespace bp = boost::placeholders;
 
 PROPERTY_SOURCE(MeshGui::ViewProviderFace, Gui::ViewProviderDocumentObject)
 
-ViewProviderFace::ViewProviderFace() : mesh(0), current_index(-1)
+ViewProviderFace::ViewProviderFace() : mesh(nullptr), current_index(-1)
 {
     pcCoords = new SoCoordinate3();
     pcCoords->ref();
@@ -174,7 +174,7 @@ SoPickedPoint* ViewProviderFace::getPickedPoint(const SbVec2s& pos, const Gui::V
     // returns a copy of the point
     SoPickedPoint* pick = rp.getPickedPoint();
     //return (pick ? pick->copy() : 0); // needs the same instance of CRT under MS Windows
-    return (pick ? new SoPickedPoint(*pick) : 0);
+    return (pick ? new SoPickedPoint(*pick) : nullptr);
 }
 
 // ----------------------------------------------------------------------
@@ -430,7 +430,7 @@ namespace MeshGui {
 
 MeshFillHole::MeshFillHole(MeshHoleFiller& hf, Gui::View3DInventor* parent)
   : QObject(parent)
-  , myMesh(0)
+  , myMesh(nullptr)
   , myNumPoints(0)
   , myVertex1(0)
   , myVertex2(0)
@@ -606,7 +606,7 @@ void MeshFillHole::createPolygons()
 
 SoNode* MeshFillHole::getPickedPolygon(const SoRayPickAction& action/*SoNode* root, const SbVec2s& pos*/) const
 {
-    SoPolygon* poly = 0;
+    SoPolygon* poly = nullptr;
     const SoPickedPointList & points = action.getPickedPointList();
     for (int i=0; i < points.getLength(); i++) {
         const SoPickedPoint * point = points[i];

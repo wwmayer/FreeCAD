@@ -80,9 +80,9 @@ int MeshPointPy::PyInit(PyObject* args, PyObject* /*kwds*/)
 PyObject*  MeshPointPy::unbound(PyObject *args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return NULL;
+        return nullptr;
     getMeshPointPtr()->Index = UINT_MAX;
-    getMeshPointPtr()->Mesh = 0;
+    getMeshPointPtr()->Mesh = nullptr;
     Py_Return;
 }
 
@@ -90,11 +90,11 @@ PyObject*  MeshPointPy::move(PyObject *args)
 {
     if (!getMeshPointPtr()->isBound()) {
         PyErr_SetString(PyExc_RuntimeError, "This object is not bounded to a mesh, so no topological operation is possible!");
-        return 0;
+        return nullptr;
     }
     if (getMeshPointPtr()->Mesh->countPoints() <= getMeshPointPtr()->Index) {
         PyErr_SetString(PyExc_IndexError, "Index out of range");
-        return 0;
+        return nullptr;
     }
 
     double  x=0.0,y=0.0,z=0.0;
@@ -114,7 +114,7 @@ PyObject*  MeshPointPy::move(PyObject *args)
         }
 
         PyErr_SetString(PyExc_TypeError, "Tuple of three floats or Vector expected");
-        return 0;
+        return nullptr;
     }
     while (false);
 
@@ -228,7 +228,7 @@ void  MeshPointPy::setz(Py::Float arg)
 
 PyObject *MeshPointPy::getCustomAttributes(const char* /*attr*/) const
 {
-    return 0;
+    return nullptr;
 }
 
 int MeshPointPy::setCustomAttributes(const char* /*attr*/, PyObject* /*obj*/)

@@ -312,7 +312,7 @@ SphereSurfaceFit::SphereSurfaceFit()
 SphereSurfaceFit::SphereSurfaceFit(const Base::Vector3f& c, float r)
     : center(c)
     , radius(r)
-    , fitter(0)
+    , fitter(nullptr)
 {
 
 }

@@ -43,7 +43,7 @@ PROPERTY_SOURCE(Mesh::Transform, Mesh::Feature)
 
 Transform::Transform(void)
 {
-  ADD_PROPERTY(Source  ,(0));
+  ADD_PROPERTY(Source  ,(nullptr));
   ADD_PROPERTY(Position,(Matrix4D()));
 }
 

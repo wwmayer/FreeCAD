@@ -45,7 +45,7 @@ PROPERTY_SOURCE(Mesh::Curvature, App::DocumentObject)
 
 Curvature::Curvature(void)
 {
-    ADD_PROPERTY(Source,(0));
+    ADD_PROPERTY(Source,(nullptr));
     ADD_PROPERTY(CurvInfo, (CurvatureInfo()));
 }
 

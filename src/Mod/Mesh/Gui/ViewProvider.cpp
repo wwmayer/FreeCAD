@@ -118,8 +118,8 @@ using MeshCore::MeshFacet;
 
 void ViewProviderMeshBuilder::buildNodes(const App::Property* prop, std::vector<SoNode*>& nodes) const
 {
-    SoCoordinate3 *pcPointsCoord=0;
-    SoIndexedFaceSet *pcFaces=0;
+    SoCoordinate3 *pcPointsCoord=nullptr;
+    SoIndexedFaceSet *pcFaces=nullptr;
 
     if (nodes.empty()) {
         pcPointsCoord = new SoCoordinate3();
@@ -230,11 +230,11 @@ QIcon ViewProviderExport::getIcon() const
 App::PropertyFloatConstraint::Constraints ViewProviderMesh::floatRange = {1.0f,64.0f,1.0f};
 App::PropertyFloatConstraint::Constraints ViewProviderMesh::angleRange = {0.0f,180.0f,1.0f};
 App::PropertyIntegerConstraint::Constraints ViewProviderMesh::intPercent = {0,100,1};
-const char* ViewProviderMesh::LightingEnums[]= {"One side","Two side",NULL};
+const char* ViewProviderMesh::LightingEnums[]= {"One side","Two side",nullptr};
 
 PROPERTY_SOURCE(MeshGui::ViewProviderMesh, Gui::ViewProviderGeometryObject)
 
-ViewProviderMesh::ViewProviderMesh() : pcOpenEdge(0)
+ViewProviderMesh::ViewProviderMesh() : pcOpenEdge(nullptr)
 {
     static const char *osgroup = "Object Style";
 
@@ -405,12 +405,12 @@ void ViewProviderMesh::setOpenEdgeColorFrom(const App::Color& c)
 
 SoShape* ViewProviderMesh::getShapeNode() const
 {
-    return 0;
+    return nullptr;
 }
 
 SoNode* ViewProviderMesh::getCoordNode() const
 {
-    return 0;
+    return nullptr;
 }
 
 /** 
@@ -547,7 +547,7 @@ App::PropertyColorList* ViewProviderMesh::getColorProperty() const
         }
     }
 
-    return 0; // no such property found
+    return nullptr; // no such property found
 }
 
 void ViewProviderMesh::tryColorPerVertexOrFace(bool on)
@@ -1259,7 +1259,7 @@ std::vector<unsigned long> ViewProviderMesh::getFacetsOfRegion(const SbViewportR
 void ViewProviderMesh::panCamera(SoCamera * cam, float aspectratio, const SbPlane & panplane,
                                  const SbVec2f & currpos, const SbVec2f & prevpos)
 {
-    if (cam == NULL) return; // can happen for empty scenegraph
+    if (cam == nullptr) return; // can happen for empty scenegraph
     if (currpos == prevpos) return; // useless invocation
 
 
@@ -1593,7 +1593,7 @@ void ViewProviderMesh::faceInfoCallback(void * ud, SoEventCallback * n)
     }
     else if (mbe->getButton() == SoMouseButtonEvent::BUTTON1 && mbe->getState() == SoButtonEvent::DOWN) {
         const SoPickedPoint * point = n->getPickedPoint();
-        if (point == NULL) {
+        if (point == nullptr) {
             Base::Console().Message("No facet picked.\n");
             return;
         }
@@ -1619,7 +1619,7 @@ void ViewProviderMesh::faceInfoCallback(void * ud, SoEventCallback * n)
             const SoFaceDetail* faceDetail = static_cast<const SoFaceDetail*>(detail);
             unsigned long uFacet = faceDetail->getFaceIndex();
             that->faceInfo(uFacet);
-            Gui::GLFlagWindow* flags = 0;
+            Gui::GLFlagWindow* flags = nullptr;
             std::list<Gui::GLGraphicsItem*> glItems = view->getGraphicsItemsOfType(Gui::GLFlagWindow::getClassTypeId());
             if (glItems.empty()) {
                 flags = new Gui::GLFlagWindow(view);
@@ -1667,7 +1667,7 @@ void ViewProviderMesh::fillHoleCallback(void * ud, SoEventCallback * n)
     }
     else if (mbe->getButton() == SoMouseButtonEvent::BUTTON1 && mbe->getState() == SoButtonEvent::DOWN) {
         const SoPickedPoint * point = n->getPickedPoint();
-        if (point == NULL) {
+        if (point == nullptr) {
             Base::Console().Message("No facet picked.\n");
             return;
         }
@@ -1734,7 +1734,7 @@ void ViewProviderMesh::markPartCallback(void * ud, SoEventCallback * n)
         }
         else if (mbe->getButton() == SoMouseButtonEvent::BUTTON1 && mbe->getState() == SoButtonEvent::DOWN) {
             const SoPickedPoint * point = n->getPickedPoint();
-            if (point == NULL) {
+            if (point == nullptr) {
                 Base::Console().Message("No facet picked.\n");
                 return;
             }
@@ -2246,8 +2246,8 @@ PROPERTY_SOURCE(MeshGui::ViewProviderIndexedFaceSet, MeshGui::ViewProviderMesh)
 
 ViewProviderIndexedFaceSet::ViewProviderIndexedFaceSet()
 {
-    pcMeshCoord = 0;
-    pcMeshFaces = 0;
+    pcMeshCoord = nullptr;
+    pcMeshFaces = nullptr;
 }
 
 ViewProviderIndexedFaceSet::~ViewProviderIndexedFaceSet()
@@ -2290,7 +2290,7 @@ void ViewProviderIndexedFaceSet::showOpenEdges(bool show)
     if (pcOpenEdge) {
         // remove the node and destroy the data
         pcRoot->removeChild(pcOpenEdge);
-        pcOpenEdge = 0;
+        pcOpenEdge = nullptr;
     }
 
     if (show) {
@@ -2337,8 +2337,8 @@ PROPERTY_SOURCE(MeshGui::ViewProviderMeshObject, MeshGui::ViewProviderMesh)
 
 ViewProviderMeshObject::ViewProviderMeshObject()
 {
-    pcMeshNode = 0;
-    pcMeshShape = 0;
+    pcMeshNode = nullptr;
+    pcMeshShape = nullptr;
 }
 
 ViewProviderMeshObject::~ViewProviderMeshObject()
@@ -2377,7 +2377,7 @@ void ViewProviderMeshObject::showOpenEdges(bool show)
     if (pcOpenEdge) {
         // remove the node and destroy the data
         pcRoot->removeChild(pcOpenEdge);
-        pcOpenEdge = 0;
+        pcOpenEdge = nullptr;
     }
 
     if (show) {

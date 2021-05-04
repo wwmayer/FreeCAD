@@ -427,7 +427,7 @@ void PropertyCurvatureList::Paste(const App::Property &from)
 // ----------------------------------------------------------------------------
 
 PropertyMeshKernel::PropertyMeshKernel()
-  : _meshObject(new MeshObject()), meshPyObject(0)
+  : _meshObject(new MeshObject()), meshPyObject(nullptr)
 {
     // Note: Normally this property is a member of a document object, i.e. the setValue()
     // method gets called in the constructor of a sublcass of DocumentObject, e.g. Mesh::Feature.
@@ -440,7 +440,7 @@ PropertyMeshKernel::~PropertyMeshKernel()
     if (meshPyObject) {
         // Note: Do not call setInvalid() of the Python binding 
         // because the mesh should still be accessible afterwards.
-        meshPyObject->parentProperty = 0;
+        meshPyObject->parentProperty = nullptr;
         Py_DECREF(meshPyObject);
     }
 }

@@ -46,8 +46,8 @@ PROPERTY_SOURCE(Mesh::SegmentByMesh, Mesh::Feature)
 
 SegmentByMesh::SegmentByMesh(void)
 {
-    ADD_PROPERTY(Source  ,(0));
-    ADD_PROPERTY(Tool    ,(0));
+    ADD_PROPERTY(Source  ,(nullptr));
+    ADD_PROPERTY(Tool    ,(nullptr));
     ADD_PROPERTY(Base    ,(0.0,0.0,0.0));
     ADD_PROPERTY(Normal  ,(0.0,0.0,1.0));
 }
@@ -65,7 +65,7 @@ short SegmentByMesh::mustExecute() const
 
 App::DocumentObjectExecReturn *SegmentByMesh::execute(void)
 {
-    Mesh::PropertyMeshKernel *kernel=0;
+    Mesh::PropertyMeshKernel *kernel=nullptr;
     App::DocumentObject* mesh = Source.getValue();
     if (mesh) {
         App::Property* prop = mesh->getPropertyByName("Mesh");
@@ -77,7 +77,7 @@ App::DocumentObjectExecReturn *SegmentByMesh::execute(void)
     else if (mesh->isError())
         return new App::DocumentObjectExecReturn("No valid mesh.\n");
 
-    Mesh::PropertyMeshKernel *toolmesh=0;
+    Mesh::PropertyMeshKernel *toolmesh=nullptr;
     App::DocumentObject* tool = Tool.getValue();
     if (tool) {
         App::Property* prop = tool->getPropertyByName("Mesh");

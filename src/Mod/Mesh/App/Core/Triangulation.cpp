@@ -664,7 +664,7 @@ bool DelaunayTriangulator::Triangulate()
         // then the triangulation must have 2*N-2-H triangles and 3*N-3-H
         // edges.
         int iEQuantity = 0;
-        int* aiIndex = 0;
+        int* aiIndex = nullptr;
         del.GetHull(iEQuantity,aiIndex);
         int iUniqueVQuantity = del.GetUniqueVertexQuantity();
         int iTVerify = 2*iUniqueVQuantity - 2 - iEQuantity;

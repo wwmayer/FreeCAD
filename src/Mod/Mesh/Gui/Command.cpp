@@ -1611,7 +1611,7 @@ CmdMeshBuildRegularSolid::CmdMeshBuildRegularSolid()
 
 void CmdMeshBuildRegularSolid::activated(int)
 {
-    static QPointer<QDialog> dlg = 0;
+    static QPointer<QDialog> dlg = nullptr;
     if (!dlg)
         dlg = new MeshGui::DlgRegularSolidImp(Gui::getMainWindow());
     dlg->setAttribute(Qt::WA_DeleteOnClose);

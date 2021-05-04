@@ -114,10 +114,10 @@ Data::Segment* MeshObject::getSubElement(const char* Type, unsigned long /*n*/) 
     //TODO
     std::string element(Type);
     if (element == "Face")
-        return 0;
+        return nullptr;
     else if (element == "Segment")
-        return 0;
-    return 0;
+        return nullptr;
+    return nullptr;
 }
 
 void MeshObject::getFacesFromSubelement(const Data::Segment* /*segm*/,
@@ -1592,7 +1592,7 @@ MeshObject* MeshObject::createSphere(float radius, int sampling)
     try {
         Py::Module module(PyImport_ImportModule("BuildRegularGeoms"),true);
         if (module.isNull())
-            return 0;
+            return nullptr;
         Py::Dict dict = module.getDict();
         Py::Callable call(dict.getItem("Sphere"));
         Py::Tuple args(2);
@@ -1605,7 +1605,7 @@ MeshObject* MeshObject::createSphere(float radius, int sampling)
         e.clear();
     }
 
-    return 0;
+    return nullptr;
 }
 
 MeshObject* MeshObject::createEllipsoid(float radius1, float radius2, int sampling)
@@ -1615,7 +1615,7 @@ MeshObject* MeshObject::createEllipsoid(float radius1, float radius2, int sampli
     try {
         Py::Module module(PyImport_ImportModule("BuildRegularGeoms"),true);
         if (module.isNull())
-            return 0;
+            return nullptr;
         Py::Dict dict = module.getDict();
         Py::Callable call(dict.getItem("Ellipsoid"));
         Py::Tuple args(3);
@@ -1629,7 +1629,7 @@ MeshObject* MeshObject::createEllipsoid(float radius1, float radius2, int sampli
         e.clear();
     }
 
-    return 0;
+    return nullptr;
 }
 
 MeshObject* MeshObject::createCylinder(float radius, float length, int closed, float edgelen, int sampling)
@@ -1639,7 +1639,7 @@ MeshObject* MeshObject::createCylinder(float radius, float length, int closed, f
     try {
         Py::Module module(PyImport_ImportModule("BuildRegularGeoms"),true);
         if (module.isNull())
-            return 0;
+            return nullptr;
         Py::Dict dict = module.getDict();
         Py::Callable call(dict.getItem("Cylinder"));
         Py::Tuple args(5);
@@ -1655,7 +1655,7 @@ MeshObject* MeshObject::createCylinder(float radius, float length, int closed, f
         e.clear();
     }
 
-    return 0;
+    return nullptr;
 }
 
 MeshObject* MeshObject::createCone(float radius1, float radius2, float len, int closed, float edgelen, int sampling)
@@ -1665,7 +1665,7 @@ MeshObject* MeshObject::createCone(float radius1, float radius2, float len, int 
     try {
         Py::Module module(PyImport_ImportModule("BuildRegularGeoms"),true);
         if (module.isNull())
-            return 0;
+            return nullptr;
         Py::Dict dict = module.getDict();
         Py::Callable call(dict.getItem("Cone"));
         Py::Tuple args(6);
@@ -1682,7 +1682,7 @@ MeshObject* MeshObject::createCone(float radius1, float radius2, float len, int 
         e.clear();
     }
 
-    return 0;
+    return nullptr;
 }
 
 MeshObject* MeshObject::createTorus(float radius1, float radius2, int sampling)
@@ -1692,7 +1692,7 @@ MeshObject* MeshObject::createTorus(float radius1, float radius2, int sampling)
     try {
         Py::Module module(PyImport_ImportModule("BuildRegularGeoms"),true);
         if (module.isNull())
-            return 0;
+            return nullptr;
         Py::Dict dict = module.getDict();
         Py::Callable call(dict.getItem("Toroid"));
         Py::Tuple args(3);
@@ -1706,7 +1706,7 @@ MeshObject* MeshObject::createTorus(float radius1, float radius2, int sampling)
         e.clear();
     }
 
-    return 0;
+    return nullptr;
 }
 
 MeshObject* MeshObject::createCube(float length, float width, float height)
@@ -1716,7 +1716,7 @@ MeshObject* MeshObject::createCube(float length, float width, float height)
     try {
         Py::Module module(PyImport_ImportModule("BuildRegularGeoms"),true);
         if (module.isNull())
-            return 0;
+            return nullptr;
         Py::Dict dict = module.getDict();
         Py::Callable call(dict.getItem("Cube"));
         Py::Tuple args(3);
@@ -1730,7 +1730,7 @@ MeshObject* MeshObject::createCube(float length, float width, float height)
         e.clear();
     }
 
-    return 0;
+    return nullptr;
 }
 
 MeshObject* MeshObject::createCube(float length, float width, float height, float edgelen)
@@ -1740,7 +1740,7 @@ MeshObject* MeshObject::createCube(float length, float width, float height, floa
     try {
         Py::Module module(PyImport_ImportModule("BuildRegularGeoms"),true);
         if (module.isNull())
-            return 0;
+            return nullptr;
         Py::Dict dict = module.getDict();
         Py::Callable call(dict.getItem("FineCube"));
         Py::Tuple args(4);
@@ -1755,7 +1755,7 @@ MeshObject* MeshObject::createCube(float length, float width, float height, floa
         e.clear();
     }
 
-    return 0;
+    return nullptr;
 }
 
 void MeshObject::addSegment(const Segment& s)

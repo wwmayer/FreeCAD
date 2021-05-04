@@ -44,7 +44,7 @@
 using namespace MeshCore;
 
 MeshTopoAlgorithm::MeshTopoAlgorithm (MeshKernel &rclM)
-: _rclMesh(rclM), _needsCleanup(false), _cache(0)
+: _rclMesh(rclM), _needsCleanup(false), _cache(nullptr)
 {
 }
 
@@ -782,7 +782,7 @@ void MeshTopoAlgorithm::EndCache()
     if (_cache) {
         _cache->clear();
         delete _cache;
-        _cache = 0;
+        _cache = nullptr;
     }
 }
 

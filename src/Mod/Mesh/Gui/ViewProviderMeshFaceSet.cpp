@@ -181,7 +181,7 @@ void ViewProviderMeshFaceSet::showOpenEdges(bool show)
     if (pcOpenEdge) {
         // remove the node and destroy the data
         pcRoot->removeChild(pcOpenEdge);
-        pcOpenEdge = 0;
+        pcOpenEdge = nullptr;
     }
 
     if (show) {

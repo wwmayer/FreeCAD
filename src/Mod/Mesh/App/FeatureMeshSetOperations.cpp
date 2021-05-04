@@ -48,8 +48,8 @@ PROPERTY_SOURCE(Mesh::SetOperations, Mesh::Feature)
 
 SetOperations::SetOperations(void)
 {
-    ADD_PROPERTY(Source1  ,(0));
-    ADD_PROPERTY(Source2  ,(0));
+    ADD_PROPERTY(Source1  ,(nullptr));
+    ADD_PROPERTY(Source2  ,(nullptr));
     ADD_PROPERTY(OperationType, ("union"));
 }
 
@@ -72,7 +72,7 @@ App::DocumentObjectExecReturn *SetOperations::execute(void)
     Mesh::Feature *mesh1  = dynamic_cast<Mesh::Feature*>(Source1.getValue());
     Mesh::Feature *mesh2  = dynamic_cast<Mesh::Feature*>(Source2.getValue());
 
-    if ((mesh1 != NULL) && (mesh2 != NULL)) {
+    if ((mesh1 != nullptr) && (mesh2 != nullptr)) {
         const MeshObject& meshKernel1 = mesh1->Mesh.getValue();
         const MeshObject& meshKernel2 = mesh2->Mesh.getValue();
 

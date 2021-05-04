@@ -175,7 +175,7 @@ public:
   bool FillupHole(const std::vector<unsigned long>& boundary,
                   AbstractPolygonTriangulator& cTria,
                   MeshFacetArray& rFaces, MeshPointArray& rPoints,
-                  int level, const MeshRefPointToFacets* pP2FStructure=0) const;
+                  int level, const MeshRefPointToFacets* pP2FStructure=nullptr) const;
   /** Sets to all facets in \a raulInds the properties in raulProps. 
    * \note Both arrays must have the same size.
    */

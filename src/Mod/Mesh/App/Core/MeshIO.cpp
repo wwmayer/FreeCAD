@@ -58,7 +58,7 @@ char *upper(char * string)
     int i;
     int l;
 
-    if (string != NULL) {
+    if (string != nullptr) {
         l = std::strlen(string);
         for (i=0; i<l; i++)
             string[i] = toupper(string[i]);
@@ -258,8 +258,8 @@ bool MeshInput::LoadSTL (std::istream &rstrIn)
     upper(szBuf);
 
     try {
-        if ((strstr(szBuf, "SOLID") == NULL)  && (strstr(szBuf, "FACET") == NULL)    && (strstr(szBuf, "NORMAL") == NULL) &&
-            (strstr(szBuf, "VERTEX") == NULL) && (strstr(szBuf, "ENDFACET") == NULL) && (strstr(szBuf, "ENDLOOP") == NULL)) {
+        if ((strstr(szBuf, "SOLID") == nullptr)  && (strstr(szBuf, "FACET") == nullptr)    && (strstr(szBuf, "NORMAL") == nullptr) &&
+            (strstr(szBuf, "VERTEX") == nullptr) && (strstr(szBuf, "ENDFACET") == nullptr) && (strstr(szBuf, "ENDLOOP") == nullptr)) {
             // probably binary STL
             buf->pubseekoff(0, std::ios::beg, std::ios::in);
             return LoadBinarySTL(rstrIn);
@@ -3473,7 +3473,7 @@ bool MeshOutput::SaveVRML (std::ostream &rstrOut) const
 MeshCleanup::MeshCleanup(MeshPointArray& p, MeshFacetArray& f)
   : pointArray(p)
   , facetArray(f)
-  , materialArray(0)
+  , materialArray(nullptr)
 {
 }
 

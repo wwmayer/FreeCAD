@@ -72,9 +72,9 @@ int FacetPy::PyInit(PyObject* args, PyObject* /*kwds*/)
 PyObject*  FacetPy::unbound(PyObject *args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return NULL;
+        return nullptr;
     getFacetPtr()->Index = ULONG_MAX;
-    getFacetPtr()->Mesh = 0;
+    getFacetPtr()->Mesh = nullptr;
     Py_Return;
 }
 
@@ -99,7 +99,7 @@ PyObject*  FacetPy::intersect(PyObject *args)
 {
     PyObject* object;
     if (!PyArg_ParseTuple(args, "O!", &FacetPy::Type, &object))
-        return NULL;
+        return nullptr;
     FacetPy  *face = static_cast<FacetPy*>(object);
     FacetPy::PointerType face_ptr = face->getFacetPtr();
     FacetPy::PointerType this_ptr = this->getFacetPtr();
@@ -127,7 +127,7 @@ PyObject*  FacetPy::intersect(PyObject *args)
         return Py::new_reference_to(sct);
     }
     catch (const Py::Exception&) {
-        return 0;
+        return nullptr;
     }
 }
 
@@ -135,7 +135,7 @@ PyObject*  FacetPy::isDegenerated(PyObject *args)
 {
     float fEpsilon = MeshCore::MeshDefinitions::_fMinPointDistanceP2;
     if (!PyArg_ParseTuple(args, "|f", &fEpsilon))
-        return NULL;
+        return nullptr;
 
     FacetPy::PointerType face = this->getFacetPtr();
     if (!face->isBound()) {
@@ -152,7 +152,7 @@ PyObject*  FacetPy::isDeformed(PyObject *args)
     float fMinAngle;
     float fMaxAngle;
     if (!PyArg_ParseTuple(args, "ff", &fMinAngle, &fMaxAngle))
-        return NULL;
+        return nullptr;
 
     FacetPy::PointerType face = this->getFacetPtr();
     if (!face->isBound()) {
@@ -293,7 +293,7 @@ Py::Tuple FacetPy::getInCircle(void) const
 
 PyObject *FacetPy::getCustomAttributes(const char* /*attr*/) const
 {
-    return 0;
+    return nullptr;
 }
 
 int FacetPy::setCustomAttributes(const char* /*attr*/, PyObject * /*obj*/)

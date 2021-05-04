@@ -44,7 +44,7 @@ PROPERTY_SOURCE(Mesh::FixDefects, Mesh::Feature)
 
 FixDefects::FixDefects()
 {
-  ADD_PROPERTY(Source  ,(0));
+  ADD_PROPERTY(Source  ,(nullptr));
   ADD_PROPERTY(Epsilon  ,(0));
 }
 

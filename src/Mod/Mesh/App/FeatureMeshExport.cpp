@@ -41,7 +41,7 @@ PROPERTY_SOURCE(Mesh::Export, App::DocumentObject)
 
 Export::Export(void)
 {
-    ADD_PROPERTY(Source  ,(0));
+    ADD_PROPERTY(Source  ,(nullptr));
     ADD_PROPERTY(FileName,(""));
     ADD_PROPERTY(Format  ,(""));
 }

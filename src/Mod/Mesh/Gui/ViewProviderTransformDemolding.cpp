@@ -65,8 +65,8 @@ ViewProviderMeshTransformDemolding::ViewProviderMeshTransformDemolding()
 {
   pcTrackballDragger = new SoTrackballDragger;
   pcTrackballDragger->ref();
-  pcTransformDrag = 0;
-  pcColorMat = 0;
+  pcTransformDrag = nullptr;
+  pcColorMat = nullptr;
 }
 
 ViewProviderMeshTransformDemolding::~ViewProviderMeshTransformDemolding()

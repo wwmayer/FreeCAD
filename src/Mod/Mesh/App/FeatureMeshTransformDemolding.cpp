@@ -44,7 +44,7 @@ PROPERTY_SOURCE(Mesh::TransformDemolding, Mesh::Transform)
 
 TransformDemolding::TransformDemolding(void)
 {
-    ADD_PROPERTY(Source,(0));
+    ADD_PROPERTY(Source,(nullptr));
     ADD_PROPERTY(Rotation,(0.0));
     ADD_PROPERTY(Axis,(0.0,0.0,1.0));
 }

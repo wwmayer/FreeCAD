@@ -57,7 +57,7 @@ class ParametersDialog : public QDialog
 public:
     ParametersDialog(std::vector<float>&, FitParameter*,
                      ParameterList, Mesh::Feature* mesh,
-                     QWidget* parent=0);
+                     QWidget* parent=nullptr);
     ~ParametersDialog();
     void accept();
     void reject();
@@ -82,7 +82,7 @@ class MeshGuiExport SegmentationBestFit : public QWidget
     Q_OBJECT
 
 public:
-    SegmentationBestFit(Mesh::Feature* mesh, QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
+    SegmentationBestFit(Mesh::Feature* mesh, QWidget* parent = nullptr, Qt::WindowFlags fl = Qt::WindowFlags());
     ~SegmentationBestFit();
     void accept();
 
