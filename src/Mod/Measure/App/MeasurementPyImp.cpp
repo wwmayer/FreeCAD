@@ -62,7 +62,7 @@ PyObject* MeasurementPy::addReference3D(PyObject *args)
     char *ObjectName;
     char *SubName;
     if (!PyArg_ParseTuple(args, "ss:Give an object and subelement name", &ObjectName,&SubName))
-        return 0;
+        return nullptr;
 
     // get the target object for the external link
     App::DocumentObject * Obj = App::GetApplication().getActiveDocument()->getObject(ObjectName);
@@ -70,7 +70,7 @@ PyObject* MeasurementPy::addReference3D(PyObject *args)
         std::stringstream str;
         str << ObjectName << "does not exist in the document";
         PyErr_SetString(PyExc_ValueError, str.str().c_str());
-        return 0;
+        return nullptr;
     }
 
     // add the external
@@ -78,7 +78,7 @@ PyObject* MeasurementPy::addReference3D(PyObject *args)
         std::stringstream str;
         str << "Not able to add reference";
         PyErr_SetString(PyExc_ValueError, str.str().c_str());
-        return 0;
+        return nullptr;
     }
 
     Py_Return;
@@ -88,7 +88,7 @@ PyObject* MeasurementPy::has3DReferences(PyObject *args)
 {
     PyObject *result=Py_False;
     if (!PyArg_ParseTuple(args, ""))
-        return 0;
+        return nullptr;
 
     if (getMeasurementPtr()->has3DReferences()) {
         result = Py_True;
@@ -101,7 +101,7 @@ PyObject* MeasurementPy::has3DReferences(PyObject *args)
 PyObject* MeasurementPy::clear(PyObject *args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return 0;
+        return nullptr;
 
     this->getMeasurementPtr()->clear();
 
@@ -111,7 +111,7 @@ PyObject* MeasurementPy::clear(PyObject *args)
 PyObject* MeasurementPy::delta(PyObject *args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return 0;
+        return nullptr;
 
     Py::Vector delta(this->getMeasurementPtr()->delta());
 
@@ -121,7 +121,7 @@ PyObject* MeasurementPy::delta(PyObject *args)
 PyObject* MeasurementPy::length(PyObject *args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return 0;
+        return nullptr;
 
     Py::Float length;
     length = this->getMeasurementPtr()->length();
@@ -132,7 +132,7 @@ PyObject* MeasurementPy::length(PyObject *args)
 PyObject* MeasurementPy::radius(PyObject *args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return 0;
+        return nullptr;
 
     Py::Float radius;
     radius = this->getMeasurementPtr()->radius();
@@ -143,7 +143,7 @@ PyObject* MeasurementPy::radius(PyObject *args)
 PyObject* MeasurementPy::angle(PyObject *args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return 0;
+        return nullptr;
 
     Py::Float angle;
     angle = this->getMeasurementPtr()->angle();
@@ -154,7 +154,7 @@ PyObject* MeasurementPy::angle(PyObject *args)
 PyObject* MeasurementPy::com(PyObject *args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return 0;
+        return nullptr;
 
     Py::Vector com(this->getMeasurementPtr()->massCenter());
 
@@ -163,7 +163,7 @@ PyObject* MeasurementPy::com(PyObject *args)
 
 PyObject *MeasurementPy::getCustomAttributes(const char* /*attr*/) const
 {
-    return 0;
+    return nullptr;
 }
 
 int MeasurementPy::setCustomAttributes(const char* /*attr*/, PyObject* /*obj*/)
