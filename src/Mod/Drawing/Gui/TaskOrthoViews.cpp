@@ -274,8 +274,8 @@ void orthoview::set_projection(const gp_Ax2& cs)
 
 OrthoViews::OrthoViews(App::Document* doc, const char * pagename, const char * partname)
 {
-    horiz = 0;
-    vert = 0;
+    horiz = nullptr;
+    vert = nullptr;
 
     parent_doc = doc;
     parent_doc->openTransaction("Create view");
@@ -1329,7 +1329,7 @@ TaskDlgOrthoViews::TaskDlgOrthoViews()
 {
     widget = new TaskOrthoViews();
     taskbox = new Gui::TaskView::TaskBox(
-        Gui::BitmapFactory().pixmap("actions/drawing-orthoviews"), widget->windowTitle(), true, 0);
+        Gui::BitmapFactory().pixmap("actions/drawing-orthoviews"), widget->windowTitle(), true, nullptr);
     taskbox->groupLayout()->addWidget(widget);
     Content.push_back(taskbox);
 }
