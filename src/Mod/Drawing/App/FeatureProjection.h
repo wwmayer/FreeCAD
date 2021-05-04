@@ -62,7 +62,7 @@ public:
     /** @name methods override feature */
     //@{
     /// recalculate the Feature
-    virtual App::DocumentObjectExecReturn *execute(void);
+    virtual App::DocumentObjectExecReturn *execute();
     //@}
 };
 

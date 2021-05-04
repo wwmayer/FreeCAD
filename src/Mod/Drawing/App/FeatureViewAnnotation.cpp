@@ -45,7 +45,7 @@ using namespace std;
 PROPERTY_SOURCE(Drawing::FeatureViewAnnotation, Drawing::FeatureView)
 
 
-FeatureViewAnnotation::FeatureViewAnnotation(void) 
+FeatureViewAnnotation::FeatureViewAnnotation() 
 {
     static const char *vgroup = "Drawing view";
 
@@ -58,7 +58,7 @@ FeatureViewAnnotation::~FeatureViewAnnotation()
 {
 }
 
-App::DocumentObjectExecReturn *FeatureViewAnnotation::execute(void)
+App::DocumentObjectExecReturn *FeatureViewAnnotation::execute()
 {
   std::stringstream result,hr,hg,hb;
     const App::Color& c = TextColor.getValue();
@@ -92,7 +92,7 @@ App::DocumentObjectExecReturn *FeatureViewAnnotation::execute(void)
 namespace App {
 /// @cond DOXERR
 PROPERTY_SOURCE_TEMPLATE(Drawing::FeatureViewAnnotationPython, Drawing::FeatureViewAnnotation)
-template<> const char* Drawing::FeatureViewAnnotationPython::getViewProviderName(void) const {
+template<> const char* Drawing::FeatureViewAnnotationPython::getViewProviderName() const {
     return "DrawingGui::ViewProviderDrawingView";
 }
 /// @endcond

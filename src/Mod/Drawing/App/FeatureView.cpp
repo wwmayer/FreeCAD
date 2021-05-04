@@ -47,7 +47,7 @@ PROPERTY_SOURCE(Drawing::FeatureView, App::DocumentObject)
 
 
 
-FeatureView::FeatureView(void) 
+FeatureView::FeatureView() 
 {
     static const char *group = "Drawing view";
     ADD_PROPERTY_TYPE(X ,(0),group,App::Prop_None,"X position of the view on the drawing in modelling units (mm)");
@@ -67,7 +67,7 @@ FeatureView::~FeatureView()
 {
 }
 
-App::DocumentObjectExecReturn *FeatureView::recompute(void)
+App::DocumentObjectExecReturn *FeatureView::recompute()
 {
     try {
         return App::DocumentObject::recompute();
@@ -79,7 +79,7 @@ App::DocumentObjectExecReturn *FeatureView::recompute(void)
     }
 }
 
-App::DocumentObjectExecReturn *FeatureView::execute(void)
+App::DocumentObjectExecReturn *FeatureView::execute()
 {
     return App::DocumentObject::StdReturn;
 }
@@ -90,7 +90,7 @@ App::DocumentObjectExecReturn *FeatureView::execute(void)
 namespace App {
 /// @cond DOXERR
 PROPERTY_SOURCE_TEMPLATE(Drawing::FeatureViewPython, Drawing::FeatureView)
-template<> const char* Drawing::FeatureViewPython::getViewProviderName(void) const {
+template<> const char* Drawing::FeatureViewPython::getViewProviderName() const {
     return "DrawingGui::ViewProviderDrawingViewPython";
 }
 /// @endcond

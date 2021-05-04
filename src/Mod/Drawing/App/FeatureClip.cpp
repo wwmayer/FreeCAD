@@ -48,7 +48,7 @@ using namespace std;
 
 PROPERTY_SOURCE(Drawing::FeatureClip, App::DocumentObjectGroup)
 
-FeatureClip::FeatureClip(void) 
+FeatureClip::FeatureClip() 
 {
     static const char *group = "Drawing view";
     App::PropertyType hidden = (App::PropertyType)(App::Prop_Hidden);
@@ -74,7 +74,7 @@ void FeatureClip::onChanged(const App::Property* prop)
     App::DocumentObjectGroup::onChanged(prop);
 }
 
-App::DocumentObjectExecReturn *FeatureClip::execute(void)
+App::DocumentObjectExecReturn *FeatureClip::execute()
 {
     ostringstream svg;
 

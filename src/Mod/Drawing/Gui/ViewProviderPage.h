@@ -53,16 +53,16 @@ public:
 
     virtual void attach(App::DocumentObject *);
     virtual void setDisplayMode(const char* ModeName);
-    virtual bool useNewSelectionModel(void) const {return false;}
+    virtual bool useNewSelectionModel() const {return false;}
     /// returns a list of all possible modes
-    virtual std::vector<std::string> getDisplayModes(void) const;
+    virtual std::vector<std::string> getDisplayModes() const;
     /// Hides the view provider
-    virtual void hide(void);
+    virtual void hide();
     /// Shows the view provider
-    virtual void show(void);
+    virtual void show();
 
     /// Is called by the tree if the user double click on the object
-    virtual bool doubleClicked(void);
+    virtual bool doubleClicked();
     void setupContextMenu(QMenu*, QObject*, const char*);
     virtual void updateData(const App::Property*);
     virtual bool onDelete(const std::vector<std::string> &);

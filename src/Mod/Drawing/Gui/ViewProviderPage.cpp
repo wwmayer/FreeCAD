@@ -83,7 +83,7 @@ void ViewProviderDrawingPage::setDisplayMode(const char* ModeName)
     ViewProviderDocumentObject::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderDrawingPage::getDisplayModes(void) const
+std::vector<std::string> ViewProviderDrawingPage::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList = ViewProviderDocumentObject::getDisplayModes();
@@ -91,7 +91,7 @@ std::vector<std::string> ViewProviderDrawingPage::getDisplayModes(void) const
     return StrList;
 }
 
-void ViewProviderDrawingPage::show(void)
+void ViewProviderDrawingPage::show()
 {
     // showing the drawing page should not affect its children but opens the MDI view
     // therefore do not call the method of its direct base class
@@ -103,7 +103,7 @@ void ViewProviderDrawingPage::show(void)
     }
 }
 
-void ViewProviderDrawingPage::hide(void)
+void ViewProviderDrawingPage::hide()
 {
     // hiding the drawing page should not affect its children but closes the MDI view
     // therefore do not call the method of its direct base class
@@ -159,7 +159,7 @@ bool ViewProviderDrawingPage::setEdit(int ModNum)
     return false;
 }
 
-bool ViewProviderDrawingPage::doubleClicked(void)
+bool ViewProviderDrawingPage::doubleClicked()
 {
     show();
     Gui::getMainWindow()->setActiveWindow(this->view);

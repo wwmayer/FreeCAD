@@ -42,7 +42,7 @@ class DrawingExport FeaturePage: public App::DocumentObjectGroup
 
 public:
     /// Constructor
-    FeaturePage(void);
+    FeaturePage();
     virtual ~FeaturePage();
 
     App::PropertyFileIncluded PageResult;
@@ -52,14 +52,14 @@ public:
     /** @name methods override Feature */
     //@{
     /// recalculate the Feature
-    virtual App::DocumentObjectExecReturn *execute(void);
+    virtual App::DocumentObjectExecReturn *execute();
     //@}
 
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const {
+    virtual const char* getViewProviderName() const {
         return "DrawingGui::ViewProviderDrawingPage";
     }
-    virtual std::vector<std::string> getEditableTextsFromTemplate(void) const;
+    virtual std::vector<std::string> getEditableTextsFromTemplate() const;
 
 protected:
     void onBeforeChange(const App::Property* prop);

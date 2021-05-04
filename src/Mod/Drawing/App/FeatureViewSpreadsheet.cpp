@@ -47,7 +47,7 @@ using namespace std;
 PROPERTY_SOURCE(Drawing::FeatureViewSpreadsheet, Drawing::FeatureView)
 
 
-FeatureViewSpreadsheet::FeatureViewSpreadsheet(void) 
+FeatureViewSpreadsheet::FeatureViewSpreadsheet() 
 {
     static const char *vgroup = "Drawing view";
 
@@ -65,7 +65,7 @@ FeatureViewSpreadsheet::~FeatureViewSpreadsheet()
 {
 }
 
-App::DocumentObjectExecReturn *FeatureViewSpreadsheet::execute(void)
+App::DocumentObjectExecReturn *FeatureViewSpreadsheet::execute()
 {
     // quick tests
     App::DocumentObject* link = Source.getValue();

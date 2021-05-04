@@ -74,7 +74,7 @@ App::PropertyFloatConstraint::Constraints FeatureViewPart::floatRange = {0.01,5.
 PROPERTY_SOURCE(Drawing::FeatureViewPart, Drawing::FeatureView)
 
 
-FeatureViewPart::FeatureViewPart(void) 
+FeatureViewPart::FeatureViewPart() 
 {
     static const char *group = "Shape view";
     static const char *vgroup = "Drawing view";
@@ -93,7 +93,7 @@ FeatureViewPart::~FeatureViewPart()
 {
 }
 
-App::DocumentObjectExecReturn *FeatureViewPart::execute(void)
+App::DocumentObjectExecReturn *FeatureViewPart::execute()
 {
     std::stringstream result;
     std::string ViewName = Label.getValue();
@@ -147,7 +147,7 @@ App::DocumentObjectExecReturn *FeatureViewPart::execute(void)
 namespace App {
 /// @cond DOXERR
 PROPERTY_SOURCE_TEMPLATE(Drawing::FeatureViewPartPython, Drawing::FeatureViewPart)
-template<> const char* Drawing::FeatureViewPartPython::getViewProviderName(void) const {
+template<> const char* Drawing::FeatureViewPartPython::getViewProviderName() const {
     return "DrawingGui::ViewProviderDrawingView";
 }
 /// @endcond

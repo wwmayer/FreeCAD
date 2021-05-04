@@ -68,13 +68,13 @@ void ViewProviderDrawingView::setDisplayMode(const char* ModeName)
     ViewProviderDocumentObject::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderDrawingView::getDisplayModes(void) const
+std::vector<std::string> ViewProviderDrawingView::getDisplayModes() const
 {
     std::vector<std::string> StrList = ViewProviderDocumentObject::getDisplayModes();
     return StrList;
 }
 
-void ViewProviderDrawingView::show(void)
+void ViewProviderDrawingView::show()
 {
     ViewProviderDocumentObject::show();
 
@@ -91,7 +91,7 @@ void ViewProviderDrawingView::show(void)
     }
 }
 
-void ViewProviderDrawingView::hide(void)
+void ViewProviderDrawingView::hide()
 {
     ViewProviderDocumentObject::hide();
 
@@ -108,7 +108,7 @@ void ViewProviderDrawingView::hide(void)
     }
 }
 
-bool ViewProviderDrawingView::isShow(void) const
+bool ViewProviderDrawingView::isShow() const
 {
     return Visibility.getValue();
 }
@@ -166,14 +166,14 @@ void ViewProviderDrawingClip::setDisplayMode(const char* ModeName)
     ViewProviderDocumentObject::setDisplayMode(ModeName);
 }
 
-std::vector<std::string> ViewProviderDrawingClip::getDisplayModes(void) const
+std::vector<std::string> ViewProviderDrawingClip::getDisplayModes() const
 {
     // get the modes of the father
     std::vector<std::string> StrList;
     return StrList;
 }
 
-void ViewProviderDrawingClip::show(void)
+void ViewProviderDrawingClip::show()
 {
     ViewProviderDocumentObjectGroup::show();
 
@@ -190,7 +190,7 @@ void ViewProviderDrawingClip::show(void)
     }
 }
 
-void ViewProviderDrawingClip::hide(void)
+void ViewProviderDrawingClip::hide()
 {
     ViewProviderDocumentObjectGroup::hide();
 
@@ -207,7 +207,7 @@ void ViewProviderDrawingClip::hide(void)
     }
 }
 
-bool ViewProviderDrawingClip::isShow(void) const
+bool ViewProviderDrawingClip::isShow() const
 {
     return Visibility.getValue();
 }

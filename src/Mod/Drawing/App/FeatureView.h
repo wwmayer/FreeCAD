@@ -45,7 +45,7 @@ class DrawingExport FeatureView : public App::DocumentObject
 
 public:
     /// Constructor
-    FeatureView(void);
+    FeatureView();
     virtual ~FeatureView();
 
     App::PropertyFloat X,Y,Scale,Rotation;
@@ -53,7 +53,7 @@ public:
     App::PropertyBool Visible;
 
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const {
+    virtual const char* getViewProviderName() const {
         return "DrawingGui::ViewProviderDrawingView";
     }
 
@@ -61,8 +61,8 @@ protected:
     /** @name methods override Feature */
     //@{
     /// recalculate the Feature
-    virtual App::DocumentObjectExecReturn *recompute(void);
-    virtual App::DocumentObjectExecReturn *execute(void);
+    virtual App::DocumentObjectExecReturn *recompute();
+    virtual App::DocumentObjectExecReturn *execute();
     //@}
 };
 

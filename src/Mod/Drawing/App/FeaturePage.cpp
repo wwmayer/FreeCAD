@@ -50,7 +50,7 @@ using namespace std;
 
 PROPERTY_SOURCE(Drawing::FeaturePage, App::DocumentObjectGroup)
 
-FeaturePage::FeaturePage(void) : numChildren(0)
+FeaturePage::FeaturePage() : numChildren(0)
 {
     static const char *group = "Drawing view";
 
@@ -123,7 +123,7 @@ void FeaturePage::onDocumentRestored()
     this->StatusBits.reset(App::Restore); // the 'Restore' flag
 }
 
-App::DocumentObjectExecReturn *FeaturePage::execute(void)
+App::DocumentObjectExecReturn *FeaturePage::execute()
 {
     std::string temp = Template.getValue();
     if (temp.empty())
@@ -238,7 +238,7 @@ App::DocumentObjectExecReturn *FeaturePage::execute(void)
     return App::DocumentObject::StdReturn;
 }
 
-std::vector<std::string> FeaturePage::getEditableTextsFromTemplate(void) const {
+std::vector<std::string> FeaturePage::getEditableTextsFromTemplate() const {
     //getting editable texts from "freecad:editable" attributes in SVG template
 
     std::vector<string> eds;

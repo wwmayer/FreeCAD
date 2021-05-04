@@ -47,7 +47,7 @@ using namespace std;
 PROPERTY_SOURCE(Drawing::FeatureViewSymbol, Drawing::FeatureView)
 
 
-FeatureViewSymbol::FeatureViewSymbol(void) 
+FeatureViewSymbol::FeatureViewSymbol() 
 {
     static const char *vgroup = "Drawing view";
 
@@ -84,7 +84,7 @@ void FeatureViewSymbol::onChanged(const App::Property* prop)
     Drawing::FeatureView::onChanged(prop);
 }
 
-App::DocumentObjectExecReturn *FeatureViewSymbol::execute(void)
+App::DocumentObjectExecReturn *FeatureViewSymbol::execute()
 {
     std::string svg = Symbol.getValue();
     const std::vector<std::string>& editText = EditableTexts.getValues();
@@ -134,7 +134,7 @@ App::DocumentObjectExecReturn *FeatureViewSymbol::execute(void)
 namespace App {
 /// @cond DOXERR
 PROPERTY_SOURCE_TEMPLATE(Drawing::FeatureViewSymbolPython, Drawing::FeatureViewSymbol)
-template<> const char* Drawing::FeatureViewSymbolPython::getViewProviderName(void) const {
+template<> const char* Drawing::FeatureViewSymbolPython::getViewProviderName() const {
     return "DrawingGui::ViewProviderDrawingView";
 }
 /// @endcond

@@ -121,7 +121,7 @@ void CmdDrawingNewPage::activated(int iMsg)
     }
 }
 
-Gui::Action * CmdDrawingNewPage::createAction(void)
+Gui::Action * CmdDrawingNewPage::createAction()
 {
     Gui::ActionGroup* pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
     pcAction->setDropDownMenu(true);
@@ -250,7 +250,7 @@ void CmdDrawingNewPage::languageChange()
     }
 }
 
-bool CmdDrawingNewPage::isActive(void)
+bool CmdDrawingNewPage::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -288,7 +288,7 @@ void CmdDrawingNewA3Landscape::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdDrawingNewA3Landscape::isActive(void)
+bool CmdDrawingNewA3Landscape::isActive()
 {
     if (getActiveGuiDocument())
         return true;
@@ -418,7 +418,7 @@ void CmdDrawingOrthoViews::activated(int iMsg)
     Gui::Control().showDialog(dlg);
 }
 
-bool CmdDrawingOrthoViews::isActive(void)
+bool CmdDrawingOrthoViews::isActive()
 {
     if (Gui::Control().activeDialog())
         return false;
@@ -459,7 +459,7 @@ void CmdDrawingOpenBrowserView::activated(int iMsg)
     doCommand(Doc,"WebGui.openBrowser(PageName)");
 }
 
-bool CmdDrawingOpenBrowserView::isActive(void)
+bool CmdDrawingOpenBrowserView::isActive()
 {
     return (getActiveGuiDocument() ? true : false);
 }
@@ -506,7 +506,7 @@ void CmdDrawingAnnotation::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdDrawingAnnotation::isActive(void)
+bool CmdDrawingAnnotation::isActive()
 {
     return (getActiveGuiDocument() ? true : false);
 }
@@ -551,7 +551,7 @@ void CmdDrawingClip::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdDrawingClip::isActive(void)
+bool CmdDrawingClip::isActive()
 {
     return (getActiveGuiDocument() ? true : false);
 }
@@ -608,7 +608,7 @@ void CmdDrawingSymbol::activated(int iMsg)
     }
 }
 
-bool CmdDrawingSymbol::isActive(void)
+bool CmdDrawingSymbol::isActive()
 {
     return (getActiveGuiDocument() ? true : false);
 }
@@ -662,7 +662,7 @@ void CmdDrawingExportPage::activated(int iMsg)
     }
 }
 
-bool CmdDrawingExportPage::isActive(void)
+bool CmdDrawingExportPage::isActive()
 {
     return (getActiveGuiDocument() ? true : false);
 }
@@ -695,7 +695,7 @@ void CmdDrawingProjectShape::activated(int iMsg)
     Gui::Control().showDialog(dlg);
 }
 
-bool CmdDrawingProjectShape::isActive(void)
+bool CmdDrawingProjectShape::isActive()
 {
     int ct = Gui::Selection().countObjectsOfType(Part::Feature::getClassTypeId());
     return (ct > 0 && !Gui::Control().activeDialog());
@@ -728,7 +728,7 @@ void CmdDrawingDraftView::activated(int iMsg)
     doCommand(Gui,"Gui.runCommand(\"Draft_Drawing\")");
 }
 
-bool CmdDrawingDraftView::isActive(void)
+bool CmdDrawingDraftView::isActive()
 {
     return (getActiveGuiDocument() ? true : false);
 }
@@ -778,13 +778,13 @@ void CmdDrawingSpreadsheetView::activated(int iMsg)
     commitCommand();
 }
 
-bool CmdDrawingSpreadsheetView::isActive(void)
+bool CmdDrawingSpreadsheetView::isActive()
 {
     return (getActiveGuiDocument() ? true : false);
 }
 
 
-void CreateDrawingCommands(void)
+void CreateDrawingCommands()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
 

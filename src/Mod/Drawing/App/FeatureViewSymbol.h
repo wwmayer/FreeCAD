@@ -45,7 +45,7 @@ class DrawingExport FeatureViewSymbol : public FeatureView
 
 public:
     /// Constructor
-    FeatureViewSymbol(void);
+    FeatureViewSymbol();
     virtual ~FeatureViewSymbol();
 
     App::PropertyString       Symbol;
@@ -54,11 +54,11 @@ public:
     /** @name methods override Feature */
     //@{
     /// recalculate the Feature
-    virtual App::DocumentObjectExecReturn *execute(void);
+    virtual App::DocumentObjectExecReturn *execute();
     //@}
 
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const {
+    virtual const char* getViewProviderName() const {
         return "DrawingGui::ViewProviderDrawingView";
     }
 

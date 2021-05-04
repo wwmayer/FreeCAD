@@ -34,7 +34,7 @@
 #include "ViewProviderView.h"
 
 // use a different name to CreateCommand()
-void CreateDrawingCommands(void);
+void CreateDrawingCommands();
 
 void loadDrawingResource()
 {

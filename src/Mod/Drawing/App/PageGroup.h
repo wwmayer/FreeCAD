@@ -44,13 +44,13 @@ class DrawingExport PageGroup : public App::DocumentObjectGroup
 
 public:
     /// Constructor
-    PageGroup(void);
+    PageGroup();
     virtual ~PageGroup();
 
     App::PropertyLinkList Pages;
 
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const {
+    virtual const char* getViewProviderName() const {
         return "DrawingGui::ViewProviderDrawing";
     }
 };
