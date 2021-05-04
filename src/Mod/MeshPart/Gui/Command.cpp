@@ -68,7 +68,7 @@ void CmdMeshPartMesher::activated(int)
     Gui::Control().showDialog(new MeshPartGui::TaskTessellation());
 }
 
-bool CmdMeshPartMesher::isActive(void)
+bool CmdMeshPartMesher::isActive()
 {
     return (hasActiveDocument() && !Gui::Control().activeDialog());
 }
@@ -171,7 +171,7 @@ void CmdMeshPartTrimByPlane::activated(int)
     commitCommand();
 }
 
-bool CmdMeshPartTrimByPlane::isActive(void)
+bool CmdMeshPartTrimByPlane::isActive()
 {
     // Check for the selected mesh feature (all Mesh types)
     if (getSelection().countObjectsOfType(Mesh::Feature::getClassTypeId()) != 1)
@@ -255,7 +255,7 @@ void CmdMeshPartSection::activated(int)
     commitCommand();
 }
 
-bool CmdMeshPartSection::isActive(void)
+bool CmdMeshPartSection::isActive()
 {
     // Check for the selected mesh feature (all Mesh types)
     if (getSelection().countObjectsOfType(Mesh::Feature::getClassTypeId()) != 1)
@@ -297,7 +297,7 @@ void CmdMeshPartCrossSections::activated(int iMsg)
     Gui::Control().showDialog(dlg);
 }
 
-bool CmdMeshPartCrossSections::isActive(void)
+bool CmdMeshPartCrossSections::isActive()
 {
     return (Gui::Selection().countObjectsOfType(Mesh::Feature::getClassTypeId()) > 0 &&
             !Gui::Control().activeDialog());
@@ -329,7 +329,7 @@ void CmdMeshPartCurveOnMesh::activated(int)
     Gui::Control().showDialog(new MeshPartGui::TaskCurveOnMesh(static_cast<Gui::View3DInventor*>(mdis.front())));
 }
 
-bool CmdMeshPartCurveOnMesh::isActive(void)
+bool CmdMeshPartCurveOnMesh::isActive()
 {
     if (Gui::Control().activeDialog())
         return false;
@@ -343,7 +343,7 @@ bool CmdMeshPartCurveOnMesh::isActive(void)
 }
 
 
-void CreateMeshPartCommands(void)
+void CreateMeshPartCommands()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
     rcCmdMgr.addCommand(new CmdMeshPartMesher());

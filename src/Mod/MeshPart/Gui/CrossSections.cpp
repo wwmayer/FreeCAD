@@ -96,7 +96,7 @@ public:
     {
         return "";
     }
-    std::vector<std::string> getDisplayModes(void) const
+    std::vector<std::string> getDisplayModes() const
     {
         return std::vector<std::string>();
     }
