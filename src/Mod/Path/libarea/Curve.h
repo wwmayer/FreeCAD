@@ -77,11 +77,11 @@ public:
 	Span();
 	Span(const Point& p, const CVertex& v, bool start_span = false):m_start_span(start_span), m_p(p), m_v(v){}
 	Point NearestPoint(const Point& p)const;
-	Point NearestPoint(const Span& p, double *d = NULL)const;
+	Point NearestPoint(const Span& p, double *d = nullptr)const;
 	void GetBox(CBox2D &box);
 	double IncludedAngle()const;
 	double GetArea()const;
-	bool On(const Point& p, double* t = NULL)const;
+	bool On(const Point& p, double* t = nullptr)const;
 	Point MidPerim(double d)const;
 	Point MidParam(double param)const;
 	double Length()const;
@@ -104,8 +104,8 @@ public:
 	void FitArcs(bool retry=false);
 	void UnFitArcs();
 	Point NearestPoint(const Point& p)const;
-	Point NearestPoint(const CCurve& p, double *d = NULL)const;
-	Point NearestPoint(const Span& p, double *d = NULL)const;
+	Point NearestPoint(const CCurve& p, double *d = nullptr)const;
+	Point NearestPoint(const Span& p, double *d = nullptr)const;
 	void GetBox(CBox2D &box);
 	void Reverse();
 	double GetArea()const;

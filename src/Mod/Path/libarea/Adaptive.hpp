@@ -122,7 +122,7 @@ class Adaptive2d
 	int current_region=0;
 	clock_t lastProgressTime = 0;
 
-	std::function<bool(TPaths)> *progressCallback = NULL;
+	std::function<bool(TPaths)> *progressCallback = nullptr;
 	Path toolGeometry; // tool geometry at coord 0,0, should not be modified
 
 	void ProcessPolyNode(Paths boundPaths, Paths toolBoundPaths);

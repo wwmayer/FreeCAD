@@ -33,7 +33,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using namespace std;
 
-CAreaOrderer* CInnerCurves::area_orderer = NULL;
+CAreaOrderer* CInnerCurves::area_orderer = nullptr;
 
 CInnerCurves::CInnerCurves(shared_ptr<CInnerCurves> pOuter, shared_ptr<CCurve> curve)
 :m_pOuter(pOuter)

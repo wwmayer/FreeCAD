@@ -9,7 +9,7 @@
 #include <map>
 #include <set>
 
-static const CAreaPocketParams* pocket_params = NULL;
+static const CAreaPocketParams* pocket_params = nullptr;
 
 class IslandAndOffset
 {
@@ -94,7 +94,7 @@ void GetCurveItem::GetCurve(CCurve& output)
 		inners_to_visit.push_back(*It2);
 	}
 
-	const CVertex* prev_vertex = NULL;
+	const CVertex* prev_vertex = nullptr;
 
 	for(std::list<CVertex>::iterator It = curve_tree->curve.m_vertices.begin(); It != curve_tree->curve.m_vertices.end(); It++)
 	{
@@ -307,7 +307,7 @@ void CurveTree::MakeOffsets2()
 		CArea& separate_area = *It;
 		CCurve& first_curve = separate_area.m_curves.front();
 
-		CurveTree* nearest_curve_tree = NULL;
+		CurveTree* nearest_curve_tree = nullptr;
 		Point near_point = GetNearestPoint(this, islands_added, first_curve, &nearest_curve_tree);
 
 		nearest_curve_tree->inners.push_back(new CurveTree(first_curve));
@@ -376,19 +376,19 @@ void recur(std::list<CArea> &arealist, const CArea& a1, const CAreaPocketParams 
 	{
         // split curves into new areas
 		a_offset.Reorder();
-        CArea* a2 = NULL;
+        CArea* a2 = nullptr;
        
 		for(std::list<CCurve>::iterator It = a_offset.m_curves.begin(); It != a_offset.m_curves.end(); It++)
 		{
 			CCurve& curve = *It;
 			if(curve.IsClockwise())
 			{
-				if(a2 != NULL)
+				if(a2 != nullptr)
 					a2->m_curves.push_back(curve);
 			}
 			else
 			{
-				if(a2 != NULL)
+				if(a2 != nullptr)
 					recur(arealist, *a2, params, level + 1);
 				else
 					a2 = new CArea();
@@ -396,7 +396,7 @@ void recur(std::list<CArea> &arealist, const CArea& a1, const CAreaPocketParams 
 			}
 		}
 
-		if(a2 != NULL)
+		if(a2 != nullptr)
 			recur(arealist, *a2, params, level + 1);
 	}
 }

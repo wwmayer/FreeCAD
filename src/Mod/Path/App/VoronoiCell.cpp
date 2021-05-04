@@ -45,7 +45,7 @@ TYPESYSTEM_SOURCE(Path::VoronoiCell , Base::Persistence)
 VoronoiCell::VoronoiCell(Voronoi::diagram_type *d, long index)
   : dia(d)
   , index(index)
-  , ptr(0)
+  , ptr(nullptr)
 {
   if (dia && long(dia->num_cells()) > index) {
     ptr = &(dia->cells()[index]);
@@ -66,12 +66,12 @@ VoronoiCell::~VoronoiCell() {
 }
 
 bool VoronoiCell::isBound(void) const {
-  if (ptr != 0 && dia.isValid() && index != Voronoi::InvalidIndex) {
+  if (ptr != nullptr && dia.isValid() && index != Voronoi::InvalidIndex) {
     if (&(dia->cells()[index]) == ptr) {
       return true;
     }
   }
-  ptr = 0;
+  ptr = nullptr;
   return false;
 }
 

@@ -135,7 +135,7 @@ private:
     Py::Object insert(const Py::Tuple& args)
     {
         char* Name;
-        char* DocName=0;
+        char* DocName=nullptr;
         if (!PyArg_ParseTuple(args.ptr(), "et|s","utf-8",&Name,&DocName))
             throw Py::Exception();
 
@@ -169,7 +169,7 @@ private:
             }
             processor = Dlg.getProcessor();
 
-            App::Document *pcDoc = 0;
+            App::Document *pcDoc = nullptr;
             if (DocName)
                 pcDoc = App::GetApplication().getDocument(DocName);
             else

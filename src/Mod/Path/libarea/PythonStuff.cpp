@@ -186,7 +186,7 @@ void dxfArea(CArea& area, const char* /*str*/)
 boost::python::list getCurveSpans(const CCurve& c)
 {
 	boost::python::list span_list;
-	const Point *prev_p = NULL;
+	const Point *prev_p = nullptr;
 
 	for(std::list<CVertex>::const_iterator VIt = c.m_vertices.begin(); VIt != c.m_vertices.end(); VIt++)
 	{

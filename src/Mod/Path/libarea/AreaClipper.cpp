@@ -33,7 +33,7 @@ static void AddPoint(const DoubleAreaPoint& p)
 
 static void AddVertex(const CVertex& vertex, const CVertex* prev_vertex)
 {
-	if(vertex.m_type == 0 || prev_vertex == NULL)
+	if(vertex.m_type == 0 || prev_vertex == nullptr)
 	{
 		AddPoint(DoubleAreaPoint(vertex.m_p.x * CArea::m_units, vertex.m_p.y * CArea::m_units));
 	}
@@ -240,7 +240,7 @@ static void MakeObround(const Point &pt0, const CVertex &vt1, double radius)
 	double save_units = CArea::m_units;
 	CArea::m_units = 1.0;
 
-	AddVertex(v0, NULL);
+	AddVertex(v0, nullptr);
 	AddVertex(v1, &v0);
 	AddVertex(v2, &v1);
 	AddVertex(v3, &v2);
@@ -259,7 +259,7 @@ static void OffsetSpansWithObrounds(const CArea& area, TPolyPolygon &pp_new, dou
 	{
 		pts_for_AddVertex.clear();
 		const CCurve& curve = *It;
-		const CVertex* prev_vertex = NULL;
+		const CVertex* prev_vertex = nullptr;
 		for(std::list<CVertex>::const_iterator It2 = curve.m_vertices.begin(); It2 != curve.m_vertices.end(); It2++)
 		{
 			const CVertex& vertex = *It2;
@@ -301,10 +301,10 @@ static void OffsetSpansWithObrounds(const CArea& area, TPolyPolygon &pp_new, dou
 static void MakePoly(const CCurve& curve, TPolygon &p, bool reverse = false)
 {
 	pts_for_AddVertex.clear();
-	const CVertex* prev_vertex = NULL;
+	const CVertex* prev_vertex = nullptr;
 
     if(!curve.m_vertices.size()) return;
-    if(!curve.IsClosed()) AddVertex(curve.m_vertices.front(),NULL);
+    if(!curve.IsClosed()) AddVertex(curve.m_vertices.front(),nullptr);
 
 	for (std::list<CVertex>::const_iterator It2 = curve.m_vertices.begin(); It2 != curve.m_vertices.end(); It2++)
 	{
@@ -550,7 +550,7 @@ void CArea::Thicken(double value)
 void UnFitArcs(CCurve &curve)
 {
 	pts_for_AddVertex.clear();
-	const CVertex* prev_vertex = NULL;
+	const CVertex* prev_vertex = nullptr;
 	for(std::list<CVertex>::const_iterator It2 = curve.m_vertices.begin(); It2 != curve.m_vertices.end(); It2++)
 	{
 		const CVertex& vertex = *It2;

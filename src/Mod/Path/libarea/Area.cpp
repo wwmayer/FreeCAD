@@ -194,7 +194,7 @@ public:
 
 static double stepover_for_pocket = 0.0;
 static std::list<ZigZag> zigzag_list_for_zigs;
-static std::list<CCurve> *curve_list_for_zigs = NULL;
+static std::list<CCurve> *curve_list_for_zigs = nullptr;
 static bool rightward_for_zigs = true;
 static double sin_angle_for_zigs = 0.0;
 static double cos_angle_for_zigs = 0.0;

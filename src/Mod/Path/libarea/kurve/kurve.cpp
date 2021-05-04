@@ -18,14 +18,14 @@ using namespace geoff_geometry;
 namespace geoff_geometry {
 
 	SpanVertex::SpanVertex() {
-		for(int i = 0; i < SPANSTORAGE; i++) index[i] = NULL;
+		for(int i = 0; i < SPANSTORAGE; i++) index[i] = nullptr;
 	}
 
 	SpanVertex::~SpanVertex() {
 #ifndef PEPSDLL 
 		// don't know what peps did about this?
 		for(int i = 0; i < SPANSTORAGE; i++) {
-			if(index[i] != NULL) {
+			if(index[i] != nullptr) {
 				delete index[i];
 			}
 		}
@@ -47,7 +47,7 @@ namespace geoff_geometry {
 			spanid[i] = spv.spanid[i];
 			index[i] = spv.index[i];
 #ifndef PEPSDLL
-			if(index[i] != NULL) {
+			if(index[i] != nullptr) {
 				SpanDataObject* obj = new SpanDataObject(index[i]);
 				index[i] = obj;
 			}
@@ -654,7 +654,7 @@ return;
 				if(AddFirstVertex) { 
 					Add(sp.p0, AddNullSpans);
 					#ifndef PEPSDLL
-					if(obj != NULL) {
+					if(obj != nullptr) {
 						SpanDataObject* objnew = new SpanDataObject(obj);
 						AddIndex(nSpans() - 1, objnew);
 					}
@@ -664,7 +664,7 @@ return;
 			
 			Add(sp.dir, sp.p1, sp.pc, AddNullSpans);
 			#ifndef PEPSDLL
-				if(obj != NULL) {
+				if(obj != nullptr) {
 					SpanDataObject* objnew = new SpanDataObject(obj);
 					AddIndex(nSpans() - 1, objnew);
 			}

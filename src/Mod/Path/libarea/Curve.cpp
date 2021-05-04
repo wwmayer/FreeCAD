@@ -70,7 +70,7 @@ bool CCurve::CheckForArc(const CVertex& prev_vt, std::list<const CVertex*>& migh
 	// find middle point
 	std::size_t num = might_be_an_arc.size();
 	std::size_t i = 0;
-	const CVertex* mid_vt = NULL;
+	const CVertex* mid_vt = nullptr;
 	std::size_t mid_i = (num-1)/2;
 	for(std::list<const CVertex*>::iterator It = might_be_an_arc.begin(); It != might_be_an_arc.end(); It++, i++)
 	{
@@ -81,7 +81,7 @@ bool CCurve::CheckForArc(const CVertex& prev_vt, std::list<const CVertex*>& migh
 		}
 	}
 
-	if (mid_vt == NULL)
+	if (mid_vt == nullptr)
 		return false;
 
 	// create a circle to test
@@ -279,11 +279,11 @@ void CCurve::UnFitArcs()
 {
 	std::list<Point> new_pts;
 
-	const CVertex* prev_vertex = NULL;
+	const CVertex* prev_vertex = nullptr;
 	for(std::list<CVertex>::const_iterator It2 = m_vertices.begin(); It2 != m_vertices.end(); It2++)
 	{
 		const CVertex& vertex = *It2;
-		if(vertex.m_type == 0 || prev_vertex == NULL)
+		if(vertex.m_type == 0 || prev_vertex == nullptr)
 		{
 			new_pts.push_back(vertex.m_p * CArea::m_units);
 		}
@@ -449,7 +449,7 @@ void CCurve::Reverse()
 {
 	std::list<CVertex> new_vertices;
 
-	CVertex* prev_v = NULL;
+	CVertex* prev_v = nullptr;
 
 	for(std::list<CVertex>::reverse_iterator It = m_vertices.rbegin(); It != m_vertices.rend(); It++)
 	{
@@ -503,7 +503,7 @@ void CCurve::ChangeStart(const Point &p) {
 
 	for(int i = 0; i < (closed ? 2:1); i++)
 	{
-		const Point *prev_p = NULL;
+		const Point *prev_p = nullptr;
 
 		int span_index = 0;
 		for(std::list<CVertex>::const_iterator VIt = m_vertices.begin(); VIt != m_vertices.end() && !finished; VIt++)
@@ -562,7 +562,7 @@ void CCurve::ChangeStart(const Point &p) {
 
 void CCurve::Break(const Point &p) {
 	// inserts a point, if it lies on the curve
-	const Point *prev_p = NULL;
+	const Point *prev_p = nullptr;
 
 	for(std::list<CVertex>::iterator VIt = m_vertices.begin(); VIt != m_vertices.end(); VIt++)
 	{
@@ -589,7 +589,7 @@ void CCurve::ExtractSeparateCurves(const std::list<Point> &ordered_points, std::
 {
 	// returns separate curves for this curve split at points
 	// the points must be in order along this curve, already, and lie on this curve
-	const Point *prev_p = NULL;
+	const Point *prev_p = nullptr;
 
 	if(ordered_points.size() == 0)
 	{
@@ -663,7 +663,7 @@ void CCurve::ChangeEnd(const Point &p) {
 	// changes the end position of the Kurve, doesn't keep closed kurves closed
 	CCurve new_curve;
 
-	const Point *prev_p = NULL;
+	const Point *prev_p = nullptr;
 
 	for(std::list<CVertex>::const_iterator VIt = m_vertices.begin(); VIt != m_vertices.end(); VIt++)
 	{
@@ -791,7 +791,7 @@ bool CCurve::Offset(double leftwards_value)
 			a.Offset(inwards_offset);
 			if(a.m_curves.size() == 1)
 			{
-				Span* start_span = NULL;
+				Span* start_span = nullptr;
 				if(this->m_vertices.size() > 1)
 				{
 					std::list<CVertex>::iterator It = m_vertices.begin();
@@ -820,7 +820,7 @@ bool CCurve::Offset(double leftwards_value)
 
 void CCurve::GetSpans(std::list<Span> &spans)const
 {
-	const Point *prev_p = NULL;
+	const Point *prev_p = nullptr;
 	for(std::list<CVertex>::const_iterator It = m_vertices.begin(); It != m_vertices.end(); It++)
 	{
 		const CVertex& vertex = *It;
@@ -893,7 +893,7 @@ void CCurve::OffsetForward(double forwards_value, bool refit_arcs)
 
 double CCurve::Perim()const
 {
-	const Point *prev_p = NULL;
+	const Point *prev_p = nullptr;
 	double perim = 0.0;
 	for(std::list<CVertex>::const_iterator It = m_vertices.begin(); It != m_vertices.end(); It++)
 	{
@@ -913,7 +913,7 @@ Point CCurve::PerimToPoint(double perim)const
 {
 	if(m_vertices.size() == 0)return Point(0, 0);
 
-	const Point *prev_p = NULL;
+	const Point *prev_p = nullptr;
 	double kperim = 0.0;
 	for(std::list<CVertex>::const_iterator It = m_vertices.begin(); It != m_vertices.end(); It++)
 	{
@@ -944,7 +944,7 @@ double CCurve::PointToPerim(const Point& p)const
 
 	double perim = 0.0;
 
-	const Point *prev_p = NULL;
+	const Point *prev_p = nullptr;
 	bool first_span = true;
 	for(std::list<CVertex>::const_iterator It = m_vertices.begin(); It != m_vertices.end(); It++)
 	{

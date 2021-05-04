@@ -1403,7 +1403,7 @@ double Adaptive2d::CalcCutArea(Clipper &clip, const IntPoint &c1, const IntPoint
 
 		// step 2: iterate through path from starting point and find the part of the path inside the c2
 		size_t prevPtIndex = curPtIndex;
-		Path *interPath = NULL;
+		Path *interPath = nullptr;
 		bool prev_inside = false;
 		const IntPoint *p1 = &path[prevPtIndex];
 		double par; // to hold parameter output
@@ -1444,7 +1444,7 @@ double Adaptive2d::CalcCutArea(Clipper &clip, const IntPoint &c1, const IntPoint
 					}
 				}
 			}
-			else if (interPath != NULL)
+			else if (interPath != nullptr)
 			{ // state: inside
 				if ((DistanceSqrd(c2, *p2) <= rsqrd))
 				{ // next point still inside, add it and continue, no state change
