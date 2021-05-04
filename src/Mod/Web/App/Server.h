@@ -82,7 +82,7 @@ class AppServer : public QTcpServer
     Q_OBJECT
 
 public:
-    AppServer(QObject* parent = 0);
+    AppServer(QObject* parent = nullptr);
     static std::string runPython(const QByteArray&);
 
     void incomingConnection(qintptr socket);

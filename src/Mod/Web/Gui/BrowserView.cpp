@@ -364,7 +364,7 @@ void WebView::triggerContextMenuAction(int id)
  *  name 'name'.
  */
 BrowserView::BrowserView(QWidget* parent)
-    : MDIView(0,parent,Qt::WindowFlags()),
+    : MDIView(nullptr,parent,Qt::WindowFlags()),
       WindowParameter( "Browser" ),
       isLoading(false)
 {
