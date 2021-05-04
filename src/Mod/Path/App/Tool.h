@@ -78,7 +78,7 @@ namespace Path
         ~Tool();
 
         // from base class
-        virtual unsigned int getMemSize (void) const;
+        virtual unsigned int getMemSize () const;
         virtual void Save (Base::Writer &/*writer*/) const;
         virtual void Restore(Base::XMLReader &/*reader*/);
 
@@ -93,8 +93,8 @@ namespace Path
         double CuttingEdgeAngle;
         double CuttingEdgeHeight;
 
-        static const std::vector<std::string> ToolTypes(void);
-        static const std::vector<std::string> ToolMaterials(void);
+        static const std::vector<std::string> ToolTypes();
+        static const std::vector<std::string> ToolMaterials();
         static const char* TypeName(ToolType typ);
         static ToolType getToolType(std::string type);
         static ToolMaterial getToolMaterial(std::string mat);

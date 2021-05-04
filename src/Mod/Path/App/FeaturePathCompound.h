@@ -42,17 +42,17 @@ class PathExport FeatureCompound : public Path::Feature
 
 public:
     /// Constructor
-    FeatureCompound(void);
+    FeatureCompound();
     virtual ~FeatureCompound();
 
     App::PropertyLinkList     Group;
     App::PropertyBool         UsePlacements;
 
     /// returns the type name of the ViewProvider
-    virtual const char* getViewProviderName(void) const {
+    virtual const char* getViewProviderName() const {
         return "PathGui::ViewProviderPathCompound";
     }
-    virtual App::DocumentObjectExecReturn *execute(void);
+    virtual App::DocumentObjectExecReturn *execute();
     
     /// Checks whether the object \a obj is part of this group.
     bool hasObject(const DocumentObject* obj) const;
@@ -60,7 +60,7 @@ public:
     void addObject(DocumentObject* obj);
     /// Removes an object from this group.
     void removeObject(DocumentObject* obj);
-    virtual PyObject *getPyObject(void);
+    virtual PyObject *getPyObject();
 
 };
 

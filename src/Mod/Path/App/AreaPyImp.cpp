@@ -148,7 +148,7 @@ static const PyMethodDef areaOverrides[] = {
         "of this Area is used if section mode is 'Workplane'.",
     },
     {
-        "setDefaultParams",reinterpret_cast<PyCFunction>(reinterpret_cast<void (*) (void)>(areaSetParams)), METH_VARARGS|METH_KEYWORDS|METH_STATIC,
+        "setDefaultParams",reinterpret_cast<PyCFunction>(reinterpret_cast<void (*) ()>(areaSetParams)), METH_VARARGS|METH_KEYWORDS|METH_STATIC,
         "setDefaultParams(key=value...):\n"
         "Static method to set the default parameters of all following Path.Area, plus the following\n"
         "additional parameters.\n"
@@ -158,13 +158,13 @@ static const PyMethodDef areaOverrides[] = {
         "getDefaultParams(): Static method to return the current default parameters."
     },
     {
-        "abort",reinterpret_cast<PyCFunction>(reinterpret_cast<void (*) (void)>(areaAbort)), METH_VARARGS|METH_KEYWORDS|METH_STATIC,
+        "abort",reinterpret_cast<PyCFunction>(reinterpret_cast<void (*) ()>(areaAbort)), METH_VARARGS|METH_KEYWORDS|METH_STATIC,
         "abort(aborting=True): Static method to abort any ongoing operation\n"
         "\nTo ensure no stray abortion is left in the previous operation, it is advised to manually clear\n"
         "the aborting flag by calling abort(False) before starting a new operation.",
     },
     {
-        "getParamsDesc",reinterpret_cast<PyCFunction>(reinterpret_cast<void (*) (void)>(areaGetParamsDesc)), METH_VARARGS|METH_KEYWORDS|METH_STATIC,
+        "getParamsDesc",reinterpret_cast<PyCFunction>(reinterpret_cast<void (*) ()>(areaGetParamsDesc)), METH_VARARGS|METH_KEYWORDS|METH_STATIC,
         "getParamsDesc(as_string=False): Returns a list of supported parameters and their descriptions.\n"
         "\n* as_string: if False, then return a dictionary of documents of all supported parameters."
     },
@@ -194,7 +194,7 @@ static AreaPyModifier mod;
 using namespace Path;
 
 // returns a string which represents the object e.g. when printed in python
-std::string AreaPy::representation(void) const
+std::string AreaPy::representation() const
 {
     std::stringstream str;
     str << "<Area object at " << getAreaPtr() << ">";
@@ -444,7 +444,7 @@ PyObject* AreaPy::getParamsDesc(PyObject *, PyObject *)
     return nullptr;
 }
 
-Py::List AreaPy::getSections(void) const {
+Py::List AreaPy::getSections() const {
     Py::List ret;
 	Area *area = getAreaPtr();
     for(size_t i=0,count=area->getSectionCount(); i<count;++i)
@@ -452,7 +452,7 @@ Py::List AreaPy::getSections(void) const {
     return ret;
 }
 
-Py::List AreaPy::getShapes(void) const {
+Py::List AreaPy::getShapes() const {
     Py::List ret;
 	Area *area = getAreaPtr();
     const std::list<Area::Shape> &shapes = area->getChildren();
@@ -461,7 +461,7 @@ Py::List AreaPy::getShapes(void) const {
     return ret;
 }
 
-Py::Object AreaPy::getWorkplane(void) const {
+Py::Object AreaPy::getWorkplane() const {
     return Part::shape2pyshape(getAreaPtr()->getPlane());
 }
 

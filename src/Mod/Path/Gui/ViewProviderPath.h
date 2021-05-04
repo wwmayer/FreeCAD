@@ -75,7 +75,7 @@ public:
     void recomputeBoundingBox();
     virtual QIcon getIcon() const;
 
-    virtual bool useNewSelectionModel(void) const;
+    virtual bool useNewSelectionModel() const;
     virtual std::string getElement(const SoDetail *) const;
     SoDetail* getDetail(const char* subelement) const;
 

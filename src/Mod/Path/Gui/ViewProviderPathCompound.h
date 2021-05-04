@@ -35,12 +35,12 @@ class PathGuiExport ViewProviderPathCompound: public ViewProviderPath
 
 public:
 
-    std::vector<App::DocumentObject*> claimChildren(void)const;
+    std::vector<App::DocumentObject*> claimChildren()const;
     virtual bool canDragObjects() const;
     virtual void dragObject(App::DocumentObject*);
     virtual bool canDropObjects() const;
     virtual void dropObject(App::DocumentObject*);
-    QIcon getIcon(void) const;
+    QIcon getIcon() const;
 
 protected:
     virtual bool setEdit(int ModNum);

@@ -43,7 +43,7 @@ public:
   VoronoiEdge(Voronoi::diagram_type *dia, const Voronoi::diagram_type::edge_type *edge);
   ~VoronoiEdge();
 
-  bool isBound(void) const;
+  bool isBound() const;
 
   Base::Reference<Voronoi::diagram_type> dia;
   long index;

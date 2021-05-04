@@ -43,7 +43,7 @@ public:
   VoronoiVertex(Voronoi::diagram_type *dia, const Voronoi::diagram_type::vertex_type *v);
   ~VoronoiVertex();
 
-  bool isBound(void) const;
+  bool isBound() const;
 
   Base::Reference<Voronoi::diagram_type> dia;
   long index;

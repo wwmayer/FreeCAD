@@ -44,7 +44,7 @@
 using namespace Path;
 
 // returns a string which represents the object e.g. when printed in python
-std::string VoronoiVertexPy::representation(void) const
+std::string VoronoiVertexPy::representation() const
 {
   std::stringstream ss;
   ss.precision(5);
@@ -112,7 +112,7 @@ VoronoiVertex* getVoronoiVertexFromPy(const VoronoiVertexPy *v, PyObject *args =
 }
 
 
-Py::Long VoronoiVertexPy::getIndex(void) const {
+Py::Long VoronoiVertexPy::getIndex() const {
   VoronoiVertex *v = getVoronoiVertexPtr();
   if (v->isBound()) {
     return Py::Long(v->dia->index(v->ptr));
@@ -120,7 +120,7 @@ Py::Long VoronoiVertexPy::getIndex(void) const {
   return Py::Long(-1);
 }
 
-Py::Long VoronoiVertexPy::getColor(void) const {
+Py::Long VoronoiVertexPy::getColor() const {
   VoronoiVertex *v = getVoronoiVertexPtr();
   if (v->isBound()) {
     Voronoi::color_type color = v->ptr->color() & Voronoi::ColorMask;
@@ -133,13 +133,13 @@ void VoronoiVertexPy::setColor(Py::Long color) {
   getVertexFromPy(this)->color(long(color) & Voronoi::ColorMask);
 }
 
-Py::Float VoronoiVertexPy::getX(void) const
+Py::Float VoronoiVertexPy::getX() const
 {
   VoronoiVertex *v = getVoronoiVertexFromPy(this);
   return Py::Float(v->ptr->x() / v->dia->getScale());
 }
 
-Py::Float VoronoiVertexPy::getY(void) const
+Py::Float VoronoiVertexPy::getY() const
 {
   VoronoiVertex *v = getVoronoiVertexFromPy(this);
   return Py::Float(v->ptr->y() / v->dia->getScale());

@@ -43,7 +43,7 @@
 using namespace Path;
 
 // returns a string which represents the object e.g. when printed in python
-std::string VoronoiCellPy::representation(void) const
+std::string VoronoiCellPy::representation() const
 {
   std::stringstream ss;
   ss.precision(5);
@@ -110,7 +110,7 @@ VoronoiCell* getVoronoiCellFromPy(const VoronoiCellPy *c, PyObject *args = nullp
   return self;
 }
 
-Py::Long VoronoiCellPy::getIndex(void) const {
+Py::Long VoronoiCellPy::getIndex() const {
   VoronoiCell *c = getVoronoiCellPtr();
   if (c->isBound()) {
     return Py::Long(c->dia->index(c->ptr));
@@ -118,7 +118,7 @@ Py::Long VoronoiCellPy::getIndex(void) const {
   return Py::Long(-1);
 }
 
-Py::Long VoronoiCellPy::getColor(void) const {
+Py::Long VoronoiCellPy::getColor() const {
   VoronoiCell *c = getVoronoiCellPtr();
   if (c->isBound()) {
     Voronoi::color_type color = c->ptr->color() & Voronoi::ColorMask;
@@ -131,20 +131,20 @@ void VoronoiCellPy::setColor(Py::Long color) {
   getCellFromPy(this)->color(long(color) & Voronoi::ColorMask);
 }
 
-Py::Long VoronoiCellPy::getSourceIndex(void) const
+Py::Long VoronoiCellPy::getSourceIndex() const
 {
   VoronoiCell *c = getVoronoiCellFromPy(this);
   long index = c->ptr->source_index();
   return Py::Long(index);
 }
 
-Py::Int VoronoiCellPy::getSourceCategory(void) const
+Py::Int VoronoiCellPy::getSourceCategory() const
 {
   VoronoiCell *c = getVoronoiCellFromPy(this);
   return Py::Int(c->ptr->source_category());
 }
 
-Py::Object VoronoiCellPy::getIncidentEdge(void) const
+Py::Object VoronoiCellPy::getIncidentEdge() const
 {
   VoronoiCell *c = getVoronoiCellFromPy(this);
   return Py::asObject(new VoronoiEdgePy(new VoronoiEdge(c->dia, c->ptr->incident_edge())));

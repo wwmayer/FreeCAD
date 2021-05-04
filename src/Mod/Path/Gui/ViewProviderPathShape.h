@@ -36,7 +36,7 @@ class PathGuiExport ViewProviderPathShape: public ViewProviderPath
 public:
 
     /// grouping handling
-    virtual std::vector<App::DocumentObject*> claimChildren(void) const;
+    virtual std::vector<App::DocumentObject*> claimChildren() const;
     virtual void updateData(const App::Property*);
     virtual bool onDelete(const std::vector<std::string> &);
 
@@ -48,7 +48,7 @@ public:
     virtual bool canDropObject(App::DocumentObject*) const;
     virtual void dropObject(App::DocumentObject*);
 
-    QIcon getIcon(void) const;
+    QIcon getIcon() const;
 };
 
 } //namespace PathGui

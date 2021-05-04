@@ -45,12 +45,12 @@ public:
     /// set the part shape
     void setValue(const Tool&);
     /// get the part shape
-    const Tool &getValue(void) const;
+    const Tool &getValue() const;
     //@}
 
     /** @name Python interface */
     //@{
-    PyObject* getPyObject(void);
+    PyObject* getPyObject();
     void setPyObject(PyObject *value);
     //@}
 
@@ -59,9 +59,9 @@ public:
     void Save (Base::Writer &writer) const;
     void Restore(Base::XMLReader &reader);
 
-    App::Property *Copy(void) const;
+    App::Property *Copy() const;
     void Paste(const App::Property &from);
-    unsigned int getMemSize (void) const;
+    unsigned int getMemSize () const;
     //@}
 
 private:

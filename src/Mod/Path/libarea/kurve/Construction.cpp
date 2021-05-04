@@ -250,7 +250,7 @@ namespace geoff_geometry {
 		// returns normal to this line
 		return CLine(s.p, ~s.v, false);
 	}
-	const CLine CLine::operator ~(void){
+	const CLine CLine::operator ~(){
 		return CLine(this->p, ~v, false);
 	}
 	CLine Normal(const CLine& s, const Point& p) {

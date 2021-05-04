@@ -319,7 +319,7 @@ inline bool FNEZ(double a, double tolerance = TIGHT_TOLERANCE) {return fabs(a) >
 		inline	const	Vector2d& operator-=(const Vector2d &v){dx -= v.dx; dy -= v.dy; return *this;}		// v1 -= v0;
 		inline			Vector2d operator-(const double d){ return Vector2d(dx - d, dy - d); };
 
-		inline	const	Vector2d operator-(void)const{return Vector2d(-dx, -dy);}							// v1 = -v0;  (unary minus)
+		inline	const	Vector2d operator-()const{return Vector2d(-dx, -dy);}							// v1 = -v0;  (unary minus)
 
 		inline		double operator*(const Vector2d &v)const{return (dx * v.dx + dy * v.dy);}			// dot product	m0.m1.cos a = v0 * v1
 		inline			Vector2d operator*(double c)const{return Vector2d(dx*c, dy*c);}							// scalar product
@@ -327,7 +327,7 @@ inline bool FNEZ(double a, double tolerance = TIGHT_TOLERANCE) {return fabs(a) >
 		inline			Vector2d operator*(int c)const{return Vector2d(dx*(double)c, dy*(double)c);}				// scalar product
 
 		inline		double operator^(const Vector2d &v)const{return (dx * v.dy - dy * v.dx);}			// cross product m0.m1.sin a = v0 ^ v1
-		inline			Vector2d operator~(void)const{return Vector2d(-dy, dx);}							// perp to left
+		inline			Vector2d operator~()const{return Vector2d(-dy, dx);}							// perp to left
 
 						bool operator==(const Vector2d &v)const;													// v1 == v2
 		inline			bool operator!=(const Vector2d &v)const { return !(*this == v);}							// v1 != v2
@@ -342,8 +342,8 @@ inline bool FNEZ(double a, double tolerance = TIGHT_TOLERANCE) {return fabs(a) >
 		inline	void	puty(double y){dy = y;}
 		double	normalise()
 		{double m = magnitude(); if(m < TIGHT_TOLERANCE) {dx=dy=0; return 0;} dx/=m; dy/=m; return m;}				// normalise & returns magnitude
-		inline	double	magnitudesqd(void)const{return(dx * dx + dy * dy);}									// magnitude squared
-		inline	double	magnitude(void)const{return(sqrt(magnitudesqd()));}									// magnitude
+		inline	double	magnitudesqd()const{return(dx * dx + dy * dy);}									// magnitude squared
+		inline	double	magnitude()const{return(sqrt(magnitudesqd()));}									// magnitude
 		void	Rotate(double cosa, double sina){															// rotate vector by angle
 			double temp = -dy * sina + dx * cosa;
 			dy = dx * sina + cosa * dy;
@@ -387,7 +387,7 @@ inline bool FNEZ(double a, double tolerance = TIGHT_TOLERANCE) {return fabs(a) >
 		const	Vector3d& operator-=(const Vector3d &v){
 			dx -= v.dx; dy -= v.dy; dz -= v.dz; return *this;}			// v1 -= v0;
 
-		const	Vector3d operator-(void)const{return Vector3d(-dx, -dy, -dz);}										// v1 = -v0;  (unary minus)
+		const	Vector3d operator-()const{return Vector3d(-dx, -dy, -dz);}										// v1 = -v0;  (unary minus)
 
 			double operator*(const Vector3d &v)const{return (dx * v.dx + dy * v.dy + dz * v.dz);}				// dot product	m0 m1 cos a = v0 * v1
 
@@ -411,8 +411,8 @@ inline bool FNEZ(double a, double tolerance = TIGHT_TOLERANCE) {return fabs(a) >
 		inline	void putz(double z){dz = z;}
 		double normalise(){double m = magnitude(); if(m < 1.0e-09) {dx=dy=dz=0; return 0;} dx/=m; dy/=m; dz/=m;		// normalise & returns magnitude
 		return m;}
-		inline	double magnitude(void)const{return(sqrt(dx * dx + dy * dy + dz * dz));}								// magnitude
-		inline	double magnitudeSq(void)const{return(dx * dx + dy * dy + dz * dz);}								    // magnitude squared
+		inline	double magnitude()const{return(sqrt(dx * dx + dy * dy + dz * dz));}								// magnitude
+		inline	double magnitudeSq()const{return(dx * dx + dy * dy + dz * dz);}								    // magnitude squared
 		void Transform( const Matrix& m);																					// transform vector
 		void arbitrary_axes(Vector3d& x, Vector3d& y);
 		int setCartesianAxes(Vector3d& b, Vector3d& c);
@@ -447,7 +447,7 @@ inline bool FNEZ(double a, double tolerance = TIGHT_TOLERANCE) {return fabs(a) >
 		CLine(const Span& sp);
 
 		// operators
-		const	CLine operator~(void);// perp to left
+		const	CLine operator~();// perp to left
 		const	CLine operator=(const Point& p0){p.x=p0.x; p.y=p0.y; return *this;};				// s = p;
 
 		// methods

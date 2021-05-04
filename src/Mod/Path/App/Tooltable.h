@@ -42,7 +42,7 @@ namespace Path
         ~Tooltable();
 
         // from base class
-        virtual unsigned int getMemSize (void) const;
+        virtual unsigned int getMemSize () const;
         virtual void Save (Base::Writer &/*writer*/) const;
         virtual void Restore(Base::XMLReader &/*reader*/);
 
@@ -52,9 +52,9 @@ namespace Path
         void deleteTool(int); // deletes a tool
 
         // auto
-        unsigned int getSize(void) const {return Tools.size();}
+        unsigned int getSize() const {return Tools.size();}
         const Tool &getTool(int pos) {return *Tools.at(pos);}
-        const std::map<int,ToolPtr> &getTools(void) const {return Tools;}
+        const std::map<int,ToolPtr> &getTools() const {return Tools;}
         bool hasTool(int pos) const {return (Tools.count(pos) != 0);}
 
         // attributes

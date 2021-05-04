@@ -38,7 +38,7 @@ public:
     virtual ~ViewProviderArea();
 
     /// grouping handling
-    virtual std::vector<App::DocumentObject*> claimChildren(void) const;
+    virtual std::vector<App::DocumentObject*> claimChildren() const;
     virtual void updateData(const App::Property*);
     virtual bool onDelete(const std::vector<std::string> &);
 
@@ -61,7 +61,7 @@ class PathGuiExport ViewProviderAreaView : public PartGui::ViewProviderPlanePara
 public:
     ViewProviderAreaView();
     virtual ~ViewProviderAreaView();
-    virtual std::vector<App::DocumentObject*> claimChildren(void) const;
+    virtual std::vector<App::DocumentObject*> claimChildren() const;
     virtual void updateData(const App::Property*);
     virtual bool onDelete(const std::vector<std::string> &);
 

@@ -43,7 +43,7 @@ public:
   VoronoiCell(Voronoi::diagram_type *dia, const Voronoi::diagram_type::cell_type *cell);
   ~VoronoiCell();
 
-  bool isBound(void) const;
+  bool isBound() const;
 
   Voronoi::point_type   sourcePoint()  const;
   Voronoi::segment_type sourceSegment() const;
