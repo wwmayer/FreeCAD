@@ -253,7 +253,7 @@ private:
     }
     Py::Object projectShapeOnMesh(const Py::Tuple& args, const Py::Dict& kwds)
     {
-        static char* kwds_maxdist[] = {"Shape", "Mesh", "MaxDistance", NULL};
+        static char* kwds_maxdist[] = {"Shape", "Mesh", "MaxDistance", nullptr};
         PyObject *s, *m;
         double maxDist;
         if (PyArg_ParseTupleAndKeywords(args.ptr(), kwds.ptr(),
@@ -283,7 +283,7 @@ private:
             return list;
         }
 
-        static char* kwds_dir[] = {"Shape", "Mesh", "Direction", NULL};
+        static char* kwds_dir[] = {"Shape", "Mesh", "Direction", nullptr};
         PyErr_Clear();
         PyObject *v;
         if (PyArg_ParseTupleAndKeywords(args.ptr(), kwds.ptr(),
@@ -315,7 +315,7 @@ private:
             return list;
         }
 
-        static char* kwds_poly[] = {"Polygons", "Mesh", "Direction", NULL};
+        static char* kwds_poly[] = {"Polygons", "Mesh", "Direction", nullptr};
         PyErr_Clear();
         PyObject *seq;
         if (PyArg_ParseTupleAndKeywords(args.ptr(), kwds.ptr(),
@@ -478,13 +478,13 @@ private:
         PyObject *shape;
 
         static char* kwds_lindeflection[] = {"Shape", "LinearDeflection", "AngularDeflection",
-                                             "Relative", "Segments", "GroupColors", NULL};
+                                             "Relative", "Segments", "GroupColors", nullptr};
         PyErr_Clear();
         double lindeflection=0;
         double angdeflection=0.5;
         PyObject* relative = Py_False;
         PyObject* segment = Py_False;
-        PyObject* groupColors = 0;
+        PyObject* groupColors = nullptr;
         if (PyArg_ParseTupleAndKeywords(args.ptr(), kwds.ptr(), "O!d|dO!O!O", kwds_lindeflection,
                                         &(Part::TopoShapePy::Type), &shape, &lindeflection,
                                         &angdeflection, &(PyBool_Type), &relative,
@@ -515,7 +515,7 @@ private:
             return Py::asObject(new Mesh::MeshPy(mesher.createMesh()));
         }
 
-        static char* kwds_maxLength[] = {"Shape", "MaxLength",NULL};
+        static char* kwds_maxLength[] = {"Shape", "MaxLength",nullptr};
         PyErr_Clear();
         double maxLength=0;
         if (PyArg_ParseTupleAndKeywords(args.ptr(), kwds.ptr(), "O!d", kwds_maxLength,
@@ -527,7 +527,7 @@ private:
             return Py::asObject(new Mesh::MeshPy(mesher.createMesh()));
         }
 
-        static char* kwds_maxArea[] = {"Shape", "MaxArea",NULL};
+        static char* kwds_maxArea[] = {"Shape", "MaxArea",nullptr};
         PyErr_Clear();
         double maxArea=0;
         if (PyArg_ParseTupleAndKeywords(args.ptr(), kwds.ptr(), "O!d", kwds_maxArea,
@@ -539,7 +539,7 @@ private:
             return Py::asObject(new Mesh::MeshPy(mesher.createMesh()));
         }
 
-        static char* kwds_localLen[] = {"Shape", "LocalLength",NULL};
+        static char* kwds_localLen[] = {"Shape", "LocalLength",nullptr};
         PyErr_Clear();
         double localLen=0;
         if (PyArg_ParseTupleAndKeywords(args.ptr(), kwds.ptr(), "O!d", kwds_localLen,
@@ -551,7 +551,7 @@ private:
             return Py::asObject(new Mesh::MeshPy(mesher.createMesh()));
         }
 
-        static char* kwds_deflection[] = {"Shape", "Deflection",NULL};
+        static char* kwds_deflection[] = {"Shape", "Deflection",nullptr};
         PyErr_Clear();
         double deflection=0;
         if (PyArg_ParseTupleAndKeywords(args.ptr(), kwds.ptr(), "O!d", kwds_deflection,
@@ -563,7 +563,7 @@ private:
             return Py::asObject(new Mesh::MeshPy(mesher.createMesh()));
         }
 
-        static char* kwds_minmaxLen[] = {"Shape", "MinLength","MaxLength",NULL};
+        static char* kwds_minmaxLen[] = {"Shape", "MinLength","MaxLength",nullptr};
         PyErr_Clear();
         double minLen=0, maxLen=0;
         if (PyArg_ParseTupleAndKeywords(args.ptr(), kwds.ptr(), "O!dd", kwds_minmaxLen,
