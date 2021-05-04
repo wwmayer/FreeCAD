@@ -88,7 +88,7 @@ public:
    * and returns the name of the observer. Needed to use the Get
    * Method of the Subject.
    */
-  virtual const char *Name(void){return nullptr;}
+  virtual const char *Name(){return nullptr;}
 };
 
 /** Subject class

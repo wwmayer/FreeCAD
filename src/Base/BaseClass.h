@@ -105,16 +105,16 @@ namespace Base
 class BaseExport BaseClass
 {
 public:
-  static Type getClassTypeId(void);
-  virtual Type getTypeId(void) const;
+  static Type getClassTypeId();
+  virtual Type getTypeId() const;
   bool isDerivedFrom(const Type type) const {return getTypeId().isDerivedFrom(type);}
 
-  static void init(void);
+  static void init();
 
-  virtual PyObject *getPyObject(void);
+  virtual PyObject *getPyObject();
   virtual void setPyObject(PyObject *);
 
-  static void *create(void){return nullptr;}
+  static void *create(){return nullptr;}
 private:
   static Type classTypeId;
 protected:

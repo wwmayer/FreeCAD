@@ -96,10 +96,10 @@ public:
 
   Exception &operator=(const Exception &inst);
 
-  virtual const char* what(void) const throw();
+  virtual const char* what() const throw();
 
   /// Reports exception. It includes a mechanism to only report an exception once.
-  virtual void ReportException (void) const;
+  virtual void ReportException () const;
 
   inline void setMessage(const char * sMessage);
   inline void setMessage(const std::string& sMessage);
@@ -121,7 +121,7 @@ public:
   inline void setReported(bool reported) { _isReported = reported; }
 
   /// returns a Python dictionary containing the exception data
-  virtual PyObject * getPyObject(void);
+  virtual PyObject * getPyObject();
   /// returns sets the exception data from a Python dictionary
   virtual void setPyObject( PyObject * pydict);
 
@@ -138,7 +138,7 @@ protected:
   * This way, the file, line, and function are automatically inserted. */
   Exception(const char * sMessage);
   Exception(const std::string& sMessage);
-  Exception(void);
+  Exception();
   Exception(const Exception &inst);
 
 protected:
@@ -248,11 +248,11 @@ public:
   /// Description of the exception
   virtual const char* what() const throw() override;
   /// Report generation
-  virtual void ReportException (void) const override;
+  virtual void ReportException () const override;
   /// Get file name for use with translatable message
   std::string getFileName() const;
   /// returns a Python dictionary containing the exception data
-  virtual PyObject * getPyObject(void) override;
+  virtual PyObject * getPyObject() override;
   /// returns sets the exception data from a Python dictionary
   virtual void setPyObject( PyObject * pydict) override;
 

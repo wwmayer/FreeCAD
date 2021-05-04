@@ -29,14 +29,14 @@ using namespace Base;
 
 ExceptionFactory* ExceptionFactory::_pcSingleton = nullptr;
 
-ExceptionFactory& ExceptionFactory::Instance(void)
+ExceptionFactory& ExceptionFactory::Instance()
 {
     if (_pcSingleton == nullptr)
         _pcSingleton = new ExceptionFactory;
     return *_pcSingleton;
 }
 
-void ExceptionFactory::Destruct (void)
+void ExceptionFactory::Destruct ()
 {
     if (_pcSingleton != nullptr)
         delete _pcSingleton;

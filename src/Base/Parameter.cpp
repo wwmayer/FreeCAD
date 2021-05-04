@@ -380,7 +380,7 @@ Base::Reference<ParameterGrp> ParameterGrp::_GetGroup(const char* Name)
     return rParamGrp;
 }
 
-std::vector<Base::Reference<ParameterGrp> > ParameterGrp::GetGroups(void)
+std::vector<Base::Reference<ParameterGrp> > ParameterGrp::GetGroups()
 {
     Base::Reference<ParameterGrp> rParamGrp;
     std::vector<Base::Reference<ParameterGrp> >  vrParamGrp;
@@ -405,7 +405,7 @@ std::vector<Base::Reference<ParameterGrp> > ParameterGrp::GetGroups(void)
 }
 
 /// test if this group is empty
-bool ParameterGrp::IsEmpty(void) const
+bool ParameterGrp::IsEmpty() const
 {
     if ( _pGroupNode->getFirstChild() )
         return false;
@@ -929,7 +929,7 @@ bool ParameterGrp::RenameGrp(const char* OldName, const char* NewName)
     return true;
 }
 
-void ParameterGrp::Clear(void)
+void ParameterGrp::Clear()
 {
     std::vector<DOMNode*> vecNodes;
 
@@ -1187,7 +1187,7 @@ ParameterManager::~ParameterManager()
     delete paramSerializer;
 }
 
-void ParameterManager::Init(void)
+void ParameterManager::Init()
 {
     static bool Init = false;
     if (!Init) {
@@ -1211,7 +1211,7 @@ void ParameterManager::Init(void)
     }
 }
 
-void ParameterManager::Terminate(void)
+void ParameterManager::Terminate()
 {
     XMLTools::terminate();
     XMLPlatformUtils::Terminate();
@@ -1517,7 +1517,7 @@ void  ParameterManager::SaveDocument(XMLFormatTarget* pFormatTarget) const
 #endif
 }
 
-void  ParameterManager::CreateDocument(void)
+void  ParameterManager::CreateDocument()
 {
     // creating a document from screatch
     DOMImplementation* impl =  DOMImplementationRegistry::getDOMImplementation(XStr("Core").unicodeForm());

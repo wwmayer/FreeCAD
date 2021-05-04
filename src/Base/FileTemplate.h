@@ -116,11 +116,11 @@ public:
     /** @name a group of methods */
     //@{
     /// I am method one
-    virtual void one(void)=0;
+    virtual void one()=0;
     /// I am method two
-    virtual void two(void)=0;
+    virtual void two()=0;
     /// I am method three
-    virtual void three(void)=0;
+    virtual void three()=0;
     //@}
 
 

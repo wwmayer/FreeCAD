@@ -39,7 +39,7 @@ using namespace Base;
 TYPESYSTEM_SOURCE(Base::Exception,Base::BaseClass)
 
 
-Exception::Exception(void)
+Exception::Exception()
   : _line(0)
   , _isTranslatable(false)
   , _isReported(false)
@@ -82,12 +82,12 @@ Exception &Exception::operator=(const Exception &inst)
     return *this;
 }
 
-const char* Exception::what(void) const throw()
+const char* Exception::what() const throw()
 {
     return _sErrMsg.c_str();
 }
 
-void Exception::ReportException (void) const
+void Exception::ReportException () const
 {
     if (!_isReported) {
         const char *msg;
@@ -105,7 +105,7 @@ void Exception::ReportException (void) const
     }
 }
 
-PyObject * Exception::getPyObject(void)
+PyObject * Exception::getPyObject()
 {
     Py::Dict edict;
     edict.setItem("sclassname", Py::String(typeid(*this).name()));
@@ -292,7 +292,7 @@ const char* FileException::what() const throw()
     return _sErrMsgAndFileName.c_str();
 }
 
-void FileException::ReportException (void) const
+void FileException::ReportException () const
 {
     if (!_isReported) {
         const char *msg;
@@ -310,7 +310,7 @@ void FileException::ReportException (void) const
     }
 }
 
-PyObject * FileException::getPyObject(void)
+PyObject * FileException::getPyObject()
 {
     Py::Dict edict(Exception::getPyObject(), true);
     edict.setItem("filename", Py::String(this->file.fileName()));

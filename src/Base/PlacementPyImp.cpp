@@ -38,7 +38,7 @@
 using namespace Base;
 
 // returns a string which represents the object e.g. when printed in python
-std::string PlacementPy::representation(void) const
+std::string PlacementPy::representation() const
 {
     double A,B,C;
     PlacementPy::PointerType ptr = reinterpret_cast<PlacementPy::PointerType>(_pcTwinPointer);
@@ -271,7 +271,7 @@ PyObject* PlacementPy::isIdentity(PyObject *args)
     return Py_BuildValue("O", (none ? Py_True : Py_False));
 }
 
-Py::Object PlacementPy::getBase(void) const
+Py::Object PlacementPy::getBase() const
 {
     return Py::Vector(getPlacementPtr()->getPosition());
 }
@@ -281,7 +281,7 @@ void PlacementPy::setBase(Py::Object arg)
     getPlacementPtr()->setPosition(Py::Vector(arg).toVector());
 }
 
-Py::Object PlacementPy::getRotation(void) const
+Py::Object PlacementPy::getRotation() const
 {
     return Py::Rotation(getPlacementPtr()->getRotation());
 }
@@ -307,7 +307,7 @@ void PlacementPy::setRotation(Py::Object arg)
     throw Py::TypeError("either Rotation or tuple of four floats expected");
 }
 
-Py::Object PlacementPy::getMatrix(void) const
+Py::Object PlacementPy::getMatrix() const
 {
     return Py::Matrix(getPlacementPtr()->toMatrix());
 }

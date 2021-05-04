@@ -490,7 +490,7 @@ namespace Base {
              */
             virtual void SendLog(const std::string& msg, LogStyle level) = 0;
 
-            virtual const char *Name(void){return nullptr;}
+            virtual const char *Name(){return nullptr;}
             bool bErr,bMsg,bLog,bWrn;
     };
 
@@ -574,7 +574,7 @@ namespace Base {
             }
 
             /// singleton
-            static ConsoleSingleton &Instance(void);
+            static ConsoleSingleton &Instance();
 
             // retrieval of an observer by name
             ILogger *Get(const char *Name) const;
@@ -599,12 +599,12 @@ namespace Base {
             ConnectionMode connectionMode;
 
             // Singleton!
-            ConsoleSingleton(void);
+            ConsoleSingleton();
             virtual ~ConsoleSingleton();
 
         private:
             // singleton
-            static void Destruct(void);
+            static void Destruct();
             static ConsoleSingleton *_pcSingleton;
 
             // observer list
@@ -620,7 +620,7 @@ namespace Base {
      *  This method is used to gain access to the one and only instance of
      *  the ConsoleSingleton class.
      */
-    inline ConsoleSingleton &Console(void){
+    inline ConsoleSingleton &Console(){
         return ConsoleSingleton::Instance();
     }
 
@@ -679,7 +679,7 @@ public:
     ~ConsoleObserverFile() override;
 
     void SendLog(const std::string& message, LogStyle level) override;
-    const char* Name(void) override {return "File";}
+    const char* Name() override {return "File";}
 
 protected:
     Base::ofstream cFileStream;
@@ -694,7 +694,7 @@ public:
     ConsoleObserverStd();
     ~ConsoleObserverStd() override;
     void SendLog(const std::string& message, LogStyle level) override;
-    const char* Name(void) override {return "Console";}
+    const char* Name() override {return "Console";}
 protected:
     bool useColorStderr;
 private:

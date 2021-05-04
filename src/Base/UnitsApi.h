@@ -54,7 +54,7 @@ public:
      */
     static void setSchema(UnitSystem s);
     /// return the active schema
-    static UnitSystem getSchema(void){return actSystem;}
+    static UnitSystem getSchema(){return actSystem;}
     /// Returns a brief description of a schema
     static const char* getDescription(UnitSystem);
 

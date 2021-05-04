@@ -123,9 +123,9 @@ public:
     /// get a handle to a sub group or create one
     Base::Reference<ParameterGrp> GetGroup(const char* Name);
     /// get a vector of all sub groups in this group
-    std::vector<Base::Reference<ParameterGrp> > GetGroups(void);
+    std::vector<Base::Reference<ParameterGrp> > GetGroups();
     /// test if this group is empty
-    bool IsEmpty(void) const;
+    bool IsEmpty() const;
     /// test if a special sub group is in this group
     bool HasGroup(const char* Name) const;
     /// type of the handle
@@ -135,7 +135,7 @@ public:
     /// rename a sub group from this group
     bool RenameGrp(const char* OldName, const char* NewName);
     /// clears everything in this group (all types)
-    void Clear(void);
+    void Clear();
     //@}
 
     /** @name methods for bool handling */
@@ -229,7 +229,7 @@ public:
     friend class ParameterManager;
 
     /// returns the name
-    const char* GetGroupName(void) const {
+    const char* GetGroupName() const {
         return _cName.c_str();
     }
 
@@ -304,15 +304,15 @@ class BaseExport ParameterManager : public ParameterGrp
 public:
     ParameterManager();
     ~ParameterManager();
-    static void Init(void);
-    static void Terminate(void);
+    static void Init();
+    static void Terminate();
 
     int   LoadDocument(const char* sFileName);
     int   LoadDocument(const XERCES_CPP_NAMESPACE_QUALIFIER InputSource&);
     bool  LoadOrCreateDocument(const char* sFileName);
     void  SaveDocument(const char* sFileName) const;
     void  SaveDocument(XERCES_CPP_NAMESPACE_QUALIFIER XMLFormatTarget* pFormatTarget) const;
-    void  CreateDocument(void);
+    void  CreateDocument();
     void  CheckDocument() const;
 
     /** @name Parameter serialization */

@@ -82,32 +82,32 @@ class BaseExport Type
 public:
   /// Construction
   Type(const Type& type);
-  Type(void);
+  Type();
   /// Destruction
   virtual ~Type();
 
   /// creates a instance of this type
-  void *createInstance(void);
+  void *createInstance();
   /// creates a instance of the named type
   static void *createInstanceByName(const char* TypeName, bool bLoadModule=false);
   static void importModule(const char* TypeName);
 
-  typedef void * (*instantiationMethod)(void);
+  typedef void * (*instantiationMethod)();
 
   static Type fromName(const char *name);
   static Type fromKey(unsigned int key);
-  const char *getName(void) const;
-  const Type getParent(void) const;
+  const char *getName() const;
+  const Type getParent() const;
   bool isDerivedFrom(const Type type) const;
 
   static int getAllDerivedFrom(const Type type, std::vector<Type>& List);
 
-  static int getNumTypes(void);
+  static int getNumTypes();
 
   static const Type createType(const Type parent, const char *name,instantiationMethod method = nullptr);
 
-  unsigned int getKey(void) const;
-  bool isBad(void) const;
+  unsigned int getKey() const;
+  bool isBad() const;
 
   void operator =  (const Type type);
   bool operator == (const Type type) const;
@@ -118,9 +118,9 @@ public:
   bool operator >= (const Type type) const;
   bool operator >  (const Type type) const;
 
-  static Type badType(void);
-  static void init(void);
-  static void destruct(void);
+  static Type badType();
+  static void init();
+  static void destruct();
 
 protected:
   static std::string getModuleName(const char* ClassName);
@@ -141,7 +141,7 @@ private:
 
 
 inline unsigned int
-Type::getKey(void) const
+Type::getKey() const
 {
   return this->index;
 }
@@ -189,7 +189,7 @@ Type::operator >  (const Type type) const
 }
 
 inline bool
-Type::isBad(void) const
+Type::isBad() const
 {
   return (this->index == 0);
 }

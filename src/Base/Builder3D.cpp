@@ -106,7 +106,7 @@ void Builder3D::addPoint(const Vector3f &vec)
  * Ends the point set operations and write the resulting inventor string.
  * @see startPoints()
  */
-void Builder3D::endPoints(void)
+void Builder3D::endPoints()
 {
   result  <<      "] ";
   result  <<     "} ";
@@ -298,7 +298,7 @@ void Builder3D::addTransformation(const Base::Vector3f& translation, const Base:
  * show more then one representation use saveToFile() instead.
  * @see saveToFile()
  */
-void Builder3D::saveToLog(void)
+void Builder3D::saveToLog()
 {
     result <<   "} ";
     // Note: The string can become very long, so that ConsoleSingelton::Log() will internally

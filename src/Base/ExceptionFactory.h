@@ -50,8 +50,8 @@ public:
 class BaseExport ExceptionFactory : public Factory
 {
 public:
-    static ExceptionFactory& Instance(void);
-    static void Destruct (void);
+    static ExceptionFactory& Instance();
+    static void Destruct ();
 
     void raiseException(PyObject * pydict) const;
 

@@ -82,7 +82,7 @@ Type::~Type()
 {
 }
 
-void *Type::createInstance(void)
+void *Type::createInstance()
 {
   return (typedata[index]->instMethod)();
 }
@@ -131,7 +131,7 @@ string Type::getModuleName(const char* ClassName)
     return string();
 }
 
-Type Type::badType(void)
+Type Type::badType()
 {
   Type bad;
   bad.index = 0;
@@ -153,7 +153,7 @@ const Type Type::createType(const Type parent, const char *name, instantiationMe
 }
 
 
-void Type::init(void)
+void Type::init()
 {
   assert(Type::typedata.size() == 0);
 
@@ -164,7 +164,7 @@ void Type::init(void)
 
 }
 
-void Type::destruct(void)
+void Type::destruct()
 {
   for(std::vector<TypeData*>::const_iterator it = typedata.begin();it!= typedata.end();++it)
     delete *it;
@@ -192,12 +192,12 @@ Type Type::fromKey(unsigned int key)
     return Type::badType();
 }
 
-const char *Type::getName(void) const
+const char *Type::getName() const
 {
   return typedata[index]->name.c_str();
 }
 
-const Type Type::getParent(void) const
+const Type Type::getParent() const
 {
   return typedata[index]->parent;
 }
@@ -230,7 +230,7 @@ int Type::getAllDerivedFrom(const Type type, std::vector<Type> & List)
   return cnt;
 }
 
-int Type::getNumTypes(void)
+int Type::getNumTypes()
 {
   return typedata.size();
 }

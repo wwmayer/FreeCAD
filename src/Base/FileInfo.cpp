@@ -110,7 +110,7 @@ FileInfo::FileInfo (const std::string &_FileName)
     setFile(_FileName.c_str());
 }
 
-const std::string &FileInfo::getTempPath(void)
+const std::string &FileInfo::getTempPath()
 {
     static std::string tempPath;
 
@@ -456,7 +456,7 @@ TimeInfo FileInfo::lastRead() const
     return ti;
 }
 
-bool FileInfo::deleteFile(void) const
+bool FileInfo::deleteFile() const
 {
 #if defined (FC_OS_WIN32)
     std::wstring wstr = toStdWString();
@@ -509,7 +509,7 @@ bool FileInfo::copyTo(const char* NewName) const
 #endif
 }
 
-bool FileInfo::createDirectory(void) const
+bool FileInfo::createDirectory() const
 {
 #if defined (FC_OS_WIN32)
     std::wstring wstr = toStdWString();
@@ -521,7 +521,7 @@ bool FileInfo::createDirectory(void) const
 #endif
 }
 
-bool FileInfo::deleteDirectory(void) const
+bool FileInfo::deleteDirectory() const
 {
     if (isDir() == false ) return false;
 #if defined (FC_OS_WIN32)
@@ -534,7 +534,7 @@ bool FileInfo::deleteDirectory(void) const
 #endif
 }
 
-bool FileInfo::deleteDirectoryRecursive(void) const
+bool FileInfo::deleteDirectoryRecursive() const
 {
     if (isDir() == false ) return false;
     std::vector<Base::FileInfo> List = getDirectoryContent();
@@ -560,7 +560,7 @@ bool FileInfo::deleteDirectoryRecursive(void) const
     return deleteDirectory();
 }
 
-std::vector<Base::FileInfo> FileInfo::getDirectoryContent(void) const
+std::vector<Base::FileInfo> FileInfo::getDirectoryContent() const
 {
     std::vector<Base::FileInfo> List;
 #if defined (FC_OS_WIN32)

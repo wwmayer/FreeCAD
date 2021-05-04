@@ -33,7 +33,7 @@
 using namespace Base;
 
 // returns a string which represents the object e.g. when printed in python
-std::string QuantityPy::representation(void) const
+std::string QuantityPy::representation() const
 {
     std::stringstream ret;
 #if 0
@@ -556,7 +556,7 @@ PyObject* QuantityPy::richCompare(PyObject *v, PyObject *w, int op)
     return Py_NotImplemented;
 }
 
-Py::Float QuantityPy::getValue(void) const
+Py::Float QuantityPy::getValue() const
 {
     return Py::Float(getQuantityPtr()->getValue());
 }
@@ -566,7 +566,7 @@ void QuantityPy::setValue(Py::Float arg)
     getQuantityPtr()->setValue(arg);
 }
 
-Py::Object QuantityPy::getUnit(void) const
+Py::Object QuantityPy::getUnit() const
 {
     return Py::asObject(new UnitPy(new Unit(getQuantityPtr()->getUnit())));
 }
@@ -581,12 +581,12 @@ void QuantityPy::setUnit(Py::Object arg)
     getQuantityPtr()->setUnit(*static_cast<Base::UnitPy*>((*arg))->getUnitPtr());
 }
 
-Py::String QuantityPy::getUserString(void) const
+Py::String QuantityPy::getUserString() const
 {
     return Py::String(getQuantityPtr()->getUserString().toUtf8(),"utf-8");
 }
 
-Py::Dict QuantityPy::getFormat(void) const
+Py::Dict QuantityPy::getFormat() const
 {
     QuantityFormat fmt = getQuantityPtr()->getFormat();
 

@@ -32,7 +32,7 @@
 using namespace Base;
 
 // returns a string which represent the object e.g. when printed in python
-std::string BaseClassPy::representation(void) const
+std::string BaseClassPy::representation() const
 {
     return std::string("<binding object>");
 }
@@ -62,12 +62,12 @@ PyObject*  BaseClassPy::getAllDerivedFrom(PyObject *args)
     return Py::new_reference_to(res);
 }
 
-Py::String BaseClassPy::getTypeId(void) const
+Py::String BaseClassPy::getTypeId() const
 {
     return Py::String(std::string(getBaseClassPtr()->getTypeId().getName()));
 }
 
-Py::String BaseClassPy::getModule(void) const
+Py::String BaseClassPy::getModule() const
 {
     std::string module(getBaseClassPtr()->getTypeId().getName());
     std::string::size_type pos = module.find_first_of("::");

@@ -97,7 +97,7 @@ class BaseExport PyException : public Exception
 {
 public:
     /// constructor does the whole job
-    PyException(void);
+    PyException();
     PyException(const Py::Object &obj);
     ~PyException() throw();
 
@@ -106,13 +106,13 @@ public:
     /// this method determines if the original exception
     /// can be reconstructed or not, if yes throws the reconstructed version
     /// if not, throws a generic PyException.
-    static void ThrowException(void);
+    static void ThrowException();
 
     ///  this function returns the stack trace
-    const std::string &getStackTrace(void) const {return _stackTrace;}
-    const std::string &getErrorType(void) const {return _errorType;}
-    virtual PyObject *getPyExceptionType(void) const override {return _exceptionType;}
-    void ReportException (void) const override;
+    const std::string &getStackTrace() const {return _stackTrace;}
+    const std::string &getErrorType() const {return _errorType;}
+    virtual PyObject *getPyExceptionType() const override {return _exceptionType;}
+    void ReportException () const override;
     /// Sets the Python error indicator and an error message
     virtual void setPyException() const override;
 
@@ -144,9 +144,9 @@ inline Py::Object pyCallWithKeywords(PyObject *callable, PyObject *args, PyObjec
 class BaseExport SystemExitException : public Exception
 {
 public:
-    SystemExitException(void);
+    SystemExitException();
     virtual ~SystemExitException() throw() {}
-    long getExitCode(void) const { return _exitCode;}
+    long getExitCode() const { return _exitCode;}
 
 protected:
     long _exitCode;
@@ -258,7 +258,7 @@ public:
      * first. Each cleanup function will be called at most once. Since Python's internal finalization will have
      * completed before the cleanup function, no Python APIs should be called by \a func.
      */
-    int cleanup(void (*func)(void));
+    int cleanup(void (*func)());
     /** This calls the registered cleanup functions. @see cleanup() for more details. */
     void finalize();
     /// This shuts down the application.
@@ -272,8 +272,8 @@ public:
     const char* init(int argc,char *argv[]);
     int  runCommandLine(const char *prompt);
     void replaceStdOutput();
-    static InterpreterSingleton &Instance(void);
-    static void Destruct(void);
+    static InterpreterSingleton &Instance();
+    static void Destruct();
     //@}
 
     /** @name external wrapper libs
@@ -297,7 +297,7 @@ public:
     /// unsets a break point to a special line number in the current file
     void dbgUnsetBreakPoint(unsigned int uiLineNumber);
     /// One step further
-    void dbgStep(void);
+    void dbgStep();
     //@}
 
 
@@ -325,7 +325,7 @@ private:
  *  This method is used to gain access to the one and only instance of
  *  the InterpreterSingleton class.
  */
-inline InterpreterSingleton &Interpreter(void)
+inline InterpreterSingleton &Interpreter()
 {
     return InterpreterSingleton::Instance();
 }

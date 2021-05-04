@@ -45,7 +45,7 @@ TYPESYSTEM_SOURCE_ABSTRACT(Base::Persistence,Base::BaseClass)
 //**************************************************************************
 // separator for other implementation aspects
 
-unsigned int Persistence::getMemSize (void) const
+unsigned int Persistence::getMemSize () const
 {
     // you have to implement this method in all descending classes!
     assert(0);

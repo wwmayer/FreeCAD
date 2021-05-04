@@ -111,7 +111,7 @@ class BaseExport Quantity
 {
 public:
     /// default constructor
-    Quantity(void);
+    Quantity();
     Quantity(const Quantity&);
     explicit Quantity(double Value, const Unit& unit=Unit());
     /// Destruction
@@ -125,7 +125,7 @@ public:
     Quantity& operator +=(const Quantity &p);
     Quantity operator -(const Quantity &p) const;
     Quantity& operator -=(const Quantity &p);
-    Quantity operator -(void) const;
+    Quantity operator -() const;
     Quantity operator /(const Quantity &p) const;
     Quantity operator /(double p) const;
     bool operator ==(const Quantity&) const;
@@ -146,7 +146,7 @@ public:
     }
     /// transfer to user preferred unit/potence
     QString getUserString(double &factor, QString &unitString) const;
-    QString getUserString(void) const { // to satisfy GCC
+    QString getUserString() const { // to satisfy GCC
         double  dummy1;
         QString dummy2;
         return getUserString(dummy1,dummy2);
@@ -156,11 +156,11 @@ public:
     static Quantity parse(const QString &string);
 
     /// returns the unit of the quantity
-    const Unit & getUnit(void) const{return _Unit;}
+    const Unit & getUnit() const{return _Unit;}
     /// set the unit of the quantity
     void setUnit(const Unit &un){_Unit = un;}
     /// get the Value of the quantity
-    double getValue(void) const{return _Value;}
+    double getValue() const{return _Value;}
     /// set the value of the quantity
     void setValue(double val){_Value = val;}
     /** get the Value in a special unit given as quantity.
@@ -170,13 +170,13 @@ public:
 
 
     /// true if it has a number without a unit
-    bool isDimensionless(void)const;
+    bool isDimensionless()const;
     /// true if it has a number and a valid unit
-    bool isQuantity(void)const;
+    bool isQuantity()const;
     /// true if it has a number with or without a unit
-    bool isValid(void)const;
+    bool isValid()const;
     /// sets the quantity invalid
-    void setInvalid(void);
+    void setInvalid();
 
 
     /** Predefined Unit types. */

@@ -34,13 +34,13 @@
 using namespace Base;
 
 // returns a string which represent the object e.g. when printed in python
-std::string PersistencePy::representation(void) const
+std::string PersistencePy::representation() const
 {
     return std::string("<persistence object>");
 }
 
 
-Py::String PersistencePy::getContent(void) const
+Py::String PersistencePy::getContent() const
 {
     Base::StringWriter writer;
     // force all objects to write pure XML without files
@@ -50,7 +50,7 @@ Py::String PersistencePy::getContent(void) const
     return  Py::String (writer.getString());
 }
 
-Py::Int PersistencePy::getMemSize(void) const
+Py::Int PersistencePy::getMemSize() const
 {
     return Py::Int((long)getPersistencePtr()->getMemSize());
 }

@@ -116,7 +116,7 @@ ConsoleOutput* ConsoleOutput::instance = nullptr;
 // Construction destruction
 
 
-ConsoleSingleton::ConsoleSingleton(void)
+ConsoleSingleton::ConsoleSingleton()
   : _bVerbose(true)
   , _bCanRefresh(true)
   , connectionMode(Direct)
@@ -435,7 +435,7 @@ void ConsoleSingleton::EnableRefresh(bool enable) {
 
 ConsoleSingleton * ConsoleSingleton::_pcSingleton = nullptr;
 
-void ConsoleSingleton::Destruct(void)
+void ConsoleSingleton::Destruct()
 {
     // not initialized or double destructed!
     assert(_pcSingleton);
@@ -443,7 +443,7 @@ void ConsoleSingleton::Destruct(void)
     _pcSingleton=nullptr;
 }
 
-ConsoleSingleton & ConsoleSingleton::Instance(void)
+ConsoleSingleton & ConsoleSingleton::Instance()
 {
     // not initialized?
     if (!_pcSingleton)

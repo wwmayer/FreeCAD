@@ -205,7 +205,7 @@ public:
     }
 
     /// returns the type as PyObject
-    PyObject* getPyObject(void) const {
+    PyObject* getPyObject() const {
         // return (PyObject*) _pHandels;
         // FIXME: Shouldn't we return the pointer's object?. (Werner)
         return const_cast<HandledType*>(_pHandels)->getPyObject();
@@ -214,12 +214,12 @@ public:
     // checking on the state
 
     /// Test if it handels something
-    bool IsValid(void) const {
+    bool IsValid() const {
         return _pHandels!=0;
     }
 
     /// Test if it not handels something
-    bool IsNull(void) const {
+    bool IsNull() const {
         return _pHandels==0;
     }
 

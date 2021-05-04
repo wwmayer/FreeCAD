@@ -39,7 +39,7 @@
 using namespace Base;
 
 // returns a string which represent the object e.g. when printed in python
-std::string VectorPy::representation(void) const
+std::string VectorPy::representation() const
 {
     VectorPy::PointerType ptr = reinterpret_cast<VectorPy::PointerType>(_pcTwinPointer);
     Py::Float x(ptr->x);
@@ -621,7 +621,7 @@ PyObject*  VectorPy::distanceToPlane(PyObject *args)
     return Py::new_reference_to(dist);
 }
 
-Py::Float VectorPy::getLength(void) const
+Py::Float VectorPy::getLength() const
 {
     VectorPy::PointerType ptr = reinterpret_cast<VectorPy::PointerType>(_pcTwinPointer);
     return Py::Float(ptr->Length());
@@ -641,7 +641,7 @@ void  VectorPy::setLength(Py::Float arg)
     ptr->z *= val;
 }
 
-Py::Float VectorPy::getx(void) const
+Py::Float VectorPy::getx() const
 {
     VectorPy::PointerType ptr = reinterpret_cast<VectorPy::PointerType>(_pcTwinPointer);
     return Py::Float(ptr->x);
@@ -653,7 +653,7 @@ void  VectorPy::setx(Py::Float arg)
     ptr->x = static_cast<double>(arg);
 }
 
-Py::Float VectorPy::gety(void) const
+Py::Float VectorPy::gety() const
 {
     VectorPy::PointerType ptr = reinterpret_cast<VectorPy::PointerType>(_pcTwinPointer);
     return Py::Float(ptr->y);
@@ -665,7 +665,7 @@ void  VectorPy::sety(Py::Float arg)
     ptr->y = static_cast<double>(arg);
 }
 
-Py::Float VectorPy::getz(void) const
+Py::Float VectorPy::getz() const
 {
     VectorPy::PointerType ptr = reinterpret_cast<VectorPy::PointerType>(_pcTwinPointer);
     return Py::Float(ptr->z);

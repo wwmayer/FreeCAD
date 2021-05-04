@@ -35,7 +35,7 @@
 using namespace Base;
 
 // returns a string which represents the object e.g. when printed in python
-std::string AxisPy::representation(void) const
+std::string AxisPy::representation() const
 {
     AxisPy::PointerType ptr = reinterpret_cast<AxisPy::PointerType>(_pcTwinPointer);
     std::stringstream str;
@@ -115,7 +115,7 @@ PyObject* AxisPy::reversed(PyObject * args)
     return new AxisPy(new Axis(a));
 }
 
-Py::Object AxisPy::getBase(void) const
+Py::Object AxisPy::getBase() const
 {
     return Py::Vector(getAxisPtr()->getBase());
 }
@@ -125,7 +125,7 @@ void AxisPy::setBase(Py::Object arg)
     getAxisPtr()->setBase(Py::Vector(arg).toVector());
 }
 
-Py::Object AxisPy::getDirection(void) const
+Py::Object AxisPy::getDirection() const
 {
     return Py::Vector(getAxisPtr()->getDirection());
 }

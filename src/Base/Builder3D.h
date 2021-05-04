@@ -78,7 +78,7 @@ public:
   /// add a vector to a point set
   void addPoint(const Vector3f &vec);
   /// ends the points set operation
-  void endPoints(void);
+  void endPoints();
   /// add a singular point (without startPoints() & endPoints() )
   void addSinglePoint(float x, float y, float z, short pointSize=2, float color_r=1.0,float color_g=1.0,float color_b=1.0);
   /// add a singular point (without startPoints() & endPoints() )
@@ -115,12 +115,12 @@ public:
   //@}
 
   /// clear the string buffer
-  void clear (void);
+  void clear ();
 
   /** @name write the result */
   //@{
   /// sends the result to the log and gui
-  void saveToLog(void);
+  void saveToLog();
   /// save the result to a file (*.iv)
   void saveToFile(const char* FileName);
   //@}
