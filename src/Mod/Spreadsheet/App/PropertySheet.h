@@ -42,7 +42,7 @@ class SpreadsheetExport PropertySheet : public App::PropertyExpressionContainer
     TYPESYSTEM_HEADER_WITH_OVERRIDE();
 public:
 
-    PropertySheet(Sheet * _owner = 0);
+    PropertySheet(Sheet * _owner = nullptr);
 
     ~PropertySheet();
 

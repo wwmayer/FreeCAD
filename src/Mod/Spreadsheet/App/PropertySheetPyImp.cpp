@@ -51,7 +51,7 @@ int PropertySheetPy::PyInit(PyObject* /*args*/, PyObject* /*kwd*/)
 
 PyObject *PropertySheetPy::getCustomAttributes(const char* /*attr*/) const
 {
-    return 0;
+    return nullptr;
 }
 
 int PropertySheetPy::setCustomAttributes(const char* /*attr*/, PyObject* /*obj*/)
