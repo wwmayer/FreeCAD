@@ -104,7 +104,7 @@ public:
 
   static int getNumTypes(void);
 
-  static const Type createType(const Type parent, const char *name,instantiationMethod method = 0);
+  static const Type createType(const Type parent, const char *name,instantiationMethod method = nullptr);
 
   unsigned int getKey(void) const;
   bool isBad(void) const;

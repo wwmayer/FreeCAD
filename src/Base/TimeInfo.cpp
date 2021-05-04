@@ -62,7 +62,7 @@ void TimeInfo::setCurrent(void)
 {
 #if defined (FC_OS_BSD) || defined(FC_OS_LINUX)
     struct timeval t;
-    gettimeofday(&t, NULL);
+    gettimeofday(&t, nullptr);
     timebuffer.time = t.tv_sec;
     timebuffer.millitm = t.tv_usec / 1000;
 #elif defined(FC_OS_WIN32)

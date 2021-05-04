@@ -138,7 +138,7 @@ public:
     /// get the current element level
     int level() const;
     /// read until a start element is found (\<name\>) or start-end element (\<name/\>) (with special name if given)
-    void readElement   (const char* ElementName=0);
+    void readElement   (const char* ElementName=nullptr);
 
     /** read until an end element is found
      *
@@ -154,7 +154,7 @@ public:
      * child element may have the same name as its parent, otherwise, using \c
      * ElementName is enough.
      */
-    void readEndElement(const char* ElementName=0, int level=-1);
+    void readEndElement(const char* ElementName=nullptr, int level=-1);
     /// read until characters are found
     void readCharacters(void);
     /// read binary file

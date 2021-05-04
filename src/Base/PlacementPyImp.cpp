@@ -126,11 +126,11 @@ PyObject* PlacementPy::richCompare(PyObject *v, PyObject *w, int op)
         Base::Placement p1 = *static_cast<PlacementPy*>(v)->getPlacementPtr();
         Base::Placement p2 = *static_cast<PlacementPy*>(w)->getPlacementPtr();
 
-        PyObject *res=0;
+        PyObject *res=nullptr;
         if (op != Py_EQ && op != Py_NE) {
             PyErr_SetString(PyExc_TypeError,
             "no ordering relation is defined for Placement");
-            return 0;
+            return nullptr;
         }
         else if (op == Py_EQ) {
             res = (p1 == p2) ? Py_True : Py_False;
@@ -154,7 +154,7 @@ PyObject* PlacementPy::move(PyObject * args)
 {
     PyObject *vec;
     if (!PyArg_ParseTuple(args, "O!", &(VectorPy::Type), &vec))
-        return NULL;
+        return nullptr;
     getPlacementPtr()->move(static_cast<VectorPy*>(vec)->value());
     Py_Return;
 }
@@ -168,7 +168,7 @@ PyObject* PlacementPy::rotate(PyObject *args) {
     PyObject *obj1, *obj2;
     double angle;
     if (!PyArg_ParseTuple(args, "OOd", &obj1, &obj2, &angle))
-        return NULL;
+        return nullptr;
 
     try {
         Py::Sequence p1(obj1), p2(obj2);
@@ -183,7 +183,7 @@ PyObject* PlacementPy::rotate(PyObject *args) {
         Py_Return;
     }
     catch (const Py::Exception&) {
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -191,7 +191,7 @@ PyObject* PlacementPy::multiply(PyObject * args)
 {
     PyObject *plm;
     if (!PyArg_ParseTuple(args, "O!", &(PlacementPy::Type), &plm))
-        return NULL;
+        return nullptr;
     Placement mult = (*getPlacementPtr()) * (*static_cast<PlacementPy*>(plm)->getPlacementPtr());
     return new PlacementPy(new Placement(mult));
 }
@@ -200,7 +200,7 @@ PyObject* PlacementPy::multVec(PyObject * args)
 {
     PyObject *vec;
     if (!PyArg_ParseTuple(args, "O!", &(VectorPy::Type), &vec))
-        return NULL;
+        return nullptr;
     Base::Vector3d pnt(static_cast<VectorPy*>(vec)->value());
     getPlacementPtr()->multVec(pnt, pnt);
     return new VectorPy(new Vector3d(pnt));
@@ -209,14 +209,14 @@ PyObject* PlacementPy::multVec(PyObject * args)
 PyObject* PlacementPy::copy(PyObject * args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return NULL;
+        return nullptr;
     return new PlacementPy(new Placement(*getPlacementPtr()));
 }
 
 PyObject* PlacementPy::toMatrix(PyObject * args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return NULL;
+        return nullptr;
     Base::Matrix4D mat = getPlacementPtr()->toMatrix();
     return new MatrixPy(new Matrix4D(mat));
 }
@@ -224,7 +224,7 @@ PyObject* PlacementPy::toMatrix(PyObject * args)
 PyObject* PlacementPy::inverse(PyObject * args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return NULL;
+        return nullptr;
     Base::Placement p = getPlacementPtr()->inverse();
     return new PlacementPy(new Placement(p));
 }
@@ -266,7 +266,7 @@ PyObject* PlacementPy::slerp(PyObject* args)
 PyObject* PlacementPy::isIdentity(PyObject *args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return NULL;
+        return nullptr;
     bool none = getPlacementPtr()->isIdentity();
     return Py_BuildValue("O", (none ? Py_True : Py_False));
 }
@@ -331,7 +331,7 @@ PyObject *PlacementPy::getCustomAttributes(const char* attr) const
         Py_XDECREF(w);
         return res;
     }
-    return 0;
+    return nullptr;
 }
 
 int PlacementPy::setCustomAttributes(const char* /*attr*/, PyObject* /*obj*/)
@@ -367,7 +367,7 @@ PyObject* PlacementPy::number_multiply_handler(PyObject *self, PyObject *other)
     }
 
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_power_handler (PyObject* self, PyObject* other, PyObject* arg)
@@ -385,7 +385,7 @@ PyObject * PlacementPy::number_power_handler (PyObject* self, PyObject* other, P
         || arg != Py_None)
     {
         PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-        return 0;
+        return nullptr;
     }
 
     Placement a = static_cast<PlacementPy*>(self)->value();
@@ -395,49 +395,49 @@ PyObject * PlacementPy::number_power_handler (PyObject* self, PyObject* other, P
 PyObject* PlacementPy::number_add_handler(PyObject * /*self*/, PyObject * /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject* PlacementPy::number_subtract_handler(PyObject * /*self*/, PyObject * /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_divide_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_remainder_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_divmod_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_negative_handler (PyObject* /*self*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_positive_handler (PyObject* /*self*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_absolute_handler (PyObject* /*self*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 int PlacementPy::number_nonzero_handler (PyObject* /*self*/)
@@ -448,48 +448,48 @@ int PlacementPy::number_nonzero_handler (PyObject* /*self*/)
 PyObject * PlacementPy::number_invert_handler (PyObject* /*self*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_lshift_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_rshift_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_and_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_xor_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_or_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_int_handler (PyObject * /*self*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * PlacementPy::number_float_handler (PyObject * /*self*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 

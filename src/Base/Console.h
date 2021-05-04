@@ -490,7 +490,7 @@ namespace Base {
              */
             virtual void SendLog(const std::string& msg, LogStyle level) = 0;
 
-            virtual const char *Name(void){return 0L;}
+            virtual const char *Name(void){return nullptr;}
             bool bErr,bMsg,bLog,bWrn;
     };
 

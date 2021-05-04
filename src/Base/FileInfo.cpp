@@ -582,14 +582,14 @@ std::vector<Base::FileInfo> FileInfo::getDirectoryContent(void) const
     _findclose(hFile);
 
 #elif defined (FC_OS_LINUX) || defined(FC_OS_CYGWIN) || defined(FC_OS_MACOSX) || defined(FC_OS_BSD)
-    DIR* dp(0);
-    struct dirent* dentry(0);
-    if ((dp = opendir(FileName.c_str())) == NULL)
+    DIR* dp(nullptr);
+    struct dirent* dentry(nullptr);
+    if ((dp = opendir(FileName.c_str())) == nullptr)
     {
         return List;
     }
 
-    while ((dentry = readdir(dp)) != NULL)
+    while ((dentry = readdir(dp)) != nullptr)
     {
         std::string dir = dentry->d_name;
         if (dir != "." && dir != "..")

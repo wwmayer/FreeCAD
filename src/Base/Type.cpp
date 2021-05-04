@@ -42,7 +42,7 @@ struct Base::TypeData
   TypeData(const char *theName,
            const Type type = Type::badType(),
            const Type theParent = Type::badType(),
-           Type::instantiationMethod method = 0
+           Type::instantiationMethod method = nullptr
           ):name(theName),parent(theParent),type(type),instMethod(method) { }
 
   std::string name;
@@ -97,7 +97,7 @@ void *Type::createInstanceByName(const char* TypeName, bool bLoadModule)
   // now the type should be in the type map
   Type t = fromName(TypeName);
   if (t == badType())
-    return 0;
+    return nullptr;
 
   return t.createInstance();
 }

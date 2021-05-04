@@ -419,7 +419,7 @@ bool ParameterGrp::HasGroup(const char* Name) const
     if ( _GroupMap.find(Name) != _GroupMap.end() )
         return true;
 
-    if ( FindElement(_pGroupNode,"FCParamGroup",Name) != 0 )
+    if ( FindElement(_pGroupNode,"FCParamGroup",Name) != nullptr )
         return true;
 
     return false;
@@ -460,7 +460,7 @@ std::vector<bool> ParameterGrp::GetBools(const char * sFilter) const
     while ( pcTemp) {
         Name = StrX(static_cast<DOMElement*>(pcTemp)->getAttributes()->getNamedItem(XStr("Name").unicodeForm())->getNodeValue()).c_str();
         // check on filter condition
-        if (sFilter == NULL || Name.find(sFilter)!= std::string::npos) {
+        if (sFilter == nullptr || Name.find(sFilter)!= std::string::npos) {
             if (strcmp(StrX(static_cast<DOMElement*>(pcTemp)->getAttribute(XStr("Value").unicodeForm())).c_str(),"1"))
                 vrValues.push_back(false);
             else
@@ -482,7 +482,7 @@ std::vector<std::pair<std::string,bool> > ParameterGrp::GetBoolMap(const char * 
     while ( pcTemp) {
         Name = StrX(static_cast<DOMElement*>(pcTemp)->getAttributes()->getNamedItem(XStr("Name").unicodeForm())->getNodeValue()).c_str();
         // check on filter condition
-        if (sFilter == NULL || Name.find(sFilter)!= std::string::npos) {
+        if (sFilter == nullptr || Name.find(sFilter)!= std::string::npos) {
             if (strcmp(StrX(static_cast<DOMElement*>(pcTemp)->getAttribute(XStr("Value").unicodeForm())).c_str(),"1"))
                 vrValues.emplace_back(Name, false);
             else
@@ -528,7 +528,7 @@ std::vector<long> ParameterGrp::GetInts(const char * sFilter) const
     while ( pcTemp ) {
         Name = StrX(static_cast<DOMElement*>(pcTemp)->getAttributes()->getNamedItem(XStr("Name").unicodeForm())->getNodeValue()).c_str();
         // check on filter condition
-        if (sFilter == NULL || Name.find(sFilter)!= std::string::npos) {
+        if (sFilter == nullptr || Name.find(sFilter)!= std::string::npos) {
             vrValues.push_back(atol(StrX(static_cast<DOMElement*>(pcTemp)->getAttribute(XStr("Value").unicodeForm())).c_str()) );
         }
         pcTemp = FindNextElement(pcTemp,"FCInt") ;
@@ -547,7 +547,7 @@ std::vector<std::pair<std::string,long> > ParameterGrp::GetIntMap(const char * s
     while ( pcTemp ) {
         Name = StrX(static_cast<DOMElement*>(pcTemp)->getAttributes()->getNamedItem(XStr("Name").unicodeForm())->getNodeValue()).c_str();
         // check on filter condition
-        if (sFilter == NULL || Name.find(sFilter)!= std::string::npos) {
+        if (sFilter == nullptr || Name.find(sFilter)!= std::string::npos) {
             vrValues.emplace_back(Name,
                                ( atol (StrX(static_cast<DOMElement*>(pcTemp)->getAttribute(XStr("Value").unicodeForm())).c_str())));
         }
@@ -564,7 +564,7 @@ unsigned long ParameterGrp::GetUnsigned(const char* Name, unsigned long lPreset)
     // if not return preset
     if (!pcElem) return lPreset;
     // if yes check the value and return
-    return strtoul (StrX(pcElem->getAttribute(XStr("Value").unicodeForm())).c_str(),0,10);
+    return strtoul (StrX(pcElem->getAttribute(XStr("Value").unicodeForm())).c_str(),nullptr,10);
 }
 
 void  ParameterGrp::SetUnsigned(const char* Name, unsigned long lValue)
@@ -591,8 +591,8 @@ std::vector<unsigned long> ParameterGrp::GetUnsigneds(const char * sFilter) cons
     while ( pcTemp ) {
         Name = StrX(static_cast<DOMElement*>(pcTemp)->getAttributes()->getNamedItem(XStr("Name").unicodeForm())->getNodeValue()).c_str();
         // check on filter condition
-        if (sFilter == NULL || Name.find(sFilter)!= std::string::npos) {
-            vrValues.push_back( strtoul (StrX(static_cast<DOMElement*>(pcTemp)->getAttribute(XStr("Value").unicodeForm())).c_str(),0,10) );
+        if (sFilter == nullptr || Name.find(sFilter)!= std::string::npos) {
+            vrValues.push_back( strtoul (StrX(static_cast<DOMElement*>(pcTemp)->getAttribute(XStr("Value").unicodeForm())).c_str(),nullptr,10) );
         }
         pcTemp = FindNextElement(pcTemp,"FCUInt") ;
     }
@@ -610,9 +610,9 @@ std::vector<std::pair<std::string,unsigned long> > ParameterGrp::GetUnsignedMap(
     while ( pcTemp ) {
         Name = StrX(static_cast<DOMElement*>(pcTemp)->getAttributes()->getNamedItem(XStr("Name").unicodeForm())->getNodeValue()).c_str();
         // check on filter condition
-        if (sFilter == NULL || Name.find(sFilter)!= std::string::npos) {
+        if (sFilter == nullptr || Name.find(sFilter)!= std::string::npos) {
             vrValues.emplace_back(Name,
-                               ( strtoul (StrX(static_cast<DOMElement*>(pcTemp)->getAttribute(XStr("Value").unicodeForm())).c_str(),0,10) ));
+                               ( strtoul (StrX(static_cast<DOMElement*>(pcTemp)->getAttribute(XStr("Value").unicodeForm())).c_str(),nullptr,10) ));
         }
         pcTemp = FindNextElement(pcTemp,"FCUInt");
     }
@@ -654,7 +654,7 @@ std::vector<double> ParameterGrp::GetFloats(const char * sFilter) const
     while ( pcTemp ) {
         Name = StrX(static_cast<DOMElement*>(pcTemp)->getAttributes()->getNamedItem(XStr("Name").unicodeForm())->getNodeValue()).c_str();
         // check on filter condition
-        if (sFilter == NULL || Name.find(sFilter)!= std::string::npos) {
+        if (sFilter == nullptr || Name.find(sFilter)!= std::string::npos) {
             vrValues.push_back( atof (StrX(static_cast<DOMElement*>(pcTemp)->getAttribute(XStr("Value").unicodeForm())).c_str()) );
         }
         pcTemp = FindNextElement(pcTemp,"FCFloat");
@@ -673,7 +673,7 @@ std::vector<std::pair<std::string,double> > ParameterGrp::GetFloatMap(const char
     while ( pcTemp ) {
         Name = StrX(static_cast<DOMElement*>(pcTemp)->getAttributes()->getNamedItem(XStr("Name").unicodeForm())->getNodeValue()).c_str();
         // check on filter condition
-        if (sFilter == NULL || Name.find(sFilter)!= std::string::npos) {
+        if (sFilter == nullptr || Name.find(sFilter)!= std::string::npos) {
             vrValues.emplace_back(Name,
                                ( atof (StrX(static_cast<DOMElement*>(pcTemp)->getAttribute(XStr("Value").unicodeForm())).c_str())));
         }
@@ -723,7 +723,7 @@ std::string ParameterGrp::GetASCII(const char* Name, const char * pPreset) const
     DOMElement *pcElem = FindElement(_pGroupNode,"FCText",Name);
     // if not return preset
     if (!pcElem) {
-        if (pPreset==0)
+        if (pPreset==nullptr)
             return std::string("");
         else
             return std::string(pPreset);
@@ -732,7 +732,7 @@ std::string ParameterGrp::GetASCII(const char* Name, const char * pPreset) const
     DOMNode *pcElem2 = pcElem->getFirstChild();
     if (pcElem2)
         return std::string(StrXUTF8(pcElem2->getNodeValue()).c_str());
-    else if (pPreset==0)
+    else if (pPreset==nullptr)
         return std::string("");
 
     else
@@ -749,7 +749,7 @@ std::vector<std::string> ParameterGrp::GetASCIIs(const char * sFilter) const
     while ( pcTemp  ) {
         Name = StrXUTF8(static_cast<DOMElement*>(pcTemp)->getAttributes()->getNamedItem(XStr("Name").unicodeForm())->getNodeValue()).c_str();
         // check on filter condition
-        if (sFilter == NULL || Name.find(sFilter)!= std::string::npos) {
+        if (sFilter == nullptr || Name.find(sFilter)!= std::string::npos) {
             // retrieve the text element
             DOMNode *pcElem2 = pcTemp->getFirstChild();
             if (pcElem2)
@@ -771,7 +771,7 @@ std::vector<std::pair<std::string,std::string> > ParameterGrp::GetASCIIMap(const
     while ( pcTemp) {
         Name = StrXUTF8(static_cast<DOMElement*>(pcTemp)->getAttributes()->getNamedItem(XStr("Name").unicodeForm())->getNodeValue()).c_str();
         // check on filter condition
-        if (sFilter == NULL || Name.find(sFilter)!= std::string::npos) {
+        if (sFilter == nullptr || Name.find(sFilter)!= std::string::npos) {
             // retrieve the text element
             DOMNode *pcElem2 = pcTemp->getFirstChild();
             if (pcElem2)
@@ -954,7 +954,7 @@ void ParameterGrp::Clear(void)
     }
 
     // searching all non-group nodes
-    for (DOMNode *child = _pGroupNode->getFirstChild(); child != 0;  child = child->getNextSibling()) {
+    for (DOMNode *child = _pGroupNode->getFirstChild(); child != nullptr;  child = child->getNextSibling()) {
         if (XMLString::compareString(child->getNodeName(), XStr("FCParamGroup").unicodeForm()) != 0)
             vecNodes.push_back(child);
     }
@@ -991,7 +991,7 @@ XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *ParameterGrp::FindElement(XERCES_CPP_
         Base::Console().Warning("FindElement: %s cannot have the element %s of type %s\n", StrX(Start->getNodeName()).c_str(), Name, Type);
         return nullptr;
     }
-    for (DOMNode *clChild = Start->getFirstChild(); clChild != 0;  clChild = clChild->getNextSibling()) {
+    for (DOMNode *clChild = Start->getFirstChild(); clChild != nullptr;  clChild = clChild->getNextSibling()) {
         if (clChild->getNodeType() == DOMNode::ELEMENT_NODE) {
             // the right node Type
             if (!strcmp(Type,StrX(clChild->getNodeName()).c_str())) {
@@ -1007,7 +1007,7 @@ XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *ParameterGrp::FindElement(XERCES_CPP_
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *ParameterGrp::FindNextElement(XERCES_CPP_NAMESPACE_QUALIFIER DOMNode *Prev, const char* Type) const
@@ -1016,7 +1016,7 @@ XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *ParameterGrp::FindNextElement(XERCES_
     if (!clChild)
         return nullptr;
 
-    while ((clChild = clChild->getNextSibling())!=0) {
+    while ((clChild = clChild->getNextSibling())!=nullptr) {
         if (clChild->getNodeType() == DOMNode::ELEMENT_NODE) {
             // the right node Type
             if (!strcmp(Type,StrX(clChild->getNodeName()).c_str())) {
@@ -1024,7 +1024,7 @@ XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *ParameterGrp::FindNextElement(XERCES_
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *ParameterGrp::FindOrCreateElement(XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *Start, const char* Type, const char* Name) const
@@ -1118,7 +1118,7 @@ static XercesDOMParser::ValSchemes    gValScheme       = XercesDOMParser::Val_Au
 /** Default construction
   */
 ParameterManager::ParameterManager()
-  : ParameterGrp(), _pDocument(0), paramSerializer(0)
+  : ParameterGrp(), _pDocument(nullptr), paramSerializer(nullptr)
 {
     // initialize the XML system
     Init();
@@ -1169,8 +1169,8 @@ ParameterManager::ParameterManager()
     gSchemaFullChecking    = false;
     gDoCreate              = true;
 
-    gOutputEncoding        = 0;
-    gMyEOLSequence         = 0;
+    gOutputEncoding        = nullptr;
+    gMyEOLSequence         = nullptr;
 
     gSplitCdataSections    = true;
     gDiscardDefaultContent = true;
@@ -1229,7 +1229,7 @@ void ParameterManager::SetSerializer(ParameterSerializer* ps)
 
 bool ParameterManager::HasSerializer() const
 {
-    return (paramSerializer != 0);
+    return (paramSerializer != nullptr);
 }
 
 int ParameterManager::LoadDocument()
@@ -1523,9 +1523,9 @@ void  ParameterManager::CreateDocument(void)
     DOMImplementation* impl =  DOMImplementationRegistry::getDOMImplementation(XStr("Core").unicodeForm());
     delete _pDocument;
     _pDocument = impl->createDocument(
-                     0,                                          // root element namespace URI.
+                     nullptr,                                          // root element namespace URI.
                      XStr("FCParameters").unicodeForm(),         // root element name
-                     0);                                         // document type object (DTD).
+                     nullptr);                                         // document type object (DTD).
 
     // creating the node for the root group
     DOMElement* rootElem = _pDocument->getDocumentElement();

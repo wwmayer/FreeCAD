@@ -145,7 +145,7 @@ unsigned long Base::XMLReader::getAttributeAsUnsigned(const char* AttrName) cons
     AttrMapType::const_iterator pos = AttrMap.find(AttrName);
 
     if (pos != AttrMap.end()) {
-        return strtoul(pos->second.c_str(),0,10);
+        return strtoul(pos->second.c_str(),nullptr,10);
     }
     else {
         // wrong name, use hasAttribute if not sure!

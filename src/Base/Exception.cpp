@@ -319,7 +319,7 @@ PyObject * FileException::getPyObject(void)
 
 void FileException::setPyObject( PyObject * pydict)
 {
-    if (pydict!=NULL) {
+    if (pydict!=nullptr) {
         Exception::setPyObject(pydict);
 
         Py::Dict edict(pydict);
@@ -866,7 +866,7 @@ SignalException::SignalException()
 
 SignalException::~SignalException()
 {
-    sigaction (SIGSEGV, &old_action, NULL);
+    sigaction (SIGSEGV, &old_action, nullptr);
 #ifdef _DEBUG
     std::cout << "Restore old signal handler" << std::endl;
 #endif

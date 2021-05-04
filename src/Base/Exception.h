@@ -234,7 +234,7 @@ class BaseExport FileException : public Exception
 {
 public:
   /// With massage and file name
-  FileException(const char * sMessage, const char * sFileName=0);
+  FileException(const char * sMessage, const char * sFileName=nullptr);
   /// With massage and file name
   FileException(const char * sMessage, const FileInfo& File);
   /// standard construction

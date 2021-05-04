@@ -86,7 +86,7 @@ PyObject* AxisPy::move(PyObject * args)
 {
     PyObject *vec;
     if (!PyArg_ParseTuple(args, "O!", &(VectorPy::Type), &vec))
-        return NULL;
+        return nullptr;
     getAxisPtr()->move(static_cast<VectorPy*>(vec)->value());
     Py_Return;
 }
@@ -95,7 +95,7 @@ PyObject* AxisPy::multiply(PyObject * args)
 {
     PyObject *plm;
     if (!PyArg_ParseTuple(args, "O!", &(PlacementPy::Type), &plm))
-        return NULL;
+        return nullptr;
     Axis mult = (*getAxisPtr()) * (*static_cast<PlacementPy*>(plm)->getPlacementPtr());
     return new AxisPy(new Axis(mult));
 }
@@ -103,14 +103,14 @@ PyObject* AxisPy::multiply(PyObject * args)
 PyObject* AxisPy::copy(PyObject * args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return NULL;
+        return nullptr;
     return new AxisPy(new Axis(*getAxisPtr()));
 }
 
 PyObject* AxisPy::reversed(PyObject * args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return NULL;
+        return nullptr;
     Base::Axis a = getAxisPtr()->reversed();
     return new AxisPy(new Axis(a));
 }
@@ -137,7 +137,7 @@ void AxisPy::setDirection(Py::Object arg)
 
 PyObject *AxisPy::getCustomAttributes(const char* /*attr*/) const
 {
-    return 0;
+    return nullptr;
 }
 
 int AxisPy::setCustomAttributes(const char* /*attr*/, PyObject* /*obj*/)

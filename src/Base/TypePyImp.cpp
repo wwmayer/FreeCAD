@@ -223,7 +223,7 @@ Py::String TypePy::getModule(void) const
 
 PyObject *TypePy::getCustomAttributes(const char* /*attr*/) const
 {
-    return 0;
+    return nullptr;
 }
 
 int TypePy::setCustomAttributes(const char* /*attr*/, PyObject* /*obj*/)

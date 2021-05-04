@@ -134,7 +134,7 @@ public:
     /** @name Tools */
     //@{
     /// Get a unique File Name in the given or (if 0) in the temp path
-    static std::string getTempFileName(const char* FileName=0, const char* path=0);
+    static std::string getTempFileName(const char* FileName=nullptr, const char* path=nullptr);
     /// Get the path to the dir which is considered to temp files
     static const std::string &getTempPath(void);
     //@}

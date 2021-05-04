@@ -261,7 +261,7 @@ PyObject* RotationPy::slerp(PyObject * args)
     PyObject *rot;
     double t;
     if (!PyArg_ParseTuple(args, "O!d", &(RotationPy::Type), &rot, &t))
-        return 0;
+        return nullptr;
     Rotation *rot0 = this->getRotationPtr();
     Rotation *rot1 = static_cast<RotationPy*>(rot)->getRotationPtr();
     Rotation sl = Rotation::slerp(*rot0, *rot1, t);
@@ -285,7 +285,7 @@ PyObject* RotationPy::toEuler(PyObject * args)
 PyObject* RotationPy::toMatrix(PyObject * args)
 {
     if (!PyArg_ParseTuple(args, ""))
-        return NULL;
+        return nullptr;
     Base::Matrix4D mat;
     getRotationPtr()->getValue(mat);
     return new MatrixPy(new Matrix4D(mat));
@@ -484,7 +484,7 @@ PyObject* RotationPy::number_multiply_handler(PyObject *self, PyObject *other)
     }
 
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_power_handler (PyObject* self, PyObject* other, PyObject* arg)
@@ -496,7 +496,7 @@ PyObject * RotationPy::number_power_handler (PyObject* self, PyObject* other, Py
        )
     {
         PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-        return 0;
+        return nullptr;
     }
 
     Rotation a = static_cast<RotationPy*>(self)->value();
@@ -515,49 +515,49 @@ PyObject * RotationPy::number_power_handler (PyObject* self, PyObject* other, Py
 PyObject* RotationPy::number_add_handler(PyObject * /*self*/, PyObject * /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject* RotationPy::number_subtract_handler(PyObject * /*self*/, PyObject * /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_divide_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_remainder_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_divmod_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_negative_handler (PyObject* /*self*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_positive_handler (PyObject* /*self*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_absolute_handler (PyObject* /*self*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 int RotationPy::number_nonzero_handler (PyObject* /*self*/)
@@ -568,48 +568,48 @@ int RotationPy::number_nonzero_handler (PyObject* /*self*/)
 PyObject * RotationPy::number_invert_handler (PyObject* /*self*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_lshift_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_rshift_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_and_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_xor_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_or_handler (PyObject* /*self*/, PyObject* /*other*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_int_handler (PyObject * /*self*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 
 PyObject * RotationPy::number_float_handler (PyObject * /*self*/)
 {
     PyErr_SetString(PyExc_NotImplementedError, "Not implemented");
-    return 0;
+    return nullptr;
 }
 

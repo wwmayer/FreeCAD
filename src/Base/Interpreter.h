@@ -122,14 +122,14 @@ protected:
     PyObject *_exceptionType;
 };
 
-inline Py::Object pyCall(PyObject *callable, PyObject *args=0) {
+inline Py::Object pyCall(PyObject *callable, PyObject *args=nullptr) {
     PyObject *result = PyObject_CallObject(callable, args);
     if(!result)
         throw Py::Exception();
     return Py::asObject(result);
 }
 
-inline Py::Object pyCallWithKeywords(PyObject *callable, PyObject *args, PyObject *kwds=0) {
+inline Py::Object pyCallWithKeywords(PyObject *callable, PyObject *args, PyObject *kwds=nullptr) {
     PyObject *result = PyObject_Call(callable, args, kwds);
     if(!result)
         throw Py::Exception();
@@ -234,7 +234,7 @@ public:
     PyObject* runMethodObject(PyObject *pobject, const char *method);
     /// runs a python method with arbitrary params
     void runMethod(PyObject *pobject, const char *method,
-                   const char *resfmt=0,   void *cresult=0,
+                   const char *resfmt=nullptr,   void *cresult=nullptr,
                    const char *argfmt="()",   ...  );
     //@}
 

@@ -74,7 +74,7 @@ public:
     }
     static void destruct() {
         delete instance;
-        instance = 0;
+        instance = nullptr;
     }
 
     void customEvent(QEvent* ev) {
@@ -108,7 +108,7 @@ private:
     static ConsoleOutput* instance;
 };
 
-ConsoleOutput* ConsoleOutput::instance = 0;
+ConsoleOutput* ConsoleOutput::instance = nullptr;
 
 }
 
@@ -408,14 +408,14 @@ ILogger *ConsoleSingleton::Get(const char *Name) const
         if (OName && strcmp(OName,Name) == 0)
             return *Iter;
     }
-    return 0;
+    return nullptr;
 }
 
 int *ConsoleSingleton::GetLogLevel(const char *tag, bool create) {
     if (!tag) tag = "";
     if (_logLevels.find(tag) != _logLevels.end())
         return &_logLevels[tag];
-    if (!create) return 0;
+    if (!create) return nullptr;
     int &ret = _logLevels[tag];
     ret = -1;
     return &ret;
@@ -433,14 +433,14 @@ void ConsoleSingleton::EnableRefresh(bool enable) {
 //**************************************************************************
 // Singleton stuff
 
-ConsoleSingleton * ConsoleSingleton::_pcSingleton = 0;
+ConsoleSingleton * ConsoleSingleton::_pcSingleton = nullptr;
 
 void ConsoleSingleton::Destruct(void)
 {
     // not initialized or double destructed!
     assert(_pcSingleton);
     delete _pcSingleton;
-    _pcSingleton=0;
+    _pcSingleton=nullptr;
 }
 
 ConsoleSingleton & ConsoleSingleton::Instance(void)
@@ -478,10 +478,10 @@ PyObject *ConsoleSingleton::sPyMessage(PyObject * /*self*/, PyObject *args)
 {
     PyObject *output;
     if (!PyArg_ParseTuple(args, "O", &output))
-        return NULL;
+        return nullptr;
 
-    const char* string=0;
-    PyObject* unicode=0;
+    const char* string=nullptr;
+    PyObject* unicode=nullptr;
     if (PyUnicode_Check(output)) {
         string = PyUnicode_AsUTF8(output);
     }
@@ -506,10 +506,10 @@ PyObject *ConsoleSingleton::sPyWarning(PyObject * /*self*/, PyObject *args)
 {
     PyObject *output;
     if (!PyArg_ParseTuple(args, "O", &output))
-        return NULL;
+        return nullptr;
 
-    const char* string=0;
-    PyObject* unicode=0;
+    const char* string=nullptr;
+    PyObject* unicode=nullptr;
     if (PyUnicode_Check(output)) {
         string = PyUnicode_AsUTF8(output);
     }
@@ -534,10 +534,10 @@ PyObject *ConsoleSingleton::sPyError(PyObject * /*self*/, PyObject *args)
 {
     PyObject *output;
     if (!PyArg_ParseTuple(args, "O", &output))
-        return NULL;
+        return nullptr;
 
-    const char* string=0;
-    PyObject* unicode=0;
+    const char* string=nullptr;
+    PyObject* unicode=nullptr;
     if (PyUnicode_Check(output)) {
         string = PyUnicode_AsUTF8(output);
     }
@@ -562,10 +562,10 @@ PyObject *ConsoleSingleton::sPyLog(PyObject * /*self*/, PyObject *args)
 {
     PyObject *output;
     if (!PyArg_ParseTuple(args, "O", &output))
-        return NULL;
+        return nullptr;
 
-    const char* string=0;
-    PyObject* unicode=0;
+    const char* string=nullptr;
+    PyObject* unicode=nullptr;
     if (PyUnicode_Check(output)) {
         string = PyUnicode_AsUTF8(output);
     }
@@ -591,7 +591,7 @@ PyObject *ConsoleSingleton::sPyGetStatus(PyObject * /*self*/, PyObject *args)
     char *pstr1;
     char *pstr2;
     if (!PyArg_ParseTuple(args, "ss", &pstr1, &pstr2))     // convert args: Python->C
-        return NULL;                             // NULL triggers exception
+        return nullptr;                             // NULL triggers exception
 
     PY_TRY{
         bool b=false;
@@ -621,7 +621,7 @@ PyObject *ConsoleSingleton::sPySetStatus(PyObject * /*self*/, PyObject *args)
     char *pstr2;
     int  Bool;
     if (!PyArg_ParseTuple(args, "ssi", &pstr1, &pstr2,&Bool))   // convert args: Python->C
-        return NULL;                                              // NULL triggers exception
+        return nullptr;                                              // NULL triggers exception
 
     PY_TRY{
         ILogger *pObs = Instance().Get(pstr1);

@@ -86,7 +86,7 @@ struct BaseExport QuantityFormat {
             return 'g';
         }
     }
-    static inline NumberFormat toFormat(char c, bool* ok = 0) {
+    static inline NumberFormat toFormat(char c, bool* ok = nullptr) {
         if (ok)
             *ok = true;
         switch (c) {
