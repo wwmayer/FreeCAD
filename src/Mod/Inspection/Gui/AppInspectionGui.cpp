@@ -36,7 +36,7 @@
 #include "Workbench.h"
 
 // use a different name to CreateCommand()
-void CreateInspectionCommands(void);
+void CreateInspectionCommands();
 
 
 namespace InspectionGui {
