@@ -74,20 +74,20 @@ class MDIViewPage;
 class ViewProviderViewPart;
 
 class lineAttributes {
-        int style;
-        int width;
-        int color;
+    int style;
+    int width;
+    int color;
 
-    public:
+public:
 
     lineAttributes(void);
     void setStyle(int);
-    int getStyle(void) {return style;}
-    void setWidth(float);
-    int getWidth(void) {return width;}
+    int getStyle(void) const {return style;}
+    void setWidth(int);
+    int getWidth(void) const {return width;}
     float getWidthValue(void);
     void setColor(int);
-    int getColor(void) {return color;}
+    int getColor(void) const {return color;}
     App::Color getColorValue(void);
 
 }; // class lineAttributes
