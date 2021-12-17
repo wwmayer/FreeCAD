@@ -34,8 +34,8 @@
 
 # include <App/DocumentObject.h>
 # include <Base/Exception.h>
-#include <Base/Console.h>
-#include <Base/Type.h>
+# include <Base/Console.h>
+# include <Base/Type.h>
 # include <Gui/Action.h>
 # include <Gui/Application.h>
 # include <Gui/BitmapFactory.h>
@@ -78,6 +78,7 @@ using namespace TechDrawGui;
 using namespace TechDraw;
 using namespace std;
 
+namespace TechDrawGui {
 //internal structures and sort functions
 struct dimVertex{
     // save a dimension defining vertex and its point
@@ -94,7 +95,6 @@ struct {
 } sortY;
 
 //internal helper functions
-void _selectDimensionAttributes(Gui::Command* cmd);
 std::vector<TechDraw::DrawViewDimension*>_getDimensions(std::vector<Gui::SelectionObject> selection,std::string needDimType);
 Base::Vector3d _getTrianglePoint(Base::Vector3d p1, Base::Vector3d d, Base::Vector3d p2);
 std::vector<dimVertex> _getVertexInfo(TechDraw::DrawViewPart* objFeat,
@@ -111,22 +111,23 @@ bool _checkSelAndObj(Gui::Command* cmd,
                      std::vector<Gui::SelectionObject>& selection,
                      TechDraw::DrawViewPart*& objFeat,
                      std::string message);
+}
 
 //===========================================================================
 // TechDraw_ExtensionInsertDiameter
 //===========================================================================
 
-void execInsertPraefixChar(Gui::Command* cmd,std::string praefixChar){
-    // insert a praefix character into the format specifier
+void execInsertPrefixChar(Gui::Command* cmd,std::string prefixChar){
+    // insert a prefix character into the format specifier
     std::vector<Gui::SelectionObject> selection;
-    if (_checkSelection(cmd,selection,"TechDraw Insert Praefix Character")){
-        Gui::Command::openCommand(QT_TRANSLATE_NOOP("Command", "Insert Praefix Character"));
+    if (_checkSelection(cmd,selection,"TechDraw Insert Prefix Character")){
+        Gui::Command::openCommand(QT_TRANSLATE_NOOP("Command", "Insert Prefix Character"));
         for (auto selected : selection){
             auto object = selected.getObject();
             if (object->isDerivedFrom(TechDraw::DrawViewDimension::getClassTypeId())){
                 auto dim = dynamic_cast<TechDraw::DrawViewDimension*>(selected.getObject());
                 std::string formatSpec = dim->FormatSpec.getStrValue();
-                formatSpec = praefixChar+formatSpec;
+                formatSpec = prefixChar+formatSpec;
                 dim->FormatSpec.setValue(formatSpec);
             }
         }
@@ -153,7 +154,7 @@ CmdTechDrawExtensionInsertDiameter::CmdTechDrawExtensionInsertDiameter()
 void CmdTechDrawExtensionInsertDiameter::activated(int iMsg)
 {
     Q_UNUSED(iMsg);
-    execInsertPraefixChar(this,"⌀");
+    execInsertPrefixChar(this,"⌀");
 }
 
 bool CmdTechDrawExtensionInsertDiameter::isActive(void)
@@ -186,7 +187,7 @@ CmdTechDrawExtensionInsertSquare::CmdTechDrawExtensionInsertSquare()
 void CmdTechDrawExtensionInsertSquare::activated(int iMsg)
 {
     Q_UNUSED(iMsg);
-    execInsertPraefixChar(this,"〼");
+    execInsertPrefixChar(this,"〼");
 }
 
 bool CmdTechDrawExtensionInsertSquare::isActive(void)
@@ -229,10 +230,10 @@ void CmdTechDrawExtensionInsertPraefixGroup::activated(int iMsg)
     pcAction->setIcon(pcAction->actions().at(iMsg)->icon());
     switch(iMsg) {
         case 0:                 //insert "⌀" as praefix
-            execInsertPraefixChar(this,"⌀");
+            execInsertPrefixChar(this,"⌀");
             break;
         case 1:                 //insert "〼" as praefix
-            execInsertPraefixChar(this,"〼");
+            execInsertPrefixChar(this,"〼");
             break;
         default:
             Base::Console().Message("CMD::CVGrp - invalid iMsg: %d\n",iMsg);
@@ -2081,6 +2082,7 @@ bool CmdTechDrawExtensionCreateLengthArc::isActive(void)
     return (havePage && haveView);
 }
 
+namespace TechDrawGui {
 //===========================================================================
 // internal helper routines
 //===========================================================================
@@ -2195,6 +2197,7 @@ std::vector<TechDraw::DrawViewDimension*>_getDimensions(std::vector<Gui::Selecti
         }
     }
     return validDimension;
+}
 }
 
 //------------------------------------------------------------------------------
