@@ -80,9 +80,9 @@ using namespace TechDraw;
 using namespace std;
 
 namespace TechDrawGui {
-lineAttributes activeAttributes; // container holding global line attributes
 
 //internal helper functions
+lineAttributes& _getActiveLineAttributes();
 bool _circulation(Base::Vector3d A, Base::Vector3d B, Base::Vector3d C);
 Base::Vector3d _circleCenter(Base::Vector3d p1, Base::Vector3d p2, Base::Vector3d p3);
 void _createThreadCircle(std::string Name, TechDraw::DrawViewPart* objFeat, float factor);
@@ -726,7 +726,7 @@ CmdTechDrawExtensionSelectLineAttributes::CmdTechDrawExtensionSelectLineAttribut
 void CmdTechDrawExtensionSelectLineAttributes::activated(int iMsg)
 {
     Q_UNUSED(iMsg);
-    Gui::Control().showDialog(new TaskDlgSelectLineAttributes(& activeAttributes));
+    Gui::Control().showDialog(new TaskDlgSelectLineAttributes(&_getActiveLineAttributes()));
 }
 
 bool CmdTechDrawExtensionSelectLineAttributes::isActive(void)
@@ -1651,6 +1651,12 @@ bool CmdTechDrawExtendShortenLineGroup::isActive(void)
 //===========================================================================
 namespace TechDrawGui {
 
+lineAttributes& _getActiveLineAttributes()
+{
+    static lineAttributes attributes;
+    return attributes;
+}
+
 bool _checkSel(Gui::Command* cmd,
                std::vector<Gui::SelectionObject>& selection,
                TechDraw::DrawViewPart*& objFeat,
@@ -1911,16 +1917,16 @@ void _createThreadLines(std::vector<std::string> SubNames, TechDraw::DrawViewPar
 
 void _setLineAttributes(TechDraw::CosmeticEdge* cosEdge) {
     // set line attributes of a cosmetic edge
-    cosEdge->m_format.m_style = activeAttributes.getStyle();
-    cosEdge->m_format.m_weight = activeAttributes.getWidthValue();
-    cosEdge->m_format.m_color = activeAttributes.getColorValue();
+    cosEdge->m_format.m_style = _getActiveLineAttributes().getStyle();
+    cosEdge->m_format.m_weight = _getActiveLineAttributes().getWidthValue();
+    cosEdge->m_format.m_color = _getActiveLineAttributes().getColorValue();
 }
 
 void _setLineAttributes(TechDraw::CenterLine* cosEdge) {
     // set line attributes of a cosmetic edge
-    cosEdge->m_format.m_style = activeAttributes.getStyle();
-    cosEdge->m_format.m_weight = activeAttributes.getWidthValue();
-    cosEdge->m_format.m_color = activeAttributes.getColorValue();
+    cosEdge->m_format.m_style = _getActiveLineAttributes().getStyle();
+    cosEdge->m_format.m_weight = _getActiveLineAttributes().getWidthValue();
+    cosEdge->m_format.m_color = _getActiveLineAttributes().getColorValue();
 }
 
 void _setLineAttributes(TechDraw::CosmeticEdge* cosEdge, int style, float weight, App::Color color) {

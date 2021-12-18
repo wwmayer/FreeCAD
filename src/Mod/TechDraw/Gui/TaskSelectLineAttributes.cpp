@@ -56,7 +56,7 @@
 #include <Mod/TechDraw/App/Geometry.h>
 #include <Mod/TechDraw/App/Cosmetic.h>
 
-#include <Mod/TechDraw/Gui/ui_TaskSelectLineAttributes.h> 
+#include "ui_TaskSelectLineAttributes.h"
 
 #include "DrawGuiStd.h"
 #include "PreferencesGui.h"
@@ -225,7 +225,7 @@ void TaskSelectLineAttributes::changeEvent(QEvent *e)
 
 void TaskSelectLineAttributes::setUiEdit()
 {
-    setWindowTitle(QObject::tr("Select Line Attributes"));
+    setWindowTitle(tr("Select line attributes"));
     int lineStyle = activeAttributes->getStyle();
     switch(EdgeStyle(lineStyle)) {
         case EdgeStyle::solid:
@@ -283,7 +283,7 @@ void TaskSelectLineAttributes::setUiEdit()
             ui->rbCyan->setChecked(true);
             break;
         case EdgeColor::yellow:
-            ui->rbGreen->setChecked(true);
+            ui->rbYellow->setChecked(true);
             break;
         default:
             ui->rbBlack->setChecked(true);
@@ -361,9 +361,7 @@ bool TaskSelectLineAttributes::accept()
 
 bool TaskSelectLineAttributes::reject()
 {
-    //there's nothing to do.
-    Gui::Command::doCommand(Gui::Command::Gui,"Gui.ActiveDocument.resetEdit()");
-    return false;
+    return true;
 }
 
 //===========================================================================

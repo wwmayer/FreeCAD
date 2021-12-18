@@ -30,10 +30,6 @@
 
 #include <Mod/TechDraw/App/Cosmetic.h>
 
-#include <Mod/TechDraw/Gui/ui_TaskSelectLineAttributes.h>
-
-class Ui_TaskSelectLineAttributes;
-
 class dimAttributes {
     double cascadeSpacing;
 
@@ -72,6 +68,7 @@ class QGIView;
 class QGIPrimPath;
 class MDIViewPage;
 class ViewProviderViewPart;
+class Ui_TaskSelectLineAttributes;
 
 class lineAttributes {
     int style;
@@ -106,7 +103,6 @@ public:
     virtual bool accept();
     virtual bool reject();
     void updateTask();
-    lineAttributes* activeAttributes;
 
 protected Q_SLOTS:
 
@@ -116,8 +112,8 @@ protected:
     void setUiEdit(void);
 
 private:
+    lineAttributes* activeAttributes;
     std::unique_ptr<Ui_TaskSelectLineAttributes> ui;
-
 }; // class TaskSelectLineAttributes
 
 class TaskDlgSelectLineAttributes : public Gui::TaskView::TaskDialog
