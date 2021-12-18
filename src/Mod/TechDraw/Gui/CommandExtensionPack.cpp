@@ -170,7 +170,7 @@ CmdTechDrawExtensionHoleCircle::CmdTechDrawExtensionHoleCircle()
     sMenuText       = QT_TR_NOOP("Draw bolt circle centerlines");
     sToolTipText    = QT_TR_NOOP("Draw the centerlines of a bolt circle\n\
     - pick favoured line attributes\n\
-    - select at least three cirles of a bolt circle\n\
+    - select at least three circles of a bolt circle\n\
     - click this button");
     sWhatsThis      = "TechDraw_ExtensionHoleCircle";
     sStatusTip      = sToolTipText;
@@ -354,7 +354,7 @@ void CmdTechDrawExtensionCircleCenterLinesGroup::languageChange()
     arc2->setToolTip(QApplication::translate("TechDraw_Extension",
     "Draw the centerlines of a bolt circle\n\
     - pick favoured line attributes\n\
-    - select at least three cirles of a bolt circle\n\
+    - select at least three circles of a bolt circle\n\
     - click this buttone"));
     arc2->setStatusTip(arc2->toolTip());
 }
