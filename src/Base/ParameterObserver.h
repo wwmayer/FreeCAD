@@ -173,26 +173,6 @@ protected:
     void OnChange(Base::Subject<const char*> &, const char* sReason);
     void addParameter(const char* key, const Object& value);
 
-    void setBoolean(const char* key, bool value);
-    bool getBoolean(const char* key) const;
-    bool getDefaultBoolean(const char* key) const;
-
-    void setInt(const char* key, long value);
-    long getInt(const char* key) const;
-    long getDefaultInt(const char* key) const;
-
-    void setUnsigned(const char* key, unsigned long value);
-    unsigned long getUnsigned(const char* key) const;
-    unsigned long getDefaultUnsigned(const char* key) const;
-
-    void setFloat(const char* key, double value);
-    double getFloat(const char* key) const;
-    double getDefaultFloat(const char* key) const;
-
-    void setString(const char* key, const char* value);
-    std::string getString(const char* key) const;
-    std::string getDefaultString(const char* key) const;
-
     template <typename T>
     void setValue(const char* key, const T& value) {
         try {
