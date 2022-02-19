@@ -24,10 +24,75 @@
 #define GUI_VIEW_PARAMS_H
 
 
-#include <Base/Parameter.h>
+#include <Base/ParameterObserver.h>
 
 namespace Gui {
 
+class GuiExport ViewParams : public Base::ParameterObserver
+{
+public:
+    ViewParams();
+    static ViewParams* instance();
+
+    bool getUseNewSelection() const;
+    void setUseNewSelection(bool v);
+
+    bool getUseSelectionRoot() const;
+    void setUseSelectionRoot(bool v);
+
+    bool getEnableSelection() const;
+    void setEnableSelection(bool v);
+
+    long getRenderCache() const;
+    void setRenderCache(long);
+
+    bool getRandomColor() const;
+    void setRandomColor(bool);
+
+    unsigned long getBoundingBoxColor() const;
+    void setBoundingBoxColor(unsigned long);
+
+    unsigned long getAnnotationTextColor() const;
+    void setAnnotationTextColor(unsigned long);
+
+    long getMarkerSize() const;
+    void setMarkerSize(unsigned long);
+
+    unsigned long getDefaultLinkColor() const;
+    void setDefaultLinkColor(unsigned long);
+
+    unsigned long getDefaultShapeLineColor() const;
+    void setDefaultShapeLineColor(unsigned long);
+
+    unsigned long getDefaultShapeVertexColor() const;
+    void setDefaultShapeVertexColor(unsigned long);
+
+    unsigned long getDefaultShapeColor() const;
+    void setDefaultShapeColor(unsigned long);
+
+    long getDefaultShapeLineWidth() const;
+    void setDefaultShapeLineWidth(long);
+
+    long getDefaultShapePointSize() const;
+    void setDefaultShapePointSize(long);
+
+    bool getCoinCycleCheck() const;
+    void setCoinCycleCheck(bool);
+
+    bool getEnablePropertyViewForInactiveDocument() const;
+    void setEnablePropertyViewForInactiveDocument(bool);
+
+    bool getShowSelectionBoundingBox() const;
+    void setShowSelectionBoundingBox(bool);
+
+    long getDefaultFontSize() const;
+    void setDefaultFontSize(long);
+
+private:
+    void setup();
+};
+
+#if 0
 /** Convenient class to obtain view provider related parameters
  *
  * The parameters are under group "User parameter:BaseApp/Preferences/View"
@@ -79,7 +144,7 @@ private:
 };
 
 #undef FC_VIEW_PARAM
-
+#endif
 } // namespace Gui
 
 #endif // GUI_VIEW_PARAMS_H
