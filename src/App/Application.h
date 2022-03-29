@@ -325,6 +325,21 @@ public:
      */
     Base::Reference<ParameterGrp>                     GetParameterGroupByPath(const char* sName);
 
+    /** Finds a parameter group by a full qualified path
+     * If the group exists a valid handle will be returned, otherwise the handle is null.
+     * GetParameterGroupByPath() always creates the parameter group in case it doesn't exist but this is not always the desired behaviour.
+     * When using FindParameterGroupByPath instead then it is used like this:
+     * \code
+     * // getting standard parameter
+     * ParameterGrp::handle hGrp = App::GetApplication().FindParameterGroupByPath("User parameter:BaseApp/Preferences/Mod/Raytracing");
+     * if (hGrp.isValid()) {
+     *     std::string cDir             = hGrp->GetASCII("ProjectPath", "");
+     *     std::string cCameraName      = hGrp->GetASCII("CameraName", "TempCamera.inc");
+     * }
+     * \endcode
+     */
+    Base::Reference<ParameterGrp>                     FindParameterGroupByPath(const char* sName);
+
     ParameterManager *                                GetParameterSet(const char* sName) const;
     const std::map<std::string,ParameterManager *> &  GetParameterSetList(void) const;
     void AddParameterSet(const char* sName);

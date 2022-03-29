@@ -111,6 +111,8 @@ public:
     //@{
     /// get a handle to a sub group or create one
     Base::Reference<ParameterGrp> GetGroup(const char* Name);
+    /// get a handle to a sub group if it exists. If not a null handle is returned.
+    Base::Reference<ParameterGrp> FindGroup(const char* Name) const;
     /// get a vector of all sub groups in this group
     std::vector<Base::Reference<ParameterGrp> > GetGroups();
     /// test if this group is empty
@@ -233,6 +235,8 @@ protected:
     ~ParameterGrp();
     /// helper function for GetGroup
     Base::Reference<ParameterGrp> _GetGroup(const char* Name);
+    /// helper function for FindGroup
+    Base::Reference<ParameterGrp> _FindGroup(const char* Name) const;
     void SelfCheck(int spaces) const;
     bool ShouldRemove() const;
 
@@ -262,7 +266,7 @@ protected:
     /// the own name
     std::string _cName;
     /// map of already exported groups
-    std::map <std::string ,Base::Reference<ParameterGrp> > _GroupMap;
+    mutable std::map <std::string ,Base::Reference<ParameterGrp> > _GroupMap;
 
 };
 

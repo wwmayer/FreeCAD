@@ -367,7 +367,65 @@ Base::Reference<ParameterGrp> ParameterGrp::_GetGroup(const char* Name)
     return rParamGrp;
 }
 
-std::vector<Base::Reference<ParameterGrp> > ParameterGrp::GetGroups(void)
+Base::Reference<ParameterGrp> ParameterGrp::FindGroup(const char* Name) const
+{
+    std::string cName = Name;
+    if (cName.empty())
+        throw Base::ValueError("Empty group name");
+
+    // Remove all leading slashes
+    std::string::size_type beg = cName.find_first_not_of('/');
+    if (beg > 0) {
+        cName.erase(0, beg);
+    }
+
+    // Remove all trailing slashes
+    std::string::size_type end = cName.find_last_not_of('/');
+    if (end+1 < cName.size()) {
+        cName.erase(end+1);
+    }
+
+    std::string::size_type pos = cName.find('/');
+
+    // is there a path separator ?
+    if (pos == std::string::npos) {
+        return _FindGroup(Name);
+    }
+    else {
+        // path, split the first path
+        std::string cTemp;
+        // getting the first part
+        cTemp.assign(cName, 0, pos);
+        // removing the first part from the original
+        cName.erase(0, pos+1);
+        //subsequent call
+        Base::Reference<ParameterGrp> hGrp = _FindGroup(cTemp.c_str());
+        if (hGrp.isValid())
+            hGrp = hGrp->FindGroup(cName.c_str());
+        return hGrp;
+    }
+}
+
+Base::Reference<ParameterGrp> ParameterGrp::_FindGroup(const char* Name) const
+{
+    Base::Reference<ParameterGrp> hGrp;
+
+    auto it = _GroupMap.find(Name);
+    if (it != _GroupMap.end()) {
+        hGrp = it->second;
+    }
+    else {
+        DOMElement* node = FindElement(_pGroupNode,"FCParamGroup", Name);
+        if (node) {
+            hGrp = Base::Reference<ParameterGrp> (new ParameterGrp(node, Name));
+            _GroupMap[Name] = hGrp;
+        }
+    }
+
+    return hGrp;
+}
+
+std::vector<Base::Reference<ParameterGrp> > ParameterGrp::GetGroups()
 {
     Base::Reference<ParameterGrp> rParamGrp;
     std::vector<Base::Reference<ParameterGrp> >  vrParamGrp;

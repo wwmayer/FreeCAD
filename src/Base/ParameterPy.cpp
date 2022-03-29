@@ -99,6 +99,7 @@ public:
 
     Py::Object getGroup(const Py::Tuple&);
     Py::Object getGroupName(const Py::Tuple&);
+    Py::Object findGroup(const Py::Tuple&);
     Py::Object getGroups(const Py::Tuple&);
     Py::Object remGroup(const Py::Tuple&);
     Py::Object hasGroup(const Py::Tuple&);
@@ -161,6 +162,7 @@ void ParameterGrpPy::init_type()
 
     add_varargs_method("GetGroup",&ParameterGrpPy::getGroup,"GetGroup(str)");
     add_varargs_method("GetGroupName",&ParameterGrpPy::getGroupName,"GetGroupName()");
+    add_varargs_method("FindGroup",&ParameterGrpPy::findGroup,"FindGroup(str)");
     add_varargs_method("GetGroups",&ParameterGrpPy::getGroups,"GetGroups()");
     add_varargs_method("RemGroup",&ParameterGrpPy::remGroup,"RemGroup(str)");
     add_varargs_method("HasGroup",&ParameterGrpPy::hasGroup,"HasGroup(str)");
@@ -289,6 +291,25 @@ Py::Object ParameterGrpPy::getGroupName(const Py::Tuple& args)
     // get the Handle of the wanted group
     std::string name = _cParamGrp->GetGroupName();
     return Py::String(name);
+}
+
+Py::Object ParameterGrpPy::findGroup(const Py::Tuple& args)
+{
+    char *pstr;
+    if (!PyArg_ParseTuple(args.ptr(), "s", &pstr))
+        throw Py::Exception();
+
+    // get the Handle of the wanted group
+    Base::Reference<ParameterGrp> handle = _cParamGrp->FindGroup(pstr);
+    if (handle.isValid()) {
+        // crate a python wrapper class
+        ParameterGrpPy *pcParamGrp = new ParameterGrpPy(handle);
+        // increment the reff count
+        return Py::asObject(pcParamGrp);
+    }
+    else {
+        return Py::None();
+    }
 }
 
 Py::Object ParameterGrpPy::getGroups(const Py::Tuple& args)

@@ -1277,6 +1277,28 @@ Base::Reference<ParameterGrp>  Application::GetParameterGroupByPath(const char* 
     return It->second->GetGroup(cName.c_str());
 }
 
+Base::Reference<ParameterGrp>  Application::FindParameterGroupByPath(const char* sName)
+{
+    std::string cName = sName,cTemp;
+
+    std::string::size_type pos = cName.find(':');
+
+    // is there a path separator ?
+    if (pos == std::string::npos) {
+        throw Base::ValueError("Application::FindParameterGroupByPath() no parameter set name specified");
+    }
+    // assigning the parameter set name
+    cTemp.assign(cName,0,pos);
+    cName.erase(0,pos+1);
+
+    // test if name is valid
+    std::map<std::string,ParameterManager *>::iterator It = mpcPramManager.find(cTemp.c_str());
+    if (It == mpcPramManager.end())
+        throw Base::ValueError("Application::FindParameterGroupByPath() unknown parameter set name specified");
+
+    return It->second->FindGroup(cName.c_str());
+}
+
 void Application::addImportType(const char* Type, const char* ModuleName)
 {
     FileTypeItem item;
