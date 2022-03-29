@@ -948,6 +948,20 @@ void ParameterGrp::Clear(void)
 //**************************************************************************
 // Access methods
 
+void ParameterGrp::SelfCheck(int spaces) const
+{
+    std::string blank(spaces, ' ');
+    if (XMLString::compareString(_pGroupNode->getNodeName(), XStr("FCParamGroup").unicodeForm()) != 0 &&
+        XMLString::compareString(_pGroupNode->getNodeName(), XStr("FCParameters").unicodeForm()) != 0) {
+        Base::Console().Warning("%sUnexpected type %s of parameter group %s\n", blank.c_str(), StrX(_pGroupNode->getNodeName()).c_str(), _cName.c_str());
+    }
+
+    spaces += 2;
+    for (const auto& it : _GroupMap) {
+        it.second->SelfCheck(spaces);
+    }
+}
+
 bool ParameterGrp::ShouldRemove() const
 {
     if (this->getRefCount() > 1)
@@ -1577,6 +1591,7 @@ void  ParameterManager::CheckDocument() const
     }
 
     processNode(_pDocument, "Document", DOMNode::DOCUMENT_NODE);
+    SelfCheck(0);
 }
 
 bool ParameterManager::processNode(const DOMNode* const node, const std::string& parentName, int parentType) const
