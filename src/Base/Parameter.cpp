@@ -215,7 +215,7 @@ inline bool DOMTreeErrorReporter::getSawErrors() const
 /** Default construction
   */
 ParameterGrp::ParameterGrp(XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *GroupNode,const char* sName)
-        : Base::Handled(), Subject<const char*>(),_pGroupNode(GroupNode)
+        : Base::Handled(), Subject<const char*>(), _pGroupNode(GroupNode), _valid(true)
 {
     if (sName) _cName=sName;
 }
@@ -233,6 +233,10 @@ ParameterGrp::~ParameterGrp()
 
 void ParameterGrp::copyTo(Base::Reference<ParameterGrp> Grp)
 {
+    if (!Grp->IsValid()) {
+        Base::Console().Warning("ParameterGrp::copyTo: invalid parameter group %s\n", Grp->GetGroupName());
+    }
+
     // delete previous content
     Grp->Clear();
 
@@ -242,6 +246,10 @@ void ParameterGrp::copyTo(Base::Reference<ParameterGrp> Grp)
 
 void ParameterGrp::insertTo(Base::Reference<ParameterGrp> Grp)
 {
+    if (!Grp->IsValid()) {
+        Base::Console().Warning("ParameterGrp::insertTo: invalid parameter group %s\n", Grp->GetGroupName());
+    }
+
     // copy group
     std::vector<Base::Reference<ParameterGrp> > Grps = GetGroups();
     std::vector<Base::Reference<ParameterGrp> >::iterator It1;
@@ -293,6 +301,10 @@ void ParameterGrp::exportTo(const char* FileName)
 
 void ParameterGrp::importFrom(const char* FileName)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::importFrom: invalid parameter group %s\n", GetGroupName());
+    }
+
     ParameterManager Mngr;
 
     if (Mngr.LoadDocument(FileName) != 1)
@@ -303,6 +315,10 @@ void ParameterGrp::importFrom(const char* FileName)
 
 void ParameterGrp::insert(const char* FileName)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::insert: invalid parameter group %s\n", GetGroupName());
+    }
+
     ParameterManager Mngr;
 
     if (Mngr.LoadDocument(FileName) != 1)
@@ -313,6 +329,10 @@ void ParameterGrp::insert(const char* FileName)
 
 Base::Reference<ParameterGrp> ParameterGrp::GetGroup(const char* Name)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetGroup(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     std::string cName = Name;
     if (cName.empty())
         throw Base::ValueError("Empty group name");
@@ -369,6 +389,10 @@ Base::Reference<ParameterGrp> ParameterGrp::_GetGroup(const char* Name)
 
 Base::Reference<ParameterGrp> ParameterGrp::FindGroup(const char* Name) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::FindGroup(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     std::string cName = Name;
     if (cName.empty())
         throw Base::ValueError("Empty group name");
@@ -427,6 +451,10 @@ Base::Reference<ParameterGrp> ParameterGrp::_FindGroup(const char* Name) const
 
 std::vector<Base::Reference<ParameterGrp> > ParameterGrp::GetGroups()
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetGroups: invalid parameter group %s\n", GetGroupName());
+    }
+
     Base::Reference<ParameterGrp> rParamGrp;
     std::vector<Base::Reference<ParameterGrp> >  vrParamGrp;
     std::string Name;
@@ -459,6 +487,10 @@ bool ParameterGrp::IsEmpty() const
 /// test if a special sub group is in this group
 bool ParameterGrp::HasGroup(const char* Name) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::HasGroup(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     if ( _GroupMap.find(Name) != _GroupMap.end() )
         return true;
 
@@ -470,6 +502,10 @@ bool ParameterGrp::HasGroup(const char* Name) const
 
 bool ParameterGrp::GetBool(const char* Name, bool bPreset) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetBool(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     // check if Element in group
     DOMElement *pcElem = FindElement(_pGroupNode,"FCBool",Name);
     // if not return preset
@@ -483,6 +519,10 @@ bool ParameterGrp::GetBool(const char* Name, bool bPreset) const
 
 void  ParameterGrp::SetBool(const char* Name, bool bValue)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::SetBool(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     // find or create the Element
     DOMElement *pcElem = FindOrCreateElement(_pGroupNode,"FCBool",Name);
     if (pcElem) {
@@ -495,6 +535,10 @@ void  ParameterGrp::SetBool(const char* Name, bool bValue)
 
 std::vector<bool> ParameterGrp::GetBools(const char * sFilter) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetBools: invalid parameter group %s\n", GetGroupName());
+    }
+
     std::vector<bool>  vrValues;
     std::string Name;
 
@@ -516,6 +560,10 @@ std::vector<bool> ParameterGrp::GetBools(const char * sFilter) const
 
 std::vector<std::pair<std::string,bool> > ParameterGrp::GetBoolMap(const char * sFilter) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetBoolMap: invalid parameter group %s\n", GetGroupName());
+    }
+
     std::vector<std::pair<std::string,bool> >  vrValues;
     std::string Name;
 
@@ -537,6 +585,10 @@ std::vector<std::pair<std::string,bool> > ParameterGrp::GetBoolMap(const char * 
 
 long ParameterGrp::GetInt(const char* Name, long lPreset) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetInt(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     // check if Element in group
     DOMElement *pcElem = FindElement(_pGroupNode,"FCInt",Name);
     // if not return preset
@@ -547,6 +599,10 @@ long ParameterGrp::GetInt(const char* Name, long lPreset) const
 
 void  ParameterGrp::SetInt(const char* Name, long lValue)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::SetInt(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     char cBuf[256];
     // find or create the Element
     DOMElement *pcElem = FindOrCreateElement(_pGroupNode,"FCInt",Name);
@@ -561,6 +617,10 @@ void  ParameterGrp::SetInt(const char* Name, long lValue)
 
 std::vector<long> ParameterGrp::GetInts(const char * sFilter) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetInts: invalid parameter group %s\n", GetGroupName());
+    }
+
     std::vector<long>  vrValues;
     std::string Name;
 
@@ -579,6 +639,10 @@ std::vector<long> ParameterGrp::GetInts(const char * sFilter) const
 
 std::vector<std::pair<std::string,long> > ParameterGrp::GetIntMap(const char * sFilter) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetIntMap: invalid parameter group %s\n", GetGroupName());
+    }
+
     std::vector<std::pair<std::string,long> > vrValues;
     std::string Name;
 
@@ -598,6 +662,10 @@ std::vector<std::pair<std::string,long> > ParameterGrp::GetIntMap(const char * s
 
 unsigned long ParameterGrp::GetUnsigned(const char* Name, unsigned long lPreset) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetUnsigned(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     // check if Element in group
     DOMElement *pcElem = FindElement(_pGroupNode,"FCUInt",Name);
     // if not return preset
@@ -608,6 +676,10 @@ unsigned long ParameterGrp::GetUnsigned(const char* Name, unsigned long lPreset)
 
 void  ParameterGrp::SetUnsigned(const char* Name, unsigned long lValue)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::SetUnsigned(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     char cBuf[256];
     // find or create the Element
     DOMElement *pcElem = FindOrCreateElement(_pGroupNode,"FCUInt",Name);
@@ -622,6 +694,10 @@ void  ParameterGrp::SetUnsigned(const char* Name, unsigned long lValue)
 
 std::vector<unsigned long> ParameterGrp::GetUnsigneds(const char * sFilter) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetUnsigneds: invalid parameter group %s\n", GetGroupName());
+    }
+
     std::vector<unsigned long>  vrValues;
     std::string Name;
 
@@ -640,6 +716,10 @@ std::vector<unsigned long> ParameterGrp::GetUnsigneds(const char * sFilter) cons
 
 std::vector<std::pair<std::string,unsigned long> > ParameterGrp::GetUnsignedMap(const char * sFilter) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetUnsignedMap: invalid parameter group %s\n", GetGroupName());
+    }
+
     std::vector<std::pair<std::string,unsigned long> > vrValues;
     std::string Name;
 
@@ -659,6 +739,10 @@ std::vector<std::pair<std::string,unsigned long> > ParameterGrp::GetUnsignedMap(
 
 double ParameterGrp::GetFloat(const char* Name, double dPreset) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetFloat(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     // check if Element in group
     DOMElement *pcElem = FindElement(_pGroupNode,"FCFloat",Name);
     // if not return preset
@@ -669,6 +753,10 @@ double ParameterGrp::GetFloat(const char* Name, double dPreset) const
 
 void  ParameterGrp::SetFloat(const char* Name, double dValue)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::SetFloat(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     char cBuf[256];
     // find or create the Element
     DOMElement *pcElem = FindOrCreateElement(_pGroupNode,"FCFloat",Name);
@@ -683,6 +771,10 @@ void  ParameterGrp::SetFloat(const char* Name, double dValue)
 
 std::vector<double> ParameterGrp::GetFloats(const char * sFilter) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetFloats: invalid parameter group %s\n", GetGroupName());
+    }
+
     std::vector<double>  vrValues;
     std::string Name;
 
@@ -701,6 +793,10 @@ std::vector<double> ParameterGrp::GetFloats(const char * sFilter) const
 
 std::vector<std::pair<std::string,double> > ParameterGrp::GetFloatMap(const char * sFilter) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetFloatMap: invalid parameter group %s\n", GetGroupName());
+    }
+
     std::vector<std::pair<std::string,double> > vrValues;
     std::string Name;
 
@@ -720,18 +816,24 @@ std::vector<std::pair<std::string,double> > ParameterGrp::GetFloatMap(const char
 
 void  ParameterGrp::SetBlob(const char* /*Name*/, void* /*pValue*/, long /*lLength*/)
 {
-    // not implemented so far
-    assert(0);
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::SetBlob: invalid parameter group %s\n", GetGroupName());
+    }
 }
 
 void ParameterGrp::GetBlob(const char* /*Name*/, void* /*pBuf*/, long /*lMaxLength*/, void* /*pPreset*/) const
 {
-    // not implemented so far
-    assert(0);
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetBlob: invalid parameter group %s\n", GetGroupName());
+    }
 }
 
 void  ParameterGrp::SetASCII(const char* Name, const char *sValue)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::SetASCII(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     // find or create the Element
     DOMElement *pcElem = FindOrCreateElement(_pGroupNode,"FCText",Name);
     if (pcElem) {
@@ -752,6 +854,10 @@ void  ParameterGrp::SetASCII(const char* Name, const char *sValue)
 
 std::string ParameterGrp::GetASCII(const char* Name, const char * pPreset) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetASCII(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     // check if Element in group
     DOMElement *pcElem = FindElement(_pGroupNode,"FCText",Name);
     // if not return preset
@@ -771,6 +877,10 @@ std::string ParameterGrp::GetASCII(const char* Name, const char * pPreset) const
 
 std::vector<std::string> ParameterGrp::GetASCIIs(const char * sFilter) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetASCIIs: invalid parameter group %s\n", GetGroupName());
+    }
+
     std::vector<std::string>  vrValues;
     std::string Name;
 
@@ -794,6 +904,10 @@ std::vector<std::string> ParameterGrp::GetASCIIs(const char * sFilter) const
 
 std::vector<std::pair<std::string,std::string> > ParameterGrp::GetASCIIMap(const char * sFilter) const
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::GetASCIIMap: invalid parameter group %s\n", GetGroupName());
+    }
+
     std::vector<std::pair<std::string,std::string> >  vrValues;
     std::string Name;
 
@@ -820,6 +934,10 @@ std::vector<std::pair<std::string,std::string> > ParameterGrp::GetASCIIMap(const
 
 void ParameterGrp::RemoveASCII(const char* Name)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::RemoveASCII(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     // check if Element in group
     DOMElement *pcElem = FindElement(_pGroupNode,"FCText",Name);
     // if not return
@@ -835,6 +953,10 @@ void ParameterGrp::RemoveASCII(const char* Name)
 
 void ParameterGrp::RemoveBool(const char* Name)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::RemoveBool(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     // check if Element in group
     DOMElement *pcElem = FindElement(_pGroupNode,"FCBool",Name);
     // if not return
@@ -850,6 +972,9 @@ void ParameterGrp::RemoveBool(const char* Name)
 
 void ParameterGrp::RemoveBlob(const char* /*Name*/)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::RemoveBlob: invalid parameter group %s\n", GetGroupName());
+    }
     /* not implemented yet
     // check if Element in group
     DOMElement *pcElem = FindElement(_pGroupNode,"FCGrp",Name);
@@ -863,6 +988,10 @@ void ParameterGrp::RemoveBlob(const char* /*Name*/)
 
 void ParameterGrp::RemoveFloat(const char* Name)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::RemoveFloat(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     // check if Element in group
     DOMElement *pcElem = FindElement(_pGroupNode,"FCFloat",Name);
     // if not return
@@ -878,6 +1007,10 @@ void ParameterGrp::RemoveFloat(const char* Name)
 
 void ParameterGrp::RemoveInt(const char* Name)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::RemoveInt(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     // check if Element in group
     DOMElement *pcElem = FindElement(_pGroupNode,"FCInt",Name);
     // if not return
@@ -893,6 +1026,10 @@ void ParameterGrp::RemoveInt(const char* Name)
 
 void ParameterGrp::RemoveUnsigned(const char* Name)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::RemoveUnsigned(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
     // check if Element in group
     DOMElement *pcElem = FindElement(_pGroupNode,"FCUInt",Name);
     // if not return
@@ -906,41 +1043,12 @@ void ParameterGrp::RemoveUnsigned(const char* Name)
     Notify(Name);
 }
 
-void ParameterGrp::RemoveGrp(const char* Name)
-{
-    auto it = _GroupMap.find(Name);
-    if (it == _GroupMap.end())
-        return;
-
-    // if this or any of its children is referenced by an observer
-    // it cannot be deleted
-#if 1
-    if (!it->second->ShouldRemove()) {
-        it->second->Clear();
-    }
-    else {
-#endif
-        // check if Element in group
-        DOMElement *pcElem = FindElement(_pGroupNode,"FCParamGroup",Name);
-        // if not return
-        if (!pcElem)
-            return;
-
-        // remove group handle
-        _GroupMap.erase(Name);
-
-        DOMNode* node = _pGroupNode->removeChild(pcElem);
-        node->release();
-#if 1
-    }
-#endif
-
-    // trigger observer
-    Notify(Name);
-}
-
 bool ParameterGrp::RenameGrp(const char* OldName, const char* NewName)
 {
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::RenameGrp(%s, %s): invalid parameter group %s\n", OldName, NewName, GetGroupName());
+    }
+
     auto it = _GroupMap.find(OldName);
     if (it == _GroupMap.end())
         return false;
@@ -961,40 +1069,81 @@ bool ParameterGrp::RenameGrp(const char* OldName, const char* NewName)
     return true;
 }
 
-void ParameterGrp::Clear(void)
+void ParameterGrp::RemoveGrp(const char* Name)
 {
-    std::vector<DOMNode*> vecNodes;
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::RemoveGrp(%s): invalid parameter group %s\n", Name, GetGroupName());
+    }
+
+    auto it = _GroupMap.find(Name);
+    if (it == _GroupMap.end())
+        return;
+
+    // if this or any of its children is referenced by an observer
+    // it cannot be deleted
+    bool canRelease = true;
+    if (!it->second->ShouldRemove()) {
+        canRelease = false;
+    }
+
+    // check if Element in group
+    DOMElement *pcElem = FindElement(_pGroupNode,"FCParamGroup",Name);
+    // if not return
+    if (!pcElem)
+        return;
+
+    // remove group handle
+    it->second->Invalidate();
+    _GroupMap.erase(Name);
+
+    DOMNode* node = _pGroupNode->removeChild(pcElem);
+    if (canRelease)
+        node->release();
+
+    // trigger observer
+    Notify(Name);
+}
+
+void ParameterGrp::Clear()
+{
+    if (!IsValid()) {
+        Base::Console().Warning("ParameterGrp::Clear: invalid parameter group %s\n", GetGroupName());
+    }
+
+    std::vector<std::pair<DOMNode*, bool> > vecNodes;
 
     // checking on references
-    std::vector<std::string> removeGrp;
+    std::vector<std::pair<std::string, bool> > removeGrp;
     for (auto it = _GroupMap.begin();it!=_GroupMap.end();++it) {
         // If a group is referenced by some observer then do not remove it
         // but clear it
+        it->second->Invalidate();
         if (!it->second->ShouldRemove()) {
-            it->second->Clear();
+            removeGrp.emplace_back(it->first, false);
         }
         else {
-            removeGrp.push_back(it->first);
+            removeGrp.emplace_back(it->first, true);
         }
     }
 
     // remove group handles
     for (auto it : removeGrp) {
-        auto pos = _GroupMap.find(it);
-        vecNodes.push_back(pos->second->_pGroupNode);
+        auto pos = _GroupMap.find(it.first);
+        vecNodes.emplace_back(pos->second->_pGroupNode, it.second);
         _GroupMap.erase(pos->first);
     }
 
     // searching all non-group nodes
     for (DOMNode *child = _pGroupNode->getFirstChild(); child != nullptr;  child = child->getNextSibling()) {
         if (XMLString::compareString(child->getNodeName(), XStr("FCParamGroup").unicodeForm()) != 0)
-            vecNodes.push_back(child);
+            vecNodes.push_back(std::make_pair(child, true));
     }
 
     // deleting the nodes
     for (auto it = vecNodes.begin(); it != vecNodes.end(); ++it) {
-        DOMNode *child = _pGroupNode->removeChild(*it);
-        child->release();
+        DOMNode *child = _pGroupNode->removeChild(it->first);
+        if (it->second)
+            child->release();
     }
 
     // trigger observer
@@ -1003,6 +1152,19 @@ void ParameterGrp::Clear(void)
 
 //**************************************************************************
 // Access methods
+
+bool ParameterGrp::IsValid() const
+{
+    return _valid;
+}
+
+void ParameterGrp::Invalidate()
+{
+    for (const auto& it : _GroupMap) {
+        it.second->Invalidate();
+    }
+    _valid = false;
+}
 
 void ParameterGrp::SelfCheck(int spaces) const
 {
