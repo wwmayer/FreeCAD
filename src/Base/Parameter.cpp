@@ -1571,8 +1571,164 @@ void  ParameterManager::CheckDocument() const
         << std::endl
         << StrX(e.getMessage()) << std::endl;
     }
+
+    processNode(_pDocument, "Document", DOMNode::DOCUMENT_NODE);
 }
 
+bool ParameterManager::processNode(const DOMNode* const node, const std::string& parentName, int parentType) const
+{
+    bool success = true;
+
+    std::string nodeName;
+    if (node->getNodeName())
+        nodeName = StrX(node->getNodeName()).c_str();
+
+    DOMNode::NodeType nodeType = node->getNodeType();
+    switch (nodeType)
+    {
+    case DOMNode::DOCUMENT_NODE:
+        {
+            if (parentType != DOMNode::DOCUMENT_NODE) {
+                success = false;
+                Base::Console().Error("Unexpected node type of document (%s)\n", nodeName.c_str());
+            }
+            break;
+        }
+    case DOMNode::TEXT_NODE:
+        {
+            if (parentName != "FCParameters" &&
+                parentName != "FCParamGroup" &&
+                parentName != "FCText" &&
+                parentName != "Name" &&
+                parentName != "Value") {
+                success = false;
+                Base::Console().Error("Unexpected text (%s is parent of %s)\n", parentName.c_str(), nodeName.c_str());
+            }
+            break;
+        }
+    case DOMNode::ELEMENT_NODE:
+        {
+            bool validElement = true;
+            if (nodeName == "FCParameters") {
+                if (parentName != "#document") {
+                    validElement = false;
+                }
+            }
+            else if (parentName == "#document") {
+                if (nodeName != "FCParameters") {
+                    validElement = false;
+                }
+            }
+            else if (nodeName == "FCText" && parentName != "FCParamGroup") {
+                validElement = false;
+            }
+            else if (nodeName == "FCBool" && parentName != "FCParamGroup") {
+                validElement = false;
+            }
+            else if (nodeName == "FCInt" && parentName != "FCParamGroup") {
+                validElement = false;
+            }
+            else if (nodeName == "FCUInt" && parentName != "FCParamGroup") {
+                validElement = false;
+            }
+            else if (nodeName == "FCFloat" && parentName != "FCParamGroup") {
+                validElement = false;
+            }
+            else if (nodeName == "FCParamGroup" && parentName != "FCParamGroup" && parentName != "FCParameters") {
+                validElement = false;
+            }
+            else if (parentName == "FCParamGroup" &&
+                     nodeName != "FCParamGroup" &&
+                     nodeName != "FCText" &&
+                     nodeName != "FCBool" &&
+                     nodeName != "FCInt" &&
+                     nodeName != "FCUInt" &&
+                     nodeName != "FCFloat") {
+                validElement = false;
+            }
+
+            if (!validElement) {
+                success = false;
+                Base::Console().Error("Unexpected element (%s is parent of %s)\n", parentName.c_str(), nodeName.c_str());
+            }
+
+            // check number of children
+            const DOMNodeList*  children =  node->getChildNodes();
+            XMLSize_t count = children ? children->getLength() : 0;
+            if (nodeName == "FCText" && count > 1) {
+                success = false;
+                Base::Console().Error("Unexpected element (%s has %d children)\n", nodeName.c_str(), count);
+            }
+            else if (nodeName == "FCBool" && count != 0) {
+                success = false;
+                Base::Console().Error("Unexpected element (%s has %d children)\n", nodeName.c_str(), count);
+            }
+            else if (nodeName == "FCInt" && count != 0) {
+                success = false;
+                Base::Console().Error("Unexpected element (%s has %d children)\n", nodeName.c_str(), count);
+            }
+            else if (nodeName == "FCUInt" && count != 0) {
+                success = false;
+                Base::Console().Error("Unexpected element (%s has %d children)\n", nodeName.c_str(), count);
+            }
+            else if (nodeName == "FCFloat" && count != 0) {
+                success = false;
+                Base::Console().Error("Unexpected element (%s has %d children)\n", nodeName.c_str(), count);
+            }
+            break;
+        }
+    case DOMNode::ATTRIBUTE_NODE:
+        {
+            if (nodeName == "Name") {
+                if (parentName != "FCParamGroup" &&
+                    parentName != "FCText" &&
+                    parentName != "FCBool" &&
+                    parentName != "FCInt" &&
+                    parentName != "FCUInt" &&
+                    parentName != "FCFloat") {
+                    success = false;
+                    Base::Console().Error("Unexpected attribute (%s is parent of %s)\n", parentName.c_str(), nodeName.c_str());
+                }
+            }
+            else if (nodeName == "Value") {
+                if (parentName != "FCBool" &&
+                    parentName != "FCInt" &&
+                    parentName != "FCUInt" &&
+                    parentName != "FCFloat") {
+                    success = false;
+                    Base::Console().Error("Unexpected attribute (%s is parent of %s)\n", parentName.c_str(), nodeName.c_str());
+                }
+            }
+            else {
+                success = false;
+                Base::Console().Error("Unexpected attribute (%s is parent of %s)\n", parentName.c_str(), nodeName.c_str());
+            }
+            break;
+        }
+    default:
+        {
+            success = false;
+            Base::Console().Error("Unexpected node type %d (%s)\n", nodeType, nodeName.c_str());
+            break;
+        }
+    }
+
+    DOMNamedNodeMap* attr = node->getAttributes();
+    if (attr) {
+        for (XMLSize_t index = 0; index < attr->getLength(); index++) {
+            DOMNode* child = attr->item(index);
+            success &= processNode(child, nodeName, nodeType);
+        }
+    }
+
+    DOMNode* child = node->getFirstChild();
+    while (child) {
+        success &= processNode(child, nodeName, nodeType);
+        child = child->getNextSibling();
+    }
+
+    return success;
+}
 
 //**************************************************************************
 //**************************************************************************
