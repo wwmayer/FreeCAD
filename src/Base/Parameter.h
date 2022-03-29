@@ -115,6 +115,8 @@ public:
     Base::Reference<ParameterGrp> FindGroup(const char* Name) const;
     /// get a vector of all sub groups in this group
     std::vector<Base::Reference<ParameterGrp> > GetGroups();
+    /// test if this group is valid
+    bool IsValid() const;
     /// test if this group is empty
     bool IsEmpty() const;
     /// test if a special sub group is in this group
@@ -238,6 +240,9 @@ protected:
     /// helper function for FindGroup
     Base::Reference<ParameterGrp> _FindGroup(const char* Name) const;
     void SelfCheck(int spaces) const;
+    /// This method invalidates this and all of its sub-groups.
+    /// After invalidating a group it's not allows to call any of its functions.
+    void Invalidate();
     bool ShouldRemove() const;
 
     XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *FindNextElement(XERCES_CPP_NAMESPACE_QUALIFIER DOMNode *Prev, const char* Type) const;
@@ -265,6 +270,8 @@ protected:
     XERCES_CPP_NAMESPACE_QUALIFIER DOMElement *_pGroupNode;
     /// the own name
     std::string _cName;
+    /// status of group
+    bool _valid;
     /// map of already exported groups
     mutable std::map <std::string ,Base::Reference<ParameterGrp> > _GroupMap;
 
