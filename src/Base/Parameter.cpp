@@ -171,8 +171,10 @@ private:
     // unimplemented copy ctor and assignment operator
     DOMPrintFilter(const DOMPrintFilter&);
     DOMPrintFilter & operator = (const DOMPrintFilter&);
+    bool hasParameter(const XERCES_CPP_NAMESPACE_QUALIFIER DOMNode*) const;
 
    ShowType fWhatToShow;
+   mutable std::set<const DOMNode*> rejectNodes;
 };
 #endif
 class DOMPrintErrorHandler : public DOMErrorHandler
@@ -1477,6 +1479,7 @@ void  ParameterManager::SaveDocument(XMLFormatTarget* pFormatTarget) const
             if (gUseFilter) {
                 myFilter.reset(new DOMPrintFilter(DOMNodeFilter::SHOW_ELEMENT   |
                                                   DOMNodeFilter::SHOW_ATTRIBUTE |
+                                                  DOMNodeFilter::SHOW_TEXT      |
                                                   DOMNodeFilter::SHOW_DOCUMENT_TYPE
                                                   ));
                 theSerializer->setFilter(myFilter.get());
@@ -1865,6 +1868,36 @@ DOMPrintFilter::DOMPrintFilter(ShowType whatToShow)
 {
 }
 
+bool DOMPrintFilter::hasParameter(const XERCES_CPP_NAMESPACE_QUALIFIER DOMNode* node) const
+{
+    DOMNode* child = node->getFirstChild();
+    while (child) {
+        if (XMLString::compareString(child->getNodeName(), XStr("FCParamGroup").unicodeForm()) == 0) {
+            if (hasParameter(child))
+                return true;
+        }
+        else if (XMLString::compareString(child->getNodeName(), XStr("FCText").unicodeForm()) == 0) {
+            return true;
+        }
+        else if (XMLString::compareString(child->getNodeName(), XStr("FCBool").unicodeForm()) == 0) {
+            return true;
+        }
+        else if (XMLString::compareString(child->getNodeName(), XStr("FCInt").unicodeForm()) == 0) {
+            return true;
+        }
+        else if (XMLString::compareString(child->getNodeName(), XStr("FCUInt").unicodeForm()) == 0) {
+            return true;
+        }
+        else if (XMLString::compareString(child->getNodeName(), XStr("FCFloat").unicodeForm()) == 0) {
+            return true;
+        }
+
+        child = child->getNextSibling();
+    }
+
+    return false;
+}
+
 DOMPrintFilter::FilterAction DOMPrintFilter::acceptNode(const DOMNode* node) const
 {
     if (XMLString::compareString(node->getNodeName(), XStr("FCParameters").unicodeForm()) == 0) {
@@ -1879,6 +1912,48 @@ DOMPrintFilter::FilterAction DOMPrintFilter::acceptNode(const DOMNode* node) con
         }
     }
 
+    // if a parameter group or any of its group children has no parameter element it's considered empty and will be filtered
+    if (XMLString::compareString(node->getNodeName(), XStr("FCParamGroup").unicodeForm()) == 0) {
+        // Remove extra new lines from parameter groups. The ordinal number of the newline is 10.
+        // If for text nodes there are multiple newlines then the sub-string from the last newline until the end of the string
+        // is assigned to the text node.
+        // It can also happen that a parameter group has two or more consecutive #text nodes that can happen when a parameter
+        // has been removed before. In this case the node is added to the list of rejected nodes.
+        const DOMNodeList*  children =  node->getChildNodes();
+        XMLCh nl(10); // newline
+        bool prevText = false;
+        for (XMLSize_t i=0; i<children->getLength(); i++) {
+            DOMNode* child = children->item(i);
+
+            std::string name = StrX(child->getNodeName()).c_str();
+            if (child->getNodeType() == DOMNode::TEXT_NODE) {
+                // previous node was a text node
+                if (prevText) {
+                    rejectNodes.insert(child);
+                }
+                else {
+                    int index = XMLString::lastIndexOf(child->getNodeValue(), nl);
+                    if (index > 0) {
+                        child->setNodeValue(child->getNodeValue() + index);
+                    }
+                }
+
+                prevText = true;
+            }
+            else if (name == "FCParamGroup") {
+                // if we have an empty parameter group that will be rejected
+                // then do not reset the 'prevText' flag
+                if (hasParameter(child))
+                    prevText = false;
+            }
+            else {
+                prevText = false;
+            }
+        }
+        if (!hasParameter(node))
+            return DOMNodeFilter::FILTER_REJECT;
+    }
+
     switch (node->getNodeType()) {
     case DOMNode::ELEMENT_NODE: {
         return DOMNodeFilter::FILTER_ACCEPT;
@@ -1890,7 +1965,11 @@ DOMPrintFilter::FilterAction DOMPrintFilter::acceptNode(const DOMNode* node) con
         break;
     }
     case DOMNode::TEXT_NODE: {
-        return DOMNodeFilter::FILTER_ACCEPT;
+        auto it = rejectNodes.find(node);
+        if (it == rejectNodes.end())
+            return DOMNodeFilter::FILTER_ACCEPT;
+        else
+            return DOMNodeFilter::FILTER_REJECT;
         break;
     }
     case DOMNode::DOCUMENT_TYPE_NODE: {
