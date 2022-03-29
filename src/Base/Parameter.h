@@ -322,6 +322,7 @@ public:
     //@}
 
 private:
+    bool processNode(const XERCES_CPP_NAMESPACE_QUALIFIER DOMNode* const node, const std::string&, int) const;
 
     XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument   *_pDocument;
     ParameterSerializer * paramSerializer;
