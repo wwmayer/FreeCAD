@@ -112,7 +112,7 @@ class ParameterTestCase(unittest.TestCase):
         self.assertTrue(self.TestPar.HasGroup("44"),"Test on created group failed")
         # check on Deletion
         self.TestPar.RemGroup("44")
-        self.assertTrue(self.TestPar.HasGroup("44"),"A referenced group must not be deleted")
+        self.assertFalse(self.TestPar.HasGroup("44"),"Test on removed group failed")
         Temp = 0
 
     def testGroupNames(self):
