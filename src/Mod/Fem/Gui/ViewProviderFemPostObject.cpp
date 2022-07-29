@@ -45,6 +45,7 @@
 #endif
 
 #include <App/Document.h>
+#include <App/GroupExtension.h>
 #include <Base/Console.h>
 #include <Gui/Application.h>
 #include <Gui/Control.h>
@@ -54,9 +55,12 @@
 #include <Gui/SelectionObject.h>
 #include <Gui/SoFCColorBar.h>
 #include <Gui/TaskView/TaskDialog.h>
+#include <Mod/Fem/App/FemAnalysis.h>
 #include <Mod/Fem/App/FemPostFilter.h>
+#include <Mod/Fem/App/FemPostPipeline.h>
 
 #include "ViewProviderFemPostObject.h"
+#include "ViewProviderAnalysis.h"
 #include "TaskPostBoxes.h"
 
 
@@ -764,8 +768,22 @@ void ViewProviderFemPostObject::onSelectionChanged(const Gui::SelectionChanges &
     if (sel.Type == sel.AddSelection) {
         Gui::SelectionObject obj(sel);
         if (obj.getObject() == this->getObject()) {
+            if (this->getObject()->isDerivedFrom(Fem::FemPostPipeline::getClassTypeId()))
+                this->getObject()->Visibility.setValue(true);
             if (this->getObject()->Visibility.getValue())
                 WriteColorData(true);
+            if (!this->getObject()->isDerivedFrom(Fem::FemPostPipeline::getClassTypeId()))
+                return;
+
+            // Access analysis object
+            App::DocumentObject* grp = App::GroupExtension::getGroupOfObject(this->getObject());
+            if (Fem::FemAnalysis* analyze = Base::freecad_dynamic_cast<Fem::FemAnalysis>(grp)) {
+                ViewProviderFemAnalysis* analyzeView = Base::freecad_dynamic_cast<ViewProviderFemAnalysis>
+                                                       (Gui::Application::Instance->getViewProvider(analyze));
+                if (analyzeView) {
+                    analyzeView->highlightView(this);
+                }
+            }
         }
     }
 }

@@ -28,6 +28,10 @@
 # include <QMenu>
 # include <QMessageBox>
 # include <QTextStream>
+# include <Inventor/SoPath.h>
+# include <Inventor/actions/SoSearchAction.h>
+# include <Inventor/nodes/SoAnnotation.h>
+# include <Inventor/nodes/SoShapeHints.h>
 #endif
 
 #include <App/MaterialObject.h>
@@ -55,6 +59,46 @@
 
 using namespace FemGui;
 
+ViewProviderFemHighlighter::ViewProviderFemHighlighter()
+{
+    annotate = new SoAnnotation();
+    annotate->ref();
+}
+
+ViewProviderFemHighlighter::~ViewProviderFemHighlighter()
+{
+    annotate->unref();
+}
+
+void ViewProviderFemHighlighter::attach(ViewProviderFemAnalysis* view)
+{
+    SoGroup* root = view->getRoot();
+    root->addChild(annotate);
+}
+
+void ViewProviderFemHighlighter::highlightView(Gui::ViewProviderDocumentObject* view)
+{
+    annotate->removeAllChildren();
+
+    if (view) {
+        annotate->addChild(view->getRoot());
+
+        // Fixes rendering issue with the annotation node
+        SoSearchAction action;
+        action.setInterest(SoSearchAction::FIRST);
+        action.setSearchingAll(false);
+        action.setType(SoShapeHints::getClassTypeId());
+        action.apply(view->getRoot());
+        SoPath* path = action.getPath();
+        if (path) {
+            SoShapeHints* hints = static_cast<SoShapeHints*>(path->getTail());
+            hints->vertexOrdering = SoShapeHints::CLOCKWISE;
+            hints->shapeType = SoShapeHints::SOLID;
+        }
+    }
+}
+
+// ----------------------------------------------------------------------------
 
 /* TRANSLATOR FemGui::ViewProviderFemAnalysis */
 
@@ -69,6 +113,17 @@ ViewProviderFemAnalysis::ViewProviderFemAnalysis()
 ViewProviderFemAnalysis::~ViewProviderFemAnalysis()
 {
 
+}
+
+void ViewProviderFemAnalysis::attach(App::DocumentObject* obj)
+{
+    Gui::ViewProviderDocumentObjectGroup::attach(obj);
+    extension.attach(this);
+}
+
+void ViewProviderFemAnalysis::highlightView(Gui::ViewProviderDocumentObject* view)
+{
+    extension.highlightView(view);
 }
 
 bool ViewProviderFemAnalysis::doubleClicked(void)
@@ -244,7 +299,7 @@ bool ViewProviderFemAnalysis::canDelete(App::DocumentObject* obj) const
     // thus we can pass this action
     // we can warn the user if necessary in the object's ViewProvider in the onDelete() function
     Q_UNUSED(obj)
-        return true;
+    return true;
 }
 
 // Python feature -----------------------------------------------------------------------
