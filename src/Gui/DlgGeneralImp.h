@@ -61,6 +61,8 @@ protected Q_SLOTS:
     void onManagePreferencePacksClicked();
 
 private:
+    void saveDockWindowVisibility();
+    void loadDockWindowVisibility();
     void setRecentFileSize();
     void saveAsNewPreferencePack();
     void revertToSavedConfig();
