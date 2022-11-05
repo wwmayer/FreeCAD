@@ -41,6 +41,7 @@
 # include <QColor>
 # include <QDialog>
 # include <QFont>
+# include <QFontMetricsF>
 # include <QKeyEvent>
 # include <QMenu>
 # include <QMessageBox>
@@ -3663,7 +3664,8 @@ QFont ViewProviderSketch::getApplicationFont() const
 
 int ViewProviderSketch::defaultFontSizePixels() const
 {
-    return QApplication::fontMetrics().height();
+    QFontMetricsF metrics(QApplication::font());
+    return static_cast<int>(metrics.height());
 }
 
 int ViewProviderSketch::getApplicationLogicalDPIX() const {

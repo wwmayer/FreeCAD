@@ -24,6 +24,7 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
+# include <boost/core/ignore_unused.hpp>
 # include <QContextMenuEvent>
 # include <QMenu>
 # include <QRegularExpression>
@@ -681,7 +682,7 @@ void TaskSketcherElements::onSelectionChanged(const Gui::SelectionChanges& msg)
                 if (shapetype.size() > 4 && shapetype.substr(0,4) == "Edge") {
                     QRegularExpression rx(QString::fromLatin1("^Edge(\\d+)$"));
                     QRegularExpressionMatch match;
-                    expr.indexOf(rx, 0, &match);
+                    boost::ignore_unused(expr.indexOf(rx, 0, &match));
                     if (match.hasMatch()) {
                         bool ok;
                         int ElementId = match.captured(1).toInt(&ok) - 1;
@@ -700,7 +701,7 @@ void TaskSketcherElements::onSelectionChanged(const Gui::SelectionChanges& msg)
                 else if (shapetype.size() > 6 && shapetype.substr(0,6) == "Vertex"){
                     QRegularExpression rx(QString::fromLatin1("^Vertex(\\d+)$"));
                     QRegularExpressionMatch match;
-                    expr.indexOf(rx, 0, &match);
+                    boost::ignore_unused(expr.indexOf(rx, 0, &match));
                     if (match.hasMatch()) {
                         bool ok;
                         int ElementId = match.captured(1).toInt(&ok) - 1;
