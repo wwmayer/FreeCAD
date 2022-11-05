@@ -48,6 +48,9 @@
 #include <vector>
 #include <bitset>
 
+// Boost
+#include <boost/core/ignore_unused.hpp>
+
 #ifdef FC_OS_WIN32
 # include <windows.h>
 #endif
