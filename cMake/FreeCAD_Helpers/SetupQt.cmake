@@ -1,6 +1,6 @@
 # -------------------------------- Qt --------------------------------
 
-set(FREECAD_QT_COMPONENTS Core Concurrent Network Xml)
+set(FREECAD_QT_COMPONENTS Core Concurrent Network Test Xml)
 if (FREECAD_QT_MAJOR_VERSION EQUAL 5)
     list (APPEND FREECAD_QT_COMPONENTS XmlPatterns)
 elseif (FREECAD_QT_MAJOR_VERSION EQUAL 6)
