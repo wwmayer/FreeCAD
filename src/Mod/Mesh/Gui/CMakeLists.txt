@@ -94,11 +94,19 @@ SET(Inventor_SRCS
 )
 SOURCE_GROUP("Inventor" FILES ${Inventor_SRCS})
 
-qt_add_resources(resource_SRCS Resources/Mesh.qrc)
+configure_file(Resources/Mesh.qrc.cmake ${CMAKE_CURRENT_BINARY_DIR}/Resources/Mesh.qrc)
+qt_add_resources(resource_SRCS ${CMAKE_CURRENT_BINARY_DIR}/Resources/Mesh.qrc)
+
+FILE(GLOB TS_SRCS "Resources/translations/*_*.ts")
+set_source_files_properties(${TS_SRCS} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/Resources/translations)
+qt_add_translation(QM_SRCS
+    ${TS_SRCS}
+)
 
 SET(resource_SRCS
+    ${QM_SRCS}
     ${resource_SRCS}
-    Resources/Mesh.qrc
+    ${CMAKE_CURRENT_BINARY_DIR}/Resources/Mesh.qrc
 )
 SOURCE_GROUP("resource" FILES ${resource_SRCS})
 
