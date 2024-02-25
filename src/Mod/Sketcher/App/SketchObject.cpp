@@ -9786,6 +9786,66 @@ int SketchObject::getGeometryId(int GeoId, long& id) const
     return 0;
 }
 
+// ---------------------------------------------------------------------------------
+
+ConstraintSetter::ConstraintSetter(Sketcher::SketchObject* obj)
+    : obj{obj}
+    , newVals{obj->Constraints.getValues()}
+{
+}
+
+ConstraintSetter::~ConstraintSetter()
+{
+    obj->Constraints.setValues(std::move(newVals));
+}
+
+Constraint* ConstraintSetter::get(int index) const
+{
+    if (!isValid(index)) {
+        return nullptr;
+    }
+    return newVals[index];
+}
+
+Constraint* ConstraintSetter::clone(int index) const
+{
+    if (auto constr = get(index)) {
+        return constr->clone();
+    }
+
+    return nullptr;
+}
+
+void ConstraintSetter::set(int index, Constraint* constr)
+{
+    if (isValid(index)) {
+        newVals[index] = constr;
+    }
+}
+
+bool ConstraintSetter::isValid(int index) const
+{
+    return (index >= 0 && index < int(newVals.size()));
+}
+
+ConstraintGetter::ConstraintGetter(const Sketcher::SketchObject* obj)
+    : vals{obj->Constraints.getValues()}
+{
+}
+
+Constraint* ConstraintGetter::get(int index) const
+{
+    if (!isValid(index)) {
+        return nullptr;
+    }
+    return vals[index];
+}
+
+bool ConstraintGetter::isValid(int index) const
+{
+    return (index >= 0 && index < int(vals.size()));
+}
+
 // Python Sketcher feature ---------------------------------------------------------
 
 namespace App

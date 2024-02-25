@@ -888,6 +888,41 @@ private:
     bool managedoperation;
 };
 
+class SketcherExport ConstraintSetter
+{
+public:
+    explicit ConstraintSetter(Sketcher::SketchObject* obj);
+    ~ConstraintSetter();
+
+    Constraint* get(int index) const;
+    Constraint* clone(int index) const;
+
+    void set(int index, Constraint* constr);
+    bool isValid(int index) const;
+
+private:
+    Sketcher::SketchObject* obj;
+    std::vector<Constraint*> newVals;
+
+public:
+    ConstraintSetter(const ConstraintSetter&) = delete;
+    ConstraintSetter(ConstraintSetter&&) = delete;
+    ConstraintSetter& operator=(const ConstraintSetter&) = delete;
+    ConstraintSetter& operator=(ConstraintSetter&&) = delete;
+};
+
+class SketcherExport ConstraintGetter
+{
+public:
+    explicit ConstraintGetter(const Sketcher::SketchObject* obj);
+
+    Constraint* get(int index) const;
+    bool isValid(int index) const;
+
+private:
+    const std::vector<Constraint*>& vals;
+};
+
 inline int SketchObject::initTemporaryMove(int geoId, PointPos pos, bool fine /*=true*/)
 {
     // if a previous operation did not update the geometry (including geometry extensions)
