@@ -250,7 +250,7 @@ public:
     /// set the driving status of this constraint and solve
     int setDriving(int ConstrId, bool isdriving);
     /// get the driving status of this constraint
-    int getDriving(int ConstrId, bool& isdriving);
+    int getDriving(int ConstrId, bool& isdriving) const;
     /// toggle the driving status of this constraint
     int toggleDriving(int ConstrId)
     {
@@ -267,11 +267,11 @@ public:
     /// set the label position of the constraint
     int setLabelPosition(int ConstrId, float value);
     /// get the label position of the constraint
-    int getLabelPosition(int ConstrId, float& value);
+    int getLabelPosition(int ConstrId, float& value) const;
     /// set the label distance of the constraint
     int setLabelDistance(int ConstrId, float value);
     /// get the label distance of the constraint
-    int getLabelDistance(int ConstrId, float& value);
+    int getLabelDistance(int ConstrId, float& value) const;
 
     /// Make all dimensionals Driving/non-Driving
     int setDatumsDriving(bool isdriving);
@@ -776,7 +776,7 @@ protected:
 
     // refactoring functions
     // check whether constraint may be changed driving status
-    int testDrivingChange(int ConstrId, bool isdriving);
+    int testDrivingChange(int ConstrId, bool isdriving) const;
 
     void onUndoRedoFinished() override;
 
@@ -896,6 +896,7 @@ public:
 
     Constraint* get(int index) const;
     Constraint* clone(int index) const;
+    int size() const;
 
     void set(int index, Constraint* constr);
     bool isValid(int index) const;
@@ -918,6 +919,7 @@ public:
 
     Constraint* get(int index) const;
     bool isValid(int index) const;
+    int size() const;
 
 private:
     const std::vector<Constraint*>& vals;

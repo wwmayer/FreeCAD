@@ -471,57 +471,65 @@ int SketchObject::setDriving(int ConstrId, bool isdriving)
 {
     // no need to check input data validity as this is an sketchobject managed operation.
     Base::StateLocker lock(managedoperation, true);
-
-    const std::vector<Constraint*>& vals = this->Constraints.getValues();
-
     int ret = testDrivingChange(ConstrId, isdriving);
-
-    if (ret < 0)
+    if (ret < 0) {
         return ret;
+    }
 
-    // copy the list
-    std::vector<Constraint*> newVals(vals);
-    newVals[ConstrId] = newVals[ConstrId]->clone();
-    newVals[ConstrId]->isDriving = isdriving;
+    // add extra scope to update the property
+    {
+        ConstraintSetter cprop(this);
+        Constraint* constr = cprop.clone(ConstrId);
+        if (!constr) {
+            return -1;
+        }
 
-    this->Constraints.setValues(std::move(newVals));
+        constr->isDriving = isdriving;
+        cprop.set(ConstrId, constr);
+    }
 
-    if (!isdriving)
+    if (!isdriving) {
         setExpression(Constraints.createPath(ConstrId), std::shared_ptr<App::Expression>());
+    }
 
     // if we do not have a recompute, the sketch must be solved to update the DoF of the solver
-    if (noRecomputes)
+    if (noRecomputes) {
         solve();
+    }
 
     return 0;
 }
 
-int SketchObject::getDriving(int ConstrId, bool& isdriving)
+int SketchObject::getDriving(int ConstrId, bool& isdriving) const
 {
-    const std::vector<Constraint*>& vals = this->Constraints.getValues();
-
-    if (ConstrId < 0 || ConstrId >= int(vals.size()))
+    ConstraintGetter cprop(this);
+    Constraint* constr = cprop.get(ConstrId);
+    if (!constr) {
         return -1;
+    }
 
-    if (!vals[ConstrId]->isDimensional())
+    if (!constr->isDimensional()) {
         return -1;
+    }
 
-    isdriving = vals[ConstrId]->isDriving;
+    isdriving = constr->isDriving;
+
     return 0;
 }
 
-int SketchObject::testDrivingChange(int ConstrId, bool isdriving)
+int SketchObject::testDrivingChange(int ConstrId, bool isdriving) const
 {
-    const std::vector<Constraint*>& vals = this->Constraints.getValues();
-
-    if (ConstrId < 0 || ConstrId >= int(vals.size()))
+    ConstraintGetter cprop(this);
+    Constraint* constr = cprop.get(ConstrId);
+    if (!constr) {
         return -1;
+    }
 
-    if (!vals[ConstrId]->isDimensional())
+    if (!constr->isDimensional()) {
         return -2;
+    }
 
-    if (!(vals[ConstrId]->First >= 0 || vals[ConstrId]->Second >= 0 || vals[ConstrId]->Third >= 0)
-        && isdriving) {
+    if (!(constr->First >= 0 || constr->Second >= 0 || constr->Third >= 0) && isdriving) {
         // a constraint that does not have at least one element as not-external-geometry can never
         // be driving.
         return -3;
@@ -535,34 +543,35 @@ int SketchObject::setActive(int ConstrId, bool isactive)
     // no need to check input data validity as this is an sketchobject managed operation.
     Base::StateLocker lock(managedoperation, true);
 
-    const std::vector<Constraint*>& vals = this->Constraints.getValues();
+    // add extra scope to update the property
+    {
+        ConstraintSetter cprop(this);
+        Constraint* constr = cprop.clone(ConstrId);
+        if (!constr) {
+            return -1;
+        }
 
-    if (ConstrId < 0 || ConstrId >= int(vals.size()))
-        return -1;
-
-    // copy the list
-    std::vector<Constraint*> newVals(vals);
-    // clone the changed Constraint
-    Constraint* constNew = vals[ConstrId]->clone();
-    constNew->isActive = isactive;
-    newVals[ConstrId] = constNew;
-    this->Constraints.setValues(std::move(newVals));
+        constr->isActive = isactive;
+        cprop.set(ConstrId, constr);
+    }
 
     // if we do not have a recompute, the sketch must be solved to update the DoF of the solver
-    if (noRecomputes)
+    if (noRecomputes) {
         solve();
+    }
 
     return 0;
 }
 
 int SketchObject::getActive(int ConstrId, bool& isactive)
 {
-    const std::vector<Constraint*>& vals = this->Constraints.getValues();
-
-    if (ConstrId < 0 || ConstrId >= int(vals.size()))
+    ConstraintGetter cprop(this);
+    Constraint* constr = cprop.get(ConstrId);
+    if (!constr) {
         return -1;
+    }
 
-    isactive = vals[ConstrId]->isActive;
+    isactive = constr->isActive;
 
     return 0;
 }
@@ -572,22 +581,22 @@ int SketchObject::toggleActive(int ConstrId)
     // no need to check input data validity as this is an sketchobject managed operation.
     Base::StateLocker lock(managedoperation, true);
 
-    const std::vector<Constraint*>& vals = this->Constraints.getValues();
+    // add extra scope to update the property
+    {
+        ConstraintSetter cprop(this);
+        Constraint* constr = cprop.clone(ConstrId);
+        if (!constr) {
+            return -1;
+        }
 
-    if (ConstrId < 0 || ConstrId >= int(vals.size()))
-        return -1;
-
-    // copy the list
-    std::vector<Constraint*> newVals(vals);
-    // clone the changed Constraint
-    Constraint* constNew = vals[ConstrId]->clone();
-    constNew->isActive = !constNew->isActive;
-    newVals[ConstrId] = constNew;
-    this->Constraints.setValues(std::move(newVals));
+        constr->isActive = !constr->isActive;
+        cprop.set(ConstrId, constr);
+    }
 
     // if we do not have a recompute, the sketch must be solved to update the DoF of the solver
-    if (noRecomputes)
+    if (noRecomputes) {
         solve();
+    }
 
     return 0;
 }
@@ -596,32 +605,27 @@ int SketchObject::setLabelPosition(int ConstrId, float value)
 {
     Base::StateLocker lock(managedoperation, true);
 
-    const std::vector<Constraint*>& vals = this->Constraints.getValues();
-
-    if (ConstrId < 0 || ConstrId >= int(vals.size())) {
+    ConstraintSetter cprop(this);
+    Constraint* constr = cprop.clone(ConstrId);
+    if (!constr) {
         return -1;
     }
 
-    // copy the list
-    std::vector<Constraint*> newVals(vals);
-    // clone the changed Constraint
-    Constraint* constNew = vals[ConstrId]->clone();
-    constNew->LabelPosition = value;
-    newVals[ConstrId] = constNew;
-    this->Constraints.setValues(std::move(newVals));
+    constr->LabelPosition = value;
+    cprop.set(ConstrId, constr);
 
     return 0;
 }
 
-int SketchObject::getLabelPosition(int ConstrId, float& value)
+int SketchObject::getLabelPosition(int ConstrId, float& value) const
 {
-    const std::vector<Constraint*>& vals = this->Constraints.getValues();
-
-    if (ConstrId < 0 || ConstrId >= int(vals.size())) {
+    ConstraintGetter cprop(this);
+    Constraint* constr = cprop.get(ConstrId);
+    if (!constr) {
         return -1;
     }
 
-    value = vals[ConstrId]->LabelPosition;
+    value = constr->LabelPosition;
 
     return 0;
 }
@@ -630,32 +634,27 @@ int SketchObject::setLabelDistance(int ConstrId, float value)
 {
     Base::StateLocker lock(managedoperation, true);
 
-    const std::vector<Constraint*>& vals = this->Constraints.getValues();
-
-    if (ConstrId < 0 || ConstrId >= int(vals.size())) {
+    ConstraintSetter cprop(this);
+    Constraint* constr = cprop.clone(ConstrId);
+    if (!constr) {
         return -1;
     }
 
-    // copy the list
-    std::vector<Constraint*> newVals(vals);
-    // clone the changed Constraint
-    Constraint* constNew = vals[ConstrId]->clone();
-    constNew->LabelDistance = value;
-    newVals[ConstrId] = constNew;
-    this->Constraints.setValues(std::move(newVals));
+    constr->LabelDistance = value;
+    cprop.set(ConstrId, constr);
 
     return 0;
 }
 
-int SketchObject::getLabelDistance(int ConstrId, float& value)
+int SketchObject::getLabelDistance(int ConstrId, float& value) const
 {
-    const std::vector<Constraint*>& vals = this->Constraints.getValues();
-
-    if (ConstrId < 0 || ConstrId >= int(vals.size())) {
+    ConstraintGetter cprop(this);
+    Constraint* constr = cprop.get(ConstrId);
+    if (!constr) {
         return -1;
     }
 
-    value = vals[ConstrId]->LabelDistance;
+    value = constr->LabelDistance;
 
     return 0;
 }
@@ -667,29 +666,31 @@ int SketchObject::setDatumsDriving(bool isdriving)
     // no need to check input data validity as this is an sketchobject managed operation.
     Base::StateLocker lock(managedoperation, true);
 
-    const std::vector<Constraint*>& vals = this->Constraints.getValues();
-    std::vector<Constraint*> newVals(vals);
-
-    for (size_t i = 0; i < newVals.size(); i++) {
-        if (!testDrivingChange(i, isdriving)) {
-            newVals[i] = newVals[i]->clone();
-            newVals[i]->isDriving = isdriving;
+    // add extra scope to update the property
+    {
+        ConstraintSetter cprop(this);
+        for (int i = 0; i < cprop.size(); i++) {
+            if (!testDrivingChange(i, isdriving)) {
+                Constraint* constr = cprop.clone(i);
+                constr->isDriving = isdriving;
+                cprop.set(i, constr);
+            }
         }
     }
 
-    this->Constraints.setValues(std::move(newVals));
-
     // newVals is a shell now
-    const std::vector<Constraint*>& uvals = this->Constraints.getValues();
-
-    for (size_t i = 0; i < uvals.size(); i++) {
-        if (!isdriving && uvals[i]->isDimensional())
+    ConstraintGetter cprop(this);
+    for (int i = 0; i < cprop.size(); i++) {
+        Constraint* constr = cprop.get(i);
+        if (!isdriving && constr->isDimensional()) {
             setExpression(Constraints.createPath(i), std::shared_ptr<App::Expression>());
+        }
     }
 
     // if we do not have a recompute, the sketch must be solved to update the DoF of the solver
-    if (noRecomputes)
+    if (noRecomputes) {
         solve();
+    }
 
     return 0;
 }
@@ -9816,6 +9817,11 @@ Constraint* ConstraintSetter::clone(int index) const
     return nullptr;
 }
 
+int ConstraintSetter::size() const
+{
+    return int(newVals.size());
+}
+
 void ConstraintSetter::set(int index, Constraint* constr)
 {
     if (isValid(index)) {
@@ -9844,6 +9850,11 @@ Constraint* ConstraintGetter::get(int index) const
 bool ConstraintGetter::isValid(int index) const
 {
     return (index >= 0 && index < int(vals.size()));
+}
+
+int ConstraintGetter::size() const
+{
+    return int(vals.size());
 }
 
 // Python Sketcher feature ---------------------------------------------------------
