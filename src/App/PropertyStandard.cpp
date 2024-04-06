@@ -2457,15 +2457,15 @@ PyObject *PropertyMaterial::getPyObject()
     return new MaterialPy(new Material(_cMat));
 }
 
-void PropertyMaterial::setPyObject(PyObject *value)
+void PropertyMaterial::setPyObject(PyObject* value)
 {
     if (PyObject_TypeCheck(value, &(MaterialPy::Type))) {
         setValue(*static_cast<MaterialPy*>(value)->getMaterialPtr());
     }
     else {
-        std::string error = std::string("type must be 'Material', not ");
-        error += value->ob_type->tp_name;
-        throw Base::TypeError(error);
+        App::Material mat = getValue();
+        mat.diffuseColor = MaterialPy::toColor(value);
+        setValue(mat);
     }
 }
 
