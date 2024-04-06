@@ -328,7 +328,7 @@ void Material::setType(const MaterialType MatType)
     default:
         ambientColor.set(0.3333f, 0.3333f, 0.3333f);
         diffuseColor .set(0.8000f,0.8000f,0.9000f);
-        specularColor.set(0.5333f, 0.5333f, 0.5333f);
+        specularColor.set(0.0000f,0.0000f,0.0000f);
         emissiveColor.set(0.0000f,0.0000f,0.0000f);
         shininess = 0.9000f;
         transparency = 0.0000f;
