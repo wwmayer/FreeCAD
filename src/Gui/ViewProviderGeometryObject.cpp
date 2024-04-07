@@ -42,6 +42,7 @@
 #include <App/PropertyGeo.h>
 
 #include "ViewProviderGeometryObject.h"
+#include "ViewProviderGeometryObjectPy.h"
 #include "Application.h"
 #include "Document.h"
 #include "SoFCBoundingBox.h"
@@ -274,6 +275,15 @@ void ViewProviderGeometryObject::showBoundingBox(bool show)
     if (pcBoundSwitch) {
         pcBoundSwitch->whichChild = (show ? 0 : -1);
     }
+}
+
+PyObject* ViewProviderGeometryObject::getPyObject()
+{
+    if (!pyViewObject) {
+        pyViewObject = new ViewProviderGeometryObjectPy(this);
+    }
+    pyViewObject->IncRef();
+    return pyViewObject;
 }
 
 void ViewProviderGeometryObject::setSelectable(bool selectable)

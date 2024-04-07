@@ -87,6 +87,9 @@ public:
     virtual void showBoundingBox(bool);
     //@}
 
+    /// Get the python wrapper for that ViewProvider
+    PyObject* getPyObject() override;
+
 protected:
     /// get called by the container whenever a property has been changed
     void onChanged(const App::Property* prop) override;
