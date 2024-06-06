@@ -94,6 +94,8 @@ include_directories(
     ${QtSvg_INCLUDE_DIRS}
     ${QtSvgWidgets_INCLUDE_DIRS}
     ${QtNetwork_INCLUDE_DIRS}
+    ${QtPdf_INCLUDE_DIRS}
+    ${QtPdfWidgets_INCLUDE_DIRS}
     ${QtUiTools_INCLUDE_DIRS}
     ${QtXml_INCLUDE_DIRS}
 )
@@ -105,6 +107,8 @@ list(APPEND FreeCADGui_LIBS
     ${QtSvg_LIBRARIES}
     ${QtSvgWidgets_LIBRARIES}
     ${QtNetwork_LIBRARIES}
+    ${QtPdf_LIBRARIES}
+    ${QtPdfWidgets_LIBRARIES}
     ${QtUiTools_LIBRARIES}
 )
 
@@ -1122,6 +1126,7 @@ SET(View_CPP_SRCS
     MDIViewPyWrap.cpp
     GraphvizView.cpp
     ImageView.cpp
+    PDFView.cpp
     ActiveObjectList.cpp
 )
 SET(View_HPP_SRCS
@@ -1130,6 +1135,7 @@ SET(View_HPP_SRCS
     MDIViewPyWrap.h
     GraphvizView.h
     ImageView.h
+    PDFView.h
     ActiveObjectList.h
 )
 SET(View_SRCS

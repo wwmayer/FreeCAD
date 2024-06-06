@@ -36,6 +36,7 @@
 #include "EditorView.h"
 #include "PythonEditor.h"
 #include "MainWindow.h"
+#include "PDFView.h"
 #include <App/Application.h>
 #include <Base/Tools.h>
 
@@ -148,6 +149,11 @@ bool FileHandler::openInternal()
         return true;
     }
 
+    if (hasExtension(QStringList() << QLatin1String("pdf"))) {
+        openPDF();
+        return true;
+    }
+
     QStringList supportedFormats;
     auto imageFormats = QImageReader::supportedImageFormats();
     std::transform(imageFormats.cbegin(), imageFormats.cend(),
@@ -211,4 +217,12 @@ void FileHandler::openPython()
     edit->open(filename);
     edit->resize(400, 300);
     getMainWindow()->addWindow( edit );
+}
+
+void FileHandler::openPDF()
+{
+    auto edit = new PDFView(getMainWindow());
+    edit->loadFile(filename);
+    edit->resize(400, 300);
+    getMainWindow()->addWindow(edit);
 }
