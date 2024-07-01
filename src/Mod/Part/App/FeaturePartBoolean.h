@@ -32,6 +32,8 @@ class BRepAlgoAPI_BooleanOperation;
 namespace Part
 {
 
+void throwIfInvalidIfCheckModel(const TopoDS_Shape& shape);
+
 class Boolean : public Part::Feature
 {
     PROPERTY_HEADER_WITH_OVERRIDE(Part::Boolean);

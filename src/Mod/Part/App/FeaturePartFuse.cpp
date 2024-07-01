@@ -146,14 +146,7 @@ App::DocumentObjectExecReturn *MultiFuse::execute()
             if (resShape.IsNull())
                 throw Base::RuntimeError("Resulting shape is null");
 
-            Base::Reference<ParameterGrp> hGrp = App::GetApplication().GetUserParameter()
-                .GetGroup("BaseApp")->GetGroup("Preferences")->GetGroup("Mod/Part/Boolean");
-            if (hGrp->GetBool("CheckModel", true)) {
-                BRepCheck_Analyzer aChecker(resShape);
-                if (! aChecker.IsValid() ) {
-                    return new App::DocumentObjectExecReturn("Resulting shape is invalid");
-                }
-            }
+            throwIfInvalidIfCheckModel(resShape);
             if (this->Refine.getValue()) {
                 try {
                     TopoDS_Shape oldShape = resShape;
@@ -263,17 +256,7 @@ App::DocumentObjectExecReturn *MultiFuse::execute()
                 throw Base::RuntimeError("Resulting shape is null");
             }
 
-            Base::Reference<ParameterGrp> hGrp = App::GetApplication()
-                                                     .GetUserParameter()
-                                                     .GetGroup("BaseApp")
-                                                     ->GetGroup("Preferences")
-                                                     ->GetGroup("Mod/Part/Boolean");
-            if (hGrp->GetBool("CheckModel", true)) {
-                BRepCheck_Analyzer aChecker(res.getShape());
-                if (!aChecker.IsValid()) {
-                    return new App::DocumentObjectExecReturn("Resulting shape is invalid");
-                }
-            }
+            throwIfInvalidIfCheckModel(res.getShape());
             if (this->Refine.getValue()) {
                 try {
                     TopoDS_Shape oldShape = res.getShape();
