@@ -25,6 +25,7 @@
 #include <App/PropertyContainer.h>
 #include <App/Application.h>
 #include <App/Document.h>
+#include <App/ElementResolver.h>
 #include <App/MeasureManager.h>
 #include <Base/Tools.h>
 #include <BRepExtrema_DistShapeShape.hxx>
@@ -142,7 +143,17 @@ bool MeasureDistance::getShape(App::PropertyLinkSub* prop, TopoDS_Shape& rShape)
     }
 
     std::string subName = subs.at(0);
-    const char* className = ob->getSubObject(subName.c_str())->getTypeId().getName();
+
+    App::ElementResolver resolver(ob, subName);
+    ob = resolver.getObject();
+    subName = resolver.getElementName();
+
+    auto subObj = ob->getSubObject(subName.c_str());
+    if (!subObj) {
+        return false;
+    }
+
+    const char* className = subObj->getTypeId().getName();
     std::string mod = Base::Type::getModuleName(className);
 
     if (!hasGeometryHandler(mod)) {
@@ -150,7 +161,6 @@ bool MeasureDistance::getShape(App::PropertyLinkSub* prop, TopoDS_Shape& rShape)
     }
 
     auto handler = getGeometryHandler(mod);
-    std::string obName = static_cast<std::string>(ob->getNameInDocument());
     App::SubObjectT subject{ob, subName.c_str()};
     auto info = handler(subject);
     if (!info->valid) {

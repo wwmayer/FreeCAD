@@ -31,6 +31,7 @@
 
 #include <App/Application.h>
 #include <App/Document.h>
+#include <App/ElementResolver.h>
 #include <App/MeasureManager.h>
 
 #include <Mod/Part/App/PartFeature.h>
@@ -179,7 +180,7 @@ Base::Vector3d MeasureRadius::getPointOnCurve() const
 //! get the handler's result for the first element
 Part::MeasureRadiusInfoPtr MeasureRadius::getMeasureInfoFirst() const
 {
-   const App::DocumentObject* object = Element.getValue();
+    App::DocumentObject* object = Element.getValue();
     const std::vector<std::string>& subElements = Element.getSubValues();
 
     if (!object || subElements.empty()) {
@@ -188,7 +189,17 @@ Part::MeasureRadiusInfoPtr MeasureRadius::getMeasureInfoFirst() const
     }
 
     std::string subElement = subElements.front();
-    const char* className = object->getSubObject(subElement.c_str())->getTypeId().getName();
+
+    App::ElementResolver resolver(object, subElement);
+    object = resolver.getObject();
+    subElement = resolver.getElementName();
+
+    auto subObj = object->getSubObject(subElement.c_str());
+    if (!subObj) {
+        throw Base::RuntimeError("No sub-object available for submitted element type");
+    }
+
+    const char* className = subObj->getTypeId().getName();
     const std::string& mod = Base::Type::getModuleName(className);
 
     auto handler = getGeometryHandler(mod);

@@ -26,6 +26,7 @@
 #include <App/Application.h>
 #include <App/MeasureManager.h>
 #include <App/Document.h>
+#include <App/ElementResolver.h>
 
 #include "MeasurePosition.h"
 
@@ -104,14 +105,23 @@ App::DocumentObjectExecReturn *MeasurePosition::execute()
 
 void MeasurePosition::recalculatePosition()
 {
-    const App::DocumentObject* object = Element.getValue();
+    App::DocumentObject* object = Element.getValue();
     const std::vector<std::string>& subElements = Element.getSubValues();
 
     // Get the position of the first point
     std::string subElement = subElements.front();
 
+    App::ElementResolver resolver(object, subElement);
+    object = resolver.getObject();
+    subElement = resolver.getElementName();
+
+    auto subObj = object->getSubObject(subElement.c_str());
+    if (!subObj) {
+        throw Base::RuntimeError("No sub-object available for submitted element type");
+    }
+
     // Get the Geometry handler based on the module
-    const char* className = object->getSubObject(subElement.c_str())->getTypeId().getName();
+    const char* className = subObj->getTypeId().getName();
     const std::string& mod = Base::Type::getModuleName(className);
     auto handler = getGeometryHandler(mod);
     if (!handler) {

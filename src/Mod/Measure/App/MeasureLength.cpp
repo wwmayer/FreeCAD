@@ -24,6 +24,7 @@
 
 #include <App/Application.h>
 #include <App/Document.h>
+#include <App/ElementResolver.h>
 #include <App/MeasureManager.h>
 
 #include <Mod/Part/App/PartFeature.h>
@@ -119,9 +120,19 @@ void MeasureLength::recalculateLength()
         App::DocumentObject *object = objects.at(i);
         std::string subElement = subElements.at(i);
 
-        // Get the Geometry handler based on the module
-        const char* className = object->getSubObject(subElement.c_str())->getTypeId().getName();
+        App::ElementResolver resolver(object, subElement);
+        object = resolver.getObject();
+        subElement = resolver.getElementName();
+
+        auto subObj = object->getSubObject(subElement.c_str());
+        if (!subObj) {
+            throw Base::RuntimeError("No sub-object available for submitted element type");
+        }
+
+        const char* className = subObj->getTypeId().getName();
         const std::string& mod = Base::Type::getModuleName(className);
+
+        // Get the Geometry handler based on the module
         auto handler = getGeometryHandler(mod);
         if (!handler) {
             throw Base::RuntimeError("No geometry handler available for submitted element type");
@@ -154,12 +165,17 @@ Base::Placement MeasureLength::getPlacement() {
     const std::vector<App::DocumentObject*>& objects = Elements.getValues();
     const std::vector<std::string>& subElements = Elements.getSubValues();
 
-    if (!objects.size() || !subElements.size()) {
-        return Base::Placement();
+    if (objects.empty() || subElements.empty()) {
+        return {};
     }
 
     App::DocumentObject* object = objects.front();
     std::string subElement = subElements.front();
+
+    App::ElementResolver resolver(object, subElement);
+    object = resolver.getObject();
+    subElement = resolver.getElementName();
+
     const char* className = object->getSubObject(subElement.c_str())->getTypeId().getName();
     const std::string& mod = Base::Type::getModuleName(className);
 

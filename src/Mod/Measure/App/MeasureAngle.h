@@ -83,7 +83,7 @@ public:
     gp_Vec location2();
     
 private:
-
+    static Base::Vector3d getVector(App::DocumentObject* ob, std::string subElement);
     void onChanged(const App::Property* prop) override;
 };
 

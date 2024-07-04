@@ -25,6 +25,7 @@
 #include <App/PropertyContainer.h>
 #include <App/Application.h>
 #include <App/Document.h>
+#include <App/ElementResolver.h>
 #include <App/MeasureManager.h>
 #include <Base/Tools.h>
 #include <Base/Precision.h>
@@ -99,16 +100,13 @@ bool MeasureAngle::isPrioritizedSelection(const App::MeasureSelection& selection
     auto objT1 = element1.object;
     App::DocumentObject* ob1 = objT1.getObject();
     std::string sub1 = objT1.getSubName();
-    Base::Vector3d vec1;
-    getVec(*ob1, sub1, vec1);
+    Base::Vector3d vec1 = getVector(ob1, sub1);
 
     auto element2 = selection.at(1);
     auto objT2 = element2.object;
     App::DocumentObject* ob2 = objT2.getObject();
     std::string sub2 = objT2.getSubName();
-    Base::Vector3d vec2;
-    getVec(*ob2, sub2, vec2);
-
+    Base::Vector3d vec2 = getVector(ob2, sub2);
     
     double angle = std::fmod(vec1.GetAngle(vec2), D_PI);
     return angle > Base::Precision::Angular();
@@ -175,8 +173,13 @@ gp_Vec MeasureAngle::vector1() {
         return {};
     }
 
+    std::string subElement = subs.at(0);
+    App::ElementResolver resolver(ob, subElement);
+    ob = resolver.getObject();
+    subElement = resolver.getElementName();
+
     Base::Vector3d vec;
-    getVec(*ob, subs.at(0), vec);
+    getVec(*ob, subElement, vec);
     return gp_Vec(vec.x, vec.y, vec.z);
 }
 
@@ -188,8 +191,13 @@ gp_Vec MeasureAngle::vector2() {
         return gp_Vec();
     }
 
+    std::string subElement = subs.at(0);
+    App::ElementResolver resolver(ob, subElement);
+    ob = resolver.getObject();
+    subElement = resolver.getElementName();
+
     Base::Vector3d vec;
-    getVec(*ob, subs.at(0), vec);
+    getVec(*ob, subElement, vec);
     return gp_Vec(vec.x, vec.y, vec.z);
 }
 
@@ -201,9 +209,16 @@ gp_Vec MeasureAngle::location1() {
     if (!ob || !ob->isValid() || subs.empty() ) {
         return {};
     }
-    auto temp = getLoc(*ob, subs.at(0));
+
+    std::string subElement = subs.at(0);
+    App::ElementResolver resolver(ob, subElement);
+    ob = resolver.getObject();
+    subElement = resolver.getElementName();
+
+    auto temp = getLoc(*ob, subElement);
     return {temp.x, temp.y, temp.z};
 }
+
 gp_Vec MeasureAngle::location2() {
     App::DocumentObject* ob = Element2.getValue();
     std::vector<std::string> subs = Element2.getSubValues();
@@ -212,7 +227,12 @@ gp_Vec MeasureAngle::location2() {
         return {};
     }
 
-    auto temp = getLoc(*ob, subs.at(0));
+    std::string subElement = subs.at(0);
+    App::ElementResolver resolver(ob, subElement);
+    ob = resolver.getObject();
+    subElement = resolver.getElementName();
+
+    auto temp = getLoc(*ob, subElement);
     return {temp.x, temp.y, temp.z};
 }
 
@@ -232,15 +252,22 @@ App::DocumentObjectExecReturn *MeasureAngle::execute()
         return new App::DocumentObjectExecReturn("No geometry element picked");
     }
 
-    Base::Vector3d vec1;
-    getVec(*ob1, subs1.at(0), vec1);
-
-    Base::Vector3d vec2;
-    getVec(*ob2, subs2.at(0), vec2);
-
+    Base::Vector3d vec1 = getVector(ob1, subs1.at(0));
+    Base::Vector3d vec2 = getVector(ob2, subs2.at(0));
     Angle.setValue(Base::toDegrees(vec1.GetAngle(vec2)));
 
     return DocumentObject::StdReturn;
+}
+
+Base::Vector3d MeasureAngle::getVector(App::DocumentObject* ob, std::string subElement)
+{
+    App::ElementResolver resolver(ob, subElement);
+    ob = resolver.getObject();
+    subElement = resolver.getElementName();
+
+    Base::Vector3d vec1;
+    getVec(*ob, subElement, vec1);
+    return vec1;
 }
 
 void MeasureAngle::onChanged(const App::Property* prop)
