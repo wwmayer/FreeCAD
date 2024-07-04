@@ -277,6 +277,7 @@ SET(FreeCADApp_CPP_SRCS
     ComplexGeoData.cpp
     ComplexGeoDataPyImp.cpp
     ElementMap.cpp
+    ElementResolver.cpp
     Enumeration.cpp
     IndexedName.cpp
     MappedElement.cpp
@@ -304,6 +305,7 @@ SET(FreeCADApp_HPP_SRCS
     ColorModel.h
     ComplexGeoData.h
     ElementMap.h
+    ElementResolver.h
     Enumeration.h
     IndexedName.h
     MappedName.h
