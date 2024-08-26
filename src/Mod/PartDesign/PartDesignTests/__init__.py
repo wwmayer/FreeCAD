@@ -2,6 +2,7 @@ from . import TestBoolean
 from . import TestChamfer
 from . import TestDatum
 from . import TestDraft
+from . import TestDragDrop
 from . import TestFillet
 from . import TestHelix
 from . import TestHole
