@@ -525,6 +525,14 @@ void ViewProviderBody::dropObject(App::DocumentObject* obj)
     if (obj->isDerivedFrom<Part::Part2DObject>()) {
         body->addObject(obj);
     }
+    else if (PartDesign::Body::isAllowed(obj) && !PartDesign::Body::findBodyOf(obj)) {
+        try {
+            body->addObject(obj);
+        }
+        catch (const Base::Exception& e) {
+            e.ReportException();
+        }
+    }
     else if (PartDesign::Body::isAllowed(obj) && PartDesignGui::isFeatureMovable(obj)) {
         std::vector<App::DocumentObject*> move;
         move.push_back(obj);
