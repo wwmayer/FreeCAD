@@ -255,6 +255,7 @@ SET(FreeCADBase_CPP_SRCS
     Reader.cpp
     Rotation.cpp
     RotationPyImp.cpp
+    Safe.cpp
     Sequencer.cpp
     SmartPtrPy.cpp
     Stream.cpp
@@ -319,6 +320,7 @@ SET(FreeCADBase_HPP_SRCS
     QtTools.h
     Reader.h
     Rotation.h
+    Safe.h
     Sequencer.h
     SmartPtrPy.h
     Stream.h
