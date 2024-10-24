@@ -94,6 +94,9 @@ public:
         if (orbit == FreeTurntable) {
             return getFreeTurntable(point1, point2);
         }
+        if (orbit == Trackball) {
+            return getTrackball(rot, point1, point2);
+        }
 
         return rot;
     }
@@ -109,6 +112,29 @@ public:
     }
 
 private:
+    SbRotation getTrackball(SbRotation rot, const SbVec3f &point1, const SbVec3f &point2) const
+    {
+        const float factor = 3.0F;
+        SbVec3f axis;
+        float angle{};
+        rot.getValue(axis, angle);
+        SbVec3f dif = point1 - point2;
+        if (std::fabs(dif[1]) > factor * std::fabs(dif[0])) {
+            SbVec3f xaxis(1,0,0);
+            if (dif[1] < 0) {
+                angle = -angle;
+            }
+            rot.setValue(xaxis, angle);
+        }
+        else if (std::fabs(dif[0]) > factor * std::fabs(dif[1])) {
+            SbVec3f yaxis(0,1,0);
+            if (dif[0] > 0) {
+                angle = -angle;
+            }
+            rot.setValue(yaxis, angle);
+        }
+        return rot;
+    }
     SbRotation getTurntable(SbRotation rot, const SbVec3f &point1, const SbVec3f &point2) const
     {
         // 0000333: Turntable camera rotation
@@ -865,22 +891,6 @@ void NavigationStyle::spin(const SbVec2f & pointerpos)
     SbVec2f lastpos;
     lastpos[0] = float(this->log.position[1][0]) / float(std::max((int)(glsize[0]-1), 1));
     lastpos[1] = float(this->log.position[1][1]) / float(std::max((int)(glsize[1]-1), 1));
-
-    // Adjust the spin projector sphere to the screen position of the rotation center
-    if (rotationCenterFound) {
-        const auto pointOnScreen = viewer->getPointOnViewport(rotationCenter);
-        const auto sphereCenter = 2 * normalizePixelPos(pointOnScreen) - SbVec2f {1, 1};
-
-        float x, y;
-        sphereCenter.getValue(x, y);
-
-        const float radius = FCSphereSheetProjector::defaultSphereRadius * (1 + sphereCenter.length());
-
-        spinprojector->setSphere(SbSphere {SbVec3f {x, y, 0}, radius});
-    }
-    else {
-        spinprojector->setSphere(SbSphere {SbVec3f {0, 0, 0}, FCSphereSheetProjector::defaultSphereRadius});
-    }
 
     if (this->rotationCenterMode && this->rotationCenterFound) {
         SbVec3f hitpoint = this->rotationCenter;
