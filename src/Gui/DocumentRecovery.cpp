@@ -27,7 +27,6 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
-# include <boost/interprocess/sync/file_lock.hpp>
 # include <QApplication>
 # include <QCloseEvent>
 # include <QDateTime>
@@ -37,6 +36,7 @@
 # include <QFileInfo>
 # include <QHeaderView>
 # include <QList>
+# include <QLockFile>
 # include <QMap>
 # include <QMenu>
 # include <QMessageBox>
@@ -584,45 +584,35 @@ bool DocumentRecoveryFinder::checkForPreviousCrashes()
 
 void DocumentRecoveryFinder::checkDocumentDirs(QDir& tmp, const QList<QFileInfo>& dirs, const QString& fn)
 {
-    if (dirs.isEmpty()) {
-        // delete the lock file immediately if no transient directories are related
-        tmp.remove(fn);
-    }
-    else {
-        int countDeletedDocs = 0;
-        QString recovery_files = QString::fromLatin1("fc_recovery_files");
-        for (QList<QFileInfo>::const_iterator it = dirs.cbegin(); it != dirs.cend(); ++it) {
-            QDir doc_dir(it->absoluteFilePath());
-            doc_dir.setFilter(QDir::NoDotAndDotDot|QDir::AllEntries);
-            uint entries = doc_dir.entryList().count();
-            if (entries == 0) {
-                // in this case we can delete the transient directory because
-                // we cannot do anything
-                if (tmp.rmdir(it->filePath()))
-                    countDeletedDocs++;
-            }
-            // search for the existence of a recovery file
-            else if (doc_dir.exists(QLatin1String("fc_recovery_file.xml"))) {
-                // store the transient directory in case it's not empty
-                restoreDocFiles << *it;
-            }
-            // search for the 'fc_recovery_files' sub-directory and check that it's the only entry
-            else if (entries == 1 && doc_dir.exists(recovery_files)) {
-                // if the sub-directory is empty delete the transient directory
-                QDir rec_dir(doc_dir.absoluteFilePath(recovery_files));
-                rec_dir.setFilter(QDir::NoDotAndDotDot|QDir::AllEntries);
-                if (rec_dir.entryList().isEmpty()) {
-                    doc_dir.rmdir(recovery_files);
-                    if (tmp.rmdir(it->filePath()))
-                        countDeletedDocs++;
-                }
-            }
-        }
+    Q_UNUSED(fn)
 
-        // all directories corresponding to the lock file have been deleted
-        // so delete the lock file, too
-        if (countDeletedDocs == dirs.size()) {
-            tmp.remove(fn);
+    QString recovery_files = QString::fromLatin1("fc_recovery_files");
+    for (QList<QFileInfo>::const_iterator it = dirs.cbegin(); it != dirs.cend(); ++it) {
+Base::Console().Warning("File: %s\n", it->absoluteFilePath().toUtf8().constData());
+        QDir doc_dir(it->absoluteFilePath());
+        doc_dir.setFilter(QDir::NoDotAndDotDot|QDir::AllEntries);
+        uint entries = doc_dir.entryList().count();
+        if (entries == 0) {
+            // in this case we can delete the transient directory because
+            // we cannot do anything
+            bool ok = tmp.rmdir(it->filePath());
+Base::Console().Warning("Delete %s\n", (ok ? "OK" : "Failed"));
+        }
+        // search for the existence of a recovery file
+        else if (doc_dir.exists(QLatin1String("fc_recovery_file.xml"))) {
+            // store the transient directory in case it's not empty
+            restoreDocFiles << *it;
+        }
+        // search for the 'fc_recovery_files' sub-directory and check that it's the only entry
+        else if (entries == 1 && doc_dir.exists(recovery_files)) {
+            // if the sub-directory is empty delete the transient directory
+            QDir rec_dir(doc_dir.absoluteFilePath(recovery_files));
+            rec_dir.setFilter(QDir::NoDotAndDotDot|QDir::AllEntries);
+            if (rec_dir.entryList().isEmpty()) {
+                doc_dir.rmdir(recovery_files);
+                bool ok = tmp.rmdir(it->filePath());
+Base::Console().Warning("Delete %s\n", (ok ? "OK" : "Failed"));
+            }
         }
     }
 }
@@ -651,21 +641,17 @@ void DocumentRecoveryHandler::checkForPreviousCrashes(const std::function<void(Q
 
     QString exeName = QString::fromStdString(App::Application::getExecutableName());
     QList<QFileInfo> locks = tmp.entryInfoList();
-    for (QList<QFileInfo>::iterator it = locks.begin(); it != locks.end(); ++it) {
-        QString bn = it->baseName();
+    for (const QFileInfo&  it : locks) {
+        QString bn = it.baseName();
         // ignore the lock file for this instance
         QString pid = QString::number(QCoreApplication::applicationPid());
         if (bn.startsWith(exeName) && bn.indexOf(pid) < 0) {
-            QString fn = it->absoluteFilePath();
+            QString fn = it.absoluteFilePath();
 
-#if !defined(FC_OS_WIN32) || (BOOST_VERSION < 107600)
-            boost::interprocess::file_lock flock(fn.toUtf8());
-#else
-            boost::interprocess::file_lock flock(fn.toStdWString().c_str());
-#endif
-            if (flock.try_lock()) {
+            QLockFile flock(fn);
+            if (flock.tryLock()) {
                 // OK, this file is a leftover from a previous crash
-                QString crashed_pid = bn.mid(exeName.length()+1);
+                QString crashed_pid = bn.mid(exeName.length() + 1);
                 // search for transient directories with this PID
                 QString filter;
                 QTextStream str(&filter);
@@ -674,7 +660,10 @@ void DocumentRecoveryHandler::checkForPreviousCrashes(const std::function<void(Q
                 tmp.setFilter(QDir::Dirs);
                 QList<QFileInfo> dirs = tmp.entryInfoList();
 
-                callableFunc(tmp, dirs, it->fileName());
+                callableFunc(tmp, dirs, it.fileName());
+            }
+            else {
+                Base::Console().Message("Cannot lock %s\n", fn.toUtf8().constData());
             }
         }
     }

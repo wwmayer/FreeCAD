@@ -23,13 +23,13 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
-#include <boost/interprocess/sync/file_lock.hpp>
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/errors/SoError.h>
 #include <QCloseEvent>
 #include <QDir>
 #include <QFileInfo>
 #include <QLocale>
+#include <QLockFile>
 #include <QMessageBox>
 #include <QMessageLogContext>
 #include <QRegularExpression>
@@ -2172,46 +2172,35 @@ void setAppNameAndIcon()
 
 void tryRunEventLoop(GUISingleApplication& mainApp)
 {
-    std::stringstream s;
-    s << App::Application::getUserCachePath() << App::Application::getExecutableName() << "_"
-      << QCoreApplication::applicationPid() << ".lock";
+    std::stringstream out;
+    out << App::Application::getUserCachePath()
+        << App::Application::getExecutableName()
+        << "_"
+        << QCoreApplication::applicationPid()
+        << ".lock";
+
     // open a lock file with the PID
-    Base::FileInfo fi(s.str());
-    Base::ofstream lock(fi);
+    QString filename = QString::fromStdString(out.str());
+    QLockFile flock(filename);
+    if (flock.tryLock()) {
+        Base::Console().Log("Init: Executing event loop...\n");
+        QApplication::exec();
 
-    // In case the file_lock cannot be created start FreeCAD without IPC support.
-#if !defined(FC_OS_WIN32) || (BOOST_VERSION < 107600)
-    std::string filename = s.str();
-#else
-    std::wstring filename = fi.toStdWString();
-#endif
-    std::unique_ptr<boost::interprocess::file_lock> flock;
-    try {
-        flock = std::make_unique<boost::interprocess::file_lock>(filename.c_str());
-        flock->lock();
-    }
-    catch (const boost::interprocess::interprocess_exception& e) {
-        QString msg = QString::fromLocal8Bit(e.what());
-        Base::Console().Warning("Failed to create a file lock for the IPC: %s\n",
-                                msg.toUtf8().constData());
-    }
+        // Qt can't handle exceptions thrown from event handlers, so we need
+        // to manually rethrow SystemExitExceptions.
+        if (mainApp.caughtException) {
+            throw Base::SystemExitException(*mainApp.caughtException.get());
+        }
 
-    Base::Console().Log("Init: Executing event loop...\n");
-    QApplication::exec();
-
-    // Qt can't handle exceptions thrown from event handlers, so we need
-    // to manually rethrow SystemExitExceptions.
-    if (mainApp.caughtException) {
-        throw Base::SystemExitException(*mainApp.caughtException.get());
+        // close the lock file, in case of a crash we can see the existing lock file
+        // on the next restart and try to repair the documents, if needed.
+        flock.unlock();
     }
+    else {
+        Base::Console().Warning("Failed to create a file lock for the IPC.\n"
+                                "The application will be terminated\n");
 
-    // close the lock file, in case of a crash we can see the existing lock file
-    // on the next restart and try to repair the documents, if needed.
-    if (flock) {
-        flock->unlock();
     }
-    lock.close();
-    fi.deleteFile();
 }
 
 void runEventLoop(GUISingleApplication& mainApp)
@@ -2475,23 +2464,16 @@ void Application::checkForDeprecatedSettings()
 
 void Application::checkForPreviousCrashes()
 {
-    try {
-        Gui::Dialog::DocumentRecoveryFinder finder;
-        if (!finder.checkForPreviousCrashes()) {
+    Gui::Dialog::DocumentRecoveryFinder finder;
+    if (!finder.checkForPreviousCrashes()) {
 
-            // If the recovery dialog wasn't shown check the cache size periodically
-            Gui::Dialog::ApplicationCache cache;
-            cache.applyUserSettings();
-            if (cache.periodicCheckOfSize()) {
-                qint64 total = cache.size();
-                cache.performAction(total);
-            }
+        // If the recovery dialog wasn't shown check the cache size periodically
+        Gui::Dialog::ApplicationCache cache;
+        cache.applyUserSettings();
+        if (cache.periodicCheckOfSize()) {
+            qint64 total = cache.size();
+            cache.performAction(total);
         }
-    }
-    catch (const boost::interprocess::interprocess_exception& e) {
-        QString msg = QString::fromLocal8Bit(e.what());
-        Base::Console().Warning("Failed check for previous crashes because of IPC error: %s\n",
-                                msg.toUtf8().constData());
     }
 }
 

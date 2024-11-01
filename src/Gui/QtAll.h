@@ -36,6 +36,7 @@
 #include <QFile>
 #include <QLibraryInfo>
 #include <QLocale>
+#include <QLockFile>
 #include <QMutex>
 #include <qmath.h>
 #include <QMessageLogContext>
