@@ -94,7 +94,7 @@ INSTALL(TARGETS MeshPart DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 
 ################################ flat mesh ###############################
-if (BUILD_FLAT_MESH AND FREECAD_USE_PYBIND11)
+if (BUILD_FLAT_MESH)
     SET(FLATMESH_SRCS
         MeshFlattening.cpp
         MeshFlattening.h
@@ -112,5 +112,5 @@ if (BUILD_FLAT_MESH AND FREECAD_USE_PYBIND11)
 
     SET_BIN_DIR(flatmesh flatmesh /Mod/MeshPart)
     install(TARGETS flatmesh DESTINATION ${CMAKE_INSTALL_LIBDIR})
-endif(BUILD_FLAT_MESH AND FREECAD_USE_PYBIND11)
+endif(BUILD_FLAT_MESH)
 ############################################################################

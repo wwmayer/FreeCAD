@@ -184,6 +184,10 @@ macro(InitializeFreeCADBuildOptions)
         set(BUILD_SMESH ON )
     endif()
 
+    if (BUILD_CAM OR BUILD_FLAT_MESH)
+        set(FREECAD_USE_PYBIND11 ON)
+    endif()
+
     # for Windows the minimum required cmake version is 3.4.3 to build the CAM module
     if(WIN32 AND CMAKE_VERSION VERSION_LESS 3.4.3)
         message(WARNING "Disable CAM, requires cmake >= 3.4.3 in order to build this module")
