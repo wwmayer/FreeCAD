@@ -125,7 +125,11 @@ public:
         {}
     };
 
-protected:
+private:
+    template<class T, typename... Args>
+    TopoDS_Shape areaSection(T func, int index, Args&&... args);
+
+private:
     std::list<Shape> myShapes;
     std::unique_ptr<CArea> myArea;
     std::unique_ptr<CArea> myAreaOpen;
@@ -159,15 +163,9 @@ protected:
      *
      * See #AREA_PARAMS_OFFSET for description of the arguments.
      */
-    void makeOffset(std::list<std::shared_ptr<CArea>>& areas,
-                    PARAM_ARGS_DEF(PARAM_FARG, AREA_PARAMS_OFFSET),
-                    bool from_center = false);
-
-    /** Make a pocket of the combined shape
-     *
-     * User #AREA_PARAMS_POCKET setting in myParams.
-     */
-    TopoDS_Shape makePocket();
+    void makeOffsets(std::list<std::shared_ptr<CArea>>& areas,
+                     PARAM_ARGS_DEF(PARAM_FARG, AREA_PARAMS_OFFSET),
+                     bool from_center = false);
 
     void explode(const TopoDS_Shape& shape);
 

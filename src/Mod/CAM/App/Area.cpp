@@ -27,6 +27,7 @@
 
 #ifndef _PreComp_
 #include <cfloat>
+#include <functional>
 
 #include <boost_geometry.hpp>
 #include <boost/geometry/geometries/register/point.hpp>
@@ -2205,34 +2206,37 @@ TopoDS_Shape Area::toShape(CArea& area, short fill, int reorient)
     return toShape(area, bFill, &trsf, reorient);
 }
 
-
-#define AREA_SECTION(_op, _index, ...)                                                             \
-    do {                                                                                           \
-        if (mySections.size()) {                                                                   \
-            if (_index >= (int)mySections.size())                                                  \
-                return TopoDS_Shape();                                                             \
-            if (_index < 0) {                                                                      \
-                BRep_Builder builder;                                                              \
-                TopoDS_Compound compound;                                                          \
-                builder.MakeCompound(compound);                                                    \
-                for (shared_ptr<Area> area : mySections) {                                         \
-                    const TopoDS_Shape& s = area->_op(_index, ##__VA_ARGS__);                      \
-                    if (s.IsNull())                                                                \
-                        continue;                                                                  \
-                    builder.Add(compound, s);                                                      \
-                }                                                                                  \
-                if (TopExp_Explorer(compound, TopAbs_EDGE).More())                                 \
-                    return TopoDS_Shape(std::move(compound));                                      \
-                return TopoDS_Shape();                                                             \
-            }                                                                                      \
-            return mySections[_index]->_op(_index, ##__VA_ARGS__);                                 \
-        }                                                                                          \
-    } while (0)
+template<class T, typename... Args>
+TopoDS_Shape Area::areaSection(T func, int index, Args&&... args)
+{
+    if (index >= int(mySections.size())) {
+        return {};
+    }
+    if (index < 0) {
+        BRep_Builder builder;
+        TopoDS_Compound compound;
+        builder.MakeCompound(compound);
+        for (const shared_ptr<Area>& area : mySections) {
+            const TopoDS_Shape& s = func(*area, index, std::forward<Args>(args)...);
+            if (s.IsNull()) {
+                continue;
+            }
+            builder.Add(compound, s);
+        }
+        if (TopExp_Explorer(compound, TopAbs_EDGE).More()) {
+            return {std::move(compound)};
+        }
+        return {};
+    }
+    return func(*mySections[index], index, std::forward<Args>(args)...);
+}
 
 TopoDS_Shape Area::getShape(int index)
 {
     build();
-    AREA_SECTION(getShape, index);
+    if (!mySections.empty()) {
+        return areaSection(std::mem_fn(&Area::getShape), index);
+    }
 
     if (myShapeDone) {
         return myShape;
@@ -2267,7 +2271,7 @@ TopoDS_Shape Area::getShape(int index)
 
     // do offset first, then pocket the inner most offset shape
     std::list<shared_ptr<CArea>> areas;
-    makeOffset(areas, PARAM_FIELDS(AREA_MY, AREA_PARAMS_OFFSET));
+    makeOffsets(areas, PARAM_FIELDS(AREA_MY, AREA_PARAMS_OFFSET));
 
     if (areas.empty()) {
         areas.push_back(make_shared<CArea>(*myArea));
@@ -2333,14 +2337,16 @@ TopoDS_Shape Area::makeOffset(int index,
                               bool from_center)
 {
     build();
-    AREA_SECTION(makeOffset,
-                 index,
-                 PARAM_FIELDS(PARAM_FARG, AREA_PARAMS_OFFSET),
-                 reorient,
-                 from_center);
+    if (!mySections.empty()) {
+        return areaSection(std::mem_fn(&Area::makeOffset),
+                           index,
+                           PARAM_FIELDS(PARAM_FARG, AREA_PARAMS_OFFSET),
+                           reorient,
+                           from_center);
+    }
 
     std::list<shared_ptr<CArea>> areas;
-    makeOffset(areas, PARAM_FIELDS(PARAM_FARG, AREA_PARAMS_OFFSET), from_center);
+    makeOffsets(areas, PARAM_FIELDS(PARAM_FARG, AREA_PARAMS_OFFSET), from_center);
     if (areas.empty()) {
         if (myParams.Thicken && myParams.ToolRadius > Precision::Confusion()) {
             CArea area(*myArea);
@@ -2387,9 +2393,9 @@ TopoDS_Shape Area::makeOffset(int index,
     return TopoDS_Shape();
 }
 
-void Area::makeOffset(list<shared_ptr<CArea>>& areas,
-                      PARAM_ARGS(PARAM_FARG, AREA_PARAMS_OFFSET),
-                      bool from_center)
+void Area::makeOffsets(list<shared_ptr<CArea>>& areas,
+                       PARAM_ARGS(PARAM_FARG, AREA_PARAMS_OFFSET),
+                       bool from_center)
 {
     if (fabs(offset) < Precision::Confusion()) {
         return;
@@ -2520,7 +2526,9 @@ TopoDS_Shape Area::makePocket(int index, PARAM_ARGS(PARAM_FARG, AREA_PARAMS_POCK
     }
 
     build();
-    AREA_SECTION(makePocket, index, PARAM_FIELDS(PARAM_FARG, AREA_PARAMS_POCKET));
+    if (!mySections.empty()) {
+        return areaSection(std::mem_fn(&Area::makePocket), index, PARAM_FIELDS(PARAM_FARG, AREA_PARAMS_POCKET));
+    }
 
     FC_TIME_INIT(t);
     bool done = false;
