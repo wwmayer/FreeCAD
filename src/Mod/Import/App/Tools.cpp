@@ -32,6 +32,7 @@
 #include <boost/format.hpp>
 
 #include "Tools.h"
+#include "Tools/color_traits.h"
 #include <Base/Console.h>
 #include <Mod/Part/App/TopoShape.h>
 
@@ -48,6 +49,7 @@ using namespace Import;
 
 App::Color Tools::convertColor(const Quantity_ColorRGBA& rgba)
 {
+    return App::Color::fromValue(rgba);
     Standard_Real red, green, blue;
     rgba.GetRGB().Values(red, green, blue, OCC_COLOR_SPACE);
     return App::Color(static_cast<float>(red),
@@ -58,6 +60,7 @@ App::Color Tools::convertColor(const Quantity_ColorRGBA& rgba)
 
 Quantity_ColorRGBA Tools::convertColor(const App::Color& col)
 {
+    return col.asValue<Quantity_ColorRGBA>();
     return Quantity_ColorRGBA(Quantity_Color(col.r, col.g, col.b, OCC_COLOR_SPACE), col.a);
 }
 

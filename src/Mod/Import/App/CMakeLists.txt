@@ -44,6 +44,7 @@ SET(Import_SRCS
     PreCompiled.h
     Tools.cpp
     Tools.h
+    Tools/color_traits.h
     WriterGltf.cpp
     WriterGltf.h
     WriterIges.cpp
