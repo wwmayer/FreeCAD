@@ -479,6 +479,16 @@ endsolid Simple"""
         mesh.read(Stream=data, Format="AST")
         self.assertTrue(mesh.hasSelfIntersections())
 
+    def testSetPoint(self):
+        with self.assertRaises(IndexError):
+            mesh = Mesh.Mesh()
+            mesh.setPoint(0, FreeCAD.Vector())
+
+    def testMovePoint(self):
+        with self.assertRaises(IndexError):
+            mesh = Mesh.Mesh()
+            mesh.movePoint(0, FreeCAD.Vector())
+
 
 class PivyTestCases(unittest.TestCase):
     def setUp(self):
