@@ -2282,6 +2282,7 @@ void Application::runApplication()
     Application app(true);
     MainWindow mw;
     mw.setProperty("QuitOnClosed", true);
+    mw.setAttribute(Qt::WA_AlwaysShowToolTips);
 
     // https://forum.freecad.org/viewtopic.php?f=3&t=15540
     // Needs to be set after app is created to override platform defaults (qt commit a2aa1f81a81)
