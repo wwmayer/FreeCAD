@@ -89,6 +89,7 @@ generate_from_xml(BRepOffsetAPI_MakeFillingPy)
 
 # make sure to create the directory at configure time
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/BRepFeat)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/BRepOffsetAPI)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/ChFi2d)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Geom2d)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/GeomPlate)
@@ -97,6 +98,7 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/ShapeFix)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/ShapeUpgrade)
 
 generate_from_xml(BRepFeat/MakePrismPy)
+generate_from_xml(BRepOffsetAPI/MakeOffsetPy)
 
 generate_from_xml(ChFi2d/ChFi2d_AnaFilletAlgoPy)
 generate_from_xml(ChFi2d/ChFi2d_FilletAlgoPy)
@@ -373,6 +375,13 @@ SET(BRepFeatPy_SRCS
 )
 SOURCE_GROUP("BRepFeat" FILES ${BRepFeatPy_SRCS})
 
+# BRepOffsetAPI wrappers
+SET(BRepOffsetAPIPy_SRCS
+    BRepOffsetAPI/MakeOffsetPy.xml
+    BRepOffsetAPI/MakeOffsetPyImp.cpp
+)
+SOURCE_GROUP("BRepOffsetAPI" FILES ${BRepOffsetAPIPy_SRCS})
+
 # ChFi2d wrappers
 SET(ChFi2dPy_SRCS
     ChFi2d/ChFi2d_AnaFilletAlgoPy.xml
@@ -505,6 +514,7 @@ SET(Part_SRCS
     ${Properties_SRCS}
     ${Python_SRCS}
     ${BRepFeatPy_SRCS}
+    ${BRepOffsetAPIPy_SRCS}
     ${ChFi2dPy_SRCS}
     ${Geom2dPy_SRCS}
     ${GeomPlatePy_SRCS}

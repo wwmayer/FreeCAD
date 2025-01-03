@@ -134,6 +134,7 @@
 #include "PropertyTopoShapeList.h"
 
 #include <BRepFeat/MakePrismPy.h>
+#include <BRepOffsetAPI/MakeOffsetPy.h>
 
 #include <ChFi2d/ChFi2d_AnaFilletAlgoPy.h>
 #include <ChFi2d/ChFi2d_ChamferAPIPy.h>
@@ -347,6 +348,7 @@ PyMOD_INIT_FUNC(Part)
     PyObject* brepOffsetApiModule(module.getAttr("BRepOffsetAPI").ptr());
     Base::Interpreter().addType(&Part::BRepOffsetAPI_MakePipeShellPy::Type,brepOffsetApiModule,"MakePipeShell");
     Base::Interpreter().addType(&Part::BRepOffsetAPI_MakeFillingPy::Type,brepOffsetApiModule,"MakeFilling");
+    Base::Interpreter().addType(&Part::MakeOffsetPy::Type,brepOffsetApiModule,"MakeOffset");
 
     // HLRBRep package
     PyObject* hlrfeatModule(module.getAttr("HLRBRep").ptr());
