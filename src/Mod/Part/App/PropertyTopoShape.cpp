@@ -561,10 +561,6 @@ void PropertyPartShape::loadFromStream(Base::Reader &reader)
 
 void PropertyPartShape::SaveDocFile (Base::Writer &writer) const
 {
-    // If the shape is empty we simply store nothing. The file size will be 0 which
-    // can be checked when reading in the data.
-    if (_Shape.getShape().IsNull())
-        return;
     TopoDS_Shape myShape = _Shape.getShape();
     if (writer.getMode("BinaryBrep")) {
         TopoShape shape;
@@ -572,6 +568,11 @@ void PropertyPartShape::SaveDocFile (Base::Writer &writer) const
         shape.exportBinary(writer.Stream());
     }
     else {
+        // If the shape is empty we simply store nothing. The file size will be 0 which
+        // can be checked when reading in the data.
+        if (_Shape.getShape().IsNull()) {
+            return;
+        }
         bool direct = App::GetApplication().GetParameterGroupByPath
             ("User parameter:BaseApp/Preferences/Mod/Part/General")->GetBool("DirectAccess", true);
         if (!direct) {
