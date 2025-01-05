@@ -234,7 +234,7 @@ public:
      * \return true if the face is concave when shown from pointOfVue and looking into direction
      * and false otherwise, plane case included.
      */
-    static bool isConcave(const TopoDS_Face &face, const gp_Pnt &pointOfVue, const gp_Dir &direction);
+    static bool isConcave(const TopoDS_Face &face, const std::vector<gp_Pnt> &pointOfVue, const gp_Dir &direction);
 };
 
 } //namespace Part

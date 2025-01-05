@@ -748,7 +748,7 @@ TopLoc_Location Part::Tools::fromPlacement(const Base::Placement& plm)
 }
 
 bool Part::Tools::isConcave(const TopoDS_Face &face,
-                            const gp_Pnt &pointOfVue,
+                            const std::vector<gp_Pnt> &pointOfVue,
                             const gp_Dir &direction)
 {
     bool result = false;
@@ -761,26 +761,35 @@ bool Part::Tools::isConcave(const TopoDS_Face &face,
 
     // create a line through the point of vue
     gp_Lin line;
-    line.SetLocation(pointOfVue);
     line.SetDirection(direction);
 
     // Find intersection of line with the face
     BRepIntCurveSurface_Inter mkSection;
-    mkSection.Init(face, line, Precision::Confusion());
+    mkSection.Load(face, Precision::Confusion());
+    for (const auto pnt : pointOfVue) {
+        line.SetLocation(pnt);
+        Handle(Geom_Line) geomline = new Geom_Line(line);
+        GeomAdaptor_Curve aCurve(geomline);
+        mkSection.Init(aCurve);
 
-    if (mkSection.More()) {
-        result = mkSection.Transition() == IntCurveSurface_In;
+        if (mkSection.More()) {
+            result = mkSection.Transition() == IntCurveSurface_In;
 
-        // compute normals at the intersection
-        gp_Pnt iPnt;
-        gp_Vec dU, dV;
-        surf->D1(mkSection.U(), mkSection.V(), iPnt, dU, dV);
+            // compute normals at the intersection
+            gp_Pnt iPnt;
+            gp_Vec dU, dV;
+            surf->D1(mkSection.U(), mkSection.V(), iPnt, dU, dV);
 
-        // check normals orientation
-        gp_Dir dirdU(dU);
-        result = (dirdU.Angle(line.Direction()) - M_PI_2) <= Precision::Confusion();
-        gp_Dir dirdV(dV);
-        result = result || ((dirdV.Angle(line.Direction()) - M_PI_2) <= Precision::Confusion());
+            // check normals orientation
+            gp_Dir dirdU(dU);
+            result = (dirdU.Angle(line.Direction()) - M_PI_2) <= Precision::Confusion();
+            gp_Dir dirdV(dV);
+            result = result || ((dirdV.Angle(line.Direction()) - M_PI_2) <= Precision::Confusion());
+        }
+
+        if (result) {
+            break;
+        }
     }
 
     return result;
