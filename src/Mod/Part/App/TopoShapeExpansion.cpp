@@ -4244,11 +4244,18 @@ TopoShape& TopoShape::makeElementPrismUntil(const TopoShape& _base,
     BRepFeat_MakePrism PrismMaker;
 
     // don't remove limits of concave face
-    if (checkLimits && __uptoface.shapeType(true) == TopAbs_FACE){
+    if (checkLimits && __uptoface.shapeType(true) == TopAbs_FACE) {
+        // get all vertexes of the sketch as the COG alone may fail to intersect the face
+        std::vector<gp_Pnt> pnts;
+        for (TopExp_Explorer xp(profile.getShape(), TopAbs_VERTEX); xp.More(); xp.Next()) {
+            pnts.push_back(BRep_Tool::Pnt(TopoDS::Vertex(xp.Current())));
+        }
+
         Base::Vector3d vCog;
         profile.getCenterOfGravity(vCog);
-        gp_Pnt pCog(vCog.x, vCog.y, vCog.z);
-        checkLimits = ! Part::Tools::isConcave(TopoDS::Face(__uptoface.getShape()), pCog , direction);
+        gp_Pnt cog(vCog.x, vCog.y, vCog.z);
+        pnts.push_back(cog);
+        checkLimits = !Part::Tools::isConcave(TopoDS::Face(__uptoface.getShape()), pnts , direction);
     }
 
     TopoShape _uptoface(__uptoface);
