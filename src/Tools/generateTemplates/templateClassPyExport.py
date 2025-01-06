@@ -622,15 +622,12 @@ PyObject * @self.export.Name@::staticCallback_@i.Name@ (PyObject *self, PyObject
 -
         return ret;
     } // Please sync the following catch implementation with PY_CATCH
-    catch(Base::Exception &e)
+    catch(const Base::Exception& e)
     {
-        auto pye = e.getPyExceptionType();
-        if(!pye)
-            pye = Base::PyExc_FC_GeneralError;
-        PyErr_SetObject(pye, e.getPyObject());
+        e.setPyException();
         return nullptr;
     }
-    catch(const std::exception &e)
+    catch(const std::exception& e)
     {
         PyErr_SetString(Base::PyExc_FC_GeneralError, e.what());
         return nullptr;
@@ -785,15 +782,12 @@ PyObject *@self.export.Name@::_getattr(const char *attr)			// __getattr__ functi
         PyObject *r = getCustomAttributes(attr);
         if(r) return r;
     } // Please sync the following catch implementation with PY_CATCH
-    catch(Base::Exception &e)
+    catch(const Base::Exception& e)
     {
-        auto pye = e.getPyExceptionType();
-        if(!pye)
-            pye = Base::PyExc_FC_GeneralError;
-        PyErr_SetObject(pye, e.getPyObject());
+        e.setPyException();
         return nullptr;
     }
-    catch(const std::exception &e)
+    catch(const std::exception& e)
     {
         PyErr_SetString(Base::PyExc_FC_GeneralError, e.what());
         return nullptr;
@@ -835,15 +829,12 @@ int @self.export.Name@::_setattr(const char *attr, PyObject *value) // __setattr
         else if (r == -1)
             return -1;
     } // Please sync the following catch implementation with PY_CATCH
-    catch(Base::Exception &e)
+    catch(const Base::Exception& e)
     {
-        auto pye = e.getPyExceptionType();
-        if(!pye)
-            pye = Base::PyExc_FC_GeneralError;
-        PyErr_SetObject(pye, e.getPyObject());
+        e.setPyException();
         return -1;
     }
-    catch(const std::exception &e)
+    catch(const std::exception& e)
     {
         PyErr_SetString(Base::PyExc_FC_GeneralError, e.what());
         return -1;
