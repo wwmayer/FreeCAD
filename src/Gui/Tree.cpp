@@ -1703,6 +1703,7 @@ void TreeWidget::keyPressEvent(QKeyEvent* event)
 
 void TreeWidget::mousePressEvent(QMouseEvent* event)
 {
+    bool visibilityChanged = false;
     if (isVisibilityIconEnabled()) {
         QTreeWidgetItem* item = itemAt(event->pos());
         if (item && item->type() == TreeWidget::ObjectType && event->button() == Qt::LeftButton) {
@@ -1750,11 +1751,14 @@ void TreeWidget::mousePressEvent(QMouseEvent* event)
                     visible = obj->Visibility.getValue();
                     obj->Visibility.setValue(!visible);
                 }
+                visibilityChanged = true;
             }
         }
     }
 
-    QTreeWidget::mousePressEvent(event);
+    if (!visibilityChanged) {
+        QTreeWidget::mousePressEvent(event);
+    }
 }
 
 void TreeWidget::mouseDoubleClickEvent(QMouseEvent* event)
