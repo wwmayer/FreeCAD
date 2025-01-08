@@ -234,6 +234,8 @@ protected:
     void addToLog(const SbVec2s pos, const SbTime time);
 
     void syncModifierKeys(const SoEvent * const ev);
+    void saveDistanceCameraToRotationCenter(const SbVec3f& cnt);
+    void adjustPerspectiveCameraPosition();
 
 protected:
     struct { // tracking mouse movement in a log
@@ -282,6 +284,7 @@ protected:
 private:
     friend class NavigationAnimator;
 
+    float distanceRotationCenterCamera;
     SbVec3f rotationCenter;
     SbBool rotationCenterFound;
     SbBool rotationCenterIsScenePointAtCursor;

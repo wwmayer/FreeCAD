@@ -218,6 +218,7 @@ void NavigationStyle::initialize()
     this->spinningAnimationEnabled = false;
     this->spinsamplecounter = 0;
     this->spinincrement = SbRotation::identity();
+    this->distanceRotationCenterCamera = 0.0F;
     this->rotationCenterFound = false;
     this->rotationCenterIsScenePointAtCursor = false;
 
@@ -838,6 +839,29 @@ void NavigationStyle::setRotationCenter(const SbVec3f& cnt)
     this->rotationCenterFound = true;
 }
 
+void NavigationStyle::saveDistanceCameraToRotationCenter(const SbVec3f& cnt)
+{
+    rotationCenterIsScenePointAtCursor = true;
+    if (auto cam = viewer->getSoRenderManager()->getCamera()) {
+        SbVec3f pnt = cam->position.getValue();
+        distanceRotationCenterCamera = (pnt - cnt).length();
+    }
+}
+
+void NavigationStyle::adjustPerspectiveCameraPosition()
+{
+    // when rotating around cursor make sure that the distance between
+    // rotation center and camera position is kept constant
+    // Note: This only works for perspective camera but not orthographic camera
+    if (auto cam = dynamic_cast<SoPerspectiveCamera*>(viewer->getSoRenderManager()->getCamera())) {
+        if (rotationCenterIsScenePointAtCursor) {
+            SbVec3f diff = cam->position.getValue() - rotationCenter;
+            diff.normalize();
+            cam->position = rotationCenter + diff * distanceRotationCenterCamera;
+        }
+    }
+}
+
 SbVec3f NavigationStyle::getFocalPoint() const
 {
     SoCamera* cam = viewer->getSoRenderManager()->getCamera();
@@ -922,6 +946,8 @@ void NavigationStyle::spin(const SbVec2f & pointerpos)
         posn[0] = float(this->localPos[0]) / float(std::max((int)(glsize[0]-1), 1));
         posn[1] = float(this->localPos[1]) / float(std::max((int)(glsize[1]-1), 1));
         panCamera(viewer->getSoRenderManager()->getCamera(), ratio, panplane, posn, SbVec2f(0.5,0.5));
+
+        adjustPerspectiveCameraPosition();
     }
 
     // Calculate an average angle magnitude value to make the transition
@@ -1060,7 +1086,7 @@ void NavigationStyle::saveCursorPosition(const SoEvent * const ev)
         SoPickedPoint * picked = rpaction.getPickedPoint();
         if (picked) {
             setRotationCenter(picked->getPoint());
-            rotationCenterIsScenePointAtCursor = true;
+            saveDistanceCameraToRotationCenter(picked->getPoint());
             return;
         }
     }
