@@ -35,7 +35,10 @@ void WorkbenchManipulator::modifyMenuBar([[maybe_unused]] Gui::MenuItem* menuBar
     }
     auto itemMeasure = new Gui::MenuItem();
     itemMeasure->setCommand("Std_Measure");
+    auto quickMeasure = new Gui::MenuItem();
+    quickMeasure->setCommand("Std_QuickMeasure");
     menuTools->appendItem(itemMeasure);
+    menuTools->appendItem(quickMeasure);
 }
 
 void WorkbenchManipulator::modifyToolBars(Gui::ToolBarItem* toolBar)
