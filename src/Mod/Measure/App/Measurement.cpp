@@ -319,6 +319,9 @@ double Measurement::length() const
 
                 //  Get the length of one edge
                 TopoDS_Shape shape = getShape(*obj, (*subEl).c_str());
+                if (shape.IsNull()) {
+                    continue;
+                }
                 const TopoDS_Edge& edge = TopoDS::Edge(shape);
                 BRepAdaptor_Curve curve(edge);
 
@@ -353,8 +356,8 @@ double Measurement::length() const
                         throw Base::RuntimeError(
                             "Measurement - length - Curve type not currently handled");
                     }
-                }  // end switch
-            }  // end for
+                }
+            }
         }
     }
     return result;
