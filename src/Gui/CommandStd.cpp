@@ -404,9 +404,9 @@ StdCmdDlgPreferences::StdCmdDlgPreferences()
 {
     sGroup        = "Tools";
     sMenuText     = QT_TR_NOOP("Prefere&nces ...");
-    sToolTipText  = QT_TR_NOOP("Opens a Dialog to edit the preferences");
+    sToolTipText  = QT_TR_NOOP("Opens a dialog to edit the preferences");
     sWhatsThis    = "Std_DlgPreferences";
-    sStatusTip    = QT_TR_NOOP("Opens a Dialog to edit the preferences");
+    sStatusTip    = QT_TR_NOOP("Opens a dialog to edit the preferences");
     sPixmap     = "preferences-system";
     eType         = 0;
     sAccel        = "Ctrl+,";
