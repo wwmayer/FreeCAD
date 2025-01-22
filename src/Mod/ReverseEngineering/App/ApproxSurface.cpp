@@ -32,6 +32,7 @@
 #include <math_Householder.hxx>
 #endif
 
+#include <Base/Console.h>
 #include <Base/Sequencer.h>
 #include <Base/Tools.h>
 #include <Mod/Mesh/App/Core/Approximation.h>
@@ -1001,11 +1002,20 @@ void BSplineParameterCorrection::DoParameterCorrection(int iIter)
                 }
             }
 
-            fDeltaU = ((P - X) * Xu) / ((P - X) * Xuu - Xu * Xu);
+            gp_Vec X_P = X - P;
+            double Suu = Xu * Xu + (X_P)*Xuu;
+            double Svv = Xv * Xv + (X_P)*Xvv;
+            double Suv = Xu * Xv + (X_P)*Xuv;
+            double factor = 1.0 / (Suu * Svv - Suv * Suv);
+
+            fDeltaU = factor * (Svv * (X_P)*Xu - Suv * (X_P)*Xv);
+            // fDeltaU = ((P - X) * Xu) / ((P - X) * Xuu - Xu * Xu);
             if (fabs(fDeltaU) < Precision::Confusion()) {
                 fDeltaU = 0.0;
             }
-            fDeltaV = ((P - X) * Xv) / ((P - X) * Xvv - Xv * Xv);
+
+            fDeltaV = factor * (Suu * (X_P)*Xv - Suv * (X_P)*Xu);
+            // fDeltaV = ((P - X) * Xv) / ((P - X) * Xvv - Xv * Xv);
             if (fabs(fDeltaV) < Precision::Confusion()) {
                 fDeltaV = 0.0;
             }
@@ -1019,6 +1029,33 @@ void BSplineParameterCorrection::DoParameterCorrection(int iIter)
                 fMaxDiff = std::max<double>(fabs(fDeltaU), fMaxDiff);
                 fMaxDiff = std::max<double>(fabs(fDeltaV), fMaxDiff);
             }
+
+            // test code to verify the corrected parameter values
+            [[maybe_unused]] auto verifyParamater = [=]() {
+                gp_Pnt PntX_n;
+                gp_Vec Xu_n, Xv_n, Xuv_n, Xuu_n, Xvv_n;
+                pclBSplineSurf->D2(fU, fV, PntX_n, Xu_n, Xv_n, Xuu_n, Xvv_n, Xuv_n);
+
+                // old angle
+                gp_Vec n1 = Xu ^ Xv;
+                gp_Vec n2 = P - X;
+                if (n1.Dot(n2) < 0) {
+                    n2.Reverse();
+                }
+                double angle_o = Base::toDegrees(n1.Angle(n2));
+
+                // new angle
+                gp_Vec X_n(PntX_n.X(), PntX_n.Y(), PntX_n.Z());
+                gp_Vec n3 = Xu_n ^ Xv_n;
+                gp_Vec n4 = P - X_n;
+                if (n3.Dot(n4) < 0) {
+                    n4.Reverse();
+                }
+                double angle_n = Base::toDegrees(n3.Angle(n4));
+
+                Base::Console().Message("Angle: %f => %f \n", angle_o, angle_n);
+            };
+            // verifyParamater();
 
             seq.next();
         }
