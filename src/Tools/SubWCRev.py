@@ -279,7 +279,7 @@ class GitControl(VersionControl):
                         url == "git://github.com/FreeCAD/FreeCAD.git",
                         "github.com" in url,
                         branch == self.branch,
-                        branch == "main",
+                        branch == self.activeBranch(),
                         "@" not in url,
                     )
                     # used for sorting the list
@@ -312,7 +312,7 @@ class GitControl(VersionControl):
 
         if (
             origin is not None
-            and self.branch.lower() != "main"
+            and self.branch.lower() != self.activeBranch()
             and "release" not in self.branch.lower()
         ):
             mbfh = os.popen("git merge-base %s/main HEAD" % origin)
@@ -389,7 +389,7 @@ class GitControl(VersionControl):
                 break
 
         self.revisionNumber(srcdir, origin)
-        if self.branch.lower() != "main" and "release" not in self.branch.lower():
+        if self.branch.lower() != self.activeBranch() and "release" not in self.branch.lower():
             self.namebranchbyparents()
         if self.branch == "(no branch)":  # check for remote branches
             if len(self.branchlst) >= 2:
@@ -408,6 +408,9 @@ class GitControl(VersionControl):
 
     def printInfo(self):
         print("git")
+
+    def activeBranch(self):
+        return "main-dev"
 
     def writeVersion(self, lines):
         content = VersionControl.writeVersion(self, lines)
