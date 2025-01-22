@@ -88,8 +88,8 @@ WidgetFactorySupplier::WidgetFactorySupplier()
     new PrefPageProducer<DlgSettingsAdvanced>         ( QT_TRANSLATE_NOOP("QObject","Display") );
     DlgSettingsUI::attachObserver();
     new PrefPageProducer<DlgSettingsWorkbenchesImp>   ( QT_TRANSLATE_NOOP("QObject","Workbenches") );
-    new PrefPageProducer<DlgSettingsMacroImp>         ( QT_TRANSLATE_NOOP("QObject", "Python"));
     new PrefPageProducer<DlgSettingsPythonConsole>    ( QT_TRANSLATE_NOOP("QObject", "Python"));
+    new PrefPageProducer<DlgSettingsMacroImp>         ( QT_TRANSLATE_NOOP("QObject", "Python"));
     new PrefPageProducer<DlgSettingsEditor>           ( QT_TRANSLATE_NOOP("QObject", "Python"));
 
     // ADD YOUR CUSTOMIZE PAGES HERE

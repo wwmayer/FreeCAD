@@ -43,7 +43,7 @@ using TimePoint = std::chrono::time_point<Clock>;
 struct PythonTracing::Private
 {
     bool active{false};
-    int timeout{200}; //NOLINT
+    int timeout{1000}; //NOLINT
 
     // NOLINTBEGIN
     static int profilerInterval;
@@ -52,7 +52,7 @@ struct PythonTracing::Private
 };
 
 // NOLINTBEGIN
-int PythonTracing::Private::profilerInterval = 200;
+int PythonTracing::Private::profilerInterval = 1000;
 bool PythonTracing::Private::profilerDisabled = false;
 // NOLINTEND
 
@@ -82,11 +82,14 @@ void PythonTracing::deactivate()
 
 void PythonTracing::fetchFromSettings()
 {
-    const long defaultTimeout = 200;
+    const long defaultTimeout = 1000;
+    int interval = 0;
 
     auto parameterGroup = App::GetApplication().GetParameterGroupByPath(
         "User parameter:BaseApp/Preferences/PythonConsole");
-    int interval = static_cast<int>(parameterGroup->GetInt("ProfilerInterval", defaultTimeout));
+    if (parameterGroup->GetBool("PythonProfiler", false)) {
+        interval = static_cast<int>(parameterGroup->GetInt("ProfilerInterval", defaultTimeout));
+    }
     setTimeout(interval);
 }
 

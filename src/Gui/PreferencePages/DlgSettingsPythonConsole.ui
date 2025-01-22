@@ -79,14 +79,23 @@ horizontal space in Python console</string>
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="labelProfilerInterval">
+       <widget class="Gui::PrefCheckBox" name="checkProfilerInterval">
         <property name="text">
          <string>Python profiler interval (milliseconds):</string>
+        </property>
+        <property name="prefEntry" stdset="0">
+         <cstring>PythonProfiler</cstring>
+        </property>
+        <property name="prefPath" stdset="0">
+         <cstring>PythonConsole</cstring>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
        <widget class="Gui::PrefSpinBox" name="ProfilerInterval">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="toolTip">
          <string>The interval at which the profiler runs when there's Python code running (to keep the GUI responding). Set to 0 to disable.</string>
         </property>
@@ -100,7 +109,7 @@ horizontal space in Python console</string>
          <number>5000</number>
         </property>
         <property name="value">
-         <number>200</number>
+         <number>1000</number>
         </property>
         <property name="prefEntry" stdset="0">
          <cstring>ProfilerInterval</cstring>
@@ -114,47 +123,47 @@ horizontal space in Python console</string>
     </widget>
    </item>
    <item row="1" column="0">
-   <widget class="QGroupBox" name="GroupBox_other">
+    <widget class="QGroupBox" name="GroupBox_other">
      <property name="title">
       <string>Other</string>
      </property>
-    <layout class="QGridLayout" name="gridLayout_3">
-     <item row="0" column="0">
-      <widget class="QLabel" name="fclabel">
-       <property name="text">
-        <string>Path to external Python executable (optional):</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="Gui::PrefFileChooser" name="ExternalPythonExecutable" native="true">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>300</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>Used for package installation with pip and debugging with debugpy. Autodetected if needed and not specified.</string>
-       </property>
-       <property name="prefEntry" stdset="0">
-        <cstring>ExternalPythonExecutable</cstring>
-       </property>
-       <property name="prefPath" stdset="0">
-        <cstring>PythonConsole</cstring>
-       </property>
-      </widget>
-     </item>
-    </layout>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="fclabel">
+        <property name="text">
+         <string>Path to external Python executable (optional):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="Gui::PrefFileChooser" name="ExternalPythonExecutable">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Used for package installation with pip and debugging with debugpy. Autodetected if needed and not specified.</string>
+        </property>
+        <property name="prefEntry" stdset="0">
+         <cstring>ExternalPythonExecutable</cstring>
+        </property>
+        <property name="prefPath" stdset="0">
+         <cstring>PythonConsole</cstring>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-      <item row="2" column="0">
+   <item row="2" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -171,8 +180,13 @@ horizontal space in Python console</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Gui::PrefCheckBox</class>
-   <extends>QCheckBox</extends>
+   <class>Gui::FileChooser</class>
+   <extends>QWidget</extends>
+   <header>Gui/FileDialog.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefFileChooser</class>
+   <extends>Gui::FileChooser</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
   <customwidget>
@@ -180,12 +194,29 @@ horizontal space in Python console</string>
    <extends>QSpinBox</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
-    <customwidget>
-   <class>Gui::PrefFileChooser</class>
-   <extends>QWidget</extends>
+  <customwidget>
+   <class>Gui::PrefCheckBox</class>
+   <extends>QCheckBox</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>checkProfilerInterval</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ProfilerInterval</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>140</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>481</x>
+     <y>140</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
