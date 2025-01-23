@@ -171,6 +171,16 @@ void TaskDialog::helpRequested()
 
 }
 
+void TaskDialog::onUndo()
+{
+
+}
+
+void TaskDialog::onRedo()
+{
+
+}
+
 
 
 

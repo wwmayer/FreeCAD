@@ -506,11 +506,15 @@ void TaskView::slotViewClosed(const Gui::MDIView* view)
     }
 }
 
-void TaskView::transactionChangeOnDocument(const App::Document& doc)
+void TaskView::transactionChangeOnDocument(const App::Document& doc, bool undo)
 {
     if (ActiveDialog) {
+        std::string name = ActiveDialog->getDocumentName();
+        if (name == doc.getName()) {
+            undo ? ActiveDialog->onUndo() : ActiveDialog->onRedo();
+        }
+
         if (ActiveDialog->isAutoCloseOnTransactionChange()) {
-            std::string name = ActiveDialog->getDocumentName();
             if (name.empty()) {
                 Base::Console().Warning(std::string("TaskView::transactionChangeOnDocument"),
                                         "No document name set\n");
@@ -530,12 +534,12 @@ void TaskView::transactionChangeOnDocument(const App::Document& doc)
 
 void TaskView::slotUndoDocument(const App::Document& doc)
 {
-    transactionChangeOnDocument(doc);
+    transactionChangeOnDocument(doc, true);
 }
 
 void TaskView::slotRedoDocument(const App::Document& doc)
 {
-    transactionChangeOnDocument(doc);
+    transactionChangeOnDocument(doc, false);
 }
 
 /// @cond DOXERR
