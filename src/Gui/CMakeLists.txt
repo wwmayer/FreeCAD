@@ -20,7 +20,9 @@ IF(CMAKE_BUILD_TYPE)
 ENDIF(CMAKE_BUILD_TYPE)
 
 if (FREECAD_USE_3DCONNEXION_LEGACY)
-    add_definitions(-D_USE_3DCONNEXION_SDK)
+    if(APPLE OR MSVC)
+        add_definitions(-D_USE_3DCONNEXION_SDK)
+    endif(APPLE OR MSVC)
     if(APPLE)
         set(3DCONNEXION_LINKFLAGS "-F/Library/Frameworks -weak_framework 3DconnexionClient")
         list(APPEND 3DCONNEXION_INCLUDE_DIR ${3DCONNEXIONCLIENT_FRAMEWORK}/Headers
