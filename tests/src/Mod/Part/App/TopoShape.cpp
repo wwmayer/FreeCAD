@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include <gtest/gtest.h>
+#include <BRepBuilderAPI_MakeEdge.hxx>
+#include <BRepBuilderAPI_MakeVertex.hxx>
 #include "PartTestHelpers.h"
 #include <Mod/Part/App/TopoShape.h>
 #include "src/App/InitApplication.h"
@@ -134,6 +136,58 @@ TEST_F(TopoShapeTest, TestGetSubshape)
     EXPECT_TRUE(silentFail.IsNull());
     EXPECT_THROW(cube1.getSubShape("Face7"), Base::IndexError);          // Out of range
     EXPECT_THROW(cube1.getSubShape("WOOHOO", false), Base::ValueError);  // Invalid
+}
+
+class TopoShapeCopy: public ::testing::Test
+{
+protected:
+    Part::TopoShape MakeEdge(gp_Pnt p1, gp_Pnt p2, gp_Vec vec)
+    {
+        BRepBuilderAPI_MakeVertex mkVertex1(p1);
+        BRepBuilderAPI_MakeVertex mkVertex2(p2);
+        TopoDS_Vertex v1 = mkVertex1.Vertex();
+        TopoDS_Vertex v2 = mkVertex2.Vertex();
+
+        gp_Trsf trsf;
+        trsf.SetTranslation(vec);
+        TopLoc_Location loc(trsf);
+        v1.Location(loc);
+        v2.Location(loc);
+
+        // create an edge from two translated vertexes
+        BRepBuilderAPI_MakeEdge mkEdge(v1, v2);
+        return {mkEdge.Edge()};
+    }
+    Part::TopoShape MakeCopyOfElement(const Part::TopoShape shape, const char* element)
+    {
+        Part::TopoShape sub = shape.getSubShape(element, true);
+        App::StringHasherRef hasher;
+        return Part::TopoShape(0, hasher).makeElementCopy(sub, nullptr, true, false);
+    }
+};
+
+TEST_F(TopoShapeCopy, TestVertex1Copy)
+{
+    Part::TopoShape edge(MakeEdge(gp_Pnt(0, 0, 0), gp_Pnt(5, 0, 0), gp_Vec(1, 0, 0)));
+    Part::TopoShape copy = MakeCopyOfElement(edge, "Vertex1");
+
+    const TopoDS_Vertex& v = TopoDS::Vertex(copy.getShape());
+    gp_Pnt p = BRep_Tool::Pnt(v);
+    EXPECT_DOUBLE_EQ(p.X(), 1.0);
+    EXPECT_DOUBLE_EQ(p.Y(), 0.0);
+    EXPECT_DOUBLE_EQ(p.Z(), 0.0);
+}
+
+TEST_F(TopoShapeCopy, TestVertex2Copy)
+{
+    Part::TopoShape edge(MakeEdge(gp_Pnt(0, 0, 0), gp_Pnt(5, 0, 0), gp_Vec(1, 0, 0)));
+    Part::TopoShape copy = MakeCopyOfElement(edge, "Vertex2");
+
+    const TopoDS_Vertex& v = TopoDS::Vertex(copy.getShape());
+    gp_Pnt p = BRep_Tool::Pnt(v);
+    EXPECT_DOUBLE_EQ(p.X(), 6.0);
+    EXPECT_DOUBLE_EQ(p.Y(), 0.0);
+    EXPECT_DOUBLE_EQ(p.Z(), 0.0);
 }
 
 // clang-format on
