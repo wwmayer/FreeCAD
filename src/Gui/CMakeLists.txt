@@ -1149,6 +1149,7 @@ SET(Widget_CPP_SRCS
     WorkbenchSelector.cpp
     ElideLabel.cpp
     ElideCheckBox.cpp
+    FontScaledSVG.cpp
 )
 SET(Widget_HPP_SRCS
     FileDialog.h
@@ -1172,6 +1173,7 @@ SET(Widget_HPP_SRCS
     WorkbenchSelector.h
     ElideLabel.h
     ElideCheckBox.h
+    FontScaledSVG.h
 )
 SET(Widget_SRCS
     ${Widget_CPP_SRCS}
