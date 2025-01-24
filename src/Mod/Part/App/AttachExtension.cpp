@@ -454,7 +454,8 @@ bool AttachExtension::extensionHandleChangedPropertyName(Base::XMLReader& reader
 {
     Base::Type type = Base::Type::fromName(TypeName);
     // superPlacement -> AttachmentOffset
-    if (strcmp(PropName, "superPlacement") == 0 && AttachmentOffset.getClassTypeId() == type) {
+    if (strcmp(PropName, "superPlacement") == 0 &&
+        App::PropertyLinkSubList::getClassTypeId() == type) {
         AttachmentOffset.Restore(reader);
         return true;
     }
@@ -463,15 +464,21 @@ bool AttachExtension::extensionHandleChangedPropertyName(Base::XMLReader& reader
         // At one point, the type of Support changed from PropertyLinkSub to its present type
         // of PropertyLinkSubList. Later, the property name changed to AttachmentSupport
         App::PropertyLinkSub tmp;
-        if (strcmp(tmp.getTypeId().getName(), TypeName) == 0) {
+        if (tmp.getTypeId() == type) {
             tmp.setContainer(this->getExtendedContainer());
             tmp.Restore(reader);
             AttachmentSupport.setValue(tmp.getValue(), tmp.getSubValues());
             this->MapMode.setValue(Attacher::mmFlatFace);
             return true;
         }
-        if (AttachmentSupport.getClassTypeId() == type) {
-            AttachmentSupport.Restore(reader);
+        // While changing the property type and name it was possible to have a feature with the
+        // two properties 'Support' and 'AttachmentSupport'.
+        // If 'AttachmentSupport' has already been restored then ignore the 'Support' property.
+        // For more details see issue #18969
+        if (App::PropertyLinkSubList::getClassTypeId() == type) {
+            if (AttachmentSupport.getSize() == 0) {
+                AttachmentSupport.Restore(reader);
+            }
             return true;
         }
     }
