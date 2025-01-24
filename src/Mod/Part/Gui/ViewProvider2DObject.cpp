@@ -385,13 +385,19 @@ void ViewProvider2DObject::updatePlane()
 
     Gui::coinRemoveAllChildren(plane);
 
-    auto shapeProperty = getObject()->getPropertyByName<Part::PropertyPartShape>("Shape");
+    auto shapeProperty = getObject<App::GeoFeature>()->getPropertyOfGeometry();
 
     if (!shapeProperty) {
         return;
     }
 
     auto bbox = shapeProperty->getBoundingBox();
+    if (!bbox.IsValid()) {
+        // NOLINTBEGIN
+        bbox.Add(Base::Vector3d(-5.0, -5.0, 0));
+        bbox.Add(Base::Vector3d(5.0, 5.0, 0));
+        // NOLINTEND
+    }
     Base::Placement place = shapeProperty->getComplexData()->getPlacement();
     Base::ViewOrthoProjMatrix proj(place.inverse().toMatrix());
     Base::BoundBox2d bb = bbox.ProjectBox(&proj);
