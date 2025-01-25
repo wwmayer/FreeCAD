@@ -326,9 +326,8 @@ private:
             static_cast<Fem::FemMeshObject*>(pcDoc->addObject("Fem::FemMeshObject", name));
         // copy the data
         pcFeature->FemMesh.setValue(*(pShape->getFemMeshPtr()));
-        pcDoc->recompute();
-
-        return Py::None();
+        pcFeature->purgeTouched();
+        return Py::asObject(pcFeature->getPyObject());
     }
 };
 
