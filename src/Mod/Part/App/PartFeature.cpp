@@ -1475,16 +1475,7 @@ void Feature::onChanged(const App::Property* prop)
 {
     // if the placement has changed apply the change to the point data as well
     if (prop == &this->Placement) {
-        TopoShape shape = this->Shape.getShape();
-        auto oldTransform = shape.getTransform();
-        auto newTransform = this->Placement.getValue().toMatrix();
-        shape.setTransform(newTransform);
-        Base::ObjectStatusLocker<App::Property::Status, App::Property> guard(
-            App::Property::NoRecompute,
-            &this->Shape);
-        if ( oldTransform != newTransform) {
-            this->Shape.setValue(shape);
-        }
+        this->Shape.setTransform(this->Placement.getValue().toMatrix());
     }
     // if the point data has changed check and adjust the transformation as well
     else if (prop == &this->Shape) {
