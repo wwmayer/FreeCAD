@@ -108,7 +108,7 @@ bool TaskDlgFeatureParameters::accept()
             throw Base::TypeError("Bad object processed in the feature dialog.");
         }
 
-        if(isUpdateBlocked){
+        if (isUpdateBlocked || feature->isError()) {
             Gui::cmdAppDocument(feature, "recompute()");
         } else {
             // object was already computed, nothing more to do with it...
