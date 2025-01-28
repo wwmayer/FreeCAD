@@ -20,9 +20,11 @@
 #***************************************************************************
 
 import unittest
+import math
 
 import FreeCAD
 from FreeCAD import Base
+import Part
 import TestSketcherApp
 
 class TestPad(unittest.TestCase):
@@ -37,6 +39,34 @@ class TestPad(unittest.TestCase):
         self.Pad.Profile = self.PadSketch
         self.Doc.recompute()
         self.assertEqual(len(self.Pad.Shape.Faces), 6)
+
+    def testMultiSolidEnabled(self):
+        body = self.Doc.addObject("PartDesign::Body", "Body")
+        body.AllowCompound = True
+        profile = body.newObject("Part::Part2DObject", "Profile")
+        r = h = 10
+        profile.Shape = Part.makeCompound([
+            Part.makeCircle(r, Base.Vector(-(r + 1), 0, 0)),
+            Part.makeCircle(r, Base.Vector(r + 1, 0, 0)),
+            ])
+        pad = body.newObject("PartDesign::Pad", "Pad")
+        pad.Profile = profile
+        pad.Length = h
+        self.Doc.recompute()
+        self.assertAlmostEqual(pad.Shape.Volume, 2 * math.pi * r**2 * h)
+
+    def testMultiSolidDisabled(self):
+        body = self.Doc.addObject("PartDesign::Body", "Body")
+        body.AllowCompound = False
+        profile = body.newObject("Part::Part2DObject", "Profile")
+        profile.Shape = Part.makeCompound([
+            Part.makeCircle(10, Base.Vector(-11, 0, 0)),
+            Part.makeCircle(10, Base.Vector(11, 0, 0)),
+            ])
+        pad = body.newObject("PartDesign::Pad", "Pad")
+        pad.Profile = profile
+        self.Doc.recompute()
+        self.assertIn("Invalid", pad.State, msg="Recompute of multi-solid pad expected to fail")
 
     def testSketchOnBasePlane(self):
         self.Body = self.Doc.addObject('PartDesign::Body','Body')
