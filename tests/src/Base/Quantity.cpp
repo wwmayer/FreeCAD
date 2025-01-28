@@ -212,6 +212,22 @@ TEST_F(Quantity, TestSchemeImperialOne)
     EXPECT_EQ(result, "0.0 in");
 }
 
+TEST_F(Quantity, TestSchemeMeterDecimal)
+{
+    Base::Quantity quantity {1.0, Base::Unit::Length};
+
+    Base::QuantityFormat format = quantity.getFormat();
+    format.precision = 6;
+    quantity.setFormat(format);
+
+    double factor {};
+    std::string unitString;
+    auto scheme = Base::UnitsApi::createSchema(Base::UnitSystem::MeterDecimal);
+    std::string result = scheme->schemaTranslate(quantity, factor, unitString);
+
+    EXPECT_EQ(result, "0.001000 m");
+}
+
 TEST_F(Quantity, TestSafeUserString)
 {
     Base::UnitsApi::setSchema(Base::UnitSystem::ImperialDecimal);
