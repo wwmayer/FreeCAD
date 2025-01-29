@@ -740,13 +740,21 @@ void TaskCSysDragger::openCommand()
     }
 }
 
+void TaskCSysDragger::updateDraggerPlacement()
+{
+    const auto placement = vp->getObjectPlacement();
+    vp->setDraggerPlacement(placement);
+}
+
 void TaskCSysDragger::onUndo()
 {
+    updateDraggerPlacement();
     openCommand();
 }
 
 void TaskCSysDragger::onRedo()
 {
+    updateDraggerPlacement();
     openCommand();
 }
 
