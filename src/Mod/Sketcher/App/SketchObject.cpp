@@ -4130,7 +4130,8 @@ int SketchObject::split(int GeoId, const Base::Vector3d& point)
         }
 
         // create new curves
-        auto newCurve = curve->createArc(startParam, splitParam);
+        std::unique_ptr<Part::Geometry> newCurve;
+        newCurve.reset(curve->createArc(startParam, splitParam));
         int newId(GeoEnum::GeoUndef);
         newId = addGeometry(std::move(newCurve));
         if (newId < 0) {
@@ -4141,7 +4142,7 @@ int SketchObject::split(int GeoId, const Base::Vector3d& point)
         exposeInternalGeometry(newId);
 
         // the "second" half
-        newCurve = curve->createArc(splitParam, endParam);
+        newCurve.reset(curve->createArc(splitParam, endParam));
         newId = addGeometry(std::move(newCurve));
         if (newId < 0) {
             return false;

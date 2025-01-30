@@ -180,10 +180,10 @@ Py::Dict CommandPy::getParameters() const
 
 void CommandPy::setParameters(Py::Dict arg)
 {
-    PyObject* dict_copy = PyDict_Copy(arg.ptr());
+    Py::Dict dict_copy(PyDict_Copy(arg.ptr()), true);
     PyObject *key, *value;
     Py_ssize_t pos = 0;
-    while (PyDict_Next(dict_copy, &pos, &key, &value)) {
+    while (PyDict_Next(dict_copy.ptr(), &pos, &key, &value)) {
         std::string ckey;
         if (PyUnicode_Check(key)) {
             ckey = PyUnicode_AsUTF8(key);
