@@ -533,8 +533,14 @@ private:
         if (state() == SelectMode::SeekSecond) {
             if (geoIds.size() > 1) {
                 // create B-spline from existing poles/knots
-                setState(SelectMode::End);
-                finish();
+                if (continuousMode) {
+                    setState(SelectMode::End);
+                    finish();
+                }
+                else {
+                    // Will destroy this handler
+                    setState(SelectMode::End);
+                }
             }
             else {
                 // We don't want to finish() as that'll create auto-constraints
