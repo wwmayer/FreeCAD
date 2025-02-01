@@ -183,6 +183,42 @@ protected:
     }
     void TearDown() override
     {}
+    Base::Quantity getLength(double value) const
+    {
+        return getQuantity(value, Base::Unit::Length);
+    }
+    Base::Quantity getArea(double value) const
+    {
+        return getQuantity(value, Base::Unit::Area);
+    }
+    Base::Quantity getVolume(double value) const
+    {
+        return getQuantity(value, Base::Unit::Volume);
+    }
+    Base::Quantity getPower(double value) const
+    {
+        return getQuantity(value, Base::Unit::Power);
+    }
+    Base::Quantity getElectricPotential(double value) const
+    {
+        return getQuantity(value, Base::Unit::ElectricPotential);
+    }
+    Base::Quantity getHeatFlux(double value) const
+    {
+        return getQuantity(value, Base::Unit::HeatFlux);
+    }
+    Base::Quantity getVelocity(double value) const
+    {
+        return getQuantity(value, Base::Unit::Velocity);
+    }
+    Base::Quantity getQuantity(double value, Base::Unit unit) const
+    {
+        Base::Quantity quantity {value, unit};
+        Base::QuantityFormat format = quantity.getFormat();
+        format.precision = 6;
+        quantity.setFormat(format);
+        return quantity;
+    }
 };
 
 TEST_F(Quantity, TestSchemeImperialTwo)
@@ -214,18 +250,237 @@ TEST_F(Quantity, TestSchemeImperialOne)
 
 TEST_F(Quantity, TestSchemeMeterDecimal)
 {
-    Base::Quantity quantity {1.0, Base::Unit::Length};
+    double factor {};
+    std::string unitString;
+    std::string result;
+    Base::Quantity quantity;
 
-    Base::QuantityFormat format = quantity.getFormat();
-    format.precision = 6;
-    quantity.setFormat(format);
+    auto scheme = Base::UnitsApi::createSchema(Base::UnitSystem::MeterDecimal);
+
+    quantity = getLength(1.0);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "0.001000 m");
+
+    quantity = getArea(15);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "0.000015 m^2");
+
+    quantity = getVolume(123456000);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "0.123456 m^3");
+
+    quantity = getPower(123456000);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "123.456000 W");
+
+    quantity = getElectricPotential(123456000);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "123.456000 V");
+
+    quantity = getHeatFlux(123.456000);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "123.456000 W/m^2");
+
+    quantity = getVelocity(123.456000);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "0.123456 m/s");
+}
+
+TEST_F(Quantity, TestSchemeMKS)
+{
+    double factor {};
+    std::string unitString;
+    std::string result;
+    Base::Quantity quantity;
+
+    auto scheme = Base::UnitsApi::createSchema(Base::UnitSystem::SI2);
+
+    quantity = getLength(1.0);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "1.000000 mm");
+
+    quantity = getArea(15);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "15.000000 mm^2");
+
+    quantity = getVolume(123456000);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "123.456000 l");
+
+    quantity = getPower(123456000);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "123.456000 W");
+
+    quantity = getElectricPotential(123456000);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "123.456000 V");
+
+    quantity = getHeatFlux(123.456000);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "123.456000 W/m^2");
+
+    quantity = getVelocity(123.456000);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "0.123456 m/s");
+}
+
+TEST_F(Quantity, TestSchemeGeneric)
+{
+    std::array<Base::Unit, 55> units = {{
+        Base::Unit::Length,
+        Base::Unit::Mass,
+        Base::Unit::Area,
+        Base::Unit::Density,
+        Base::Unit::Volume,
+        Base::Unit::TimeSpan,
+        Base::Unit::Frequency,
+        Base::Unit::Velocity,
+        Base::Unit::Acceleration,
+        Base::Unit::Temperature,
+        Base::Unit::CurrentDensity,
+        Base::Unit::ElectricCurrent,
+        Base::Unit::ElectricPotential,
+        Base::Unit::ElectricCharge,
+        Base::Unit::SurfaceChargeDensity,
+        Base::Unit::MagneticFieldStrength,
+        Base::Unit::MagneticFlux,
+        Base::Unit::MagneticFluxDensity,
+        Base::Unit::Magnetization,
+        Base::Unit::ElectricalCapacitance,
+        Base::Unit::ElectricalInductance,
+        Base::Unit::ElectricalConductance,
+        Base::Unit::ElectricalResistance,
+        Base::Unit::ElectricalConductivity,
+        Base::Unit::ElectromagneticPotential,
+        Base::Unit::AmountOfSubstance,
+        Base::Unit::LuminousIntensity,
+        Base::Unit::CompressiveStrength,
+        Base::Unit::Pressure,
+        Base::Unit::ShearModulus,
+        Base::Unit::Stress,
+        Base::Unit::UltimateTensileStrength,
+        Base::Unit::YieldStrength,
+        Base::Unit::YoungsModulus,
+        Base::Unit::Stiffness,
+        Base::Unit::StiffnessDensity,
+        Base::Unit::Force,
+        Base::Unit::Work,
+        Base::Unit::Power,
+        Base::Unit::Moment,
+        Base::Unit::SpecificEnergy,
+        Base::Unit::ThermalConductivity,
+        Base::Unit::ThermalExpansionCoefficient,
+        Base::Unit::VolumetricThermalExpansionCoefficient,
+        Base::Unit::SpecificHeat,
+        Base::Unit::ThermalTransferCoefficient,
+        Base::Unit::HeatFlux,
+        Base::Unit::DynamicViscosity,
+        Base::Unit::KinematicViscosity,
+        Base::Unit::VacuumPermittivity,
+        Base::Unit::VolumeFlowRate,
+        Base::Unit::DissipationRate,
+        Base::Unit::InverseLength,
+        Base::Unit::InverseArea,
+        Base::Unit::InverseVolume,
+    }};
+
+    std::array values = {0.01, 0.1, 1.0, 10.0, 100.0};
 
     double factor {};
     std::string unitString;
-    auto scheme = Base::UnitsApi::createSchema(Base::UnitSystem::MeterDecimal);
-    std::string result = scheme->schemaTranslate(quantity, factor, unitString);
+    Base::UnitsSchemaPtr scheme;
 
-    EXPECT_EQ(result, "0.001000 m");
+    Base::UnitsApi::setDecimals(16);
+
+    scheme = Base::UnitsApi::createSchema(Base::UnitSystem::SI1);
+    for (auto unit : units) {
+        for (double value : values) {
+            Base::Quantity q1 {value, unit};
+            std::string result = scheme->schemaTranslate(q1, factor, unitString);
+            Base::Quantity q2 = Base::Quantity::parse(result);
+            EXPECT_DOUBLE_EQ(q2.getValue(), value);
+        }
+    }
+
+    scheme = Base::UnitsApi::createSchema(Base::UnitSystem::SI2);
+    for (auto unit : units) {
+        for (double value : values) {
+            Base::Quantity q1 {value, unit};
+            std::string result = scheme->schemaTranslate(q1, factor, unitString);
+            Base::Quantity q2 = Base::Quantity::parse(result);
+            EXPECT_DOUBLE_EQ(q2.getValue(), value);
+        }
+    }
+
+    scheme = Base::UnitsApi::createSchema(Base::UnitSystem::Imperial1);
+    for (auto unit : units) {
+        for (double value : values) {
+            Base::Quantity q1 {value, unit};
+            std::string result = scheme->schemaTranslate(q1, factor, unitString);
+            Base::Quantity q2 = Base::Quantity::parse(result);
+            EXPECT_NEAR(q2.getValue(), value, 0.001);
+        }
+    }
+
+    scheme = Base::UnitsApi::createSchema(Base::UnitSystem::ImperialDecimal);
+    for (auto unit : units) {
+        for (double value : values) {
+            Base::Quantity q1 {value, unit};
+            std::string result = scheme->schemaTranslate(q1, factor, unitString);
+            Base::Quantity q2 = Base::Quantity::parse(result);
+            EXPECT_NEAR(q2.getValue(), value, 0.001);
+        }
+    }
+
+    scheme = Base::UnitsApi::createSchema(Base::UnitSystem::Centimeters);
+    for (auto unit : units) {
+        for (double value : values) {
+            Base::Quantity q1 {value, unit};
+            std::string result = scheme->schemaTranslate(q1, factor, unitString);
+            Base::Quantity q2 = Base::Quantity::parse(result);
+            EXPECT_DOUBLE_EQ(q2.getValue(), value);
+        }
+    }
+
+    scheme = Base::UnitsApi::createSchema(Base::UnitSystem::MmMin);
+    for (auto unit : units) {
+        for (double value : values) {
+            Base::Quantity q1 {value, unit};
+            std::string result = scheme->schemaTranslate(q1, factor, unitString);
+            Base::Quantity q2 = Base::Quantity::parse(result);
+            EXPECT_DOUBLE_EQ(q2.getValue(), value);
+        }
+    }
+
+    scheme = Base::UnitsApi::createSchema(Base::UnitSystem::ImperialCivil);
+    for (auto unit : units) {
+        for (double value : values) {
+            Base::Quantity q1 {value, unit};
+            std::string result = scheme->schemaTranslate(q1, factor, unitString);
+            Base::Quantity q2 = Base::Quantity::parse(result);
+            EXPECT_NEAR(q2.getValue(), value, 0.001);
+        }
+    }
+
+    scheme = Base::UnitsApi::createSchema(Base::UnitSystem::FemMilliMeterNewton);
+    for (auto unit : units) {
+        for (double value : values) {
+            Base::Quantity q1 {value, unit};
+            std::string result = scheme->schemaTranslate(q1, factor, unitString);
+            Base::Quantity q2 = Base::Quantity::parse(result);
+            EXPECT_DOUBLE_EQ(q2.getValue(), value);
+        }
+    }
+
+    scheme = Base::UnitsApi::createSchema(Base::UnitSystem::MeterDecimal);
+    for (auto unit : units) {
+        for (double value : values) {
+            Base::Quantity q1 {value, unit};
+            std::string result = scheme->schemaTranslate(q1, factor, unitString);
+            Base::Quantity q2 = Base::Quantity::parse(result);
+            EXPECT_DOUBLE_EQ(q2.getValue(), value);
+        }
+    }
 }
 
 TEST_F(Quantity, TestSafeUserString)
