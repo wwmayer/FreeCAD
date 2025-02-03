@@ -676,7 +676,7 @@ std::map<std::string,App::Color> ViewProviderPartExt::getElementColors(const cha
 
     if(!element || !element[0]) {
         auto color = ShapeAppearance.getDiffuseColor();
-        color.setTransparency(Transparency.getValue()/100.0F);
+        color.setTransparency(ShapeAppearance.getTransparency());
         ret["Face"] = color;
         ret["Edge"] = LineColor.getValue();
         ret["Vertex"] = PointColor.getValue();
@@ -687,30 +687,37 @@ std::map<std::string,App::Color> ViewProviderPartExt::getElementColors(const cha
         auto size = ShapeAppearance.getSize();
         if(element[4]=='*') {
             auto color = ShapeAppearance.getDiffuseColor();
-            color.setTransparency(Transparency.getValue()/100.0F);
+            color.setTransparency(ShapeAppearance.getTransparency());
             bool singleColor = true;
             for(int i=0;i<size;++i) {
-                if (ShapeAppearance.getDiffuseColor(i) != color) {
-                    ret[std::string(element, 4) + std::to_string(i + 1)] =
-                        ShapeAppearance.getDiffuseColor(i);
+                auto color_i = ShapeAppearance.getDiffuseColor(i);
+                color_i.setTransparency(ShapeAppearance.getTransparency(i));
+                if (color_i != color) {
+                    ret[std::string(element, 4) + std::to_string(i + 1)] = color_i;
                 }
-                singleColor = singleColor
-                    && ShapeAppearance.getDiffuseColor(0) == ShapeAppearance.getDiffuseColor(i);
+                singleColor = singleColor && color == color_i;
             }
             if(size && singleColor) {
                 color = ShapeAppearance.getDiffuseColor(0);
-                color.setTransparency(Transparency.getValue()/100.0F);
+                color.setTransparency(ShapeAppearance.getTransparency());
                 ret.clear();
             }
             ret["Face"] = color;
         }else{
             int idx = atoi(element+4);
-            if(idx>0 && idx<=size)
-                ret[element] = ShapeAppearance.getDiffuseColor(idx - 1);
-            else
-                ret[element] = ShapeAppearance.getDiffuseColor();
-            if(size==1)
-                ret[element].setTransparency(Transparency.getValue()/100.0F);
+            if(idx>0 && idx<=size) {
+                auto color_i = ShapeAppearance.getDiffuseColor(idx - 1);
+                color_i.setTransparency(ShapeAppearance.getTransparency(idx - 1));
+                ret[element] = color_i;
+            }
+            else {
+                auto color_i = ShapeAppearance.getDiffuseColor();
+                color_i.setTransparency(ShapeAppearance.getTransparency());
+                ret[element] = color_i;
+            }
+            if (size==1) {
+                ret[element].setTransparency(ShapeAppearance.getTransparency());
+            }
         }
     } else if (boost::starts_with(element,"Edge")) {
         auto size = LineColorArray.getSize();
