@@ -3885,9 +3885,7 @@ TopoShape& TopoShape::makeElementMirror(const TopoShape& shape, const gp_Ax2& ax
     }
     gp_Trsf mat;
     mat.SetMirror(ax2);
-    TopLoc_Location loc = shape.getShape().Location();
-    gp_Trsf placement = loc.Transformation();
-    mat = placement * mat;
+
     BRepBuilderAPI_Transform mkTrf(shape.getShape(), mat);
     return makeElementShape(mkTrf, shape, op);
 }
