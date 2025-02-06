@@ -3779,37 +3779,33 @@ void PropertyMaterialItem::setValue(const QVariant& value)
     auto mat = value.value<Material>();
     App::Color dc;
     dc.setValue<QColor>(mat.diffuseColor);
+    uint32_t dcp = dc.getPackedValue();
     App::Color ac;
     ac.setValue<QColor>(mat.ambientColor);
+    uint32_t acp = ac.getPackedValue();
     App::Color sc;
     sc.setValue<QColor>(mat.specularColor);
+    uint32_t scp = sc.getPackedValue();
     App::Color ec;
     ec.setValue<QColor>(mat.emissiveColor);
+    uint32_t ecp = ec.getPackedValue();
     float s = mat.shininess;
     float t = mat.transparency;
 
     QString data = QString::fromLatin1("App.Material("
-                                       "DiffuseColor=(%1,%2,%3),"
-                                       "AmbientColor=(%4,%5,%6),"
-                                       "SpecularColor=(%7,%8,%9),"
-                                       "EmissiveColor=(%10,%11,%12),"
-                                       "Shininess=(%13),"
-                                       "Transparency=(%14),"
+                                       "DiffuseColor = %1,"
+                                       "AmbientColor = %2,"
+                                       "SpecularColor = %3,"
+                                       "EmissiveColor = %4,"
+                                       "Shininess = %5,"
+                                       "Transparency = %6,"
                                        ")")
-                       .arg(dc.r, 0, 'f', decimals())
-                       .arg(dc.g, 0, 'f', decimals())
-                       .arg(dc.b, 0, 'f', decimals())
-                       .arg(ac.r, 0, 'f', decimals())
-                       .arg(ac.g, 0, 'f', decimals())
-                       .arg(ac.b, 0, 'f', decimals())
-                       .arg(sc.r, 0, 'f', decimals())
-                       .arg(sc.g, 0, 'f', decimals())
-                       .arg(sc.b, 0, 'f', decimals())
-                       .arg(ec.r, 0, 'f', decimals())
-                       .arg(ec.g, 0, 'f', decimals())
-                       .arg(ec.b, 0, 'f', decimals())
-                       .arg(s, 0, 'f', decimals())
-                       .arg(t, 0, 'f', decimals());
+                       .arg(dcp)
+                       .arg(acp)
+                       .arg(scp)
+                       .arg(ecp)
+                       .arg(s, 0, 'f', 10)
+                       .arg(t, 0, 'f', 10);
 
     setPropertyValue(data);
 }
@@ -4286,37 +4282,33 @@ void PropertyMaterialListItem::setValue(const QVariant& value)
     auto mat = list[0].value<Material>();
     App::Color dc;
     dc.setValue<QColor>(mat.diffuseColor);
+    uint32_t dcp = dc.getPackedValue();
     App::Color ac;
     ac.setValue<QColor>(mat.ambientColor);
+    uint32_t acp = ac.getPackedValue();
     App::Color sc;
     sc.setValue<QColor>(mat.specularColor);
+    uint32_t scp = sc.getPackedValue();
     App::Color ec;
     ec.setValue<QColor>(mat.emissiveColor);
+    uint32_t ecp = ec.getPackedValue();
     float s = mat.shininess;
     float t = mat.transparency;
 
     QString item = QString::fromLatin1("App.Material("
-                                       "DiffuseColor=(%1,%2,%3),"
-                                       "AmbientColor=(%4,%5,%6),"
-                                       "SpecularColor=(%7,%8,%9),"
-                                       "EmissiveColor=(%10,%11,%12),"
-                                       "Shininess=(%13),"
-                                       "Transparency=(%14),"
+                                       "DiffuseColor = %1,"
+                                       "AmbientColor = %2,"
+                                       "SpecularColor = %3,"
+                                       "EmissiveColor = %4,"
+                                       "Shininess = %5,"
+                                       "Transparency = %6,"
                                        ")")
-                       .arg(dc.r, 0, 'f', decimals())
-                       .arg(dc.g, 0, 'f', decimals())
-                       .arg(dc.b, 0, 'f', decimals())
-                       .arg(ac.r, 0, 'f', decimals())
-                       .arg(ac.g, 0, 'f', decimals())
-                       .arg(ac.b, 0, 'f', decimals())
-                       .arg(sc.r, 0, 'f', decimals())
-                       .arg(sc.g, 0, 'f', decimals())
-                       .arg(sc.b, 0, 'f', decimals())
-                       .arg(ec.r, 0, 'f', decimals())
-                       .arg(ec.g, 0, 'f', decimals())
-                       .arg(ec.b, 0, 'f', decimals())
-                       .arg(s, 0, 'f', decimals())
-                       .arg(t, 0, 'f', decimals());
+                       .arg(dcp)
+                       .arg(acp)
+                       .arg(scp)
+                       .arg(ecp)
+                       .arg(s, 0, 'f', 10)
+                       .arg(t, 0, 'f', 10);
     str << item << ")";
 
     setPropertyValue(data);
