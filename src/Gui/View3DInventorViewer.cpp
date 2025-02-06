@@ -806,6 +806,7 @@ bool View3DInventorViewer::searchNode(SoNode* node) const
     SoSearchAction searchAction;
     searchAction.setNode(node);
     searchAction.setInterest(SoSearchAction::FIRST);
+    searchAction.setSearchingAll(true);
     searchAction.apply(this->getSceneGraph());
     SoPath* selectionPath = searchAction.getPath();
     return selectionPath ? true : false;
