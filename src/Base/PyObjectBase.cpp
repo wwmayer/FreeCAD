@@ -217,7 +217,7 @@ PyTypeObject PyObjectBase::Type = {
     0,                                                      /*tp_weaklistoffset */
     nullptr,                                                /*tp_iter */
     nullptr,                                                /*tp_iternext */
-    nullptr,                                                /*tp_methods */
+    Base::PyObjectBase::Methods,                            /*tp_methods */
     nullptr,                                                /*tp_members */
     nullptr,                                                /*tp_getset */
     nullptr,                                                /*tp_base */
@@ -289,10 +289,31 @@ PyObjectBase* getFromWeakRef(PyObject* ref)
     return nullptr;
 }
 
+static PyObject * staticCallback_isValid(PyObject *self, PyObject *args)
+{
+    (void)self;
+    PyObject* obj;
+    if (!PyArg_ParseTuple(args, "O!", &PyObjectBase::Type, &obj)) {
+        return nullptr;
+    }
+
+    PyObjectBase* base = static_cast<PyObjectBase*>(obj);
+    return Py::new_reference_to(Py::Boolean(base->isValid()));
+}
+
 /*------------------------------
  * PyObjectBase Methods 	-- Every class, even the abstract one should have a Methods
 ------------------------------*/
 PyMethodDef PyObjectBase::Methods[] = {
+    {"isValid",
+        reinterpret_cast<PyCFunction>(reinterpret_cast<void (*) ()>( staticCallback_isValid)),
+        METH_VARARGS|METH_STATIC,
+        "isValid(object) -> bool\n"
+        "\n"
+        "Returns true if the passed object is valid, false otherwise\n"
+        "\n"
+        "object : PyObjectBase"
+    },
     {nullptr, nullptr, 0, nullptr}        /* Sentinel */
 };
 

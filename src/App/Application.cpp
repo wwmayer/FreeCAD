@@ -314,6 +314,7 @@ void Application::setupPythonTypes()
 
 
     // Python types
+    Base::Interpreter().addType(&Base::PyObjectBase      ::Type,pBaseModule,"Object");
     Base::Interpreter().addType(&Base::VectorPy          ::Type,pBaseModule,"Vector");
     Base::Interpreter().addType(&Base::MatrixPy          ::Type,pBaseModule,"Matrix");
     Base::Interpreter().addType(&Base::BoundBoxPy        ::Type,pBaseModule,"BoundBox");
