@@ -863,7 +863,7 @@ void ViewProviderPartExt::reload()
 void ViewProviderPartExt::updateData(const App::Property* prop)
 {
     const char *propName = prop->getName();
-    if (propName && (strcmp(propName, "Shape") == 0 || strstr(propName, "Touched"))) {
+    if (propName && (strcmp(propName, "Shape") == 0)) {
         // calculate the visual only if visible
         if (isUpdateForced() || Visibility.getValue())
             updateVisual();
