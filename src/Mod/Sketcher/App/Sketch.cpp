@@ -2430,6 +2430,31 @@ int Sketch::addConstraints(const std::vector<Constraint*>& ConstraintList,
     return rtn;
 }
 
+bool Sketch::updateConstraints(const std::vector<int>& constrIds,
+                               const std::vector<Constraint*>& ConstraintList)
+{
+    if (Constrs.size() != ConstraintList.size()) {
+        return false;
+    }
+
+    int size = static_cast<int>(ConstraintList.size());
+    auto it = std::find_if(constrIds.begin(), constrIds.end(), [size](int id) {
+        return id < 0 || id >= size;
+    });
+    if (it != constrIds.end()) {
+        return false;
+    }
+
+    for (int id : constrIds) {
+        Constraint* constr = ConstraintList[id];
+        Constrs[id].constr = constr;
+        Constrs[id].driving = constr->isDriving;
+    }
+
+    return true;
+}
+
+
 void Sketch::getBlockedGeometry(std::vector<bool>& blockedGeometry,
                                 std::vector<bool>& unenforceableConstraints,
                                 const std::vector<Constraint*>& ConstraintList) const
