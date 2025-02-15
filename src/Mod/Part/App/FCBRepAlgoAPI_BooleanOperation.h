@@ -29,6 +29,7 @@
 #ifndef FCREPALGOAPIBOOLEANOPERATION_H
 #define FCREPALGOAPIBOOLEANOPERATION_H
 #include <BRepAlgoAPI_BooleanOperation.hxx>
+#include <Standard_Version.hxx>
 
 class FCBRepAlgoAPIHelper
 {
@@ -49,8 +50,11 @@ public:
     // set fuzzyness based on size
     void setAutoFuzzy();
 
-    // not an override - real Build() has optionals, sadly type of those optionals that are differs between OCCT versions
-    Standard_EXPORT virtual void Build(); // NOLINT(clang-diagnostic-overloaded-virtual, -Woverloaded-virtual)
+#if OCC_VERSION_HEX >= 0x070600
+    Standard_EXPORT void Build(const Message_ProgressRange& theRange = Message_ProgressRange()) Standard_OVERRIDE;
+#else
+    Standard_EXPORT void Build() Standard_OVERRIDE;
+#endif
 
 protected: //! @name Constructors
 

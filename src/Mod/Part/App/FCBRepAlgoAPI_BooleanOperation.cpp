@@ -97,8 +97,12 @@ void FCBRepAlgoAPI_BooleanOperation::RecursiveAddArguments(const TopoDS_Shape& t
     }
 }
 
-void FCBRepAlgoAPI_BooleanOperation::Build() {
-
+#if OCC_VERSION_HEX >= 0x070600
+void FCBRepAlgoAPI_BooleanOperation::Build(const Message_ProgressRange& theRange)
+#else
+void FCBRepAlgoAPI_BooleanOperation::Build()
+#endif
+{
     if (myOperation == BOPAlgo_CUT && myArguments.Size() == 1 && myTools.Size() == 1 && myTools.First().ShapeType() == TopAbs_COMPOUND) {
         TopTools_ListOfShape myOriginalArguments = myArguments;
         TopTools_ListOfShape myOriginalTools = myTools;
@@ -127,7 +131,11 @@ void FCBRepAlgoAPI_BooleanOperation::Build() {
         myShape = RecursiveCutCompound(myOriginalArguments.First());
         myArguments = myOriginalArguments;
     } else {
+#if OCC_VERSION_HEX >= 0x070600
+        BRepAlgoAPI_BooleanOperation::Build(theRange);
+#else
         BRepAlgoAPI_BooleanOperation::Build();
+#endif
     }
 }
 
