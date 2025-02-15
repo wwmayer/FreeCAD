@@ -2772,11 +2772,13 @@ ViewProvider *ViewProviderLink::startEditing(int mode) {
         }
 
         if (auto result = inherited::startEditing(mode)) {
-            csysDragger->addStartCallback(dragStartCallback, this);
-            csysDragger->addFinishCallback(dragFinishCallback, this);
-            csysDragger->addMotionCallback(dragMotionCallback, this);
+            if (csysDragger.get()) {
+                csysDragger->addStartCallback(dragStartCallback, this);
+                csysDragger->addFinishCallback(dragFinishCallback, this);
+                csysDragger->addMotionCallback(dragMotionCallback, this);
 
-            setDraggerPlacement(dragCtx->initialPlacement);
+                setDraggerPlacement(dragCtx->initialPlacement);
+            }
 
             return result;
         }
