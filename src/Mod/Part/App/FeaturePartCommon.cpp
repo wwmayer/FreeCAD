@@ -96,9 +96,13 @@ App::DocumentObjectExecReturn *MultiCommon::execute()
     }
 
     TopoShape res {0};
-    res.makeElementBoolean(Part::OpCodes::Common, shapes);
-    if (res.isNull()) {
-        throw Base::RuntimeError("Resulting shape is null");
+    for (std::size_t index = 1; index < shapes.size(); index++) {
+        std::vector<TopoShape> two_shapes {shapes[0], shapes[index]};
+        res.makeElementBoolean(Part::OpCodes::Common, two_shapes);
+        if (res.isNull()) {
+            throw Base::RuntimeError("Resulting shape is null");
+        }
+        shapes[0] = res;
     }
 
     throwIfInvalidIfCheckModel(res.getShape());
