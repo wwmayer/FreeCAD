@@ -1388,7 +1388,12 @@ void Document::writeObjectData(const std::vector<App::DocumentObject*>& obj,
         }
 
         writer.Stream() << ">\n";
+        writer.enableCaching();
         it->Save(writer);
+        if (!writer.good()) {
+            std::cerr << "Invalid writer cache\n";
+        }
+        writer.disableCaching();
         writer.Stream() << writer.ind() << "</Object>\n";
     }
 

@@ -325,11 +325,15 @@ ZipWriter::ZipWriter(const char* FileName)
 {
 #ifdef _MSC_VER
     ZipStream.imbue(std::locale::empty());
+    StrStream.imbue(std::locale::empty());
 #else
     ZipStream.imbue(std::locale::classic());
+    StrStream.imbue(std::locale::classic());
 #endif
     ZipStream.precision(std::numeric_limits<double>::digits10 + 1);
     ZipStream.setf(std::ios::fixed, std::ios::floatfield);
+    StrStream.precision(std::numeric_limits<double>::digits10 + 1);
+    StrStream.setf(std::ios::fixed, std::ios::floatfield);
 }
 
 ZipWriter::ZipWriter(std::ostream& os)
@@ -337,11 +341,34 @@ ZipWriter::ZipWriter(std::ostream& os)
 {
 #ifdef _MSC_VER
     ZipStream.imbue(std::locale::empty());
+    StrStream.imbue(std::locale::empty());
 #else
     ZipStream.imbue(std::locale::classic());
+    StrStream.imbue(std::locale::classic());
 #endif
     ZipStream.precision(std::numeric_limits<double>::digits10 + 1);
     ZipStream.setf(std::ios::fixed, std::ios::floatfield);
+    StrStream.precision(std::numeric_limits<double>::digits10 + 1);
+    StrStream.setf(std::ios::fixed, std::ios::floatfield);
+}
+
+void ZipWriter::enableCaching()
+{
+    cache = true;
+}
+
+void ZipWriter::disableCaching()
+{
+    if (cache) {
+        std::string str = StrStream.str();
+        StrStream.str(std::string());
+        if (StrStream && !str.empty()) {
+            ZipStream << str;
+        }
+
+        StrStream.clear();
+    }
+    cache = false;
 }
 
 void ZipWriter::putNextEntry(const char* file, const char* obj)

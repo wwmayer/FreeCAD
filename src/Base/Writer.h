@@ -80,6 +80,10 @@ public:
     bool isForceXML() const;
     void setFileVersion(int);
     int getFileVersion() const;
+    virtual void enableCaching()
+    {}
+    virtual void disableCaching()
+    {}
 
     /// put the next entry with a give name
     virtual void putNextEntry(const char* filename, const char* objName = nullptr);
@@ -219,15 +223,23 @@ public:
     explicit ZipWriter(std::ostream&);
     ~ZipWriter() override;
 
+    void enableCaching() override;
+    void disableCaching() override;
     void writeFiles() override;
 
     std::ostream& Stream() override
     {
+        if (cache) {
+            return StrStream;
+        }
         return ZipStream;
     }
 
     const std::ostream& Stream() const override
     {
+        if (cache) {
+            return StrStream;
+        }
         return ZipStream;
     }
 
@@ -247,7 +259,9 @@ public:
     ZipWriter& operator=(ZipWriter&&) = delete;
 
 private:
+    bool cache {false};
     zipios::ZipOutputStream ZipStream;
+    std::stringstream StrStream;
 };
 
 /** The StringWriter class
