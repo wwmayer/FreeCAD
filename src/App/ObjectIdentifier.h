@@ -32,6 +32,7 @@
 #include <boost/any.hpp>
 #include <FCConfig.h>
 
+#include "DocumentObserver.h"
 #include "ElementNamingUtils.h"
 
 namespace Py
@@ -368,7 +369,7 @@ public:
 
     App::DocumentObject* getOwner() const
     {
-        return owner;
+        return owner.getObject();
     }
 
     // Components
@@ -596,7 +597,7 @@ protected:
 
     void getDepLabels(const ResolveResults& result, std::vector<std::string>& labels) const;
 
-    App::DocumentObject* owner;
+    App::DocumentObjectT owner;
     String documentName;
     String documentObjectName;
     String subObjectName;

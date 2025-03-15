@@ -111,8 +111,7 @@ std::string App::quote(const std::string& input, bool toPython)
 ObjectIdentifier::ObjectIdentifier(const App::PropertyContainer* _owner,
                                    const std::string& property,
                                    int index)
-    : owner(nullptr)
-    , documentNameSet(false)
+    : documentNameSet(false)
     , documentObjectNameSet(false)
     , localProperty(false)
     , _hash(0)
@@ -122,7 +121,7 @@ ObjectIdentifier::ObjectIdentifier(const App::PropertyContainer* _owner,
         if (!docObj) {
             FC_THROWM(Base::RuntimeError, "Property must be owned by a document object.");
         }
-        owner = const_cast<DocumentObject*>(docObj);
+        owner = docObj;
 
         if (!property.empty()) {
             setDocumentObjectName(docObj);
@@ -137,8 +136,7 @@ ObjectIdentifier::ObjectIdentifier(const App::PropertyContainer* _owner,
 }
 
 ObjectIdentifier::ObjectIdentifier(const App::PropertyContainer* _owner, bool localProperty)
-    : owner(nullptr)
-    , documentNameSet(false)
+    : documentNameSet(false)
     , documentObjectNameSet(false)
     , localProperty(localProperty)
     , _hash(0)
@@ -148,7 +146,7 @@ ObjectIdentifier::ObjectIdentifier(const App::PropertyContainer* _owner, bool lo
         if (!docObj) {
             FC_THROWM(Base::RuntimeError, "Property must be owned by a document object.");
         }
-        owner = const_cast<DocumentObject*>(docObj);
+        owner = docObj;
     }
 }
 
@@ -159,8 +157,7 @@ ObjectIdentifier::ObjectIdentifier(const App::PropertyContainer* _owner, bool lo
  */
 
 ObjectIdentifier::ObjectIdentifier(const Property& prop, int index)
-    : owner(nullptr)
-    , documentNameSet(false)
+    : documentNameSet(false)
     , documentObjectNameSet(false)
     , localProperty(false)
     , _hash(0)
@@ -174,7 +171,7 @@ ObjectIdentifier::ObjectIdentifier(const Property& prop, int index)
         FC_THROWM(Base::RuntimeError, "Property must have a name.");
     }
 
-    owner = const_cast<DocumentObject*>(docObj);
+    owner = docObj;
 
     setDocumentObjectName(docObj);
 
@@ -284,7 +281,7 @@ bool ObjectIdentifier::operator<(const ObjectIdentifier& other) const
     if (owner < other.owner) {
         return true;
     }
-    if (owner > other.owner) {
+    if (other.owner < owner) {
         return false;
     }
     return toString() < other.toString();
@@ -365,7 +362,7 @@ const std::string& ObjectIdentifier::toString() const
     }
 
     if (localProperty
-        || (result.resolvedProperty && result.resolvedDocumentObject == owner
+        || (result.resolvedProperty && result.resolvedDocumentObject == getOwner()
             && components.size() > 1 && components[1].isSimple() && result.propertyIndex == 0)) {
         s << '.';
     }
@@ -411,11 +408,11 @@ std::string ObjectIdentifier::toPersistentString() const
     }
 
     if (localProperty
-        || (result.resolvedProperty && result.resolvedDocumentObject == owner
+        || (result.resolvedProperty && result.resolvedDocumentObject == getOwner()
             && components.size() > 1 && components[1].isSimple() && result.propertyIndex == 0)) {
         s << '.';
     }
-    else if (result.resolvedDocumentObject && result.resolvedDocumentObject != owner
+    else if (result.resolvedDocumentObject && result.resolvedDocumentObject != getOwner()
              && result.resolvedDocumentObject->isExporting()) {
         s << result.resolvedDocumentObject->getExportName(true);
         if (documentObjectName.isRealString()) {
@@ -476,7 +473,7 @@ bool ObjectIdentifier::replaceObject(ObjectIdentifier& res,
         return false;
     }
 
-    auto r = PropertyLinkBase::tryReplaceLink(owner,
+    auto r = PropertyLinkBase::tryReplaceLink(getOwner(),
                                               result.resolvedDocumentObject,
                                               parent,
                                               oldObj,
@@ -489,7 +486,7 @@ bool ObjectIdentifier::replaceObject(ObjectIdentifier& res,
 
     res = *this;
     if (r.first != result.resolvedDocumentObject) {
-        if (r.first->getDocument() != owner->getDocument()) {
+        if (r.first->getDocument() != owner.getDocument()) {
             auto doc = r.first->getDocument();
             bool useLabel = res.documentName.isRealString();
             const char* name = useLabel ? doc->Label.getValue() : doc->getName();
@@ -1008,7 +1005,7 @@ void ObjectIdentifier::resolve(ResolveResults& results) const
         results.resolvedDocumentName = documentName;
     }
     else {
-        results.resolvedDocument = owner->getDocument();
+        results.resolvedDocument = owner.getDocument();
         results.resolvedDocumentName = String(results.resolvedDocument->getName(), false, true);
     }
 
@@ -1025,7 +1022,7 @@ void ObjectIdentifier::resolve(ResolveResults& results) const
             return;
         }
 
-        results.resolvedDocument = owner->getDocument();
+        results.resolvedDocument = owner.getDocument();
         if (!results.resolvedDocument) {
             return;
         }
@@ -1057,8 +1054,8 @@ void ObjectIdentifier::resolve(ResolveResults& results) const
         if (components.size() == 1 || (components.size() > 1 && !components[0].isSimple())) {
             /* Yes -- then this must be a property, so we get the document object's name from the
              * owner */
-            results.resolvedDocumentObjectName = String(owner->getNameInDocument(), false, true);
-            results.resolvedDocumentObject = owner;
+            results.resolvedDocumentObjectName = String(owner.getNameInDocument(), false, true);
+            results.resolvedDocumentObject = getOwner();
             results.propertyName = components[0].name.getString();
             results.propertyIndex = 0;
             results.getProperty(*this);
@@ -1087,18 +1084,18 @@ void ObjectIdentifier::resolve(ResolveResults& results) const
                     // interpret the first component as the property name.
                     DocumentObject* sobj = nullptr;
                     results.resolvedProperty =
-                        resolveProperty(owner,
+                        resolveProperty(getOwner(),
                                         components[0].name.toString().c_str(),
                                         sobj,
                                         results.propertyType);
                     if (results.resolvedProperty) {
                         results.propertyName = components[0].name.getString();
-                        results.resolvedDocument = owner->getDocument();
+                        results.resolvedDocument = owner.getDocument();
                         results.resolvedDocumentName =
                             String(results.resolvedDocument->getName(), false, true);
                         results.resolvedDocumentObjectName =
-                            String(owner->getNameInDocument(), false, true);
-                        results.resolvedDocumentObject = owner;
+                            String(owner.getNameInDocument(), false, true);
+                        results.resolvedDocumentObject = getOwner();
                         results.resolvedSubObject = sobj;
                         results.propertyIndex = 0;
                     }
@@ -1106,13 +1103,13 @@ void ObjectIdentifier::resolve(ResolveResults& results) const
             }
             else if (documentName.getString().empty()) {
                 /* No, assume component is a property, and get document object's name from owner */
-                results.resolvedDocument = owner->getDocument();
+                results.resolvedDocument = owner.getDocument();
                 results.resolvedDocumentName =
                     String(results.resolvedDocument->getName(), false, true);
                 results.resolvedDocumentObjectName =
-                    String(owner->getNameInDocument(), false, true);
+                    String(owner.getNameInDocument(), false, true);
                 results.resolvedDocumentObject =
-                    owner->getDocument()->getObject(owner->getNameInDocument());
+                    owner.getDocument()->getObject(owner.getNameInDocument()); // FIXME: Why so complicated?
                 results.propertyIndex = 0;
                 results.propertyName = components[results.propertyIndex].name.getString();
                 results.getProperty(*this);
@@ -1296,7 +1293,7 @@ std::vector<std::string> ObjectIdentifier::getStringList() const
     std::vector<std::string> l;
     ResolveResults result(*this);
 
-    if (!result.resolvedProperty || result.resolvedDocumentObject != owner) {
+    if (!result.resolvedProperty || result.resolvedDocumentObject != getOwner()) {
         if (documentNameSet) {
             l.push_back(documentName.toString());
         }
@@ -1471,7 +1468,7 @@ ObjectIdentifier ObjectIdentifier::canonicalPath() const
 {
     ObjectIdentifier res(*this);
     ResolveResults result(res);
-    if (result.resolvedDocumentObject && result.resolvedDocumentObject != owner) {
+    if (result.resolvedDocumentObject && result.resolvedDocumentObject != getOwner()) {
         res.owner = result.resolvedDocumentObject;
         res._cache.clear();
     }
@@ -1558,8 +1555,8 @@ void ObjectIdentifier::setDocumentObjectName(ObjectIdentifier::String&& name,
                                              bool checkImport)
 {
     if (checkImport) {
-        name.checkImport(owner);
-        subname.checkImport(owner, nullptr, &name);
+        name.checkImport(getOwner());
+        subname.checkImport(getOwner(), nullptr, &name);
     }
 
     documentObjectName = std::move(name);
@@ -1579,20 +1576,20 @@ void ObjectIdentifier::setDocumentObjectName(const App::DocumentObject* obj,
     }
 
     if (checkImport) {
-        subname.checkImport(owner, obj);
+        subname.checkImport(getOwner(), obj);
     }
 
-    if (obj == owner) {
+    if (obj == getOwner()) {
         force = false;
     }
     else {
         localProperty = false;
     }
-    if (obj->getDocument() == owner->getDocument()) {
+    if (obj->getDocument() == owner.getDocument()) {
         setDocumentName(String());
     }
     else if (!documentNameSet) {
-        if (obj->getDocument() == owner->getDocument()) {
+        if (obj->getDocument() == owner.getDocument()) {
             setDocumentName(String());
         }
         else {
@@ -1941,7 +1938,7 @@ App::any ObjectIdentifier::getValue(bool pathValue, bool* isPseudoProperty) cons
         *isPseudoProperty = rs.propertyType != PseudoNone;
         if (rs.propertyType == PseudoSelf && isLocalProperty()
             && rs.propertyIndex + 1 < (int)components.size()
-            && owner->getPropertyByName(components[rs.propertyIndex + 1].getName().c_str())) {
+            && owner.getPropertyByName(components[rs.propertyIndex + 1].getName().c_str())) {
             *isPseudoProperty = false;
         }
     }
@@ -1968,7 +1965,7 @@ Py::Object ObjectIdentifier::getPyValue(bool pathValue, bool* isPseudoProperty) 
         *isPseudoProperty = rs.propertyType != PseudoNone;
         if (rs.propertyType == PseudoSelf && isLocalProperty()
             && rs.propertyIndex + 1 < (int)components.size()
-            && owner->getPropertyByName(components[rs.propertyIndex + 1].getName().c_str())) {
+            && owner.getPropertyByName(components[rs.propertyIndex + 1].getName().c_str())) {
             *isPseudoProperty = false;
         }
     }
@@ -2035,13 +2032,13 @@ const std::string& ObjectIdentifier::getSubObjectName() const
 
 void ObjectIdentifier::importSubNames(const ObjectIdentifier::SubNameMap& subNameMap)
 {
-    if (!owner || !owner->getDocument()) {
+    if (!owner || !owner.getDocument()) {
         return;
     }
     ResolveResults result(*this);
     auto it = subNameMap.find(std::make_pair(result.resolvedDocumentObject, std::string()));
     if (it != subNameMap.end()) {
-        auto obj = owner->getDocument()->getObject(it->second.c_str());
+        auto obj = owner.getDocument()->getObject(it->second.c_str());
         if (!obj) {
             FC_ERR("Failed to find import object " << it->second << " from "
                                                    << result.resolvedDocumentObject->getFullName());
@@ -2136,7 +2133,7 @@ bool ObjectIdentifier::isTouched() const
 
 void ObjectIdentifier::resolveAmbiguity()
 {
-    if (!owner || !owner->isAttachedToDocument() || isLocalProperty()
+    if (!owner || !owner.isAttachedToDocument() || isLocalProperty()
         || (documentObjectNameSet && !documentObjectName.getString().empty()
             && (documentObjectName.isRealString() || documentObjectName.isForceIdentifier()))) {
         return;
@@ -2158,8 +2155,8 @@ void ObjectIdentifier::resolveAmbiguity(ResolveResults& result)
     }
 
     String subname = subObjectName;
-    if (result.resolvedDocumentObject == owner) {
-        setDocumentObjectName(owner, false, std::move(subname));
+    if (result.resolvedDocumentObject == getOwner()) {
+        setDocumentObjectName(getOwner(), false, std::move(subname));
     }
     else if (result.flags.test(ResolveByIdentifier)) {
         setDocumentObjectName(result.resolvedDocumentObject, true, std::move(subname));
@@ -2171,7 +2168,7 @@ void ObjectIdentifier::resolveAmbiguity(ResolveResults& result)
             std::move(subname));
     }
 
-    if (result.resolvedDocumentObject->getDocument() == owner->getDocument()) {
+    if (result.resolvedDocumentObject->getDocument() == owner.getDocument()) {
         setDocumentName(String());
     }
 }
