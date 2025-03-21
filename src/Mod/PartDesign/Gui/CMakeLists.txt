@@ -20,6 +20,7 @@ include_directories(
 link_directories(${OCC_LIBRARY_DIR})
 
 generate_from_xml(ViewProviderPy)
+generate_from_py(ViewProvider)
 
 
 set(PartDesignGui_LIBS
