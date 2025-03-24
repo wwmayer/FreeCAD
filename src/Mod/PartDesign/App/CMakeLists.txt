@@ -20,9 +20,7 @@ include_directories(
 )
 link_directories(${OCC_LIBRARY_DIR})
 
-generate_from_xml(BodyPy)
 generate_from_py(Body)
-generate_from_xml(FeaturePy)
 generate_from_py(Feature)
 
 
@@ -136,9 +134,9 @@ SOURCE_GROUP("Module" FILES ${Module_SRCS})
 
 
 SET(Python_SRCS
-    BodyPy.xml
+    Body.pyi
     BodyPyImp.cpp
-    FeaturePy.xml
+    Feature.pyi
     FeaturePyImp.cpp
 )
 SOURCE_GROUP("Python" FILES ${Python_SRCS})
