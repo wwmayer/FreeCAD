@@ -10,7 +10,7 @@ from typing import List
     Constructor=True,
     Delete=True,
 )
-class MakePrism(PyObjectBase):
+class MakeOffset(PyObjectBase):
     """
     Describes algorithms for offsetting wires
 
