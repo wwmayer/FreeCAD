@@ -57,6 +57,32 @@ const char* TouchpadNavigationStyle::mouseButtons(ViewerMode mode)
     }
 }
 
+SbBool TouchpadNavigationStyle::processLocationEvent(const SoLocationEvent& ev)
+{
+    this->lockrecenter = true;
+    const auto * const event = static_cast<const SoLocation2Event *>(ev.event);
+    if (ev.viewerMode == NavigationStyle::ZOOMING) {
+        this->zoomByCursor(ev.current, ev.previous);
+        return true;
+    }
+    if (ev.viewerMode == NavigationStyle::PANNING) {
+        if (!blockPan) {
+            panCamera(viewer->getSoRenderManager()->getCamera(),
+                      ev.ratio, this->panningplane, ev.current, ev.previous);
+        }
+        blockPan = false;
+        return true;
+    }
+    if (ev.viewerMode == NavigationStyle::DRAGGING) {
+        this->addToLog(event->getPosition(), event->getTime());
+        this->spin(ev.current);
+        moveCursorPosition();
+        return true;
+    }
+
+    return false;
+}
+
 SbBool TouchpadNavigationStyle::processSoEvent(const SoEvent * const ev)
 {
     // Events when in "ready-to-seek" mode are ignored, except those
@@ -169,26 +195,12 @@ SbBool TouchpadNavigationStyle::processSoEvent(const SoEvent * const ev)
 
     // Mouse Movement handling
     if (type.isDerivedFrom(SoLocation2Event::getClassTypeId())) {
-        this->lockrecenter = true;
-        const auto event = (const SoLocation2Event *) ev;
-        if (this->currentmode == NavigationStyle::ZOOMING) {
-            this->zoomByCursor(posn, prevnormalized);
-            processed = true;
-        }
-        else if (this->currentmode == NavigationStyle::PANNING) {
-            if (!blockPan) {
-                float ratio = vp.getViewportAspectRatio();
-                panCamera(viewer->getSoRenderManager()->getCamera(), ratio, this->panningplane, posn, prevnormalized);
-            }
-            blockPan = false;
-            processed = true;
-        }
-        else if (this->currentmode == NavigationStyle::DRAGGING) {
-            this->addToLog(event->getPosition(), event->getTime());
-            this->spin(posn);
-            moveCursorPosition();
-            processed = true;
-        }
+        SoLocationEvent event{ev};
+        event.viewerMode = this->currentmode;
+        event.ratio = vp.getViewportAspectRatio();
+        event.current = posn;
+        event.previous = prevnormalized;
+        processed = processLocationEvent(event);
     }
 
     // Spaceball & Joystick handling

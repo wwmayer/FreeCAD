@@ -71,6 +71,18 @@ private:
     Base::Type t;
 };
 
+struct SoLocationEvent
+{
+    explicit SoLocationEvent(const SoEvent* event)
+        : event(event)
+    {}
+    const SoEvent* event {};
+    int viewerMode {};
+    float ratio {};
+    SbVec2f current;
+    SbVec2f previous;
+};
+
 /**
  * The navigation style base class
  * @author Werner Mayer
@@ -167,6 +179,7 @@ public:
     void setViewingMode(const ViewerMode newmode);
     int getViewingMode() const;
     virtual SbBool processEvent(const SoEvent * const ev);
+    virtual SbBool processLocationEvent(const SoLocationEvent& ev);
     virtual SbBool processMotionEvent(const SoMotion3Event * const ev);
     virtual SbBool processKeyboardEvent(const SoKeyboardEvent * const event);
     virtual SbBool processClickEvent(const SoMouseButtonEvent * const event);
@@ -438,6 +451,7 @@ public:
 
 protected:
     SbBool processSoEvent(const SoEvent * const ev) override;
+    SbBool processLocationEvent(const SoLocationEvent& ev) override;
 
 private:
     SbBool blockPan {false}; // Used to block the first pan in a mouse movement to prevent big jumps
@@ -469,6 +483,7 @@ public:
 
 protected:
     SbBool processSoEvent(const SoEvent * const ev) override;
+    SbBool processLocationEvent(const SoLocationEvent& ev) override;
 };
 
 class GuiExport TinkerCADNavigationStyle : public UserNavigationStyle {
@@ -483,6 +498,7 @@ public:
 
 protected:
     SbBool processSoEvent(const SoEvent * const ev) override;
+    SbBool processLocationEvent(const SoLocationEvent& ev) override;
 };
 
 } // namespace Gui

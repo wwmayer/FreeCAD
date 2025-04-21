@@ -58,6 +58,25 @@ const char* TinkerCADNavigationStyle::mouseButtons(ViewerMode mode)
     }
 }
 
+SbBool TinkerCADNavigationStyle::processLocationEvent(const SoLocationEvent& ev)
+{
+    //this->lockrecenter = true;
+    const auto * const event = static_cast<const SoLocation2Event *>(ev.event);
+    if (ev.viewerMode == NavigationStyle::PANNING) {
+        panCamera(viewer->getSoRenderManager()->getCamera(),
+                  ev.ratio, this->panningplane, ev.current, ev.previous);
+        return true;
+    }
+    if (ev.viewerMode == NavigationStyle::DRAGGING) {
+        this->addToLog(event->getPosition(), event->getTime());
+        this->spin(ev.current);
+        moveCursorPosition();
+        return true;
+    }
+
+    return false;
+}
+
 SbBool TinkerCADNavigationStyle::processSoEvent(const SoEvent * const ev)
 {
     // Events when in "ready-to-seek" mode are ignored, except those
@@ -177,18 +196,12 @@ SbBool TinkerCADNavigationStyle::processSoEvent(const SoEvent * const ev)
 
     // Mouse Movement handling
     if (type.isDerivedFrom(SoLocation2Event::getClassTypeId())) {
-        const auto event = (const SoLocation2Event *) ev;
-        if (curmode == NavigationStyle::PANNING) {
-            float ratio = vp.getViewportAspectRatio();
-            panCamera(viewer->getSoRenderManager()->getCamera(), ratio, this->panningplane, posn, prevnormalized);
-            processed = true;
-        }
-        else if (curmode == NavigationStyle::DRAGGING) {
-            this->addToLog(event->getPosition(), event->getTime());
-            this->spin(posn);
-            moveCursorPosition();
-            processed = true;
-        }
+        SoLocationEvent event{ev};
+        event.viewerMode = this->currentmode;
+        event.ratio = vp.getViewportAspectRatio();
+        event.current = posn;
+        event.previous = prevnormalized;
+        processed = processLocationEvent(event);
     }
 
     // Spaceball & Joystick handling

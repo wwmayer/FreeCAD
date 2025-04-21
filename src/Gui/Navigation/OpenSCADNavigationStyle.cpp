@@ -58,6 +58,39 @@ const char* OpenSCADNavigationStyle::mouseButtons(ViewerMode mode)
     }
 }
 
+SbBool OpenSCADNavigationStyle::processLocationEvent(const SoLocationEvent& ev)
+{
+    SbBool processed = false;
+    this->lockrecenter = true;
+    const auto * const event = static_cast<const SoLocation2Event *>(ev.event);
+    if (!viewer->isEditing() && ev.viewerMode == NavigationStyle::SELECTION) {
+        saveCursorPosition(ev.event);
+        this->centerTime = ev.event->getTime();
+    }
+    else if (ev.viewerMode == NavigationStyle::ZOOMING) {
+        // OpenSCAD uses vertical mouse position, not horizontal
+        // this->zoomByCursor(posn, prevnormalized);
+        float value = (ev.current[1] - ev.previous[1]) * 10.0F;
+        if (this->invertZoom) {
+            value = -value;
+        }
+        zoom(viewer->getSoRenderManager()->getCamera(), value);
+        processed = true;
+    }
+    else if (ev.viewerMode == NavigationStyle::PANNING) {
+        panCamera(viewer->getSoRenderManager()->getCamera(), ev.ratio, this->panningplane, ev.current, ev.previous);
+        processed = true;
+    }
+    else if (ev.viewerMode == NavigationStyle::DRAGGING) {
+        this->addToLog(event->getPosition(), event->getTime());
+        this->spin(ev.current);
+        moveCursorPosition();
+        processed = true;
+    }
+
+    return processed;
+}
+
 SbBool OpenSCADNavigationStyle::processSoEvent(const SoEvent * const ev)
 {
     // Events when in "ready-to-seek" mode are ignored, except those
@@ -185,32 +218,14 @@ SbBool OpenSCADNavigationStyle::processSoEvent(const SoEvent * const ev)
 
     // Mouse Movement handling
     if (type.isDerivedFrom(SoLocation2Event::getClassTypeId())) {
-        this->lockrecenter = true;
-        const auto event = (const SoLocation2Event *) ev;
+        SoLocationEvent event{ev};
+        event.viewerMode = this->currentmode;
+        event.ratio = vp.getViewportAspectRatio();
+        event.current = posn;
+        event.previous = prevnormalized;
+        processed = processLocationEvent(event);
         if (!viewer->isEditing() && curmode == NavigationStyle::SELECTION) {
             newmode = NavigationStyle::DRAGGING;
-            saveCursorPosition(ev);
-            this->centerTime = ev->getTime();
-        }
-        else if (curmode == NavigationStyle::ZOOMING) {
-            // OpenSCAD uses vertical mouse position, not horizontal
-            // this->zoomByCursor(posn, prevnormalized);
-            float value = (posn[1] - prevnormalized[1]) * 10.0f;
-            if (this->invertZoom)
-                value = -value;
-            zoom(viewer->getSoRenderManager()->getCamera(), value);
-            processed = true;
-        }
-        else if (curmode == NavigationStyle::PANNING) {
-            float ratio = vp.getViewportAspectRatio();
-            panCamera(viewer->getSoRenderManager()->getCamera(), ratio, this->panningplane, posn, prevnormalized);
-            processed = true;
-        }
-        else if (curmode == NavigationStyle::DRAGGING) {
-            this->addToLog(event->getPosition(), event->getTime());
-            this->spin(posn);
-            moveCursorPosition();
-            processed = true;
         }
     }
 

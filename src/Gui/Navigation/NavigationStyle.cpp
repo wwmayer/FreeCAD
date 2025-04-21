@@ -1605,6 +1605,29 @@ void NavigationStyle::syncWithEvent(const SoEvent * const ev)
     }
 }
 
+SbBool NavigationStyle::processLocationEvent(const SoLocationEvent& ev)
+{
+    this->lockrecenter = true;
+    const auto * const event = static_cast<const SoLocation2Event *>(ev.event);
+    if (ev.viewerMode == NavigationStyle::ZOOMING) {
+        this->zoomByCursor(ev.current, ev.previous);
+        return true;
+    }
+    if (ev.viewerMode == NavigationStyle::PANNING) {
+        panCamera(viewer->getSoRenderManager()->getCamera(),
+                  ev.ratio, this->panningplane, ev.current, ev.previous);
+        return true;
+    }
+    if (ev.viewerMode == NavigationStyle::DRAGGING) {
+        this->addToLog(event->getPosition(), event->getTime());
+        this->spin(ev.current);
+        moveCursorPosition();
+        return true;
+    }
+
+    return false;
+}
+
 SbBool NavigationStyle::processMotionEvent(const SoMotion3Event * const ev)
 {
     SoCamera * const camera = viewer->getSoRenderManager()->getCamera();

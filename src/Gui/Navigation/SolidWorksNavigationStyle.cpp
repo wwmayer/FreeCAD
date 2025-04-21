@@ -193,23 +193,12 @@ SbBool SolidWorksNavigationStyle::processSoEvent(const SoEvent * const ev)
 
     // Mouse Movement handling
     if (type.isDerivedFrom(SoLocation2Event::getClassTypeId())) {
-        this->lockrecenter = true;
-        const auto * const event = (const SoLocation2Event *) ev;
-        if (this->currentmode == NavigationStyle::ZOOMING) {
-            this->zoomByCursor(posn, prevnormalized);
-            processed = true;
-        }
-        else if (this->currentmode == NavigationStyle::PANNING) {
-            float ratio = vp.getViewportAspectRatio();
-            panCamera(viewer->getSoRenderManager()->getCamera(), ratio, this->panningplane, posn, prevnormalized);
-            processed = true;
-        }
-        else if (this->currentmode == NavigationStyle::DRAGGING) {
-            this->addToLog(event->getPosition(), event->getTime());
-            this->spin(posn);
-            moveCursorPosition();
-            processed = true;
-        }
+        SoLocationEvent event{ev};
+        event.viewerMode = this->currentmode;
+        event.ratio = vp.getViewportAspectRatio();
+        event.current = posn;
+        event.previous = prevnormalized;
+        processed = processLocationEvent(event);
     }
 
     // Spaceball & Joystick handling
