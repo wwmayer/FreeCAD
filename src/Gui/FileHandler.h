@@ -52,6 +52,7 @@ private:
     void openVRML();
     void openImage();
     void openPython();
+    void openPDF();
 
 private:
     QString filename;
