@@ -194,6 +194,13 @@ void Base::XMLReader::readElement(const char* ElementName)
             // thus we must stop reading on.
             break;
         }
+        if (ReadType == EndElement && currentLevel > Level) {
+            // Requested element name not found
+            Base::Console().Warning("Requested element name %s coudn't be found in %s\n",
+                                    ElementName,
+                                    LocalName.c_str());
+            break;
+        }
         if (ReadType == EndDocument) {
             // the end of the document has been reached but we still try to continue on reading
             throw Base::XMLParseException("End of document reached");
