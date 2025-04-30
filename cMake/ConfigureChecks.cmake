@@ -39,13 +39,9 @@ SET(HAVE_QWIDGET_SHOWFULLSCREEN 1)
 
 
 file(WRITE ${CMAKE_BINARY_DIR}/backtrace.cpp
-         "#include <cstddef>\n"
-         "#include <execinfo.h>\n\n"
+         "#include <boost/stacktrace.hpp>\n"
          "int main() {\n"
-         "    void *callstack[128];\n"
-         "    size_t nMaxFrames = sizeof(callstack) / sizeof(callstack[0]);\n"
-         "    size_t nFrames = backtrace(callstack, nMaxFrames);\n"
-         "    char **symbols = backtrace_symbols(callstack, nFrames);\n"
+         "    boost::stacktrace::stacktrace();\n"
          "    return 0;\n"
          "}"
 )
@@ -55,6 +51,9 @@ try_compile(
     ${CMAKE_BINARY_DIR}
   SOURCES
     ${CMAKE_BINARY_DIR}/backtrace.cpp
+  COMPILE_DEFINITIONS
+    "-DBOOST_STACKTRACE_LINK"
+  LINK_LIBRARIES boost_stacktrace_backtrace
 )
 
 SET(HAVE_BACKTRACE_SYMBOLS ${RESULT_VAR})

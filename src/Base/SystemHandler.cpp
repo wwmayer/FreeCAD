@@ -28,6 +28,7 @@
 #include <sstream>
 #endif
 
+#include <boost/stacktrace.hpp>
 #include "SystemHandler.h"
 #include "Console.h"
 #include "Exception.h"
@@ -69,15 +70,6 @@ static void freecadNewHandler()
 #endif
 
 #if defined(FC_OS_LINUX)
-#include <unistd.h>
-#include <execinfo.h>
-#include <dlfcn.h>
-#include <cxxabi.h>
-
-#include <cstdio>
-#include <cstdlib>
-#include <string>
-
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif  // HAVE_CONFIG_H
@@ -85,42 +77,13 @@ static void freecadNewHandler()
 // This function produces a stack backtrace with demangled function & method names.
 static void printBacktrace(size_t skip = 0)
 {
+    // To print filenames and line numbers add to Base/CMakeLists.txt:
+    // * add_definitions(-DBOOST_STACKTRACE_LINK)
+    // * list(APPEND FreeCADBase_LIBS boost_stacktrace_backtrace)
+    // Write a test function using 'try_compile' to determine if 'boost_stacktrace_backtrace'
+    // is available
+    std::cerr << boost::stacktrace::stacktrace(skip, static_cast<size_t>(-1)) << std::endl;
 #if defined HAVE_BACKTRACE_SYMBOLS
-    void* callstack[128];
-    size_t nMaxFrames = sizeof(callstack) / sizeof(callstack[0]);
-    size_t nFrames = backtrace(callstack, nMaxFrames);
-    char** symbols = backtrace_symbols(callstack, nFrames);
-
-    for (size_t i = skip; i < nFrames; i++) {
-        char* demangled = nullptr;
-        int status = -1;
-        Dl_info info;
-        if (dladdr(callstack[i], &info) && info.dli_sname && info.dli_fname) {
-            if (info.dli_sname[0] == '_') {
-                demangled = abi::__cxa_demangle(info.dli_sname, nullptr, nullptr, &status);
-            }
-        }
-
-        std::stringstream str;
-        if (status == 0) {
-            void* offset = (void*)((char*)callstack[i] - (char*)info.dli_saddr);
-            str << "#" << (i - skip) << "  " << callstack[i] << " in " << demangled << " from "
-                << info.dli_fname << "+" << offset << '\n';
-            free(demangled);
-        }
-        else {
-            str << "#" << (i - skip) << "  " << symbols[i] << '\n';
-        }
-
-        // cannot directly print to cerr when using --write-log
-        std::cerr << str.str();
-    }
-
-    free(symbols);
-#else  // HAVE_BACKTRACE_SYMBOLS
-    (void)skip;
-    std::cerr << "Cannot print the stacktrace because the C runtime library doesn't provide "
-                 "backtrace or backtrace_symbols\n";
 #endif
 }
 #endif

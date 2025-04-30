@@ -9,6 +9,10 @@ if(FREECAD_RELEASE_SEH)
     add_definitions(-DHAVE_SEH)
 endif(FREECAD_RELEASE_SEH)
 
+if(HAVE_BACKTRACE_SYMBOLS)
+    add_definitions(-DBOOST_STACKTRACE_LINK)
+endif(HAVE_BACKTRACE_SYMBOLS)
+
 include_directories(
     ${CMAKE_BINARY_DIR}/src
     ${CMAKE_SOURCE_DIR}/src
@@ -72,6 +76,10 @@ include_directories(
 list(APPEND FreeCADBase_LIBS ${QtCore_LIBRARIES})
 
 list(APPEND FreeCADBase_LIBS fmt::fmt)
+
+if(HAVE_BACKTRACE_SYMBOLS)
+    list(APPEND FreeCADBase_LIBS boost_stacktrace_backtrace)
+endif(HAVE_BACKTRACE_SYMBOLS)
 
 if (BUILD_DYNAMIC_LINK_PYTHON)
     list(APPEND FreeCADBase_LIBS ${Python3_LIBRARIES})
