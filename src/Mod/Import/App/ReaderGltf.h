@@ -41,8 +41,23 @@ public:
 
     void read(Handle(TDocStd_Document) hDoc,
               const Message_ProgressRange& theProgress = Message_ProgressRange());
-    bool cleanup() const;
-    void setCleanup(bool);
+    bool refinement() const;
+    void setRefinement(bool);
+
+    bool skipEmptyNodes() const;
+    void setSkipEmptyNodes(bool);
+
+    bool doublePrecision() const;
+    void setDoublePrecision(bool);
+
+    bool loadAllScenes() const;
+    void setLoadAllScenes(bool);
+
+    bool multiThreaded() const;
+    void setMultiThreaded(bool);
+
+    bool printDebugMessages() const;
+    void setPrintDebugMessages(bool);
 
 private:
     TopoDS_Shape fixShape(TopoDS_Shape);
@@ -53,6 +68,11 @@ private:
 private:
     Base::FileInfo file;
     bool clean = true;
+    bool skipEmpty = true;
+    bool doublePrec = false;
+    bool loadAll = false;
+    bool multiThread = false;
+    bool printDbgMsg = false;
 };
 
 }  // namespace Import
