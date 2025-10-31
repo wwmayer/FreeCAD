@@ -41,6 +41,13 @@ public:
 
     void read(Handle(TDocStd_Document) hDoc,
               const Message_ProgressRange& theProgress = Message_ProgressRange());
+
+    TopoDS_Shape singleShape(Handle(TDocStd_Document) hDoc,
+                             const Message_ProgressRange& theProgress = Message_ProgressRange()) const;
+
+    bool loadTessellationOnly() const;
+    void setLoadTessellationOnly(bool);
+
     bool refinement() const;
     void setRefinement(bool);
 
@@ -67,6 +74,7 @@ private:
 
 private:
     Base::FileInfo file;
+    bool meshOnly = true;
     bool clean = true;
     bool skipEmpty = true;
     bool doublePrec = false;
