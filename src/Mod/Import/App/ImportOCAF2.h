@@ -34,6 +34,8 @@
 #include <TopoDS_Shape.hxx>
 #include <XCAFDoc_ColorTool.hxx>
 #include <XCAFDoc_ShapeTool.hxx>
+#include <XCAFDoc_VisMaterial.hxx>
+#include <XCAFDoc_VisMaterialTool.hxx>
 
 #include <Base/Sequencer.h>
 #include <Mod/Part/App/TopoShape.h>
@@ -71,6 +73,7 @@ struct ImportExport ImportOCAFOptions
     bool reduceObjects = false;
     bool showProgress = false;
     bool expandCompound = false;
+    bool allowEmptyShape = false;
     int mode = 0;
 };
 
@@ -112,6 +115,14 @@ public:
     {
         options.expandCompound = enable;
     }
+    void setAllowEmptyShape(bool enable)
+    {
+        options.allowEmptyShape = enable;
+    }
+    bool allowEmptyShape() const
+    {
+        return options.allowEmptyShape;
+    }
 
     enum ImportMode
     {
@@ -141,6 +152,7 @@ private:
         int free = true;
     };
 
+    bool checkShape(const TopoDS_Shape& shape) const;
     App::DocumentObject* loadShape(App::Document* doc,
                                    TDF_Label label,
                                    const TopoDS_Shape& shape,
@@ -163,10 +175,8 @@ private:
                      std::vector<App::DocumentObject*>& children,
                      const boost::dynamic_bitset<>& visibilities,
                      bool canReduce = false);
-    bool
-    getColor(const TopoDS_Shape& shape, Info& info, bool check = false, bool noDefault = false);
-    void
-    getSHUOColors(TDF_Label label, std::map<std::string, Base::Color>& colors, bool appendFirst);
+    bool getColor(const TopoDS_Shape& shape, Info& info, bool check = false, bool noDefault = false);
+    void getSHUOColors(TDF_Label label, std::map<std::string, Base::Color>& colors, bool appendFirst);
     void setObjectName(Info& info, TDF_Label label);
     std::string getLabelName(TDF_Label label);
     App::DocumentObject*
@@ -204,6 +214,7 @@ private:
     App::Document* pDocument;
     Handle(XCAFDoc_ShapeTool) aShapeTool;
     Handle(XCAFDoc_ColorTool) aColorTool;
+    Handle(XCAFDoc_VisMaterialTool) aVisTool;
     std::string default_name;
 
     ImportOCAFOptions options;
