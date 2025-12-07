@@ -4685,7 +4685,20 @@ TopoShape& TopoShape::makeElementRefine(const TopoShape& shape, const char* op, 
         mapper.init(shape, mkRefine.Shape());
         makeShapeWithElementMap(mkRefine.Shape(), mapper, {shape}, op);
         // For some reason, refine operation may reverse the solid
-        fixSolidOrientation();
+        try {
+            fixSolidOrientation();
+        }
+        catch (Standard_Failure& e) {
+            std::string text = "Shape refinement failed";
+            auto msg = e.GetMessageString();
+            if (!Base::Tools::isNullOrEmpty(msg)) {
+                text.append(" (");
+                text.append(msg);
+                text.append(")");
+            }
+            e.SetMessageString(text.c_str());
+            throw;
+        }
         if (isClosed() == closed) {
             return *this;
         }
@@ -5524,7 +5537,16 @@ bool TopoShape::fixSolidOrientation()
 
     if (shapeType() == TopAbs_SOLID) {
         TopoDS_Solid solid = TopoDS::Solid(_Shape);
-        BRepLib::OrientClosedSolid(solid);
+        try {
+            BRepLib::OrientClosedSolid(solid);
+        }
+        catch (Standard_Failure& e) {
+            auto msg = e.GetMessageString();
+            if (Base::Tools::isNullOrEmpty(msg)) {
+                e.SetMessageString("BRepLib::OrientClosedSolid failed");
+            }
+            throw;
+        }
         if (solid.IsEqual(_Shape)) {
             return false;
         }
