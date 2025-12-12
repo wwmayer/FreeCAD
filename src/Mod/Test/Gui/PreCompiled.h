@@ -36,6 +36,7 @@
 
 // Qt Toolkit
 #include <QApplication>
+#include <QClipboard>
 #include <QEventLoop>
 #include <QMessageBox>
 

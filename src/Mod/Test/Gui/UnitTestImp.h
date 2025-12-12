@@ -68,6 +68,7 @@ protected:
 
 private:
     void onTreeViewFailureItemDoubleClicked(QTreeWidgetItem* item, int column);
+    void onCopyButtonClicked();
     void onHelpButtonClicked();
     void onAboutButtonClicked();
     void onStartButtonClicked();

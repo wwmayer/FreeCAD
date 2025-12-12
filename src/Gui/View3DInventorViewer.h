@@ -275,6 +275,10 @@ public:
     const std::vector<SbVec2s>& getPolygon(SelectionRole* role=nullptr) const;
     void setSelectionEnabled(bool enable);
     bool isSelectionEnabled() const;
+    void setSelectionMode(bool enable);
+    bool isSelectionMode() const;
+    void setPreselectionMode(bool enable);
+    bool isPreselectionMode() const;
     //@}
 
     /// Returns the screen coordinates of the origin of the path's tail object

@@ -22,6 +22,7 @@
 
 #include "PreCompiled.h"
 #ifndef _PreComp_
+#include <QClipboard>
 #include <QFontMetrics>
 #include <QMessageBox>
 #endif
@@ -101,13 +102,18 @@ UnitTestDialog::~UnitTestDialog() = default;
 
 void UnitTestDialog::setupConnections()
 {
-    connect(ui->treeViewFailure,
-            &QTreeWidget::itemDoubleClicked,
-            this,
-            &UnitTestDialog::onTreeViewFailureItemDoubleClicked);
-    connect(ui->helpButton, &QPushButton::clicked, this, &UnitTestDialog::onHelpButtonClicked);
-    connect(ui->aboutButton, &QPushButton::clicked, this, &UnitTestDialog::onAboutButtonClicked);
-    connect(ui->startButton, &QPushButton::clicked, this, &UnitTestDialog::onStartButtonClicked);
+    // clang-format off
+    connect(ui->treeViewFailure, &QTreeWidget::itemDoubleClicked,
+            this, &UnitTestDialog::onTreeViewFailureItemDoubleClicked);
+    connect(ui->copyButton, &QPushButton::clicked,
+            this, &UnitTestDialog::onCopyButtonClicked);
+    connect(ui->helpButton, &QPushButton::clicked,
+            this, &UnitTestDialog::onHelpButtonClicked);
+    connect(ui->aboutButton, &QPushButton::clicked,
+            this, &UnitTestDialog::onAboutButtonClicked);
+    connect(ui->startButton, &QPushButton::clicked,
+            this, &UnitTestDialog::onStartButtonClicked);
+    // clang-format on
 }
 
 /**
@@ -153,6 +159,22 @@ void UnitTestDialog::onTreeViewFailureItemDoubleClicked(QTreeWidgetItem* item, i
 
     msgBox.setText(text);
     msgBox.exec();
+}
+
+void UnitTestDialog::onCopyButtonClicked()
+{
+    QString text;
+    for (int index = 0; index < ui->treeViewFailure->topLevelItemCount(); index++) {
+        QTreeWidgetItem* item = ui->treeViewFailure->topLevelItem(index);
+        text.append(item->text(0));
+        text.append(item->data(0, Qt::UserRole).toString());
+        text.append(QLatin1String("\n\n"));
+    }
+
+    if (!text.isEmpty()) {
+        QClipboard* cb = QApplication::clipboard();
+        cb->setText(text);
+    }
 }
 
 /**

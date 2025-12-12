@@ -23,6 +23,7 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
+# include <QAbstractButton>
 # include <QMessageBox>
 #endif
 
@@ -176,11 +177,28 @@ bool ViewProviderGroupExtension::extensionOnDelete(const std::vector< std::strin
     auto* group = getExtendedViewProvider()->getObject()->getExtensionByType<App::GroupExtension>();
     // If the group is nonempty ask the user if they want to delete its content
     if (group->Group.getSize() > 0) {
-        QMessageBox::StandardButton choice =
-            QMessageBox::question(getMainWindow(), QObject::tr ( "Delete group content?" ),
-                QObject::tr ( "The %1 is not empty, delete its content as well?")
-                    .arg ( QString::fromUtf8 ( getExtendedViewProvider()->getObject()->Label.getValue () ) ),
-                QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes );
+        QMessageBox box(getMainWindow());
+        box.setIcon(QMessageBox::Question);
+        box.setWindowTitle(QObject::tr("Delete group content?"));
+        box.setText(QObject::tr("The %1 is not empty, delete its content as well?")
+                        .arg(QString::fromUtf8(getExtendedViewProvider()->getObject()->Label.getValue())));
+        box.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        box.setDefaultButton(QMessageBox::Yes);
+        box.setEscapeButton(QMessageBox::Cancel);
+
+        // If an icon is set make sure it's different to the "No" icon
+        if (QAbstractButton* cancelBtn = box.button(QMessageBox::Cancel)) {
+            QIcon icon = cancelBtn->icon();
+            if (!icon.isNull()) {
+                cancelBtn->setIcon(QIcon(QString::fromUtf8(":/icons/edit_Cancel.svg")));
+            }
+        }
+
+        int choice = box.exec();
+
+        if (choice == QMessageBox::Cancel) {
+            return false;
+        }
 
         if (choice == QMessageBox::Yes) {
             Gui::Command::doCommand(Gui::Command::Doc,

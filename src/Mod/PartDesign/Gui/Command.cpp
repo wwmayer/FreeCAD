@@ -407,10 +407,16 @@ void CmdPartDesignSubShapeBinder::activated(int iMsg)
         binder->setLinks(std::move(values));
         updateActive();
         commitCommand();
-    } catch (Base::Exception &e) {
+    }
+    catch (Base::Exception &e) {
         e.ReportException();
         QMessageBox::critical(Gui::getMainWindow(),
                 QObject::tr("Sub-Shape Binder"), QApplication::translate("Exception", e.what()));
+        abortCommand();
+    }
+    catch (const Standard_Failure &e) {
+        QMessageBox::critical(Gui::getMainWindow(),
+                QObject::tr("Sub-Shape Binder"), QApplication::translate("Exception", e.GetMessageString()));
         abortCommand();
     }
 }
