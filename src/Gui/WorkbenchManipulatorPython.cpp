@@ -35,7 +35,12 @@ using namespace Gui;
 
 void WorkbenchManipulatorPython::installManipulator(const Py::Object& obj)
 {
-    auto manip = std::make_shared<WorkbenchManipulatorPython>(obj);
+    auto manip = WorkbenchManipulator::Ptr(new WorkbenchManipulatorPython(obj),
+                                           [] (WorkbenchManipulatorPython* py) {
+        if (Py_IsInitialized()) {
+            delete py;
+        }
+    });
     WorkbenchManipulator::installManipulator(manip);
 }
 

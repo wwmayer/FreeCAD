@@ -268,8 +268,9 @@ const std::string& Gui::SoFCDB::writeNodesToString(SoNode * root)
     SoOutput out;
     static_buffer.resize(1024);
     out.setBuffer(static_buffer.data(), static_buffer.size(), buffer_realloc);
-    if (root && root->getTypeId().isDerivedFrom(SoVRMLParent::getClassTypeId()))
+    if (root && root->getTypeId().isDerivedFrom(SoVRMLParent::getClassTypeId())) {
         out.setHeaderString("#VRML V2.0 utf8");
+    }
 
     SoWriteAction wa(&out);
     wa.apply(root);
@@ -291,8 +292,9 @@ SoNode* replaceSwitches(SoNodeList* children, SoGroup* parent)
             if (node->getTypeId().isDerivedFrom(SoSwitch::getClassTypeId())) {
                 auto group = static_cast<SoSwitch*>(node);
                 int which = group->whichChild.getValue();
-                if (which == SO_SWITCH_NONE)
+                if (which == SO_SWITCH_NONE) {
                     continue;
+                }
                 auto newParent = new SoGroup();
                 SoNodeList c;
                 if (which >= 0) {
@@ -300,8 +302,9 @@ SoNode* replaceSwitches(SoNodeList* children, SoGroup* parent)
                 }
                 else {
                     // SO_SWITCH_INHERIT or SO_SWITCH_ALL
-                    for (int i=0; i<group->getNumChildren(); i++)
+                    for (int i=0; i<group->getNumChildren(); i++) {
                         c.append(group->getChild(i));
+                    }
                 }
 
                 replaceSwitches(&c, newParent);
@@ -451,8 +454,9 @@ bool Gui::SoFCDB::writeToX3D(SoNode* node, bool exportViewpoints, std::string& b
                 SoNode* norm = static_cast<SoVRMLIndexedFaceSet*>(geom)->normal.getValue();
                 if (norm && norm->getTypeId() == SoVRMLNormal::getClassTypeId()) {
                     // if empty then nullify the normal field node
-                    if (static_cast<SoVRMLNormal*>(norm)->vector.getNum() == 0)
+                    if (static_cast<SoVRMLNormal*>(norm)->vector.getNum() == 0) {
                         static_cast<SoVRMLIndexedFaceSet*>(geom)->normal.setValue(nullptr);
+                    }
                 }
                 else {
                     static_cast<SoVRMLIndexedFaceSet*>(geom)->creaseAngle.setValue(0.5f);
@@ -487,10 +491,12 @@ void Gui::SoFCDB::writeX3DFields(SoNode* node, std::map<SoNode*, std::string>& n
     if (node->getRefCount() > 1 && !isRoot) {
         SbName name = node->getName();
         std::stringstream str;
-        if (name.getLength() == 0)
+        if (name.getLength() == 0) {
             str << "o" << numDEF++;
-        else
+        }
+        else {
             str << name.getString();
+        }
 
         nodeMap[node] = str.str();
         out << " DEF=\"" << str.str() << "\"";
@@ -516,7 +522,18 @@ void Gui::SoFCDB::writeX3DFields(SoNode* node, std::map<SoNode*, std::string>& n
                         ba = ba.simplified();
                     }
 
-                    out << '\n' << Base::blanks(spaces+2) << fielddata->getFieldName(i).getString() << "=\"" << ba.data() << "\" ";
+                    // output of string fields already use quotation marks
+                    if (field->isOfType(SoMFString::getClassTypeId()) ||
+                        field->isOfType(SoSFString::getClassTypeId())) {
+                        out << '\n' << Base::blanks(spaces + 2)
+                            << fielddata->getFieldName(i).getString()
+                            << "=" << ba.data() << " ";
+                    }
+                    else {
+                        out << '\n' << Base::blanks(spaces + 2)
+                            << fielddata->getFieldName(i).getString()
+                            << "=\"" << ba.data() << "\" ";
+                    }
                 }
                 else {
                     numFieldNodes++;
@@ -557,8 +574,9 @@ void Gui::SoFCDB::writeX3DFields(SoNode* node, std::map<SoNode*, std::string>& n
 void Gui::SoFCDB::writeX3DChild(SoNode* node, std::map<SoNode*, std::string>& nodeMap,
                                 int& numDEF, int spaces, std::ostream& out)
 {
-    if (!node)
+    if (!node) {
         return;
+    }
 
     // check if the node is already used
     auto mapIt = nodeMap.find(node);
@@ -595,13 +613,14 @@ void Gui::SoFCDB::writeX3D(SoVRMLGroup* node, bool exportViewpoints, std::ostrea
     SbSphere bs;
     bs.circumscribe(bbox);
     const SbVec3f& cnt = bs.getCenter();
-    float dist = 2.4f * bs.getRadius();
-    float dist3 = 0.577350f * dist; // sqrt(1/3) * dist
+    float dist = 2.4F * bs.getRadius();
+    float dist3 = 0.577350F * dist; // sqrt(1/3) * dist
 
     if (exportViewpoints) {
         auto viewpoint = [&out](const char* text, const SbVec3f& cnt,
                                 const SbVec3f& pos, const SbRotation& rot) {
-            SbVec3f axis; float angle;
+            SbVec3f axis;
+            float angle = 0.0F;
             rot.getValue(axis, angle);
             out << "    <Viewpoint id=\"" << text
                 << "\" centerOfRotation=\"" << cnt[0] << " " << cnt[1] << " " << cnt[2]
@@ -629,8 +648,9 @@ void Gui::SoFCDB::writeX3D(SoVRMLGroup* node, bool exportViewpoints, std::ostrea
 bool Gui::SoFCDB::writeToX3DOM(SoNode* node, std::string& buffer)
 {
     std::string x3d;
-    if (!writeToX3D(node, true, x3d))
+    if (!writeToX3D(node, true, x3d)) {
         return false;
+    }
 
     // remove the first two lines from the x3d output as this duplicates
     // the xml and doctype header
@@ -676,15 +696,17 @@ bool Gui::SoFCDB::writeToFile(SoNode* node, const char* filename, bool binary)
     // Write VRML V2.0
     if (fi.hasExtension({"wrl", "vrml", "wrz"})) {
         // If 'wrz' is set then force compression
-        if (fi.hasExtension("wrz"))
+        if (fi.hasExtension("wrz")) {
             binary = true;
+        }
 
         ret = SoFCDB::writeToVRML(node, filename, binary);
     }
     else if (fi.hasExtension({"x3d", "x3dz"})) {
         // If 'x3dz' is set then force compression
-        if (fi.hasExtension("x3dz"))
+        if (fi.hasExtension("x3dz")) {
             binary = true;
+        }
 
         ret = SoFCDB::writeToX3D(node, filename, binary);
     }

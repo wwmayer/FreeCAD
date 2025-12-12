@@ -46,9 +46,15 @@
 using App::Application;
 using Base::Console;
 
-const char sBanner[] =
-    "(C) 2001-2025 FreeCAD contributors\n"
-    "FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.\n\n";
+const char sBanner[] =  "(C) 2001-2025 FreeCAD contributors\n"
+                        "FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.\n"\
+                        "   ______              _____        _____   \n" \
+                        "  |  ____|            / ____|  /\\  |  __ \\  \n" \
+                        "  | |__ _ __ ___  ___| |      /  \\ | |  | | \n" \
+                        "  |  __| '__/ _ \\/ _ \\ |     / /\\ \\| |  | | \n" \
+                        "  | |  | | |  __/  __/ |____/ ____ \\ |__| | \n" \
+                        "  |_|  |_|  \\___|\\___|\\_____|/    \\_\\____/  \n" \
+                        "  \n" ;
 
 int main(int argc, char** argv)
 {

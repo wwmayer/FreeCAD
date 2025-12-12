@@ -868,6 +868,146 @@ bool StdCmdDrawStyle::isActive()
 }
 
 //===========================================================================
+// Std_TogglePreSelection
+//===========================================================================
+DEF_STD_CMD_AC(StdTogglePreSelection)
+
+StdTogglePreSelection::StdTogglePreSelection()
+  : Command("Std_TogglePreSelection")
+{
+    sGroup       = "Standard-View";
+    sMenuText    = QT_TR_NOOP("&1 Toggle pre-selection");
+    sToolTipText = QT_TR_NOOP("Toggles pre-selection of the active view");
+    sStatusTip   = QT_TR_NOOP("Toggles pre-selection of the active view");
+    sWhatsThis   = "Std_TogglePreSelection";
+    sPixmap      = "tree-pre-sel";
+    sAccel       = "S,1";
+    eType        = Alter3DView;
+}
+
+void StdTogglePreSelection::activated(int)
+{
+    Gui::MDIView* view = Gui::getMainWindow()->activeWindow();
+    if (auto view3D = qobject_cast<Gui::View3DInventor*>(view)) {
+        Gui::View3DInventorViewer* viewer = view3D->getViewer();
+        bool checked = !viewer->isPreselectionMode();
+        viewer->setPreselectionMode(checked);
+        if (_pcAction) {
+            _pcAction->setBlockedChecked(checked);
+        }
+    }
+}
+
+Action* StdTogglePreSelection::createAction()
+{
+    Action *pcAction = Command::createAction();
+    pcAction->setCheckable(true);
+    pcAction->setIcon(QIcon());
+    _pcAction = pcAction;
+    isActive();
+    return pcAction;
+}
+
+bool StdTogglePreSelection::isActive()
+{
+    Gui::MDIView* view = Gui::getMainWindow()->activeWindow();
+    if (auto view3D = qobject_cast<Gui::View3DInventor*>(view)) {
+        Gui::View3DInventorViewer* viewer = view3D->getViewer();
+        bool checked = viewer->isPreselectionMode();
+        if (_pcAction && _pcAction->isChecked() != checked) {
+            _pcAction->setBlockedChecked(checked);
+        }
+        return true;
+    }
+
+    return false;
+}
+
+//===========================================================================
+// Std_ToggleSelection
+//===========================================================================
+DEF_STD_CMD_AC(StdToggleSelection)
+
+StdToggleSelection::StdToggleSelection()
+    : Command("Std_ToggleSelection")
+{
+    sGroup       = "Standard-View";
+    sMenuText    = QT_TR_NOOP("&2 Toggle selection");
+    sToolTipText = QT_TR_NOOP("Toggles selection of the active view");
+    sStatusTip   = QT_TR_NOOP("Toggles selection of the active view");
+    sWhatsThis   = "Std_ToggleSelection";
+    sPixmap      = "tree-pre-sel";
+    sAccel       = "S,2";
+    eType        = Alter3DView;
+}
+
+void StdToggleSelection::activated(int)
+{
+    Gui::MDIView* view = Gui::getMainWindow()->activeWindow();
+    if (auto view3D = qobject_cast<Gui::View3DInventor*>(view)) {
+        Gui::View3DInventorViewer* viewer = view3D->getViewer();
+        bool checked = !viewer->isSelectionMode();
+        viewer->setSelectionMode(checked);
+        if (_pcAction) {
+            _pcAction->setBlockedChecked(checked);
+        }
+    }
+}
+
+Action* StdToggleSelection::createAction()
+{
+    Action *pcAction = Command::createAction();
+    pcAction->setCheckable(true);
+    pcAction->setIcon(QIcon());
+    _pcAction = pcAction;
+    isActive();
+    return pcAction;
+}
+
+bool StdToggleSelection::isActive()
+{
+    Gui::MDIView* view = Gui::getMainWindow()->activeWindow();
+    if (auto view3D = qobject_cast<Gui::View3DInventor*>(view)) {
+        Gui::View3DInventorViewer* viewer = view3D->getViewer();
+        bool checked = viewer->isSelectionMode();
+        if (_pcAction && _pcAction->isChecked() != checked) {
+            _pcAction->setBlockedChecked(checked);
+        }
+        return true;
+    }
+
+    return false;
+}
+
+//===========================================================================
+// StdCmdSelection
+//===========================================================================
+class StdCmdSelection : public GroupCommand
+{
+public:
+    StdCmdSelection() : GroupCommand("Std_Selection") {
+        sGroup        = "Standard-View";
+        sMenuText     = QT_TR_NOOP("Selection actions");
+        sToolTipText  = QT_TR_NOOP("Selection behaviour options and actions");
+        sStatusTip    = QT_TR_NOOP("Selection behaviour options and actions");
+        sWhatsThis    = "Std_Selection";
+        setCheckable(false);
+
+        addCommand(new StdTogglePreSelection());
+        addCommand(new StdToggleSelection());
+    }
+    const char* className() const override {
+        return "StdCmdSelection";
+    }
+
+    bool isActive() override
+    {
+        Gui::MDIView* view = Gui::getMainWindow()->activeWindow();
+        return view && view->isDerivedFrom<Gui::View3DInventor>();
+    }
+};
+
+//===========================================================================
 // Std_ToggleVisibility
 //===========================================================================
 DEF_STD_CMD_A(StdCmdToggleVisibility)
@@ -3920,6 +4060,7 @@ void CreateViewStdCommands()
     rcCmdMgr.addCommand(new StdPerspectiveCamera());
     rcCmdMgr.addCommand(new StdCmdToggleClipPlane());
     rcCmdMgr.addCommand(new StdCmdDrawStyle());
+    rcCmdMgr.addCommand(new StdCmdSelection);
     rcCmdMgr.addCommand(new StdCmdViewSaveCamera());
     rcCmdMgr.addCommand(new StdCmdViewRestoreCamera());
     rcCmdMgr.addCommand(new StdCmdFreezeViews());
