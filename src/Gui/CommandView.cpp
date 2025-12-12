@@ -994,7 +994,7 @@ public:
         setCheckable(false);
 
         addCommand(new StdTogglePreSelection());
-        addCommand(new StdToggleSelection());
+        // addCommand(new StdToggleSelection());
     }
     const char* className() const override {
         return "StdCmdSelection";
