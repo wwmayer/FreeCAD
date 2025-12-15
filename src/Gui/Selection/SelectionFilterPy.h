@@ -45,7 +45,7 @@ public:
 
 public:
     static void init_type();    // announce properties and methods
-    static SelectionFilterPy* cast(PyObject* py) {
+    static SelectionFilterPy* cast(const Py::Object& py) {
         using SelectionFilterClass = Py::PythonClassObject<SelectionFilterPy>;
         return SelectionFilterClass(py).getCxxObject();
     }

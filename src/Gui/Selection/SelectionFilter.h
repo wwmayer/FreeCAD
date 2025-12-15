@@ -159,13 +159,13 @@ class SelectionFilterGatePython : public SelectionGate
 {
 public:
     /// Constructor
-    explicit SelectionFilterGatePython(SelectionFilterPy* obj);
+    explicit SelectionFilterGatePython(PyObject* obj);
     ~SelectionFilterGatePython() override;
 
     bool allow(App::Document*, App::DocumentObject*, const char*) override;
 
 private:
-    SelectionFilterPy* filter;
+    Py::Object filter;
 };
 
 // === Abstract syntax tree (AST) ===========================================

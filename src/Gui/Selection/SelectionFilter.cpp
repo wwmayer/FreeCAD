@@ -112,21 +112,22 @@ bool SelectionGatePython::allow(App::Document* doc, App::DocumentObject* obj, co
 
 // ----------------------------------------------------------------------------
 
-SelectionFilterGatePython::SelectionFilterGatePython(SelectionFilterPy* obj) : filter(obj)
+SelectionFilterGatePython::SelectionFilterGatePython(PyObject* obj)
 {
     Base::PyGILStateLocker lock;
-    Py_INCREF(filter);
+    filter = obj;
 }
 
 SelectionFilterGatePython::~SelectionFilterGatePython()
 {
     Base::PyGILStateLocker lock;
-    Py_DECREF(filter);
+    filter = Py::None();
 }
 
 bool SelectionFilterGatePython::allow(App::Document*, App::DocumentObject* obj, const char* sub)
 {
-    return filter->filter.test(obj, sub);
+    auto filterPy = SelectionFilterPy::cast(filter);
+    return filterPy->filter.test(obj, sub);
 }
 
 // ----------------------------------------------------------------------------
