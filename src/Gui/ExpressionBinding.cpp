@@ -60,6 +60,7 @@ void ExpressionBinding::unbind()
 {
     expressionchanged.disconnect();
     objectdeleted.disconnect();
+    documentdeleted.disconnect();
     path = App::ObjectIdentifier();
 }
 
@@ -109,6 +110,8 @@ void ExpressionBinding::bind(const App::ObjectIdentifier &_path)
         expressionchanged = docObj->ExpressionEngine.expressionChanged.connect(std::bind(&ExpressionBinding::expressionChange, this, sp::_1));
         App::Document* doc = docObj->getDocument();
         objectdeleted = doc->signalDeletedObject.connect(std::bind(&ExpressionBinding::objectDeleted, this, sp::_1));
+        documentdeleted = App::GetApplication().signalDeleteDocument.connect(
+            std::bind(&ExpressionBinding::onDocumentDeleted, this, sp::_1));
         //NOLINTEND
     }
 }
@@ -271,6 +274,13 @@ void ExpressionBinding::objectDeleted(const App::DocumentObject& obj)
 {
     DocumentObject * docObj = path.getDocumentObject();
     if (docObj == &obj) {
+        unbind();
+    }
+}
+
+void ExpressionBinding::onDocumentDeleted(const App::Document& doc)
+{
+    if (path.getOwner() && path.getOwner()->getDocument() == &doc) {
         unbind();
     }
 }

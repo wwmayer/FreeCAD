@@ -2629,7 +2629,7 @@ void PlacementEditor::showValue(const QVariant& d)
     pos = p.getPosition();
 
     QLocale loc;
-    QString data = QStringLiteral("[(%1 %2 %3);%4 \xc2\xb0;(%5 %6 %7)]")
+    QString data = QString::fromUtf8("[(%1 %2 %3);%4 \xc2\xb0;(%5 %6 %7)]")
                        .arg(loc.toString(dir.x, 'f', lowPrec),
                             loc.toString(dir.y, 'f', lowPrec),
                             loc.toString(dir.z, 'f', lowPrec),
