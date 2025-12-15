@@ -206,7 +206,7 @@ void SweepWidget::findShapes()
             shape.ShapeType() == TopAbs_EDGE ||
             shape.ShapeType() == TopAbs_VERTEX)) {
             QString label = QString::fromUtf8(obj->Label.getValue());
-            QString name = QString::fromLatin1(obj->getNameInDocument());
+            QString name = QString::fromUtf8(obj->getNameInDocument());
 
             QTreeWidgetItem* child = new QTreeWidgetItem();
             child->setText(0, label);
@@ -339,9 +339,9 @@ bool SweepWidget::accept()
     for (int i=0; i<count; i++) {
         QTreeWidgetItem* child = d->ui.selector->selectedTreeWidget()->topLevelItem(i);
         QString name = child->data(0, Qt::UserRole).toString();
-        if (name == QLatin1String(spineObject.c_str())) {
+        if (name == QString::fromStdString(spineObject)) {
             QMessageBox::critical(this, tr("Wrong selection"), tr("'%1' cannot be used as profile and path.")
-                .arg(QString::fromUtf8(spineLabel.c_str())));
+                .arg(QString::fromStdString(spineLabel)));
             return false;
         }
         str << "App.getDocument('" << d->document.c_str() << "')." << name << ", ";
@@ -358,16 +358,16 @@ bool SweepWidget::accept()
             "App.getDocument('%5').ActiveObject.Frenet=%4\n"
             )
             .arg(list,
-                 QLatin1String(selection.c_str()),
+                 QString::fromStdString(selection),
                  solid,
                  frenet,
-                 QString::fromLatin1(d->document.c_str()));
+                 QString::fromStdString(d->document));
 
         Gui::Document* doc = Gui::Application::Instance->getDocument(d->document.c_str());
         if (!doc)
             throw Base::RuntimeError("Document doesn't exist anymore");
         doc->openCommand(QT_TRANSLATE_NOOP("Command", "Sweep"));
-        Gui::Command::runCommand(Gui::Command::App, cmd.toLatin1());
+        Gui::Command::runCommand(Gui::Command::App, cmd.toUtf8());
         doc->getDocument()->recompute();
         App::DocumentObject* obj = doc->getDocument()->getActiveObject();
         if (obj && !obj->isValid()) {

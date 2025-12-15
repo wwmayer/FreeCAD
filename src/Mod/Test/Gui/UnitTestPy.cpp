@@ -98,8 +98,8 @@ Py::Object UnitTestDialogPy::insertError(const Py::Tuple& args)
         throw Py::Exception();
     }
 
-    UnitTestDialog::instance()->insertError(QString::fromLatin1(failure),
-                                            QString::fromLatin1(details));
+    UnitTestDialog::instance()->insertError(QString::fromUtf8(failure),
+                                            QString::fromUtf8(details));
     return Py::None();
 }
 
@@ -110,7 +110,7 @@ Py::Object UnitTestDialogPy::setUnitTest(const Py::Tuple& args)
         throw Py::Exception();
     }
 
-    UnitTestDialog::instance()->setUnitTest(QString::fromLatin1(pstr));
+    UnitTestDialog::instance()->setUnitTest(QString::fromUtf8(pstr));
     return Py::None();
 }
 
@@ -119,7 +119,7 @@ Py::Object UnitTestDialogPy::getUnitTest(const Py::Tuple& args)
     if (!PyArg_ParseTuple(args.ptr(), "")) {
         throw Py::Exception();
     }
-    return Py::String((const char*)UnitTestDialog::instance()->getUnitTest().toLatin1());
+    return Py::String(UnitTestDialog::instance()->getUnitTest().toStdString());
 }
 
 Py::Object UnitTestDialogPy::setStatusText(const Py::Tuple& args)
@@ -129,7 +129,7 @@ Py::Object UnitTestDialogPy::setStatusText(const Py::Tuple& args)
         throw Py::Exception();
     }
 
-    UnitTestDialog::instance()->setStatusText(QString::fromLatin1(pstr));
+    UnitTestDialog::instance()->setStatusText(QString::fromUtf8(pstr));
     return Py::None();
 }
 
@@ -142,7 +142,7 @@ Py::Object UnitTestDialogPy::setProgressFrac(const Py::Tuple& args)
     }
 
     if (pColor) {
-        UnitTestDialog::instance()->setProgressFraction(fraction, QString::fromLatin1(pColor));
+        UnitTestDialog::instance()->setProgressFraction(fraction, QString::fromUtf8(pColor));
     }
     else {
         UnitTestDialog::instance()->setProgressFraction(fraction);
@@ -218,7 +218,7 @@ Py::Object UnitTestDialogPy::addUnitTest(const Py::Tuple& args)
     }
 
     TestGui::UnitTestDialog* dlg = TestGui::UnitTestDialog::instance();
-    dlg->addUnitTest(QString::fromLatin1(pstr));
+    dlg->addUnitTest(QString::fromUtf8(pstr));
     return Py::None();
 }
 

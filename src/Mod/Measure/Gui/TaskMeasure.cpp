@@ -128,7 +128,7 @@ TaskMeasure::TaskMeasure()
     modeSwitch->addItem(QStringLiteral("Auto"));
 
     for (App::MeasureType* mType : App::MeasureManager::getMeasureTypes()) {
-        modeSwitch->addItem(QString::fromLatin1(mType->label.c_str()));
+        modeSwitch->addItem(QString::fromUtf8(mType->label.c_str()));
     }
 
     // Connect dropdown's change signal to our onModeChange slot
@@ -584,7 +584,7 @@ void TaskMeasure::setModeSilent(App::MeasureType* mode)
         modeSwitch->setCurrentIndex(0);
     }
     else {
-        modeSwitch->setCurrentText(QString::fromLatin1(mode->label.c_str()));
+        modeSwitch->setCurrentText(QString::fromUtf8(mode->label.c_str()));
     }
     modeSwitch->blockSignals(false);
 }
@@ -593,7 +593,7 @@ void TaskMeasure::setModeSilent(App::MeasureType* mode)
 App::MeasureType* TaskMeasure::getMeasureType()
 {
     for (App::MeasureType* mType : App::MeasureManager::getMeasureTypes()) {
-        if (mType->label.c_str() == modeSwitch->currentText().toLatin1()) {
+        if (mType->label == modeSwitch->currentText().toStdString()) {
             return mType;
         }
     }

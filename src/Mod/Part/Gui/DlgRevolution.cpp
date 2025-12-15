@@ -182,7 +182,7 @@ void DlgRevolution::getAxisLink(App::PropertyLinkSub &lnk) const
         lnk.setValue(nullptr);
     } else {
         QStringList parts = text.split(QChar::fromLatin1(':'));
-        App::DocumentObject* obj = App::GetApplication().getActiveDocument()->getObject(parts[0].toLatin1());
+        App::DocumentObject* obj = App::GetApplication().getActiveDocument()->getObject(parts[0].toUtf8());
         if(!obj){
             throw Base::ValueError(tr("Object not found: %1").arg(parts[0]).toUtf8().constData());
         }
@@ -191,7 +191,7 @@ void DlgRevolution::getAxisLink(App::PropertyLinkSub &lnk) const
             return;
         } else if (parts.size() == 2) {
             std::vector<std::string> subs;
-            subs.emplace_back(parts[1].toLatin1().constData());
+            subs.emplace_back(parts[1].toUtf8().constData());
             lnk.setValue(obj,subs);
         }
     }
@@ -233,9 +233,9 @@ void DlgRevolution::setAxisLink(const App::PropertyLinkSub& lnk)
 void DlgRevolution::setAxisLink(const char* objname, const char* subname)
 {
     if(objname && strlen(objname) > 0){
-        QString txt = QString::fromLatin1(objname);
+        QString txt = QString::fromUtf8(objname);
         if (subname && strlen(subname) > 0){
-            txt = txt + QStringLiteral(":") + QString::fromLatin1(subname);
+            txt = txt + QStringLiteral(":") + QString::fromUtf8(subname);
         }
         ui->txtAxisLink->setText(txt);
     } else {
@@ -252,7 +252,7 @@ std::vector<App::DocumentObject*> DlgRevolution::getShapesToRevolve() const
 
     std::vector<App::DocumentObject*> objects;
     for (auto item : items) {
-        App::DocumentObject* obj = doc->getObject(item->data(0, Qt::UserRole).toString().toLatin1());
+        App::DocumentObject* obj = doc->getObject(item->data(0, Qt::UserRole).toString().toUtf8());
         if (!obj)
             throw Base::RuntimeError("Object not found");
         objects.push_back(obj);
@@ -361,7 +361,7 @@ void DlgRevolution::findShapes()
         // So allowed are: vertex, edge, wire, face, shell and compound
         QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);
         item->setText(0, QString::fromUtf8(obj->Label.getValue()));
-        item->setData(0, Qt::UserRole, QString::fromLatin1(obj->getNameInDocument()));
+        item->setData(0, Qt::UserRole, QString::fromUtf8(obj->getNameInDocument()));
         Gui::ViewProvider* vp = activeGui->getViewProvider(obj);
         if (vp) item->setIcon(0, vp->getIcon());
     }
@@ -388,9 +388,9 @@ void DlgRevolution::accept()
         QString strAxisLink;
         if (axisLink.getValue()){
             strAxisLink = QStringLiteral("(App.ActiveDocument.%1, %2)")
-                    .arg(QString::fromLatin1(axisLink.getValue()->getNameInDocument()),
+                    .arg(QString::fromUtf8(axisLink.getValue()->getNameInDocument()),
                          axisLink.getSubValues().size() ==  1 ?
-                             QStringLiteral("\"%1\"").arg(QString::fromLatin1(axisLink.getSubValues()[0].c_str()))
+                             QStringLiteral("\"%1\"").arg(QString::fromStdString(axisLink.getSubValues()[0]))
                              : QString() );
         } else {
             strAxisLink = QStringLiteral("None");
@@ -405,7 +405,7 @@ void DlgRevolution::accept()
         for (auto item : items) {
             shape = item->data(0, Qt::UserRole).toString();
             type = QStringLiteral("Part::Revolution");
-            name = QString::fromLatin1(activeDoc->getUniqueObjectName("Revolve").c_str());
+            name = QString::fromStdString(activeDoc->getUniqueObjectName("Revolve"));
             Base::Vector3d axis = this->getDirection();
             Base::Vector3d pos = this->getPosition();
 
@@ -432,9 +432,9 @@ void DlgRevolution::accept()
                      strAxisLink, //%12
                      symmetric) //%13
                 ;
-            Gui::Command::runCommand(Gui::Command::App, code.toLatin1());
-            QByteArray to = name.toLatin1();
-            QByteArray from = shape.toLatin1();
+            Gui::Command::runCommand(Gui::Command::App, code.toUtf8());
+            QByteArray to = name.toUtf8();
+            QByteArray from = shape.toUtf8();
             Gui::Command::copyVisual(to, "ShapeAppearance", from);
             Gui::Command::copyVisual(to, "LineColor", from);
             Gui::Command::copyVisual(to, "PointColor", from);

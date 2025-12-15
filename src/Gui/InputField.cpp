@@ -145,7 +145,7 @@ bool InputField::apply()
 QPixmap InputField::getValidationIcon(const char* name, const QSize& size) const
 {
     QString key = QStringLiteral("%1_%2x%3")
-        .arg(QString::fromLatin1(name))
+        .arg(QString::fromUtf8(name))
         .arg(size.width())
         .arg(size.height());
     QPixmap icon;
@@ -260,7 +260,7 @@ void InputField::newInput(const QString & text)
             res = Quantity::parse(input.toStdString());
     }
     catch(Base::Exception &e){
-        QString errorText = QString::fromLatin1(e.what());
+        QString errorText = QString::fromUtf8(e.what());
         QPixmap pixmap = getValidationIcon(":/icons/button_invalid.svg", QSize(sizeHint().height(),sizeHint().height()));
         iconLabel->setPixmap(pixmap);
         Q_EMIT parseError(errorText);

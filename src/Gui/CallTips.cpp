@@ -276,12 +276,12 @@ QMap<QString, CallTip> CallTipsList::extractTips(const QString& context) const
         QStringList items = context.split(QLatin1Char('.'));
         QString modname = items.front();
         items.pop_front();
-        if (!dict.hasKey(std::string(modname.toLatin1()))) {
+        if (!dict.hasKey(modname.toStdString())) {
             return tips;  // unknown object
         }
         // Don't use hasattr & getattr because if a property is bound to a method this will be
         // executed twice.
-        PyObject* code = Py_CompileString(static_cast<const char*>(context.toLatin1()),
+        PyObject* code = Py_CompileString(static_cast<const char*>(context.toUtf8()),
                                           "<CallTipsList>",
                                           Py_eval_input);
         if (!code) {
@@ -498,7 +498,7 @@ void CallTipsList::extractTipsFromObject(const Py::Object& obj,
                 continue;
             }
 
-            QString str = QString::fromLatin1(name.c_str());
+            QString str = QString::fromUtf8(name.c_str());
             CallTip tip = extractTipsFromAttribute(attr, str);
 
             // Do not override existing items
@@ -561,7 +561,7 @@ void CallTipsList::extractTipsFromProperties(Py::Object& obj, QMap<QString, Call
 
     for (const auto& It : Map) {
         CallTip tip;
-        QString str = QString::fromLatin1(It.first.c_str());
+        QString str = QString::fromUtf8(It.first.c_str());
         tip.name = str;
         tip.type = CallTip::Property;
         QString longdoc = QString::fromUtf8(container->getPropertyDocumentation(It.second));

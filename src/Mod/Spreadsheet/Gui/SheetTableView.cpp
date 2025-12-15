@@ -808,7 +808,7 @@ void SheetTableView::pasteClipboard()
         e.ReportException();
         QMessageBox::critical(Gui::getMainWindow(),
                               QObject::tr("Copy & Paste failed"),
-                              QString::fromLatin1(e.what()));
+                              QString::fromUtf8(e.what()));
         return;
     }
     clearSelection();

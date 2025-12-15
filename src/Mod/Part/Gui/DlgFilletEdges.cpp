@@ -344,7 +344,7 @@ void DlgFilletEdges::onSelectionChanged(const Gui::SelectionChanges& msg)
         std::string docname = doc->getName();
         std::string objname = d->object->getNameInDocument();
         if (docname==msg.pDocName && objname==msg.pObjectName) {
-            QString subelement = QString::fromLatin1(msg.pSubName);
+            QString subelement = QString::fromUtf8(msg.pSubName);
             if (subelement.startsWith(QLatin1String("Edge"))) {
                 onSelectEdge(subelement, msg.Type);
             }
@@ -475,7 +475,7 @@ void DlgFilletEdges::onSelectEdgesOfFace(const QString& subelement, int type)
                 Gui::SelectionChanges::MsgType msgType = Gui::SelectionChanges::MsgType(type);
                 if (msgType == Gui::SelectionChanges::AddSelection) {
                     Gui::Selection().addSelection(d->object->getDocument()->getName(),
-                        d->object->getNameInDocument(), (const char*)name.toLatin1());
+                        d->object->getNameInDocument(), (const char*)name.toUtf8());
                 }
             }
         }
@@ -502,7 +502,7 @@ void DlgFilletEdges::onDeleteObject(const App::DocumentObject& obj)
         onShapeObjectActivated(0);
     }
     else {
-        QString shape = QString::fromLatin1(obj.getNameInDocument());
+        QString shape = QString::fromUtf8(obj.getNameInDocument());
         // start from the second item
         for (int i=1; i<ui->shapeObject->count(); i++) {
             if (ui->shapeObject->itemData(i).toString() == shape) {
@@ -545,13 +545,13 @@ void DlgFilletEdges::toggleCheckState(const QModelIndex& index)
         App::Document* doc = d->object->getDocument();
         Gui::Selection().addSelection(doc->getName(),
             d->object->getNameInDocument(),
-            (const char*)name.toLatin1());
+            (const char*)name.toUtf8());
     }
     else {
         App::Document* doc = d->object->getDocument();
         Gui::Selection().rmvSelection(doc->getName(),
             d->object->getNameInDocument(),
-            (const char*)name.toLatin1());
+            (const char*)name.toUtf8());
     }
 
     this->blockSelection(block);
@@ -569,7 +569,7 @@ void DlgFilletEdges::findShapes()
     int current_index = 0;
     for (std::vector<App::DocumentObject*>::iterator it = objs.begin(); it!=objs.end(); ++it, ++index) {
         ui->shapeObject->addItem(QString::fromUtf8((*it)->Label.getValue()));
-        ui->shapeObject->setItemData(index, QString::fromLatin1((*it)->getNameInDocument()));
+        ui->shapeObject->setItemData(index, QString::fromUtf8((*it)->getNameInDocument()));
         if (current_index == 0) {
             if (Gui::Selection().isSelected(*it)) {
                 current_index = index;
@@ -974,12 +974,14 @@ bool DlgFilletEdges::accept()
     std::string fillet = getFilletType();
     int index = ui->shapeObject->currentIndex();
     shape = ui->shapeObject->itemData(index).toString();
-    type = QStringLiteral("Part::%1").arg(QString::fromLatin1(fillet.c_str()));
+    type = QStringLiteral("Part::%1").arg(QString::fromUtf8(fillet.c_str()));
 
-    if (d->fillet)
-        name = QString::fromLatin1(d->fillet->getNameInDocument());
-    else
-        name = QString::fromLatin1(activeDoc->getUniqueObjectName(fillet.c_str()).c_str());
+    if (d->fillet) {
+        name = QString::fromUtf8(d->fillet->getNameInDocument());
+    }
+    else {
+        name = QString::fromStdString(activeDoc->getUniqueObjectName(fillet.c_str()));
+    }
 
     activeDoc->openTransaction(fillet.c_str());
     QString code;
@@ -1024,7 +1026,7 @@ bool DlgFilletEdges::accept()
         "del __fillets__\n"
         "FreeCADGui.ActiveDocument.%2.Visibility = False\n")
         .arg(name, shape);
-    Gui::Command::runCommand(Gui::Command::App, code.toLatin1());
+    Gui::Command::runCommand(Gui::Command::App, code.toUtf8());
     activeDoc->commitTransaction();
     activeDoc->recompute();
     if (d->fillet) {
@@ -1033,8 +1035,8 @@ bool DlgFilletEdges::accept()
         if (vp) vp->show();
     }
 
-    QByteArray to = name.toLatin1();
-    QByteArray from = shape.toLatin1();
+    QByteArray to = name.toUtf8();
+    QByteArray from = shape.toUtf8();
     Gui::Command::copyVisual(to, "LineColor", from);
     Gui::Command::copyVisual(to, "PointColor", from);
     return true;

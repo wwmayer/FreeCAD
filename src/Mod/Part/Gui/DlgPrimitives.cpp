@@ -66,7 +66,7 @@ namespace PartGui {
     {
         App::Part* activePart = Gui::Application::Instance->activeView()->getActiveObject<App::Part*>("part");
         if (activePart) {
-            QString activeObjectName = QString::fromLatin1(activePart->getNameInDocument());
+            QString activeObjectName = QString::fromUtf8(activePart->getNameInDocument());
             return QStringLiteral("App.ActiveDocument.getObject('%1\')."
                 "addObject(App.ActiveDocument.getObject('%2\'))\n")
                 .arg(activeObjectName, objectName);
@@ -124,7 +124,7 @@ void Picker::createPrimitive(QWidget* widget, const QString& descr, Gui::Documen
 
         // Execute the Python block
         doc->openCommand(descr.toUtf8());
-        Gui::Command::runCommand(Gui::Command::Doc, cmd.toLatin1());
+        Gui::Command::runCommand(Gui::Command::Doc, cmd.toUtf8());
         doc->commitCommand();
         Gui::Command::runCommand(Gui::Command::Doc, "App.ActiveDocument.recompute()");
         Gui::Command::runCommand(Gui::Command::Gui, "Gui.SendMsgToActiveView(\"ViewFit\")");
@@ -181,7 +181,7 @@ public:
         Handle(Geom_TrimmedCurve) trim = arc.Value();
         Handle(Geom_Circle) circle = Handle(Geom_Circle)::DownCast(trim->BasisCurve());
 
-        QString name = QString::fromLatin1(doc->getUniqueObjectName("Circle").c_str());
+        QString name = QString::fromUtf8(doc->getUniqueObjectName("Circle").c_str());
         return QStringLiteral(
             "App.ActiveDocument.addObject(\"Part::Circle\",\"%1\")\n"
             "App.ActiveDocument.%1.Radius=%2\n"
@@ -1914,7 +1914,7 @@ void DlgPrimitives::tryCreatePrimitive(const QString& placement)
     }
 
     std::shared_ptr<AbstractPrimitive> primitive = getPrimitive(ui->PrimitiveTypeCB->currentIndex());
-    name = QString::fromLatin1(doc->getUniqueObjectName(primitive->getDefaultName()).c_str());
+    name = QString::fromStdString(doc->getUniqueObjectName(primitive->getDefaultName()));
     cmd = primitive->create(name, placement);
 
     // Execute the Python block
@@ -1946,8 +1946,8 @@ void DlgPrimitives::acceptChanges(const QString& placement)
 {
     App::Document* doc = featurePtr->getDocument();
     QString objectName = QStringLiteral("App.getDocument(\"%1\").%2")
-                         .arg(QString::fromLatin1(doc->getName()),
-                              QString::fromLatin1(featurePtr->getNameInDocument()));
+                         .arg(QString::fromUtf8(doc->getName()),
+                              QString::fromUtf8(featurePtr->getNameInDocument()));
 
     // read values from the properties
     std::shared_ptr<AbstractPrimitive> primitive = getPrimitive(ui->PrimitiveTypeCB->currentIndex());

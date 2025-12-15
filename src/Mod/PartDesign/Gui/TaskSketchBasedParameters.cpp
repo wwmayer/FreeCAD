@@ -73,11 +73,11 @@ const QString TaskSketchBasedParameters::onAddSelection(const Gui::SelectionChan
     // Remove subname for planes and datum features
     if (PartDesign::Feature::isDatum(selObj)) {
         subname = "";
-        refStr = QString::fromLatin1(selObj->getNameInDocument());
+        refStr = QString::fromUtf8(selObj->getNameInDocument());
     }
     else if (subname.size() > 4) {
         int faceId = std::atoi(&subname[4]);
-        refStr = QString::fromLatin1(selObj->getNameInDocument()) + QStringLiteral(":") + QObject::tr("Face") + QString::number(faceId);
+        refStr = QString::fromUtf8(selObj->getNameInDocument()) + QStringLiteral(":") + QObject::tr("Face") + QString::number(faceId);
     }
 
     std::vector<std::string> upToFaces(1,subname);
@@ -152,7 +152,7 @@ QVariant TaskSketchBasedParameters::setUpToFace(const QString& text)
         return {};
     }
 
-    App::DocumentObject* obj = doc->getObject(parts[0].toLatin1());
+    App::DocumentObject* obj = doc->getObject(parts[0].toUtf8());
     if (!obj) {
         return {};
     }
@@ -231,8 +231,8 @@ QString TaskSketchBasedParameters::getFaceReference(const QString& obj, const QS
         return {};
     }
 
-    return QString::fromLatin1(R"((App.getDocument("%1").%2, ["%3"]))")
-            .arg(QString::fromLatin1(doc->getName()), o, sub);
+    return QString::fromUtf8(R"((App.getDocument("%1").%2, ["%3"]))")
+            .arg(QString::fromUtf8(doc->getName()), o, sub);
 }
 
 QString TaskSketchBasedParameters::make2DLabel(const App::DocumentObject* section,

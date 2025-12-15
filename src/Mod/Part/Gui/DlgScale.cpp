@@ -132,7 +132,7 @@ void DlgScale::findShapes()
         if (canScale(shape)) {
             QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);
             item->setText(0, QString::fromUtf8(obj->Label.getValue()));
-            item->setData(0, Qt::UserRole, QString::fromLatin1(obj->getNameInDocument()));
+            item->setData(0, Qt::UserRole, QString::fromUtf8(obj->getNameInDocument()));
             Gui::ViewProvider* vp = activeGui->getViewProvider(obj);
             if (vp)
                 item->setIcon(0, vp->getIcon());
@@ -279,7 +279,7 @@ std::vector<App::DocumentObject*> DlgScale::getShapesToScale() const
 
     std::vector<App::DocumentObject*> objects;
     for (auto item : items) {
-        App::DocumentObject* obj = doc->getObject(item->data(0, Qt::UserRole).toString().toLatin1());
+        App::DocumentObject* obj = doc->getObject(item->data(0, Qt::UserRole).toString().toUtf8());
         if (!obj)
             throw Base::RuntimeError("Object not found");
         objects.push_back(obj);
@@ -298,7 +298,7 @@ bool DlgScale::validate()
 
     std::vector<App::DocumentObject*> objects;
     for (auto item : items) {
-        App::DocumentObject* obj = doc->getObject(item->data(0, Qt::UserRole).toString().toLatin1());
+        App::DocumentObject* obj = doc->getObject(item->data(0, Qt::UserRole).toString().toUtf8());
         if (!obj)
             throw Base::RuntimeError("Object not found");
         objects.push_back(obj);

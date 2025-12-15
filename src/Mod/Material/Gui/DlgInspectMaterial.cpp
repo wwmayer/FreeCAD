@@ -168,7 +168,7 @@ void DlgInspectMaterial::update(std::vector<Gui::ViewProvider*>& views)
             else {
                 ui->editObjectLabel->setText(QLatin1String(""));
             }
-            ui->editObjectName->setText(QLatin1String(obj->getNameInDocument()));
+            ui->editObjectName->setText(QString::fromUtf8(obj->getNameInDocument()));
             appendClip(tr("Internal Name: ") + QString::fromUtf8(obj->getNameInDocument()));
 
             auto subElement = Gui::Selection().getSelectionEx();
