@@ -1,4 +1,4 @@
-# AppImage Packaging Guide
+# AppImage Packaging Guide for FreeCAD 2.0
 
 This tutorial describes the ways to create AppImage for the supported platforms.
 
@@ -177,9 +177,9 @@ export FONTCONFIG_PATH=/etc/fonts
 
 `rm squashfs-root/usr/lib/libheif.so.1`
 
-* add matplotlibrc
+* add matplotlib files
 
-copy `/usr/share/matplotlib/mpl-data` to `squashfs-root/usr/lib/python3/dist-packages/matplotlib/mpl-data`
+copy folder `/usr/share/matplotlib/mpl-data` to `squashfs-root/usr/lib/python3/dist-packages/matplotlib/mpl-data`
 
 
 [//]: # (Include Assembly4 if wanted :)
