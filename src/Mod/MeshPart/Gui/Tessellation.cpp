@@ -244,7 +244,7 @@ bool Tessellation::accept()
         return false;
     }
 
-    this->document = QString::fromLatin1(activeDoc->getName());
+    this->document = QString::fromUtf8(activeDoc->getName());
 
     bool bodyWithNoTip = false;
     bool partWithNoFace = false;
@@ -310,8 +310,8 @@ void Tessellation::process(int method,
 
         doc->openTransaction("Meshing");
         for (auto& info : shapeObjects) {
-            QString subname = QString::fromLatin1(info.getSubName().c_str());
-            QString objname = QString::fromLatin1(info.getObjectName().c_str());
+            QString subname = QString::fromUtf8(info.getSubName().c_str());
+            QString objname = QString::fromUtf8(info.getObjectName().c_str());
 
             auto obj = info.getObject();
             if (!obj) {
@@ -478,8 +478,8 @@ QString Tessellation::getStandardParameters(App::DocumentObject* obj) const
         // PartGui::ViewProviderPartExt::getShapeColors().
         //
         param += QStringLiteral(",GroupColors=Gui.getDocument('%1').getObject('%2').DiffuseColor")
-                     .arg(QString::fromLatin1(obj->getDocument()->getName()),
-                          QString::fromLatin1(obj->getNameInDocument()));
+                     .arg(QString::fromUtf8(obj->getDocument()->getName()),
+                          QString::fromUtf8(obj->getNameInDocument()));
     }
 
     return param;

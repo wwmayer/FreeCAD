@@ -1429,8 +1429,8 @@ void TaskSketcherElements::onSelectionChanged(const Gui::SelectionChanges& msg)
         if (strcmp(msg.pDocName, sketchView->getSketchObject()->getDocument()->getName()) == 0
             && strcmp(msg.pObjectName, sketchView->getSketchObject()->getNameInDocument()) == 0) {
             if (msg.pSubName) {
-                ElementItem* modified_item = NULL;
-                QString expr = QString::fromLatin1(msg.pSubName);
+                ElementItem* modified_item = nullptr;
+                QString expr = QString::fromUtf8(msg.pSubName);
                 std::string shapetype(msg.pSubName);
                 // if-else edge vertex
                 if (shapetype.size() > 4 && shapetype.substr(0, 4) == "Edge") {

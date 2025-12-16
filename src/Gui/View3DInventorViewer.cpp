@@ -1863,6 +1863,28 @@ bool View3DInventorViewer::isSelectionEnabled() const
     return this->selectionRoot->selectionEnabled.getValue();  // NOLINT
 }
 
+void View3DInventorViewer::setSelectionMode(bool enable)
+{
+    this->selectionRoot->selectionMode.setValue(enable ? SoFCUnifiedSelection::ON
+                                                       : SoFCUnifiedSelection::OFF);
+}
+
+bool View3DInventorViewer::isSelectionMode() const
+{
+    return this->selectionRoot->selectionMode.getValue() != SoFCUnifiedSelection::OFF;
+}
+
+void View3DInventorViewer::setPreselectionMode(bool enable)
+{
+    this->selectionRoot->preselectionMode.setValue(enable ? SoFCUnifiedSelection::AUTO
+                                                          : SoFCUnifiedSelection::OFF);
+}
+
+bool View3DInventorViewer::isPreselectionMode() const
+{
+    return this->selectionRoot->preselectionMode.getValue() != SoFCUnifiedSelection::OFF;
+}
+
 SbVec2f View3DInventorViewer::screenCoordsOfPath(SoPath* path) const
 {
     // Generate a matrix (well, a SoGetMatrixAction) that

@@ -1125,7 +1125,7 @@ void CmdSketcherViewSection::activated(int iMsg)
         }
     }
     cmdStr = cmdStr.arg(revert ? QLatin1String("True") : QLatin1String("False"));
-    doCommand(Doc, cmdStr.toLatin1());
+    doCommand(Doc, cmdStr.toUtf8());
 }
 
 bool CmdSketcherViewSection::isActive()

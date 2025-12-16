@@ -678,7 +678,7 @@ void TaskRevolutionParameters::apply()
     if (static_cast<PartDesign::Revolution::RevolMethod>(mode) == PartDesign::Revolution::RevolMethod::ToFace) {
         facename = getFaceName();
     }
-    FCMD_OBJ_CMD(tobj, "UpToFace = " << facename.toLatin1().data());
+    FCMD_OBJ_CMD(tobj, "UpToFace = " << facename.toUtf8().data());
 }
 
 //**************************************************************************

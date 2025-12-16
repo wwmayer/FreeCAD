@@ -1308,9 +1308,9 @@ static bool checkCanonicalPath(const std::map<App::Document*, bool> &docs)
 
     auto docName = [](App::Document *doc) -> QString {
         if (doc->Label.getStrValue() == doc->getName())
-            return QString::fromLatin1(doc->getName());
+            return QString::fromUtf8(doc->getName());
         return QStringLiteral("%1 (%2)").arg(QString::fromUtf8(doc->Label.getValue()),
-                                                  QString::fromLatin1(doc->getName()));
+                                                  QString::fromUtf8(doc->getName()));
     };
     int count = 0;
     for (auto &v : paths) {
@@ -1556,7 +1556,7 @@ void Document::saveAll()
             QMessageBox::critical(getMainWindow(),
                     QObject::tr("Failed to save document") +
                         QStringLiteral(": %1").arg(QString::fromUtf8(doc->getName())),
-                    QString::fromLatin1(e.what()));
+                    QString::fromUtf8(e.what()));
             break;
         }
     }

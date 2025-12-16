@@ -2240,7 +2240,7 @@ std::set<int> EditModeConstraintCoinManager::detectPreselectionConstr(const SoPi
 
                 if (constrIds) {
                     QString constrIdsStr =
-                        QString::fromLatin1(constrIds->string.getValue().getString());
+                        QString::fromUtf8(constrIds->string.getValue().getString());
                     if (combinedConstrBoxes.count(constrIdsStr) && dynamic_cast<SoImage*>(tail)) {
                         // If it's a combined constraint icon
 
@@ -2749,7 +2749,7 @@ void EditModeConstraintCoinManager::drawMergedConstraintIcons(IconQueue iconQueu
     }
 
     combinedConstrBoxes[idString] = boundingBoxes;
-    thisInfo->string.setValue(idString.toLatin1().data());
+    thisInfo->string.setValue(idString.toUtf8().data());
     sendConstraintIconToCoin(compositeIcon, thisDest);
 }
 
@@ -2769,11 +2769,11 @@ QImage EditModeConstraintCoinManager::renderConstrIcon(const QString& type,
 
     QPixmap pxMap;
     std::stringstream constraintName;
-    constraintName << type.toLatin1().data()
+    constraintName << type.toUtf8().data()
                    << drawingParameters.constraintIconSize;  // allow resizing by embedding size
     if (!Gui::BitmapFactory().findPixmapInCache(constraintName.str().c_str(), pxMap)) {
         pxMap = Gui::BitmapFactory().pixmapFromSvg(
-            type.toLatin1().data(),
+            type.toUtf8().data(),
             QSizeF(drawingParameters.constraintIconSize, drawingParameters.constraintIconSize));
         Gui::BitmapFactory().addPixmapToCache(constraintName.str().c_str(),
                                               pxMap);  // Cache for speed, avoiding pixmapFromSvg
@@ -2864,7 +2864,7 @@ void EditModeConstraintCoinManager::drawTypicalConstraintIcon(const constrIconQu
                                     QList<QColor>() << color,
                                     i.iconRotation);
 
-    i.infoPtr->string.setValue(QString::number(i.constraintId).toLatin1().data());
+    i.infoPtr->string.setValue(QString::number(i.constraintId).toUtf8().data());
     sendConstraintIconToCoin(image, i.destination);
 }
 

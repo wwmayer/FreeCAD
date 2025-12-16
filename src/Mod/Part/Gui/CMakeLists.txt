@@ -136,6 +136,9 @@ SET(PartGui_SRCS
     DlgProjectionOnSurface.cpp
     DlgProjectionOnSurface.h
     DlgProjectionOnSurface.ui
+    DlgTextToWire.cpp
+    DlgTextToWire.h
+    DlgTextToWire.ui
     Resources/Part.qrc
     PreCompiled.cpp
     PreCompiled.h

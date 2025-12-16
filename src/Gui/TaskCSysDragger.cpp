@@ -477,9 +477,9 @@ void TaskTransform::onSelectionChanged(const SelectionChanges& msg)
     auto selectedObjectPlacement = rootPlacement.inverse() * globalPlacement * attachedPlacement;
 
     auto label = QStringLiteral("%1#%2.%3")
-                     .arg(QLatin1String(msg.pOriginalMsg->pObjectName),
-                          QLatin1String(msg.pObjectName),
-                          QLatin1String(msg.pSubName));
+                     .arg(QString::fromUtf8(msg.pOriginalMsg->pObjectName),
+                          QString::fromUtf8(msg.pObjectName),
+                          QString::fromUtf8(msg.pSubName));
 
     switch (selectionMode) {
         case SelectionMode::SelectTransformOrigin: {

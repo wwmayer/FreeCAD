@@ -448,7 +448,7 @@ protected:
     QPixmap getIcon(const char* name, const QSize& size) const
     {
         QString key = QStringLiteral("%1_%2x%3")
-                          .arg(QString::fromLatin1(name))
+                          .arg(QString::fromUtf8(name))
                           .arg(size.width())
                           .arg(size.height());
         QPixmap icon;
@@ -1366,7 +1366,7 @@ void TaskSketcherConstraints::onSelectionChanged(const Gui::SelectionChanges& ms
             if (msg.pSubName) {
                 QRegularExpression rx(QStringLiteral("^Constraint(\\d+)$"));
                 QRegularExpressionMatch match;
-                QString expr = QString::fromLatin1(msg.pSubName);
+                QString expr = QString::fromUtf8(msg.pSubName);
                 boost::ignore_unused(expr.indexOf(rx, 0, &match));
                 if (match.hasMatch()) {// is a constraint
                     bool ok;

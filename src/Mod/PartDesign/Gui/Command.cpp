@@ -148,7 +148,7 @@ void UnifiedDatumCommand(Gui::Command &cmd, Base::Type type, std::string name)
     } catch (Base::Exception &e) {
         QMessageBox::warning(Gui::getMainWindow(),QObject::tr("Error"),QApplication::translate("Exception", e.what()));
     } catch (Standard_Failure &e) {
-        QMessageBox::warning(Gui::getMainWindow(),QObject::tr("Error"),QString::fromLatin1(e.GetMessageString()));
+        QMessageBox::warning(Gui::getMainWindow(),QObject::tr("Error"),QString::fromUtf8(e.GetMessageString()));
     }
 }
 

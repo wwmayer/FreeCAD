@@ -292,7 +292,7 @@ ExpressionWidget::ExpressionWidget() = default;
 QPixmap ExpressionWidget::getIcon(const char* name, const QSize& size) const
 {
     QString key = QStringLiteral("%1_%2x%3")
-        .arg(QString::fromLatin1(name))
+        .arg(QString::fromUtf8(name))
         .arg(size.width())
         .arg(size.height());
     QPixmap icon;

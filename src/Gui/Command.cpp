@@ -485,7 +485,7 @@ void Command::_invoke(int id, bool disablelog)
     catch (Base::Exception &e) {
         e.ReportException();
         // Pop-up a dialog for FreeCAD-specific exceptions
-        QMessageBox::critical(Gui::getMainWindow(), QObject::tr("Exception"), QLatin1String(e.what()));
+        QMessageBox::critical(Gui::getMainWindow(), QObject::tr("Exception"), QString::fromUtf8(e.what()));
     }
     catch (std::exception &e) {
         Base::Console().Error("C++ exception thrown (%s)\n", e.what());
@@ -1075,7 +1075,7 @@ Action * GroupCommand::createAction() {
     pcAction->setExclusive(isExclusive());
     pcAction->setCheckable(isCheckable());
     pcAction->setRememberLast(doesRememberLast());
-    pcAction->setWhatsThis(QString::fromLatin1(sWhatsThis));
+    pcAction->setWhatsThis(QString::fromUtf8(sWhatsThis));
 
     for(auto &v : cmds) {
         if(!v.first)

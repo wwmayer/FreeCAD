@@ -711,7 +711,7 @@ void DlgPreferencesImp::applyChanges()
 
                     QMessageBox::warning(this,
                                             tr("Wrong parameter"),
-                                            QString::fromLatin1(e.what()));
+                                            QString::fromUtf8(e.what()));
 
                     this->invalidParameter = true;
 

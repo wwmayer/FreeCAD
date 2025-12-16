@@ -36,26 +36,69 @@
 
 std::string Base::Tools::getIdentifier(const std::string& name)
 {
+    auto isXidStartUnicode = [](char32_t ucs4)
+    {
+        // clang-format off
+        auto category = QChar::category(ucs4);
+        return (category == QChar::Letter_Uppercase ||
+                category == QChar::Letter_Lowercase ||
+                category == QChar::Letter_Titlecase ||
+                category == QChar::Letter_Modifier ||
+                category == QChar::Letter_Other ||
+                category == QChar::Number_Letter);
+        // clang-format on
+    };
+    auto isXidContinueUnicode = [](char32_t ucs4)
+    {
+        // clang-format off
+        auto category = QChar::category(ucs4);
+        return (category == QChar::Letter_Uppercase ||
+                category == QChar::Letter_Lowercase ||
+                category == QChar::Letter_Titlecase ||
+                category == QChar::Letter_Modifier ||
+                category == QChar::Letter_Other ||
+                category == QChar::Number_Letter ||
+                category == QChar::Number_DecimalDigit ||
+                category == QChar::Mark_NonSpacing ||
+                category == QChar::Mark_SpacingCombining ||
+                category == QChar::Punctuation_Connector);
+        // clang-format on
+    };
+
     // NOLINTBEGIN
     if (name.empty()) {
         return "_";
     }
-    // check for first character whether it's a digit
-    std::string CleanName = name;
-    if (!CleanName.empty() && CleanName[0] >= 48 && CleanName[0] <= 57) {
-        CleanName[0] = '_';
+
+    // Convert the given name into a PEP-3131 conforming Python identifier.
+    // See: https://peps.python.org/pep-3131/#specification-of-language-changes
+
+    auto ucsStr = QString::fromStdString(name).toUcs4();
+    QVector<char32_t> CleanName;
+    std::transform(ucsStr.begin(),
+                   ucsStr.end(),
+                   std::back_inserter(CleanName),
+                   [](auto ucs) {
+                       return static_cast<char32_t>(ucs);
+                   });
+
+    // We'll replace all non Xid-Continue characeter as _. Special handling for
+    // the first character. If it is non Xid-Start but a valid Xid-Continue,
+    // insert an underscore as the new starting characeter.
+    if (CleanName[0] != '_' &&
+        isXidContinueUnicode(CleanName[0]) &&
+        !isXidStartUnicode(CleanName[0])) {
+        CleanName.push_front('_');
     }
-    // strip illegal chars
-    for (char& it : CleanName) {
-        if (!((it >= 48 && it <= 57) ||    // number
-              (it >= 65 && it <= 90) ||    // uppercase letter
-              (it >= 97 && it <= 122))) {  // lowercase letter
-            it = '_';                      // it's neither number nor letter
+
+    for (auto &c : CleanName) {
+        if (!isXidContinueUnicode(c)) {
+            c = '_';
         }
     }
-    // NOLINTEND
 
-    return CleanName;
+    return QString::fromUcs4(&CleanName[0], CleanName.size()).toStdString();
+    // NOLINTEND
 }
 
 std::wstring Base::Tools::widen(const std::string& str)
