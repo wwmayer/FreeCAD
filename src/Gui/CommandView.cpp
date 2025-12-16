@@ -868,6 +868,63 @@ bool StdCmdDrawStyle::isActive()
 }
 
 //===========================================================================
+<<<<<<< HEAD
+=======
+// Std_ViewPreSelection
+//===========================================================================
+DEF_STD_CMD_AC(StdViewPreSelection)
+
+StdViewPreSelection::StdViewPreSelection()
+    : Command("Std_ViewPreSelection")
+{
+    sGroup       = "Standard-View";
+    sMenuText    = QT_TR_NOOP("Toggle pre-selection");
+    sToolTipText = QT_TR_NOOP("Toggles pre-selection of the active view");
+    sStatusTip   = QT_TR_NOOP("Toggles pre-selection of the active view");
+    sWhatsThis   = "Std_TogglePreSelection";
+    sPixmap      = "tree-pre-sel";
+    eType        = Alter3DView;
+}
+
+void StdViewPreSelection::activated(int)
+{
+    Gui::MDIView* view = Gui::getMainWindow()->activeWindow();
+    if (auto view3D = qobject_cast<Gui::View3DInventor*>(view)) {
+        Gui::View3DInventorViewer* viewer = view3D->getViewer();
+        bool checked = !viewer->isPreselectionMode();
+        viewer->setPreselectionMode(checked);
+        if (_pcAction) {
+            _pcAction->setBlockedChecked(checked);
+        }
+    }
+}
+
+Action* StdViewPreSelection::createAction()
+{
+    Action *pcAction = Command::createAction();
+    pcAction->setCheckable(true);
+    _pcAction = pcAction;
+    isActive();
+    return pcAction;
+}
+
+bool StdViewPreSelection::isActive()
+{
+    Gui::MDIView* view = Gui::getMainWindow()->activeWindow();
+    if (auto view3D = qobject_cast<Gui::View3DInventor*>(view)) {
+        Gui::View3DInventorViewer* viewer = view3D->getViewer();
+        bool checked = viewer->isPreselectionMode();
+        if (_pcAction && _pcAction->isChecked() != checked) {
+            _pcAction->setBlockedChecked(checked);
+        }
+        return true;
+    }
+
+    return false;
+}
+
+//===========================================================================
+>>>>>>> main
 // Std_TogglePreSelection
 //===========================================================================
 DEF_STD_CMD_AC(StdTogglePreSelection)
@@ -994,7 +1051,11 @@ public:
         setCheckable(false);
 
         addCommand(new StdTogglePreSelection());
+<<<<<<< HEAD
         // addCommand(new StdToggleSelection());
+=======
+        addCommand(new StdToggleSelection());
+>>>>>>> main
     }
     const char* className() const override {
         return "StdCmdSelection";
@@ -4060,6 +4121,10 @@ void CreateViewStdCommands()
     rcCmdMgr.addCommand(new StdPerspectiveCamera());
     rcCmdMgr.addCommand(new StdCmdToggleClipPlane());
     rcCmdMgr.addCommand(new StdCmdDrawStyle());
+<<<<<<< HEAD
+=======
+    rcCmdMgr.addCommand(new StdViewPreSelection);
+>>>>>>> main
     rcCmdMgr.addCommand(new StdCmdSelection);
     rcCmdMgr.addCommand(new StdCmdViewSaveCamera());
     rcCmdMgr.addCommand(new StdCmdViewRestoreCamera());
