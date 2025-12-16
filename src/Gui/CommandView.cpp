@@ -868,8 +868,6 @@ bool StdCmdDrawStyle::isActive()
 }
 
 //===========================================================================
-<<<<<<< HEAD
-=======
 // Std_ViewPreSelection
 //===========================================================================
 DEF_STD_CMD_AC(StdViewPreSelection)
@@ -924,7 +922,6 @@ bool StdViewPreSelection::isActive()
 }
 
 //===========================================================================
->>>>>>> main
 // Std_TogglePreSelection
 //===========================================================================
 DEF_STD_CMD_AC(StdTogglePreSelection)
@@ -1051,11 +1048,7 @@ public:
         setCheckable(false);
 
         addCommand(new StdTogglePreSelection());
-<<<<<<< HEAD
-        // addCommand(new StdToggleSelection());
-=======
         addCommand(new StdToggleSelection());
->>>>>>> main
     }
     const char* className() const override {
         return "StdCmdSelection";
@@ -4121,10 +4114,7 @@ void CreateViewStdCommands()
     rcCmdMgr.addCommand(new StdPerspectiveCamera());
     rcCmdMgr.addCommand(new StdCmdToggleClipPlane());
     rcCmdMgr.addCommand(new StdCmdDrawStyle());
-<<<<<<< HEAD
-=======
     rcCmdMgr.addCommand(new StdViewPreSelection);
->>>>>>> main
     rcCmdMgr.addCommand(new StdCmdSelection);
     rcCmdMgr.addCommand(new StdCmdViewSaveCamera());
     rcCmdMgr.addCommand(new StdCmdViewRestoreCamera());
