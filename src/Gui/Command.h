@@ -942,6 +942,7 @@ private:
 } // namespace Gui
 
 
+// NOLINTBEGIN
 /** The Command Macro Standard
  *  This macro makes it easier to define a new command.
  *  The parameters are the class name.
@@ -951,11 +952,11 @@ private:
 {\
 public:\
     X();\
-    virtual ~X(){}\
-    virtual const char* className() const\
+    ~X() override {}\
+    const char* className() const override\
     { return #X; }\
 protected: \
-    virtual void activated(int iMsg);\
+    void activated(int iMsg) override;\
 private:\
     X(const X&) = delete;\
     X(X&&) = delete;\
@@ -972,12 +973,12 @@ private:\
 {\
 public:\
     X();\
-    virtual ~X(){}\
-    virtual const char* className() const\
+    ~X() override {}\
+    const char* className() const override\
     { return #X; }\
 protected: \
-    virtual void activated(int iMsg);\
-    virtual bool isActive(void);\
+    void activated(int iMsg) override;\
+    bool isActive() override;\
 private:\
     X(const X&) = delete;\
     X(X&&) = delete;\
@@ -994,12 +995,12 @@ private:\
 {\
 public:\
     X();\
-    virtual ~X(){}\
-    virtual const char* className() const\
+    ~X() override {}\
+    const char* className() const override\
     { return #X; }\
 protected: \
-    virtual void activated(int iMsg);\
-    virtual Gui::Action * createAction(void);\
+    void activated(int iMsg) override;\
+    Gui::Action * createAction() override;\
 private:\
     X(const X&) = delete;\
     X(X&&) = delete;\
@@ -1016,13 +1017,13 @@ private:\
 {\
 public:\
     X();\
-    virtual ~X(){}\
-    virtual const char* className() const\
+    ~X() override {}\
+    const char* className() const override\
     { return #X; }\
 protected: \
-    virtual void activated(int iMsg);\
-    virtual bool isActive(void);\
-    virtual Gui::Action * createAction(void);\
+    void activated(int iMsg) override;\
+    bool isActive() override;\
+    Gui::Action * createAction() override;\
 private:\
     X(const X&) = delete;\
     X(X&&) = delete;\
@@ -1039,13 +1040,13 @@ private:\
 {\
 public:\
     X();\
-    virtual ~X(){}\
-    virtual void updateAction(int mode); \
-    virtual const char* className() const\
+    ~X() override {}\
+    void updateAction(int mode) override; \
+    const char* className() const override\
     { return #X; }\
 protected: \
-    virtual void activated(int iMsg);\
-    virtual bool isActive(void);\
+    void activated(int iMsg) override;\
+    bool isActive() override;\
 private:\
     X(const X&) = delete;\
     X(X&&) = delete;\
@@ -1063,14 +1064,14 @@ private:\
 {\
 public:\
     X();\
-    virtual ~X(){}\
-    virtual void languageChange(); \
-    virtual const char* className() const\
+    ~X() override {}\
+    void languageChange() override; \
+    const char* className() const override\
     { return #X; }\
 protected: \
-    virtual void activated(int iMsg);\
-    virtual bool isActive(void);\
-    virtual Gui::Action * createAction(void);\
+    void activated(int iMsg) override;\
+    bool isActive() override;\
+    Gui::Action * createAction() override;\
 private:\
     X(const X&) = delete;\
     X(X&&) = delete;\
@@ -1088,15 +1089,15 @@ private:\
 {\
 public:\
     X();\
-    virtual ~X(){}\
-    virtual void languageChange(); \
-    virtual void updateAction(int mode); \
-    virtual const char* className() const\
+    ~X() override {}\
+    void languageChange() override; \
+    void updateAction(int mode) override; \
+    const char* className() const override\
     { return #X; }\
 protected: \
-    virtual void activated(int iMsg);\
-    virtual bool isActive(void);\
-    virtual Gui::Action * createAction(void);\
+    void activated(int iMsg) override;\
+    bool isActive() override;\
+    Gui::Action * createAction() override;\
 private:\
     X(const X&) = delete;\
     X(X&&) = delete;\
@@ -1114,12 +1115,12 @@ private:\
 {\
 public:\
     X();\
-    virtual ~X(){}\
-    virtual const char* className() const\
+    ~X() override {}\
+    const char* className() const override\
     { return #X; }\
 protected: \
-    virtual void activated(int iMsg);\
-    virtual bool isActive(void)\
+    void activated(int iMsg) override;\
+    bool isActive() override\
     {\
         Gui::MDIView* view = Gui::getMainWindow()->activeWindow();\
         return view && view->isDerivedFrom<Gui::View3DInventor>();\
@@ -1130,5 +1131,34 @@ private:\
     X& operator= (const X&) = delete;\
     X& operator= (X&&) = delete;\
 };
+
+/** The Command Macro view
+ *  This macro makes it easier to define a new command for the 3D View
+ *  It activate the command only when a 3DView is active.
+ *  The parameters are the class name
+ *  @author Jürgen Riegel
+ */
+#define DEF_3DV_CMD_C(X) class X : public Gui::Command \
+{\
+public:\
+    X();\
+    ~X() override {}\
+    const char* className() const override\
+    { return #X; }\
+protected: \
+    Gui::Action * createAction() override;\
+    void activated(int iMsg) override;\
+    bool isActive() override\
+    {\
+        Gui::MDIView* view = Gui::getMainWindow()->activeWindow();\
+        return view && view->isDerivedFrom<Gui::View3DInventor>();\
+    }\
+private:\
+    X(const X&) = delete;\
+    X(X&&) = delete;\
+    X& operator= (const X&) = delete;\
+    X& operator= (X&&) = delete;\
+};
+// NOLINTEND
 
 #endif // GUI_COMMAND_H

@@ -152,6 +152,7 @@ public:
     QAction* addAction(QAction*);
     QAction* addAction(const QString&);
     QList<QAction*> actions() const;
+    QAction* findAction(int index) const;
     int checkedAction() const;
     void setCheckedAction(int);
 

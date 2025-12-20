@@ -33,138 +33,11 @@
 #include <Gui/MainWindow.h>
 #include <Gui/View3DInventor.h>
 
-//===============================================================================
-// PartCmdSelectFilter (dropdown toolbar button for Vertex, Edge & Face Selection)
-//===============================================================================
-
-DEF_STD_CMD_ACL(PartCmdSelectFilter)
-
-PartCmdSelectFilter::PartCmdSelectFilter()
-  : Command("Part_SelectFilter")
-{
-    sGroup        = "Standard-View";
-    sMenuText     = QT_TR_NOOP("Selection filter");
-    sToolTipText  = QT_TR_NOOP("Change the selection filter");
-    sStatusTip    = QT_TR_NOOP("Change the selection filter");
-    sWhatsThis    = "Part_SelectFilter";
-    sPixmap       = "clear-selection";
-    eType         = Alter3DView;
-}
-
-void PartCmdSelectFilter::activated(int iMsg)
-{
-    Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
-    if (iMsg==0) {
-        rcCmdMgr.runCommandByName("Part_VertexSelection");
-    }
-    else if (iMsg==1) {
-        rcCmdMgr.runCommandByName("Part_EdgeSelection");
-    }
-    else if (iMsg==2) {
-        rcCmdMgr.runCommandByName("Part_FaceSelection");
-    }
-    else if (iMsg==3) {
-        rcCmdMgr.runCommandByName("Part_RemoveSelectionGate");
-    }
-    else {
-        return;
-    }
-
-    // Since the default icon is reset when enabling/disabling the command we have
-    // to explicitly set the icon of the used command.
-    auto pcAction = qobject_cast<Gui::ActionGroup*>(_pcAction);
-    QList<QAction*> act = pcAction->actions();
-
-    assert(iMsg < act.size());
-    pcAction->setIcon(act[iMsg]->icon());
-}
-
-Gui::Action * PartCmdSelectFilter::createAction()
-{
-    auto pcAction = new Gui::ActionGroup(this, Gui::getMainWindow());
-    pcAction->setDropDownMenu(true);
-    applyCommandData(this->className(), pcAction);
-
-    QAction* cmd0 = pcAction->addAction(QString());
-    cmd0->setIcon(Gui::BitmapFactory().iconFromTheme("vertex-selection"));
-    cmd0->setShortcut(QKeySequence(QStringLiteral("X,S")));
-    QAction* cmd1 = pcAction->addAction(QString());
-    cmd1->setIcon(Gui::BitmapFactory().iconFromTheme("edge-selection"));
-    cmd1->setShortcut(QKeySequence(QStringLiteral("E,S")));
-    QAction* cmd2 = pcAction->addAction(QString());
-    cmd2->setIcon(Gui::BitmapFactory().iconFromTheme("face-selection"));
-    cmd2->setShortcut(QKeySequence(QStringLiteral("F,S")));
-    QAction* cmd3 = pcAction->addAction(QString());
-    cmd3->setIcon(Gui::BitmapFactory().iconFromTheme("clear-selection"));
-    cmd3->setShortcut(QKeySequence(QStringLiteral("C,S")));
-
-    _pcAction = pcAction;
-    languageChange();
-
-    pcAction->setIcon(Gui::BitmapFactory().iconFromTheme("clear-selection"));
-    int defaultId = 3;
-    pcAction->setProperty("defaultAction", QVariant(defaultId));
-
-    return pcAction;
-}
-
-void PartCmdSelectFilter::languageChange()
-{
-    Command::languageChange();
-
-    if (!_pcAction) {
-        return;
-    }
-
-    Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
-
-    auto pcAction = qobject_cast<Gui::ActionGroup*>(_pcAction);
-    QList<QAction*> act = pcAction->actions();
-
-    Gui::Command* vertexSelection = rcCmdMgr.getCommandByName("Part_VertexSelection");
-    if (vertexSelection) {
-        QAction* cmd0 = act[0];
-        cmd0->setText(QApplication::translate("PartCmdVertexSelection", vertexSelection->getMenuText()));
-        cmd0->setToolTip(QApplication::translate("PartCmdVertexSelection", vertexSelection->getToolTipText()));
-        cmd0->setStatusTip(QApplication::translate("PartCmdVertexSelection", vertexSelection->getStatusTip()));
-    }
-
-    Gui::Command* edgeSelection = rcCmdMgr.getCommandByName("Part_EdgeSelection");
-    if (edgeSelection) {
-        QAction* cmd1 = act[1];
-        cmd1->setText(QApplication::translate("PartCmdEdgeSelection", edgeSelection->getMenuText()));
-        cmd1->setToolTip(QApplication::translate("PartCmdEdgeSelection", edgeSelection->getToolTipText()));
-        cmd1->setStatusTip(QApplication::translate("PartCmdEdgeSelection", edgeSelection->getStatusTip()));
-    }
-
-    Gui::Command* faceSelection = rcCmdMgr.getCommandByName("Part_FaceSelection");
-    if (faceSelection) {
-        QAction* cmd1 = act[2];
-        cmd1->setText(QApplication::translate("PartCmdFaceSelection", faceSelection->getMenuText()));
-        cmd1->setToolTip(QApplication::translate("PartCmdFaceSelection", faceSelection->getToolTipText()));
-        cmd1->setStatusTip(QApplication::translate("PartCmdFaceSelection", faceSelection->getStatusTip()));
-    }
-
-    Gui::Command* removeSelection = rcCmdMgr.getCommandByName("Part_RemoveSelectionGate");
-    if (removeSelection) {
-        QAction* cmd2 = act[3];
-        cmd2->setText(QApplication::translate("PartCmdRemoveSelectionGate", removeSelection->getMenuText()));
-        cmd2->setToolTip(QApplication::translate("PartCmdRemoveSelectionGate", removeSelection->getToolTipText()));
-        cmd2->setStatusTip(QApplication::translate("PartCmdRemoveSelectionGate", removeSelection->getStatusTip()));
-    }
-}
-
-bool PartCmdSelectFilter::isActive()
-{
-    Gui::MDIView* view = Gui::getMainWindow()->activeWindow();
-    return view && view->isDerivedFrom<Gui::View3DInventor>();
-}
-
 
 //===========================================================================
 // Part_VertexSelection
 //===========================================================================
-DEF_3DV_CMD(PartCmdVertexSelection)
+DEF_3DV_CMD_C(PartCmdVertexSelection)
 
 PartCmdVertexSelection::PartCmdVertexSelection()
   : Command("Part_VertexSelection")
@@ -179,17 +52,39 @@ PartCmdVertexSelection::PartCmdVertexSelection()
     eType         = Alter3DView;
 }
 
+Gui::Action* PartCmdVertexSelection::createAction()
+{
+    Gui::Action* act = Command::createAction();
+    act->setCheckable(true);
+    return act;
+}
+
 void PartCmdVertexSelection::activated(int iMsg)
 {
-    Q_UNUSED(iMsg);
-    doCommand(Command::Gui,"Gui.Selection.addSelectionGate('SELECT Part::Feature SUBELEMENT Vertex')");
+    std::array cmds {"Part_EdgeSelection",
+                     "Part_FaceSelection"};
+    Gui::CommandManager& cmdMgr = Gui::Application::Instance->commandManager();
+    for (auto name : cmds) {
+        if (Gui::Command* cmd = cmdMgr.getCommandByName(name)) {
+            if (Gui::Action* act = cmd->getAction()) {
+                act->setBlockedChecked(false);
+            }
+        }
+    }
+
+    if (iMsg > 0) {
+        doCommand(Command::Gui,"Gui.Selection.addSelectionGate('SELECT Part::Feature SUBELEMENT Vertex')");
+    }
+    else {
+        doCommand(Command::Gui,"Gui.Selection.removeSelectionGate()");
+    }
 }
 
 
 //===========================================================================
 // Part_EdgeSelection
 //===========================================================================
-DEF_3DV_CMD(PartCmdEdgeSelection)
+DEF_3DV_CMD_C(PartCmdEdgeSelection)
 
 PartCmdEdgeSelection::PartCmdEdgeSelection()
   : Command("Part_EdgeSelection")
@@ -204,17 +99,39 @@ PartCmdEdgeSelection::PartCmdEdgeSelection()
     eType         = Alter3DView;
 }
 
+Gui::Action* PartCmdEdgeSelection::createAction()
+{
+    Gui::Action* act = Command::createAction();
+    act->setCheckable(true);
+    return act;
+}
+
 void PartCmdEdgeSelection::activated(int iMsg)
 {
-    Q_UNUSED(iMsg);
-    doCommand(Command::Gui,"Gui.Selection.addSelectionGate('SELECT Part::Feature SUBELEMENT Edge')");
+    std::array cmds {"Part_VertexSelection",
+                     "Part_FaceSelection"};
+    Gui::CommandManager& cmdMgr = Gui::Application::Instance->commandManager();
+    for (auto name : cmds) {
+        if (Gui::Command* cmd = cmdMgr.getCommandByName(name)) {
+            if (Gui::Action* act = cmd->getAction()) {
+                act->setBlockedChecked(false);
+            }
+        }
+    }
+
+    if (iMsg > 0) {
+        doCommand(Command::Gui,"Gui.Selection.addSelectionGate('SELECT Part::Feature SUBELEMENT Edge')");
+    }
+    else {
+        doCommand(Command::Gui,"Gui.Selection.removeSelectionGate()");
+    }
 }
 
 
 //===========================================================================
 // Part_FaceSelection
 //===========================================================================
-DEF_3DV_CMD(PartCmdFaceSelection)
+DEF_3DV_CMD_C(PartCmdFaceSelection)
 
 PartCmdFaceSelection::PartCmdFaceSelection()
   : Command("Part_FaceSelection")
@@ -229,10 +146,32 @@ PartCmdFaceSelection::PartCmdFaceSelection()
     eType         = Alter3DView;
 }
 
+Gui::Action* PartCmdFaceSelection::createAction()
+{
+    Gui::Action* act = Command::createAction();
+    act->setCheckable(true);
+    return act;
+}
+
 void PartCmdFaceSelection::activated(int iMsg)
 {
-    Q_UNUSED(iMsg);
-    doCommand(Command::Gui,"Gui.Selection.addSelectionGate('SELECT Part::Feature SUBELEMENT Face')");
+    std::array cmds {"Part_VertexSelection",
+                     "Part_EdgeSelection"};
+    Gui::CommandManager& cmdMgr = Gui::Application::Instance->commandManager();
+    for (auto name : cmds) {
+        if (Gui::Command* cmd = cmdMgr.getCommandByName(name)) {
+            if (Gui::Action* act = cmd->getAction()) {
+                act->setBlockedChecked(false);
+            }
+        }
+    }
+
+    if (iMsg > 0) {
+        doCommand(Command::Gui,"Gui.Selection.addSelectionGate('SELECT Part::Feature SUBELEMENT Face')");
+    }
+    else {
+        doCommand(Command::Gui,"Gui.Selection.removeSelectionGate()");
+    }
 }
 
 
@@ -256,6 +195,18 @@ PartCmdRemoveSelectionGate::PartCmdRemoveSelectionGate()
 
 void PartCmdRemoveSelectionGate::activated(int iMsg)
 {
+    std::array cmds {"Part_VertexSelection",
+                     "Part_EdgeSelection",
+                     "Part_FaceSelection"};
+    Gui::CommandManager& cmdMgr = Gui::Application::Instance->commandManager();
+    for (auto name : cmds) {
+        if (Gui::Command* cmd = cmdMgr.getCommandByName(name)) {
+            if (Gui::Action* act = cmd->getAction()) {
+                act->setBlockedChecked(false);
+            }
+        }
+    }
+
     Q_UNUSED(iMsg);
     doCommand(Command::Gui,"Gui.Selection.removeSelectionGate()");
 }
@@ -264,7 +215,6 @@ void CreatePartSelectCommands()
 {
     Gui::CommandManager &rcCmdMgr = Gui::Application::Instance->commandManager();
     // NOLINTBEGIN
-    rcCmdMgr.addCommand(new PartCmdSelectFilter());
     rcCmdMgr.addCommand(new PartCmdVertexSelection());
     rcCmdMgr.addCommand(new PartCmdEdgeSelection());
     rcCmdMgr.addCommand(new PartCmdFaceSelection());

@@ -52,7 +52,7 @@ void WorkbenchManipulator::addSectionCut(Gui::MenuItem* menuBar)
         auto item = par->findItem(toggleClipPlane);
         item = par->afterItem(item);
 
-        auto add = new Gui::MenuItem(); // NOLINT
+        auto add = new Gui::MenuItem();
         add->setCommand("Part_SectionCut");
         par->insertItem(item, add);
     }
@@ -61,14 +61,35 @@ void WorkbenchManipulator::addSectionCut(Gui::MenuItem* menuBar)
 void WorkbenchManipulator::addSelectionFilter(Gui::ToolBarItem* toolBar)
 {
     if (auto view = toolBar->findItem("View")) {
-        auto add = new Gui::ToolBarItem(); // NOLINT
-        add->setCommand("Part_SelectFilter");
+        auto vs = new Gui::ToolBarItem();
+        vs->setCommand("Part_VertexSelection");
+
+        auto es = new Gui::ToolBarItem();
+        es->setCommand("Part_EdgeSelection");
+
+        auto fs = new Gui::ToolBarItem();
+        fs->setCommand("Part_FaceSelection");
+
+        auto cs = new Gui::ToolBarItem();
+        cs->setCommand("Part_RemoveSelectionGate");
+
+        auto ps = new Gui::ToolBarItem();
+        ps->setCommand("Std_ViewPreSelection");
+
         auto item = view->findItem("Std_TreeViewActions");
         if (item) {
-            view->insertItem(item, add);
+            view->insertItem(item, vs);
+            view->insertItem(item, es);
+            view->insertItem(item, fs);
+            view->insertItem(item, cs);
+            view->insertItem(item, ps);
         }
         else {
-            view->appendItem(add);
+            view->appendItem(vs);
+            view->appendItem(es);
+            view->appendItem(fs);
+            view->appendItem(cs);
+            view->appendItem(ps);
         }
     }
 }
@@ -76,7 +97,7 @@ void WorkbenchManipulator::addSelectionFilter(Gui::ToolBarItem* toolBar)
 void WorkbenchManipulator::addDatums(Gui::ToolBarItem* toolBar)
 {
     if (auto view = toolBar->findItem("Structure")) {
-        auto add = new Gui::ToolBarItem(); // NOLINT
+        auto add = new Gui::ToolBarItem();
         add->setCommand("Part_Datums");
         auto item = view->findItem("Std_Group");
         if (item) {

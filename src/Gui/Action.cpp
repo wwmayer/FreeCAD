@@ -555,6 +555,16 @@ QList<QAction*> ActionGroup::actions() const
     return groupAction()->actions();
 }
 
+QAction* ActionGroup::findAction(int index) const
+{
+    QList<QAction*> act = actions();
+    if (index >= 0 && index < act.size()) {
+        return act[index];
+    }
+
+    return nullptr;
+}
+
 int ActionGroup::checkedAction() const
 {
     auto checked = groupAction()->checkedAction();
