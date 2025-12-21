@@ -2,6 +2,8 @@ set(occ_gordon_dir
     ${CMAKE_SOURCE_DIR}/src/3rdParty/occ_gordon/src
 )
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 add_library(occ_gordon_internal STATIC
     ${occ_gordon_dir}/internal/ApproxResult.h
     ${occ_gordon_dir}/internal/BSplineAlgorithms.cpp
@@ -78,9 +80,15 @@ SET(Blending_SRCS
   Blending/BlendCurve.h
 )
 
+SET(Gordon_SRCS
+  Gordon/FeatureGordonSurface.cpp
+  Gordon/FeatureGordonSurface.h
+)
+
 SET(Surface_SRCS
   ${Blending_SRCS}
   ${BlendingPy_SRCS}
+  ${Gordon_SRCS}
   AppSurface.cpp
   PreCompiled.cpp
   PreCompiled.h
