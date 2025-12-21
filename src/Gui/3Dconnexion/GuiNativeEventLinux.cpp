@@ -97,6 +97,7 @@ typedef int(*dl_spnav_open)();
 typedef int(*dl_spnav_close)();
 typedef int(*dl_spnav_fd)();
 typedef int(*dl_spnav_poll_event)(spnav_event *);
+typedef int(*dl_spnav_remove_events)(int);
 typedef int(*dl_spnav_dev_name)(char*, int);
 static QString spnavLib(QLatin1String("spnav"));
 constexpr int versionNumber = 0;
@@ -152,6 +153,7 @@ void Gui::GuiNativeEvent::initSpaceball(QMainWindow *window)
 void Gui::GuiNativeEvent::pollSpacenav()
 {
     dl_spnav_poll_event spnav_poll_event = (dl_spnav_poll_event)QLibrary::resolve(spnavLib, versionNumber, "spnav_poll_event");
+    dl_spnav_remove_events spnav_remove_events = (dl_spnav_remove_events)QLibrary::resolve(spnavLib, versionNumber, "spnav_remove_events");
     if (!spnav_poll_event) {
         return;
     }
@@ -169,6 +171,9 @@ void Gui::GuiNativeEvent::pollSpacenav()
                 motionDataArray[3] = -ev.motion.rx;
                 motionDataArray[4] = -ev.motion.rz;
                 motionDataArray[5] = -ev.motion.ry;
+                if (spnav_remove_events) {
+                    spnav_remove_events(SPNAV_EVENT_MOTION);
+                }
                 mainApp->postMotionEvent(motionDataArray);
                 break;
             }
