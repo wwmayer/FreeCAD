@@ -177,6 +177,19 @@ void Gui::GuiNativeEvent::pollSpacenav()
                 mainApp->postButtonEvent(ev.button.bnum, ev.button.press);
                 break;
             }
+            case SPNAV_EVENT_DEV:
+            {
+                // op=0: add device, op=1: remove device
+                const int op = ev.dev.op;
+                mainApp->setSpaceballPresent(op == 0);
+
+                dl_spnav_dev_name spnav_dev_name = (dl_spnav_dev_name)QLibrary::resolve(spnavLib, versionNumber, "spnav_dev_name");
+                if (spnav_dev_name) {
+                    std::vector<char> buffer(100);
+                    spnav_dev_name(buffer.data(), static_cast<int>(buffer.size()));
+                    mainApp->setDeviceName(QString::fromLatin1(buffer.data()));
+                }
+            }
         }
     }
 }
