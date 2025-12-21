@@ -97,6 +97,7 @@ typedef int(*dl_spnav_open)();
 typedef int(*dl_spnav_close)();
 typedef int(*dl_spnav_fd)();
 typedef int(*dl_spnav_poll_event)(spnav_event *);
+typedef int(*dl_spnav_dev_name)(char*, int);
 static QString spnavLib(QLatin1String("spnav"));
 constexpr int versionNumber = 0;
 // NOLINTEND
@@ -125,6 +126,7 @@ void Gui::GuiNativeEvent::initSpaceball(QMainWindow *window)
     Q_UNUSED(window)
     dl_spnav_open spnav_open = (dl_spnav_open)QLibrary::resolve(spnavLib, versionNumber, "spnav_open");
     dl_spnav_fd spnav_fd = (dl_spnav_fd)QLibrary::resolve(spnavLib, versionNumber, "spnav_fd");
+    dl_spnav_dev_name spnav_dev_name = (dl_spnav_dev_name)QLibrary::resolve(spnavLib, versionNumber, "spnav_dev_name");
     if (!spnav_open || !spnav_fd) {
         return;
     }
@@ -138,6 +140,12 @@ void Gui::GuiNativeEvent::initSpaceball(QMainWindow *window)
         QSocketNotifier* spacenavNotifier = new QSocketNotifier(spnav_fd(), QSocketNotifier::Read, this);
         connect(spacenavNotifier, SIGNAL(activated(int)), this, SLOT(pollSpacenav()));
         mainApp->setSpaceballPresent(true);
+
+        if (spnav_dev_name) {
+            std::vector<char> buffer(100);
+            spnav_dev_name(buffer.data(), static_cast<int>(buffer.size()));
+            mainApp->setDeviceName(QString::fromLatin1(buffer.data()));
+        }
     }
 }
 
