@@ -876,11 +876,11 @@ StdViewPreSelection::StdViewPreSelection()
     : Command("Std_ViewPreSelection")
 {
     sGroup       = "Standard-View";
-    sMenuText    = QT_TR_NOOP("Toggle pre-selection");
-    sToolTipText = QT_TR_NOOP("Toggles pre-selection of the active view");
-    sStatusTip   = QT_TR_NOOP("Toggles pre-selection of the active view");
+    sMenuText    = QT_TR_NOOP("Pre-selection highlighting");
+    sToolTipText = QT_TR_NOOP("Activates pre-selection highlighting in the 3D window");
+    sStatusTip   = QT_TR_NOOP("Activates pre-selection highlighting in the 3D window");
     sWhatsThis   = "Std_TogglePreSelection";
-    sPixmap      = "tree-pre-sel";
+    sPixmap      = "pre-selection";
     eType        = Alter3DView;
 }
 
@@ -930,9 +930,9 @@ StdTogglePreSelection::StdTogglePreSelection()
   : Command("Std_TogglePreSelection")
 {
     sGroup       = "Standard-View";
-    sMenuText    = QT_TR_NOOP("&1 Toggle pre-selection");
-    sToolTipText = QT_TR_NOOP("Toggles pre-selection of the active view");
-    sStatusTip   = QT_TR_NOOP("Toggles pre-selection of the active view");
+    sMenuText    = QT_TR_NOOP("Pre-selection highlighting");
+    sToolTipText = QT_TR_NOOP("Activates pre-selection highlighting in the 3D window");
+    sStatusTip   = QT_TR_NOOP("Activates pre-selection highlighting in the 3D window");
     sWhatsThis   = "Std_TogglePreSelection";
     sPixmap      = "tree-pre-sel";
     sAccel       = "S,1";
@@ -3616,22 +3616,29 @@ public:
         sToolTipText  = QT_TR_NOOP("TreeView behavior options and actions");
         sWhatsThis    = "Std_TreeViewActions";
         sStatusTip    = QT_TR_NOOP("TreeView behavior options and actions");
+        sPixmap       = "tree-sync-pla";
         eType         = 0;
         bCanLog       = false;
-
-        addCommand(new StdTreeSyncView());
-        addCommand(new StdTreeSyncSelection());
-        addCommand(new StdTreeSyncPlacement());
-        addCommand(new StdTreePreSelection());
-        addCommand(new StdTreeRecordSelection());
-
-        addCommand();
 
         addCommand(new StdTreeSingleDocument());
         addCommand(new StdTreeMultiDocument());
         addCommand(new StdTreeCollapseDocument());
 
         addCommand();
+
+        addCommand(new StdTreeSyncView());
+        addCommand(new StdTreeSyncSelection());
+        addCommand(new StdTreeSyncPlacement());
+        // addCommand(new StdTreePreSelection());
+        addCommand(new StdTreeRecordSelection());
+
+        addCommand();
+
+        // addCommand(new StdTreeSingleDocument());
+        // addCommand(new StdTreeMultiDocument());
+        // addCommand(new StdTreeCollapseDocument());
+
+        // addCommand();
 
         addCommand(new StdTreeDrag(),!cmds.empty());
         addCommand(new StdTreeSelection(),!cmds.empty());

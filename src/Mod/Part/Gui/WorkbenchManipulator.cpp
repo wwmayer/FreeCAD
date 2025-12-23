@@ -76,19 +76,16 @@ void WorkbenchManipulator::addSelectionFilter(Gui::ToolBarItem* toolBar)
         auto ps = new Gui::ToolBarItem();
         ps->setCommand("Std_ViewPreSelection");
 
+        auto sep = new Gui::ToolBarItem();
+        sep->setCommand("Separator");
+
         auto item = view->findItem("Std_TreeViewActions");
         if (item) {
-            view->insertItem(item, vs);
-            view->insertItem(item, es);
-            view->insertItem(item, fs);
-            view->insertItem(item, cs);
-            view->insertItem(item, ps);
-        }
-        else {
             view->appendItem(vs);
             view->appendItem(es);
             view->appendItem(fs);
             view->appendItem(cs);
+            view->appendItem(sep);
             view->appendItem(ps);
         }
     }

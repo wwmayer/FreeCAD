@@ -601,7 +601,7 @@ void StdWorkbench::setupContextMenu(const char* recipient, MenuItem* item) const
         *item << "Std_ViewFitAll"
               << "Std_ViewFitSelection"
               << "Std_AlignToSelection"
-              << "Std_Selection"
+              << "Std_TogglePreSelection"       // << "Std_Selection"
               << "Std_DrawStyle"
               << StdViews << "Separator"
               << "Std_ViewDockUndockFullscreen";
@@ -829,16 +829,16 @@ ToolBarItem* StdWorkbench::setupToolBars() const
            << "Std_DlgMacroExecuteDirect";
 
     // View
+    // << "Std_ViewGroup"
+    // << "Std_Selection"
     auto view = new ToolBarItem( root );
     view->setCommand("View");
     *view << "Std_ViewFitAll"
           << "Std_ViewFitSelection"
-          << "Std_ViewGroup"
           << "Std_AlignToSelection"
-          << "Std_Selection"
-          << "Separator"
           << "Std_DrawStyle"
-          << "Std_TreeViewActions";
+          << "Std_TreeViewActions"
+          << "Separator";
 
     // Individual views
     auto individualViews = new ToolBarItem(root, ToolBarItem::DefaultVisibility::Hidden);

@@ -47,7 +47,7 @@ PartCmdVertexSelection::PartCmdVertexSelection()
     sToolTipText  = QT_TR_NOOP("Only allow the selection of vertices");
     sWhatsThis    = "Part_VertexSelection";
     sStatusTip    = QT_TR_NOOP("Only allow the selection of vertices");
-    sPixmap       = "vertex-selection";
+    sPixmap       = "vertex-filter";
     sAccel        = "X, S";
     eType         = Alter3DView;
 }
@@ -94,7 +94,7 @@ PartCmdEdgeSelection::PartCmdEdgeSelection()
     sToolTipText  = QT_TR_NOOP("Only allow the selection of edges");
     sWhatsThis    = "Part_EdgeSelection";
     sStatusTip    = QT_TR_NOOP("Only allow the selection of edges");
-    sPixmap       = "edge-selection";
+    sPixmap       = "edge-filter";
     sAccel        = "E, S";
     eType         = Alter3DView;
 }
@@ -141,7 +141,7 @@ PartCmdFaceSelection::PartCmdFaceSelection()
     sToolTipText  = QT_TR_NOOP("Only allow the selection of faces");
     sWhatsThis    = "Part_FaceSelection";
     sStatusTip    = QT_TR_NOOP("Only allow the selection of faces");
-    sPixmap       = "face-selection";
+    sPixmap       = "face-filter";
     sAccel        = "F, S";
     eType         = Alter3DView;
 }
