@@ -101,6 +101,7 @@ public:
     void setImportCodePage(int);
     Resource_FormatType getImportCodePage() const;
     std::list<ImportExportSettings::CodePage> getCodePageList() const;
+    int getDefaultCodePageIndex() const;
 
 private:
     static void initGeneral(Base::Reference<ParameterGrp> hGrp);

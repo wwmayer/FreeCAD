@@ -37,6 +37,7 @@
 #include <Gui/Navigation/NavigationStyle.h>
 #include <Gui/View3DInventor.h>
 #include <Gui/View3DInventorViewer.h>
+#include <Gui/SpaceMouseParameter.h>
 
 #include "DlgSettingsNavigation.h"
 #include "ui_DlgSettingsNavigation.h"
@@ -63,6 +64,7 @@ DlgSettingsNavigation::DlgSettingsNavigation(QWidget* parent)
 #if !defined(_USE_3DCONNEXION_SDK) && !defined(SPNAV_FOUND)
     ui->legacySpaceMouseDevices->setDisabled(true);
 #endif
+    ui->legacySpaceMouseDevices->setChecked(SpaceMouseParameter::instance()->getLegacySpaceMouseDevices());
 }
 
 /**

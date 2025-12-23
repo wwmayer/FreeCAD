@@ -44,6 +44,8 @@ SET(Surface_SRCS
   FeatureSewing.h
   FeatureCut.cpp
   FeatureCut.h
+  Measure.cpp
+  Measure.h
 )
 
 if(FREECAD_USE_PCH)

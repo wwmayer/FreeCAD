@@ -23,6 +23,7 @@
 #include "PreCompiled.h"
 #ifndef _PreComp_
 #include <Interface_Static.hxx>
+#include <Resource_FormatType.hxx>
 #endif
 
 #include "ImportExportSettings.h"
@@ -104,10 +105,25 @@ void ImportExportSettings::setImportCodePage(int cpIndex)
     pGroup->SetInt("ImportCodePage", cpIndex);
 }
 
+int ImportExportSettings::getDefaultCodePageIndex() const
+{
+    int index = 0;
+    for (const auto& it : codePageList) {
+        if (it.codePage == Resource_FormatType_UTF8) {
+            return index;
+        }
+
+        ++index;
+    }
+
+    return 0;
+}
+
 Resource_FormatType ImportExportSettings::getImportCodePage() const
 {
     Resource_FormatType result {};
-    long codePageIndex = pGroup->GetInt("ImportCodePage", 0L);
+    long index = static_cast<long>(getDefaultCodePageIndex());
+    long codePageIndex = pGroup->GetInt("ImportCodePage", index);
     long i = 0L;
     for (const auto& codePageIt : codePageList) {
         if (i == codePageIndex) {

@@ -100,6 +100,26 @@ public:
         _mGeometryHandlers[module] = std::move(callback);
     }
 
+    static GeometryHandler getGeometryHandlerOfType(App::DocumentObject* sub)
+    {
+        Base::Type type = sub->getTypeId();
+        while (!type.isBad()) {
+            const char* className = type.getName();
+            std::string mod = Base::Type::getModuleName(className);
+            if (!App::MeasureManager::hasMeasureHandler(mod.c_str())) {
+                return {};
+            }
+
+            if (auto handler = getGeometryHandler(mod)) {
+                return handler;
+            }
+
+            type = type.getParent();
+        }
+
+        return {};
+    }
+
     static GeometryHandler getGeometryHandler(const std::string& module)
     {
 
@@ -124,10 +144,7 @@ public:
         }
 
         // Get the Geometry handler based on the module
-        const char* className = sub->getTypeId().getName();
-        std::string mod = Base::Type::getModuleName(className);
-
-        auto handler = getGeometryHandler(mod);
+        auto handler = getGeometryHandlerOfType(sub);
         if (!handler) {
             Base::Console().Log("MeasureBaseExtendable::getMeasureInfo: No geometry handler "
                                 "available for submitted element type");

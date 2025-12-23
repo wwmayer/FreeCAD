@@ -30,6 +30,7 @@
 #include "Application.h"
 #include "GuiApplicationNativeEventAware.h"
 #include "SpaceballEvent.h"
+#include "SpaceMouseParameter.h"
 
 
 #if defined(_USE_3DCONNEXION_SDK) || defined(SPNAV_FOUND)
@@ -55,13 +56,7 @@ Gui::GUIApplicationNativeEventAware::~GUIApplicationNativeEventAware() = default
 void Gui::GUIApplicationNativeEventAware::initSpaceball(QMainWindow *window)
 {
 #if defined(_USE_3DCONNEXION_SDK) || defined(SPNAV_FOUND)
-#if defined(_USE_3DCONNEXION_SDK)
-    ParameterGrp::handle hViewGrp = App::GetApplication().GetParameterGroupByPath(
-        "User parameter:BaseApp/Preferences/View");
-    bool legacySpaceMouse = hViewGrp->GetBool("LegacySpaceMouseDevices", false);
-#elif defined(SPNAV_FOUND)
-    bool legacySpaceMouse = true;
-#endif
+    bool legacySpaceMouse = SpaceMouseParameter::instance()->getLegacySpaceMouseDevices();
     if (nativeEvent && legacySpaceMouse) {
         nativeEvent->initSpaceball(window);
     }

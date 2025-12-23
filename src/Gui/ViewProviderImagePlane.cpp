@@ -26,6 +26,7 @@
 # include <QAction>
 # include <QFileInfo>
 # include <QImage>
+# include <QImageReader>
 # include <QMenu>
 # include <QString>
 # include <QSvgRenderer>
@@ -234,8 +235,17 @@ void ViewProviderImagePlane::setPlaneSize(const QSizeF& size, const QImage& img)
 
 QImage ViewProviderImagePlane::loadRaster(const char* fileName) const
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    int limit = QImageReader::allocationLimit();
+    QImageReader::setAllocationLimit(0);
+#endif
+
     QImage img;
     img.load(QString::fromUtf8(fileName));
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    QImageReader::setAllocationLimit(limit);
+#endif
     return img;
 }
 

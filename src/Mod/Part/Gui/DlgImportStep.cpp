@@ -54,6 +54,7 @@ DlgImportStep::DlgImportStep(QWidget* parent)
     for (const auto& codePage : codepagelist) {
         ui->comboBoxImportCodePage->addItem(QString::fromStdString(codePage.codePageName));
     }
+    ui->comboBoxImportCodePage->setCurrentIndex(settings.getDefaultCodePageIndex());
 #else
     // hide options that not supported in this OCCT version (7.8.0)
     ui->label_6->hide();

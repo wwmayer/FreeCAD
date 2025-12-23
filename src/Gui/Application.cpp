@@ -90,6 +90,7 @@
 #include "Selection.h"
 #include "SelectionFilterPy.h"
 #include "SoQtOffscreenRendererPy.h"
+#include "SpaceMouseParameter.h"
 #include "SplitView3DInventor.h"
 #include "StartupProcess.h"
 #include "TaskView/TaskView.h"
@@ -566,9 +567,7 @@ Application::Application(bool GUIenabled)
     _pcWorkbenchDictionary = PyDict_New();
 
 #ifdef USE_3DCONNEXION_NAVLIB
-    ParameterGrp::handle hViewGrp = App::GetApplication().GetParameterGroupByPath(
-        "User parameter:BaseApp/Preferences/View");
-    if (!hViewGrp->GetBool("LegacySpaceMouseDevices", false)) {
+    if (!SpaceMouseParameter::instance()->getLegacySpaceMouseDevices()) {
         // Instantiate the 3Dconnexion controller
         pNavlibInterface = new NavlibInterface();
     }
