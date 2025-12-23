@@ -99,9 +99,8 @@ static const int kTimeToLive = 5;
     SpaceNavigator for Notebooks: USB\0x046d:0xc628
     SpacePilot Pro: USB\0x046d:0xc629
     SpaceMouse Enterprise: USB\0x256f:0xc633
-
-    Not yet supported:
     SpaceMouse Compact: USB\0x256f:0xc635
+    SpaceMouse Module: USB\0x256f:0xc636
 
     Not supported:
     CadMan: USB\0x046d:0xc605
@@ -128,7 +127,8 @@ enum e3dconnexion_pid {
    eSpaceMousePROWireless = 0xc631,
    eSpaceMousePROWirelessReceiver = 0xc632,
    eSpaceMouseEnterprise = 0xc633,
-   eSpaceMouseCompact = 0xc635
+   eSpaceMouseCompact = 0xc635,
+   eSpaceMouseModule = 0xc636
 };
 
 enum e3dmouse_virtual_key
@@ -234,24 +234,24 @@ static const e3dmouse_virtual_key SpacePilotKeys [] =
 
 static const struct tag_VirtualKeys _3dmouseVirtualKeys[]=
 {
-   eSpacePilot
+   {eSpacePilot
    , sizeof(SpacePilotKeys)/sizeof(SpacePilotKeys[0])
-   , const_cast<e3dmouse_virtual_key *>(SpacePilotKeys),
-   eSpaceExplorer
+   , const_cast<e3dmouse_virtual_key *>(SpacePilotKeys)},
+   {eSpaceExplorer
    , sizeof(SpaceExplorerKeys)/sizeof(SpaceExplorerKeys[0])
-   , const_cast<e3dmouse_virtual_key *>(SpaceExplorerKeys),
-   eSpaceMouseWireless
+   , const_cast<e3dmouse_virtual_key *>(SpaceExplorerKeys)},
+   {eSpaceMouseWireless
    , sizeof(SpaceMouseWirelessKeys)/sizeof(SpaceMouseWirelessKeys[0])
-   , const_cast<e3dmouse_virtual_key *>(SpaceMouseWirelessKeys),
-   eSpaceMouseWirelessReceiver
+   , const_cast<e3dmouse_virtual_key *>(SpaceMouseWirelessKeys)},
+   {eSpaceMouseWirelessReceiver
    , sizeof(SpaceMouseWirelessReceiverKeys)/sizeof(SpaceMouseWirelessReceiverKeys[0])
-   , const_cast<e3dmouse_virtual_key *>(SpaceMouseWirelessReceiverKeys),
-   eSpaceMousePROWireless
+   , const_cast<e3dmouse_virtual_key *>(SpaceMouseWirelessReceiverKeys)},
+   {eSpaceMousePROWireless
    , sizeof(SpaceMouseWirelessKeys)/sizeof(SpaceMouseWirelessKeys[0])
-   , const_cast<e3dmouse_virtual_key *>(SpaceMouseWirelessKeys),
-   eSpaceMousePROWirelessReceiver
+   , const_cast<e3dmouse_virtual_key *>(SpaceMouseWirelessKeys)},
+   {eSpaceMousePROWirelessReceiver
    , sizeof(SpaceMouseWirelessReceiverKeys)/sizeof(SpaceMouseWirelessReceiverKeys[0])
-   , const_cast<e3dmouse_virtual_key *>(SpaceMouseWirelessReceiverKeys)
+   , const_cast<e3dmouse_virtual_key *>(SpaceMouseWirelessReceiverKeys)}
 };
 
 Gui::GuiNativeEvent::GuiNativeEvent(Gui::GUIApplicationNativeEventAware *app)
@@ -732,7 +732,7 @@ void Gui::GuiNativeEvent::OnRawInput(UINT nInputCode, HRAWINPUT hRawInput)
     cbSize = cbSizeOfBuffer;
     UINT nCount = this->GetRawInputBuffer(pRawInput, &cbSize, sizeof(RAWINPUTHEADER));
     if (nCount == (UINT)-1) {
-        qDebug("GetRawInputBuffer returned error %d\n", GetLastError());
+        qDebug("GetRawInputBuffer returned error %d\n", (int)GetLastError());
     }
 
     while (nCount > 0 && nCount != static_cast<UINT>(-1)) {
@@ -938,6 +938,7 @@ bool Gui::GuiNativeEvent::TranslateSpaceMouseNewGeneric(UINT nInputCode, PRAWINP
 bool Gui::GuiNativeEvent::TranslateSpaceMouseEnterprise(UINT nInputCode, PRAWINPUT pRawInput,
                                                         DWORD dwProductId)
 {
+    Q_UNUSED(dwProductId)
     bool bIsForeground = (nInputCode == RIM_INPUT);
 
     if (pRawInput->data.hid.bRawData[0] == 0x01) {// Translation vector
@@ -1069,9 +1070,11 @@ bool Gui::GuiNativeEvent::TranslateSpaceMouseEnterprise(UINT nInputCode, PRAWINP
 #define SAFE_FREE(p)	{ if(p) { HeapFree(hHeap, 0, p); (p) = NULL; } }
 
 bool Gui::GuiNativeEvent::TranslateSpaceMouseOldGeneric(UINT nInputCode, PRAWINPUT pRawInput,
-                                                        DWORD /*dwProductId*/)
+                                                        DWORD dwProductId)
 {
+    Q_UNUSED(dwProductId)
     bool processed = false;
+#if defined(_MSC_VER)
     bool bIsForeground = (nInputCode == RIM_INPUT);
 
     // Initialize with some random bit of data before we look up the real value later on
@@ -1229,6 +1232,10 @@ Error:
     SAFE_FREE(pPreparsedData);
     SAFE_FREE(pButtonCaps);
     SAFE_FREE(pValueCaps);
+#else
+    Q_UNUSED(nInputCode)
+    Q_UNUSED(pRawInput)
+#endif
 
     return processed;
 }

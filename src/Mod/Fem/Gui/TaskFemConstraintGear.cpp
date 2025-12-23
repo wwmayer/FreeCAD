@@ -331,7 +331,7 @@ bool TaskDlgFemConstraintGear::accept()
                                 parameterGear->getForceAngle());
     }
     catch (const Base::Exception& e) {
-        QMessageBox::warning(parameter, tr("Input error"), QString::fromLatin1(e.what()));
+        QMessageBox::warning(parameter, tr("Input error"), QString::fromUtf8(e.what()));
         return false;
     }
 

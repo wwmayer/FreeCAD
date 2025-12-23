@@ -185,6 +185,7 @@ Gui::MenuItem* Workbench::setupMenuBar() const
           << "Part_Offset2D"
           << "Part_Thickness"
           << "Part_ProjectionOnSurface"
+          << "Part_Text2Wire"
           << "Separator"
           << "Part_EditAttachment";
 

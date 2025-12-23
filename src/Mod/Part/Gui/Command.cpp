@@ -63,6 +63,7 @@
 #include "DlgPrimitives.h"
 #include "DlgProjectionOnSurface.h"
 #include "DlgRevolution.h"
+#include "DlgTextToWire.h"
 #include "Mirroring.h"
 #include "SectionCutting.h"
 #include "TaskCheckGeometry.h"
@@ -1063,8 +1064,8 @@ void CmdPartImportCurveNet::activated(int iMsg)
     if (!fn.isEmpty()) {
         QFileInfo fi; fi.setFile(fn);
         openCommand(QT_TRANSLATE_NOOP("Command", "Part Import Curve Net"));
-        doCommand(Doc,"f = App.activeDocument().addObject(\"Part::CurveNet\",\"%s\")", (const char*)fi.baseName().toLatin1());
-        doCommand(Doc,"f.FileName = \"%s\"",(const char*)fn.toLatin1());
+        doCommand(Doc,"f = App.activeDocument().addObject(\"Part::CurveNet\",\"%s\")", (const char*)fi.baseName().toUtf8());
+        doCommand(Doc,"f.FileName = \"%s\"",(const char*)fn.toUtf8());
         commitCommand();
         updateActive();
     }
@@ -1119,8 +1120,8 @@ void CmdPartMakeSolid::activated(int iMsg)
                     "__o__.Shape=__s__\n"
                     "del __s__, __o__"
                     )
-                    .arg(QLatin1String(it->getNameInDocument()),
-                         QLatin1String(it->Label.getValue()));
+                    .arg(QString::fromUtf8(it->getNameInDocument()),
+                         QString::fromUtf8(it->Label.getValue()));
             }
             else if (type == TopAbs_SHELL) {
                 str = QStringLiteral(
@@ -1131,8 +1132,8 @@ void CmdPartMakeSolid::activated(int iMsg)
                     "__o__.Shape=__s__\n"
                     "del __s__, __o__"
                     )
-                    .arg(QLatin1String(it->getNameInDocument()),
-                         QLatin1String(it->Label.getValue()));
+                    .arg(QString::fromUtf8(it->getNameInDocument()),
+                         QString::fromUtf8(it->Label.getValue()));
             }
             else {
                 Base::Console().Message("%s is ignored because it is neither a shell nor a compound.\n",
@@ -1141,7 +1142,7 @@ void CmdPartMakeSolid::activated(int iMsg)
 
             try {
                 if (!str.isEmpty())
-                    runCommand(Doc, str.toLatin1());
+                    runCommand(Doc, str.toUtf8());
             }
             catch (const Base::Exception& e) {
                 Base::Console().Error("Cannot convert %s because %s.\n",
@@ -1192,12 +1193,12 @@ void CmdPartReverseShape::activated(int iMsg)
                 "__o__.Label=\"%3 (Rev)\"\n"
                 "del __o__"
                 )
-                .arg(QString::fromLatin1(name.c_str()),
-                     QString::fromLatin1(it->getNameInDocument()),
-                     QString::fromLatin1(it->Label.getValue()));
+                .arg(QString::fromUtf8(name.c_str()),
+                     QString::fromUtf8(it->getNameInDocument()),
+                     QString::fromUtf8(it->Label.getValue()));
 
             try {
-                runCommand(Doc, str.toLatin1());
+                runCommand(Doc, str.toUtf8());
                 copyVisual(name.c_str(), "ShapeAppearance", it->getNameInDocument());
                 copyVisual(name.c_str(), "LineColor" , it->getNameInDocument());
                 copyVisual(name.c_str(), "PointColor", it->getNameInDocument());
@@ -2168,6 +2169,34 @@ bool CmdPartProjectionOnSurface::isActive()
 }
 
 //===========================================================================
+// Part_Text2Wire
+//===========================================================================
+DEF_STD_CMD_A(CmdPartText2Wire)
+
+CmdPartText2Wire::CmdPartText2Wire()
+    :Command("Part_Text2Wire")
+{
+    sAppModule = "Part";
+    sGroup = QT_TR_NOOP("Part");
+    sMenuText = QT_TR_NOOP("Text to wire...");
+    sToolTipText = QT_TR_NOOP("Convert text to wire");
+    sWhatsThis = "Part_Text2Wire";
+    sStatusTip = sToolTipText;
+}
+
+void CmdPartText2Wire::activated(int iMsg)
+{
+    Q_UNUSED(iMsg);
+    auto dlg = new PartGui::TaskTextToWire();
+    Gui::Control().showDialog(dlg);
+}
+
+bool CmdPartText2Wire::isActive()
+{
+    return (hasActiveDocument() && !Gui::Control().activeDialog());
+}
+
+//===========================================================================
 // Part_SectionCut
 //===========================================================================
 
@@ -2221,7 +2250,7 @@ namespace {
         }
 
         if (activeObj) {
-            QString activeName = QString::fromLatin1(activeObj->getNameInDocument());
+            QString activeName = QString::fromUtf8(activeObj->getNameInDocument());
             return QStringLiteral("App.ActiveDocument.getObject('%1\').addObject(obj)\n").arg(activeName);
         }
 
@@ -2437,6 +2466,7 @@ void CreatePartCommands()
     rcCmdMgr.addCommand(new CmdColorPerFace());
     rcCmdMgr.addCommand(new CmdBoxSelection());
     rcCmdMgr.addCommand(new CmdPartProjectionOnSurface());
+    rcCmdMgr.addCommand(new CmdPartText2Wire());
     rcCmdMgr.addCommand(new CmdPartSectionCut());
 
     rcCmdMgr.addCommand(new CmdPartCoordinateSystem());

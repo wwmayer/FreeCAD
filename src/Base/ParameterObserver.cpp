@@ -29,10 +29,16 @@ using namespace Base;
 
 ParameterObserver::ParameterObserver() = default;
 
+void ParameterObserver::attachToParameter(ParameterGrp::handle parameter)
+{
+    handle = parameter;
+    handle->Attach(this);
+}
+
 void ParameterObserver::initParameters()
 {
     for (const auto& it : parameters) {
-        handle->Notify(it.first);
+        this->OnChange(*handle, it.first);
     }
 }
 

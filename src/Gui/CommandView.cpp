@@ -337,15 +337,15 @@ Action * StdCmdFreezeViews::createAction()
 
     // add the action items
     saveView = pcAction->addAction(QObject::tr("&Save views..."));
-    saveView->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    saveView->setWhatsThis(QString::fromUtf8(getWhatsThis()));
     QAction* loadView = pcAction->addAction(QObject::tr("&Load views..."));
-    loadView->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    loadView->setWhatsThis(QString::fromUtf8(getWhatsThis()));
     pcAction->addAction(QStringLiteral(""))->setSeparator(true);
     freezeView = pcAction->addAction(QObject::tr("F&reeze view"));
-    freezeView->setShortcut(QString::fromLatin1(getAccel()));
-    freezeView->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    freezeView->setShortcut(QString::fromUtf8(getAccel()));
+    freezeView->setWhatsThis(QString::fromUtf8(getWhatsThis()));
     clearView = pcAction->addAction(QObject::tr("&Clear views"));
-    clearView->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    clearView->setWhatsThis(QString::fromUtf8(getWhatsThis()));
     separator = pcAction->addAction(QStringLiteral(""));
     separator->setSeparator(true);
     offset = pcAction->actions().count();
@@ -681,43 +681,43 @@ Gui::Action * StdCmdDrawStyle::createAction()
     a0->setChecked(true);
     a0->setObjectName(QStringLiteral("Std_DrawStyleAsIs"));
     a0->setShortcut(QKeySequence(QStringLiteral("V,1")));
-    a0->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    a0->setWhatsThis(QString::fromUtf8(getWhatsThis()));
     QAction* a1 = pcAction->addAction(QString());
     a1->setCheckable(true);
     a1->setIcon(BitmapFactory().iconFromTheme("DrawStylePoints"));
     a1->setObjectName(QStringLiteral("Std_DrawStylePoints"));
     a1->setShortcut(QKeySequence(QStringLiteral("V,2")));
-    a1->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    a1->setWhatsThis(QString::fromUtf8(getWhatsThis()));
     QAction* a2 = pcAction->addAction(QString());
     a2->setCheckable(true);
     a2->setIcon(BitmapFactory().iconFromTheme("DrawStyleWireFrame"));
     a2->setObjectName(QStringLiteral("Std_DrawStyleWireframe"));
     a2->setShortcut(QKeySequence(QStringLiteral("V,3")));
-    a2->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    a2->setWhatsThis(QString::fromUtf8(getWhatsThis()));
     QAction* a3 = pcAction->addAction(QString());
     a3->setCheckable(true);
     a3->setIcon(BitmapFactory().iconFromTheme("DrawStyleHiddenLine"));
     a3->setObjectName(QStringLiteral("Std_DrawStyleHiddenLine"));
     a3->setShortcut(QKeySequence(QStringLiteral("V,4")));
-    a3->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    a3->setWhatsThis(QString::fromUtf8(getWhatsThis()));
     QAction* a4 = pcAction->addAction(QString());
     a4->setCheckable(true);
     a4->setIcon(BitmapFactory().iconFromTheme("DrawStyleNoShading"));
     a4->setObjectName(QStringLiteral("Std_DrawStyleNoShading"));
     a4->setShortcut(QKeySequence(QStringLiteral("V,5")));
-    a4->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    a4->setWhatsThis(QString::fromUtf8(getWhatsThis()));
     QAction* a5 = pcAction->addAction(QString());
     a5->setCheckable(true);
     a5->setIcon(BitmapFactory().iconFromTheme("DrawStyleShaded"));
     a5->setObjectName(QStringLiteral("Std_DrawStyleShaded"));
     a5->setShortcut(QKeySequence(QStringLiteral("V,6")));
-    a5->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    a5->setWhatsThis(QString::fromUtf8(getWhatsThis()));
     QAction* a6 = pcAction->addAction(QString());
     a6->setCheckable(true);
     a6->setIcon(BitmapFactory().iconFromTheme("DrawStyleFlatLines"));
     a6->setObjectName(QStringLiteral("Std_DrawStyleFlatLines"));
     a6->setShortcut(QKeySequence(QStringLiteral("V,7")));
-    a6->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    a6->setWhatsThis(QString::fromUtf8(getWhatsThis()));
 
     pcAction->setIcon(a0->icon());
 
@@ -868,6 +868,60 @@ bool StdCmdDrawStyle::isActive()
 }
 
 //===========================================================================
+// Std_ViewPreSelection
+//===========================================================================
+DEF_STD_CMD_AC(StdViewPreSelection)
+
+StdViewPreSelection::StdViewPreSelection()
+    : Command("Std_ViewPreSelection")
+{
+    sGroup       = "Standard-View";
+    sMenuText    = QT_TR_NOOP("Pre-selection highlighting");
+    sToolTipText = QT_TR_NOOP("Activates pre-selection highlighting in the 3D window");
+    sStatusTip   = QT_TR_NOOP("Activates pre-selection highlighting in the 3D window");
+    sWhatsThis   = "Std_TogglePreSelection";
+    sPixmap      = "pre-selection";
+    eType        = Alter3DView;
+}
+
+void StdViewPreSelection::activated(int)
+{
+    Gui::MDIView* view = Gui::getMainWindow()->activeWindow();
+    if (auto view3D = qobject_cast<Gui::View3DInventor*>(view)) {
+        Gui::View3DInventorViewer* viewer = view3D->getViewer();
+        bool checked = !viewer->isPreselectionMode();
+        viewer->setPreselectionMode(checked);
+        if (_pcAction) {
+            _pcAction->setBlockedChecked(checked);
+        }
+    }
+}
+
+Action* StdViewPreSelection::createAction()
+{
+    Action *pcAction = Command::createAction();
+    pcAction->setCheckable(true);
+    _pcAction = pcAction;
+    isActive();
+    return pcAction;
+}
+
+bool StdViewPreSelection::isActive()
+{
+    Gui::MDIView* view = Gui::getMainWindow()->activeWindow();
+    if (auto view3D = qobject_cast<Gui::View3DInventor*>(view)) {
+        Gui::View3DInventorViewer* viewer = view3D->getViewer();
+        bool checked = viewer->isPreselectionMode();
+        if (_pcAction && _pcAction->isChecked() != checked) {
+            _pcAction->setBlockedChecked(checked);
+        }
+        return true;
+    }
+
+    return false;
+}
+
+//===========================================================================
 // Std_TogglePreSelection
 //===========================================================================
 DEF_STD_CMD_AC(StdTogglePreSelection)
@@ -876,9 +930,9 @@ StdTogglePreSelection::StdTogglePreSelection()
   : Command("Std_TogglePreSelection")
 {
     sGroup       = "Standard-View";
-    sMenuText    = QT_TR_NOOP("&1 Toggle pre-selection");
-    sToolTipText = QT_TR_NOOP("Toggles pre-selection of the active view");
-    sStatusTip   = QT_TR_NOOP("Toggles pre-selection of the active view");
+    sMenuText    = QT_TR_NOOP("Pre-selection highlighting");
+    sToolTipText = QT_TR_NOOP("Activates pre-selection highlighting in the 3D window");
+    sStatusTip   = QT_TR_NOOP("Activates pre-selection highlighting in the 3D window");
     sWhatsThis   = "Std_TogglePreSelection";
     sPixmap      = "tree-pre-sel";
     sAccel       = "S,1";
@@ -994,7 +1048,7 @@ public:
         setCheckable(false);
 
         addCommand(new StdTogglePreSelection());
-        // addCommand(new StdToggleSelection());
+        addCommand(new StdToggleSelection());
     }
     const char* className() const override {
         return "StdCmdSelection";
@@ -3562,22 +3616,29 @@ public:
         sToolTipText  = QT_TR_NOOP("TreeView behavior options and actions");
         sWhatsThis    = "Std_TreeViewActions";
         sStatusTip    = QT_TR_NOOP("TreeView behavior options and actions");
+        sPixmap       = "tree-sync-pla";
         eType         = 0;
         bCanLog       = false;
-
-        addCommand(new StdTreeSyncView());
-        addCommand(new StdTreeSyncSelection());
-        addCommand(new StdTreeSyncPlacement());
-        addCommand(new StdTreePreSelection());
-        addCommand(new StdTreeRecordSelection());
-
-        addCommand();
 
         addCommand(new StdTreeSingleDocument());
         addCommand(new StdTreeMultiDocument());
         addCommand(new StdTreeCollapseDocument());
 
         addCommand();
+
+        addCommand(new StdTreeSyncView());
+        addCommand(new StdTreeSyncSelection());
+        addCommand(new StdTreeSyncPlacement());
+        // addCommand(new StdTreePreSelection());
+        addCommand(new StdTreeRecordSelection());
+
+        addCommand();
+
+        // addCommand(new StdTreeSingleDocument());
+        // addCommand(new StdTreeMultiDocument());
+        // addCommand(new StdTreeCollapseDocument());
+
+        // addCommand();
 
         addCommand(new StdTreeDrag(),!cmds.empty());
         addCommand(new StdTreeSelection(),!cmds.empty());
@@ -4060,6 +4121,7 @@ void CreateViewStdCommands()
     rcCmdMgr.addCommand(new StdPerspectiveCamera());
     rcCmdMgr.addCommand(new StdCmdToggleClipPlane());
     rcCmdMgr.addCommand(new StdCmdDrawStyle());
+    rcCmdMgr.addCommand(new StdViewPreSelection);
     rcCmdMgr.addCommand(new StdCmdSelection);
     rcCmdMgr.addCommand(new StdCmdViewSaveCamera());
     rcCmdMgr.addCommand(new StdCmdViewRestoreCamera());

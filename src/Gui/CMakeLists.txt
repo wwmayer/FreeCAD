@@ -21,9 +21,9 @@ IF(CMAKE_BUILD_TYPE)
 ENDIF(CMAKE_BUILD_TYPE)
 
 if (FREECAD_USE_3DCONNEXION_LEGACY)
-    if(APPLE OR MSVC)
+    if(APPLE OR WIN32)
         add_definitions(-D_USE_3DCONNEXION_SDK)
-    endif(APPLE OR MSVC)
+    endif(APPLE OR WIN32)
     if(APPLE)
         set(3DCONNEXION_LINKFLAGS "-F/Library/Frameworks -weak_framework 3DconnexionClient")
         list(APPEND 3DCONNEXION_INCLUDE_DIR ${3DCONNEXIONCLIENT_FRAMEWORK}/Headers
@@ -31,13 +31,13 @@ if (FREECAD_USE_3DCONNEXION_LEGACY)
     endif(APPLE)
 endif(FREECAD_USE_3DCONNEXION_LEGACY)
 
-if(FREECAD_USE_3DCONNEXION_NAVLIB AND (MSVC OR APPLE))
+if(FREECAD_USE_3DCONNEXION_NAVLIB AND (WIN32 OR APPLE))
     add_definitions(-DUSE_3DCONNEXION_NAVLIB)
     if(APPLE)
         add_definitions(-D__APPLE__)
     endif(APPLE)
     list(APPEND 3DCONNEXION_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src/3rdParty/3Dconnexion/inc)
-endif(FREECAD_USE_3DCONNEXION_NAVLIB AND (MSVC OR APPLE))
+endif(FREECAD_USE_3DCONNEXION_NAVLIB AND (WIN32 OR APPLE))
 
 if (BUILD_VR)
     add_definitions(-DBUILD_VR )
@@ -87,13 +87,6 @@ if(MSVC)
          FreeCADApp
          ${OPENGL_gl_LIBRARY}
     )
-
-    if(FREECAD_USE_3DCONNEXION_LEGACY)
-        list(APPEND FreeCADGui_LIBS
-            hid
-        )
-    endif()
-
 else(MSVC)
     set(FreeCADGui_LIBS
         FreeCADApp
@@ -102,6 +95,12 @@ else(MSVC)
         ${3DCONNEXION_LINKFLAGS}
     )
 endif(MSVC)
+
+if(FREECAD_USE_3DCONNEXION_LEGACY AND WIN32)
+    list(APPEND FreeCADGui_LIBS
+        hid
+    )
+endif()
 
 if (TARGET Coin::Coin)
     list(APPEND FreeCADGui_LIBS Coin::Coin)
@@ -277,7 +276,7 @@ SET(FreeCADGui_XML_SRCS
 SOURCE_GROUP("XML" FILES ${FreeCADApp_XML_SRCS})
 
 # The 3D Connexion SDK files
-if(FREECAD_USE_3DCONNEXION_LEGACY AND MSVC)
+if(FREECAD_USE_3DCONNEXION_LEGACY AND WIN32)
     SET(FreeCADGui_SDK_SRCS
         3Dconnexion/I3dMouseParams.h
         3Dconnexion/MouseParameters.cpp
@@ -296,7 +295,7 @@ if(FREECAD_USE_3DCONNEXION_LEGACY AND MSVC)
     list(APPEND FreeCADGui_connexion_HDRS
         ${FreeCADGui_SDK_MOC_HDRS}
     )
-endif(FREECAD_USE_3DCONNEXION_LEGACY AND MSVC)
+endif(FREECAD_USE_3DCONNEXION_LEGACY AND WIN32)
 
 if(FREECAD_USE_3DCONNEXION_LEGACY AND APPLE)
     SET(FreeCADGui_SDK_SRCS
@@ -316,7 +315,7 @@ if(FREECAD_USE_3DCONNEXION_LEGACY AND APPLE)
     )
 endif(FREECAD_USE_3DCONNEXION_LEGACY AND APPLE)
 
-if(FREECAD_USE_3DCONNEXION_NAVLIB AND (MSVC OR APPLE))
+if(FREECAD_USE_3DCONNEXION_NAVLIB AND (WIN32 OR APPLE))
     SET(NAVLIB_STUB_DIR ${CMAKE_SOURCE_DIR}/src/3rdParty/3Dconnexion/src)
     SET(FreeCADGui_SDK_SRCS
         3Dconnexion/navlib/NavlibCmds.cpp
@@ -335,7 +334,7 @@ if(FREECAD_USE_3DCONNEXION_NAVLIB AND (MSVC OR APPLE))
     list(APPEND FreeCADGui_connexion_HDRS
         ${FreeCADGui_SDK_MOC_HDRS}
     )
-endif(FREECAD_USE_3DCONNEXION_NAVLIB AND (MSVC OR APPLE))
+endif(FREECAD_USE_3DCONNEXION_NAVLIB AND (WIN32 OR APPLE))
 
 set_property(SOURCE GraphvizView.h GraphvizView.cpp PROPERTY SKIP_AUTOMOC ON)
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/moc_GraphvizView-internal.cpp
@@ -1183,6 +1182,7 @@ SET(Params_CPP_SRCS
     OverlayParams.cpp
     ParamHandler.cpp
     ViewParams.cpp
+    SpaceMouseParameter.cpp
 )
 
 SET(Params_HPP_SRCS
@@ -1190,6 +1190,7 @@ SET(Params_HPP_SRCS
     OverlayParams.h
     ParamHandler.cpp
     ViewParams.h
+    SpaceMouseParameter.h
 )
 
 SET(Params_SRCS

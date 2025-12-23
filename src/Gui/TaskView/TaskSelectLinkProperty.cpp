@@ -230,7 +230,7 @@ void TaskSelectLinkProperty::OnChange(Gui::SelectionSingleton::SubjectType& rCal
                 temp += "::";
                 temp += it.SubName;
             }
-            new QListWidgetItem(QString::fromLatin1(temp.c_str()), ui->listWidget);
+            new QListWidgetItem(QString::fromUtf8(temp.c_str()), ui->listWidget);
         }
         checkSelectionStatus();
     }

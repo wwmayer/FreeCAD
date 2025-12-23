@@ -1182,7 +1182,7 @@ void TaskExtrudeParameters::applyParameters(QString facename)
     FCMD_OBJ_CMD(obj, "ReferenceAxis = " << getReferenceAxis());
     FCMD_OBJ_CMD(obj, "AlongSketchNormal = " << (getAlongSketchNormal() ? 1 : 0));
     FCMD_OBJ_CMD(obj, "Type = " << getMode());
-    FCMD_OBJ_CMD(obj, "UpToFace = " << facename.toLatin1().data());
+    FCMD_OBJ_CMD(obj, "UpToFace = " << facename.toUtf8().data());
     FCMD_OBJ_CMD(obj, "Reversed = " << (getReversed() ? 1 : 0));
     FCMD_OBJ_CMD(obj, "Midplane = " << (getMidplane() ? 1 : 0));
     FCMD_OBJ_CMD(obj, "Offset = " << getOffset());

@@ -80,7 +80,7 @@ TaskBooleanParameters::TaskBooleanParameters(ViewProviderBoolean* BooleanView, Q
     for (auto body : bodies) {
         QListWidgetItem* item = new QListWidgetItem(ui->listWidgetBodies);
         item->setText(QString::fromUtf8(body->Label.getValue()));
-        item->setData(Qt::UserRole, QString::fromLatin1(body->getNameInDocument()));
+        item->setData(Qt::UserRole, QString::fromUtf8(body->getNameInDocument()));
     }
 
     // Create context menu
@@ -140,7 +140,7 @@ void TaskBooleanParameters::onSelectionChanged(const Gui::SelectionChanges& msg)
 
                 QListWidgetItem* item = new QListWidgetItem(ui->listWidgetBodies);
                 item->setText(QString::fromUtf8(pcBody->Label.getValue()));
-                item->setData(Qt::UserRole, QString::fromLatin1(pcBody->getNameInDocument()));
+                item->setData(Qt::UserRole, QString::fromUtf8(pcBody->getNameInDocument()));
 
                 pcBoolean->getDocument()->recomputeFeature(pcBoolean);
                 ui->buttonBodyAdd->setChecked(false);
@@ -299,7 +299,7 @@ void TaskBooleanParameters::onBodyDeleted()
     App::DocumentObject* body = bodies[index];
     QString internalName = ui->listWidgetBodies->item(index)->data(Qt::UserRole).toString();
     for (auto it = bodies.begin(); it != bodies.end(); ++it) {
-        if (internalName == QLatin1String((*it)->getNameInDocument())) {
+        if (internalName == QString::fromUtf8((*it)->getNameInDocument())) {
             body = *it;
             bodies.erase(it);
             break;

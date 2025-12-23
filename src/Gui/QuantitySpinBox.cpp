@@ -326,7 +326,7 @@ void QuantitySpinBox::setBoundToByName(const QString &name)
         App::Document *doc = App::GetApplication().getActiveDocument();
         QStringList list = name.split(QLatin1Char('#'));
         if (list.size() > 1) {
-            doc = App::GetApplication().getDocument(list.front().toLatin1());
+            doc = App::GetApplication().getDocument(list.front().toUtf8());
             list.pop_front();
         }
 
@@ -339,7 +339,7 @@ void QuantitySpinBox::setBoundToByName(const QString &name)
         list = list.front().split(QLatin1Char('.'));
 
         // get object
-        App::DocumentObject* obj = doc->getObject(list.front().toLatin1());
+        App::DocumentObject* obj = doc->getObject(list.front().toUtf8());
         if (!obj) {
             qDebug() << "No object " << list.front() << " in document";
             return;
@@ -352,7 +352,7 @@ void QuantitySpinBox::setBoundToByName(const QString &name)
         path.setDocumentObjectName(std::string(obj->getNameInDocument()), true);
 
         for (const auto & it : list) {
-            path << App::ObjectIdentifier::Component::SimpleComponent(it.toLatin1().constData());
+            path << App::ObjectIdentifier::Component::SimpleComponent(it.toUtf8().constData());
         }
 
         if (path.getProperty())

@@ -44,7 +44,7 @@ protected:
 
     public:
         template<typename T>
-        explicit Object(T&& obj)  // NOLINT
+        Object(T&& obj)  // NOLINT
             : object(std::make_shared<Model<T>>(std::forward<T>(obj)))
         {}
 
@@ -147,7 +147,7 @@ public:
         {}
         void fetch(const ParameterGrp::handle& handle, const char* key)
         {
-            _value = handle->GetBool(key);
+            _value = handle->GetBool(key, std::get<value_type>(_default));
         }
         void setParameter(const ParameterGrp::handle& handle, const char* key, const Type& value)
         {
@@ -163,7 +163,7 @@ public:
         {}
         void fetch(const ParameterGrp::handle& handle, const char* key)
         {
-            _value = handle->GetInt(key);
+            _value = handle->GetInt(key, std::get<value_type>(_default));
         }
         void setParameter(const ParameterGrp::handle& handle, const char* key, const Type& value)
         {
@@ -179,7 +179,7 @@ public:
         {}
         void fetch(const ParameterGrp::handle& handle, const char* key)
         {
-            _value = handle->GetUnsigned(key);
+            _value = handle->GetUnsigned(key, std::get<value_type>(_default));
         }
         void setParameter(const ParameterGrp::handle& handle, const char* key, const Type& value)
         {
@@ -195,7 +195,7 @@ public:
         {}
         void fetch(const ParameterGrp::handle& handle, const char* key)
         {
-            _value = handle->GetFloat(key);
+            _value = handle->GetFloat(key, std::get<value_type>(_default));
         }
         void setParameter(const ParameterGrp::handle& handle, const char* key, const Type& value)
         {
@@ -211,7 +211,7 @@ public:
         {}
         void fetch(const ParameterGrp::handle& handle, const char* key)
         {
-            _value = handle->GetASCII(key);
+            _value = handle->GetASCII(key, std::get<value_type>(_default).c_str());
         }
         void setParameter(const ParameterGrp::handle& handle, const char* key, const Type& value)
         {
@@ -226,6 +226,7 @@ private:
 protected:
     ParameterObserver();
 
+    void attachToParameter(ParameterGrp::handle parameter);
     void initParameters();
     void OnChange(Base::Subject<const char*>& subject, const char* sReason) override;
     void addParameter(const char* key, const Object& value);
@@ -325,5 +326,20 @@ struct type_traits<std::string>
 };
 
 }  // namespace Base
+
+template <typename T>
+struct type_from_member;
+
+template <typename M, typename T>
+struct type_from_member<M T::*>
+{
+    using type = T;
+};
+
+template<typename T, typename R>
+constexpr bool is_getter = std::is_same<T, R (type_from_member<T>::type::*)() const>::value;
+
+template<typename T, typename A>
+constexpr bool is_setter = std::is_same<T, void (type_from_member<T>::type::*)(A)>::value;
 
 #endif  // BASE_PARAMETEROBSERVER_H

@@ -638,9 +638,9 @@ int SelectionSingleton::setPreselect(const char* pDocName, const char* pObjectNa
                 msg = QCoreApplication::translate("SelectionFilter","Not allowed:");
             }
             msg.append(QStringLiteral(" %1.%2.%3 ")
-                  .arg(QString::fromLatin1(pDocName),
-                       QString::fromLatin1(pObjectName),
-                       QString::fromLatin1(pSubName)));
+                  .arg(QString::fromUtf8(pDocName),
+                       QString::fromUtf8(pObjectName),
+                       QString::fromUtf8(pSubName)));
 
             if (getMainWindow()) {
                 getMainWindow()->showMessage(msg);

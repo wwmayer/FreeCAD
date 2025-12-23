@@ -97,11 +97,11 @@ Action * StdCmdLinkMakeGroup::createAction()
     // add the action items
     QAction* action = nullptr;
     action = pcAction->addAction(QObject::tr("Simple group"));
-    action->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    action->setWhatsThis(QString::fromUtf8(getWhatsThis()));
     action = pcAction->addAction(QObject::tr("Group with links"));
-    action->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    action->setWhatsThis(QString::fromUtf8(getWhatsThis()));
     action = pcAction->addAction(QObject::tr("Group with transform links"));
-    action->setWhatsThis(QString::fromLatin1(getWhatsThis()));
+    action->setWhatsThis(QString::fromUtf8(getWhatsThis()));
     return pcAction;
 }
 
@@ -193,7 +193,7 @@ void StdCmdLinkMakeGroup::activated(int option) {
         Command::commitCommand();
     } catch (const Base::Exception& e) {
         QMessageBox::critical(getMainWindow(), QObject::tr("Create link group failed"),
-            QString::fromLatin1(e.what()));
+            QString::fromUtf8(e.what()));
         Command::abortCommand();
         e.ReportException();
     }
@@ -259,7 +259,7 @@ void StdCmdLinkMake::activated(int) {
     } catch (const Base::Exception& e) {
         Command::abortCommand();
         QMessageBox::critical(getMainWindow(), QObject::tr("Create link failed"),
-            QString::fromLatin1(e.what()));
+            QString::fromUtf8(e.what()));
         e.ReportException();
     }
 }
@@ -334,7 +334,7 @@ void StdCmdLinkMakeRelative::activated(int) {
     } catch (const Base::Exception& e) {
         Command::abortCommand();
         QMessageBox::critical(getMainWindow(), QObject::tr("Failed to create relative link"),
-            QString::fromLatin1(e.what()));
+            QString::fromUtf8(e.what()));
         e.ReportException();
     }
     return;
@@ -462,7 +462,7 @@ static void linkConvert(bool unlink) {
     } catch (const Base::Exception& e) {
         Command::abortCommand();
         auto title = unlink?QObject::tr("Unlink failed"):QObject::tr("Replace link failed");
-        QMessageBox::critical(getMainWindow(), title, QString::fromLatin1(e.what()));
+        QMessageBox::critical(getMainWindow(), title, QString::fromUtf8(e.what()));
         e.ReportException();
         return;
     }
@@ -592,7 +592,7 @@ void StdCmdLinkImport::activated(int) {
     }catch (const Base::Exception& e) {
         Command::abortCommand();
         QMessageBox::critical(getMainWindow(), QObject::tr("Failed to import links"),
-            QString::fromLatin1(e.what()));
+            QString::fromUtf8(e.what()));
         e.ReportException();
     }
 }
@@ -631,7 +631,7 @@ void StdCmdLinkImportAll::activated(int) {
         Command::commitCommand();
     } catch (const Base::Exception& e) {
         QMessageBox::critical(getMainWindow(), QObject::tr("Failed to import all links"),
-            QString::fromLatin1(e.what()));
+            QString::fromUtf8(e.what()));
         Command::abortCommand();
         e.ReportException();
     }

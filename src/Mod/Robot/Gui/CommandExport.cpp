@@ -101,7 +101,7 @@ void CmdRobotExportKukaCompact::activated(int)
               "ExportCompactSub(App.activeDocument().%s,App.activeDocument().%s,'%s')",
               pcRobotObject->getNameInDocument(),
               pcTrajectoryObject->getNameInDocument(),
-              (const char*)fn.toLatin1());
+              (const char*)fn.toUtf8());
 }
 
 bool CmdRobotExportKukaCompact::isActive()
@@ -176,7 +176,7 @@ void CmdRobotExportKukaFull::activated(int)
               "ExportFullSub(App.activeDocument().%s,App.activeDocument().%s,'%s')",
               pcRobotObject->getNameInDocument(),
               pcTrajectoryObject->getNameInDocument(),
-              (const char*)fn.toLatin1());
+              (const char*)fn.toUtf8());
 }
 
 bool CmdRobotExportKukaFull::isActive()

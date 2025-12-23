@@ -138,7 +138,7 @@ void WorkbenchManipulatorPython::tryModifyMenuBar(const Py::Dict& dict, MenuItem
                 }
 
                 if (item) {
-                    auto add = new MenuItem();  // NOLINT
+                    auto add = new MenuItem();
                     add->setCommand(command);
                     par->insertItem(item, add);
                 }
@@ -151,7 +151,7 @@ void WorkbenchManipulatorPython::tryModifyMenuBar(const Py::Dict& dict, MenuItem
         std::string itemName = static_cast<std::string>(Py::String(dict.getItem("menuItem")));
 
         if (auto par = menuBar->findParentOf(itemName)) {
-            auto add = new MenuItem();  // NOLINT
+            auto add = new MenuItem();
             add->setCommand(command);
             par->appendItem(add);
         }
@@ -258,6 +258,18 @@ void WorkbenchManipulatorPython::modifyToolBars(ToolBarItem* toolBar)
  * This manipulator removes the Macro toolbar, adds the
  * Std_Quit to the File toolbar and adds Std_Cut the
  * command to the toolbar where Std_New is part of.
+ * Or
+ * \code
+ * class Manipulator:
+ *   def modifyToolBars(self):
+       return [{"create" : "MyToolbar", "toolBar" : "View"},
+               {"append" : "Std_Quit", "toolBar" : "MyToolbar"}]
+ *
+ * manip = Manipulator()
+ * Gui.addWorkbenchManipulator(manip)
+ * \endcode
+ * This manipulator creates a new toolbar 'MyToolbar' and adds the
+ * Std_Quit to it. The toolbar is added before the toolbar 'View'.
  */
 void WorkbenchManipulatorPython::tryModifyToolBar(ToolBarItem* toolBar)
 {
@@ -282,19 +294,42 @@ void WorkbenchManipulatorPython::tryModifyToolBar(ToolBarItem* toolBar)
 // NOLINTNEXTLINE
 void WorkbenchManipulatorPython::tryModifyToolBar(const Py::Dict& dict, ToolBarItem* toolBar)
 {
-    std::string insert("insert");
-    std::string append("append");
-    std::string remove("remove");
+    const std::string create("create");
+    const std::string insert("insert");
+    const std::string append("append");
+    const std::string remove("remove");
 
+    // create a toolbar
+    if (dict.hasKey(create)) {
+        std::string tbName = static_cast<std::string>(Py::String(dict.getItem(create)));
+        std::string itemName;
+        ToolBarItem* item = nullptr;
+        if (dict.hasKey("toolBar")) {
+            itemName = static_cast<std::string>(Py::String(dict.getItem("toolBar")));
+        }
+
+        if (!itemName.empty()) {
+            item = toolBar->findItem(itemName);
+        }
+
+        auto add = new ToolBarItem();
+        add->setCommand(tbName);
+        if (item) {
+            toolBar->insertItem(item, add);
+        }
+        else {
+            toolBar->appendItem(add);
+        }
+    }
     // insert a new command
-    if (dict.hasKey(insert)) {
+    else if (dict.hasKey(insert)) {
 
         std::string command = static_cast<std::string>(Py::String(dict.getItem(insert)));
         std::string itemName = static_cast<std::string>(Py::String(dict.getItem("toolItem")));
 
         for (auto it : toolBar->getItems()) {
             if (ToolBarItem* item = it->findItem(itemName)) {
-                auto add = new ToolBarItem();  // NOLINT
+                auto add = new ToolBarItem();
                 add->setCommand(command);
                 it->insertItem(item, add);
                 break;

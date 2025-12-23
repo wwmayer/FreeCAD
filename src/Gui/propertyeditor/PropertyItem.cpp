@@ -1422,7 +1422,7 @@ public:
                 Gui::Command::doCommand(Gui::Command::Doc,
                                         "%s = %s",
                                         propName.c_str(),
-                                        str.toLatin1().constData());
+                                        str.toUtf8().constData());
                 return true;
             }
         }
@@ -4599,9 +4599,9 @@ void LinkLabel::updatePropertyLink()
                                   "<a href=\"%1#%2.%3\"><span style=\" text-decoration: "
                                   "underline; color:%4;\">%5</span></a>"
                                   "</p></body></html>")
-                       .arg(QLatin1String(sobj.getDocumentName().c_str()),
-                            QLatin1String(sobj.getObjectName().c_str()),
-                            QString::fromUtf8(sobj.getSubName().c_str()),
+                       .arg(QString::fromStdString(sobj.getDocumentName()),
+                            QString::fromStdString(sobj.getObjectName()),
+                            QString::fromStdString(sobj.getSubName()),
                             linkcolor,
                             DlgPropertyLink::formatObject(owner->getDocument(),
                                                           sobj.getObject(),

@@ -123,6 +123,7 @@
 #include "SoFCVectorizeU3DAction.h"
 #include "SoTouchEvents.h"
 #include "SpaceballEvent.h"
+#include "SpaceMouseParameter.h"
 #include "View3DInventorRiftViewer.h"
 #include "View3DViewerPy.h"
 #include "ViewParams.h"
@@ -597,9 +598,7 @@ void View3DInventorViewer::init()
     //filter a few qt events
     viewerEventFilter = new ViewerEventFilter;
     installEventFilter(viewerEventFilter);
-    ParameterGrp::handle hViewGrp = App::GetApplication().GetParameterGroupByPath(
-        "User parameter:BaseApp/Preferences/View");
-    if (hViewGrp->GetBool("LegacySpaceMouseDevices", false)) {
+    if (SpaceMouseParameter::instance()->getLegacySpaceMouseDevices()) {
         getEventFilter()->registerInputDevice(new SpaceNavigatorDevice);
     }
     getEventFilter()->registerInputDevice(new GesturesDevice(this));
