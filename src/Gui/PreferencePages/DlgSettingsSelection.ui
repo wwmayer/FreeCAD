@@ -30,29 +30,46 @@
     <number>6</number>
    </property>
    <item row="0" column="0">
-    <widget class="Gui::PrefCheckBox" name="checkBoxPreselection">
-     <property name="minimumSize">
-      <size>
-       <width>240</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="toolTip">
-      <string>Enable preselection, highlighted with specified color</string>
-     </property>
-     <property name="text">
-      <string>Enable preselection</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-     <property name="prefEntry" stdset="0">
-      <cstring>EnablePreselection</cstring>
-     </property>
-     <property name="prefPath" stdset="0">
-      <cstring>View</cstring>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_1">
+     <item>
+      <widget class="Gui::PrefCheckBox" name="checkBoxPreselection">
+       <property name="minimumSize">
+        <size>
+         <width>240</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Enable preselection, highlighted with specified color</string>
+       </property>
+       <property name="text">
+        <string>Enable preselection</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+       <property name="prefEntry" stdset="0">
+        <cstring>EnablePreselection</cstring>
+       </property>
+       <property name="prefPath" stdset="0">
+        <cstring>View</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizSpacer_1">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>250</width>
+         <height>10</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item row="0" column="1">
     <widget class="Gui::PrefColorButton" name="HighlightColor">
@@ -113,67 +130,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_1">
-     <item>
-      <widget class="QLabel" name="spinPickRadiusLabel">
-       <property name="text">
-        <string>Pick radius (px):</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizSpacer_1">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>250</width>
-         <height>10</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="1">
-    <widget class="Gui::PrefDoubleSpinBox" name="spinPickRadius">
-     <property name="minimumSize">
-      <size>
-       <width>120</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="toolTip">
-      <string>Area for picking elements in 3D view.
-Larger value eases to pick things, but can make small features impossible to select.
-      </string>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhPreferNumbers</set>
-     </property>
-     <property name="decimals">
-      <number>1</number>
-     </property>
-     <property name="minimum">
-      <double>0.500000000000000</double>
-     </property>
-     <property name="maximum">
-      <double>200.000000000000000</double>
-     </property>
-     <property name="value">
-      <double>5.000000000000000</double>
-     </property>
-     <property name="prefEntry" stdset="0">
-      <cstring>PickRadius</cstring>
-     </property>
-     <property name="prefPath" stdset="0">
-      <cstring>View</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2">
+   <item row="2" column="0" colspan="2">
     <widget class="Gui::PrefCheckBox" name="checkBoxAutoSwitch">
      <property name="text">
       <string>Auto switch to the 3D view containing the selected item</string>
@@ -186,7 +143,7 @@ Larger value eases to pick things, but can make small features impossible to sel
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="2">
+   <item row="3" column="0" colspan="2">
     <widget class="Gui::PrefCheckBox" name="checkBoxAutoExpand">
      <property name="text">
       <string>Auto expand tree item when the corresponding object is selected in 3D view</string>
@@ -199,7 +156,7 @@ Larger value eases to pick things, but can make small features impossible to sel
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="2">
+   <item row="4" column="0" colspan="2">
     <widget class="Gui::PrefCheckBox" name="checkBoxPreselect">
      <property name="text">
       <string>Preselect the object in 3D view when hovering the cursor over the tree item</string>
@@ -212,7 +169,7 @@ Larger value eases to pick things, but can make small features impossible to sel
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="2">
+   <item row="5" column="0" colspan="2">
     <widget class="Gui::PrefCheckBox" name="checkBoxRecord">
      <property name="text">
       <string>Record selection in tree view in order to go back/forward using navigation button</string>
@@ -225,7 +182,7 @@ Larger value eases to pick things, but can make small features impossible to sel
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="2">
+   <item row="6" column="0" colspan="2">
     <widget class="Gui::PrefCheckBox" name="checkBoxSelectionCheckBoxes">
      <property name="text">
       <string>Add checkboxes for selection in document tree</string>
@@ -238,7 +195,7 @@ Larger value eases to pick things, but can make small features impossible to sel
      </property>
     </widget>
    </item>
-   <item row="8" column="0" colspan="2">
+   <item row="7" column="0" colspan="2">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -254,11 +211,6 @@ Larger value eases to pick things, but can make small features impossible to sel
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>Gui::PrefDoubleSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
-   <header>Gui/PrefWidgets.h</header>
-  </customwidget>
   <customwidget>
    <class>Gui::ColorButton</class>
    <extends>QPushButton</extends>
