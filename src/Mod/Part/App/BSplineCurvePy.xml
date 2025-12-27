@@ -190,6 +190,13 @@ A high tolerance is used to 'smooth' the curve.
 Modifies this B-Spline curve by segmenting it.</UserDocu>
             </Documentation>
         </Methode>
+        <Methode Name="split" Const="true">
+            <Documentation>
+                <UserDocu>split(u) -> tuple of two curves
+
+Splits the curve at the parameter value and returns two curves</UserDocu>
+            </Documentation>
+        </Methode>
         <Methode Name="setKnot">
             <Documentation>
                 <UserDocu>Set a knot of the B-Spline curve.</UserDocu>
