@@ -164,6 +164,7 @@ namespace ModelRefine
         FaceUniter(const TopoDS_Shell &shellIn);
         bool process();
         const TopoDS_Shell& getShell() const {return workShell;}
+        void fixOrientation(const TopoDS_Shell& shell);
         bool isModified(){return modifiedSignal;}
         const std::vector<ShapePairType>& getModifiedShapes() const
         {return modifiedShapes;}
