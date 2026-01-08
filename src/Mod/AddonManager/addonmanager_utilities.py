@@ -467,7 +467,7 @@ def blocking_get(url: str, method=None) -> bytes:
     return p
 
 
-def run_interruptable_subprocess(args, timeout_secs: int = 10) -> subprocess.CompletedProcess:
+def run_interruptable_subprocess(args, timeout_secs: int = 60) -> subprocess.CompletedProcess:
     """Wrap subprocess call so it can be interrupted gracefully."""
     creation_flags = 0
     if hasattr(subprocess, "CREATE_NO_WINDOW"):
