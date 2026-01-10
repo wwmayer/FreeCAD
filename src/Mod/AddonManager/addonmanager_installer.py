@@ -414,7 +414,7 @@ class AddonInstaller(QtCore.QObject):
             url = url[:-4]
         _, _, name = url.rpartition("/")
         branch = self.addon_to_install.branch
-        if "codeberg" in url:
+        if "codeberg.org" in url:
             expected_subdir = f"{name.lower()}"
         else:
             expected_subdir = f"{name}-{branch}"
