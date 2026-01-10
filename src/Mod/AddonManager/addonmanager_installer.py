@@ -387,14 +387,12 @@ class AddonInstaller(QtCore.QObject):
             zfile.extractall(destination)
 
         # GitHub (and possibly other hosts) put all files in the zip into a subdirectory named
-        # after the branch. If that is the setup that we just extracted, move all files out of
-        # that subdirectory.
+        # after the branch. Codeberg puts all files of the ZIP into a subdirectory with lowercase letters
+        # If that is the setup that we just extracted, move all files out of that subdirectory.
         if self._code_in_branch_subdirectory(destination):
-            actual_path = os.path.join(
-                destination, f"{self.addon_to_install.name}-{self.addon_to_install.branch}"
-            )
+            actual_path = os.path.join( destination, self._expected_subdirectory_name() )
             FreeCAD.Console.PrintLog(
-                f"ZIP installation moving code from {actual_path} to {destination}"
+                f"ZIP installation moving code from {actual_path} to {destination}\n"
             )
             self._move_code_out_of_subdirectory(destination)
 
@@ -403,11 +401,11 @@ class AddonInstaller(QtCore.QObject):
 
     def _code_in_branch_subdirectory(self, destination: str) -> bool:
         test_path = os.path.join(destination, self._expected_subdirectory_name())
-        FreeCAD.Console.PrintLog(f"Checking for possible zip sub-path {test_path}...")
+        FreeCAD.Console.PrintLog(f"Checking for possible zip sub-path {test_path}... ")
         if os.path.isdir(test_path):
-            FreeCAD.Console.PrintLog(f"path exists.\n")
+            FreeCAD.Console.PrintLog(f"yes, path exists.\n")
             return True
-        FreeCAD.Console.PrintLog(f"path does not exist.\n")
+        FreeCAD.Console.PrintLog(f"no, path does not exist.\n")
         return False
 
     def _expected_subdirectory_name(self) -> str:
@@ -416,7 +414,11 @@ class AddonInstaller(QtCore.QObject):
             url = url[:-4]
         _, _, name = url.rpartition("/")
         branch = self.addon_to_install.branch
-        return f"{name}-{branch}"
+        if "codeberg" in url:
+            expected_subdir = f"{name.lower()}"
+        else:
+            expected_subdir = f"{name}-{branch}"
+        return expected_subdir
 
     def _move_code_out_of_subdirectory(self, destination):
         subdirectory = os.path.join(destination, self._expected_subdirectory_name())
