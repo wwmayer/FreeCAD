@@ -274,6 +274,10 @@ bool EditorView::onMsg(const char* pMsg, const char** /*ppReturn*/)
         // just ignore this
         return true;
     }
+    else if (strcmp(pMsg, "SelectAll") == 0) {
+        getEditor()->selectAll();
+        return true;
+    }
 
     return false;
 }
@@ -334,6 +338,9 @@ bool EditorView::onHasMsg(const char* pMsg) const
     }
     else if (strcmp(pMsg, "Redo") == 0) {
         return d->textEdit->document()->isRedoAvailable();
+    }
+    else if (strcmp(pMsg, "SelectAll") == 0) {
+        return true;
     }
 
     return false;
