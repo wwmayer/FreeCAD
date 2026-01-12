@@ -1072,6 +1072,11 @@ void SheetTableView::ModifyBlockSelection(int targetRow, int targetCol)
                                             QItemSelectionModel::Current);
 }
 
+void SheetTableView::selectAll()
+{
+    // disallow to select all cells
+}
+
 void SheetTableView::mergeCells()
 {
     Gui::Application::Instance->commandManager().runCommandByName("Spreadsheet_MergeCells");
