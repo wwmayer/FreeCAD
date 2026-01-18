@@ -431,6 +431,14 @@ void DSHScaleController::configureToolWidget()
 }
 
 template<>
+void DSHScaleController::languageChanged()
+{
+    toolWidget->setCheckboxLabel(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_scale", "Keep original geometries (U)"));
+}
+
+template<>
 void DSHScaleController::adaptDrawingToCheckboxChange(int checkboxindex, bool value)
 {
     switch (checkboxindex) {

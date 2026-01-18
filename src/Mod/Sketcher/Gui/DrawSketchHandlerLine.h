@@ -338,6 +338,14 @@ void DSHLineController::configureToolWidget()
     }
 }
 
+template<>
+void DSHLineController::languageChanged()
+{
+    QStringList names = {QApplication::translate("Sketcher_CreateLine", "Point, length, angle"),
+                         QApplication::translate("Sketcher_CreateLine", "Point, width, height"),
+                         QApplication::translate("Sketcher_CreateLine", "2 points")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
+}
 
 template<>
 void DSHLineControllerBase::doEnforceControlParameters(Base::Vector2d& onSketchPos)

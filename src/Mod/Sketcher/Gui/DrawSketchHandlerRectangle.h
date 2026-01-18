@@ -1794,6 +1794,32 @@ void DSHRectangleController::configureToolWidget()
 }
 
 template<>
+void DSHRectangleController::languageChanged()
+{
+    QStringList names = {
+        QApplication::translate("TaskSketcherTool_c1_rectangle", "Corner, width, height"),
+        QApplication::translate("TaskSketcherTool_c1_rectangle", "Center, width, height"),
+        QApplication::translate("TaskSketcherTool_c1_rectangle", "3 corners"),
+        QApplication::translate("TaskSketcherTool_c1_rectangle", "Center, 2 corners")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
+
+    toolWidget->setCheckboxLabel(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_rectangle", "Rounded corners (U)"));
+    toolWidget->setCheckboxToolTip(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_rectangle",
+                                "Create a rectangle with rounded corners."));
+    toolWidget->setCheckboxLabel(
+        WCheckbox::SecondBox,
+        QApplication::translate("TaskSketcherTool_c2_rectangle", "Frame (J)"));
+    toolWidget->setCheckboxToolTip(
+        WCheckbox::SecondBox,
+        QApplication::translate("TaskSketcherTool_c2_rectangle",
+                                "Create two rectangles with a constant offset."));
+}
+
+template<>
 void DSHRectangleController::adaptDrawingToCheckboxChange(int checkboxindex, bool value)
 {
     Q_UNUSED(checkboxindex);

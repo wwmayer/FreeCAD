@@ -415,6 +415,14 @@ void DSHCircleController::configureToolWidget()
 }
 
 template<>
+void DSHCircleController::languageChanged()
+{
+    QStringList names = {QApplication::translate("Sketcher_CreateCircle", "Center"),
+                         QApplication::translate("Sketcher_CreateCircle", "3 rim points")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
+}
+
+template<>
 void DSHCircleControllerBase::doEnforceControlParameters(Base::Vector2d& onSketchPos)
 {
     switch (handler->state()) {

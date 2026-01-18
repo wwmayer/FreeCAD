@@ -529,6 +529,26 @@ void DSHRotateController::configureToolWidget()
 }
 
 template<>
+void DSHRotateController::languageChanged()
+{
+    toolWidget->setCheckboxLabel(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_offset", "Apply equal constraints"));
+    toolWidget->setCheckboxToolTip(
+        WCheckbox::FirstBox,
+        QStringLiteral("<p>")
+            + QApplication::translate("TaskSketcherTool_c1_offset",
+                                      "If this option is selected dimensional constraints are "
+                                      "excluded from the operation.\n"
+                                      "Instead equal constraints are applied between the "
+                                      "original objects and their copies.")
+            + QStringLiteral("</p>"));
+    toolWidget->setParameterLabel(
+        WParameter::First,
+        QApplication::translate("TaskSketcherTool_p4_rotate", "Copies (+'U'/ -'J')"));
+}
+
+template<>
 void DSHRotateController::adaptDrawingToParameterChange(int parameterindex, double value)
 {
     switch (parameterindex) {

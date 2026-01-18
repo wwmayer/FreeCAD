@@ -533,6 +533,27 @@ void DSHTranslateController::configureToolWidget()
 }
 
 template<>
+void DSHTranslateController::languageChanged()
+{
+    toolWidget->setCheckboxLabel(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_translate", "Apply equal constraints"));
+    toolWidget->setCheckboxToolTip(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_translate",
+                                "If this option is selected dimensional constraints are "
+                                "excluded from the operation.\n"
+                                "Instead equal constraints are applied between the original "
+                                "objects and their copies."));
+    toolWidget->setParameterLabel(
+        WParameter::First,
+        QApplication::translate("TaskSketcherTool_p3_translate", "Copies (+'U'/-'J')"));
+    toolWidget->setParameterLabel(
+        WParameter::Second,
+        QApplication::translate("TaskSketcherTool_p5_translate", "Rows (+'R'/-'F')"));
+}
+
+template<>
 void DSHTranslateController::adaptDrawingToParameterChange(int parameterindex, double value)
 {
     switch (parameterindex) {

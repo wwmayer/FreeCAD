@@ -104,6 +104,7 @@ private:
     Connection connectionParameterValueChanged;
     Connection connectionCheckboxCheckedChanged;
     Connection connectionComboboxSelectionChanged;
+    Connection connectionLanguageChanged;
 
     /** @name Named indices for controls of the default widget (SketcherToolDefaultWidget) */
     //@{
@@ -132,6 +133,7 @@ public:
         connectionParameterValueChanged.disconnect();
         connectionCheckboxCheckedChanged.disconnect();
         connectionComboboxSelectionChanged.disconnect();
+        connectionLanguageChanged.disconnect();
     }
 
     /** @name functions NOT intended for specialisation offering specialisation interface for
@@ -180,6 +182,13 @@ public:
         adaptDrawingToComboboxChange(comboboxindex, value);  // specialisation interface
 
         ControllerBase::finishControlsChanged();
+    }
+
+    /** boost slot triggering when a language has changed in the widget
+     * It is intended to remote control the DrawSketchDefaultWidgetHandler
+     */
+    void languageChanged()
+    {
     }
     //@}
 
@@ -383,6 +392,10 @@ private:
                       this,
                       sp::_1,
                       sp::_2));
+
+        connectionLanguageChanged = toolWidget->registerLanguageChanged(
+            std::bind(&DrawSketchDefaultWidgetController::languageChanged,
+                      this));
     }
 
     /// Resets the widget

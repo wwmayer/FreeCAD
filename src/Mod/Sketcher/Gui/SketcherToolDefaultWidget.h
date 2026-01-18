@@ -150,6 +150,8 @@ public:
     void setComboboxLabel(int comboboxindex, const QString& string);
     int getComboboxIndex(int comboboxindex);
     void setComboboxElements(int comboboxindex, const QStringList& names);
+    void setComboboxItemText(int comboboxindex, const QStringList& name);
+    void setComboboxItemText(int comboboxindex, int index, const QString& name);
     void setComboboxItemIcon(int comboboxindex, int index, QIcon icon);
     void setComboboxPrefEntry(int comboboxindex, const std::string& prefEntry);
     void restoreComboboxPref(int comboboxindex);
@@ -178,6 +180,11 @@ public:
         return signalComboboxSelectionChanged.connect(std::forward<F>(fn));
     }
 
+    template<typename F>
+    boost::signals2::connection registerLanguageChanged(F&& fn)
+    {
+        return signalLanguageChanged.connect(std::forward<F>(fn));
+    }
 
     // Q_SIGNALS:
 protected Q_SLOTS:
@@ -204,6 +211,7 @@ protected:
 
 private:
     void setupConnections();
+    void retranslateUi();
     QLabel* getParameterLabel(int parameterindex);
     Gui::PrefQuantitySpinBox* getParameterSpinBox(int parameterindex);
     Gui::PrefCheckBox* getCheckBox(int checkboxindex);
@@ -221,6 +229,7 @@ private:
     boost::signals2::signal<void(int parameterindex, double value)> signalParameterValueChanged;
     boost::signals2::signal<void(int checkboxindex, bool value)> signalCheckboxCheckedChanged;
     boost::signals2::signal<void(int comboindex, int value)> signalComboboxSelectionChanged;
+    boost::signals2::signal<void()> signalLanguageChanged;
 
     /// lock to block QT slots
     bool blockParameterSlots;

@@ -504,6 +504,14 @@ void DSHArcController::configureToolWidget()
 }
 
 template<>
+void DSHArcController::languageChanged()
+{
+    QStringList names = {QApplication::translate("Sketcher_CreateArc", "Center"),
+                         QApplication::translate("Sketcher_CreateArc", "3 rim points")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
+}
+
+template<>
 void DSHArcControllerBase::doEnforceControlParameters(Base::Vector2d& onSketchPos)
 {
     switch (handler->state()) {

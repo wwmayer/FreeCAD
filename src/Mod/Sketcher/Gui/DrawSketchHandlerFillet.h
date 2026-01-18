@@ -443,6 +443,18 @@ void DSHFilletController::configureToolWidget()
 }
 
 template<>
+void DSHFilletController::languageChanged()
+{
+    toolWidget->setCheckboxLabel(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_fillet", "Preserve corner (U)"));
+    toolWidget->setCheckboxToolTip(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_fillet",
+                                "Preserves intersection point and most constraints"));
+}
+
+template<>
 void DSHFilletController::adaptDrawingToCheckboxChange(int checkboxindex, bool value)
 {
     Q_UNUSED(checkboxindex);

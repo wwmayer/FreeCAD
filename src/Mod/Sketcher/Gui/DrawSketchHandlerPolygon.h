@@ -343,6 +343,14 @@ void DSHPolygonController::configureToolWidget()
 }
 
 template<>
+void DSHPolygonController::languageChanged()
+{
+    toolWidget->setParameterLabel(
+        WParameter::First,
+        QApplication::translate("ToolWidgetManager_p4", "Sides (+'U'/ -'J')"));
+}
+
+template<>
 void DSHPolygonController::adaptDrawingToParameterChange(int parameterindex, double value)
 {
     switch (parameterindex) {

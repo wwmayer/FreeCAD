@@ -476,6 +476,14 @@ void DSHEllipseController::configureToolWidget()
 }
 
 template<>
+void DSHEllipseController::languageChanged()
+{
+    QStringList names = {QApplication::translate("Sketcher_CreateEllipse", "Center"),
+                         QApplication::translate("Sketcher_CreateEllipse", "Axis endpoints")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
+}
+
+template<>
 void DSHEllipseControllerBase::doEnforceControlParameters(Base::Vector2d& onSketchPos)
 {
 

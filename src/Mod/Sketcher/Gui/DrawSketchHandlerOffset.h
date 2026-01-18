@@ -1128,6 +1128,20 @@ void DSHOffsetController::configureToolWidget()
 }
 
 template<>
+void DSHOffsetController::languageChanged()
+{
+    QStringList names = {QApplication::translate("Sketcher_CreateOffset", "Arc"),
+                         QApplication::translate("Sketcher_CreateOffset", "Intersection")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
+    toolWidget->setCheckboxLabel(WCheckbox::FirstBox,
+                                 QApplication::translate("TaskSketcherTool_c1_offset",
+                                                         "Delete original geometries (U)"));
+    toolWidget->setCheckboxLabel(
+        WCheckbox::SecondBox,
+        QApplication::translate("TaskSketcherTool_c2_offset", "Add offset constraint (J)"));
+}
+
+template<>
 void DSHOffsetControllerBase::adaptDrawingToOnViewParameterChange(int labelindex, double value)
 {
     switch (labelindex) {

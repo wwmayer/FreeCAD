@@ -269,6 +269,17 @@ void DSHSymmetryController::configureToolWidget()
 }
 
 template<>
+void DSHSymmetryController::languageChanged()
+{
+    toolWidget->setCheckboxLabel(WCheckbox::FirstBox,
+                                 QApplication::translate("TaskSketcherTool_c1_symmetry",
+                                                         "Delete original geometries (U)"));
+    toolWidget->setCheckboxLabel(WCheckbox::SecondBox,
+                                 QApplication::translate("TaskSketcherTool_c2_symmetry",
+                                                         "Create Symmetry Constraints (J)"));
+}
+
+template<>
 void DSHSymmetryController::adaptDrawingToCheckboxChange(int checkboxindex, bool value)
 {
     switch (checkboxindex) {

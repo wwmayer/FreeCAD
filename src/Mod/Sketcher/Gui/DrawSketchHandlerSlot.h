@@ -380,6 +380,12 @@ void DSHSlotController::configureToolWidget()
 }
 
 template<>
+void DSHSlotController::languageChanged()
+{
+
+}
+
+template<>
 void DSHSlotControllerBase::doEnforceControlParameters(Base::Vector2d& onSketchPos)
 {
     switch (handler->state()) {

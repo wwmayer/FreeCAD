@@ -595,6 +595,14 @@ void DSHArcSlotController::configureToolWidget()
 }
 
 template<>
+void DSHArcSlotController::languageChanged()
+{
+    QStringList names = {QApplication::translate("Sketcher_CreateArcSlot", "Arc ends"),
+                         QApplication::translate("Sketcher_CreateArcSlot", "Flat ends")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
+}
+
+template<>
 void DSHArcSlotControllerBase::doEnforceControlParameters(Base::Vector2d& onSketchPos)
 {
 
