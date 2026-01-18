@@ -48,7 +48,7 @@ lower right corner within opened files</string>
         <item row="0" column="1">
          <spacer name="horizontalSpacerCoord">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -64,7 +64,7 @@ lower right corner within opened files</string>
            <string>Relative size:</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -450,7 +450,7 @@ bounding box size of the 3D object that is currently displayed.</string>
    <item>
     <spacer>
      <property name="orientation">
-      <enum>Qt::Orientation::Vertical</enum>
+      <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>

@@ -182,7 +182,7 @@
            <double>0.000000000000000</double>
           </property>
           <property name="stepType">
-           <enum>QAbstractSpinBox::StepType::AdaptiveDecimalStepType</enum>
+           <enum>QAbstractSpinBox::AdaptiveDecimalStepType</enum>
           </property>
           <property name="value">
            <double>1.000000000000000</double>
@@ -208,7 +208,7 @@
            <number>50</number>
           </property>
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
