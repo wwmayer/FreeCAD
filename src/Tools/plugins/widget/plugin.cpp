@@ -35,7 +35,7 @@
 #include "customwidgets.h"
 #include "plugin.h"
 
-
+// NOLINTBEGIN(cppcoreguidelines-avoid-*, modernize-avoid-c-arrays)
 /* XPM */
 static const char* urllabel_pixmap[] = {"22 22 3 1",
                                         "# c #000000",
@@ -68,45 +68,44 @@ class UrlLabelPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    UrlLabelPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    UrlLabelPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::UrlLabel(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Display Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(urllabel_pixmap));
+        return {QPixmap(urllabel_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/Widgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Url label");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("A widget to display a url in a text label.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
     //    QString codeTemplate() const;
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::UrlLabel\" name=\"urlLabel\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::UrlLabel");
     }
@@ -116,44 +115,43 @@ class LocationWidgetPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    LocationWidgetPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    LocationWidgetPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::LocationWidget(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Display Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(urllabel_pixmap));
+        return {QPixmap(urllabel_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/InputVector.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Location");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("A widget to define a location.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::LocationWidget\" name=\"locationWidget\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::LocationWidget");
     }
@@ -195,45 +193,44 @@ class FileChooserPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    FileChooserPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    FileChooserPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::FileChooser(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Input Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(filechooser_pixmap));
+        return {QPixmap(filechooser_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/FileDialog.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("File Chooser");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("A widget to choose a file or directory.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
     //    QString codeTemplate() const;
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::FileChooser\" name=\"fileChooser\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::FileChooser");
     }
@@ -243,44 +240,43 @@ class PrefFileChooserPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    PrefFileChooserPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    PrefFileChooserPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::PrefFileChooser(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Preference Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(filechooser_pixmap));
+        return {QPixmap(filechooser_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/PrefWidgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("File Chooser");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("A widget to choose a file or directory.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::PrefFileChooser\" name=\"fileChooser\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::PrefFileChooser");
     }
@@ -321,44 +317,43 @@ class AccelLineEditPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    AccelLineEditPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    AccelLineEditPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::AccelLineEdit(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Input Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(lineedit_pixmap));
+        return {QPixmap(lineedit_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/Widgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Accelerator Line Edit");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("A widget to specify accelerator keys.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::AccelLineEdit\" name=\"accelEdit\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::AccelLineEdit");
     }
@@ -399,44 +394,43 @@ class ActionSelectorPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    ActionSelectorPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    ActionSelectorPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::ActionSelector(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Input Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(actionselector_pixmap));
+        return {QPixmap(actionselector_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/Widgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Action Selector");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("A widget to select actions.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::ActionSelector\" name=\"actionSelector\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::ActionSelector");
     }
@@ -477,37 +471,36 @@ class InputFieldPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    InputFieldPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    InputFieldPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::InputField(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Input Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(inputfield_pixmap));
+        return {QPixmap(inputfield_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/InputField.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Input Field");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("A widget to work with quantities.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::InputField\" name=\"inputField\">\n"
@@ -517,7 +510,7 @@ public:
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::InputField");
     }
@@ -527,37 +520,36 @@ class ExpressionLineEditPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    ExpressionLineEditPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    ExpressionLineEditPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::ExpressionLineEdit(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Input Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(inputfield_pixmap));
+        return {QPixmap(inputfield_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/InputField.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Expression line edit");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("A widget to work with expressions.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::ExpressionLineEdit\" name=\"exprLineEdit\">\n"
@@ -567,7 +559,7 @@ public:
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::ExpressionLineEdit");
     }
@@ -608,37 +600,36 @@ class QuantitySpinBoxPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    QuantitySpinBoxPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    QuantitySpinBoxPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::QuantitySpinBox(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Input Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(quantityspinbox_pixmap));
+        return {QPixmap(quantityspinbox_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/QuantitySpinBox.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Quantity spin box");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("A widget to work with quantities.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::QuantitySpinBox\" name=\"quantitySpinBox\">\n"
@@ -648,7 +639,7 @@ public:
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::QuantitySpinBox");
     }
@@ -658,44 +649,43 @@ class PrefUnitSpinBoxPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    PrefUnitSpinBoxPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    PrefUnitSpinBoxPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::PrefUnitSpinBox(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Preference Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(quantityspinbox_pixmap));
+        return {QPixmap(quantityspinbox_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/PrefWidgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Quantity Spin Box");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("Quantity Spin box widget.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::PrefUnitSpinBox\" name=\"unitSpinBox\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::PrefUnitSpinBox");
     }
@@ -705,44 +695,43 @@ class PrefQuantitySpinBoxPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    PrefQuantitySpinBoxPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    PrefQuantitySpinBoxPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::PrefQuantitySpinBox(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Preference Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(quantityspinbox_pixmap));
+        return {QPixmap(quantityspinbox_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/PrefWidgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Preference Quantity Spin Box");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("Preference Quantity Spin Box Widget.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::PrefQuantitySpinBox\" name=\"unitSpinBox\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::PrefQuantitySpinBox");
     }
@@ -787,44 +776,43 @@ class CommandIconViewPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    CommandIconViewPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    CommandIconViewPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::CommandIconView(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("View Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(iconview_pixmap));
+        return {QPixmap(iconview_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/Widgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Command View");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("Area with movable and labeled icons.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::CommandIconView\" name=\"iconView\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::CommandIconView");
     }
@@ -865,44 +853,43 @@ class UIntSpinBoxPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    UIntSpinBoxPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    UIntSpinBoxPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::UIntSpinBox(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Input Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(spinbox_pixmap));
+        return {QPixmap(spinbox_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/SpinBox.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Unsigned Spin Box");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("Spin box widget (spin button).");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::UIntSpinBox\" name=\"uintSpinBox\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::UIntSpinBox");
     }
@@ -912,44 +899,43 @@ class IntSpinBoxPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    IntSpinBoxPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    IntSpinBoxPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::IntSpinBox(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Input Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(spinbox_pixmap));
+        return {QPixmap(spinbox_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/SpinBox.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Spin Box");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("Spin box widget (spin button).");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::IntSpinBox\" name=\"intSpinBox\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::IntSpinBox");
     }
@@ -959,44 +945,43 @@ class DoubleSpinBoxPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    DoubleSpinBoxPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    DoubleSpinBoxPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::DoubleSpinBox(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Input Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(spinbox_pixmap));
+        return {QPixmap(spinbox_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/SpinBox.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Double Spin Box");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("Spin box widget (spin button).");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::DoubleSpinBox\" name=\"doubleSpinBox\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::DoubleSpinBox");
     }
@@ -1006,44 +991,43 @@ class PrefSpinBoxPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    PrefSpinBoxPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    PrefSpinBoxPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::PrefSpinBox(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Preference Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(spinbox_pixmap));
+        return {QPixmap(spinbox_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/PrefWidgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Spin Box");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("Spin box widget (spin button).");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::PrefSpinBox\" name=\"spinBox\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::PrefSpinBox");
     }
@@ -1084,44 +1068,43 @@ class ColorButtonPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    ColorButtonPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    ColorButtonPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::ColorButton(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Buttons");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(colorbutton_pixmap));
+        return {QPixmap(colorbutton_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/Widgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Color Button");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("A button to choose a color.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::ColorButton\" name=\"colorButton\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::ColorButton");
     }
@@ -1131,44 +1114,43 @@ class PrefColorButtonPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    PrefColorButtonPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    PrefColorButtonPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::PrefColorButton(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Preference Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(colorbutton_pixmap));
+        return {QPixmap(colorbutton_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/PrefWidgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Color Button");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("A button to choose a color.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::PrefColorButton\" name=\"colorButton\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::PrefColorButton");
     }
@@ -1208,44 +1190,43 @@ class PrefSliderPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    PrefSliderPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    PrefSliderPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::PrefSlider(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Preference Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(slider_pixmap));
+        return {QPixmap(slider_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/PrefWidgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Slider");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("Vertical or horizontal slider.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::PrefSlider\" name=\"slider\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::PrefSlider");
     }
@@ -1284,44 +1265,43 @@ class PrefRadioButtonPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    PrefRadioButtonPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    PrefRadioButtonPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::PrefRadioButton(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Preference Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(radiobutton_pixmap));
+        return {QPixmap(radiobutton_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/PrefWidgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Radio Button");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("Radio button with a text or pixmap label.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::PrefRadioButton\" name=\"radioButton\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::PrefRadioButton");
     }
@@ -1360,44 +1340,43 @@ class PrefCheckBoxPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    PrefCheckBoxPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    PrefCheckBoxPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::PrefCheckBox(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Preference Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(checkbox_pixmap));
+        return {QPixmap(checkbox_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/PrefWidgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Check Box");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("Checkbox with a text label.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::PrefCheckBox\" name=\"checkBox\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::PrefCheckBox");
     }
@@ -1440,44 +1419,43 @@ class PrefComboBoxPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    PrefComboBoxPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    PrefComboBoxPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::PrefComboBox(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Preference Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(combobox_pixmap));
+        return {QPixmap(combobox_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/PrefWidgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Combo Box");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("Combined button and popup list.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::PrefComboBox\" name=\"comboBox\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::PrefComboBox");
     }
@@ -1487,44 +1465,43 @@ class PrefLineEditPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    PrefLineEditPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    PrefLineEditPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::PrefLineEdit(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Preference Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(lineedit_pixmap));
+        return {QPixmap(lineedit_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/PrefWidgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Line Edit");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("One-line text editor.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::PrefLineEdit\" name=\"lineEdit\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::PrefLineEdit");
     }
@@ -1534,44 +1511,43 @@ class PrefDoubleSpinBoxPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    PrefDoubleSpinBoxPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    PrefDoubleSpinBoxPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::PrefDoubleSpinBox(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Preference Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(spinbox_pixmap));
+        return {QPixmap(spinbox_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/PrefWidgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Double Spin Box");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("Spin box widget that can work with doubles.");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::PrefDoubleSpinBox\" name=\"doubleSpinBox\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::PrefDoubleSpinBox");
     }
@@ -1615,44 +1591,43 @@ class PrefFontBoxPlugin: public QDesignerCustomWidgetInterface
 {
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:
-    PrefFontBoxPlugin()
-    {}
-    QWidget* createWidget(QWidget* parent)
+    PrefFontBoxPlugin() = default;
+    QWidget* createWidget(QWidget* parent) override
     {
         return new Gui::PrefFontBox(parent);
     }
-    QString group() const
+    QString group() const override
     {
         return QLatin1String("Preference Widgets");
     }
-    QIcon icon() const
+    QIcon icon() const override
     {
-        return QIcon(QPixmap(fontbox_pixmap));
+        return {QPixmap(fontbox_pixmap)};
     }
-    QString includeFile() const
+    QString includeFile() const override
     {
         return QLatin1String("Gui/PrefWidgets.h");
     }
-    QString toolTip() const
+    QString toolTip() const override
     {
         return QLatin1String("Font Box");
     }
-    QString whatsThis() const
+    QString whatsThis() const override
     {
         return QLatin1String("Font box widget (spin button).");
     }
-    bool isContainer() const
+    bool isContainer() const override
     {
         return false;
     }
-    QString domXml() const
+    QString domXml() const override
     {
         return "<ui language=\"c++\">\n"
                " <widget class=\"Gui::PrefFontBox\" name=\"fontBox\">\n"
                " </widget>\n"
                "</ui>";
     }
-    QString name() const
+    QString name() const override
     {
         return QLatin1String("Gui::PrefFontBox");
     }
@@ -1725,3 +1700,4 @@ QList<QDesignerCustomWidgetInterface*> CustomWidgetPlugin::customWidgets() const
     cw.append(new PrefQuantitySpinBoxPlugin);
     return cw;
 }
+// NOLINTEND(cppcoreguidelines-avoid-*, modernize-avoid-c-arrays)
