@@ -159,7 +159,7 @@ bool SketcherToolDefaultWidget::eventFilter(QObject* object, QEvent* event)
     }
     else if (event->type() == QEvent::KeyPress) {
         QKeyEvent* ke = static_cast<QKeyEvent*>(event);
-        if (ke->key() == Qt::Key_Tab || ke->key() == Qt::Key_Return) {
+        if (ke->key() == Qt::Key_Return) {
             for (int i = 0; i < nParameters; i++) {
                 if (object == getParameterSpinBox(i)) {
                     signalParameterTabOrEnterPressed(i);
