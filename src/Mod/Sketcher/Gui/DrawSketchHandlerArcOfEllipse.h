@@ -85,7 +85,7 @@ public:
             EditCurve[33] = EditCurve[1];
 
             // Display radius for user
-            float radius = (onSketchPos - EditCurve[0]).Length();
+            double radius = (onSketchPos - EditCurve[0]).Length();
 
             if (showCursorCoords()) {
                 SbString text;

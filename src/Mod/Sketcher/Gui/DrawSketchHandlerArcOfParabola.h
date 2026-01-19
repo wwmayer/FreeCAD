@@ -74,7 +74,7 @@ public:
             EditCurve[1] = onSketchPos;
 
             // Display radius for user
-            float radius = (onSketchPos - focusPoint).Length();
+            double radius = (onSketchPos - focusPoint).Length();
             if (showCursorCoords()) {
                 SbString text;
                 std::string radiusString = lengthToDisplayFormat(radius, 1);
