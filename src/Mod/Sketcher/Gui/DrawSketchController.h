@@ -87,14 +87,14 @@ namespace sp = std::placeholders;
  * DrawSketchDefaultWidgetController. For custom widgets, an appropriate class, preferably deriving
  * from this controller needs to be provided.
  */
-template<typename HandlerT,           // The name of the actual handler of the tool
-         typename SelectModeT,        // The state machine defining the working of the tool
-         int PAutoConstraintSize,     // The initial size of the AutoConstraint vector
-         typename OnViewParametersT,  // The number of parameter spinboxes in the 3D view (one
-                                      // value per construction mode)
-         typename ConstructionMethodT =
-             ConstructionMethods::DefaultConstructionMethod>  // The enum comprising all the
-                                                              // supported construction methods
+template<
+    typename HandlerT,           // The name of the actual handler of the tool
+    typename SelectModeT,        // The state machine defining the working of the tool
+    int PAutoConstraintSize,     // The initial size of the AutoConstraint vector
+    typename OnViewParametersT,  // The number of parameter spinboxes in the 3D view (one
+                                 // value per construction mode)
+    typename ConstructionMethodT // The enum comprising all the supported construction methods
+     = ConstructionMethods::DefaultConstructionMethod>
 class DrawSketchController
 {
 public:

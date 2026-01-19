@@ -268,7 +268,10 @@ public:
                 isOriginalArcCCW = false;
             }
 
-            Base::Vector2d majAxisDir, minAxisDir, minAxisPoint, majAxisPoint;
+            Base::Vector2d majAxisDir;
+            Base::Vector2d minAxisDir;
+            Base::Vector2d minAxisPoint;
+            Base::Vector2d majAxisPoint;
             // We always create a CCW hyperbola, because we want our XY reference system to be in
             // the +X +Y direction Our normal will then always be in the +Z axis (local +Z axis of
             // the sketcher)

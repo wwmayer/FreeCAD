@@ -84,8 +84,7 @@ public:
         : DrawSketchHandlerBSplineBase(constrMethod)
         , SplineDegree(3)
         , periodic(periodic)
-        , prevCursorPosition(Base::Vector2d())
-        , resetSeekSecond(false) {};
+        , resetSeekSecond(false) {}
     ~DrawSketchHandlerBSpline() override = default;
 
     void activated() override

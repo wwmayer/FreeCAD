@@ -665,13 +665,14 @@ private:
     }
 
 private:
-    Base::Vector2d center, corner1, corner2, corner3, corner4, frameCorner1, frameCorner2,
-        frameCorner3, frameCorner4, corner2Initial;
+    Base::Vector2d center, corner1, corner2, corner3, corner4;
+    Base::Vector2d frameCorner1, frameCorner2;
+    Base::Vector2d frameCorner3, frameCorner4, corner2Initial;
     Base::Vector3d center1, center2, center3, center4;
     bool roundCorners, makeFrame, cornersReversed;
     double radius, length, width, thickness, radiusFrame, angle, angle123, angle412;
-    int firstCurve, constructionPointOneId, constructionPointTwoId, constructionPointThreeId,
-        centerPointId, side;
+    int firstCurve, constructionPointOneId, constructionPointTwoId, constructionPointThreeId;
+    int centerPointId, side;
 
     void createShape(bool onlyeditoutline) override
     {

@@ -209,7 +209,7 @@ public:
 
             double startAngle = ustartpoint;
 
-            double endAngle;
+            double endAngle = 0.0;
 
             bool isOriginalArcCCW = true;
 

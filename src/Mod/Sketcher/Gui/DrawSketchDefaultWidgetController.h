@@ -217,7 +217,7 @@ public:
     {
         Q_UNUSED(comboboxindex);
 
-        if constexpr (PFirstComboboxIsConstructionMethod == true) {
+        if constexpr (PFirstComboboxIsConstructionMethod) {
 
             if (comboboxindex == WCombobox::FirstCombo && handler->ConstructionMethodsCount() > 1) {
                 handler->setConstructionMethod(static_cast<ConstructionMethodT>(value));
@@ -419,7 +419,7 @@ private:
 
         // update the combobox only if necessary (if the change was not triggered by the
         // combobox)
-        if constexpr (PFirstComboboxIsConstructionMethod == true) {
+        if constexpr (PFirstComboboxIsConstructionMethod) {
             auto currentindex = toolWidget->getComboboxIndex(WCombobox::FirstCombo);
             auto methodint = static_cast<int>(handler->constructionMethod());
 
@@ -460,7 +460,7 @@ private:
     void syncHandlerToConstructionMethodCombobox()
     {
 
-        if constexpr (PFirstComboboxIsConstructionMethod == true) {
+        if constexpr (PFirstComboboxIsConstructionMethod) {
             auto constructionmethod = toolWidget->getComboboxIndex(WCombobox::FirstCombo);
 
             handler->initConstructionMethod(static_cast<ConstructionMethodT>(constructionmethod));
@@ -469,7 +469,7 @@ private:
     /// Syncs the construction method selection in the combobox to the handler selection
     void syncConstructionMethodComboboxToHandler()
     {
-        if constexpr (PFirstComboboxIsConstructionMethod == true) {
+        if constexpr (PFirstComboboxIsConstructionMethod) {
             auto constructionmethod = toolWidget->getComboboxIndex(WCombobox::FirstCombo);
 
             auto actualconstructionmethod = static_cast<int>(handler->constructionMethod());

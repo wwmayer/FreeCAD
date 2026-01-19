@@ -99,7 +99,8 @@ public:
 
             if (GeoId > -1) {
                 auto sk = sketchgui->getObject<Sketcher::SketchObject>();
-                int GeoId1, GeoId2;
+                int GeoId1 = 0;
+                int GeoId2 = 0;
                 Base::Vector3d intersect1, intersect2;
                 if (sk->seekTrimPoints(GeoId,
                                        Base::Vector3d(onSketchPos.x, onSketchPos.y, 0),

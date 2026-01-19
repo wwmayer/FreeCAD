@@ -425,8 +425,8 @@ public:
             Mode = STATUS_Do;
 
             if (getPreselectPoint() != -1 && firstPosId != Sketcher::PointPos::none) {
-                int GeoId;
-                Sketcher::PointPos PosId;
+                int GeoId = 0;
+                Sketcher::PointPos PosId = Sketcher::PointPos::none;
                 sketchgui->getSketchObject()->getGeoVertexIndex(getPreselectPoint(), GeoId, PosId);
                 if (sketchgui->getSketchObject()->arePointsCoincident(GeoId,
                                                                       PosId,

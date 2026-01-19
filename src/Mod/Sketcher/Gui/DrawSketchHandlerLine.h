@@ -82,7 +82,7 @@ public:
     explicit DrawSketchHandlerLine(
         ConstructionMethod constrMethod = ConstructionMethod::OnePointLengthAngle)
         : DrawSketchHandlerLineBase(constrMethod)
-        , length(0.0) {};
+        , length(0.0) {}
     ~DrawSketchHandlerLine() override = default;
 
 private:
