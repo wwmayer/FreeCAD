@@ -166,7 +166,7 @@ private:
     bool isWidgetVisible() const override
     {
         return true;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {

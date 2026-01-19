@@ -201,7 +201,7 @@ private:
             "User parameter:BaseApp/Preferences/Mod/Sketcher/Tools");
         auto index = hGrp->GetInt("OnViewParameterVisibility", 1);
         return index != 0;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {
