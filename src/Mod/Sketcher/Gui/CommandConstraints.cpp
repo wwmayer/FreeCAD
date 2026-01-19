@@ -1380,7 +1380,7 @@ public:
     explicit DrawSketchHandlerDimension(std::vector<std::string> SubNames)
         : specialConstraint(SpecialConstraint::None)
         , availableConstraint(AvailableConstraint::FIRST)
-        , previousOnSketchPos(Base::Vector2d(0.f, 0.f))
+        , previousOnSketchPos(Base::Vector2d::Null)
         , selPoints({})
         , selLine({})
         , selCircleArc({})
@@ -2761,7 +2761,7 @@ protected:
         Gui::Command::openCommand(QT_TRANSLATE_NOOP("Command", "Dimension"));
         cstrIndexes.clear();
         specialConstraint = SpecialConstraint::None;
-        previousOnSketchPos = Base::Vector2d(0.f, 0.f);
+        previousOnSketchPos = Base::Vector2d::Null;
         clearRefVectors();
     }
 };

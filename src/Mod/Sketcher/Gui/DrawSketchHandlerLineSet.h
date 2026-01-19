@@ -202,7 +202,7 @@ public:
         suppressTransition = false;
         if (Mode == STATUS_SEEK_First) {
             setPositionText(onSketchPos);
-            seekAndRenderAutoConstraint(sugConstr1, onSketchPos, Base::Vector2d(0.f, 0.f));
+            seekAndRenderAutoConstraint(sugConstr1, onSketchPos, Base::Vector2d::Null);
         }
         else if (Mode == STATUS_SEEK_Second) {
             if (SegmentMode == SEGMENT_MODE_Line) {
@@ -332,7 +332,7 @@ public:
                     setPositionText(onSketchPos, text);
                 }
 
-                seekAndRenderAutoConstraint(sugConstr2, onSketchPos, Base::Vector2d(0.f, 0.f));
+                seekAndRenderAutoConstraint(sugConstr2, onSketchPos, Base::Vector2d::Null);
             }
         }
     }

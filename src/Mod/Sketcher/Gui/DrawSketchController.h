@@ -168,10 +168,10 @@ private:
             ParameterGrp::handle hGrp = App::GetApplication().GetParameterGroupByPath(
                 "User parameter:BaseApp/Preferences/View");
 
-            dimConstrColor = SbColor(1.0f, 0.149f, 0.0f);           // NOLINT
-            dimConstrDeactivatedColor = SbColor(0.5f, 0.5f, 0.5f);  // NOLINT
+            dimConstrColor = SbColor(1.0F, 0.149F, 0.0F);           // NOLINT
+            dimConstrDeactivatedColor = SbColor(0.5F, 0.5F, 0.5F);  // NOLINT
 
-            float transparency = 0.f;
+            float transparency = 0.F;
             unsigned long color = (unsigned long)(dimConstrColor.getPackedValue());
             color = hGrp->GetUnsigned("ConstrainedDimColor", color);
             dimConstrColor.setPackedValue((uint32_t)color, transparency);

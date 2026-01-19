@@ -72,7 +72,7 @@ public:
             setPositionText(onSketchPos);
             seekAndRenderAutoConstraint(sugConstr1,
                                         onSketchPos,
-                                        Base::Vector2d(0.f, 0.f));  // TODO: ellipse prio 1
+                                        Base::Vector2d::Null);  // TODO: ellipse prio 1
         }
         else if (Mode == STATUS_SEEK_Second) {
             double rx0 = onSketchPos.x - EditCurve[0].x;
@@ -134,7 +134,7 @@ public:
             }
 
             drawEdit(EditCurve);
-            seekAndRenderAutoConstraint(sugConstr3, onSketchPos, Base::Vector2d(0.f, 0.f));
+            seekAndRenderAutoConstraint(sugConstr3, onSketchPos, Base::Vector2d::Null);
         }
         else if (Mode == STATUS_SEEK_Fourth) {  // here we differ from ellipse creation
             // angle between the major axis of the ellipse and the X axis
@@ -187,7 +187,7 @@ public:
             }
 
             drawEdit(EditCurve);
-            seekAndRenderAutoConstraint(sugConstr4, onSketchPos, Base::Vector2d(0.f, 0.f));
+            seekAndRenderAutoConstraint(sugConstr4, onSketchPos, Base::Vector2d::Null);
         }
     }
 

@@ -138,7 +138,7 @@ private:
 
                     seekAndRenderAutoConstraint(sugConstraints[2],
                                                 onSketchPos,
-                                                Base::Vector2d(0.f, 0.f),
+                                                Base::Vector2d::Null,
                                                 AutoConstraint::CURVE);
                 }
                 catch (Base::ValueError& e) {

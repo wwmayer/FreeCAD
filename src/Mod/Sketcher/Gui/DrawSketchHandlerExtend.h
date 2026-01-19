@@ -233,7 +233,7 @@ public:
             }
             int curveId = getPreselectCurve();
             if (BaseGeoId != curveId) {
-                seekAndRenderAutoConstraint(SugConstr, onSketchPos, Base::Vector2d(0.f, 0.f));
+                seekAndRenderAutoConstraint(SugConstr, onSketchPos, Base::Vector2d::Null);
             }
         }
     }

@@ -55,6 +55,7 @@ public:
     inline Vector2d(const Vector2d&) = default;
     inline Vector2d(Vector2d&&) = default;
     ~Vector2d() = default;
+    static const Vector2d Null;
 
     // operators
     inline Vector2d& operator=(const Vector2d&) = default;

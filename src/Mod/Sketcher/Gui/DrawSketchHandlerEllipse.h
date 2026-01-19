@@ -95,14 +95,14 @@ private:
 
                     seekAndRenderAutoConstraint(sugConstraints[0],
                                                 onSketchPos,
-                                                Base::Vector2d(0.f, 0.f));
+                                                Base::Vector2d::Null);
                 }
                 else {
                     apoapsis = onSketchPos;
 
                     seekAndRenderAutoConstraint(sugConstraints[0],
                                                 onSketchPos,
-                                                Base::Vector2d(0.f, 0.f),
+                                                Base::Vector2d::Null,
                                                 AutoConstraint::CURVE);
                 }
             } break;
@@ -122,7 +122,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[1],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f),
+                                            Base::Vector2d::Null,
                                             AutoConstraint::CURVE);
             } break;
             case SelectMode::SeekThird: {
@@ -141,7 +141,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[2],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f),
+                                            Base::Vector2d::Null,
                                             AutoConstraint::CURVE);
             } break;
             default:

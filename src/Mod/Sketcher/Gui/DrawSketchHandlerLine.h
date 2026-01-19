@@ -96,7 +96,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[0],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f));
+                                            Base::Vector2d::Null);
             } break;
             case SelectMode::SeekSecond: {
                 toolWidgetManager.drawDirectionAtCursor(onSketchPos, startPoint);

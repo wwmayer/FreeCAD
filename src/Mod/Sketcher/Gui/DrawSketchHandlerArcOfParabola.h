@@ -70,7 +70,7 @@ public:
     {
         if (Mode == STATUS_SEEK_First) {
             setPositionText(onSketchPos);
-            seekAndRenderAutoConstraint(sugConstr1, onSketchPos, Base::Vector2d(0.f, 0.f));
+            seekAndRenderAutoConstraint(sugConstr1, onSketchPos, Base::Vector2d::Null);
         }
         else if (Mode == STATUS_SEEK_Second) {
             EditCurve[1] = onSketchPos;
@@ -85,7 +85,7 @@ public:
             }
 
             drawEdit(EditCurve);
-            seekAndRenderAutoConstraint(sugConstr2, onSketchPos, Base::Vector2d(0.f, 0.f));
+            seekAndRenderAutoConstraint(sugConstr2, onSketchPos, Base::Vector2d::Null);
         }
         else if (Mode == STATUS_SEEK_Third) {
             double focal = (axisPoint - focusPoint).Length();
@@ -119,7 +119,7 @@ public:
 
             drawEdit(EditCurve);
 
-            seekAndRenderAutoConstraint(sugConstr3, onSketchPos, Base::Vector2d(0.f, 0.f));
+            seekAndRenderAutoConstraint(sugConstr3, onSketchPos, Base::Vector2d::Null);
         }
         else if (Mode == STATUS_SEEK_Fourth) {
             double focal = (axisPoint - focusPoint).Length();
@@ -165,7 +165,7 @@ public:
             }
 
             drawEdit(EditCurve);
-            seekAndRenderAutoConstraint(sugConstr4, onSketchPos, Base::Vector2d(0.f, 0.f));
+            seekAndRenderAutoConstraint(sugConstr4, onSketchPos, Base::Vector2d::Null);
         }
     }
 
