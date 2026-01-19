@@ -55,8 +55,10 @@ void WriterGltf::write(Handle(TDocStd_Document) hDoc) const  // NOLINT
 #if OCC_VERSION_HEX >= 0x070700
     aWriter.SetParallel(multiThreaded());
 #endif
+#if OCC_VERSION_HEX >= 0x070600
     aWriter.SetForcedUVExport(exportUVCoords());
     aWriter.SetMergeFaces(mergeFaces());
+#endif
     Standard_Boolean ret = aWriter.Perform(hDoc, aMetadata, Message_ProgressRange());
     if (!ret) {
         throw Base::FileException("Cannot save to file: ", file);

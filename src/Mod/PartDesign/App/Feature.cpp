@@ -29,8 +29,10 @@
 # include <BRepCheck_Status.hxx>
 # include <gp_Pln.hxx>
 # include <gp_Pnt.hxx>
+# include <Message_ProgressRange.hxx>
 # include <ShapeFix_Solid.hxx>
 # include <Standard_Failure.hxx>
+# include <Standard_Version.hxx>
 # include <TopExp_Explorer.hxx>
 # include <TopoDS.hxx>
 # include <TopoDS_Builder.hxx>
@@ -213,6 +215,9 @@ int Feature::countSolids(const TopoDS_Shape& shape, TopAbs_ShapeEnum type)
 
 TopoShape Feature::fixSolids(const TopoShape& solids)
 {
+#if OCC_VERSION_HEX < 0x070600
+    return solids;
+#else
     if (solids.isNull()) {
         return solids;
     }
@@ -247,6 +252,7 @@ TopoShape Feature::fixSolids(const TopoShape& solids)
 
     TopoShape fixShape(comp);
     return fixShape;
+#endif
 }
 
 bool Feature::isSingleSolidRuleSatisfied(const TopoDS_Shape& shape, TopAbs_ShapeEnum type)
