@@ -88,7 +88,7 @@ public:
         v.y = vy;
     }
 
-    /** @name methods for group handling */
+    /** @name methods for number handling */
     //@{
     Py::Object number_negative() override;
     Py::Object number_positive() override;
@@ -107,6 +107,24 @@ public:
     Py::Object number_xor(const Py::Object& py) override;
     Py::Object number_or(const Py::Object& py) override;
     Py::Object number_power(const Py::Object& n1, const Py::Object& n2) override;
+    //@}
+
+    /** @name methods for number handling */
+    //@{
+    PyCxx_ssize_t sequence_length() override;
+    Py::Object sequence_item(Py_ssize_t idx) override;
+    int sequence_ass_item(Py_ssize_t, const Py::Object& value) override;
+    //@}
+
+    /** @name methods for mapping subscript */
+    //@{
+    PyCxx_ssize_t mapping_length() override;
+    Py::Object mapping_subscript(const Py::Object& item) override;
+    //@}
+
+    /** @name methods for rich compare */
+    //@{
+    Py::Object rich_compare(const Py::Object& vec, int op) override;
     //@}
 
     Py::Object isNull(const Py::Tuple&);

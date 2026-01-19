@@ -299,6 +299,92 @@ Py::Object Vector2dPy::number_power(const Py::Object& n1, const Py::Object& n2)
     throw Py::TypeError("Not defined");
 }
 
+PyCxx_ssize_t Vector2dPy::sequence_length()
+{
+    return 2;
+}
+
+Py::Object Vector2dPy::sequence_item(Py_ssize_t idx)
+{
+    if (idx == 0 || idx == -2) {
+        return Py::Float(v.x);
+    }
+
+    if (idx == 1 || idx == -1) {
+        return Py::Float(v.y);
+    }
+
+    throw Py::IndexError("index out of range");
+}
+
+int Vector2dPy::sequence_ass_item(Py_ssize_t idx, const Py::Object& value)
+{
+    if (value.isNull()) {
+        throw Py::TypeError("'Vector2d' object doesn't support item deletion");
+    }
+
+    if (idx == 0 || idx == -2) {
+        v.x = static_cast<double>(Py::Float(value));
+        return 0;
+    }
+
+    if (idx == 1 || idx == -1) {
+        v.y = static_cast<double>(Py::Float(value));
+        return 0;
+    }
+
+    throw Py::IndexError("index out of range");
+}
+
+PyCxx_ssize_t Vector2dPy::mapping_length()
+{
+    return sequence_length();
+}
+
+Py::Object Vector2dPy::mapping_subscript(const Py::Object& item)
+{
+    if (PySlice_Check(item.ptr())) {
+        Py_ssize_t start = 0;
+        Py_ssize_t stop = 0;
+        Py_ssize_t step = 0;
+        Py_ssize_t slicelength = 0;
+
+        if (PySlice_GetIndicesEx(item.ptr(), mapping_length(), &start, &stop, &step, &slicelength) < 0) {
+            throw Py::Exception();
+        }
+
+        if (slicelength <= 0) {
+            return Py::Tuple();
+        }
+
+        Py::Tuple xy(mapping_length());
+        xy.setItem(0, Py::Float(v.x));
+        xy.setItem(1, Py::Float(v.y));
+
+        return xy.getSlice(start, stop);
+    }
+
+    throw Py::TypeError("indices must be slices");
+}
+
+Py::Object Vector2dPy::rich_compare(const Py::Object& vec, int op)
+{
+    if (!PyObject_TypeCheck(vec.ptr(), Vector2dPy::type_object())) {
+        throw Py::TypeError("comparison only defined for two Vector2d");
+    }
+    Base::Vector2d pnt = Py::toVector2d(vec);
+    if (op == Py_EQ) {
+        bool ok = (v == pnt);
+        return Py::Boolean(ok);
+    }
+    if (op == Py_NE) {
+        bool ok = (v != pnt);
+        return Py::Boolean(ok);
+    }
+
+    throw Py::TypeError("no ordering relation is defined for Vector2d");
+}
+
 Py::Object Vector2dPy::isNull(const Py::Tuple& args)
 {
     double tol = 0.0;
@@ -403,6 +489,11 @@ void Vector2dPy::init_type()
     behaviors().supportSetattro();
     behaviors().supportRepr();
     behaviors().supportNumberType();
+    behaviors().supportSequenceType(Py::PythonType::support_sequence_length |
+                                    Py::PythonType::support_sequence_item |
+                                    Py::PythonType::support_sequence_ass_item);
+    behaviors().supportRichCompare();
+    behaviors().supportMappingType();
 
     // NOLINTBEGIN
     PYCXX_ADD_VARARGS_METHOD(isNull, isNull, "isNull()");
