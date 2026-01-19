@@ -80,7 +80,7 @@ public:
         disabled = isDisabled;
     }
 
-protected:
+private:
     bool disabled;
 };
 
@@ -358,7 +358,7 @@ private:
         return QStringLiteral("Sketcher_Pointer_Extension");
     }
 
-protected:
+private:
     SelectMode Mode;
     std::vector<Base::Vector2d> EditCurve;
     int BaseGeoId;

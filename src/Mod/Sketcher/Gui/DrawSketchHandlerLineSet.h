@@ -765,7 +765,7 @@ private:
         return QStringLiteral("Sketcher_Pointer_Create_Lineset");
     }
 
-protected:
+private:
     SELECT_MODE Mode;
     SEGMENT_MODE SegmentMode;
     TRANSITION_MODE TransitionMode;

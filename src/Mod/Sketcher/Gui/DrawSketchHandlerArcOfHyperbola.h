@@ -404,7 +404,7 @@ private:
     }
 
 
-protected:
+private:
     SelectMode Mode;
     std::vector<Base::Vector2d> EditCurve;
     Base::Vector2d centerPoint, axisPoint, startingPoint, endPoint;

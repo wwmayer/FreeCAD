@@ -48,8 +48,6 @@ public:
     DrawSketchHandlerArcOfParabola()
         : Mode(STATUS_SEEK_First)
         , EditCurve(34)
-        , startAngle(0)
-        , endAngle(0)
         , arcAngle(0)
         , arcAngle_t(0)
     {}
@@ -322,11 +320,11 @@ private:
         return QStringLiteral("Sketcher_Pointer_Create_ArcOfParabola");
     }
 
-protected:
+private:
     SelectMode Mode;
     std::vector<Base::Vector2d> EditCurve;
     Base::Vector2d focusPoint, axisPoint, startingPoint, endPoint;
-    double startAngle, endAngle, arcAngle, arcAngle_t;
+    double arcAngle, arcAngle_t;
     std::vector<AutoConstraint> sugConstr1, sugConstr2, sugConstr3, sugConstr4;
 };
 
