@@ -28,121 +28,7 @@ using namespace Gui;
 
 void ViewParams::setup()
 {
-    static_assert(is_getter<decltype(&ViewParams::getUseNewSelection),
-                            Bool::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setUseNewSelection),
-                            Bool::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getUseSelectionRoot),
-                            Bool::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setUseSelectionRoot),
-                            Bool::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getEnableSelection),
-                            Bool::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setEnableSelection),
-                            Bool::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getRenderCache),
-                            Int::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setRenderCache),
-                            Int::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getRandomColor),
-                            Bool::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setRandomColor),
-                            Bool::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getBoundingBoxColor),
-                            Unsigned::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setBoundingBoxColor),
-                            Unsigned::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getAnnotationTextColor),
-                            Unsigned::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setAnnotationTextColor),
-                            Unsigned::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getMarkerSize),
-                            Int::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setMarkerSize),
-                            Int::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getDefaultLinkColor),
-                            Unsigned::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setDefaultLinkColor),
-                            Unsigned::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getDefaultShapeLineColor),
-                            Unsigned::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setDefaultShapeLineColor),
-                            Unsigned::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getDefaultShapeVertexColor),
-                            Unsigned::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setDefaultShapeVertexColor),
-                            Unsigned::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getDefaultShapeColor),
-                            Unsigned::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setDefaultShapeColor),
-                            Unsigned::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getDefaultShapeTransparency),
-                            Int::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setDefaultShapeTransparency),
-                            Int::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getDefaultShapeLineWidth),
-                            Int::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setDefaultShapeLineWidth),
-                            Int::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getDefaultShapePointSize),
-                            Int::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setDefaultShapePointSize),
-                            Int::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getCoinCycleCheck),
-                            Bool::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setCoinCycleCheck),
-                            Bool::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getEnablePropertyViewForInactiveDocument),
-                            Bool::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setEnablePropertyViewForInactiveDocument),
-                            Bool::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getShowSelectionBoundingBox),
-                            Bool::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setShowSelectionBoundingBox),
-                            Bool::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getPropertyViewTimer),
-                            Unsigned::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setPropertyViewTimer),
-                            Unsigned::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getAxisXColor),
-                            Unsigned::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setAxisXColor),
-                            Unsigned::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getAxisYColor),
-                            Unsigned::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setAxisYColor),
-                            Unsigned::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getAxisZColor),
-                            Unsigned::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setAxisZColor),
-                            Unsigned::value_type>, "Mismatching signature");
-
-    static_assert(is_getter<decltype(&ViewParams::getDraggerScale),
-                            Double::value_type>, "Mismatching signature");
-    static_assert(is_setter<decltype(&ViewParams::setDraggerScale),
-                            Double::value_type>, "Mismatching signature");
-
+    // NOLINTBEGIN
     addParameter("UseNewSelection", Bool{true});
     addParameter("UseSelectionRoot", Bool{true});
     addParameter("EnableSelection", Bool{true});
@@ -166,6 +52,7 @@ void ViewParams::setup()
     addParameter("AxisYColor", Unsigned{0x33CC3300});
     addParameter("AxisZColor", Unsigned{0x3333CC00});
     addParameter("DraggerScale", Double{0.03});
+    // NOLINTEND
 }
 
 ViewParams::ViewParams()
@@ -182,268 +69,26 @@ ViewParams* ViewParams::instance()
     return &view;
 }
 
-bool ViewParams::getUseNewSelection() const
-{
-    return getValue<bool>("UseNewSelection");
-}
-
-void ViewParams::setUseNewSelection(bool v)
-{
-    setValue("UseNewSelection", v);
-}
-
-bool ViewParams::getUseSelectionRoot() const
-{
-    return getValue<bool>("UseSelectionRoot");
-}
-
-void ViewParams::setUseSelectionRoot(bool v)
-{
-    setValue("UseSelectionRoot", v);
-}
-
-bool ViewParams::getEnableSelection() const
-{
-    return getValue<bool>("EnableSelection");
-}
-
-void ViewParams::setEnableSelection(bool v)
-{
-    setValue("EnableSelection", v);
-}
-
-long ViewParams::getRenderCache() const
-{
-    return getValue<long>("RenderCache");
-}
-
-void ViewParams::setRenderCache(long v)
-{
-    setValue("RenderCache", v);
-}
-
-bool ViewParams::getRandomColor() const
-{
-    return getValue<bool>("RandomColor");
-}
-
-void ViewParams::setRandomColor(bool v)
-{
-    setValue("RandomColor", v);
-}
-
-unsigned long ViewParams::getBoundingBoxColor() const
-{
-    return getValue<unsigned long>("BoundingBoxColor");
-}
-
-void ViewParams::setBoundingBoxColor(unsigned long v)
-{
-    setValue("BoundingBoxColor", v);
-}
-
-unsigned long ViewParams::getAnnotationTextColor() const
-{
-    return getValue<unsigned long>("AnnotationTextColor");
-}
-
-void ViewParams::setAnnotationTextColor(unsigned long v)
-{
-    setValue("AnnotationTextColor", v);
-}
-
-long ViewParams::getMarkerSize() const
-{
-    return getValue<long>("MarkerSize");
-}
-
-void ViewParams::setMarkerSize(long v)
-{
-    setValue("MarkerSize", v);
-}
-
-unsigned long ViewParams::getDefaultLinkColor() const
-{
-    return getValue<unsigned long>("DefaultLinkColor");
-}
-
-void ViewParams::setDefaultLinkColor(unsigned long v)
-{
-    setValue("DefaultLinkColor", v);
-}
-
-unsigned long ViewParams::getDefaultShapeLineColor() const
-{
-    return getValue<unsigned long>("DefaultShapeLineColor");
-}
-
-void ViewParams::setDefaultShapeLineColor(unsigned long v)
-{
-    setValue("DefaultShapeLineColor", v);
-}
-
-unsigned long ViewParams::getDefaultShapeVertexColor() const
-{
-    return getValue<unsigned long>("DefaultShapeVertexColor");
-}
-
-void ViewParams::setDefaultShapeVertexColor(unsigned long v)
-{
-    setValue("DefaultShapeVertexColor", v);
-}
-
-unsigned long ViewParams::getDefaultShapeColor() const
-{
-    return getValue<unsigned long>("DefaultShapeColor");
-}
-
-void ViewParams::setDefaultShapeColor(unsigned long v)
-{
-    setValue("DefaultShapeColor", v);
-}
-
-long ViewParams::getDefaultShapeTransparency() const
-{
-    return getValue<long>("DefaultShapeTransparency");
-}
-
-void ViewParams::setDefaultShapeTransparency(long v)
-{
-    setValue("DefaultShapeTransparency", v);
-}
-
-long ViewParams::getDefaultShapeLineWidth() const
-{
-    return getValue<long>("DefaultShapeLineWidth");
-}
-
-void ViewParams::setDefaultShapeLineWidth(long v)
-{
-    setValue("DefaultShapeLineWidth", v);
-}
-
-long ViewParams::getDefaultShapePointSize() const
-{
-    return getValue<long>("DefaultShapePointSize");
-}
-
-void ViewParams::setDefaultShapePointSize(long v)
-{
-    setValue("DefaultShapePointSize", v);
-}
-
-bool ViewParams::getCoinCycleCheck() const
-{
-    return getValue<bool>("CoinCycleCheck");
-}
-
-void ViewParams::setCoinCycleCheck(bool v)
-{
-    setValue("CoinCycleCheck", v);
-}
-
-bool ViewParams::getEnablePropertyViewForInactiveDocument() const
-{
-    return getValue<bool>("EnablePropertyViewForInactiveDocument");
-}
-
-void ViewParams::setEnablePropertyViewForInactiveDocument(bool v)
-{
-    setValue("EnablePropertyViewForInactiveDocument", v);
-}
-
-bool ViewParams::getShowSelectionBoundingBox() const
-{
-    return getValue<bool>("ShowSelectionBoundingBox");
-}
-
-void ViewParams::setShowSelectionBoundingBox(bool v)
-{
-    setValue("ShowSelectionBoundingBox", v);
-}
-
-unsigned long ViewParams::getPropertyViewTimer() const
-{
-    return getValue<unsigned long>("PropertyViewTimer");
-}
-
-void ViewParams::setPropertyViewTimer(unsigned long v)
-{
-    setValue("PropertyViewTimer", v);
-}
-
-unsigned long ViewParams::getAxisXColor() const
-{
-    return getValue<unsigned long>("AxisXColor");
-}
-
-void ViewParams::setAxisXColor(unsigned long v)
-{
-    setValue("AxisXColor", v);
-}
-
-unsigned long ViewParams::getAxisYColor() const
-{
-    return getValue<unsigned long>("AxisYColor");
-}
-
-void ViewParams::setAxisYColor(unsigned long v)
-{
-    setValue("AxisYColor", v);
-}
-
-unsigned long ViewParams::getAxisZColor() const
-{
-    return getValue<unsigned long>("AxisZColor");
-}
-
-void ViewParams::setAxisZColor(unsigned long v)
-{
-    setValue("AxisZColor", v);
-}
-
-double ViewParams::getDraggerScale() const
-{
-    return getValue<double>("DraggerScale");
-}
-
-void ViewParams::setDraggerScale(double v)
-{
-    setValue("DraggerScale", v);
-}
-
-//
-#if 0
-ViewParams::ViewParams() {
-    handle = App::GetApplication().GetParameterGroupByPath(
-            "User parameter:BaseApp/Preferences/View");
-    handle->Attach(this);
-#undef FC_VIEW_PARAM
-#define FC_VIEW_PARAM(_name,_ctype,_type,_def) \
-    _name = handle->Get##_type(#_name,_def);
-
-    FC_VIEW_PARAMS
-}
-
-ViewParams::~ViewParams() = default;
-
-void ViewParams::OnChange(Base::Subject<const char*> &, const char* sReason) {
-    if(!sReason)
-        return;
-#undef FC_VIEW_PARAM
-#define FC_VIEW_PARAM(_name,_ctype,_type,_def) \
-    if(strcmp(sReason,#_name)==0) {\
-        _name = handle->Get##_type(#_name,_def);\
-        return;\
-    }
-    FC_VIEW_PARAMS
-}
-
-ViewParams *ViewParams::instance() {
-    static ViewParams *inst;
-    if(!inst)
-        inst = new ViewParams;
-    return inst;
-}
-
-#endif
+FC_PARAM_GETSET_IMP(ViewParams, UseNewSelection, bool)
+FC_PARAM_GETSET_IMP(ViewParams, UseSelectionRoot, bool)
+FC_PARAM_GETSET_IMP(ViewParams, EnableSelection, bool)
+FC_PARAM_GETSET_IMP(ViewParams, RenderCache, long)
+FC_PARAM_GETSET_IMP(ViewParams, RandomColor, bool)
+FC_PARAM_GETSET_IMP(ViewParams, BoundingBoxColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, AnnotationTextColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, MarkerSize, long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultLinkColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultShapeLineColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultShapeVertexColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultShapeColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultShapeTransparency, long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultShapeLineWidth, long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultShapePointSize, long)
+FC_PARAM_GETSET_IMP(ViewParams, CoinCycleCheck, bool)
+FC_PARAM_GETSET_IMP(ViewParams, EnablePropertyViewForInactiveDocument, bool)
+FC_PARAM_GETSET_IMP(ViewParams, ShowSelectionBoundingBox, bool)
+FC_PARAM_GETSET_IMP(ViewParams, PropertyViewTimer, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, AxisXColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, AxisYColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, AxisZColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, DraggerScale, double)
