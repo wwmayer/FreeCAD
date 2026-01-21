@@ -47,6 +47,9 @@ public:
     bool getEnableSelection() const;
     void setEnableSelection(bool v);
 
+    bool getEnablePreselection() const;
+    void setEnablePreselection(bool v);
+
     long getRenderCache() const;
     void setRenderCache(long);
 

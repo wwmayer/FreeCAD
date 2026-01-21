@@ -32,6 +32,7 @@ void ViewParams::setup()
     addParameter("UseNewSelection", Bool{true});
     addParameter("UseSelectionRoot", Bool{true});
     addParameter("EnableSelection", Bool{true});
+    addParameter("EnablePreselection", Bool{true});
     addParameter("RenderCache", Int{0});
     addParameter("RandomColor", Bool{false});
     addParameter("BoundingBoxColor", Unsigned{4294967295UL});
@@ -72,6 +73,7 @@ ViewParams* ViewParams::instance()
 FC_PARAM_GETSET_IMP(ViewParams, UseNewSelection, bool)
 FC_PARAM_GETSET_IMP(ViewParams, UseSelectionRoot, bool)
 FC_PARAM_GETSET_IMP(ViewParams, EnableSelection, bool)
+FC_PARAM_GETSET_IMP(ViewParams, EnablePreselection, bool)
 FC_PARAM_GETSET_IMP(ViewParams, RenderCache, long)
 FC_PARAM_GETSET_IMP(ViewParams, RandomColor, bool)
 FC_PARAM_GETSET_IMP(ViewParams, BoundingBoxColor, unsigned long)

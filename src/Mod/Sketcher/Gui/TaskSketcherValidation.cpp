@@ -43,6 +43,7 @@
 #include <Gui/Notifications.h>
 #include <Gui/TaskView/TaskView.h>
 #include <Gui/ViewProvider.h>
+#include <Gui/ViewParams.h>
 #include <Gui/WaitCursor.h>
 #include <Mod/Sketcher/App/SketchObject.h>
 
@@ -433,9 +434,7 @@ void SketcherValidation::showPoints(const std::vector<Base::Vector3d>& pts)
     auto markcol = new SoBaseColor();
     markcol->rgb.setValue(1.0F, 1.0F, 0.0F);
     auto marker = new SoMarkerSet();
-    long markerSize = App::GetApplication()
-                          .GetParameterGroupByPath("User parameter:BaseApp/Preferences/View")
-                          ->GetInt("MarkerSize", 9);
+    long markerSize = Gui::ViewParams::instance()->getMarkerSize();
     marker->markerIndex = Gui::Inventor::MarkerBitmaps::getMarkerIndex("PLUS", int(markerSize));
     pointsep->addChild(markcol);
     pointsep->addChild(marker);

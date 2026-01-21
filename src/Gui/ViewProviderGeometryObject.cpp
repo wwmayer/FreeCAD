@@ -48,6 +48,7 @@
 #include "View3DInventorViewer.h"
 #include "ViewProviderGeometryObject.h"
 #include "ViewProviderGeometryObjectPy.h"
+#include "ViewParams.h"
 
 #include <Base/Tools.h>
 
@@ -114,9 +115,7 @@ ViewProviderGeometryObject::~ViewProviderGeometryObject()
 
 bool ViewProviderGeometryObject::isSelectionEnabled() const
 {
-    ParameterGrp::handle hGrp =
-        App::GetApplication().GetParameterGroupByPath("User parameter:BaseApp/Preferences/View");
-    return hGrp->GetBool("EnableSelection", true);
+    return ViewParams::instance()->getEnableSelection();
 }
 
 void ViewProviderGeometryObject::onChanged(const App::Property* prop)
@@ -248,11 +247,8 @@ SoPickedPoint* ViewProviderGeometryObject::getPickedPoint(const SbVec2s& pos,
 
 unsigned long ViewProviderGeometryObject::getBoundColor() const
 {
-    ParameterGrp::handle hGrp =
-        App::GetApplication().GetParameterGroupByPath("User parameter:BaseApp/Preferences/View");
     // white (255,255,255)
-    unsigned long bbcol = hGrp->GetUnsigned("BoundingBoxColor", 4294967295UL);
-    return bbcol;
+    return ViewParams::instance()->getBoundingBoxColor();
 }
 
 void ViewProviderGeometryObject::setCoinAppearance(const App::Material& source)

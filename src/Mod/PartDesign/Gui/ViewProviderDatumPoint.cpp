@@ -34,6 +34,7 @@
 #include <App/Application.h>
 #include <Gui/Inventor/MarkerBitmaps.h>
 #include <Gui/ViewProviderBuilder.h>
+#include <Gui/ViewParams.h>
 #include <Gui/Selection/SoFCSelection.h>
 #include <Mod/PartDesign/App/DatumPoint.h>
 
@@ -57,8 +58,7 @@ ViewProviderDatumPoint::~ViewProviderDatumPoint() = default;
 void ViewProviderDatumPoint::attach ( App::DocumentObject *obj ) {
     ViewProviderDatum::attach ( obj );
 
-    const int markerSize = App::GetApplication().GetParameterGroupByPath(
-            "User parameter:BaseApp/Preferences/View")->GetInt("MarkerSize", 9);
+    const int markerSize = Gui::ViewParams::instance()->getMarkerSize();
     // Using a marker gives a larger point.
     auto *marker = new SoMarkerSet();
     marker->numPoints = 1;
