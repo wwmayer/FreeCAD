@@ -347,4 +347,15 @@ constexpr bool is_getter = std::is_same<T, R (type_from_member<T>::type::*)() co
 template<typename T, typename A>
 constexpr bool is_setter = std::is_same<T, void (type_from_member<T>::type::*)(A)>::value;
 
+#define FC_PARAM_GETSET_IMP(_class, _name, _ctype) \
+_ctype _class::get##_name() const                  \
+{                                                  \
+    return getValue<_ctype>(#_name);               \
+}                                                  \
+                                                   \
+void _class::set##_name(_ctype v)                  \
+{                                                  \
+    setValue(#_name, v);                           \
+}
+
 #endif  // BASE_PARAMETEROBSERVER_H
