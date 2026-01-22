@@ -55,12 +55,14 @@ public:
 private:
     bool useTangentPerPoint() const;
     bool hasInitialAndFinalTangent() const;
-    Handle(TColgp_HArray1OfPnt) getPoints() const;
+    Handle(TColgp_HArray1OfPnt) getPoints(int& offset) const;
     TColgp_Array1OfVec getTangents() const;
     Handle(TColStd_HArray1OfBoolean) useTangents() const;
     bool hasParameters() const;
+    bool hasTangents() const;
     Handle(TColStd_HArray1OfReal) getParameters() const;
-    Handle(Geom_BSplineCurve) getSpline(Handle(Geom_BSplineCurve) spline) const;
+    bool useOffset(int num) const;
+    Handle(Geom_BSplineCurve) getSpline(Handle(Geom_BSplineCurve) spline, int offset) const;
 
 private:
     double tol3d;

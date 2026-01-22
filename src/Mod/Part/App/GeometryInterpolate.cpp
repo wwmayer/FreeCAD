@@ -97,6 +97,11 @@ void GeometryInterpolate::setParameters(const std::vector<double>& values)
     prms = values;
 }
 
+bool GeometryInterpolate::hasTangents() const
+{
+    return !tnts.empty();
+}
+
 bool GeometryInterpolate::useTangentPerPoint() const
 {
     return tnts.size() > 2;
@@ -107,11 +112,30 @@ bool GeometryInterpolate::hasInitialAndFinalTangent() const
     return tnts.size() == 2;
 }
 
-Handle(TColgp_HArray1OfPnt) GeometryInterpolate::getPoints() const
+bool GeometryInterpolate::useOffset(int num) const
 {
-    Handle(TColgp_HArray1OfPnt) pts = new TColgp_HArray1OfPnt(1, static_cast<int>(pnts.size()));
-    for (std::size_t i = 0; i < pnts.size(); i++) {
-        pts->SetValue(static_cast<int>(i + 1), pnts[i]);
+    return periodic && !hasTangents() && num > 2;
+}
+
+Handle(TColgp_HArray1OfPnt) GeometryInterpolate::getPoints(int& offset) const
+{
+    offset = 0;
+    Handle(TColgp_HArray1OfPnt) pts;
+    int numPts = static_cast<int>(pnts.size());
+    if (useOffset(numPts)) {
+        offset = numPts;
+        pts = new TColgp_HArray1OfPnt(1, 3 * numPts);
+        for (int i = 0; i < numPts; i++) {
+            pts->SetValue(i + 1, pnts[i]);
+            pts->SetValue(numPts + i + 1, pnts[i]);
+            pts->SetValue(2 * numPts + i + 1, pnts[i]);
+        }
+    }
+    else {
+        pts = new TColgp_HArray1OfPnt(1, numPts);
+        for (int i = 0; i < numPts; i++) {
+            pts->SetValue(i + 1, pnts[i]);
+        }
     }
 
     return pts;
@@ -144,16 +168,57 @@ bool GeometryInterpolate::hasParameters() const
 Handle(TColStd_HArray1OfReal) GeometryInterpolate::getParameters() const
 {
     Handle(TColStd_HArray1OfReal) parameters;
-    parameters = new TColStd_HArray1OfReal(1, static_cast<int>(prms.size()));
-    for (std::size_t i = 0; i < prms.size(); i++) {
-        parameters->SetValue(static_cast<int>(i + 1), prms[i]);
+    int numPar = static_cast<int>(prms.size());
+    if (useOffset(numPar - 1)) {
+        // According to GeomAPI_Interpolate the number of parameters must be higher by one than
+        // the number of points if a periodic curve is required.
+        // So the size of the array must be 3 * (numPar - 1) + 1
+        int numPar_1 = numPar - 1;
+        parameters = new TColStd_HArray1OfReal(1, 3 * numPar_1 + 1);
+        for (int i = 0; i < numPar_1; i++) {
+            parameters->SetValue(i + 1, prms[i]);
+            parameters->SetValue(numPar_1 + i + 1, prms[i] + prms[numPar - 1]);
+            parameters->SetValue(2 * numPar_1 + i + 1, prms[i] + 2 * prms[numPar - 1]);
+        }
+
+        parameters->SetValue(3 * numPar_1 + 1, 3 * prms[numPar - 1]);
     }
+    else {
+        parameters = new TColStd_HArray1OfReal(1, numPar);
+        for (int i = 0; i < numPar; i++) {
+            parameters->SetValue(i + 1, prms[i]);
+        }
+    }
+
     return parameters;
 }
 
-Handle(Geom_BSplineCurve) GeometryInterpolate::getSpline(Handle(Geom_BSplineCurve) spline) const
+Handle(Geom_BSplineCurve) GeometryInterpolate::getSpline(Handle(Geom_BSplineCurve) spline,
+                                                         int offset) const
 {
-    return spline;
+    if (!periodic || offset == 0) {
+        return spline;
+    }
+
+    TColgp_Array1OfPnt poles = spline->Poles();
+    TColStd_Array1OfReal knots = spline->Knots();
+    TColStd_Array1OfInteger mults = spline->Multiplicities();
+    int degree = spline->Degree();
+
+    TColgp_Array1OfPnt npoles(1, offset);
+    for (int index = npoles.Lower(); index <= npoles.Upper(); ++index) {
+        npoles(index) = poles(index + offset);
+    }
+    TColStd_Array1OfReal nknots(1, offset + 1);
+    for (int index = nknots.Lower(); index <= nknots.Upper(); ++index) {
+        nknots(index) = knots(index + offset);
+    }
+    TColStd_Array1OfInteger nmults(1, offset + 1);
+    for (int index = nmults.Lower(); index <= nmults.Upper(); ++index) {
+        nmults(index) = mults(index + offset);
+    }
+
+    return new Geom_BSplineCurve(npoles, nknots, nmults, degree, periodic);
 }
 
 Handle(Geom_BSplineCurve) GeometryInterpolate::perform() const
@@ -168,13 +233,14 @@ Handle(Geom_BSplineCurve) GeometryInterpolate::perform() const
         throw Standard_ConstructionError("Number of tangents doesn't match with number of points");
     }
 
+    int offset = 0;
     std::unique_ptr<GeomAPI_Interpolate> interpolate;
     if (hasParameters()) {
-        interpolate = std::make_unique<GeomAPI_Interpolate>(getPoints(),
+        interpolate = std::make_unique<GeomAPI_Interpolate>(getPoints(offset),
                                                             getParameters(), periodic, tol3d);
     }
     else {
-        interpolate = std::make_unique<GeomAPI_Interpolate>(getPoints(), periodic, tol3d);
+        interpolate = std::make_unique<GeomAPI_Interpolate>(getPoints(offset), periodic, tol3d);
     }
 
     if (tangentsPnt) {
@@ -189,5 +255,5 @@ Handle(Geom_BSplineCurve) GeometryInterpolate::perform() const
         throw Standard_ConstructionError("Failed to interpolate points");
     }
 
-    return getSpline(interpolate->Curve());
+    return getSpline(interpolate->Curve(), offset);
 }
