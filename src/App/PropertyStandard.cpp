@@ -202,9 +202,31 @@ void PropertyPath::setValue(const char* Path)
     hasSetValue();
 }
 
+void PropertyPath::setValue(const std::string& Path)
+{
+    aboutToSetValue();
+    _cValue = std::filesystem::path(Path);
+    hasSetValue();
+}
+
 const std::filesystem::path& PropertyPath::getValue() const
 {
     return _cValue;
+}
+
+std::string PropertyPath::getStrValue() const
+{
+    return _cValue.string();
+}
+
+const char* PropertyPath::getCStrValue() const
+{
+    return _cValue.c_str();
+}
+
+bool PropertyPath::isEmpty() const noexcept
+{
+    return _cValue.empty();
 }
 
 PyObject* PropertyPath::getPyObject()
