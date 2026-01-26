@@ -1822,7 +1822,7 @@ bool Document::save()
         return true;
     }
 
-    if (*(FileName.getValue()) != '\0') {
+    if (!FileName.isEmpty()) {
         // Save the name of the tip object in order to handle in Restore()
         if (Tip.getValue()) {
             TipName.setValue(Tip.getValue()->getNameInDocument());
@@ -1843,7 +1843,7 @@ bool Document::save()
             LastModifiedBy.setValue(Author.c_str());
         }
 
-        return saveToFile(FileName.getValue());
+        return saveToFile(FileName.getCStrValue());
     }
 
     return false;
@@ -2375,7 +2375,7 @@ void Document::restore(const char* filename,
     }
 
     if (!filename) {
-        filename = FileName.getValue();
+        filename = FileName.getCStrValue();
     }
     Base::FileInfo fi(filename);
     Base::ifstream file(fi, std::ios::in | std::ios::binary);
@@ -2592,7 +2592,7 @@ const char* Document::getProgramVersion() const
 
 const char* Document::getFileName() const
 {
-    return testStatus(TempDoc) ? TransientDir.getValue() : FileName.getValue();
+    return testStatus(TempDoc) ? TransientDir.getValue() : FileName.getCStrValue();
 }
 
 /// Remove all modifications. After this call The document becomes valid again.

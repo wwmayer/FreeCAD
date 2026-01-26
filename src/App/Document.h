@@ -90,7 +90,7 @@ public:
     /// holds the long name of the document (utf-8 coded)
     PropertyString Label;
     /// full qualified (with path) file name (utf-8 coded)
-    PropertyString FileName;
+    PropertyPath FileName;
     /// creators name (utf-8)
     PropertyString CreatedBy;
     PropertyString CreationDate;

@@ -85,7 +85,7 @@ DlgProjectInformationImp::DlgProjectInformationImp(App::Document* doc,
     };
     ui->setupUi(this);
     ui->lineEditName->setText(QString::fromUtf8(doc->Label.getValue()));
-    ui->lineEditPath->setText(QString::fromUtf8(doc->FileName.getValue()));
+    ui->lineEditPath->setText(QString::fromUtf8(doc->FileName.getCStrValue()));
     ui->lineEditUuid->setText(QString::fromUtf8(doc->Uid.getValueStr().c_str()));
     ui->lineEditProgramVersion->setText(QString::fromUtf8(doc->getProgramVersion()));
     ui->lineEditCreator->setText(QString::fromUtf8(doc->CreatedBy.getValue()));

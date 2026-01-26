@@ -540,7 +540,7 @@ void StdCmdMergeProjects::activated(int iMsg)
     if (!project.isEmpty()) {
         FileDialog::setWorkingDirectory(project);
         App::Document* doc = App::GetApplication().getActiveDocument();
-        QFileInfo info(QString::fromUtf8(doc->FileName.getValue()));
+        QFileInfo info(QString::fromUtf8(doc->FileName.getCStrValue()));
         QFileInfo proj(project);
         if (proj == info) {
             QMessageBox::critical(Gui::getMainWindow(),

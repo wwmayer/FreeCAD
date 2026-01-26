@@ -159,7 +159,7 @@ void AutoSaver::saveDocument(const std::string& name, AutoSaveProperty& saver)
                 << "<AutoRecovery SchemaVersion=\"1\">\n";
             str << "  <Status>Created</Status>\n";
             str << "  <Label>" << QString::fromUtf8(doc->Label.getValue()) << "</Label>\n"; // store the document's current label
-            str << "  <FileName>" << QString::fromUtf8(doc->FileName.getValue()) << "</FileName>\n"; // store the document's current filename
+            str << "  <FileName>" << QString::fromUtf8(doc->FileName.getCStrValue()) << "</FileName>\n"; // store the document's current filename
             str << "</AutoRecovery>\n";
             file.close();
         }
