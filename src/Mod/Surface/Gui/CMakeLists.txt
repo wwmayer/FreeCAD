@@ -26,6 +26,8 @@ SET(BlendingGui_SRCS
 SET(GordonGui_SRCS
     Gordon/TaskGordonSurface.h
     Gordon/TaskGordonSurface.cpp
+    Gordon/ViewProviderGordonSurface.cpp
+    Gordon/ViewProviderGordonSurface.h
 )
 
 SET(SurfaceGui_SRCS

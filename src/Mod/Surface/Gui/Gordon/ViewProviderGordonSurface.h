@@ -31,9 +31,14 @@ namespace SurfaceGui
 class ViewProviderGordonSurface: public PartGui::ViewProviderSpline
 {
     PROPERTY_HEADER_WITH_OVERRIDE(SurfaceGui::ViewProviderGordonSurface);
+    using References = std::vector<App::PropertyLinkSubList::SubSet>;
 
 public:
+    void setupContextMenu(QMenu*, QObject*, const char*) override;
+    bool setEdit(int ModNum) override;
+    void unsetEdit(int ModNum) override;
     QIcon getIcon() const override;
+    void highlightReferences(const References& refs, bool on);
 };
 
 }  // namespace SurfaceGui
