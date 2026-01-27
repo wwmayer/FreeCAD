@@ -321,7 +321,7 @@ namespace
         const Handle(Geom_Curve) m_c1, m_c2;
     };
 
-
+#if 0
     void CheckGradient(math_MultipleVarFunctionWithGradient& func, const math_Vector& X, double step)
     {
         int nvars = func.NbVariables();
@@ -364,6 +364,7 @@ namespace
 
         std::cout << "======================\n" << std::endl;
     }
+#endif
 
 } // namespace
 

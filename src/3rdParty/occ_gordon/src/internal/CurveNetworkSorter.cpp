@@ -101,26 +101,26 @@ CurveNetworkSorter::CurveNetworkSorter(const std::vector<Handle (Geom_Curve)> &p
     size_t n_profiles = profiles.size();
     size_t n_guides = guides.size();
 
-    if (n_profiles != m_parmsIntersProfiles.RowNumber()) {
+    if (n_profiles != static_cast<size_t>(m_parmsIntersProfiles.RowNumber())) {
             throw error("Invalid row size of parmsIntersProfiles matrix.");
     }
 
-    if (n_profiles != m_parmsIntersGuides.RowNumber()) {
+    if (n_profiles != static_cast<size_t>(m_parmsIntersGuides.RowNumber())) {
             throw error("Invalid row size of parmsIntersGuides matrix.");
     }
 
-    if (n_guides != m_parmsIntersProfiles.ColNumber()) {
+    if (n_guides != static_cast<size_t>(m_parmsIntersProfiles.ColNumber())) {
             throw error("Invalid col size of parmsIntersProfiles matrix.");
     }
 
-    if (n_guides != m_parmsIntersGuides.ColNumber()) {
+    if (n_guides != static_cast<size_t>(m_parmsIntersGuides.ColNumber())) {
             throw error("Invalid col size of parmsIntersGuides matrix.");
     }
 
-    assert(m_parmsIntersGuides.UpperRow() == n_profiles - 1);
-    assert(m_parmsIntersProfiles.UpperRow() == n_profiles - 1);
-    assert(m_parmsIntersGuides.UpperCol() == n_guides - 1);
-    assert(m_parmsIntersProfiles.UpperCol() == n_guides - 1);
+    assert(static_cast<size_t>(m_parmsIntersGuides.UpperRow()) == n_profiles - 1);
+    assert(static_cast<size_t>(m_parmsIntersProfiles.UpperRow()) == n_profiles - 1);
+    assert(static_cast<size_t>(m_parmsIntersGuides.UpperCol()) == n_guides - 1);
+    assert(static_cast<size_t>(m_parmsIntersProfiles.UpperCol()) == n_guides - 1);
 
     // create helper vectors with indices
     for (size_t i = 0; i < n_profiles; ++i) {
