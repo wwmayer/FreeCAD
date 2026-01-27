@@ -66,34 +66,25 @@ short GordonSurface::mustExecute() const
     return 0;
 }
 
-std::string pointStr(Handle(Geom_BSplineCurve) curve)
+namespace
 {
-    auto firstPoint = curve->Value(curve->FirstParameter());
-    auto lastPoint = curve->Value(curve->LastParameter());
-    std::string strF = "First point: (" + std::to_string(firstPoint.X()) + ", "
-        + std::to_string(firstPoint.Y())
-        + ", " + std::to_string(firstPoint.Z()) + ") "; 
-    std::string strL = "Last point: (" + std::to_string(lastPoint.X()) + ", "
-        + std::to_string(lastPoint.Y()) + ", " + std::to_string(lastPoint.Z()) + ") "; 
-    return strF + strL;
-}
-
 std::vector<Handle(Geom_BSplineCurve)> getCurves(const App::PropertyLinkSubList& edges)
 {
     std::vector<Handle(Geom_BSplineCurve)> curves;
 
-    auto objects = edges.getValues();
-    auto subNames = edges.getSubValues();
+    const auto& objects = edges.getValues();
+    const auto& subNames = edges.getSubValues();
 
     for (std::size_t i = 0; i < objects.size(); i++) {
         App::DocumentObject* obj = objects[i];
-        std::string sub = subNames[i];
-        if (obj && obj->isDerivedFrom<Part::Feature>()) {
+        const std::string& sub = subNames[i];
+        if (auto partObj = dynamic_cast<Part::Feature*>(obj)) {
             // get the sub-edge of the part's shape and copy it to nat make changes to original geometry
-            const Part::TopoShape& shape = static_cast<Part::Feature*>(obj)->Shape.getShape().makeElementCopy();
+            const Part::TopoShape& shape = partObj->Shape.getShape().makeElementCopy();
             TopoDS_Shape edgeShape = shape.getSubShape(sub.c_str());
-            if (!edgeShape.IsNull() && edgeShape.ShapeType() == TopAbs_EDGE) {   
-                Standard_Real u1, u2;
+            if (!edgeShape.IsNull() && edgeShape.ShapeType() == TopAbs_EDGE) {
+                Standard_Real u1 {};
+                Standard_Real u2 {};
                 const TopoDS_Edge& edge = TopoDS::Edge(edgeShape);
                 TopLoc_Location heloc;  // this will be output
                 Handle(Geom_Curve) c_geom = BRep_Tool::Curve(edge, heloc, u1, u2);  // The geometric curve
@@ -108,9 +99,8 @@ std::vector<Handle(Geom_BSplineCurve)> getCurves(const App::PropertyLinkSubList&
                     Handle(Geom_TrimmedCurve) trim = new Geom_TrimmedCurve(c_geom, u1, u2);
                     // Approximate the curve to non-rational polynomial BSpline
                     // to avoid C0 continuity in output surface
-                    GeomConvert conv;
                     Convert_ParameterisationType paratype = Convert_Polynomial;
-                    bspline = conv.CurveToBSplineCurve(trim, paratype);
+                    bspline = GeomConvert::CurveToBSplineCurve(trim, paratype);
                     if (bspline.IsNull()) {
                         // GeomConvert failed, try ShapeConstruct_Curve now
                         ShapeConstruct_Curve scc;
@@ -132,7 +122,8 @@ std::vector<Handle(Geom_BSplineCurve)> getCurves(const App::PropertyLinkSubList&
 
     return curves;
 }
-    
+}
+
 App::DocumentObjectExecReturn* GordonSurface::execute()
 {
     try {
@@ -143,8 +134,9 @@ App::DocumentObjectExecReturn* GordonSurface::execute()
             return new App::DocumentObjectExecReturn("Provide at least 2 guides.");
         }
 
-        std::vector<Handle(Geom_BSplineCurve)> vcurves, ucurves;
-        
+        std::vector<Handle(Geom_BSplineCurve)> ucurves;
+        std::vector<Handle(Geom_BSplineCurve)> vcurves;
+
         // Create a Gordon surface
         ucurves = getCurves(ProfileEdges);
         vcurves = getCurves(GuideEdges);

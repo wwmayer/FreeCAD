@@ -62,6 +62,7 @@ namespace SurfaceGui
 class GordonSurfacePanel::ShapeSelection: public Gui::SelectionFilterGate
 {
 public:
+    FC_DISABLE_COPY_MOVE(ShapeSelection)
     ShapeSelection(GordonSurfacePanel::SelectionMode& mode,
                    GordonSurfacePanel::SelectionType& selectionType, Surface::GordonSurface* editedObject)
         : Gui::SelectionFilterGate(nullPointer())
@@ -76,8 +77,10 @@ public:
     /**
      * Allow the user to pick only edges.
      */
-    bool allow(App::Document*, App::DocumentObject* pObj, const char* sSubName) override
+    bool allow(App::Document* doc, App::DocumentObject* pObj, const char* sSubName) override
     {
+        Q_UNUSED(doc)
+
         // don't allow references to itself
         if (pObj == editedObject) {
             return false;
@@ -136,17 +139,17 @@ private:
 // ----------------------------------------------------------------------------
 
 GordonSurfacePanel::GordonSurfacePanel(ViewProviderGordonSurface* vp, Surface::GordonSurface* obj)
-    : editedObject(obj)
+    : selectionMode{None}
+    , selectionType{Profile}
+    , editedObject{obj}
+    , checkCommand{true}
+    , ui{new Ui_TaskGordonSurface()}
+    , vp{vp}
 {
-    ui = new Ui_TaskGordonSurface();
     ui->setupUi(this);
     setupConnections();
     //ui->statusLabel->clear();
 
-    selectionType = Profile;
-    selectionMode = None;
-    this->vp = vp;
-    checkCommand = true;
     setEditedObject(obj);
 
     // Create context menu
@@ -218,7 +221,7 @@ void GordonSurfacePanel::setEditedObject(Surface::GordonSurface* fea)
 
     for (std::size_t i = 0; i < profilesObjects.size(); i++) {
         App::DocumentObject* obj = profilesObjects[i];
-        std::string edge = profileEdges[i];
+        const std::string& edge = profileEdges[i];
 
         QListWidgetItem* item = new QListWidgetItem(ui->listProfiles);
         ui->listProfiles->addItem(item);
@@ -245,7 +248,7 @@ void GordonSurfacePanel::setEditedObject(Surface::GordonSurface* fea)
 
     for (std::size_t i = 0; i < guidesObjects.size(); i++) {
         App::DocumentObject* obj = guidesObjects[i];
-        std::string edge = guidesEdges[i];
+        const std::string& edge = guidesEdges[i];
 
         QListWidgetItem* item = new QListWidgetItem(ui->listGuides);
         ui->listGuides->addItem(item);
@@ -314,13 +317,15 @@ void GordonSurfacePanel::checkOpenCommand()
     }
 }
 
-void GordonSurfacePanel::slotUndoDocument(const Gui::Document&)
+void GordonSurfacePanel::slotUndoDocument(const Gui::Document& doc)
 {
+    Q_UNUSED(doc)
     checkCommand = true;
 }
 
-void GordonSurfacePanel::slotRedoDocument(const Gui::Document&)
+void GordonSurfacePanel::slotRedoDocument(const Gui::Document& doc)
 {
+    Q_UNUSED(doc)
     checkCommand = true;
 }
 

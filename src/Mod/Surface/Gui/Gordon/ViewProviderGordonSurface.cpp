@@ -52,13 +52,11 @@ bool ViewProviderGordonSurface::setEdit(int ModNum)
         // object unsets and sets its edit mode without closing
         // the task panel
 
-        Surface::GordonSurface* obj = this->getObject<Surface::GordonSurface>();
-
-        Gui::TaskView::TaskDialog* dlg = Gui::Control().activeDialog();
+        auto obj = this->getObject<Surface::GordonSurface>();
 
         // start the edit dialog
-        if (dlg) {
-            TaskGordonSurface* tDlg = qobject_cast<TaskGordonSurface*>(dlg);
+        if (Gui::TaskView::TaskDialog* dlg = Gui::Control().activeDialog()) {
+            auto tDlg = qobject_cast<TaskGordonSurface*>(dlg);
             if (tDlg) {
                 tDlg->setEditedObject(obj);
             }
@@ -69,9 +67,8 @@ bool ViewProviderGordonSurface::setEdit(int ModNum)
         }
         return true;
     }
-    else {
-        return ViewProviderSpline::setEdit(ModNum);
-    }
+
+    return ViewProviderSpline::setEdit(ModNum);
 }
 
 void ViewProviderGordonSurface::unsetEdit(int ModNum)
@@ -87,9 +84,8 @@ QIcon ViewProviderGordonSurface::getIcon() const
 void ViewProviderGordonSurface::highlightReferences(const References& refs, bool on)
 {
     for (const auto& it : refs) {
-        Part::Feature* base = dynamic_cast<Part::Feature*>(it.first);
-        if (base) {
-            PartGui::ViewProviderPartExt* svp = dynamic_cast<PartGui::ViewProviderPartExt*>(
+        if (auto base = dynamic_cast<Part::Feature*>(it.first)) {
+            auto svp = dynamic_cast<PartGui::ViewProviderPartExt*>(
                 Gui::Application::Instance->getViewProvider(base));
             if (svp) {
                 if (on) {

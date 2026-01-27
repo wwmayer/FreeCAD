@@ -54,16 +54,17 @@ class GordonSurfacePanel: public QWidget,
                           public Gui::DocumentObserver
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(GordonSurfacePanel)
 
-protected:
+private:
     class ShapeSelection;
-    enum SelectionMode
+    enum SelectionMode : std::uint8_t
     {
         None = SurfaceGui::SelectionMode::None,
         AppendEdge = SurfaceGui::SelectionMode::AppendEdge,
         RemoveEdge = SurfaceGui::SelectionMode::RemoveEdge
     };
-    enum SelectionType
+    enum SelectionType : std::uint8_t
     {
         Profile,
         Guide
