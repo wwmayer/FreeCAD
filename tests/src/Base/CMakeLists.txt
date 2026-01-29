@@ -29,6 +29,7 @@ target_sources(Tests_run PRIVATE
         Vector3D.cpp
         ViewProj.cpp
         Writer.cpp
+        XMLTools.cpp
 )
 
 setup_qt_test(InventorBuilder)
