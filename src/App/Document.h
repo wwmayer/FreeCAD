@@ -116,7 +116,7 @@ public:
     /// Material descriptions, used and defined in the Material module.
     App::PropertyMap Material;
     /// read-only name of the temp dir created when the document is opened
-    PropertyString TransientDir;
+    PropertyPath TransientDir;
     /// Tip object of the document (if any)
     PropertyLink Tip;
     /// Tip object of the document (if any)

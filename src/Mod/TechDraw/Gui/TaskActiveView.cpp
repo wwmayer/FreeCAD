@@ -181,7 +181,7 @@ TechDraw::DrawViewImage* TaskActiveView::createActiveView()
     //better way of making temp file name
     std::string baseName = pageName + imageName;
     std::string tempName =
-        Base::FileInfo::getTempFileName(baseName.c_str(), doc->TransientDir.getValue()) + ".png";
+        Base::FileInfo::getTempFileName(baseName.c_str(), doc->TransientDir.getCStrValue()) + ".png";
 
     QColor bg = ui->ccBgColor->color();
     if (ui->cbUse3d->isChecked()) {

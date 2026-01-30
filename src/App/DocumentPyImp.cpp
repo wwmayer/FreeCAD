@@ -1017,7 +1017,7 @@ PyObject* DocumentPy::getTempFileName(PyObject* args)
 
     // search for a temp file name in the document transient directory
     Base::FileInfo fileName(
-        Base::FileInfo::getTempFileName(string.c_str(), getDocumentPtr()->TransientDir.getValue()));
+        Base::FileInfo::getTempFileName(string.c_str(), getDocumentPtr()->TransientDir.getCStrValue()));
     // delete the created file, we need only the name...
     fileName.deleteFile();
 

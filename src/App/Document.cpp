@@ -2592,7 +2592,7 @@ const char* Document::getProgramVersion() const
 
 const char* Document::getFileName() const
 {
-    return testStatus(TempDoc) ? TransientDir.getValue() : FileName.getCStrValue();
+    return testStatus(TempDoc) ? TransientDir.getCStrValue() : FileName.getCStrValue();
 }
 
 /// Remove all modifications. After this call The document becomes valid again.
