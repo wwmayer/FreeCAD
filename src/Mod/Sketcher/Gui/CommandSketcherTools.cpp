@@ -400,8 +400,9 @@ void CmdSketcherSelectConstraints::activated(int iMsg)
         }
     }
 
-    if (!constraintSubNames.empty())
+    if (!constraintSubNames.empty()) {
         Gui::Selection().addSelections(doc_name.c_str(), obj_name.c_str(), constraintSubNames);
+    }
 }
 
 bool CmdSketcherSelectConstraints::isActive()
@@ -432,9 +433,6 @@ void CmdSketcherSelectOrigin::activated(int iMsg)
 {
     Q_UNUSED(iMsg);
     Sketcher::SketchObject * Obj = getSketchObject();
-    //    ViewProviderSketch * vp = static_cast<ViewProviderSketch
-    //    *>(Gui::Application::Instance->getViewProvider(docobj)); Sketcher::SketchObject* Obj =
-    //    vp->getSketchObject();
 
     std::string doc_name = Obj->getDocument()->getName();
     std::string obj_name = Obj->getNameInDocument();
@@ -442,10 +440,12 @@ void CmdSketcherSelectOrigin::activated(int iMsg)
 
     ss << "RootPoint";
 
-    if (Gui::Selection().isSelected(doc_name.c_str(), obj_name.c_str(), ss.str().c_str()))
+    if (Gui::Selection().isSelected(doc_name.c_str(), obj_name.c_str(), ss.str().c_str())) {
         Gui::Selection().rmvSelection(doc_name.c_str(), obj_name.c_str(), ss.str().c_str());
-    else
+    }
+    else {
         Gui::Selection().addSelection(doc_name.c_str(), obj_name.c_str(), ss.str().c_str());
+    }
 }
 
 bool CmdSketcherSelectOrigin::isActive()
@@ -483,10 +483,12 @@ void CmdSketcherSelectVerticalAxis::activated(int iMsg)
 
     ss << "V_Axis";
 
-    if (Gui::Selection().isSelected(doc_name.c_str(), obj_name.c_str(), ss.str().c_str()))
+    if (Gui::Selection().isSelected(doc_name.c_str(), obj_name.c_str(), ss.str().c_str())) {
         Gui::Selection().rmvSelection(doc_name.c_str(), obj_name.c_str(), ss.str().c_str());
-    else
+    }
+    else {
         Gui::Selection().addSelection(doc_name.c_str(), obj_name.c_str(), ss.str().c_str());
+    }
 }
 
 bool CmdSketcherSelectVerticalAxis::isActive()
@@ -524,10 +526,12 @@ void CmdSketcherSelectHorizontalAxis::activated(int iMsg)
 
     ss << "H_Axis";
 
-    if (Gui::Selection().isSelected(doc_name.c_str(), obj_name.c_str(), ss.str().c_str()))
+    if (Gui::Selection().isSelected(doc_name.c_str(), obj_name.c_str(), ss.str().c_str())) {
         Gui::Selection().rmvSelection(doc_name.c_str(), obj_name.c_str(), ss.str().c_str());
-    else
+    }
+    else {
         Gui::Selection().addSelection(doc_name.c_str(), obj_name.c_str(), ss.str().c_str());
+    }
 }
 
 bool CmdSketcherSelectHorizontalAxis::isActive()
@@ -584,8 +588,9 @@ void CmdSketcherSelectRedundantConstraints::activated(int iMsg)
         }
     }
 
-    if (!constraintSubNames.empty())
+    if (!constraintSubNames.empty()) {
         Gui::Selection().addSelections(doc_name.c_str(), obj_name.c_str(), constraintSubNames);
+    }
 }
 
 bool CmdSketcherSelectRedundantConstraints::isActive()
@@ -639,8 +644,9 @@ void CmdSketcherSelectMalformedConstraints::activated(int iMsg)
         }
     }
 
-    if (!constraintSubNames.empty())
+    if (!constraintSubNames.empty()) {
         Gui::Selection().addSelections(doc_name.c_str(), obj_name.c_str(), constraintSubNames);
+    }
 }
 
 bool CmdSketcherSelectMalformedConstraints::isActive()
@@ -695,8 +701,9 @@ void CmdSketcherSelectPartiallyRedundantConstraints::activated(int iMsg)
         }
     }
 
-    if (!constraintSubNames.empty())
+    if (!constraintSubNames.empty()) {
         Gui::Selection().addSelections(doc_name.c_str(), obj_name.c_str(), constraintSubNames);
+    }
 }
 
 bool CmdSketcherSelectPartiallyRedundantConstraints::isActive()
@@ -752,8 +759,9 @@ void CmdSketcherSelectConflictingConstraints::activated(int iMsg)
         }
     }
 
-    if (!constraintSubNames.empty())
+    if (!constraintSubNames.empty()) {
         Gui::Selection().addSelections(doc_name.c_str(), obj_name.c_str(), constraintSubNames);
+    }
 }
 
 bool CmdSketcherSelectConflictingConstraints::isActive()
@@ -817,8 +825,9 @@ void CmdSketcherSelectElementsAssociatedWithConstraints::activated(int iMsg)
                         case Sketcher::PointPos::mid:
                             int vertex = Obj->getVertexIndexGeoPos(vals[ConstrId]->First,
                                                                    vals[ConstrId]->FirstPos);
-                            if (vertex > -1)
+                            if (vertex > -1) {
                                 ss << "Vertex" << vertex + 1;
+                            }
                             break;
                     }
                     elementSubNames.push_back(ss.str());
@@ -836,8 +845,9 @@ void CmdSketcherSelectElementsAssociatedWithConstraints::activated(int iMsg)
                         case Sketcher::PointPos::mid:
                             int vertex = Obj->getVertexIndexGeoPos(vals[ConstrId]->Second,
                                                                    vals[ConstrId]->SecondPos);
-                            if (vertex > -1)
+                            if (vertex > -1) {
                                 ss << "Vertex" << vertex + 1;
+                            }
                             break;
                     }
 
@@ -856,8 +866,9 @@ void CmdSketcherSelectElementsAssociatedWithConstraints::activated(int iMsg)
                         case Sketcher::PointPos::mid:
                             int vertex = Obj->getVertexIndexGeoPos(vals[ConstrId]->Third,
                                                                    vals[ConstrId]->ThirdPos);
-                            if (vertex > -1)
+                            if (vertex > -1) {
                                 ss << "Vertex" << vertex + 1;
+                            }
                             break;
                     }
 
@@ -936,24 +947,25 @@ void CmdSketcherSelectElementsWithDoFs::activated(int iMsg)
     int geoid = 0;
 
     for (auto geo : geos) {
-        if (geo) {
-            if (geo->hasExtension(Sketcher::SolverGeometryExtension::getClassTypeId())) {
+        if (geo && geo->hasExtension(Sketcher::SolverGeometryExtension::getClassTypeId())) {
 
-                auto solvext = std::static_pointer_cast<const Sketcher::SolverGeometryExtension>(
-                    geo->getExtension(Sketcher::SolverGeometryExtension::getClassTypeId()).lock());
+            auto solvext = std::static_pointer_cast<const Sketcher::SolverGeometryExtension>(
+                geo->getExtension(Sketcher::SolverGeometryExtension::getClassTypeId()).lock());
 
-                if (solvext->getGeometry()
-                    == Sketcher::SolverGeometryExtension::NotFullyConstraint) {
-                    // Coded for consistency with getGeometryWithDependentParameters, read the
-                    // comments on that function
-                    if (solvext->getEdge() == SolverGeometryExtension::Dependent)
-                        testselectedge(geoid);
-                    if (solvext->getStart() == SolverGeometryExtension::Dependent)
-                        testselectvertex(geoid, Sketcher::PointPos::start);
-                    if (solvext->getEnd() == SolverGeometryExtension::Dependent)
-                        testselectvertex(geoid, Sketcher::PointPos::end);
-                    if (solvext->getMid() == SolverGeometryExtension::Dependent)
-                        testselectvertex(geoid, Sketcher::PointPos::mid);
+            if (solvext->getGeometry() == Sketcher::SolverGeometryExtension::NotFullyConstraint) {
+                // Coded for consistency with getGeometryWithDependentParameters, read the
+                // comments on that function
+                if (solvext->getEdge() == SolverGeometryExtension::Dependent) {
+                    testselectedge(geoid);
+                }
+                if (solvext->getStart() == SolverGeometryExtension::Dependent) {
+                    testselectvertex(geoid, Sketcher::PointPos::start);
+                }
+                if (solvext->getEnd() == SolverGeometryExtension::Dependent) {
+                    testselectvertex(geoid, Sketcher::PointPos::end);
+                }
+                if (solvext->getMid() == SolverGeometryExtension::Dependent) {
+                    testselectvertex(geoid, Sketcher::PointPos::mid);
                 }
             }
         }
@@ -1021,10 +1033,10 @@ void CmdSketcherRestoreInternalAlignmentGeometry::activated(int iMsg)
         int GeoId;
         Sketcher::PointPos PosId;
         getIdsFromName(SubName, Obj, GeoId, PosId);
-        if (PosId == Sketcher::PointPos::none)
+        if (PosId == Sketcher::PointPos::none) {
             return GeoId;
-        else
-            return (int)GeoEnum::GeoUndef;
+        }
+        return (int)GeoEnum::GeoUndef;
     };
 
     // Tells if the geometry with given GeoId has internal geometry
@@ -1096,8 +1108,8 @@ CmdSketcherSymmetry::CmdSketcherSymmetry()
     sAppModule = "Sketcher";
     sGroup = "Sketcher";
     sMenuText = QT_TR_NOOP("Symmetry");
-    sToolTipText =
-        QT_TR_NOOP("Creates symmetric of selected geometry. After starting the tool select the reference line or point.");
+    sToolTipText = QT_TR_NOOP("Creates symmetric of selected geometry. After starting the tool "
+                              "select the reference line or point.");
     sWhatsThis = "Sketcher_Symmetry";
     sStatusTip = sToolTipText;
     sPixmap = "Sketcher_Symmetry";
@@ -1210,10 +1222,12 @@ public:
     {
         if (Mode == STATUS_SEEK_First) {
 
-            if (QApplication::keyboardModifiers() == Qt::ControlModifier)
+            if (QApplication::keyboardModifiers() == Qt::ControlModifier) {
                 snapMode = SnapMode::Snap5Degree;
-            else
+            }
+            else {
                 snapMode = SnapMode::Free;
+            }
 
             float length = (onSketchPos - EditCurve[0]).Length();
             float angle = (onSketchPos - EditCurve[0]).Angle();
@@ -1282,8 +1296,7 @@ public:
                 Gui::Command::abortCommand();
             }
 
-            tryAutoRecomputeIfNotSolve(
-                sketchgui->getObject<Sketcher::SketchObject>());
+            tryAutoRecomputeIfNotSolve(sketchgui->getObject<Sketcher::SketchObject>());
             EditCurve.clear();
             drawEdit(EditCurve);
 
@@ -1426,22 +1439,6 @@ void SketcherCopy::activate(SketcherCopy::Op op)
             LastPointPos = Sketcher::PointPos::start;
         }
     }
-
-    // Ask the user if they want to clone or to simple copy
-    /*
-    int ret = QMessageBox::question(Gui::getMainWindow(), QObject::tr("Dimensional/Geometric
-    constraints"), QObject::tr("Do you want to clone the object, i.e. substitute dimensional
-    constraints by geometric constraints?"), QMessageBox::Yes, QMessageBox::No,
-    QMessageBox::Cancel);
-    // use an equality constraint
-    if (ret == QMessageBox::Yes) {
-        clone = true;
-    }
-    else if (ret == QMessageBox::Cancel) {
-    // do nothing
-    return;
-    }
-*/
 
     ActivateHandler(getActiveGuiDocument(),
                     std::make_unique<DrawSketchHandlerCopy>(geoIdList, LastGeoId, LastPointPos, geoids, op));
@@ -1614,8 +1611,9 @@ CmdSketcherCompCopy::CmdSketcherCompCopy()
 
 void CmdSketcherCompCopy::activated(int iMsg)
 {
-    if (iMsg < 0 || iMsg > 2)
+    if (iMsg < 0 || iMsg > 2) {
         return;
+    }
 
     // Since the default icon is reset when enabling/disabling the command we have
     // to explicitly set the icon of the used command.
@@ -1638,7 +1636,7 @@ void CmdSketcherCompCopy::activated(int iMsg)
     else if (iMsg == 2) {
         CmdSketcherMove sc;
         sc.activate();
-        pcAction->setShortcut(QStringLiteral(""));
+        pcAction->setShortcut(QString());
     }
 }
 
@@ -1671,8 +1669,9 @@ void CmdSketcherCompCopy::languageChange()
 {
     Command::languageChange();
 
-    if (!_pcAction)
+    if (!_pcAction) {
         return;
+    }
     Gui::ActionGroup* pcAction = qobject_cast<Gui::ActionGroup*>(_pcAction);
     QList<QAction*> a = pcAction->actions();
 
@@ -1786,10 +1785,12 @@ public:
     {
         if (Mode == STATUS_SEEK_First) {
 
-            if (QApplication::keyboardModifiers() == Qt::ControlModifier)
+            if (QApplication::keyboardModifiers() == Qt::ControlModifier) {
                 snapMode = SnapMode::Snap5Degree;
-            else
+            }
+            else {
                 snapMode = SnapMode::Free;
+            }
 
             float length = (onSketchPos - EditCurve[0]).Length();
             float angle = (onSketchPos - EditCurve[0]).Angle();
@@ -1864,8 +1865,7 @@ public:
                 createAutoConstraints(sugConstr1, OriginGeoId + nElements, OriginPos);
                 sugConstr1.clear();
             }
-            tryAutoRecomputeIfNotSolve(
-                sketchgui->getObject<Sketcher::SketchObject>());
+            tryAutoRecomputeIfNotSolve(sketchgui->getObject<Sketcher::SketchObject>());
 
             EditCurve.clear();
             drawEdit(EditCurve);
@@ -1885,7 +1885,7 @@ private:
         EditCurve[0] = Base::Vector2d(Origin.x, Origin.y);
     }
 
-protected:
+private:
     SelectMode Mode;
     SnapMode snapMode;
     string geoIdList;
@@ -2101,10 +2101,12 @@ void CmdSketcherDeleteAllGeometry::activated(int iMsg)
             "User parameter:BaseApp/Preferences/Mod/Sketcher");
         bool autoRecompute = hGrp->GetBool("AutoRecompute", false);
 
-        if (autoRecompute)
+        if (autoRecompute) {
             Gui::Command::updateActive();
-        else
+        }
+        else {
             Obj->solve();
+        }
     }
     else if (ret == QMessageBox::Cancel) {
         // do nothing
@@ -2167,10 +2169,12 @@ void CmdSketcherDeleteAllConstraints::activated(int iMsg)
             "User parameter:BaseApp/Preferences/Mod/Sketcher");
         bool autoRecompute = hGrp->GetBool("AutoRecompute", false);
 
-        if (autoRecompute)
+        if (autoRecompute) {
             Gui::Command::updateActive();
-        else
+        }
+        else {
             Obj->solve();
+        }
     }
     else if (ret == QMessageBox::Cancel) {
         // do nothing
@@ -2371,7 +2375,7 @@ void CmdSketcherOffset::activated(int iMsg)
         }
     }
 
-    if (listOfGeoIds.size() != 0) {
+    if (!listOfGeoIds.empty()) {
         ActivateHandler(getActiveGuiDocument(), std::make_unique<DrawSketchHandlerOffset>(listOfGeoIds));
     }
     else {
@@ -2431,7 +2435,10 @@ CmdSketcherScale::CmdSketcherScale()
     sAppModule = "Sketcher";
     sGroup = "Sketcher";
     sMenuText = QT_TR_NOOP("Scale transform");
-    sToolTipText = QT_TR_NOOP("Scale selected geometries. After selecting the center point you can either enter the scale factor, or select two reference points then scale factor = length(p2-center) / length(p1-center).");
+    sToolTipText = QT_TR_NOOP("Scale selected geometries. "
+                              "After selecting the center point you can either enter the scale "
+                              "factor, or select two reference points then scale factor = "
+                              "length(p2-center) / length(p1-center).");
     sWhatsThis = "Sketcher_Scale";
     sStatusTip = sToolTipText;
     sPixmap = "Sketcher_Scale";
