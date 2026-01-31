@@ -65,6 +65,9 @@ using namespace std;
 using namespace SketcherGui;
 using namespace Sketcher;
 
+namespace
+{
+
 std::vector<int> getListOfSelectedGeoIds(bool forceInternalSelection)
 {
     std::vector<int> listOfGeoIds = {};
@@ -206,6 +209,7 @@ bool copySelectionToClipboard(Sketcher::SketchObject* obj) {
         return true;
     }
     return false;
+}
 }
 
 DEF_STD_CMD_A(CmdSketcherCopyClipboard)
