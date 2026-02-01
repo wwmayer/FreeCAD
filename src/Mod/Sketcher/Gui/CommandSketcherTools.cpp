@@ -1174,14 +1174,14 @@ static const char* cursor_createcopy[] = {"32 32 3 1",
 class DrawSketchHandlerCopy: public DrawSketchHandler
 {
 public:
-    DrawSketchHandlerCopy(string geoidlist, int origingeoid, Sketcher::PointPos originpos,
-                          int nelements, SketcherCopy::Op op)
+    DrawSketchHandlerCopy(string geoidlist, int origingeoid,
+                          Sketcher::PointPos originpos,
+                          SketcherCopy::Op op)
         : Mode(STATUS_SEEK_First)
         , snapMode(SnapMode::Free)
         , geoIdList(std::move(geoidlist))
         , OriginGeoId(origingeoid)
         , OriginPos(originpos)
-        , nElements(nelements)
         , Op(op)
         , EditCurve(2)
     {}
@@ -1296,14 +1296,13 @@ private:
         EditCurve[0] = Base::Vector2d(Origin.x, Origin.y);
     }
 
-protected:
+private:
     SelectMode Mode;
     SnapMode snapMode;
     string geoIdList;
     Base::Vector3d Origin;
     int OriginGeoId;
     Sketcher::PointPos OriginPos;
-    int nElements;
     SketcherCopy::Op Op;
     std::vector<Base::Vector2d> EditCurve;
     std::vector<AutoConstraint> sugConstr1;
@@ -1421,7 +1420,7 @@ void SketcherCopy::activate(SketcherCopy::Op op)
     }
 
     ActivateHandler(getActiveGuiDocument(),
-                    std::make_unique<DrawSketchHandlerCopy>(geoIdList, LastGeoId, LastPointPos, geoids, op));
+                    std::make_unique<DrawSketchHandlerCopy>(geoIdList, LastGeoId, LastPointPos, op));
 }
 
 
