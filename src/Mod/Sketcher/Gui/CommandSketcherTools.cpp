@@ -74,7 +74,7 @@ std::vector<int> getListOfSelectedGeoIds(bool forceInternalSelection)
 
     // get the selection
     std::vector<Gui::SelectionObject> selection;
-    selection = Gui::Selection().getSelectionEx(0, Sketcher::SketchObject::getClassTypeId());
+    selection = Gui::Selection().getSelectionEx(nullptr, Sketcher::SketchObject::getClassTypeId());
 
     // only one sketch with its subelements are allowed to be selected
     if (selection.size() != 1) {
@@ -85,7 +85,7 @@ std::vector<int> getListOfSelectedGeoIds(bool forceInternalSelection)
     }
 
     // get the needed lists and objects
-    auto* Obj = static_cast<Sketcher::SketchObject*>(selection[0].getObject());
+    auto* Obj = selection[0].getObject<Sketcher::SketchObject>();
     const std::vector<std::string>& subNames = selection[0].getSubNames();
     if (!subNames.empty()) {
 
@@ -101,8 +101,8 @@ std::vector<int> getListOfSelectedGeoIds(bool forceInternalSelection)
             else if (name.size() > 6 && name.substr(0, 6) == "Vertex") {
                 // only if it is a GeomPoint
                 int VtId = std::atoi(name.substr(6, 4000).c_str()) - 1;
-                int geoId;
-                Sketcher::PointPos PosId;
+                int geoId {};
+                Sketcher::PointPos PosId {};
                 Obj->getGeoVertexIndex(VtId, geoId, PosId);
                 if (isPoint(*Obj->getGeometry(geoId))) {
                     if (geoId >= 0) {
@@ -187,13 +187,13 @@ bool copySelectionToClipboard(Sketcher::SketchObject* obj) {
         Constraint* temp = constr->copy();
         for (size_t j = 0; j < listOfGeoId.size(); j++) {
             if (temp->First == listOfGeoId[j]) {
-                temp->First = j;
+                temp->First = static_cast<int>(j);
             }
             if (temp->Second == listOfGeoId[j]) {
-                temp->Second = j;
+                temp->Second = static_cast<int>(j);
             }
             if (temp->Third == listOfGeoId[j]) {
-                temp->Third = j;
+                temp->Third = static_cast<int>(j);
             }
         }
         shapeConstraints.push_back(temp);
@@ -371,7 +371,7 @@ void CmdSketcherSelectConstraints::activated(int iMsg)
 
     // get the needed lists and objects
     const std::vector<std::string>& SubNames = selection[0].getSubNames();
-    Sketcher::SketchObject* Obj = static_cast<Sketcher::SketchObject*>(selection[0].getObject());
+    auto* Obj = selection[0].getObject<Sketcher::SketchObject>();
     const std::vector<Sketcher::Constraint*>& vals = Obj->Constraints.getValues();
 
     std::string doc_name = Obj->getDocument()->getName();
@@ -381,17 +381,14 @@ void CmdSketcherSelectConstraints::activated(int iMsg)
 
     std::vector<std::string> constraintSubNames;
     // go through the selected subelements
-    for (std::vector<std::string>::const_iterator it = SubNames.begin(); it != SubNames.end();
-         ++it) {
+    for (const std::string& it : SubNames) {
         // only handle edges
-        if (it->size() > 4 && it->substr(0, 4) == "Edge") {
-            int GeoId = std::atoi(it->substr(4, 4000).c_str()) - 1;
+        if (it.size() > 4 && it.substr(0, 4) == "Edge") {
+            int GeoId = std::atoi(it.substr(4, 4000).c_str()) - 1;
 
             // push all the constraints
             int i = 0;
-            for (std::vector<Sketcher::Constraint*>::const_iterator it = vals.begin();
-                 it != vals.end();
-                 ++it, ++i) {
+            for (auto it = vals.begin(); it != vals.end(); ++it, ++i) {
                 if ((*it)->First == GeoId || (*it)->Second == GeoId || (*it)->Third == GeoId) {
                     constraintSubNames.push_back(
                         Sketcher::PropertyConstraintList::getConstraintName(i));
@@ -575,12 +572,9 @@ void CmdSketcherSelectRedundantConstraints::activated(int iMsg)
     std::vector<std::string> constraintSubNames;
 
     int i = 0;
-    for (std::vector<Sketcher::Constraint*>::const_iterator it = vals.begin(); it != vals.end();
-         ++it, ++i) {
-        for (std::vector<int>::const_iterator itc = solverredundant.begin();
-             itc != solverredundant.end();
-             ++itc) {
-            if ((*itc) - 1 == i) {
+    for (auto it = vals.begin(); it != vals.end(); ++it, ++i) {
+        for (int itc : solverredundant) {
+            if ((itc) - 1 == i) {
                 constraintSubNames.push_back(
                     Sketcher::PropertyConstraintList::getConstraintName(i));
                 break;
@@ -631,12 +625,9 @@ void CmdSketcherSelectMalformedConstraints::activated(int iMsg)
     // push the constraints
     std::vector<std::string> constraintSubNames;
     int i = 0;
-    for (std::vector<Sketcher::Constraint*>::const_iterator it = vals.begin(); it != vals.end();
-         ++it, ++i) {
-        for (std::vector<int>::const_iterator itc = solvermalformed.begin();
-             itc != solvermalformed.end();
-             ++itc) {
-            if ((*itc) - 1 == i) {
+    for (auto it = vals.begin(); it != vals.end(); ++it, ++i) {
+        for (int itc : solvermalformed) {
+            if ((itc) - 1 == i) {
                 constraintSubNames.push_back(
                     Sketcher::PropertyConstraintList::getConstraintName(i));
                 break;
@@ -688,12 +679,9 @@ void CmdSketcherSelectPartiallyRedundantConstraints::activated(int iMsg)
     // push the constraints
     std::vector<std::string> constraintSubNames;
     int i = 0;
-    for (std::vector<Sketcher::Constraint*>::const_iterator it = vals.begin(); it != vals.end();
-         ++it, ++i) {
-        for (std::vector<int>::const_iterator itc = solverpartiallyredundant.begin();
-             itc != solverpartiallyredundant.end();
-             ++itc) {
-            if ((*itc) - 1 == i) {
+    for (auto it = vals.begin(); it != vals.end(); ++it, ++i) {
+        for (int itc : solverpartiallyredundant) {
+            if ((itc) - 1 == i) {
                 constraintSubNames.push_back(
                     Sketcher::PropertyConstraintList::getConstraintName(i));
                 break;
@@ -746,12 +734,9 @@ void CmdSketcherSelectConflictingConstraints::activated(int iMsg)
     // push the constraints
     std::vector<std::string> constraintSubNames;
     int i = 0;
-    for (std::vector<Sketcher::Constraint*>::const_iterator it = vals.begin(); it != vals.end();
-         ++it, ++i) {
-        for (std::vector<int>::const_iterator itc = solverconflicting.begin();
-             itc != solverconflicting.end();
-             ++itc) {
-            if ((*itc) - 1 == i) {
+    for (auto it = vals.begin(); it != vals.end(); ++it, ++i) {
+        for (int itc : solverconflicting) {
+            if ((itc) - 1 == i) {
                 constraintSubNames.push_back(
                     Sketcher::PropertyConstraintList::getConstraintName(i));
                 break;
@@ -806,11 +791,10 @@ void CmdSketcherSelectElementsAssociatedWithConstraints::activated(int iMsg)
 
     std::vector<std::string> elementSubNames;
     // go through the selected subelements
-    for (std::vector<std::string>::const_iterator it = SubNames.begin(); it != SubNames.end();
-         ++it) {
+    for (const std::string& it : SubNames) {
         // only handle constraints
-        if (it->size() > 10 && it->substr(0, 10) == "Constraint") {
-            int ConstrId = Sketcher::PropertyConstraintList::getIndexFromConstraintName(*it);
+        if (it.size() > 10 && it.substr(0, 10) == "Constraint") {
+            int ConstrId = Sketcher::PropertyConstraintList::getIndexFromConstraintName(it);
 
             if (ConstrId < static_cast<int>(vals.size())) {
                 if (vals[ConstrId]->First != GeoEnum::GeoUndef) {
@@ -1024,14 +1008,14 @@ void CmdSketcherRestoreInternalAlignmentGeometry::activated(int iMsg)
 
     // get the needed lists and objects
     const std::vector<std::string>& SubNames = selection[0].getSubNames();
-    Sketcher::SketchObject* Obj = static_cast<Sketcher::SketchObject*>(selection[0].getObject());
+    auto* Obj = selection[0].getObject<Sketcher::SketchObject>();
 
     getSelection().clearSelection();
 
     // Return GeoId of the SubName only if it is an edge
     auto getEdgeGeoId = [&Obj](const std::string& SubName) {
-        int GeoId;
-        Sketcher::PointPos PosId;
+        int GeoId {};
+        Sketcher::PointPos PosId {};
         getIdsFromName(SubName, Obj, GeoId, PosId);
         if (PosId == Sketcher::PointPos::none) {
             return GeoId;
@@ -1194,8 +1178,7 @@ public:
                           int nelements, SketcherCopy::Op op)
         : Mode(STATUS_SEEK_First)
         , snapMode(SnapMode::Free)
-        , geoIdList(geoidlist)
-        , Origin()
+        , geoIdList(std::move(geoidlist))
         , OriginGeoId(origingeoid)
         , OriginPos(originpos)
         , nElements(nelements)
@@ -1203,8 +1186,6 @@ public:
         , EditCurve(2)
     {}
 
-    ~DrawSketchHandlerCopy() override
-    {}
     /// mode table
     enum SelectMode
     {
@@ -1229,8 +1210,8 @@ public:
                 snapMode = SnapMode::Free;
             }
 
-            float length = (onSketchPos - EditCurve[0]).Length();
-            float angle = (onSketchPos - EditCurve[0]).Angle();
+            double length = (onSketchPos - EditCurve[0]).Length();
+            double angle = (onSketchPos - EditCurve[0]).Angle();
 
             Base::Vector2d endpoint = onSketchPos;
 
@@ -1253,7 +1234,7 @@ public:
         applyCursor();
     }
 
-    bool pressButton(Base::Vector2d) override
+    bool pressButton([[maybe_unused]]Base::Vector2d pos) override
     {
         if (Mode == STATUS_SEEK_First) {
             drawEdit(EditCurve);
@@ -1357,7 +1338,7 @@ void SketcherCopy::activate(SketcherCopy::Op op)
         return;
     }
 
-    Sketcher::SketchObject* Obj = static_cast<Sketcher::SketchObject*>(selection[0].getObject());
+    auto* Obj = selection[0].getObject<Sketcher::SketchObject>();
     getSelection().clearSelection();
 
     int LastGeoId = 0;
@@ -1367,11 +1348,10 @@ void SketcherCopy::activate(SketcherCopy::Op op)
     // create python command with list of elements
     std::stringstream stream;
     int geoids = 0;
-    for (std::vector<std::string>::const_iterator it = SubNames.begin(); it != SubNames.end();
-         ++it) {
+    for (const std::string& it : SubNames) {
         // only handle non-external edges
-        if (it->size() > 4 && it->substr(0, 4) == "Edge") {
-            LastGeoId = std::atoi(it->substr(4, 4000).c_str()) - 1;
+        if (it.size() > 4 && it.substr(0, 4) == "Edge") {
+            LastGeoId = std::atoi(it.substr(4, 4000).c_str()) - 1;
             LastPointPos = Sketcher::PointPos::none;
             LastGeo = Obj->getGeometry(LastGeoId);
             // lines to copy
@@ -1380,11 +1360,11 @@ void SketcherCopy::activate(SketcherCopy::Op op)
                 stream << LastGeoId << ",";
             }
         }
-        else if (it->size() > 6 && it->substr(0, 6) == "Vertex") {
+        else if (it.size() > 6 && it.substr(0, 6) == "Vertex") {
             // only if it is a GeomPoint
-            int VtId = std::atoi(it->substr(6, 4000).c_str()) - 1;
-            int GeoId;
-            Sketcher::PointPos PosId;
+            int VtId = std::atoi(it.substr(6, 4000).c_str()) - 1;
+            int GeoId {};
+            Sketcher::PointPos PosId {};
             Obj->getGeoVertexIndex(VtId, GeoId, PosId);
             if (Obj->getGeometry(GeoId)->is<Part::GeomPoint>()) {
                 LastGeoId = GeoId;
@@ -1401,8 +1381,8 @@ void SketcherCopy::activate(SketcherCopy::Op op)
     // check if last selected element is a Vertex, not being a GeomPoint
     if (SubNames.rbegin()->size() > 6 && SubNames.rbegin()->substr(0, 6) == "Vertex") {
         int VtId = std::atoi(SubNames.rbegin()->substr(6, 4000).c_str()) - 1;
-        int GeoId;
-        Sketcher::PointPos PosId;
+        int GeoId {};
+        Sketcher::PointPos PosId {};
         Obj->getGeoVertexIndex(VtId, GeoId, PosId);
         if (!Obj->getGeometry(GeoId)->is<Part::GeomPoint>()) {
             LastGeoId = GeoId;
@@ -1422,7 +1402,7 @@ void SketcherCopy::activate(SketcherCopy::Op op)
     std::string geoIdList = stream.str();
 
     // remove the last added comma and brackets to make the python list
-    int index = geoIdList.rfind(',');
+    std::size_t index = geoIdList.rfind(',');
     geoIdList.resize(index);
     geoIdList.insert(0, 1, '[');
     geoIdList.append(1, ']');
@@ -1449,8 +1429,6 @@ class CmdSketcherCopy: public SketcherCopy
 {
 public:
     CmdSketcherCopy();
-    ~CmdSketcherCopy() override
-    {}
     const char* className() const override
     {
         return "CmdSketcherCopy";
@@ -1500,8 +1478,6 @@ class CmdSketcherClone: public SketcherCopy
 {
 public:
     CmdSketcherClone();
-    ~CmdSketcherClone() override
-    {}
     const char* className() const override
     {
         return "CmdSketcherClone";
@@ -1548,8 +1524,6 @@ class CmdSketcherMove: public SketcherCopy
 {
 public:
     CmdSketcherMove();
-    ~CmdSketcherMove() override
-    {}
     const char* className() const override
     {
         return "CmdSketcherMove";
@@ -1754,7 +1728,7 @@ public:
                                       bool equalVerticalHorizontalSpacing)
         : Mode(STATUS_SEEK_First)
         , snapMode(SnapMode::Free)
-        , geoIdList(geoidlist)
+        , geoIdList(std::move(geoidlist))
         , OriginGeoId(origingeoid)
         , OriginPos(originpos)
         , nElements(nelements)
@@ -1766,8 +1740,6 @@ public:
         , EditCurve(2)
     {}
 
-    ~DrawSketchHandlerRectangularArray() override
-    {}
     /// mode table
     enum SelectMode
     {
@@ -1792,8 +1764,8 @@ public:
                 snapMode = SnapMode::Free;
             }
 
-            float length = (onSketchPos - EditCurve[0]).Length();
-            float angle = (onSketchPos - EditCurve[0]).Angle();
+            double length = (onSketchPos - EditCurve[0]).Length();
+            double angle = (onSketchPos - EditCurve[0]).Angle();
 
             Base::Vector2d endpoint = onSketchPos;
 
@@ -1821,7 +1793,7 @@ public:
         applyCursor();
     }
 
-    bool pressButton(Base::Vector2d) override
+    bool pressButton([[maybe_unused]]Base::Vector2d pos) override
     {
         if (Mode == STATUS_SEEK_First) {
             drawEdit(EditCurve);
@@ -1944,7 +1916,7 @@ void CmdSketcherRectangularArray::activated(int iMsg)
         return;
     }
 
-    Sketcher::SketchObject* Obj = static_cast<Sketcher::SketchObject*>(selection[0].getObject());
+    auto* Obj = selection[0].getObject<Sketcher::SketchObject>();
 
     getSelection().clearSelection();
 
@@ -1956,11 +1928,10 @@ void CmdSketcherRectangularArray::activated(int iMsg)
     std::stringstream stream;
     int geoids = 0;
 
-    for (std::vector<std::string>::const_iterator it = SubNames.begin(); it != SubNames.end();
-         ++it) {
+    for (const std::string& it : SubNames) {
         // only handle non-external edges
-        if (it->size() > 4 && it->substr(0, 4) == "Edge") {
-            LastGeoId = std::atoi(it->substr(4, 4000).c_str()) - 1;
+        if (it.size() > 4 && it.substr(0, 4) == "Edge") {
+            LastGeoId = std::atoi(it.substr(4, 4000).c_str()) - 1;
             LastPointPos = Sketcher::PointPos::none;
             LastGeo = Obj->getGeometry(LastGeoId);
 
@@ -1970,11 +1941,11 @@ void CmdSketcherRectangularArray::activated(int iMsg)
                 stream << LastGeoId << ",";
             }
         }
-        else if (it->size() > 6 && it->substr(0, 6) == "Vertex") {
+        else if (it.size() > 6 && it.substr(0, 6) == "Vertex") {
             // only if it is a GeomPoint
-            int VtId = std::atoi(it->substr(6, 4000).c_str()) - 1;
-            int GeoId;
-            Sketcher::PointPos PosId;
+            int VtId = std::atoi(it.substr(6, 4000).c_str()) - 1;
+            int GeoId {};
+            Sketcher::PointPos PosId {};
             Obj->getGeoVertexIndex(VtId, GeoId, PosId);
             if (Obj->getGeometry(GeoId)->is<Part::GeomPoint>()) {
                 LastGeoId = GeoId;
@@ -1991,8 +1962,8 @@ void CmdSketcherRectangularArray::activated(int iMsg)
     // check if last selected element is a Vertex, not being a GeomPoint
     if (SubNames.rbegin()->size() > 6 && SubNames.rbegin()->substr(0, 6) == "Vertex") {
         int VtId = std::atoi(SubNames.rbegin()->substr(6, 4000).c_str()) - 1;
-        int GeoId;
-        Sketcher::PointPos PosId;
+        int GeoId {};
+        Sketcher::PointPos PosId {};
         Obj->getGeoVertexIndex(VtId, GeoId, PosId);
         if (!Obj->getGeometry(GeoId)->is<Part::GeomPoint>()) {
             LastGeoId = GeoId;
@@ -2012,7 +1983,7 @@ void CmdSketcherRectangularArray::activated(int iMsg)
     std::string geoIdList = stream.str();
 
     // remove the last added comma and brackets to make the python list
-    int index = geoIdList.rfind(',');
+    std::size_t index = geoIdList.rfind(',');
     geoIdList.resize(index);
     geoIdList.insert(0, 1, '[');
     geoIdList.append(1, ']');
@@ -2232,7 +2203,7 @@ void CmdSketcherRemoveAxesAlignment::activated(int iMsg)
         return;
     }
 
-    Sketcher::SketchObject* Obj = static_cast<Sketcher::SketchObject*>(selection[0].getObject());
+    auto* Obj = selection[0].getObject<Sketcher::SketchObject>();
 
     getSelection().clearSelection();
 
@@ -2242,11 +2213,10 @@ void CmdSketcherRemoveAxesAlignment::activated(int iMsg)
     std::stringstream stream;
     int geoids = 0;
 
-    for (std::vector<std::string>::const_iterator it = SubNames.begin(); it != SubNames.end();
-         ++it) {
+    for (const std::string& it : SubNames) {
         // only handle non-external edges
-        if (it->size() > 4 && it->substr(0, 4) == "Edge") {
-            LastGeoId = std::atoi(it->substr(4, 4000).c_str()) - 1;
+        if (it.size() > 4 && it.substr(0, 4) == "Edge") {
+            LastGeoId = std::atoi(it.substr(4, 4000).c_str()) - 1;
 
             // lines to copy
             if (LastGeoId >= 0) {
@@ -2254,11 +2224,11 @@ void CmdSketcherRemoveAxesAlignment::activated(int iMsg)
                 stream << LastGeoId << ",";
             }
         }
-        else if (it->size() > 6 && it->substr(0, 6) == "Vertex") {
+        else if (it.size() > 6 && it.substr(0, 6) == "Vertex") {
             // only if it is a GeomPoint
-            int VtId = std::atoi(it->substr(6, 4000).c_str()) - 1;
-            int GeoId;
-            Sketcher::PointPos PosId;
+            int VtId = std::atoi(it.substr(6, 4000).c_str()) - 1;
+            int GeoId {};
+            Sketcher::PointPos PosId {};
             Obj->getGeoVertexIndex(VtId, GeoId, PosId);
             if (Obj->getGeometry(GeoId)->is<Part::GeomPoint>()) {
                 LastGeoId = GeoId;
@@ -2284,7 +2254,7 @@ void CmdSketcherRemoveAxesAlignment::activated(int iMsg)
     std::string geoIdList = stream.str();
 
     // remove the last added comma and brackets to make the python list
-    int index = geoIdList.rfind(',');
+    std::size_t index = geoIdList.rfind(',');
     geoIdList.resize(index);
     geoIdList.insert(0, 1, '[');
     geoIdList.append(1, ']');
@@ -2333,7 +2303,7 @@ void CmdSketcherOffset::activated(int iMsg)
 
     // get the selection
     std::vector<Gui::SelectionObject> selection;
-    selection = getSelection().getSelectionEx(0, Sketcher::SketchObject::getClassTypeId());
+    selection = getSelection().getSelectionEx(nullptr, Sketcher::SketchObject::getClassTypeId());
 
     // only one sketch with its subelements are allowed to be selected
     if (selection.size() != 1) {
@@ -2345,11 +2315,11 @@ void CmdSketcherOffset::activated(int iMsg)
     }
 
     // get the needed lists and objects
-    auto* Obj = static_cast<Sketcher::SketchObject*>(selection[0].getObject());
+    auto* Obj = selection[0].getObject<Sketcher::SketchObject>();
     const std::vector<std::string>& subNames = selection[0].getSubNames();
     if (!subNames.empty()) {
         for (auto& name : subNames) {
-            int geoId;
+            int geoId {};
             if (name.size() > 4 && name.substr(0, 4) == "Edge") {
                 geoId = std::atoi(name.substr(4, 4000).c_str()) - 1;
             }
