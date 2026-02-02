@@ -1291,7 +1291,7 @@ static bool checkCanonicalPath(const std::map<App::Document*, bool> &docs)
     std::map<QString, std::vector<App::Document*> > paths;
     bool warn = false;
     for (auto doc : App::GetApplication().getDocuments()) {
-        QFileInfo info(QString::fromUtf8(doc->FileName.getValue()));
+        QFileInfo info(QString::fromUtf8(doc->FileName.getCStrValue()));
         auto &d = paths[info.canonicalFilePath()];
         d.push_back(doc);
         if (!warn && d.size() > 1) {
@@ -1330,13 +1330,13 @@ static bool checkCanonicalPath(const std::map<App::Document*, bool> &docs)
                     << "\n"
                     << QObject::tr("Document:") << ' ' << docName(doc)
                     << "\n  "
-                    << QObject::tr("Path:") << ' ' << QString::fromUtf8(doc->FileName.getValue());
+                    << QObject::tr("Path:") << ' ' << QString::fromUtf8(doc->FileName.getCStrValue());
                     for (auto d : v.second) {
                         if (d == doc) continue;
                         ts << "\n"
                         << QObject::tr("Document:") << ' ' << docName(d)
                         << "\n  "
-                        << QObject::tr("Path:") << ' ' << QString::fromUtf8(d->FileName.getValue());
+                        << QObject::tr("Path:") << ' ' << QString::fromUtf8(d->FileName.getCStrValue());
                     }
                 }
                 ++count;
@@ -1463,7 +1463,7 @@ bool Document::saveAs()
     getMainWindow()->showMessage(QObject::tr("Save document under new filename..."));
 
     QString exe = qApp->applicationName();
-    QString name = QString::fromUtf8(getDocument()->FileName.getValue());
+    QString name = QString::fromUtf8(getDocument()->FileName.getCStrValue());
     if(name.isEmpty()){
         name = QString::fromUtf8(getDocument()->Label.getValue());
     }
@@ -1485,7 +1485,7 @@ bool Document::saveAs()
             Command::doCommand(Command::Doc,"App.getDocument(\"%s\").saveAs(u\"%s\")"
                                            , DocName, escapedstr.c_str());
             // App::Document::saveAs() may modify the passed file name
-            fi.setFile(QString::fromUtf8(d->_pcDocument->FileName.getValue()));
+            fi.setFile(QString::fromUtf8(d->_pcDocument->FileName.getCStrValue()));
             setModified(false);
             getMainWindow()->appendRecentFile(fi.filePath());
         }
@@ -1569,7 +1569,7 @@ bool Document::saveCopy()
 
     QString exe = qApp->applicationName();
     QString fn = FileDialog::getSaveFileName(getMainWindow(), QObject::tr("Save %1 Document").arg(exe),
-                                             QString::fromUtf8(getDocument()->FileName.getValue()),
+                                             QString::fromUtf8(getDocument()->FileName.getCStrValue()),
                                              QObject::tr("%1 document (*.FCStd)").arg(exe));
     if (!fn.isEmpty()) {
         const char * DocName = App::GetApplication().getDocumentName(getDocument());
@@ -1616,7 +1616,7 @@ void Document::Save (Base::Writer &writer) const
             for (const auto & it : mdi) {
                 if (it->isDerivedFrom<View3DInventor>()) {
                     View3DInventorViewer* view = static_cast<View3DInventor*>(it)->getViewer();
-                    d->thumb.setFileName(d->_pcDocument->FileName.getValue());
+                    d->thumb.setFileName(d->_pcDocument->FileName.getCStrValue());
                     d->thumb.setSize(size);
                     d->thumb.setViewer(view);
                     d->thumb.Save(writer);

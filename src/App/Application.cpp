@@ -682,9 +682,10 @@ Document *Application::getDocumentByPath(const char *path, PathMatchMode checkCa
         return nullptr;
     if (DocFileMap.empty()) {
         for(const auto &v : DocMap) {
-            const auto &file = v.second->FileName.getStrValue();
-            if(!file.empty())
+            const auto file = v.second->FileName.getStrValue();
+            if(!file.empty()) {
                 DocFileMap[Base::FileInfo(file.c_str()).filePath()] = v.second;
+            }
         }
     }
     const auto it = DocFileMap.find(Base::FileInfo(path).filePath());
@@ -698,7 +699,7 @@ Document *Application::getDocumentByPath(const char *path, PathMatchMode checkCa
     const std::string filepath = Base::FileInfo(path).filePath();
     const QString canonicalPath = QFileInfo(QString::fromUtf8(path)).canonicalFilePath();
     for (const auto &v : DocMap) {
-        QFileInfo fi(QString::fromUtf8(v.second->FileName.getValue()));
+        QFileInfo fi(QString::fromUtf8(v.second->FileName.getCStrValue()));
         if (canonicalPath == fi.canonicalFilePath()) {
             if (checkCanonical == PathMatchMode::MatchCanonical) {
                 return v.second;

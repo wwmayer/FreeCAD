@@ -142,7 +142,7 @@ PyObject* DocumentPy::save(PyObject* args)
     }
     PY_CATCH;
 
-    const char* filename = getDocumentPtr()->FileName.getValue();
+    const char* filename = getDocumentPtr()->FileName.getCStrValue();
     Base::FileInfo fi(filename);
     if (!fi.isReadable()) {
         PyErr_Format(PyExc_IOError, "No such file or directory: '%s'", filename);
@@ -217,7 +217,7 @@ PyObject* DocumentPy::restore(PyObject* args)
     if (!PyArg_ParseTuple(args, "")) {
         return nullptr;
     }
-    const char* filename = getDocumentPtr()->FileName.getValue();
+    const char* filename = getDocumentPtr()->FileName.getCStrValue();
     if (!filename || *filename == '\0') {
         PyErr_Format(PyExc_ValueError, "Object attribute 'FileName' is not set");
         return nullptr;
@@ -1017,7 +1017,7 @@ PyObject* DocumentPy::getTempFileName(PyObject* args)
 
     // search for a temp file name in the document transient directory
     Base::FileInfo fileName(
-        Base::FileInfo::getTempFileName(string.c_str(), getDocumentPtr()->TransientDir.getValue()));
+        Base::FileInfo::getTempFileName(string.c_str(), getDocumentPtr()->TransientDir.getCStrValue()));
     // delete the created file, we need only the name...
     fileName.deleteFile();
 
