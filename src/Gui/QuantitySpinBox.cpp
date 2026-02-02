@@ -410,6 +410,9 @@ void Gui::QuantitySpinBox::keyPressEvent(QKeyEvent* event)
     const auto isEnter = event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return;
 
     if (isEnter && !isNormalized()) {
+        // ensure that input is up to date
+        handlePendingEmit();
+
         normalize();
         return;
     }
@@ -500,7 +503,11 @@ bool QuantitySpinBox::isNormalized()
                                               QRegularExpression::CaseInsensitiveOption);
 
     Q_D(const QuantitySpinBox);
-    return !d->validStr.contains(operators);
+    QString content = d->validStr;
+    if (content.startsWith(QLatin1Char('-'))) {
+        content.remove(0, 1);
+    }
+    return !content.contains(operators);
 }
 
 void QuantitySpinBox::setValue(const Base::Quantity& value)

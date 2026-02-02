@@ -6596,7 +6596,8 @@ int SketchObject::carbonCopy(App::DocumentObject* pObj, bool construction)
     Base::StateLocker lock(managedoperation, true);
 
     // so far only externals to the support of the sketch and datum features
-    bool xinv = false, yinv = false;
+    bool xinv = false;
+    bool yinv = false;
 
     if (!isCarbonCopyAllowed(pObj->getDocument(), pObj, xinv, yinv))
         return -1;

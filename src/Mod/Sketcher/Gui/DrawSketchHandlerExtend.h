@@ -80,7 +80,7 @@ public:
         disabled = isDisabled;
     }
 
-protected:
+private:
     bool disabled;
 };
 
@@ -233,7 +233,7 @@ public:
             }
             int curveId = getPreselectCurve();
             if (BaseGeoId != curveId) {
-                seekAndRenderAutoConstraint(SugConstr, onSketchPos, Base::Vector2d(0.f, 0.f));
+                seekAndRenderAutoConstraint(SugConstr, onSketchPos, Base::Vector2d::Null);
             }
         }
     }
@@ -358,7 +358,7 @@ private:
         return QStringLiteral("Sketcher_Pointer_Extension");
     }
 
-protected:
+private:
     SelectMode Mode;
     std::vector<Base::Vector2d> EditCurve;
     int BaseGeoId;

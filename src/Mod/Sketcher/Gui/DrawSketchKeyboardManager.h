@@ -74,7 +74,7 @@ public:
     /// returns which entity will currently receive the event.
     KeyboardEventHandlingMode getMode();
 
-    bool eventFilter(QObject* object, QEvent* event);
+    bool eventFilter(QObject* object, QEvent* event) override;
 
     /// sets the timeout to the amount of milliseconds.
     void setTimeOut(int milliseconds);

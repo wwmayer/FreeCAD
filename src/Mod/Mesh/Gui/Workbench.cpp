@@ -125,10 +125,10 @@ public:
             numMax->setText(tr("X: %1\tY: %2\tZ: %3").arg(bbox.MaxX).arg(bbox.MaxY).arg(bbox.MaxZ));
         }
         else {
-            numPoints->setText(QStringLiteral(""));
-            numFacets->setText(QStringLiteral(""));
-            numMin->setText(QStringLiteral(""));
-            numMax->setText(QStringLiteral(""));
+            numPoints->clear();
+            numFacets->clear();
+            numMin->clear();
+            numMax->clear();
         }
     }
 
@@ -208,7 +208,9 @@ Gui::MenuItem* Workbench::setupMenuBar() const
           << "Mesh_Export"
           << "Mesh_FromPartShape"
           << "Mesh_RemeshGmsh"
-          << "Separator" << analyze << "Mesh_VertexCurvature"
+          << "Separator"
+          << analyze
+          << "Mesh_VertexCurvature"
           << "Mesh_HarmonizeNormals"
           << "Mesh_FlipNormals"
           << "Separator"
@@ -224,7 +226,10 @@ Gui::MenuItem* Workbench::setupMenuBar() const
           << "Mesh_Decimating"
           << "Mesh_Scale"
           << "Separator"
-          << "Mesh_BuildRegularSolid" << boolean << cutting << "Separator"
+          << "Mesh_BuildRegularSolid"
+          << boolean
+          << cutting
+          << "Separator"
           << "Mesh_Merge"
           << "Mesh_SplitComponents"
           << "Separator";
@@ -300,7 +305,7 @@ Gui::ToolBarItem* Workbench::setupCommandBars() const
 {
     // Mesh tools
     Gui::ToolBarItem* root = new Gui::ToolBarItem;
-    Gui::ToolBarItem* mesh;
+    Gui::ToolBarItem* mesh {};
 
     mesh = new Gui::ToolBarItem(root);
     mesh->setCommand("Mesh tools");

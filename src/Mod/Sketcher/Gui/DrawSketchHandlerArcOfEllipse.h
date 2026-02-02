@@ -46,8 +46,6 @@ public:
     DrawSketchHandlerArcOfEllipse()
         : Mode(STATUS_SEEK_First)
         , EditCurve(34)
-        , rx(0)
-        , ry(0)
         , startAngle(0)
         , endAngle(0)
         , arcAngle(0)
@@ -72,7 +70,7 @@ public:
             setPositionText(onSketchPos);
             seekAndRenderAutoConstraint(sugConstr1,
                                         onSketchPos,
-                                        Base::Vector2d(0.f, 0.f));  // TODO: ellipse prio 1
+                                        Base::Vector2d::Null);  // TODO: ellipse prio 1
         }
         else if (Mode == STATUS_SEEK_Second) {
             double rx0 = onSketchPos.x - EditCurve[0].x;
@@ -87,7 +85,7 @@ public:
             EditCurve[33] = EditCurve[1];
 
             // Display radius for user
-            float radius = (onSketchPos - EditCurve[0]).Length();
+            double radius = (onSketchPos - EditCurve[0]).Length();
 
             if (showCursorCoords()) {
                 SbString text;
@@ -134,7 +132,7 @@ public:
             }
 
             drawEdit(EditCurve);
-            seekAndRenderAutoConstraint(sugConstr3, onSketchPos, Base::Vector2d(0.f, 0.f));
+            seekAndRenderAutoConstraint(sugConstr3, onSketchPos, Base::Vector2d::Null);
         }
         else if (Mode == STATUS_SEEK_Fourth) {  // here we differ from ellipse creation
             // angle between the major axis of the ellipse and the X axis
@@ -187,7 +185,7 @@ public:
             }
 
             drawEdit(EditCurve);
-            seekAndRenderAutoConstraint(sugConstr4, onSketchPos, Base::Vector2d(0.f, 0.f));
+            seekAndRenderAutoConstraint(sugConstr4, onSketchPos, Base::Vector2d::Null);
         }
     }
 
@@ -259,7 +257,10 @@ public:
                 isOriginalArcCCW = false;
             }
 
-            Base::Vector2d majAxisDir, minAxisDir, minAxisPoint, majAxisPoint;
+            Base::Vector2d majAxisDir;
+            Base::Vector2d minAxisDir;
+            Base::Vector2d minAxisPoint;
+            Base::Vector2d majAxisPoint;
             // We always create a CCW ellipse, because we want our XY reference system to be in the
             // +X +Y direction Our normal will then always be in the +Z axis (local +Z axis of the
             // sketcher)
@@ -386,11 +387,11 @@ private:
         return QStringLiteral("Sketcher_Pointer_Create_ArcOfEllipse");
     }
 
-protected:
+private:
     SelectMode Mode;
     std::vector<Base::Vector2d> EditCurve;
     Base::Vector2d centerPoint, axisPoint, startingPoint, endPoint;
-    double rx, ry, startAngle, endAngle, arcAngle, arcAngle_t;
+    double startAngle, endAngle, arcAngle, arcAngle_t;
     std::vector<AutoConstraint> sugConstr1, sugConstr2, sugConstr3, sugConstr4;
 };
 

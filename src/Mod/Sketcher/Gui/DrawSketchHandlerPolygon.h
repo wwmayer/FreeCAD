@@ -106,7 +106,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[0],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f));
+                                            Base::Vector2d::Null);
             } break;
             case SelectMode::SeekSecond: {
                 toolWidgetManager.drawDirectionAtCursor(onSketchPos, centerPoint);
@@ -117,7 +117,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[1],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f));
+                                            Base::Vector2d::Null);
             } break;
             default:
                 break;
@@ -211,7 +211,7 @@ private:
     bool isWidgetVisible() const override
     {
         return true;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {
@@ -340,6 +340,14 @@ void DSHPolygonController::configureToolWidget()
     onViewParameters[OnViewParameter::Fourth]->setLabelType(
         Gui::SoDatumLabel::ANGLE,
         Gui::EditableDatumLabel::Function::Dimensioning);
+}
+
+template<>
+void DSHPolygonController::languageChanged()
+{
+    toolWidget->setParameterLabel(
+        WParameter::First,
+        QApplication::translate("ToolWidgetManager_p4", "Sides (+'U'/ -'J')"));
 }
 
 template<>

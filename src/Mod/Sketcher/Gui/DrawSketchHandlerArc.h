@@ -99,7 +99,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[0],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f));
+                                            Base::Vector2d::Null);
             } break;
             case SelectMode::SeekSecond: {
                 if (constructionMethod() == ConstructionMethod::Center) {
@@ -124,7 +124,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[1],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f));
+                                            Base::Vector2d::Null);
             } break;
             case SelectMode::SeekThird: {
                 double startAngleBackup = startAngle;
@@ -200,7 +200,7 @@ private:
                     toolWidgetManager.drawPositionAtCursor(onSketchPos);
                     seekAndRenderAutoConstraint(sugConstraints[2],
                                                 onSketchPos,
-                                                Base::Vector2d(0.f, 0.f),
+                                                Base::Vector2d::Null,
                                                 AutoConstraint::CURVE);
                 }
 
@@ -324,7 +324,7 @@ private:
     bool isWidgetVisible() const override
     {
         return true;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {
@@ -501,6 +501,14 @@ void DSHArcController::configureToolWidget()
             Gui::SoDatumLabel::ANGLE,
             Gui::EditableDatumLabel::Function::Dimensioning);
     }
+}
+
+template<>
+void DSHArcController::languageChanged()
+{
+    QStringList names = {QApplication::translate("Sketcher_CreateArc", "Center"),
+                         QApplication::translate("Sketcher_CreateArc", "3 rim points")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
 }
 
 template<>

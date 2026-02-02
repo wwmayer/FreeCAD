@@ -84,8 +84,7 @@ public:
         : DrawSketchHandlerBSplineBase(constrMethod)
         , SplineDegree(3)
         , periodic(periodic)
-        , prevCursorPosition(Base::Vector2d())
-        , resetSeekSecond(false) {};
+        , resetSeekSecond(false) {}
     ~DrawSketchHandlerBSpline() override = default;
 
     void activated() override
@@ -105,7 +104,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[0],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f));
+                                            Base::Vector2d::Null);
             } break;
             case SelectMode::SeekSecond: {
                 toolWidgetManager.drawDirectionAtCursor(onSketchPos, getLastPoint());
@@ -118,7 +117,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[1],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f));
+                                            Base::Vector2d::Null);
             } break;
             default:
                 break;
@@ -437,7 +436,7 @@ private:
     bool isWidgetVisible() const override
     {
         return true;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {
@@ -916,6 +915,28 @@ void DSHBSplineController::configureToolWidget()
     onViewParameters[OnViewParameter::Fourth]->setLabelType(
         Gui::SoDatumLabel::ANGLE,
         Gui::EditableDatumLabel::Function::Dimensioning);
+}
+
+template<>
+void DSHBSplineController::languageChanged()
+{
+    toolWidget->setNoticeText(
+        QApplication::translate("TaskSketcherTool_c1_bspline", "Press F to undo last point."));
+
+    QStringList names = {QApplication::translate("Sketcher_CreateBSpline", "By control points"),
+                         QApplication::translate("Sketcher_CreateBSpline", "By knots")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
+
+    toolWidget->setCheckboxLabel(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_bspline", "Periodic (R)"));
+    toolWidget->setCheckboxToolTip(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_bspline", "Create a periodic B-spline."));
+
+    toolWidget->setParameterLabel(
+        WParameter::First,
+        QApplication::translate("ToolWidgetManager_p4", "Degree (+'U'/ -'J')"));
 }
 
 template<>

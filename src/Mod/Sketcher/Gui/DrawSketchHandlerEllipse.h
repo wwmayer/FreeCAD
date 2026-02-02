@@ -95,14 +95,14 @@ private:
 
                     seekAndRenderAutoConstraint(sugConstraints[0],
                                                 onSketchPos,
-                                                Base::Vector2d(0.f, 0.f));
+                                                Base::Vector2d::Null);
                 }
                 else {
                     apoapsis = onSketchPos;
 
                     seekAndRenderAutoConstraint(sugConstraints[0],
                                                 onSketchPos,
-                                                Base::Vector2d(0.f, 0.f),
+                                                Base::Vector2d::Null,
                                                 AutoConstraint::CURVE);
                 }
             } break;
@@ -122,7 +122,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[1],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f),
+                                            Base::Vector2d::Null,
                                             AutoConstraint::CURVE);
             } break;
             case SelectMode::SeekThird: {
@@ -141,7 +141,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[2],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f),
+                                            Base::Vector2d::Null,
                                             AutoConstraint::CURVE);
             } break;
             default:
@@ -264,7 +264,7 @@ private:
     bool isWidgetVisible() const override
     {
         return true;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {
@@ -326,7 +326,7 @@ private:
         auto lprojy = projy.Length();  // Py = b sin t
 
         if (lprojx > firstRadius) {
-            secondRadius = 0.0;
+            secondRadius = lprojy;
         }
         else {
             double t = std::acos(lprojx / firstRadius);
@@ -473,6 +473,14 @@ void DSHEllipseController::configureToolWidget()
             Gui::SoDatumLabel::RADIUS,
             Gui::EditableDatumLabel::Function::Dimensioning);
     }
+}
+
+template<>
+void DSHEllipseController::languageChanged()
+{
+    QStringList names = {QApplication::translate("Sketcher_CreateEllipse", "Center"),
+                         QApplication::translate("Sketcher_CreateEllipse", "Axis endpoints")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
 }
 
 template<>

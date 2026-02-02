@@ -138,7 +138,7 @@ private:
 
                     seekAndRenderAutoConstraint(sugConstraints[2],
                                                 onSketchPos,
-                                                Base::Vector2d(0.f, 0.f),
+                                                Base::Vector2d::Null,
                                                 AutoConstraint::CURVE);
                 }
                 catch (Base::ValueError& e) {
@@ -251,7 +251,7 @@ private:
     bool isWidgetVisible() const override
     {
         return true;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {
@@ -412,6 +412,14 @@ void DSHCircleController::configureToolWidget()
                 Gui::EditableDatumLabel::Function::Dimensioning);
         }
     }
+}
+
+template<>
+void DSHCircleController::languageChanged()
+{
+    QStringList names = {QApplication::translate("Sketcher_CreateCircle", "Center"),
+                         QApplication::translate("Sketcher_CreateCircle", "3 rim points")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
 }
 
 template<>

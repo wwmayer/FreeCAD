@@ -126,10 +126,10 @@ private:
     void updateDataAndDrawToPosition(Base::Vector2d onSketchPos) override
     {
         Q_UNUSED(onSketchPos)
-    };
+    }
 
-    void executeCommands() override {};
-    void createAutoConstraints() override {};
+    void executeCommands() override {}
+    void createAutoConstraints() override {}
     //@}
 
     /** @name functions which MAY require specialisation*/

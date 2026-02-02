@@ -45,6 +45,7 @@
 #include "BSplineCurvePy.h"
 #include "BSplineCurvePy.cpp"
 #include "BezierCurvePy.h"
+#include "GeometryInterpolate.h"
 #include "OCCError.h"
 
 
@@ -303,6 +304,26 @@ PyObject* BSplineCurvePy::segment(PyObject * args)
             curve->Segment(u1, u2);
         }
         Py_Return;
+    }
+    catch (Standard_Failure& e) {
+        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        return nullptr;
+    }
+}
+
+PyObject* BSplineCurvePy::split(PyObject * args) const
+{
+    double u {};
+    double tolerance = 0.0;
+    if (!PyArg_ParseTuple(args, "d|d", &u, &tolerance)) {
+        return nullptr;
+    }
+    try {
+        auto curves = getGeomBSplineCurvePtr()->split(u, tolerance);
+        Py::Tuple tuple(2);
+        tuple.setItem(0, Py::asObject(std::get<0>(curves)->getPyObject()));
+        tuple.setItem(1, Py::asObject(std::get<1>(curves)->getPyObject()));
+        return Py::new_reference_to(tuple);
     }
     catch (Standard_Failure& e) {
         PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
@@ -1002,12 +1023,14 @@ PyObject* BSplineCurvePy::getCardinalSplineTangents(PyObject *args, PyObject *kw
 
 PyObject* BSplineCurvePy::interpolate(PyObject *args, PyObject *kwds)
 {
-    PyObject* obj;
+    PyObject* obj = nullptr;
     PyObject* par = nullptr;
     double tol3d = Precision::Approximation();
     PyObject* periodic = Py_False;
-    PyObject* t1 = nullptr; PyObject* t2 = nullptr;
-    PyObject* ts = nullptr; PyObject* fl = nullptr;
+    PyObject* t1 = nullptr;
+    PyObject* t2 = nullptr;
+    PyObject* ts = nullptr;
+    PyObject* fl = nullptr;
     PyObject* scale = Py_True;
 
     static const std::array<const char *, 10> kwds_interp{"Points", "PeriodicFlag", "Tolerance", "InitialTangent",
@@ -1023,81 +1046,76 @@ PyObject* BSplineCurvePy::interpolate(PyObject *args, PyObject *kwds)
     }
 
     try {
+
+        GeometryInterpolate interpolate(tol3d, Base::asBoolean(periodic));
+
         Py::Sequence list(obj);
-        Handle(TColgp_HArray1OfPnt) interpolationPoints = new TColgp_HArray1OfPnt(1, list.size());
-        Standard_Integer index = 1;
+        std::vector<gp_Pnt> points;
+        points.reserve(list.size());
+
         for (Py::Sequence::iterator it = list.begin(); it != list.end(); ++it) {
             Py::Vector v(*it);
             Base::Vector3d pnt = v.toVector();
-            interpolationPoints->SetValue(index++, gp_Pnt(pnt.x,pnt.y,pnt.z));
+            points.emplace_back(pnt.x, pnt.y, pnt.z);
         }
 
-        if (interpolationPoints->Length() < 2) {
+        if (points.size() < 2) {
             Standard_Failure::Raise("not enough points given");
         }
 
-        Handle(TColStd_HArray1OfReal) parameters;
+        interpolate.setPoints(points);
+
         if (par) {
             Py::Sequence plist(par);
-            parameters = new TColStd_HArray1OfReal(1, plist.size());
-            Standard_Integer pindex = 1;
+            std::vector<double> parameters;
+            parameters.reserve(plist.size());
+
             for (Py::Sequence::iterator it = plist.begin(); it != plist.end(); ++it) {
                 Py::Float f(*it);
-                parameters->SetValue(pindex++, static_cast<double>(f));
+                parameters.push_back(static_cast<double>(f));
             }
-        }
 
-        std::unique_ptr<GeomAPI_Interpolate> aBSplineInterpolation;
-        if (parameters.IsNull()) {
-            aBSplineInterpolation = std::make_unique<GeomAPI_Interpolate>(interpolationPoints,
-                Base::asBoolean(periodic), tol3d);
-        }
-        else {
-            aBSplineInterpolation = std::make_unique<GeomAPI_Interpolate>(interpolationPoints, parameters,
-                Base::asBoolean(periodic), tol3d);
+            interpolate.setParameters(parameters);
         }
 
         if (t1 && t2) {
-            Base::Vector3d v1 = Py::Vector(t1,false).toVector();
-            Base::Vector3d v2 = Py::Vector(t2,false).toVector();
-            gp_Vec initTangent(v1.x,v1.y,v1.z), finalTangent(v2.x,v2.y,v2.z);
-            aBSplineInterpolation->Load(initTangent, finalTangent, Base::asBoolean(scale));
+            Base::Vector3d v1 = Py::Vector(t1, false).toVector();
+            Base::Vector3d v2 = Py::Vector(t2, false).toVector();
+            gp_Vec initTangent(v1.x, v1.y, v1.z);
+            gp_Vec finalTangent(v2.x, v2.y, v2.z);
+            interpolate.setTangents(initTangent, finalTangent, Base::asBoolean(scale));
         }
         else if (ts && fl) {
             Py::Sequence tlist(ts);
-            TColgp_Array1OfVec tangents(1, tlist.size());
-            Standard_Integer index = 1;
+            std::vector<gp_Vec> tangents;
+            tangents.reserve(tlist.size());
+
             for (Py::Sequence::iterator it = tlist.begin(); it != tlist.end(); ++it) {
                 Py::Vector v(*it);
                 Base::Vector3d vec = v.toVector();
-                tangents.SetValue(index++, gp_Vec(vec.x,vec.y,vec.z));
+                tangents.emplace_back(vec.x, vec.y, vec.z);
             }
 
             Py::Sequence flist(fl);
-            Handle(TColStd_HArray1OfBoolean) tangentFlags = new TColStd_HArray1OfBoolean(1, flist.size());
-            Standard_Integer findex = 1;
+            std::vector<bool> tangentFlags;
+            tangentFlags.reserve(flist.size());
+
             for (Py::Sequence::iterator it = flist.begin(); it != flist.end(); ++it) {
                 Py::Boolean flag(*it);
-                tangentFlags->SetValue(findex++, static_cast<bool>(flag) ? Standard_True : Standard_False);
+                tangentFlags.push_back(static_cast<bool>(flag));
             }
 
-            aBSplineInterpolation->Load(tangents, tangentFlags, Base::asBoolean(scale));
+            interpolate.setTangents(tangents, tangentFlags, Base::asBoolean(scale));
         }
 
-        aBSplineInterpolation->Perform();
-        if (aBSplineInterpolation->IsDone()) {
-            Handle(Geom_BSplineCurve) aBSplineCurve(aBSplineInterpolation->Curve());
-            this->getGeomBSplineCurvePtr()->setHandle(aBSplineCurve);
-            Py_Return;
-        }
-        else {
-            Standard_Failure::Raise("failed to interpolate points");
-            return nullptr; // goes to the catch block
-        }
+        getGeomBSplineCurvePtr()->setHandle(interpolate.perform());
+        Py_Return;
     }
     catch (Standard_Failure& e) {
         std::string err = e.GetMessageString();
-        if (err.empty()) err = e.DynamicType()->Name();
+        if (err.empty()) {
+            err = e.DynamicType()->Name();
+        }
         PyErr_SetString(PartExceptionOCCError, err.c_str());
         return nullptr;
     }

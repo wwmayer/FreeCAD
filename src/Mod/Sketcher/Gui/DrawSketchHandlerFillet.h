@@ -338,7 +338,7 @@ private:
     bool isWidgetVisible() const override
     {
         return true;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {
@@ -440,6 +440,18 @@ void DSHFilletController::configureToolWidget()
             Gui::BitmapFactory().iconFromTheme("Sketcher_CreatePointFillet"));
     }
     syncCheckboxToHandler(WCheckbox::FirstBox, handler->preserveCorner);
+}
+
+template<>
+void DSHFilletController::languageChanged()
+{
+    toolWidget->setCheckboxLabel(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_fillet", "Preserve corner (U)"));
+    toolWidget->setCheckboxToolTip(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_fillet",
+                                "Preserves intersection point and most constraints"));
 }
 
 template<>

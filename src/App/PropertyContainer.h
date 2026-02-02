@@ -190,7 +190,7 @@ public:
   /// get all properties with their names, may contain duplicates and aliases
   virtual void getPropertyNamedList(std::vector<std::pair<const char*,Property*> > &List) const;
   /// set the Status bit of all properties at once
-  void setPropertyStatus(unsigned char bit,bool value);
+  void setPropertyStatus(std::size_t bit, bool value);
 
   /// get the Type of a Property
   virtual short getPropertyType(const Property* prop) const;

@@ -163,7 +163,7 @@ private:
     bool isWidgetVisible() const override
     {
         return true;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {
@@ -530,6 +530,27 @@ void DSHTranslateController::configureToolWidget()
     toolWidget->configureParameterMax(OnViewParameter::Second, 9999.0);  // NOLINT
     toolWidget->configureParameterDecimals(OnViewParameter::First, 0);
     toolWidget->configureParameterDecimals(OnViewParameter::Second, 0);
+}
+
+template<>
+void DSHTranslateController::languageChanged()
+{
+    toolWidget->setCheckboxLabel(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_translate", "Apply equal constraints"));
+    toolWidget->setCheckboxToolTip(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_translate",
+                                "If this option is selected dimensional constraints are "
+                                "excluded from the operation.\n"
+                                "Instead equal constraints are applied between the original "
+                                "objects and their copies."));
+    toolWidget->setParameterLabel(
+        WParameter::First,
+        QApplication::translate("TaskSketcherTool_p3_translate", "Copies (+'U'/-'J')"));
+    toolWidget->setParameterLabel(
+        WParameter::Second,
+        QApplication::translate("TaskSketcherTool_p5_translate", "Rows (+'R'/-'F')"));
 }
 
 template<>

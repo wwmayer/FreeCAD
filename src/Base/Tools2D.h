@@ -55,11 +55,13 @@ public:
     inline Vector2d(const Vector2d&) = default;
     inline Vector2d(Vector2d&&) = default;
     ~Vector2d() = default;
+    static const Vector2d Null;
 
     // operators
     inline Vector2d& operator=(const Vector2d&) = default;
     inline Vector2d& operator=(Vector2d&&) = default;
     inline bool operator==(const Vector2d& v) const;
+    inline bool operator!=(const Vector2d& v) const;
     inline Vector2d operator+() const;
     inline Vector2d operator+(const Vector2d& v) const;
     inline Vector2d& operator+=(const Vector2d& v);
@@ -223,6 +225,11 @@ inline Vector2d::Vector2d(double x, double y)
 inline bool Vector2d::operator==(const Vector2d& v) const
 {
     return (x == v.x) && (y == v.y);
+}
+
+inline bool Vector2d::operator!=(const Vector2d& v) const
+{
+    return (x != v.x) || (y != v.y);
 }
 
 inline Vector2d Vector2d::operator+() const

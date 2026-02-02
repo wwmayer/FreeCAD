@@ -35,6 +35,7 @@
 #include <Base/Tools.h>
 #include <Gui/Multisample.h>
 #include <Gui/View3DInventorViewer.h>
+#include <Gui/ViewParams.h>
 
 #include "DlgSettings3DViewImp.h"
 #include "ui_DlgSettings3DView.h"
@@ -65,6 +66,7 @@ void DlgSettings3DViewImp::saveSettings()
     ui->SpinBox_CornerCoordSystemSize->onSave();
     ui->CheckBox_ShowAxisCross->onSave();
     ui->CheckBox_ShowFPS->onSave();
+    ui->spinPickRadius->onSave();
     ui->CheckBox_use_SW_OpenGL->onSave();
     ui->CheckBox_useVBO->onSave();
     ui->FloatSpinBox_EyeDistance->onSave();
@@ -79,6 +81,7 @@ void DlgSettings3DViewImp::loadSettings()
     ui->SpinBox_CornerCoordSystemSize->onRestore();
     ui->CheckBox_ShowAxisCross->onRestore();
     ui->CheckBox_ShowFPS->onRestore();
+    ui->spinPickRadius->onRestore();
     ui->CheckBox_use_SW_OpenGL->onRestore();
     ui->CheckBox_useVBO->onRestore();
     ui->FloatSpinBox_EyeDistance->onRestore();
@@ -133,38 +136,26 @@ void DlgSettings3DViewImp::loadAntiAliasing()
 
 void DlgSettings3DViewImp::saveRenderCache()
 {
-    ParameterGrp::handle hGrp = App::GetApplication().GetParameterGroupByPath
-        ("User parameter:BaseApp/Preferences/View");
-
     int cache = ui->renderCache->currentIndex();
-    hGrp->SetInt("RenderCache", cache);
+    ViewParams::instance()->setRenderCache(cache);
 }
 
 void DlgSettings3DViewImp::loadRenderCache()
 {
-    ParameterGrp::handle hGrp = App::GetApplication().GetParameterGroupByPath
-        ("User parameter:BaseApp/Preferences/View");
-
-    long cache = hGrp->GetInt("RenderCache", 0);
+    long cache = ViewParams::instance()->getRenderCache();
     ui->renderCache->setCurrentIndex(int(cache));
 }
 
 void DlgSettings3DViewImp::saveMarkerSize()
 {
-    ParameterGrp::handle hGrp = App::GetApplication().GetParameterGroupByPath
-        ("User parameter:BaseApp/Preferences/View");
-
     QVariant const &vBoxMarkerSize = ui->boxMarkerSize->itemData(ui->boxMarkerSize->currentIndex());
-    hGrp->SetInt("MarkerSize", vBoxMarkerSize.toInt());
+    ViewParams::instance()->setMarkerSize(vBoxMarkerSize.toInt());
 }
 
 void DlgSettings3DViewImp::loadMarkerSize()
 {
-    ParameterGrp::handle hGrp = App::GetApplication().GetParameterGroupByPath
-        ("User parameter:BaseApp/Preferences/View");
-
     // NOLINTBEGIN
-    int marker = hGrp->GetInt("MarkerSize", 9L);
+    int marker = ViewParams::instance()->getMarkerSize();
     ui->boxMarkerSize->addItem(tr("5px"), QVariant(5));
     ui->boxMarkerSize->addItem(tr("7px"), QVariant(7));
     ui->boxMarkerSize->addItem(tr("9px"), QVariant(9));

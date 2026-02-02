@@ -49,6 +49,7 @@
 #include <Gui/MainWindow.h>
 #include <Gui/View3DInventor.h>
 #include <Gui/View3DInventorViewer.h>
+#include <Gui/ViewParams.h>
 #include <Mod/Fem/App/FemPostFilter.h>
 #include <Mod/Fem/App/FemPostBranchFilter.h>
 #include <Mod/Fem/App/FemPostPipeline.h>
@@ -153,9 +154,7 @@ ViewProviderPointMarker::ViewProviderPointMarker()
     pMarker = new SoMarkerSet();
     pMarker->markerIndex = Gui::Inventor::MarkerBitmaps::getMarkerIndex(
         "CIRCLE_FILLED",
-        App::GetApplication()
-            .GetParameterGroupByPath("User parameter:BaseApp/Preferences/View")
-            ->GetInt("MarkerSize", 9));
+        Gui::ViewParams::instance()->getMarkerSize());
     pMarker->numPoints = 0;
     pMarker->ref();
 

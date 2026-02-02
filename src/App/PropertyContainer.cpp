@@ -109,12 +109,13 @@ void PropertyContainer::getPropertyNamedList(std::vector<std::pair<const char*, 
     getPropertyData().getPropertyNamedList(this,List);
 }
 
-void PropertyContainer::setPropertyStatus(unsigned char bit,bool value)
+void PropertyContainer::setPropertyStatus(std::size_t bit, bool value)
 {
     std::vector<Property*> List;
     getPropertyList(List);
-    for(auto it : List)
+    for(auto it : List) {
         it->StatusBits.set(bit,value);
+    }
 }
 
 short PropertyContainer::getPropertyType(const Property* prop) const

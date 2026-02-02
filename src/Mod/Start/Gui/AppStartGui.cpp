@@ -69,24 +69,30 @@ public:
 class StartLauncher
 {
 public:
+    enum {
+        First,
+        Second
+    };
     StartLauncher()
     {
         // QTimers don't fire until the event loop starts, which is our signal that the GUI is up
         QTimer::singleShot(100, [this] {
-            Launch();
+            Launch(First);
         });
     }
 
-    void Launch()
+    void Launch(int time)
     {
         auto hGrp = App::GetApplication().GetParameterGroupByPath(
             "User parameter:BaseApp/Preferences/Mod/Start");
         bool showOnStartup = hGrp->GetBool("ShowOnStartup", true);
         if (showOnStartup) {
             Gui::Application::Instance->commandManager().runCommandByName("Start_Start");
-            QTimer::singleShot(100, [this] {
-                EnsureLaunched();
-            });
+            if (time == First) {
+                QTimer::singleShot(100, [this] {
+                    EnsureLaunched();
+                });
+            }
         }
     }
 
@@ -98,7 +104,7 @@ public:
         auto mw = Gui::getMainWindow();
         auto existingView = mw->findChild<StartGui::StartView*>(QLatin1String("StartView"));
         if (!existingView) {
-            Launch();
+            Launch(Second);
         }
     }
 };

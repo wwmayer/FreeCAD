@@ -123,9 +123,25 @@ public:
      */
     void setValue(const char*);
 
-    /** This method returns a string representation of the property
+    /** Sets the property
+     */
+    void setValue(const std::string& Path);
+
+    /** This method returns a filesystem path of the property
      */
     const std::filesystem::path& getValue() const;
+
+    /** This method returns a string representation of the property
+     */
+    std::string getStrValue() const;
+
+    /** This method returns a C string representation of the property
+     */
+    const char* getCStrValue() const;
+
+    /** Returns true if the path is empty, false otherwise.
+     */
+    bool isEmpty() const noexcept;
 
     const char* getEditorName() const override
     {

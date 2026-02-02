@@ -159,7 +159,7 @@ bool SketcherToolDefaultWidget::eventFilter(QObject* object, QEvent* event)
     }
     else if (event->type() == QEvent::KeyPress) {
         QKeyEvent* ke = static_cast<QKeyEvent*>(event);
-        if (ke->key() == Qt::Key_Tab || ke->key() == Qt::Key_Return) {
+        if (ke->key() == Qt::Key_Return) {
             for (int i = 0; i < nParameters; i++) {
                 if (object == getParameterSpinBox(i)) {
                     signalParameterTabOrEnterPressed(i);
@@ -703,6 +703,24 @@ void SketcherToolDefaultWidget::setCheckboxIcon(int checkboxindex, QIcon icon)
     }
 }
 
+void SketcherToolDefaultWidget::setComboboxItemText(int comboboxindex, const QStringList& name)
+{
+    if (comboboxindex < nCombobox) {
+        QComboBox* cb = getComboBox(comboboxindex);
+        int index = 0;
+        for (const QString& text : name) {
+            cb->setItemText(index++, text);
+        }
+    }
+}
+
+void SketcherToolDefaultWidget::setComboboxItemText(int comboboxindex, int index, const QString& name)
+{
+    if (comboboxindex < nCombobox) {
+        getComboBox(comboboxindex)->setItemText(index, name);
+    }
+}
+
 void SketcherToolDefaultWidget::setComboboxItemIcon(int comboboxindex, int index, QIcon icon)
 {
     if (comboboxindex < nCombobox) {
@@ -835,12 +853,21 @@ int SketcherToolDefaultWidget::getComboboxIndex(int comboboxindex)
     THROWM(Base::IndexError, "ToolWidget combobox index out of range");
 }
 
+void SketcherToolDefaultWidget::retranslateUi()
+{
+    // clang-format off
+    ui->comboLabel1->setText(QApplication::translate("SketcherGui::SketcherToolDefaultWidget", "Mode (M)"));
+    ui->comboLabel2->setText(QApplication::translate("SketcherGui::SketcherToolDefaultWidget", "Mode"));
+    ui->comboLabel3->setText(QApplication::translate("SketcherGui::SketcherToolDefaultWidget", "Mode"));
+    // clang-format on
+}
 
 void SketcherToolDefaultWidget::changeEvent(QEvent* ev)
 {
     QWidget::changeEvent(ev);
     if (ev->type() == QEvent::LanguageChange) {
-        ui->retranslateUi(this);
+        retranslateUi();
+        signalLanguageChanged();
     }
 }
 

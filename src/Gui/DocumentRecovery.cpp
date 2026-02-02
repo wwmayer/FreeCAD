@@ -308,7 +308,7 @@ void DocumentRecovery::accept()
                     item->setForeground(1, QColor(0,170,0));
                 }
 
-                QDir transDir(QString::fromUtf8(docs[i]->TransientDir.getValue()));
+                QDir transDir(QString::fromStdString(docs[i]->TransientDir.getStrValue()));
 
                 QFileInfo xfi(info.xmlFile);
                 QFileInfo fi(info.projectFile);

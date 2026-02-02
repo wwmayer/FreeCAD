@@ -192,3 +192,10 @@
       <Map Description="SPACE"         KeyCode="31" DownTime="short" Command=""/>
    </Mapping>
 </ButtonMap>
+
+<ButtonMap DeviceName="SpaceMouse Compact">
+   <Mapping>
+      <Map Description="Top"           KeyCode="0"  DownTime="short" Command="Std_ViewTop"/>
+      <Map Description="Fit"           KeyCode="1"  DownTime="short" Command="Std_ViewFitAll"/>
+   </Mapping>
+</ButtonMap>

@@ -202,7 +202,7 @@ public:
         suppressTransition = false;
         if (Mode == STATUS_SEEK_First) {
             setPositionText(onSketchPos);
-            seekAndRenderAutoConstraint(sugConstr1, onSketchPos, Base::Vector2d(0.f, 0.f));
+            seekAndRenderAutoConstraint(sugConstr1, onSketchPos, Base::Vector2d::Null);
         }
         else if (Mode == STATUS_SEEK_Second) {
             if (SegmentMode == SEGMENT_MODE_Line) {
@@ -332,7 +332,7 @@ public:
                     setPositionText(onSketchPos, text);
                 }
 
-                seekAndRenderAutoConstraint(sugConstr2, onSketchPos, Base::Vector2d(0.f, 0.f));
+                seekAndRenderAutoConstraint(sugConstr2, onSketchPos, Base::Vector2d::Null);
             }
         }
     }
@@ -425,8 +425,8 @@ public:
             Mode = STATUS_Do;
 
             if (getPreselectPoint() != -1 && firstPosId != Sketcher::PointPos::none) {
-                int GeoId;
-                Sketcher::PointPos PosId;
+                int GeoId = 0;
+                Sketcher::PointPos PosId = Sketcher::PointPos::none;
                 sketchgui->getSketchObject()->getGeoVertexIndex(getPreselectPoint(), GeoId, PosId);
                 if (sketchgui->getSketchObject()->arePointsCoincident(GeoId,
                                                                       PosId,
@@ -765,7 +765,7 @@ private:
         return QStringLiteral("Sketcher_Pointer_Create_Lineset");
     }
 
-protected:
+private:
     SELECT_MODE Mode;
     SEGMENT_MODE SegmentMode;
     TRANSITION_MODE TransitionMode;

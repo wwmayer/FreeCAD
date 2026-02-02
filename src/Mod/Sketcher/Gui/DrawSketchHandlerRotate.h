@@ -166,7 +166,7 @@ private:
     bool isWidgetVisible() const override
     {
         return true;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {
@@ -526,6 +526,26 @@ void DSHRotateController::configureToolWidget()
     toolWidget->configureParameterMin(OnViewParameter::First, 0.0);     // NOLINT
     toolWidget->configureParameterMax(OnViewParameter::First, 9999.0);  // NOLINT
     toolWidget->configureParameterDecimals(OnViewParameter::First, 0);
+}
+
+template<>
+void DSHRotateController::languageChanged()
+{
+    toolWidget->setCheckboxLabel(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_offset", "Apply equal constraints"));
+    toolWidget->setCheckboxToolTip(
+        WCheckbox::FirstBox,
+        QStringLiteral("<p>")
+            + QApplication::translate("TaskSketcherTool_c1_offset",
+                                      "If this option is selected dimensional constraints are "
+                                      "excluded from the operation.\n"
+                                      "Instead equal constraints are applied between the "
+                                      "original objects and their copies.")
+            + QStringLiteral("</p>"));
+    toolWidget->setParameterLabel(
+        WParameter::First,
+        QApplication::translate("TaskSketcherTool_p4_rotate", "Copies (+'U'/ -'J')"));
 }
 
 template<>

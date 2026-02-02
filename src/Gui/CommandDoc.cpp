@@ -540,7 +540,7 @@ void StdCmdMergeProjects::activated(int iMsg)
     if (!project.isEmpty()) {
         FileDialog::setWorkingDirectory(project);
         App::Document* doc = App::GetApplication().getActiveDocument();
-        QFileInfo info(QString::fromUtf8(doc->FileName.getValue()));
+        QFileInfo info(QString::fromUtf8(doc->FileName.getCStrValue()));
         QFileInfo proj(project);
         if (proj == info) {
             QMessageBox::critical(Gui::getMainWindow(),
@@ -1290,20 +1290,28 @@ StdCmdSelectAll::StdCmdSelectAll()
     sWhatsThis    = "Std_SelectAll";
     sStatusTip    = QT_TR_NOOP("Select all");
     sPixmap       = "edit-select-all";
-    //sAccel        = "Ctrl+A"; // supersedes shortcuts for text edits
+    sAccel        = keySequenceToAccel(QKeySequence::SelectAll);
+    eType         = AlterSelection;
 }
 
 void StdCmdSelectAll::activated(int iMsg)
 {
     Q_UNUSED(iMsg);
-    SelectionSingleton& rSel = Selection();
-    App::Document* doc = App::GetApplication().getActiveDocument();
-    std::vector<App::DocumentObject*> objs = doc->getObjectsOfType(App::DocumentObject::getClassTypeId());
-    rSel.setSelection(doc->getName(), objs);
+    bool done = getGuiApplication()->sendMsgToFocusView("SelectAll");
+    if (!done) {
+        SelectionSingleton& rSel = Selection();
+        App::Document* doc = App::GetApplication().getActiveDocument();
+        std::vector<App::DocumentObject*> objs = doc->getObjectsOfType(App::DocumentObject::getClassTypeId());
+        rSel.setSelection(doc->getName(), objs);
+    }
 }
 
 bool StdCmdSelectAll::isActive()
 {
+    if (getGuiApplication()->sendHasMsgToFocusView("SelectAll")) {
+        return true;
+    }
+
     return App::GetApplication().getActiveDocument() != nullptr;
 }
 

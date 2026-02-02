@@ -127,13 +127,16 @@ QVector<QString> buildCheckStatusStringVector()
     names.push_back(QObject::tr("Invalid Imbrication Of Wires"));       //    BRepCheck_InvalidImbricationOfWires
     names.push_back(QObject::tr("Empty Shell"));                        //    BRepCheck_EmptyShell
     names.push_back(QObject::tr("Redundant Face"));                     //    BRepCheck_RedundantFace
+    names.push_back(QObject::tr("Invalid Imbrication Of Shells"));      //    BRepCheck_InvalidImbricationOfShells
     names.push_back(QObject::tr("Unorientable Shape"));                 //    BRepCheck_UnorientableShape
     names.push_back(QObject::tr("Not Closed"));                         //    BRepCheck_NotClosed
     names.push_back(QObject::tr("Not Connected"));                      //    BRepCheck_NotConnected
     names.push_back(QObject::tr("Sub Shape Not In Shape"));             //    BRepCheck_SubshapeNotInShape
     names.push_back(QObject::tr("Bad Orientation"));                    //    BRepCheck_BadOrientation
     names.push_back(QObject::tr("Bad Orientation Of Sub Shape"));       //    BRepCheck_BadOrientationOfSubshape
+    names.push_back(QObject::tr("Invalid Polygon on Triangulation"));   //    BRepCheck_InvalidPolygonOnTriangulation
     names.push_back(QObject::tr("Invalid Tolerance Value"));            //    BRepCheck_InvalidToleranceValue
+    names.push_back(QObject::tr("Enclosed Region"));                    //    BRepCheck_EnclosedRegion
     names.push_back(QObject::tr("Check Failed"));                       //    BRepCheck_CheckFail
 
     return names;
@@ -146,7 +149,7 @@ QString checkStatusToString(const int &index)
     {
         return QString(QObject::tr("No Result"));
     }
-    if (index > 33 || index < 0)
+    if (index > names.size() - 1 || index < 0)
     {
         QString message(QObject::tr("Out Of Enum Range:") + QStringLiteral(" "));
         QString number;

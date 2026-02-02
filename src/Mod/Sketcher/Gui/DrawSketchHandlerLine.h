@@ -82,7 +82,7 @@ public:
     explicit DrawSketchHandlerLine(
         ConstructionMethod constrMethod = ConstructionMethod::OnePointLengthAngle)
         : DrawSketchHandlerLineBase(constrMethod)
-        , length(0.0) {};
+        , length(0.0) {}
     ~DrawSketchHandlerLine() override = default;
 
 private:
@@ -96,7 +96,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[0],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f));
+                                            Base::Vector2d::Null);
             } break;
             case SelectMode::SeekSecond: {
                 toolWidgetManager.drawDirectionAtCursor(onSketchPos, startPoint);
@@ -201,7 +201,7 @@ private:
             "User parameter:BaseApp/Preferences/Mod/Sketcher/Tools");
         auto index = hGrp->GetInt("OnViewParameterVisibility", 1);
         return index != 0;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {
@@ -338,6 +338,14 @@ void DSHLineController::configureToolWidget()
     }
 }
 
+template<>
+void DSHLineController::languageChanged()
+{
+    QStringList names = {QApplication::translate("Sketcher_CreateLine", "Point, length, angle"),
+                         QApplication::translate("Sketcher_CreateLine", "Point, width, height"),
+                         QApplication::translate("Sketcher_CreateLine", "2 points")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
+}
 
 template<>
 void DSHLineControllerBase::doEnforceControlParameters(Base::Vector2d& onSketchPos)

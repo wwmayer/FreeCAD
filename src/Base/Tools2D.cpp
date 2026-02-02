@@ -34,6 +34,8 @@
 
 using namespace Base;
 
+const Vector2d Vector2d::Null(0.0, 0.0);
+
 double Vector2d::GetAngle(const Vector2d& vec) const
 {
     double fDivid = 0.0;

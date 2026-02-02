@@ -492,7 +492,7 @@ bool SketcherGui::isSketchInEdit(Gui::Document* doc)
     if (doc) {
         // checks if a Sketch Viewprovider is in Edit and is in no special mode
         auto* vp = dynamic_cast<SketcherGui::ViewProviderSketch*>(doc->getInEdit());
-        return (vp != nullptr);
+        return (vp != nullptr && vp->isInEditMode());
     }
     return false;
 }
@@ -520,10 +520,9 @@ bool SketcherGui::isSketcherBSplineActive(Gui::Document* doc, bool actsOnSelecti
 {
     if (doc) {
         // checks if a Sketch Viewprovider is in Edit and is in no special mode
-        if (doc->getInEdit()
-            && doc->getInEdit()->isDerivedFrom<SketcherGui::ViewProviderSketch>()) {
-            if (static_cast<SketcherGui::ViewProviderSketch*>(doc->getInEdit())->getSketchMode()
-                == ViewProviderSketch::STATUS_NONE) {
+        auto vp = dynamic_cast<SketcherGui::ViewProviderSketch*>(doc->getInEdit());
+        if (vp && vp->isInEditMode()) {
+            if (vp->getSketchMode() == ViewProviderSketch::STATUS_NONE) {
                 if (!actsOnSelection) {
                     return true;
                 }
