@@ -34,6 +34,7 @@
 #include <Base/Console.h>
 #include <Base/Parameter.h>
 #include <Gui/Selection/Selection.h>
+#include <Gui/ViewParams.h>
 #include <Mod/TechDraw/App/ArrowPropEnum.h>
 #include <Mod/TechDraw/App/Preferences.h>
 #include <Mod/TechDraw/App/LineGenerator.h>
@@ -301,8 +302,6 @@ QColor PreferencesGui::templateClickBoxColor()
 
 int PreferencesGui::get3dMarkerSize()
 {
-    ParameterGrp::handle hGrp = App::GetApplication().GetParameterGroupByPath
-                                ("User parameter:BaseApp/Preferences/View");
-    return hGrp->GetInt("MarkerSize", 9L);
+    return Gui::ViewParams::instance()->getMarkerSize();
 }
 

@@ -35,6 +35,7 @@
 #include <App/Application.h>
 #include <Base/Parameter.h>
 #include <Gui/Inventor/MarkerBitmaps.h>
+#include <Gui/ViewParams.h>
 #include <Mod/Mesh/App/MeshFeature.h>
 #include <Mod/Mesh/App/Core/Degeneration.h>
 #include <Mod/Mesh/App/Core/Iterator.h>
@@ -97,10 +98,7 @@ SoMarkerSet* ViewProviderMeshDefects::makeMarkerSet() const
 {
     auto marker = new SoMarkerSet;
     marker->markerIndex = Gui::Inventor::MarkerBitmaps::getMarkerIndex(
-        "PLUS",
-        int(App::GetApplication()
-                .GetParameterGroupByPath("User parameter:BaseApp/Preferences/View")
-                ->GetInt("MarkerSize", 7)));
+        "PLUS", int(Gui::ViewParams::instance()->getMarkerSize()));
     return marker;
 }
 
