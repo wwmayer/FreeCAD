@@ -23,6 +23,7 @@
 #include "PreCompiled.h"
 #ifndef _PreComp_
 #include <memory>
+#include <unordered_map>
 
 #include <QApplication>
 #include <QClipboard>
@@ -226,9 +227,16 @@ bool copySelectionToClipboard(Sketcher::SketchObject* obj)
         delete geo;
     });
 
+    // Setup lookup table
+    int geoIndex = 0;
+    std::unordered_map<int, int> geoMap;
+    for (int geoId : listOfGeoId) {
+        geoMap[geoId] = geoIndex;
+        geoIndex++;
+    }
+
     // Export constraints of selected geos.
     std::vector<Sketcher::Constraint*> shapeConstraints;
-#if 0
     for (auto constr : obj->Constraints.getValues()) {
 
         auto isSelectedGeoOrAxis = [](const std::vector<int>& vec, int value) {
@@ -244,20 +252,21 @@ bool copySelectionToClipboard(Sketcher::SketchObject* obj)
         }
 
         Constraint* temp = constr->copy();
-        for (size_t j = 0; j < listOfGeoId.size(); j++) {
-            if (temp->First == listOfGeoId[j]) {
-                temp->First = static_cast<int>(j);
-            }
-            if (temp->Second == listOfGeoId[j]) {
-                temp->Second = static_cast<int>(j);
-            }
-            if (temp->Third == listOfGeoId[j]) {
-                temp->Third = static_cast<int>(j);
-            }
+        std::unordered_map<int, int>::const_iterator it;
+        it = geoMap.find(temp->First);
+        if (it != geoMap.end()) {
+            temp->First = it->second;
+        }
+        it = geoMap.find(temp->Second);
+        if (it != geoMap.end()) {
+            temp->Second = it->second;
+        }
+        it = geoMap.find(temp->Third);
+        if (it != geoMap.end()) {
+            temp->Third = it->second;
         }
         shapeConstraints.push_back(temp);
     }
-#endif
 
     std::string cstrAsStr = Sketcher::PythonConverter::convert(
         "objectStr",
