@@ -957,9 +957,10 @@ void CmdCreateSpreadsheet::activated(int iMsg)
     std::string FeatName = getUniqueObjectName("Spreadsheet");
 
     openCommand(QT_TRANSLATE_NOOP("Command", "Create Spreadsheet"));
-    doCommand(Doc, "App.activeDocument().addObject('Spreadsheet::Sheet','%s\')", FeatName.c_str());
+    doCommand(Doc, "sheet = App.activeDocument().addObject('Spreadsheet::Sheet','%s\')", FeatName.c_str());
+    doCommand(Gui, "sheet.ViewObject.doubleClicked()\n");
     doCommand(Gui, "Gui.Selection.clearSelection()\n");
-    doCommand(Gui, "Gui.Selection.addSelection(App.activeDocument().Name,'%s\')", FeatName.c_str());
+    doCommand(Gui, "Gui.Selection.addSelection(sheet)");
     commitCommand();
 }
 
