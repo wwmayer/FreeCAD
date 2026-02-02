@@ -45,6 +45,8 @@ protected:
     void changeEvent(QEvent* e) override;
 
 private:
+    void setParametrizationTypes();
+    QString getCurrentParametrizationType() const;
     void toggleParametrizationType(bool on);
     void toggleSmoothing(bool on);
     void tryAccept();
