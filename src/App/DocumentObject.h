@@ -183,7 +183,7 @@ public:
     {
         StatusBits.reset(ObjectStatus::Touch);
         StatusBits.reset(ObjectStatus::Enforce);
-        setPropertyStatus(0, false);
+        setPropertyStatus(Property::Touched, false);
     }
     /// set this feature to error
     bool isError() const

@@ -68,9 +68,10 @@ public:
                                   == (Qt::ControlModifier | Qt::AltModifier));
 
         this->notAllowedReason = "";
-        Sketcher::SketchObject::eReasonList msg;
+        Sketcher::SketchObject::eReasonList msg {};
         // Reusing code: All good reasons not to allow a carbon copy
-        bool xinv = false, yinv = false;
+        bool xinv = false;
+        bool yinv = false;
         if (!sketch->isCarbonCopyAllowed(pDoc, pObj, xinv, yinv, &msg)) {
             switch (msg) {
                 case Sketcher::SketchObject::rlCircularReference:

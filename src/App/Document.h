@@ -90,7 +90,7 @@ public:
     /// holds the long name of the document (utf-8 coded)
     PropertyString Label;
     /// full qualified (with path) file name (utf-8 coded)
-    PropertyString FileName;
+    PropertyPath FileName;
     /// creators name (utf-8)
     PropertyString CreatedBy;
     PropertyString CreationDate;
@@ -116,7 +116,7 @@ public:
     /// Material descriptions, used and defined in the Material module.
     App::PropertyMap Material;
     /// read-only name of the temp dir created when the document is opened
-    PropertyString TransientDir;
+    PropertyPath TransientDir;
     /// Tip object of the document (if any)
     PropertyLink Tip;
     /// Tip object of the document (if any)

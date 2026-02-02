@@ -26,35 +26,71 @@
 
 using namespace Gui;
 
-ViewParams::ViewParams() {
-    handle = App::GetApplication().GetParameterGroupByPath(
-            "User parameter:BaseApp/Preferences/View");
-    handle->Attach(this);
-#undef FC_VIEW_PARAM
-#define FC_VIEW_PARAM(_name,_ctype,_type,_def) \
-    _name = handle->Get##_type(#_name,_def);
-
-    FC_VIEW_PARAMS
+void ViewParams::setup()
+{
+    // NOLINTBEGIN
+    addParameter("UseNewSelection", Bool{true});
+    addParameter("UseSelectionRoot", Bool{true});
+    addParameter("EnableSelection", Bool{true});
+    addParameter("EnablePreselection", Bool{true});
+    addParameter("RenderCache", Int{0});
+    addParameter("RandomColor", Bool{false});
+    addParameter("BoundingBoxColor", Unsigned{4294967295UL});
+    addParameter("AnnotationTextColor", Unsigned{4294967295UL});
+    addParameter("MarkerSize", Int{9});
+    addParameter("DefaultLinkColor", Unsigned{0x66FFFF00});
+    addParameter("DefaultShapeLineColor", Unsigned{421075455UL});
+    addParameter("DefaultShapeVertexColor", Unsigned{421075455UL});
+    addParameter("DefaultShapeColor", Unsigned{0xCCCCCC00});
+    addParameter("DefaultShapeTransparency", Int{0});
+    addParameter("DefaultShapeLineWidth", Int{2});
+    addParameter("DefaultShapePointSize", Int{2});
+    addParameter("CoinCycleCheck", Bool{true});
+    addParameter("EnablePropertyViewForInactiveDocument", Bool{true});
+    addParameter("ShowSelectionBoundingBox", Bool{false});
+    addParameter("PropertyViewTimer", Unsigned{100});
+    addParameter("AxisXColor", Unsigned{0xCC333300});
+    addParameter("AxisYColor", Unsigned{0x33CC3300});
+    addParameter("AxisZColor", Unsigned{0x3333CC00});
+    addParameter("DraggerScale", Double{0.03});
+    // NOLINTEND
 }
 
-ViewParams::~ViewParams() = default;
-
-void ViewParams::OnChange(Base::Subject<const char*> &, const char* sReason) {
-    if(!sReason)
-        return;
-#undef FC_VIEW_PARAM
-#define FC_VIEW_PARAM(_name,_ctype,_type,_def) \
-    if(strcmp(sReason,#_name)==0) {\
-        _name = handle->Get##_type(#_name,_def);\
-        return;\
-    }
-    FC_VIEW_PARAMS
+ViewParams::ViewParams()
+{
+    attachToParameter(App::GetApplication().GetParameterGroupByPath(
+        "User parameter:BaseApp/Preferences/View"));
+    setup();
+    initParameters();
 }
 
-ViewParams *ViewParams::instance() {
-    static ViewParams *inst;
-    if(!inst)
-        inst = new ViewParams;
-    return inst;
+ViewParams* ViewParams::instance()
+{
+    static ViewParams view;
+    return &view;
 }
 
+FC_PARAM_GETSET_IMP(ViewParams, UseNewSelection, bool)
+FC_PARAM_GETSET_IMP(ViewParams, UseSelectionRoot, bool)
+FC_PARAM_GETSET_IMP(ViewParams, EnableSelection, bool)
+FC_PARAM_GETSET_IMP(ViewParams, EnablePreselection, bool)
+FC_PARAM_GETSET_IMP(ViewParams, RenderCache, long)
+FC_PARAM_GETSET_IMP(ViewParams, RandomColor, bool)
+FC_PARAM_GETSET_IMP(ViewParams, BoundingBoxColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, AnnotationTextColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, MarkerSize, long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultLinkColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultShapeLineColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultShapeVertexColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultShapeColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultShapeTransparency, long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultShapeLineWidth, long)
+FC_PARAM_GETSET_IMP(ViewParams, DefaultShapePointSize, long)
+FC_PARAM_GETSET_IMP(ViewParams, CoinCycleCheck, bool)
+FC_PARAM_GETSET_IMP(ViewParams, EnablePropertyViewForInactiveDocument, bool)
+FC_PARAM_GETSET_IMP(ViewParams, ShowSelectionBoundingBox, bool)
+FC_PARAM_GETSET_IMP(ViewParams, PropertyViewTimer, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, AxisXColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, AxisYColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, AxisZColor, unsigned long)
+FC_PARAM_GETSET_IMP(ViewParams, DraggerScale, double)

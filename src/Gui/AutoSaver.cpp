@@ -143,13 +143,13 @@ void AutoSaver::saveDocument(const std::string& name, AutoSaveProperty& saver)
             && !doc->testStatus(App::Document::TempDoc))
     {
         // Set the document's current transient directory
-        std::string dirName = doc->TransientDir.getValue();
+        std::string dirName = doc->TransientDir.getStrValue();
         dirName += "/fc_recovery_files";
         saver.dirName = dirName;
 
         // Write recovery meta file
         QFile file(QStringLiteral("%1/fc_recovery_file.xml")
-            .arg(QString::fromUtf8(doc->TransientDir.getValue())));
+            .arg(QString::fromUtf8(doc->TransientDir.getCStrValue())));
         if (file.open(QFile::WriteOnly)) {
             QTextStream str(&file);
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
@@ -159,7 +159,7 @@ void AutoSaver::saveDocument(const std::string& name, AutoSaveProperty& saver)
                 << "<AutoRecovery SchemaVersion=\"1\">\n";
             str << "  <Status>Created</Status>\n";
             str << "  <Label>" << QString::fromUtf8(doc->Label.getValue()) << "</Label>\n"; // store the document's current label
-            str << "  <FileName>" << QString::fromUtf8(doc->FileName.getValue()) << "</FileName>\n"; // store the document's current filename
+            str << "  <FileName>" << QString::fromUtf8(doc->FileName.getCStrValue()) << "</FileName>\n"; // store the document's current filename
             str << "</AutoRecovery>\n";
             file.close();
         }

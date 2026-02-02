@@ -87,14 +87,14 @@ namespace sp = std::placeholders;
  * DrawSketchDefaultWidgetController. For custom widgets, an appropriate class, preferably deriving
  * from this controller needs to be provided.
  */
-template<typename HandlerT,           // The name of the actual handler of the tool
-         typename SelectModeT,        // The state machine defining the working of the tool
-         int PAutoConstraintSize,     // The initial size of the AutoConstraint vector
-         typename OnViewParametersT,  // The number of parameter spinboxes in the 3D view (one
-                                      // value per construction mode)
-         typename ConstructionMethodT =
-             ConstructionMethods::DefaultConstructionMethod>  // The enum comprising all the
-                                                              // supported construction methods
+template<
+    typename HandlerT,           // The name of the actual handler of the tool
+    typename SelectModeT,        // The state machine defining the working of the tool
+    int PAutoConstraintSize,     // The initial size of the AutoConstraint vector
+    typename OnViewParametersT,  // The number of parameter spinboxes in the 3D view (one
+                                 // value per construction mode)
+    typename ConstructionMethodT // The enum comprising all the supported construction methods
+     = ConstructionMethods::DefaultConstructionMethod>
 class DrawSketchController
 {
 public:
@@ -168,10 +168,10 @@ private:
             ParameterGrp::handle hGrp = App::GetApplication().GetParameterGroupByPath(
                 "User parameter:BaseApp/Preferences/View");
 
-            dimConstrColor = SbColor(1.0f, 0.149f, 0.0f);           // NOLINT
-            dimConstrDeactivatedColor = SbColor(0.5f, 0.5f, 0.5f);  // NOLINT
+            dimConstrColor = SbColor(1.0F, 0.149F, 0.0F);           // NOLINT
+            dimConstrDeactivatedColor = SbColor(0.5F, 0.5F, 0.5F);  // NOLINT
 
-            float transparency = 0.f;
+            float transparency = 0.F;
             unsigned long color = (unsigned long)(dimConstrColor.getPackedValue());
             color = hGrp->GetUnsigned("ConstrainedDimColor", color);
             dimConstrColor.setPackedValue((uint32_t)color, transparency);

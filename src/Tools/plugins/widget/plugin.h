@@ -33,6 +33,6 @@ class CustomWidgetPlugin: public QObject, public QDesignerCustomWidgetCollection
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetCollectionInterface")
 
 public:
-    CustomWidgetPlugin(QObject* parent = 0);
-    QList<QDesignerCustomWidgetInterface*> customWidgets() const;
+    explicit CustomWidgetPlugin(QObject* parent = nullptr);
+    QList<QDesignerCustomWidgetInterface*> customWidgets() const override;
 };

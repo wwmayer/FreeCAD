@@ -188,7 +188,8 @@ Gui::MenuItem* Workbench::setupMenuBar() const
              << "Robot_ExportKukaFull";
 
     robot->setCommand("&Robot");
-    *robot << insertRobots << "Robot_CreateTrajectory"
+    *robot << insertRobots
+           << "Robot_CreateTrajectory"
            << "Separator"
            << "Robot_CreateTrajectory"
            << "Robot_InsertWaypoint"
@@ -201,6 +202,7 @@ Gui::MenuItem* Workbench::setupMenuBar() const
            << "Robot_SetDefaultOrientation"
            << "Robot_SetDefaultValues"
            << "Separator"
-           << "Robot_Simulate" << exportM;
+           << "Robot_Simulate"
+           << exportM;
     return root;
 }

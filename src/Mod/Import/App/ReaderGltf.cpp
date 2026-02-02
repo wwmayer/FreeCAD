@@ -89,9 +89,11 @@ TopoDS_Shape ReaderGltf::singleShape(Handle(TDocStd_Document) hDoc,
     aReader.SetDocument(hDoc);
     aReader.SetParallel(multiThreaded());
     aReader.SetSkipEmptyNodes(skipEmptyNodes());
+#if OCC_VERSION_HEX >= 0x070600
     aReader.SetLoadAllScenes(loadAllScenes());
     aReader.SetDoublePrecision(doublePrecision());
     aReader.SetToPrintDebugMessages(printDebugMessages());
+#endif
 
     TCollection_AsciiString filename(file.filePath().c_str());
     Standard_Boolean ret = aReader.Perform(filename, theProgress);

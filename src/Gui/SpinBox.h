@@ -69,6 +69,9 @@ protected:
 
     void drawControl(QStyleOptionSpinBox&);
 
+private:
+    void showExpression(Number number);
+
 protected:
     QLineEdit* lineedit;
     QAbstractSpinBox* spinbox;

@@ -103,7 +103,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[0],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f));
+                                            Base::Vector2d::Null);
             } break;
             case SelectMode::SeekSecond: {
                 toolWidgetManager.drawDirectionAtCursor(onSketchPos, centerPoint);
@@ -117,7 +117,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[1],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f));
+                                            Base::Vector2d::Null);
             } break;
             case SelectMode::SeekThird: {
                 endPoint = centerPoint + (onSketchPos - centerPoint).Normalize() * radius;
@@ -257,7 +257,7 @@ private:
     bool isWidgetVisible() const override
     {
         return true;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {
@@ -592,6 +592,14 @@ void DSHArcSlotController::configureToolWidget()
             Gui::SoDatumLabel::DISTANCE,
             Gui::EditableDatumLabel::Function::Dimensioning);
     }
+}
+
+template<>
+void DSHArcSlotController::languageChanged()
+{
+    QStringList names = {QApplication::translate("Sketcher_CreateArcSlot", "Arc ends"),
+                         QApplication::translate("Sketcher_CreateArcSlot", "Flat ends")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
 }
 
 template<>

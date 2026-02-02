@@ -97,6 +97,9 @@ typedef int(*dl_spnav_open)();
 typedef int(*dl_spnav_close)();
 typedef int(*dl_spnav_fd)();
 typedef int(*dl_spnav_poll_event)(spnav_event *);
+typedef int(*dl_spnav_remove_events)(int);
+typedef int(*dl_spnav_dev_name)(char*, int);
+typedef int(*dl_spnav_client_name)(const char *);
 static QString spnavLib(QLatin1String("spnav"));
 constexpr int versionNumber = 0;
 // NOLINTEND
@@ -125,6 +128,8 @@ void Gui::GuiNativeEvent::initSpaceball(QMainWindow *window)
     Q_UNUSED(window)
     dl_spnav_open spnav_open = (dl_spnav_open)QLibrary::resolve(spnavLib, versionNumber, "spnav_open");
     dl_spnav_fd spnav_fd = (dl_spnav_fd)QLibrary::resolve(spnavLib, versionNumber, "spnav_fd");
+    dl_spnav_dev_name spnav_dev_name = (dl_spnav_dev_name)QLibrary::resolve(spnavLib, versionNumber, "spnav_dev_name");
+    dl_spnav_client_name spnav_client_name = (dl_spnav_client_name)QLibrary::resolve(spnavLib, versionNumber, "spnav_client_name");
     if (!spnav_open || !spnav_fd) {
         return;
     }
@@ -136,14 +141,25 @@ void Gui::GuiNativeEvent::initSpaceball(QMainWindow *window)
     else {
         Base::Console().Log("Connected to spacenav daemon\n");
         QSocketNotifier* spacenavNotifier = new QSocketNotifier(spnav_fd(), QSocketNotifier::Read, this);
-        connect(spacenavNotifier, SIGNAL(activated(int)), this, SLOT(pollSpacenav()));
+        connect(spacenavNotifier, &QSocketNotifier::activated, this, &GuiNativeEvent::pollSpacenav);
         mainApp->setSpaceballPresent(true);
+
+        if (spnav_client_name) {
+            spnav_client_name("FreeCAD");
+        }
+
+        if (spnav_dev_name) {
+            std::vector<char> buffer(100);
+            spnav_dev_name(buffer.data(), static_cast<int>(buffer.size()));
+            mainApp->setDeviceName(QString::fromLatin1(buffer.data()));
+        }
     }
 }
 
 void Gui::GuiNativeEvent::pollSpacenav()
 {
     dl_spnav_poll_event spnav_poll_event = (dl_spnav_poll_event)QLibrary::resolve(spnavLib, versionNumber, "spnav_poll_event");
+    dl_spnav_remove_events spnav_remove_events = (dl_spnav_remove_events)QLibrary::resolve(spnavLib, versionNumber, "spnav_remove_events");
     if (!spnav_poll_event) {
         return;
     }
@@ -161,6 +177,9 @@ void Gui::GuiNativeEvent::pollSpacenav()
                 motionDataArray[3] = -ev.motion.rx;
                 motionDataArray[4] = -ev.motion.rz;
                 motionDataArray[5] = -ev.motion.ry;
+                if (spnav_remove_events) {
+                    spnav_remove_events(SPNAV_EVENT_MOTION);
+                }
                 mainApp->postMotionEvent(motionDataArray);
                 break;
             }
@@ -168,6 +187,19 @@ void Gui::GuiNativeEvent::pollSpacenav()
             {
                 mainApp->postButtonEvent(ev.button.bnum, ev.button.press);
                 break;
+            }
+            case SPNAV_EVENT_DEV:
+            {
+                // op=0: add device, op=1: remove device
+                const int op = ev.dev.op;
+                mainApp->setSpaceballPresent(op == 0);
+
+                dl_spnav_dev_name spnav_dev_name = (dl_spnav_dev_name)QLibrary::resolve(spnavLib, versionNumber, "spnav_dev_name");
+                if (spnav_dev_name) {
+                    std::vector<char> buffer(100);
+                    spnav_dev_name(buffer.data(), static_cast<int>(buffer.size()));
+                    mainApp->setDeviceName(QString::fromLatin1(buffer.data()));
+                }
             }
         }
     }

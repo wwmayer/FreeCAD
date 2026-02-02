@@ -141,20 +141,20 @@ Gui::MenuItem* Workbench::setupMenuBar() const
           << "Part_BoxSelection"
           << "Separator";
     *part << prim
-        << "Part_Primitives"
-        << "Part_Builder"
-        << "Separator"
-        << "Part_ShapeFromMesh"
-        << "Part_PointsFromMesh"
-        << "Part_MakeSolid"
-        << "Part_ReverseShape"
-        << copy
-        << "Part_CheckGeometry"
-        << "Part_Defeaturing"
-        << "Materials_InspectAppearance"
-        << "Materials_InspectMaterial"
-        << "Separator"
-        << bop;
+          << "Part_Primitives"
+          << "Part_Builder"
+          << "Separator"
+          << "Part_ShapeFromMesh"
+          << "Part_PointsFromMesh"
+          << "Part_MakeSolid"
+          << "Part_ReverseShape"
+          << copy
+          << "Part_CheckGeometry"
+          << "Part_Defeaturing"
+          << "Materials_InspectAppearance"
+          << "Materials_InspectMaterial"
+          << "Separator"
+          << bop;
     if (join) {
         *part << join;
     }

@@ -215,14 +215,15 @@ private:
     void activated() override
     {
         setAxisPickStyle(false);
-        Gui::MDIView* mdi = Gui::Application::Instance->activeDocument()->getActiveView();
-        Gui::View3DInventorViewer* viewer;
-        viewer = static_cast<Gui::View3DInventor*>(mdi)->getViewer();
-        viewer->setSelectionEnabled(true);
+        Gui::Document* doc = Gui::Application::Instance->activeDocument();
+        if (auto mdi = dynamic_cast<Gui::View3DInventor*>(doc->getActiveView())) {
+            Gui::View3DInventorViewer* viewer = mdi->getViewer();
+            viewer->setSelectionEnabled(true);
 
-        Gui::Selection().clearSelection();
-        Gui::Selection().rmvSelectionGate();
-        Gui::Selection().addSelectionGate(new ExternalSelection(sketchgui->getObject()));
+            Gui::Selection().clearSelection();
+            Gui::Selection().rmvSelectionGate();
+            Gui::Selection().addSelectionGate(new ExternalSelection(sketchgui->getObject()));
+        }
     }
 
     QString getCrosshairCursorSVGName() const override

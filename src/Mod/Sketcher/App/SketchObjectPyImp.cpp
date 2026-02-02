@@ -536,7 +536,8 @@ PyObject* SketchObjectPy::carbonCopy(PyObject* args)
         return nullptr;
     }
 
-    bool xinv = false, yinv = false;
+    bool xinv = false;
+    bool yinv = false;
     if (!skObj->isCarbonCopyAllowed(Obj->getDocument(), Obj, xinv, yinv)) {
         std::stringstream str;
         str << ObjectName << " is not allowed for a carbon copy operation in this sketch";

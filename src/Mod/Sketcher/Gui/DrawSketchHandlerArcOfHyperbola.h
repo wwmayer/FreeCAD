@@ -67,13 +67,13 @@ public:
     {
         if (Mode == STATUS_SEEK_First) {
             setPositionText(onSketchPos);
-            seekAndRenderAutoConstraint(sugConstr1, onSketchPos, Base::Vector2d(0.f, 0.f));
+            seekAndRenderAutoConstraint(sugConstr1, onSketchPos, Base::Vector2d::Null);
         }
         else if (Mode == STATUS_SEEK_Second) {
             EditCurve[1] = onSketchPos;
 
             // Display radius for user
-            float radius = (onSketchPos - centerPoint).Length();
+            double radius = (onSketchPos - centerPoint).Length();
             if (showCursorCoords()) {
                 SbString text;
                 std::string radiusString = lengthToDisplayFormat(radius, 1);
@@ -84,7 +84,7 @@ public:
             drawEdit(EditCurve);
             seekAndRenderAutoConstraint(sugConstr2,
                                         onSketchPos,
-                                        Base::Vector2d(0.f, 0.f),
+                                        Base::Vector2d::Null,
                                         AutoConstraint::CURVE);
         }
         else if (Mode == STATUS_SEEK_Third) {
@@ -120,7 +120,7 @@ public:
                 }
 
                 drawEdit(EditCurve);
-                seekAndRenderAutoConstraint(sugConstr3, onSketchPos, Base::Vector2d(0.f, 0.f));
+                seekAndRenderAutoConstraint(sugConstr3, onSketchPos, Base::Vector2d::Null);
             }
         }
         else if (Mode == STATUS_SEEK_Fourth) {
@@ -181,7 +181,7 @@ public:
             }
 
             drawEdit(EditCurve);
-            seekAndRenderAutoConstraint(sugConstr4, onSketchPos, Base::Vector2d(0.f, 0.f));
+            seekAndRenderAutoConstraint(sugConstr4, onSketchPos, Base::Vector2d::Null);
         }
     }
 
@@ -268,7 +268,10 @@ public:
                 isOriginalArcCCW = false;
             }
 
-            Base::Vector2d majAxisDir, minAxisDir, minAxisPoint, majAxisPoint;
+            Base::Vector2d majAxisDir;
+            Base::Vector2d minAxisDir;
+            Base::Vector2d minAxisPoint;
+            Base::Vector2d majAxisPoint;
             // We always create a CCW hyperbola, because we want our XY reference system to be in
             // the +X +Y direction Our normal will then always be in the +Z axis (local +Z axis of
             // the sketcher)
@@ -401,7 +404,7 @@ private:
     }
 
 
-protected:
+private:
     SelectMode Mode;
     std::vector<Base::Vector2d> EditCurve;
     Base::Vector2d centerPoint, axisPoint, startingPoint, endPoint;

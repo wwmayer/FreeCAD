@@ -565,6 +565,8 @@ SET(Part_SRCS
     Geometry.h
     Geometry2d.cpp
     Geometry2d.h
+    GeometryInterpolate.cpp
+    GeometryInterpolate.h
     ImportIges.cpp
     ImportIges.h
     ImportStep.cpp

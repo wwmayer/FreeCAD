@@ -1534,6 +1534,9 @@ bool TopoShape::analyze(bool runBopCheck, std::ostream& str) const
                         case BRepCheck_RedundantFace:
                             str << "Redundant face" << std::endl;
                             break;
+                        case BRepCheck_InvalidImbricationOfShells:
+                            str << "Invalid imbrication of shells" << std::endl;
+                            break;
                         case BRepCheck_UnorientableShape:
                             str << "Unorientable shape" << std::endl;
                             break;
@@ -1552,8 +1555,14 @@ bool TopoShape::analyze(bool runBopCheck, std::ostream& str) const
                         case BRepCheck_BadOrientationOfSubshape:
                             str << "Bad orientation of sub-shape" << std::endl;
                             break;
+                        case BRepCheck_InvalidPolygonOnTriangulation:
+                            str << "Invalid polygon on triangulation" << std::endl;
+                            break;
                         case BRepCheck_InvalidToleranceValue:
                             str << "Invalid tolerance value" << std::endl;
+                            break;
+                        case BRepCheck_EnclosedRegion:
+                            str << "Enclosed region" << std::endl;
                             break;
                         case BRepCheck_CheckFail:
                             str << "Check failed" << std::endl;

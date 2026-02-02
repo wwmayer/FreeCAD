@@ -339,9 +339,16 @@ void Workbench::createLinkMenu(MenuItem *item) {
     *linkMenu << "Std_LinkMakeGroup" << "Std_LinkMake";
 
     auto &rMgr = Application::Instance->commandManager();
-    const char *cmds[] = {"Std_LinkMakeRelative",nullptr,"Std_LinkUnlink","Std_LinkReplace",
-        "Std_LinkImport","Std_LinkImportAll",nullptr,"Std_LinkSelectLinked",
-        "Std_LinkSelectLinkedFinal","Std_LinkSelectAllLinks"};
+    const char *cmds[] = {"Std_LinkMakeRelative",
+                          nullptr,
+                          "Std_LinkUnlink",
+                          "Std_LinkReplace",
+                          "Std_LinkImport",
+                          "Std_LinkImportAll",
+                          nullptr,
+                          "Std_LinkSelectLinked",
+                          "Std_LinkSelectLinkedFinal",
+                          "Std_LinkSelectAllLinks"};
     bool separator = true;
     for(const auto & it : cmds) {
         if(!it) {
@@ -594,34 +601,63 @@ void StdWorkbench::setupContextMenu(const char* recipient, MenuItem* item) const
         auto StdViews = new MenuItem;
         StdViews->setCommand( "Standard views" );
 
-        *StdViews << "Std_ViewIsometric" << "Separator" << "Std_ViewHome" << "Std_ViewFront" << "Std_ViewTop" << "Std_ViewRight"
-                  << "Std_ViewRear" << "Std_ViewBottom" << "Std_ViewLeft"
-                  << "Separator" << "Std_ViewRotateLeft" << "Std_ViewRotateRight";
+        *StdViews << "Std_ViewIsometric"
+                  << "Separator"
+                  << "Std_ViewHome"
+                  << "Std_ViewFront"
+                  << "Std_ViewTop"
+                  << "Std_ViewRight"
+                  << "Std_ViewRear"
+                  << "Std_ViewBottom"
+                  << "Std_ViewLeft"
+                  << "Separator"
+                  << "Std_ViewRotateLeft"
+                  << "Std_ViewRotateRight";
 
         *item << "Std_ViewFitAll"
               << "Std_ViewFitSelection"
               << "Std_AlignToSelection"
               << "Std_TogglePreSelection"       // << "Std_Selection"
               << "Std_DrawStyle"
-              << StdViews << "Separator"
+              << StdViews
+              << "Separator"
               << "Std_ViewDockUndockFullscreen";
 
         if (Gui::Selection().countObjectsOfType<App::DocumentObject>() > 0) {
-            *item << "Separator" << "Std_ToggleVisibility"
-                  << "Std_ToggleSelectability" << "Std_TreeSelection"
-                  << "Std_RandomColor" << "Std_ToggleTransparency" << "Separator" << "Std_Delete"
-                  << "Std_SendToPythonConsole" << "Std_TransformManip" << "Std_Placement";
+            *item << "Separator"
+                  << "Std_ToggleVisibility"
+                  << "Std_ToggleSelectability"
+                  << "Std_TreeSelection"
+                  << "Std_RandomColor"
+                  << "Std_ToggleTransparency"
+                  << "Separator"
+                  << "Std_Delete"
+                  << "Std_SendToPythonConsole"
+                  << "Std_TransformManip"
+                  << "Std_Placement";
         }
     }
     else if (strcmp(recipient,"Tree") == 0)
     {
         if (Gui::Selection().countObjectsOfType<App::DocumentObject>() > 0) {
-            *item  << "Std_ToggleFreeze" << "Separator"
-                  << "Std_Placement" << "Std_ToggleVisibility" << "Std_ShowSelection" << "Std_HideSelection"
-                  << "Std_ToggleSelectability" << "Std_TreeSelectAllInstances" << "Separator"
-                  << "Std_RandomColor" << "Std_ToggleTransparency" << "Separator"
-                  << "Std_Cut" << "Std_Copy" << "Std_Paste" << "Std_Delete"
-                  << "Std_SendToPythonConsole" << "Separator";
+            *item << "Std_ToggleFreeze"
+                  << "Separator"
+                  << "Std_Placement"
+                  << "Std_ToggleVisibility"
+                  << "Std_ShowSelection"
+                  << "Std_HideSelection"
+                  << "Std_ToggleSelectability"
+                  << "Std_TreeSelectAllInstances"
+                  << "Separator"
+                  << "Std_RandomColor"
+                  << "Std_ToggleTransparency"
+                  << "Separator"
+                  << "Std_Cut"
+                  << "Std_Copy"
+                  << "Std_Paste"
+                  << "Std_Delete"
+                  << "Std_SendToPythonConsole"
+                  << "Separator";
         }
     }
 }
@@ -640,22 +676,55 @@ MenuItem* StdWorkbench::setupMenuBar() const
     // File
     auto file = new MenuItem( menuBar );
     file->setCommand("&File");
-    *file << "Std_New" << "Std_Open" << "Std_RecentFiles" << "Separator" << "Std_CloseActiveWindow"
-          << "Std_CloseAllWindows" << "Separator" << "Std_Save" << "Std_SaveAs"
-          << "Std_SaveCopy" << "Std_SaveAll" << "Std_Revert" << "Separator" << "Std_Import"
-          << "Std_Export" << "Std_MergeProjects" << "Std_ProjectInfo"
-          << "Separator" << "Std_Print" << "Std_PrintPreview" << "Std_PrintPdf"
-          << "Separator" << "Std_Quit";
+    *file << "Std_New"
+          << "Std_Open"
+          << "Std_RecentFiles"
+          << "Separator"
+          << "Std_CloseActiveWindow"
+          << "Std_CloseAllWindows"
+          << "Separator"
+          << "Std_Save"
+          << "Std_SaveAs"
+          << "Std_SaveCopy"
+          << "Std_SaveAll"
+          << "Std_Revert"
+          << "Separator"
+          << "Std_Import"
+          << "Std_Export"
+          << "Std_MergeProjects"
+          << "Std_ProjectInfo"
+          << "Separator"
+          << "Std_Print"
+          << "Std_PrintPreview"
+          << "Std_PrintPdf"
+          << "Separator"
+          << "Std_Quit";
 
     // Edit
     auto edit = new MenuItem( menuBar );
     edit->setCommand("&Edit");
-    *edit << "Std_Undo" << "Std_Redo" << "Separator" << "Std_Cut" << "Std_Copy"
-          << "Std_Paste" << "Std_DuplicateSelection" << "Separator"
-          << "Std_Refresh" << "Std_BoxSelection" << "Std_BoxElementSelection"
-          << "Std_SelectAll" << "Std_Delete" << "Std_SendToPythonConsole"
-          << "Separator" << "Std_Placement" << "Std_TransformManip" << "Std_Alignment"
-          << "Std_Edit" << "Std_Properties" << "Separator" << "Std_DlgPreferences";
+    *edit << "Std_Undo"
+          << "Std_Redo"
+          << "Separator"
+          << "Std_Cut"
+          << "Std_Copy"
+          << "Std_Paste"
+          << "Std_DuplicateSelection"
+          << "Separator"
+          << "Std_Refresh"
+          << "Std_BoxSelection"
+          << "Std_BoxElementSelection"
+          << "Std_SelectAll"
+          << "Std_Delete"
+          << "Std_SendToPythonConsole"
+          << "Separator"
+          << "Std_Placement"
+          << "Std_TransformManip"
+          << "Std_Alignment"
+          << "Std_Edit"
+          << "Std_Properties"
+          << "Separator"
+          << "Std_DlgPreferences";
 
     auto axoviews = new MenuItem;
     axoviews->setCommand("A&xonometric");
@@ -689,35 +758,60 @@ MenuItem* StdWorkbench::setupMenuBar() const
     // stereo
     auto view3d = new MenuItem;
     view3d->setCommand("&Stereo");
-    *view3d << "Std_ViewIvStereoRedGreen" << "Std_ViewIvStereoQuadBuff"
-            << "Std_ViewIvStereoInterleavedRows" << "Std_ViewIvStereoInterleavedColumns"
-            << "Std_ViewIvStereoOff" << "Separator" << "Std_ViewIvIssueCamPos";
+    *view3d << "Std_ViewIvStereoRedGreen"
+            << "Std_ViewIvStereoQuadBuff"
+            << "Std_ViewIvStereoInterleavedRows"
+            << "Std_ViewIvStereoInterleavedColumns"
+            << "Std_ViewIvStereoOff"
+            << "Separator"
+            << "Std_ViewIvIssueCamPos";
 
     // zoom
     auto zoom = new MenuItem;
     zoom->setCommand("&Zoom");
-    *zoom << "Std_ViewZoomIn" << "Std_ViewZoomOut" << "Separator" << "Std_ViewBoxZoom";
+    *zoom << "Std_ViewZoomIn"
+          << "Std_ViewZoomOut"
+          << "Separator"
+          << "Std_ViewBoxZoom";
 
     // Visibility
     auto visu = new MenuItem;
     visu->setCommand("V&isibility");
-    *visu << "Std_ToggleVisibility" << "Std_ShowSelection" << "Std_HideSelection"
+    *visu << "Std_ToggleVisibility"
+          << "Std_ShowSelection"
+          << "Std_HideSelection"
           << "Std_SelectVisibleObjects"
-          << "Separator" << "Std_ToggleObjects" << "Std_ShowObjects" << "Std_HideObjects"
-          << "Separator" << "Std_ToggleSelectability";
+          << "Separator"
+          << "Std_ToggleObjects"
+          << "Std_ShowObjects"
+          << "Std_HideObjects"
+          << "Separator"
+          << "Std_ToggleSelectability";
 
     // View
     auto view = new MenuItem( menuBar );
     view->setCommand("&View");
-    *view << "Std_ViewCreate" << "Std_OrthographicCamera" << "Std_PerspectiveCamera" << "Std_MainFullscreen" << "Separator"
-          << stdviews << "Std_FreezeViews" << "Std_DrawStyle" << "Std_SelBoundingBox"
-          << "Separator" << view3d << zoom
-          << "Std_ViewDockUndockFullscreen" << "Std_AxisCross" << "Std_ToggleClipPlane"
+    *view << "Std_ViewCreate"
+          << "Std_OrthographicCamera"
+          << "Std_PerspectiveCamera"
+          << "Std_MainFullscreen"
+          << "Separator"
+          << stdviews
+          << "Std_FreezeViews"
+          << "Std_DrawStyle"
+          << "Std_SelBoundingBox"
+          << "Separator"
+          << view3d
+          << zoom
+          << "Std_ViewDockUndockFullscreen"
+          << "Std_AxisCross"
+          << "Std_ToggleClipPlane"
           << "Std_TextureMapping"
 #ifdef BUILD_VR
           << "Std_ViewVR"
 #endif
-          << "Separator" << visu
+          << "Separator"
+          << visu
           << "Std_ToggleNavigation"
           << "Std_RandomColor"
           << "Std_ToggleTransparency"
@@ -776,9 +870,14 @@ MenuItem* StdWorkbench::setupMenuBar() const
     // Windows
     auto wnd = new MenuItem( menuBar );
     wnd->setCommand("&Windows");
-    *wnd << "Std_ActivateNextWindow" << "Std_ActivatePrevWindow" << "Separator"
-         << "Std_TileWindows" << "Std_CascadeWindows" << "Separator"
-         << "Std_WindowsMenu" << "Std_Windows";
+    *wnd << "Std_ActivateNextWindow"
+         << "Std_ActivatePrevWindow"
+         << "Separator"
+         << "Std_TileWindows"
+         << "Std_CascadeWindows"
+         << "Separator"
+         << "Std_WindowsMenu"
+         << "Std_Windows";
 
     // Separator
     auto sep = new MenuItem( menuBar );
@@ -787,12 +886,23 @@ MenuItem* StdWorkbench::setupMenuBar() const
     // Help
     auto help = new MenuItem( menuBar );
     help->setCommand("&Help");
-    *help << "Std_OnlineHelp" << "Std_WhatsThis" << "Separator"
+    *help << "Std_OnlineHelp"
+          << "Std_WhatsThis"
+          << "Separator"
           // Start page and additional separator are dynamically inserted here
-          << "Std_FreeCADUserHub" << "Std_FreeCADForum" << "Std_FreeCADFAQ" << "Std_ReportBug" << "Separator"
-          << "Std_RestartInSafeMode" << "Separator"
-          << "Std_FreeCADPowerUserHub" << "Std_PythonHelp" << "Separator"
-          << "Std_FreeCADWebsite" << "Std_FreeCADDonation" << "Std_About";
+          << "Std_FreeCADUserHub"
+          << "Std_FreeCADForum"
+          << "Std_FreeCADFAQ"
+          << "Std_ReportBug"
+          << "Separator"
+          << "Std_RestartInSafeMode"
+          << "Separator"
+          << "Std_FreeCADPowerUserHub"
+          << "Std_PythonHelp"
+          << "Separator"
+          << "Std_FreeCADWebsite"
+          << "Std_FreeCADDonation"
+          << "Std_About";
 
     return menuBar;
 }
@@ -804,18 +914,24 @@ ToolBarItem* StdWorkbench::setupToolBars() const
     // File
     auto file = new ToolBarItem( root );
     file->setCommand("File");
-    *file << "Std_New" << "Std_Open" << "Std_Save";
+    *file << "Std_New"
+          << "Std_Open"
+          << "Std_Save";
 
     // Edit
     auto edit = new ToolBarItem( root );
     edit->setCommand("Edit");
-    *edit << "Std_Undo" << "Std_Redo"
-          << "Separator" << "Std_Refresh";
+    *edit << "Std_Undo"
+          << "Std_Redo"
+          << "Separator"
+          << "Std_Refresh";
 
     // Clipboard
     auto clipboard = new ToolBarItem( root , ToolBarItem::DefaultVisibility::Hidden );
     clipboard->setCommand("Clipboard");
-    *clipboard << "Std_Cut" << "Std_Copy" << "Std_Paste";
+    *clipboard << "Std_Cut"
+               << "Std_Copy"
+               << "Std_Paste";
 
     // Workbench switcher
     auto wb = new ToolBarItem(root);
@@ -825,7 +941,8 @@ ToolBarItem* StdWorkbench::setupToolBars() const
     // Macro
     auto macro = new ToolBarItem( root, ToolBarItem::DefaultVisibility::Hidden);
     macro->setCommand("Macro");
-    *macro << "Std_DlgMacroRecord" << "Std_DlgMacroExecute"
+    *macro << "Std_DlgMacroRecord"
+           << "Std_DlgMacroExecute"
            << "Std_DlgMacroExecuteDirect";
 
     // View
@@ -854,7 +971,10 @@ ToolBarItem* StdWorkbench::setupToolBars() const
     // Structure
     auto structure = new ToolBarItem( root );
     structure->setCommand("Structure");
-    *structure << "Std_Part" << "Std_Group" << "Std_LinkActions" << "Std_VarSet";
+    *structure << "Std_Part"
+               << "Std_Group"
+               << "Std_LinkActions"
+               << "Std_VarSet";
 
     // Help
     auto help = new ToolBarItem( root );
@@ -871,15 +991,25 @@ ToolBarItem* StdWorkbench::setupCommandBars() const
     // View
     auto view = new ToolBarItem( root );
     view->setCommand("Standard views");
-    *view << "Std_ViewFitAll" << "Std_ViewFitSelection" << "Std_ViewIsometric" << "Separator"
-          << "Std_ViewFront" << "Std_ViewRight" << "Std_ViewTop"
-          << "Std_ViewRear" << "Std_ViewLeft" << "Std_ViewBottom";
+    *view << "Std_ViewFitAll"
+          << "Std_ViewFitSelection"
+          << "Std_ViewIsometric"
+          << "Separator"
+          << "Std_ViewFront"
+          << "Std_ViewRight"
+          << "Std_ViewTop"
+          << "Std_ViewRear"
+          << "Std_ViewLeft"
+          << "Std_ViewBottom";
 
     // Special Ops
     auto macro = new ToolBarItem( root );
     macro->setCommand("Special Ops");
-    *macro << "Std_DlgParameter" << "Std_DlgPreferences" << "Std_DlgMacroRecord"
-           << "Std_DlgMacroExecute" << "Std_DlgCustomize";
+    *macro << "Std_DlgParameter"
+           << "Std_DlgPreferences"
+           << "Std_DlgMacroRecord"
+           << "Std_DlgMacroExecute"
+           << "Std_DlgCustomize";
 
     return root;
 }
@@ -901,7 +1031,7 @@ DockWindowItems* StdWorkbench::setupDockWindows() const
 
     bool enabled = group->GetBool("Enabled", false);
     if (enabled) {
-      root->addDockWidget("Std_DAGView", Qt::RightDockWidgetArea, Gui::DockWindowOption::Hidden);
+        root->addDockWidget("Std_DAGView", Qt::RightDockWidgetArea, Gui::DockWindowOption::Hidden);
     }
 
     return root;
@@ -911,10 +1041,7 @@ DockWindowItems* StdWorkbench::setupDockWindows() const
 
 TYPESYSTEM_SOURCE(Gui::BlankWorkbench, Gui::Workbench)
 
-BlankWorkbench::BlankWorkbench()
-  : Workbench()
-{
-}
+BlankWorkbench::BlankWorkbench() = default;
 
 BlankWorkbench::~BlankWorkbench() = default;
 
@@ -1002,7 +1129,8 @@ MenuItem* NoneWorkbench::setupMenuBar() const
     // Help
     auto help = new MenuItem( menuBar );
     help->setCommand("&Help");
-    *help << "Std_OnlineHelp" << "Std_About";
+    *help << "Std_OnlineHelp"
+          << "Std_About";
 
     return menuBar;
 }
@@ -1030,10 +1158,7 @@ DockWindowItems* NoneWorkbench::setupDockWindows() const
 
 TYPESYSTEM_SOURCE(Gui::TestWorkbench, Gui::Workbench)
 
-TestWorkbench::TestWorkbench()
-  : StdWorkbench()
-{
-}
+TestWorkbench::TestWorkbench() = default;
 
 TestWorkbench::~TestWorkbench() = default;
 
@@ -1049,14 +1174,22 @@ MenuItem* TestWorkbench::setupMenuBar() const
     auto test = new MenuItem;
     menuBar->insertItem( item, test );
     test->setCommand( "Test &Commands" );
-    *test << "Std_Test1" << "Std_Test2" << "Std_Test3" << "Std_Test4" << "Std_Test5"
-          << "Std_Test6" << "Std_Test7" << "Std_Test8";
+    *test << "Std_Test1"
+          << "Std_Test2"
+          << "Std_Test3"
+          << "Std_Test4"
+          << "Std_Test5"
+          << "Std_Test6"
+          << "Std_Test7"
+          << "Std_Test8";
 
     // Inventor View
     auto opiv = new MenuItem;
     menuBar->insertItem( item, opiv );
     opiv->setCommand("&Inventor View");
-    *opiv << "Std_ViewExample1" << "Std_ViewExample2" << "Std_ViewExample3";
+    *opiv << "Std_ViewExample1"
+          << "Std_ViewExample2"
+          << "Std_ViewExample3";
 
     return menuBar;
 }

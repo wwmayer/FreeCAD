@@ -125,7 +125,7 @@ private:
 
                 seekAndRenderAutoConstraint(sugConstraints[0],
                                             onSketchPos,
-                                            Base::Vector2d(0.f, 0.f));
+                                            Base::Vector2d::Null);
             } break;
             case SelectMode::SeekSecond: {
                 if (constructionMethod() == ConstructionMethod::Diagonal) {
@@ -575,7 +575,7 @@ private:
     bool isWidgetVisible() const override
     {
         return true;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {
@@ -665,13 +665,14 @@ private:
     }
 
 private:
-    Base::Vector2d center, corner1, corner2, corner3, corner4, frameCorner1, frameCorner2,
-        frameCorner3, frameCorner4, corner2Initial;
+    Base::Vector2d center, corner1, corner2, corner3, corner4;
+    Base::Vector2d frameCorner1, frameCorner2;
+    Base::Vector2d frameCorner3, frameCorner4, corner2Initial;
     Base::Vector3d center1, center2, center3, center4;
     bool roundCorners, makeFrame, cornersReversed;
     double radius, length, width, thickness, radiusFrame, angle, angle123, angle412;
-    int firstCurve, constructionPointOneId, constructionPointTwoId, constructionPointThreeId,
-        centerPointId, side;
+    int firstCurve, constructionPointOneId, constructionPointTwoId, constructionPointThreeId;
+    int centerPointId, side;
 
     void createShape(bool onlyeditoutline) override
     {
@@ -1791,6 +1792,32 @@ void DSHRectangleController::configureToolWidget()
             Gui::SoDatumLabel::DISTANCE,
             Gui::EditableDatumLabel::Function::Dimensioning);
     }
+}
+
+template<>
+void DSHRectangleController::languageChanged()
+{
+    QStringList names = {
+        QApplication::translate("TaskSketcherTool_c1_rectangle", "Corner, width, height"),
+        QApplication::translate("TaskSketcherTool_c1_rectangle", "Center, width, height"),
+        QApplication::translate("TaskSketcherTool_c1_rectangle", "3 corners"),
+        QApplication::translate("TaskSketcherTool_c1_rectangle", "Center, 2 corners")};
+    toolWidget->setComboboxItemText(WCombobox::FirstCombo, names);
+
+    toolWidget->setCheckboxLabel(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_rectangle", "Rounded corners (U)"));
+    toolWidget->setCheckboxToolTip(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_rectangle",
+                                "Create a rectangle with rounded corners."));
+    toolWidget->setCheckboxLabel(
+        WCheckbox::SecondBox,
+        QApplication::translate("TaskSketcherTool_c2_rectangle", "Frame (J)"));
+    toolWidget->setCheckboxToolTip(
+        WCheckbox::SecondBox,
+        QApplication::translate("TaskSketcherTool_c2_rectangle",
+                                "Create two rectangles with a constant offset."));
 }
 
 template<>

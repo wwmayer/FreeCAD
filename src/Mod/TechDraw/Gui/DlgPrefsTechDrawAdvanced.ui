@@ -228,7 +228,7 @@ can be a performance penalty in complex models.</string>
            <string>The number of times FreeCAD should try to remove overlapping edges returned by the Hidden Line Removal algorithm. A value of 0 indicates no scrubbing, 1 indicates a single pass and 2 indicates a second pass should be performed. Values above 2 are generally not productive. Each pass adds to the time required to produce the drawing.</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="suffix">
            <string/>
@@ -273,7 +273,7 @@ can be a performance penalty in complex models.</string>
 when hatching a face with a PAT pattern</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignRight</set>
+           <set>Qt::AlignRight</set>
           </property>
           <property name="minimum">
            <number>1</number>
@@ -367,7 +367,7 @@ Each unit is approx. 0.1 mm wide</string>
            <string/>
           </property>
           <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="value">
            <double>5.000000000000000</double>
@@ -383,7 +383,7 @@ Each unit is approx. 0.1 mm wide</string>
         <item row="6" column="1">
          <spacer name="horizontalSpacer">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -415,7 +415,7 @@ Each unit is approx. 0.1 mm wide</string>
            <string/>
           </property>
           <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="value">
            <double>10.000000000000000</double>
@@ -468,7 +468,7 @@ For large scalings, you might get an error about too many SVG tiles.
 Then you need to increase the tile limit.</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignRight</set>
+           <set>Qt::AlignRight</set>
           </property>
           <property name="minimum">
            <number>1</number>
@@ -600,7 +600,7 @@ Then you need to increase the tile limit.</string>
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Orientation::Vertical</enum>
+      <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>

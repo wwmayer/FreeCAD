@@ -162,7 +162,7 @@ private:
     bool isWidgetVisible() const override
     {
         return true;
-    };
+    }
 
     QPixmap getToolIcon() const override
     {
@@ -428,6 +428,14 @@ void DSHScaleController::configureToolWidget()
     onViewParameters[OnViewParameter::Third]->setLabelType(
         Gui::SoDatumLabel::DISTANCE,
         Gui::EditableDatumLabel::Function::Dimensioning);
+}
+
+template<>
+void DSHScaleController::languageChanged()
+{
+    toolWidget->setCheckboxLabel(
+        WCheckbox::FirstBox,
+        QApplication::translate("TaskSketcherTool_c1_scale", "Keep original geometries (U)"));
 }
 
 template<>

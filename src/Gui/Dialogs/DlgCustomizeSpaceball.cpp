@@ -749,6 +749,16 @@ void DlgCustomizeSpaceball::setupLayout()
     clearLayout->addStretch();
     buttonGroup->addLayout(clearLayout);
 
+    auto app = qobject_cast<GUIApplicationNativeEventAware *>(QApplication::instance());
+    if (app && app->isSpaceballPresent()) {
+        auto deviceLabel = new QLabel(this);
+        buttonGroup->addWidget(deviceLabel);
+        QString device = app->deviceName();
+        if (!device.isEmpty()) {
+            deviceLabel->setText(tr("Device: %1").arg(app->deviceName()));
+        }
+    }
+
     auto splitter = new QSplitter(this);
     auto leftPane = new QWidget(this);
     leftPane->setLayout(buttonGroup);

@@ -64,7 +64,6 @@
 # include <Geom_ToroidalSurface.hxx>
 # include <Geom_TrimmedCurve.hxx>
 # include <GeomAPI_ExtremaCurveCurve.hxx>
-# include <GeomAPI_Interpolate.hxx>
 # include <GeomAPI_PointsToBSpline.hxx>
 # include <GeomAPI_ProjectPointOnCurve.hxx>
 # include <GeomConvert.hxx>
@@ -133,6 +132,7 @@
 #include "ConePy.h"
 #include "CylinderPy.h"
 #include "EllipsePy.h"
+#include "GeometryInterpolate.h"
 #include "GeometryMigrationExtension.h"
 #include "HyperbolaPy.h"
 #include "LinePy.h"
@@ -1617,47 +1617,37 @@ bool GeomBSplineCurve::join(const Handle(Geom_BoundedCurve)& other)
     return true;
 }
 
+std::tuple<GeomBSplineCurvePtr, GeomBSplineCurvePtr>
+GeomBSplineCurve::split(double u, double tol) const
+{
+    Handle(Geom_BSplineCurve) curveL = GeomConvert::SplitBSplineCurve(myCurve,
+                                                                      myCurve->FirstParameter(),
+                                                                      u,
+                                                                      tol,
+                                                                      true);
+    Handle(Geom_BSplineCurve) curveR = GeomConvert::SplitBSplineCurve(myCurve,
+                                                                      u,
+                                                                      myCurve->LastParameter(),
+                                                                      tol,
+                                                                      true);
+    return std::make_tuple(std::make_shared<GeomBSplineCurve>(curveL),
+                           std::make_shared<GeomBSplineCurve>(curveR));
+}
+
 void GeomBSplineCurve::interpolate(const std::vector<gp_Pnt>& p, Standard_Boolean periodic)
 {
-    if (p.size() < 2)
-        Standard_ConstructionError::Raise();
-
-    double tol3d = Precision::Approximation();
-    Handle(TColgp_HArray1OfPnt) pts = new TColgp_HArray1OfPnt(1, p.size());
-    for (std::size_t i=0; i<p.size(); i++) {
-        pts->SetValue(i+1, p[i]);
-    }
-
-    GeomAPI_Interpolate interpolate(pts, periodic, tol3d);
-    interpolate.Perform();
-    this->myCurve = interpolate.Curve();
+    GeometryInterpolate interpolate(Precision::Approximation(), periodic);
+    interpolate.setPoints(p);
+    this->myCurve = interpolate.perform();
 }
 
 void GeomBSplineCurve::interpolate(const std::vector<gp_Pnt>& p,
                                    const std::vector<gp_Vec>& t)
 {
-    if (p.size() < 2)
-        Standard_ConstructionError::Raise();
-    if (p.size() != t.size())
-        Standard_ConstructionError::Raise();
-
-    double tol3d = Precision::Approximation();
-    Handle(TColgp_HArray1OfPnt) pts = new TColgp_HArray1OfPnt(1, p.size());
-    for (std::size_t i=0; i<p.size(); i++) {
-        pts->SetValue(i+1, p[i]);
-    }
-
-    TColgp_Array1OfVec tgs(1, t.size());
-    Handle(TColStd_HArray1OfBoolean) fgs = new TColStd_HArray1OfBoolean(1, t.size());
-    for (std::size_t i=0; i<p.size(); i++) {
-        tgs.SetValue(i+1, t[i]);
-        fgs->SetValue(i+1, Standard_True);
-    }
-
-    GeomAPI_Interpolate interpolate(pts, Standard_False, tol3d);
-    interpolate.Load(tgs, fgs);
-    interpolate.Perform();
-    this->myCurve = interpolate.Curve();
+    GeometryInterpolate interpolate(Precision::Approximation(), false);
+    interpolate.setPoints(p);
+    interpolate.setTangents(t);
+    this->myCurve = interpolate.perform();
 }
 
 void GeomBSplineCurve::getCardinalSplineTangents(const std::vector<gp_Pnt>& p,

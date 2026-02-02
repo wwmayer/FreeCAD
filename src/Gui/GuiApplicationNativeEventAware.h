@@ -43,11 +43,14 @@ namespace Gui
         void initSpaceball(QMainWindow *window);
         bool isSpaceballPresent() const {return spaceballPresent;}
         void setSpaceballPresent(bool present) {spaceballPresent = present;}
+        void setDeviceName(const QString& name) {devName = name;}
+        QString deviceName() const {return devName;}
         bool processSpaceballEvent(QObject *object, QEvent *event);
         void postMotionEvent(std::vector<int> motionDataArray);
         void postButtonEvent(int buttonNumber, int buttonPress);
     private:
         bool spaceballPresent;
+        QString devName;
         void importSettings(std::vector<int>& motionDataArray);
         float convertPrefToSensitivity(int value);
       #if defined(_USE_3DCONNEXION_SDK) || defined(SPNAV_FOUND)

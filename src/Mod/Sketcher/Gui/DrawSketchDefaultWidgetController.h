@@ -104,6 +104,7 @@ private:
     Connection connectionParameterValueChanged;
     Connection connectionCheckboxCheckedChanged;
     Connection connectionComboboxSelectionChanged;
+    Connection connectionLanguageChanged;
 
     /** @name Named indices for controls of the default widget (SketcherToolDefaultWidget) */
     //@{
@@ -132,6 +133,7 @@ public:
         connectionParameterValueChanged.disconnect();
         connectionCheckboxCheckedChanged.disconnect();
         connectionComboboxSelectionChanged.disconnect();
+        connectionLanguageChanged.disconnect();
     }
 
     /** @name functions NOT intended for specialisation offering specialisation interface for
@@ -181,6 +183,13 @@ public:
 
         ControllerBase::finishControlsChanged();
     }
+
+    /** boost slot triggering when a language has changed in the widget
+     * It is intended to remote control the DrawSketchDefaultWidgetHandler
+     */
+    void languageChanged()
+    {
+    }
     //@}
 
     /** @name Specialisation Interface */
@@ -208,7 +217,7 @@ public:
     {
         Q_UNUSED(comboboxindex);
 
-        if constexpr (PFirstComboboxIsConstructionMethod == true) {
+        if constexpr (PFirstComboboxIsConstructionMethod) {
 
             if (comboboxindex == WCombobox::FirstCombo && handler->ConstructionMethodsCount() > 1) {
                 handler->setConstructionMethod(static_cast<ConstructionMethodT>(value));
@@ -383,6 +392,10 @@ private:
                       this,
                       sp::_1,
                       sp::_2));
+
+        connectionLanguageChanged = toolWidget->registerLanguageChanged(
+            std::bind(&DrawSketchDefaultWidgetController::languageChanged,
+                      this));
     }
 
     /// Resets the widget
@@ -406,7 +419,7 @@ private:
 
         // update the combobox only if necessary (if the change was not triggered by the
         // combobox)
-        if constexpr (PFirstComboboxIsConstructionMethod == true) {
+        if constexpr (PFirstComboboxIsConstructionMethod) {
             auto currentindex = toolWidget->getComboboxIndex(WCombobox::FirstCombo);
             auto methodint = static_cast<int>(handler->constructionMethod());
 
@@ -447,7 +460,7 @@ private:
     void syncHandlerToConstructionMethodCombobox()
     {
 
-        if constexpr (PFirstComboboxIsConstructionMethod == true) {
+        if constexpr (PFirstComboboxIsConstructionMethod) {
             auto constructionmethod = toolWidget->getComboboxIndex(WCombobox::FirstCombo);
 
             handler->initConstructionMethod(static_cast<ConstructionMethodT>(constructionmethod));
@@ -456,7 +469,7 @@ private:
     /// Syncs the construction method selection in the combobox to the handler selection
     void syncConstructionMethodComboboxToHandler()
     {
-        if constexpr (PFirstComboboxIsConstructionMethod == true) {
+        if constexpr (PFirstComboboxIsConstructionMethod) {
             auto constructionmethod = toolWidget->getComboboxIndex(WCombobox::FirstCombo);
 
             auto actualconstructionmethod = static_cast<int>(handler->constructionMethod());

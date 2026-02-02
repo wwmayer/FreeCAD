@@ -3486,7 +3486,7 @@ public:
                 link->restoreLink(obj);
             }
             else if (doc->testStatus(App::Document::PartialDoc)) {
-                App::GetApplication().addPendingDocument(doc->FileName.getValue(),
+                App::GetApplication().addPendingDocument(doc->FileName.getCStrValue(),
                                                          link->objectName.c_str(),
                                                          false);
                 FC_WARN("reloading partial document '" << doc->FileName.getValue()
@@ -3506,7 +3506,7 @@ public:
                     link->restoreLink(obj);
                 }
                 else if (doc->testStatus(App::Document::PartialDoc)) {
-                    App::GetApplication().addPendingDocument(doc->FileName.getValue(),
+                    App::GetApplication().addPendingDocument(doc->FileName.getCStrValue(),
                                                              link->objectName.c_str(),
                                                              false);
                     FC_WARN("reloading partial document '"
@@ -3535,7 +3535,7 @@ public:
 
     static void restoreDocument(const App::Document& doc)
     {
-        auto it = _DocInfoMap.find(getFullPath(doc.FileName.getValue()));
+        auto it = _DocInfoMap.find(getFullPath(doc.FileName.getCStrValue()));
         if (it == _DocInfoMap.end()) {
             return;
         }

@@ -317,7 +317,7 @@ protected:
         }
     }
 
-    virtual void onConstructionMethodChanged() {};
+    virtual void onConstructionMethodChanged() {}
 
     static constexpr int ConstructionMethodsCount()
     {
@@ -590,12 +590,12 @@ private:
     virtual void createAutoConstraints()
     {}
 
-    void onConstructionMethodChanged() override {};
+    void onConstructionMethodChanged() override {}
 
     virtual void updateDataAndDrawToPosition(Base::Vector2d onSketchPos)
     {
         Q_UNUSED(onSketchPos)
-    };
+    }
 
     virtual void angleSnappingControl()
     {}
@@ -646,7 +646,7 @@ protected:
         angleSnappingControl();
         // internally checks that state is SelectMode::End, and only finishes then.
         return !finish();
-    };
+    }
     //@}
 
     /** @name Helper functions

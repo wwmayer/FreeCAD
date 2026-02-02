@@ -500,6 +500,11 @@ measured along the specified direction</string>
   <tabstop>lengthEdit</tabstop>
   <tabstop>lengthEdit2</tabstop>
   <tabstop>offsetEdit</tabstop>
+  <tabstop>buttonShape</tabstop>
+  <tabstop>lineShapeName</tabstop>
+  <tabstop>checkBoxAllFaces</tabstop>
+  <tabstop>buttonShapeFace</tabstop>
+  <tabstop>listWidgetReferences</tabstop>
   <tabstop>buttonFace</tabstop>
   <tabstop>lineFaceName</tabstop>
   <tabstop>checkBoxMidplane</tabstop>
