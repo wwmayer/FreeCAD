@@ -78,6 +78,7 @@ public Q_SLOTS:
                             Qt::KeyboardModifiers modifiers,
                             bool handleTabMotion = false);
     void ModifyBlockSelection(int targetRow, int targetColumn);
+    void selectAll() override;
 
 protected Q_SLOTS:
     void commitData(QWidget* editor) override;

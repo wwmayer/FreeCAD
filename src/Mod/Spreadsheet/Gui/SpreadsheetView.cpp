@@ -217,9 +217,12 @@ bool SheetView::onMsg(const char* pMsg, const char**)
         ui->cells->pasteClipboard();
         return true;
     }
-    else {
-        return false;
+    else if (strcmp("SelectAll", pMsg) == 0) {
+        ui->cells->selectAll();
+        return true;
     }
+
+    return false;
 }
 
 bool SheetView::onHasMsg(const char* pMsg) const
@@ -256,7 +259,10 @@ bool SheetView::onHasMsg(const char* pMsg) const
     if (strcmp(pMsg, "PrintPdf") == 0) {
         return true;
     }
-    else if (strcmp("AllowsOverlayOnHover", pMsg) == 0) {
+    if (strcmp("AllowsOverlayOnHover", pMsg) == 0) {
+        return true;
+    }
+    if (strcmp(pMsg, "SelectAll") == 0) {
         return true;
     }
 
