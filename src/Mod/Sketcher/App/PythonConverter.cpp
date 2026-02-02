@@ -100,7 +100,7 @@ std::string PythonConverter::convert(const std::string& doc,
         return command;
     };
 
-    std::string command = boost::str(boost::format("lastGeoId = len(ActiveSketch.Geometry)\n"));
+    std::string command = boost::str(boost::format("lastGeoId = len(%s.Geometry)\n") % doc);
 
     // Adds a list of consecutive geometries of a same construction type to the generating command
     auto addToCommands = [&command,
