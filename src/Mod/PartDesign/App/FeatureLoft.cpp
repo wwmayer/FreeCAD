@@ -273,7 +273,7 @@ App::DocumentObjectExecReturn *Loft::execute()
                 return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP("Exception", "Unknown operation type"));
         }
         try {
-            boolOp.makeElementBoolean(maker, {base,result});
+            boolOp.makeElementBoolean(maker, {base,result}, nullptr, FuzzyTolerance.getValue());
         }
         catch(Standard_Failure&) {
             return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP("Exception", "Failed to perform boolean operation"));
