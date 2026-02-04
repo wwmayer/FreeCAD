@@ -2489,7 +2489,7 @@ App::Document* Application::reopen(App::Document* doc)
     if (!doc) {
         return nullptr;
     }
-    std::string name = doc->FileName.getValue();
+    std::string name = doc->FileName.getStrValue();
     std::set<const Gui::Document*> untouchedDocs;
     for (auto& v : d->documents) {
         if (!v.second->isModified() && !v.second->getDocument()->isTouched()) {
@@ -2509,7 +2509,7 @@ App::Document* Application::reopen(App::Document* doc)
         for (auto d : doc->getDependentDocuments(true)) {
             if (d->testStatus(App::Document::PartialDoc)
                 || d->testStatus(App::Document::PartialRestore)) {
-                docs.emplace_back(d->FileName.getValue());
+                docs.emplace_back(d->FileName.getStrValue());
             }
         }
 
