@@ -846,6 +846,21 @@ class DocumentSaveRestoreCases(unittest.TestCase):
         # closing doc
         FreeCAD.closeDocument("SaveRestoreTests")
 
+class DocumentUnicodeCases(unittest.TestCase):
+    def setUp(self):
+        self.Name = b"Fran\xc3\xa7ais".decode("utf-8")
+        self.Doc = FreeCAD.newDocument(self.Name)
+        self.Doc.addObject("App::FeatureTest", self.Name)
+        self.TempPath = tempfile.gettempdir()
+
+    def tearDown(self):
+        FreeCAD.closeDocument(self.Doc.Name)
+
+    def testUnicode(self):
+        SaveName = self.TempPath + os.sep + self.Name + ".FCStd"
+        self.Doc.saveAs(SaveName)
+        FreeCAD.closeDocument(self.Doc.Name)
+        self.Doc = FreeCAD.open(SaveName)
 
 class DocumentRecomputeCases(unittest.TestCase):
     def setUp(self):
