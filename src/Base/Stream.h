@@ -575,16 +575,16 @@ public:
     ofstream(const ofstream&) = delete;
     ofstream(ofstream&&) = delete;
     explicit ofstream(const FileInfo& fi, ios_base::openmode mode = std::ios::out | std::ios::trunc)
-#ifdef _MSC_VER
+#ifdef FC_OS_WIN32
         : std::ofstream(fi.toStdWString().c_str(), mode) {}
 #else
         : std::ofstream(fi.filePath().c_str(), mode)
     {}
 #endif
-        ~ofstream() override = default;
+    ~ofstream() override = default;
     void open(const FileInfo& fi, ios_base::openmode mode = std::ios::out | std::ios::trunc)
     {
-#ifdef _MSC_VER
+#ifdef FC_OS_WIN32
         std::ofstream::open(fi.toStdWString().c_str(), mode);
 #else
         std::ofstream::open(fi.filePath().c_str(), mode);
@@ -608,16 +608,16 @@ public:
     ifstream(const ifstream&) = delete;
     ifstream(ifstream&&) = delete;
     explicit ifstream(const FileInfo& fi, ios_base::openmode mode = std::ios::in)
-#ifdef _MSC_VER
+#ifdef FC_OS_WIN32
         : std::ifstream(fi.toStdWString().c_str(), mode) {}
 #else
         : std::ifstream(fi.filePath().c_str(), mode)
     {}
 #endif
-        ~ifstream() override = default;
+    ~ifstream() override = default;
     void open(const FileInfo& fi, ios_base::openmode mode = std::ios::in)
     {
-#ifdef _MSC_VER
+#ifdef FC_OS_WIN32
         std::ifstream::open(fi.toStdWString().c_str(), mode);
 #else
         std::ifstream::open(fi.filePath().c_str(), mode);
