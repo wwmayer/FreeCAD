@@ -348,7 +348,7 @@ void LocalCoordinateSystem::migrateOriginPoint()
 // ----------------------------------------------------------------------------
 
 LocalCoordinateSystem::LCSExtension::LCSExtension(LocalCoordinateSystem* obj)
-    : obj(obj)
+    : lcs(obj)
 {
     Group.setStatus(Property::Transient, true);
 }
@@ -387,7 +387,7 @@ bool LocalCoordinateSystem::LCSExtension::extensionGetSubObject(DocumentObject*&
     }
 
     try {
-        ret = obj->getDatumElement(name.c_str());
+        ret = lcs->getDatumElement(name.c_str());
         if (!ret) {
             return false;
         }
@@ -405,4 +405,10 @@ bool LocalCoordinateSystem::LCSExtension::extensionGetSubObject(DocumentObject*&
         e.ReportException();
         return false;
     }
+}
+
+bool LocalCoordinateSystem::LCSExtension::hasObject(const DocumentObject* obj,
+                                                    [[maybe_unused]]bool recursive) const
+{
+    return lcs->hasObject(obj);
 }
