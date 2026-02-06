@@ -36,9 +36,6 @@
 #include "SelectionObject.h"
 
 
-using PyObject = struct _object;
-using PyMethodDef = struct PyMethodDef;
-
 namespace App
 {
     class DocumentObject;
@@ -586,37 +583,6 @@ public:
     static SelectionSingleton& instance();
     static void destruct ();
     friend class SelectionFilter;
-
-    // Python interface
-    static PyMethodDef    Methods[];
-
-protected:
-    static PyObject *sAddSelection        (PyObject *self,PyObject *args);
-    static PyObject *sUpdateSelection     (PyObject *self,PyObject *args);
-    static PyObject *sRemoveSelection     (PyObject *self,PyObject *args);
-    static PyObject *sClearSelection      (PyObject *self,PyObject *args);
-    static PyObject *sIsSelected          (PyObject *self,PyObject *args);
-    static PyObject *sCountObjectsOfType  (PyObject *self,PyObject *args);
-    static PyObject *sGetSelection        (PyObject *self,PyObject *args);
-    static PyObject *sSetPreselection     (PyObject *self,PyObject *args,PyObject *kwd);
-    static PyObject *sGetPreselection     (PyObject *self,PyObject *args);
-    static PyObject *sRemPreselection     (PyObject *self,PyObject *args);
-    static PyObject *sGetCompleteSelection(PyObject *self,PyObject *args);
-    static PyObject *sGetSelectionEx      (PyObject *self,PyObject *args);
-    static PyObject *sGetSelectionObject  (PyObject *self,PyObject *args);
-    static PyObject *sSetSelectionStyle   (PyObject *self,PyObject *args);
-    static PyObject *sAddSelObserver      (PyObject *self,PyObject *args);
-    static PyObject *sRemSelObserver      (PyObject *self,PyObject *args);
-    static PyObject *sAddSelectionGate    (PyObject *self,PyObject *args);
-    static PyObject *sRemoveSelectionGate (PyObject *self,PyObject *args);
-    static PyObject *sGetPickedList       (PyObject *self,PyObject *args);
-    static PyObject *sEnablePickedList    (PyObject *self,PyObject *args);
-    static PyObject *sPreselect           (PyObject *self,PyObject *args);
-    static PyObject *sSetVisible          (PyObject *self,PyObject *args);
-    static PyObject *sPushSelStack        (PyObject *self,PyObject *args);
-    static PyObject *sHasSelection        (PyObject *self,PyObject *args);
-    static PyObject *sHasSubSelection     (PyObject *self,PyObject *args);
-    static PyObject *sGetSelectionFromStack(PyObject *self,PyObject *args);
 
 protected:
     /// Construction

@@ -88,6 +88,7 @@
 #include "Placement.h"
 #include "SoFCDB.h"
 #include "Selection.h"
+#include "SelectionPy.h"
 #include "SelectionFilterPy.h"
 #include "SoQtOffscreenRendererPy.h"
 #include "SpaceMouseParameter.h"
@@ -459,16 +460,7 @@ Application::Application(bool GUIenabled)
                                     "ExpressionBinding");
 
         // insert Selection module
-        static struct PyModuleDef SelectionModuleDef = {PyModuleDef_HEAD_INIT,
-                                                        "Selection",
-                                                        "Selection module",
-                                                        -1,
-                                                        SelectionSingleton::Methods,
-                                                        nullptr,
-                                                        nullptr,
-                                                        nullptr,
-                                                        nullptr};
-        PyObject* pSelectionModule = PyModule_Create(&SelectionModuleDef);
+        PyObject* pSelectionModule = SelectionPy::createModule();
         Py_INCREF(pSelectionModule);
         PyModule_AddObject(module, "Selection", pSelectionModule);
 
