@@ -75,6 +75,7 @@
 #include <Base/BaseClass.h>
 #include <Base/BoundBoxPy.h>
 #include <Base/ConsoleObserver.h>
+#include <Base/ConsolePy.h>
 #include <Base/ServiceProvider.h>
 #include <Base/CoordinateSystemPy.h>
 #include <Base/Exception.h>
@@ -191,14 +192,6 @@ PyDoc_STRVAR(FreeCAD_doc,
      "file the document should be stored to.\n"
     );
 
-PyDoc_STRVAR(Console_doc,
-    "FreeCAD Console module.\n\n"
-    "The Console module contains functions to manage log entries, messages,\n"
-    "warnings and errors.\n"
-    "There are also functions to get/set the status of the observers used as\n"
-    "logging interfaces."
-    );
-
 PyDoc_STRVAR(Base_doc,
     "The Base module contains the classes for the geometric basics\n"
     "like vector, matrix, bounding box, placement, rotation, axis, ...\n"
@@ -273,13 +266,7 @@ void Application::setupPythonTypes()
     Py::Module(pAppModule).setAttr(std::string("ActiveDocument"),Py::None());
 
     // clang-format off
-    static struct PyModuleDef ConsoleModuleDef = {
-        PyModuleDef_HEAD_INIT,
-        "__FreeCADConsole__", Console_doc, -1,
-        Base::ConsoleSingleton::Methods,
-        nullptr, nullptr, nullptr, nullptr
-    };
-    PyObject* pConsoleModule = PyModule_Create(&ConsoleModuleDef);
+    PyObject* pConsoleModule = Base::ConsolePy::createModule();
 
     // fake Image module
     PyObject* imageModule = init_image_module();

@@ -37,6 +37,7 @@
 
 
 using PyObject = struct _object;
+using PyMethodDef = struct PyMethodDef;
 
 namespace App
 {

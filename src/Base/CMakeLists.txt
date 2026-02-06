@@ -185,6 +185,7 @@ SET(FreeCADBase_CPP_SRCS
     Builder3D.cpp
     Console.cpp
     ConsoleObserver.cpp
+    ConsolePy.cpp
     Color.cpp
     CoordinateSystem.cpp
     CoordinateSystemPyImp.cpp
@@ -257,6 +258,7 @@ SET(FreeCADBase_HPP_SRCS
     Builder3D.h
     Console.h
     ConsoleObserver.h
+    ConsolePy.h
     Converter.h
     Color.h
     CoordinateSystem.h
