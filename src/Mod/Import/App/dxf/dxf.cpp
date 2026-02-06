@@ -97,7 +97,7 @@ void CDxfWrite::endRun()
     writeEntitiesSection();
     writeObjectsSection();
 
-    (*m_ofs) << "  0" << endl;
+    (*m_ofs) << "  0" << '\n';
     (*m_ofs) << "EOF";
 }
 
@@ -112,8 +112,8 @@ void CDxfWrite::writeHeaderSection()
        << App::Application::Config()["BuildRevision"];
 
     // header & version
-    (*m_ofs) << "999" << endl;
-    (*m_ofs) << ss.str() << endl;
+    (*m_ofs) << "999" << '\n';
+    (*m_ofs) << ss.str() << '\n';
 
     // static header content
     ss.str("");
@@ -161,11 +161,11 @@ void CDxfWrite::writeTablesSection()
 
     if (m_version > 12) {
         (*m_ofs) << (*m_ssBlkRecord).str();
-        (*m_ofs) << "  0" << endl;
-        (*m_ofs) << "ENDTAB" << endl;
+        (*m_ofs) << "  0" << '\n';
+        (*m_ofs) << "ENDTAB" << '\n';
     }
-    (*m_ofs) << "  0" << endl;
-    (*m_ofs) << "ENDSEC" << endl;
+    (*m_ofs) << "  0" << '\n';
+    (*m_ofs) << "ENDSEC" << '\n';
 }
 
 //***************************
@@ -174,66 +174,66 @@ void CDxfWrite::writeTablesSection()
 void CDxfWrite::makeLayerTable()
 {
     std::string tablehash = getLayerHandle();
-    (*m_ssLayer) << "  0" << endl;
-    (*m_ssLayer) << "TABLE" << endl;
-    (*m_ssLayer) << "  2" << endl;
-    (*m_ssLayer) << "LAYER" << endl;
-    (*m_ssLayer) << "  5" << endl;
-    (*m_ssLayer) << tablehash << endl;
+    (*m_ssLayer) << "  0" << '\n';
+    (*m_ssLayer) << "TABLE" << '\n';
+    (*m_ssLayer) << "  2" << '\n';
+    (*m_ssLayer) << "LAYER" << '\n';
+    (*m_ssLayer) << "  5" << '\n';
+    (*m_ssLayer) << tablehash << '\n';
     if (m_version > 12) {
-        (*m_ssLayer) << "330" << endl;
-        (*m_ssLayer) << 0 << endl;
-        (*m_ssLayer) << "100" << endl;
-        (*m_ssLayer) << "AcDbSymbolTable" << endl;
+        (*m_ssLayer) << "330" << '\n';
+        (*m_ssLayer) << 0 << '\n';
+        (*m_ssLayer) << "100" << '\n';
+        (*m_ssLayer) << "AcDbSymbolTable" << '\n';
     }
-    (*m_ssLayer) << " 70" << endl;
-    (*m_ssLayer) << m_layerList.size() + 1 << endl;
+    (*m_ssLayer) << " 70" << '\n';
+    (*m_ssLayer) << m_layerList.size() + 1 << '\n';
 
-    (*m_ssLayer) << "  0" << endl;
-    (*m_ssLayer) << "LAYER" << endl;
-    (*m_ssLayer) << "  5" << endl;
-    (*m_ssLayer) << getLayerHandle() << endl;
+    (*m_ssLayer) << "  0" << '\n';
+    (*m_ssLayer) << "LAYER" << '\n';
+    (*m_ssLayer) << "  5" << '\n';
+    (*m_ssLayer) << getLayerHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssLayer) << "330" << endl;
-        (*m_ssLayer) << tablehash << endl;
-        (*m_ssLayer) << "100" << endl;
-        (*m_ssLayer) << "AcDbSymbolTableRecord" << endl;
-        (*m_ssLayer) << "100" << endl;
-        (*m_ssLayer) << "AcDbLayerTableRecord" << endl;
+        (*m_ssLayer) << "330" << '\n';
+        (*m_ssLayer) << tablehash << '\n';
+        (*m_ssLayer) << "100" << '\n';
+        (*m_ssLayer) << "AcDbSymbolTableRecord" << '\n';
+        (*m_ssLayer) << "100" << '\n';
+        (*m_ssLayer) << "AcDbLayerTableRecord" << '\n';
     }
-    (*m_ssLayer) << "  2" << endl;
-    (*m_ssLayer) << "0" << endl;
-    (*m_ssLayer) << " 70" << endl;
-    (*m_ssLayer) << "   0" << endl;
-    (*m_ssLayer) << " 62" << endl;
-    (*m_ssLayer) << "   7" << endl;
-    (*m_ssLayer) << "  6" << endl;
-    (*m_ssLayer) << "CONTINUOUS" << endl;
+    (*m_ssLayer) << "  2" << '\n';
+    (*m_ssLayer) << "0" << '\n';
+    (*m_ssLayer) << " 70" << '\n';
+    (*m_ssLayer) << "   0" << '\n';
+    (*m_ssLayer) << " 62" << '\n';
+    (*m_ssLayer) << "   7" << '\n';
+    (*m_ssLayer) << "  6" << '\n';
+    (*m_ssLayer) << "CONTINUOUS" << '\n';
 
     for (auto& l : m_layerList) {
-        (*m_ssLayer) << "  0" << endl;
-        (*m_ssLayer) << "LAYER" << endl;
-        (*m_ssLayer) << "  5" << endl;
-        (*m_ssLayer) << getLayerHandle() << endl;
+        (*m_ssLayer) << "  0" << '\n';
+        (*m_ssLayer) << "LAYER" << '\n';
+        (*m_ssLayer) << "  5" << '\n';
+        (*m_ssLayer) << getLayerHandle() << '\n';
         if (m_version > 12) {
-            (*m_ssLayer) << "330" << endl;
-            (*m_ssLayer) << tablehash << endl;
-            (*m_ssLayer) << "100" << endl;
-            (*m_ssLayer) << "AcDbSymbolTableRecord" << endl;
-            (*m_ssLayer) << "100" << endl;
-            (*m_ssLayer) << "AcDbLayerTableRecord" << endl;
+            (*m_ssLayer) << "330" << '\n';
+            (*m_ssLayer) << tablehash << '\n';
+            (*m_ssLayer) << "100" << '\n';
+            (*m_ssLayer) << "AcDbSymbolTableRecord" << '\n';
+            (*m_ssLayer) << "100" << '\n';
+            (*m_ssLayer) << "AcDbLayerTableRecord" << '\n';
         }
-        (*m_ssLayer) << "  2" << endl;
-        (*m_ssLayer) << l << endl;
-        (*m_ssLayer) << " 70" << endl;
-        (*m_ssLayer) << "    0" << endl;
-        (*m_ssLayer) << " 62" << endl;
-        (*m_ssLayer) << "    7" << endl;
-        (*m_ssLayer) << "  6" << endl;
-        (*m_ssLayer) << "CONTINUOUS" << endl;
+        (*m_ssLayer) << "  2" << '\n';
+        (*m_ssLayer) << l << '\n';
+        (*m_ssLayer) << " 70" << '\n';
+        (*m_ssLayer) << "    0" << '\n';
+        (*m_ssLayer) << " 62" << '\n';
+        (*m_ssLayer) << "    7" << '\n';
+        (*m_ssLayer) << "  6" << '\n';
+        (*m_ssLayer) << "CONTINUOUS" << '\n';
     }
-    (*m_ssLayer) << "  0" << endl;
-    (*m_ssLayer) << "ENDTAB" << endl;
+    (*m_ssLayer) << "  0" << '\n';
+    (*m_ssLayer) << "ENDTAB" << '\n';
 }
 
 //***************************
@@ -246,50 +246,50 @@ void CDxfWrite::makeBlockRecordTableHead()
     }
     std::string tablehash = getBlkRecordHandle();
     m_saveBlockRecordTableHandle = tablehash;
-    (*m_ssBlkRecord) << "  0" << endl;
-    (*m_ssBlkRecord) << "TABLE" << endl;
-    (*m_ssBlkRecord) << "  2" << endl;
-    (*m_ssBlkRecord) << "BLOCK_RECORD" << endl;
-    (*m_ssBlkRecord) << "  5" << endl;
-    (*m_ssBlkRecord) << tablehash << endl;
-    (*m_ssBlkRecord) << "330" << endl;
-    (*m_ssBlkRecord) << "0" << endl;
-    (*m_ssBlkRecord) << "100" << endl;
-    (*m_ssBlkRecord) << "AcDbSymbolTable" << endl;
-    (*m_ssBlkRecord) << "  70" << endl;
-    (*m_ssBlkRecord) << (m_blockList.size() + 5) << endl;
+    (*m_ssBlkRecord) << "  0" << '\n';
+    (*m_ssBlkRecord) << "TABLE" << '\n';
+    (*m_ssBlkRecord) << "  2" << '\n';
+    (*m_ssBlkRecord) << "BLOCK_RECORD" << '\n';
+    (*m_ssBlkRecord) << "  5" << '\n';
+    (*m_ssBlkRecord) << tablehash << '\n';
+    (*m_ssBlkRecord) << "330" << '\n';
+    (*m_ssBlkRecord) << "0" << '\n';
+    (*m_ssBlkRecord) << "100" << '\n';
+    (*m_ssBlkRecord) << "AcDbSymbolTable" << '\n';
+    (*m_ssBlkRecord) << "  70" << '\n';
+    (*m_ssBlkRecord) << (m_blockList.size() + 5) << '\n';
 
     m_saveModelSpaceHandle = getBlkRecordHandle();
-    (*m_ssBlkRecord) << "  0" << endl;
-    (*m_ssBlkRecord) << "BLOCK_RECORD" << endl;
-    (*m_ssBlkRecord) << "  5" << endl;
-    (*m_ssBlkRecord) << m_saveModelSpaceHandle << endl;
-    (*m_ssBlkRecord) << "330" << endl;
-    (*m_ssBlkRecord) << tablehash << endl;
-    (*m_ssBlkRecord) << "100" << endl;
-    (*m_ssBlkRecord) << "AcDbSymbolTableRecord" << endl;
-    (*m_ssBlkRecord) << "100" << endl;
-    (*m_ssBlkRecord) << "AcDbBlockTableRecord" << endl;
-    (*m_ssBlkRecord) << "  2" << endl;
-    (*m_ssBlkRecord) << "*MODEL_SPACE" << endl;
-    //        (*m_ssBlkRecord) << "  1"      << endl;
-    //        (*m_ssBlkRecord) << " "        << endl;
+    (*m_ssBlkRecord) << "  0" << '\n';
+    (*m_ssBlkRecord) << "BLOCK_RECORD" << '\n';
+    (*m_ssBlkRecord) << "  5" << '\n';
+    (*m_ssBlkRecord) << m_saveModelSpaceHandle << '\n';
+    (*m_ssBlkRecord) << "330" << '\n';
+    (*m_ssBlkRecord) << tablehash << '\n';
+    (*m_ssBlkRecord) << "100" << '\n';
+    (*m_ssBlkRecord) << "AcDbSymbolTableRecord" << '\n';
+    (*m_ssBlkRecord) << "100" << '\n';
+    (*m_ssBlkRecord) << "AcDbBlockTableRecord" << '\n';
+    (*m_ssBlkRecord) << "  2" << '\n';
+    (*m_ssBlkRecord) << "*MODEL_SPACE" << '\n';
+    //        (*m_ssBlkRecord) << "  1"      << '\n';
+    //        (*m_ssBlkRecord) << " "        << '\n';
 
     m_savePaperSpaceHandle = getBlkRecordHandle();
-    (*m_ssBlkRecord) << "  0" << endl;
-    (*m_ssBlkRecord) << "BLOCK_RECORD" << endl;
-    (*m_ssBlkRecord) << "  5" << endl;
-    (*m_ssBlkRecord) << m_savePaperSpaceHandle << endl;
-    (*m_ssBlkRecord) << "330" << endl;
-    (*m_ssBlkRecord) << tablehash << endl;
-    (*m_ssBlkRecord) << "100" << endl;
-    (*m_ssBlkRecord) << "AcDbSymbolTableRecord" << endl;
-    (*m_ssBlkRecord) << "100" << endl;
-    (*m_ssBlkRecord) << "AcDbBlockTableRecord" << endl;
-    (*m_ssBlkRecord) << "  2" << endl;
-    (*m_ssBlkRecord) << "*PAPER_SPACE" << endl;
-    //        (*m_ssBlkRecord) << "  1"      << endl;
-    //        (*m_ssBlkRecord) << " "        << endl;
+    (*m_ssBlkRecord) << "  0" << '\n';
+    (*m_ssBlkRecord) << "BLOCK_RECORD" << '\n';
+    (*m_ssBlkRecord) << "  5" << '\n';
+    (*m_ssBlkRecord) << m_savePaperSpaceHandle << '\n';
+    (*m_ssBlkRecord) << "330" << '\n';
+    (*m_ssBlkRecord) << tablehash << '\n';
+    (*m_ssBlkRecord) << "100" << '\n';
+    (*m_ssBlkRecord) << "AcDbSymbolTableRecord" << '\n';
+    (*m_ssBlkRecord) << "100" << '\n';
+    (*m_ssBlkRecord) << "AcDbBlockTableRecord" << '\n';
+    (*m_ssBlkRecord) << "  2" << '\n';
+    (*m_ssBlkRecord) << "*PAPER_SPACE" << '\n';
+    //        (*m_ssBlkRecord) << "  1"      << '\n';
+    //        (*m_ssBlkRecord) << " "        << '\n';
 }
 
 //***************************
@@ -303,20 +303,20 @@ void CDxfWrite::makeBlockRecordTableBody()
 
     int iBlkRecord = 0;
     for (auto& b : m_blockList) {
-        (*m_ssBlkRecord) << "  0" << endl;
-        (*m_ssBlkRecord) << "BLOCK_RECORD" << endl;
-        (*m_ssBlkRecord) << "  5" << endl;
-        (*m_ssBlkRecord) << m_blkRecordList.at(iBlkRecord) << endl;
-        (*m_ssBlkRecord) << "330" << endl;
-        (*m_ssBlkRecord) << m_saveBlockRecordTableHandle << endl;
-        (*m_ssBlkRecord) << "100" << endl;
-        (*m_ssBlkRecord) << "AcDbSymbolTableRecord" << endl;
-        (*m_ssBlkRecord) << "100" << endl;
-        (*m_ssBlkRecord) << "AcDbBlockTableRecord" << endl;
-        (*m_ssBlkRecord) << "  2" << endl;
-        (*m_ssBlkRecord) << b << endl;
-        //        (*m_ssBlkRecord) << " 70"      << endl;
-        //        (*m_ssBlkRecord) << "    0"      << endl;
+        (*m_ssBlkRecord) << "  0" << '\n';
+        (*m_ssBlkRecord) << "BLOCK_RECORD" << '\n';
+        (*m_ssBlkRecord) << "  5" << '\n';
+        (*m_ssBlkRecord) << m_blkRecordList.at(iBlkRecord) << '\n';
+        (*m_ssBlkRecord) << "330" << '\n';
+        (*m_ssBlkRecord) << m_saveBlockRecordTableHandle << '\n';
+        (*m_ssBlkRecord) << "100" << '\n';
+        (*m_ssBlkRecord) << "AcDbSymbolTableRecord" << '\n';
+        (*m_ssBlkRecord) << "100" << '\n';
+        (*m_ssBlkRecord) << "AcDbBlockTableRecord" << '\n';
+        (*m_ssBlkRecord) << "  2" << '\n';
+        (*m_ssBlkRecord) << b << '\n';
+        //        (*m_ssBlkRecord) << " 70"      << '\n';
+        //        (*m_ssBlkRecord) << "    0"      << '\n';
         iBlkRecord++;
     }
 }
@@ -326,108 +326,108 @@ void CDxfWrite::makeBlockRecordTableBody()
 // added by Wandererfan 2018 (wandererfan@gmail.com) for FreeCAD project
 void CDxfWrite::makeBlockSectionHead()
 {
-    (*m_ssBlock) << "  0" << endl;
-    (*m_ssBlock) << "SECTION" << endl;
-    (*m_ssBlock) << "  2" << endl;
-    (*m_ssBlock) << "BLOCKS" << endl;
-    (*m_ssBlock) << "  0" << endl;
-    (*m_ssBlock) << "BLOCK" << endl;
-    (*m_ssBlock) << "  5" << endl;
+    (*m_ssBlock) << "  0" << '\n';
+    (*m_ssBlock) << "SECTION" << '\n';
+    (*m_ssBlock) << "  2" << '\n';
+    (*m_ssBlock) << "BLOCKS" << '\n';
+    (*m_ssBlock) << "  0" << '\n';
+    (*m_ssBlock) << "BLOCK" << '\n';
+    (*m_ssBlock) << "  5" << '\n';
     m_currentBlock = getBlockHandle();
-    (*m_ssBlock) << m_currentBlock << endl;
+    (*m_ssBlock) << m_currentBlock << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "330" << endl;
-        (*m_ssBlock) << m_saveModelSpaceHandle << endl;
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbEntity" << endl;
+        (*m_ssBlock) << "330" << '\n';
+        (*m_ssBlock) << m_saveModelSpaceHandle << '\n';
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbEntity" << '\n';
     }
-    (*m_ssBlock) << "  8" << endl;
-    (*m_ssBlock) << "0" << endl;
+    (*m_ssBlock) << "  8" << '\n';
+    (*m_ssBlock) << "0" << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbBlockBegin" << endl;
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbBlockBegin" << '\n';
     }
-    (*m_ssBlock) << "  2" << endl;
-    (*m_ssBlock) << "*MODEL_SPACE" << endl;
-    (*m_ssBlock) << " 70" << endl;
-    (*m_ssBlock) << "   0" << endl;
-    (*m_ssBlock) << " 10" << endl;
-    (*m_ssBlock) << 0.0 << endl;
-    (*m_ssBlock) << " 20" << endl;
-    (*m_ssBlock) << 0.0 << endl;
-    (*m_ssBlock) << " 30" << endl;
-    (*m_ssBlock) << 0.0 << endl;
-    (*m_ssBlock) << "  3" << endl;
-    (*m_ssBlock) << "*MODEL_SPACE" << endl;
-    (*m_ssBlock) << "  1" << endl;
-    (*m_ssBlock) << " " << endl;
-    (*m_ssBlock) << "  0" << endl;
-    (*m_ssBlock) << "ENDBLK" << endl;
-    (*m_ssBlock) << "  5" << endl;
-    (*m_ssBlock) << getBlockHandle() << endl;
+    (*m_ssBlock) << "  2" << '\n';
+    (*m_ssBlock) << "*MODEL_SPACE" << '\n';
+    (*m_ssBlock) << " 70" << '\n';
+    (*m_ssBlock) << "   0" << '\n';
+    (*m_ssBlock) << " 10" << '\n';
+    (*m_ssBlock) << 0.0 << '\n';
+    (*m_ssBlock) << " 20" << '\n';
+    (*m_ssBlock) << 0.0 << '\n';
+    (*m_ssBlock) << " 30" << '\n';
+    (*m_ssBlock) << 0.0 << '\n';
+    (*m_ssBlock) << "  3" << '\n';
+    (*m_ssBlock) << "*MODEL_SPACE" << '\n';
+    (*m_ssBlock) << "  1" << '\n';
+    (*m_ssBlock) << " " << '\n';
+    (*m_ssBlock) << "  0" << '\n';
+    (*m_ssBlock) << "ENDBLK" << '\n';
+    (*m_ssBlock) << "  5" << '\n';
+    (*m_ssBlock) << getBlockHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "330" << endl;
-        (*m_ssBlock) << m_saveModelSpaceHandle << endl;
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbEntity" << endl;
+        (*m_ssBlock) << "330" << '\n';
+        (*m_ssBlock) << m_saveModelSpaceHandle << '\n';
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbEntity" << '\n';
     }
-    (*m_ssBlock) << "  8" << endl;
-    (*m_ssBlock) << "0" << endl;
+    (*m_ssBlock) << "  8" << '\n';
+    (*m_ssBlock) << "0" << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbBlockEnd" << endl;
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbBlockEnd" << '\n';
     }
 
-    (*m_ssBlock) << "  0" << endl;
-    (*m_ssBlock) << "BLOCK" << endl;
-    (*m_ssBlock) << "  5" << endl;
+    (*m_ssBlock) << "  0" << '\n';
+    (*m_ssBlock) << "BLOCK" << '\n';
+    (*m_ssBlock) << "  5" << '\n';
     m_currentBlock = getBlockHandle();
-    (*m_ssBlock) << m_currentBlock << endl;
+    (*m_ssBlock) << m_currentBlock << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "330" << endl;
-        (*m_ssBlock) << m_savePaperSpaceHandle << endl;
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbEntity" << endl;
-        (*m_ssBlock) << " 67" << endl;
-        (*m_ssBlock) << "1" << endl;
+        (*m_ssBlock) << "330" << '\n';
+        (*m_ssBlock) << m_savePaperSpaceHandle << '\n';
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbEntity" << '\n';
+        (*m_ssBlock) << " 67" << '\n';
+        (*m_ssBlock) << "1" << '\n';
     }
-    (*m_ssBlock) << "  8" << endl;
-    (*m_ssBlock) << "0" << endl;
+    (*m_ssBlock) << "  8" << '\n';
+    (*m_ssBlock) << "0" << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbBlockBegin" << endl;
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbBlockBegin" << '\n';
     }
-    (*m_ssBlock) << "  2" << endl;
-    (*m_ssBlock) << "*PAPER_SPACE" << endl;
-    (*m_ssBlock) << " 70" << endl;
-    (*m_ssBlock) << "   0" << endl;
-    (*m_ssBlock) << " 10" << endl;
-    (*m_ssBlock) << 0.0 << endl;
-    (*m_ssBlock) << " 20" << endl;
-    (*m_ssBlock) << 0.0 << endl;
-    (*m_ssBlock) << " 30" << endl;
-    (*m_ssBlock) << 0.0 << endl;
-    (*m_ssBlock) << "  3" << endl;
-    (*m_ssBlock) << "*PAPER_SPACE" << endl;
-    (*m_ssBlock) << "  1" << endl;
-    (*m_ssBlock) << " " << endl;
-    (*m_ssBlock) << "  0" << endl;
-    (*m_ssBlock) << "ENDBLK" << endl;
-    (*m_ssBlock) << "  5" << endl;
-    (*m_ssBlock) << getBlockHandle() << endl;
+    (*m_ssBlock) << "  2" << '\n';
+    (*m_ssBlock) << "*PAPER_SPACE" << '\n';
+    (*m_ssBlock) << " 70" << '\n';
+    (*m_ssBlock) << "   0" << '\n';
+    (*m_ssBlock) << " 10" << '\n';
+    (*m_ssBlock) << 0.0 << '\n';
+    (*m_ssBlock) << " 20" << '\n';
+    (*m_ssBlock) << 0.0 << '\n';
+    (*m_ssBlock) << " 30" << '\n';
+    (*m_ssBlock) << 0.0 << '\n';
+    (*m_ssBlock) << "  3" << '\n';
+    (*m_ssBlock) << "*PAPER_SPACE" << '\n';
+    (*m_ssBlock) << "  1" << '\n';
+    (*m_ssBlock) << " " << '\n';
+    (*m_ssBlock) << "  0" << '\n';
+    (*m_ssBlock) << "ENDBLK" << '\n';
+    (*m_ssBlock) << "  5" << '\n';
+    (*m_ssBlock) << getBlockHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "330" << endl;
-        (*m_ssBlock) << m_savePaperSpaceHandle << endl;
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbEntity" << endl;
-        (*m_ssBlock) << " 67" << endl;  // paper_space flag
-        (*m_ssBlock) << "    1" << endl;
+        (*m_ssBlock) << "330" << '\n';
+        (*m_ssBlock) << m_savePaperSpaceHandle << '\n';
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbEntity" << '\n';
+        (*m_ssBlock) << " 67" << '\n';  // paper_space flag
+        (*m_ssBlock) << "    1" << '\n';
     }
-    (*m_ssBlock) << "  8" << endl;
-    (*m_ssBlock) << "0" << endl;
+    (*m_ssBlock) << "  8" << '\n';
+    (*m_ssBlock) << "0" << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbBlockEnd" << endl;
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbBlockEnd" << '\n';
     }
 }
 
@@ -528,34 +528,34 @@ void CDxfWrite::putLine(const Base::Vector3d& start,
                         const std::string& handle,
                         const std::string& ownerHandle)
 {
-    (*outStream) << "  0" << endl;
-    (*outStream) << "LINE" << endl;
-    (*outStream) << "  5" << endl;
-    (*outStream) << handle << endl;
+    (*outStream) << "  0" << '\n';
+    (*outStream) << "LINE" << '\n';
+    (*outStream) << "  5" << '\n';
+    (*outStream) << handle << '\n';
     if (m_version > 12) {
-        (*outStream) << "330" << endl;
-        (*outStream) << ownerHandle << endl;
-        (*outStream) << "100" << endl;
-        (*outStream) << "AcDbEntity" << endl;
+        (*outStream) << "330" << '\n';
+        (*outStream) << ownerHandle << '\n';
+        (*outStream) << "100" << '\n';
+        (*outStream) << "AcDbEntity" << '\n';
     }
-    (*outStream) << "  8" << endl;           // Group code for layer name
-    (*outStream) << getLayerName() << endl;  // Layer number
+    (*outStream) << "  8" << '\n';           // Group code for layer name
+    (*outStream) << getLayerName() << '\n';  // Layer number
     if (m_version > 12) {
-        (*outStream) << "100" << endl;
-        (*outStream) << "AcDbLine" << endl;
+        (*outStream) << "100" << '\n';
+        (*outStream) << "AcDbLine" << '\n';
     }
-    (*outStream) << " 10" << endl;    // Start point of line
-    (*outStream) << start.x << endl;  // X in WCS coordinates
-    (*outStream) << " 20" << endl;
-    (*outStream) << start.y << endl;  // Y in WCS coordinates
-    (*outStream) << " 30" << endl;
-    (*outStream) << start.z << endl;  // Z in WCS coordinates
-    (*outStream) << " 11" << endl;    // End point of line
-    (*outStream) << end.x << endl;    // X in WCS coordinates
-    (*outStream) << " 21" << endl;
-    (*outStream) << end.y << endl;  // Y in WCS coordinates
-    (*outStream) << " 31" << endl;
-    (*outStream) << end.z << endl;  // Z in WCS coordinates
+    (*outStream) << " 10" << '\n';    // Start point of line
+    (*outStream) << start.x << '\n';  // X in WCS coordinates
+    (*outStream) << " 20" << '\n';
+    (*outStream) << start.y << '\n';  // Y in WCS coordinates
+    (*outStream) << " 30" << '\n';
+    (*outStream) << start.z << '\n';  // Z in WCS coordinates
+    (*outStream) << " 11" << '\n';    // End point of line
+    (*outStream) << end.x << '\n';    // X in WCS coordinates
+    (*outStream) << " 21" << '\n';
+    (*outStream) << end.y << '\n';  // Y in WCS coordinates
+    (*outStream) << " 31" << '\n';
+    (*outStream) << end.z << '\n';  // Z in WCS coordinates
 }
 
 
@@ -564,57 +564,57 @@ void CDxfWrite::putLine(const Base::Vector3d& start,
 // added by Wandererfan 2018 (wandererfan@gmail.com) for FreeCAD project
 void CDxfWrite::writeLWPolyLine(const LWPolyDataOut& pd)
 {
-    (*m_ssEntity) << "  0" << endl;
-    (*m_ssEntity) << "LWPOLYLINE" << endl;
-    (*m_ssEntity) << "  5" << endl;
-    (*m_ssEntity) << getEntityHandle() << endl;
+    (*m_ssEntity) << "  0" << '\n';
+    (*m_ssEntity) << "LWPOLYLINE" << '\n';
+    (*m_ssEntity) << "  5" << '\n';
+    (*m_ssEntity) << getEntityHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "330" << endl;
-        (*m_ssEntity) << m_saveModelSpaceHandle << endl;
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbEntity" << endl;
+        (*m_ssEntity) << "330" << '\n';
+        (*m_ssEntity) << m_saveModelSpaceHandle << '\n';
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbEntity" << '\n';
     }
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;  // 100 groups are not part of R12
-        (*m_ssEntity) << "AcDbPolyline" << endl;
+        (*m_ssEntity) << "100" << '\n';  // 100 groups are not part of R12
+        (*m_ssEntity) << "AcDbPolyline" << '\n';
     }
-    (*m_ssEntity) << "  8" << endl;           // Group code for layer name
-    (*m_ssEntity) << getLayerName() << endl;  // Layer name
-    (*m_ssEntity) << " 90" << endl;
-    (*m_ssEntity) << pd.nVert << endl;  // number of vertices
-    (*m_ssEntity) << " 70" << endl;
-    (*m_ssEntity) << pd.Flag << endl;
-    (*m_ssEntity) << " 43" << endl;
-    (*m_ssEntity) << "0" << endl;  // Constant width opt
-    //    (*m_ssEntity) << pd.Width         << endl;    //Constant width opt
-    //    (*m_ssEntity) << " 38"            << endl;
-    //    (*m_ssEntity) << pd.Elev          << endl;    // Elevation
-    //    (*m_ssEntity) << " 39"            << endl;
-    //    (*m_ssEntity) << pd.Thick         << endl;    // Thickness
+    (*m_ssEntity) << "  8" << '\n';           // Group code for layer name
+    (*m_ssEntity) << getLayerName() << '\n';  // Layer name
+    (*m_ssEntity) << " 90" << '\n';
+    (*m_ssEntity) << pd.nVert << '\n';  // number of vertices
+    (*m_ssEntity) << " 70" << '\n';
+    (*m_ssEntity) << pd.Flag << '\n';
+    (*m_ssEntity) << " 43" << '\n';
+    (*m_ssEntity) << "0" << '\n';  // Constant width opt
+    //    (*m_ssEntity) << pd.Width         << '\n';    //Constant width opt
+    //    (*m_ssEntity) << " 38"            << '\n';
+    //    (*m_ssEntity) << pd.Elev          << '\n';    // Elevation
+    //    (*m_ssEntity) << " 39"            << '\n';
+    //    (*m_ssEntity) << pd.Thick         << '\n';    // Thickness
     for (auto& p : pd.Verts) {
-        (*m_ssEntity) << " 10" << endl;  // Vertices
-        (*m_ssEntity) << p.x << endl;
-        (*m_ssEntity) << " 20" << endl;
-        (*m_ssEntity) << p.y << endl;
+        (*m_ssEntity) << " 10" << '\n';  // Vertices
+        (*m_ssEntity) << p.x << '\n';
+        (*m_ssEntity) << " 20" << '\n';
+        (*m_ssEntity) << p.y << '\n';
     }
     for (auto& s : pd.StartWidth) {
-        (*m_ssEntity) << " 40" << endl;
-        (*m_ssEntity) << s << endl;  // Start Width
+        (*m_ssEntity) << " 40" << '\n';
+        (*m_ssEntity) << s << '\n';  // Start Width
     }
     for (auto& e : pd.EndWidth) {
-        (*m_ssEntity) << " 41" << endl;
-        (*m_ssEntity) << e << endl;  // End Width
+        (*m_ssEntity) << " 41" << '\n';
+        (*m_ssEntity) << e << '\n';  // End Width
     }
     for (auto& b : pd.Bulge) {  // Bulge
-        (*m_ssEntity) << " 42" << endl;
-        (*m_ssEntity) << b << endl;
+        (*m_ssEntity) << " 42" << '\n';
+        (*m_ssEntity) << b << '\n';
     }
-    //    (*m_ssEntity) << "210"            << endl;    //Extrusion dir
-    //    (*m_ssEntity) << pd.Extr.x        << endl;
-    //    (*m_ssEntity) << "220"            << endl;
-    //    (*m_ssEntity) << pd.Extr.y        << endl;
-    //    (*m_ssEntity) << "230"            << endl;
-    //    (*m_ssEntity) << pd.Extr.z        << endl;
+    //    (*m_ssEntity) << "210"            << '\n';    //Extrusion dir
+    //    (*m_ssEntity) << pd.Extr.x        << '\n';
+    //    (*m_ssEntity) << "220"            << '\n';
+    //    (*m_ssEntity) << pd.Extr.y        << '\n';
+    //    (*m_ssEntity) << "230"            << '\n';
+    //    (*m_ssEntity) << pd.Extr.z        << '\n';
 }
 
 //***************************
@@ -622,78 +622,78 @@ void CDxfWrite::writeLWPolyLine(const LWPolyDataOut& pd)
 // added by Wandererfan 2018 (wandererfan@gmail.com) for FreeCAD project
 void CDxfWrite::writePolyline(const LWPolyDataOut& pd)
 {
-    (*m_ssEntity) << "  0" << endl;
-    (*m_ssEntity) << "POLYLINE" << endl;
-    (*m_ssEntity) << "  5" << endl;
-    (*m_ssEntity) << getEntityHandle() << endl;
+    (*m_ssEntity) << "  0" << '\n';
+    (*m_ssEntity) << "POLYLINE" << '\n';
+    (*m_ssEntity) << "  5" << '\n';
+    (*m_ssEntity) << getEntityHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "330" << endl;
-        (*m_ssEntity) << m_saveModelSpaceHandle << endl;
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbEntity" << endl;
+        (*m_ssEntity) << "330" << '\n';
+        (*m_ssEntity) << m_saveModelSpaceHandle << '\n';
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbEntity" << '\n';
     }
-    (*m_ssEntity) << "  8" << endl;
-    (*m_ssEntity) << getLayerName() << endl;  // Layer name
+    (*m_ssEntity) << "  8" << '\n';
+    (*m_ssEntity) << getLayerName() << '\n';  // Layer name
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;  // 100 groups are not part of R12
-        (*m_ssEntity) << "AcDbPolyline" << endl;
+        (*m_ssEntity) << "100" << '\n';  // 100 groups are not part of R12
+        (*m_ssEntity) << "AcDbPolyline" << '\n';
     }
-    (*m_ssEntity) << " 66" << endl;
-    (*m_ssEntity) << "     1" << endl;  // vertices follow
-    (*m_ssEntity) << " 10" << endl;
-    (*m_ssEntity) << "0.0" << endl;
-    (*m_ssEntity) << " 20" << endl;
-    (*m_ssEntity) << "0.0" << endl;
-    (*m_ssEntity) << " 30" << endl;
-    (*m_ssEntity) << "0.0" << endl;
-    (*m_ssEntity) << " 70" << endl;
-    (*m_ssEntity) << "0" << endl;
+    (*m_ssEntity) << " 66" << '\n';
+    (*m_ssEntity) << "     1" << '\n';  // vertices follow
+    (*m_ssEntity) << " 10" << '\n';
+    (*m_ssEntity) << "0.0" << '\n';
+    (*m_ssEntity) << " 20" << '\n';
+    (*m_ssEntity) << "0.0" << '\n';
+    (*m_ssEntity) << " 30" << '\n';
+    (*m_ssEntity) << "0.0" << '\n';
+    (*m_ssEntity) << " 70" << '\n';
+    (*m_ssEntity) << "0" << '\n';
     for (auto& p : pd.Verts) {
-        (*m_ssEntity) << "  0" << endl;
-        (*m_ssEntity) << "VERTEX" << endl;
-        (*m_ssEntity) << "  5" << endl;
-        (*m_ssEntity) << getEntityHandle() << endl;
-        (*m_ssEntity) << "  8" << endl;
-        (*m_ssEntity) << getLayerName() << endl;
-        (*m_ssEntity) << " 10" << endl;
-        (*m_ssEntity) << p.x << endl;
-        (*m_ssEntity) << " 20" << endl;
-        (*m_ssEntity) << p.y << endl;
-        (*m_ssEntity) << " 30" << endl;
-        (*m_ssEntity) << p.z << endl;
+        (*m_ssEntity) << "  0" << '\n';
+        (*m_ssEntity) << "VERTEX" << '\n';
+        (*m_ssEntity) << "  5" << '\n';
+        (*m_ssEntity) << getEntityHandle() << '\n';
+        (*m_ssEntity) << "  8" << '\n';
+        (*m_ssEntity) << getLayerName() << '\n';
+        (*m_ssEntity) << " 10" << '\n';
+        (*m_ssEntity) << p.x << '\n';
+        (*m_ssEntity) << " 20" << '\n';
+        (*m_ssEntity) << p.y << '\n';
+        (*m_ssEntity) << " 30" << '\n';
+        (*m_ssEntity) << p.z << '\n';
     }
-    (*m_ssEntity) << "  0" << endl;
-    (*m_ssEntity) << "SEQEND" << endl;
-    (*m_ssEntity) << "  5" << endl;
-    (*m_ssEntity) << getEntityHandle() << endl;
-    (*m_ssEntity) << "  8" << endl;
-    (*m_ssEntity) << getLayerName() << endl;
+    (*m_ssEntity) << "  0" << '\n';
+    (*m_ssEntity) << "SEQEND" << '\n';
+    (*m_ssEntity) << "  5" << '\n';
+    (*m_ssEntity) << getEntityHandle() << '\n';
+    (*m_ssEntity) << "  8" << '\n';
+    (*m_ssEntity) << getLayerName() << '\n';
 }
 
 void CDxfWrite::writePoint(const double* point)
 {
-    (*m_ssEntity) << "  0" << endl;
-    (*m_ssEntity) << "POINT" << endl;
-    (*m_ssEntity) << "  5" << endl;
-    (*m_ssEntity) << getEntityHandle() << endl;
+    (*m_ssEntity) << "  0" << '\n';
+    (*m_ssEntity) << "POINT" << '\n';
+    (*m_ssEntity) << "  5" << '\n';
+    (*m_ssEntity) << getEntityHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "330" << endl;
-        (*m_ssEntity) << m_saveModelSpaceHandle << endl;
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbEntity" << endl;
+        (*m_ssEntity) << "330" << '\n';
+        (*m_ssEntity) << m_saveModelSpaceHandle << '\n';
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbEntity" << '\n';
     }
-    (*m_ssEntity) << "  8" << endl;           // Group code for layer name
-    (*m_ssEntity) << getLayerName() << endl;  // Layer name
+    (*m_ssEntity) << "  8" << '\n';           // Group code for layer name
+    (*m_ssEntity) << getLayerName() << '\n';  // Layer name
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbPoint" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbPoint" << '\n';
     }
-    (*m_ssEntity) << " 10" << endl;
-    (*m_ssEntity) << point[0] << endl;  // X in WCS coordinates
-    (*m_ssEntity) << " 20" << endl;
-    (*m_ssEntity) << point[1] << endl;  // Y in WCS coordinates
-    (*m_ssEntity) << " 30" << endl;
-    (*m_ssEntity) << point[2] << endl;  // Z in WCS coordinates
+    (*m_ssEntity) << " 10" << '\n';
+    (*m_ssEntity) << point[0] << '\n';  // X in WCS coordinates
+    (*m_ssEntity) << " 20" << '\n';
+    (*m_ssEntity) << point[1] << '\n';  // Y in WCS coordinates
+    (*m_ssEntity) << " 30" << '\n';
+    (*m_ssEntity) << point[2] << '\n';  // Z in WCS coordinates
 }
 
 //! arc from 3 points - start, end, center. dir true if arc is AntiClockwise. unspecified assumption
@@ -714,69 +714,69 @@ void CDxfWrite::writeArc(const double* start, const double* end, const double* c
         start_angle = end_angle;
         end_angle = temp;
     }
-    (*m_ssEntity) << "  0" << endl;
-    (*m_ssEntity) << "ARC" << endl;
-    (*m_ssEntity) << "  5" << endl;
-    (*m_ssEntity) << getEntityHandle() << endl;
+    (*m_ssEntity) << "  0" << '\n';
+    (*m_ssEntity) << "ARC" << '\n';
+    (*m_ssEntity) << "  5" << '\n';
+    (*m_ssEntity) << getEntityHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "330" << endl;
-        (*m_ssEntity) << m_saveModelSpaceHandle << endl;
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbEntity" << endl;
+        (*m_ssEntity) << "330" << '\n';
+        (*m_ssEntity) << m_saveModelSpaceHandle << '\n';
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbEntity" << '\n';
     }
-    (*m_ssEntity) << "  8" << endl;           // Group code for layer name
-    (*m_ssEntity) << getLayerName() << endl;  // Layer number
-                                              //    (*m_ssEntity) << " 62"          << endl;
-                                              //    (*m_ssEntity) << "     0"       << endl;
+    (*m_ssEntity) << "  8" << '\n';           // Group code for layer name
+    (*m_ssEntity) << getLayerName() << '\n';  // Layer number
+                                              //    (*m_ssEntity) << " 62"          << '\n';
+                                              //    (*m_ssEntity) << "     0"       << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbCircle" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbCircle" << '\n';
     }
-    (*m_ssEntity) << " 10" << endl;      // Centre X
-    (*m_ssEntity) << center[0] << endl;  // X in WCS coordinates
-    (*m_ssEntity) << " 20" << endl;
-    (*m_ssEntity) << center[1] << endl;  // Y in WCS coordinates
-    (*m_ssEntity) << " 30" << endl;
-    (*m_ssEntity) << center[2] << endl;  // Z in WCS coordinates
-    (*m_ssEntity) << " 40" << endl;      //
-    (*m_ssEntity) << radius << endl;     // Radius
+    (*m_ssEntity) << " 10" << '\n';      // Centre X
+    (*m_ssEntity) << center[0] << '\n';  // X in WCS coordinates
+    (*m_ssEntity) << " 20" << '\n';
+    (*m_ssEntity) << center[1] << '\n';  // Y in WCS coordinates
+    (*m_ssEntity) << " 30" << '\n';
+    (*m_ssEntity) << center[2] << '\n';  // Z in WCS coordinates
+    (*m_ssEntity) << " 40" << '\n';      //
+    (*m_ssEntity) << radius << '\n';     // Radius
 
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbArc" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbArc" << '\n';
     }
-    (*m_ssEntity) << " 50" << endl;
-    (*m_ssEntity) << start_angle << endl;  // Start angle
-    (*m_ssEntity) << " 51" << endl;
-    (*m_ssEntity) << end_angle << endl;  // End angle
+    (*m_ssEntity) << " 50" << '\n';
+    (*m_ssEntity) << start_angle << '\n';  // Start angle
+    (*m_ssEntity) << " 51" << '\n';
+    (*m_ssEntity) << end_angle << '\n';  // End angle
 }
 
 void CDxfWrite::writeCircle(const double* center, double radius)
 {
-    (*m_ssEntity) << "  0" << endl;
-    (*m_ssEntity) << "CIRCLE" << endl;
-    (*m_ssEntity) << "  5" << endl;
-    (*m_ssEntity) << getEntityHandle() << endl;
+    (*m_ssEntity) << "  0" << '\n';
+    (*m_ssEntity) << "CIRCLE" << '\n';
+    (*m_ssEntity) << "  5" << '\n';
+    (*m_ssEntity) << getEntityHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "330" << endl;
-        (*m_ssEntity) << m_saveModelSpaceHandle << endl;
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbEntity" << endl;
+        (*m_ssEntity) << "330" << '\n';
+        (*m_ssEntity) << m_saveModelSpaceHandle << '\n';
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbEntity" << '\n';
     }
-    (*m_ssEntity) << "  8" << endl;           // Group code for layer name
-    (*m_ssEntity) << getLayerName() << endl;  // Layer number
+    (*m_ssEntity) << "  8" << '\n';           // Group code for layer name
+    (*m_ssEntity) << getLayerName() << '\n';  // Layer number
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbCircle" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbCircle" << '\n';
     }
-    (*m_ssEntity) << " 10" << endl;      // Centre X
-    (*m_ssEntity) << center[0] << endl;  // X in WCS coordinates
-    (*m_ssEntity) << " 20" << endl;
-    (*m_ssEntity) << center[1] << endl;  // Y in WCS coordinates
-    (*m_ssEntity) << " 30" << endl;
-    (*m_ssEntity) << center[2] << endl;  // Z in WCS coordinates
-    (*m_ssEntity) << " 40" << endl;      //
-    (*m_ssEntity) << radius << endl;     // Radius
+    (*m_ssEntity) << " 10" << '\n';      // Centre X
+    (*m_ssEntity) << center[0] << '\n';  // X in WCS coordinates
+    (*m_ssEntity) << " 20" << '\n';
+    (*m_ssEntity) << center[1] << '\n';  // Y in WCS coordinates
+    (*m_ssEntity) << " 30" << '\n';
+    (*m_ssEntity) << center[2] << '\n';  // Z in WCS coordinates
+    (*m_ssEntity) << " 40" << '\n';      //
+    (*m_ssEntity) << radius << '\n';     // Radius
 }
 
 void CDxfWrite::writeEllipse(const double* center,
@@ -795,47 +795,47 @@ void CDxfWrite::writeEllipse(const double* center,
         start_angle = end_angle;
         end_angle = temp;
     }
-    (*m_ssEntity) << "  0" << endl;
-    (*m_ssEntity) << "ELLIPSE" << endl;
-    (*m_ssEntity) << "  5" << endl;
-    (*m_ssEntity) << getEntityHandle() << endl;
+    (*m_ssEntity) << "  0" << '\n';
+    (*m_ssEntity) << "ELLIPSE" << '\n';
+    (*m_ssEntity) << "  5" << '\n';
+    (*m_ssEntity) << getEntityHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "330" << endl;
-        (*m_ssEntity) << m_saveModelSpaceHandle << endl;
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbEntity" << endl;
+        (*m_ssEntity) << "330" << '\n';
+        (*m_ssEntity) << m_saveModelSpaceHandle << '\n';
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbEntity" << '\n';
     }
-    (*m_ssEntity) << "  8" << endl;           // Group code for layer name
-    (*m_ssEntity) << getLayerName() << endl;  // Layer number
+    (*m_ssEntity) << "  8" << '\n';           // Group code for layer name
+    (*m_ssEntity) << getLayerName() << '\n';  // Layer number
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbEllipse" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbEllipse" << '\n';
     }
-    (*m_ssEntity) << " 10" << endl;      // Centre X
-    (*m_ssEntity) << center[0] << endl;  // X in WCS coordinates
-    (*m_ssEntity) << " 20" << endl;
-    (*m_ssEntity) << center[1] << endl;  // Y in WCS coordinates
-    (*m_ssEntity) << " 30" << endl;
-    (*m_ssEntity) << center[2] << endl;  // Z in WCS coordinates
-    (*m_ssEntity) << " 11" << endl;      //
-    (*m_ssEntity) << m.x << endl;        // Major X
-    (*m_ssEntity) << " 21" << endl;
-    (*m_ssEntity) << m.y << endl;  // Major Y
-    (*m_ssEntity) << " 31" << endl;
-    (*m_ssEntity) << m.z << endl;    // Major Z
-    (*m_ssEntity) << " 40" << endl;  //
+    (*m_ssEntity) << " 10" << '\n';      // Centre X
+    (*m_ssEntity) << center[0] << '\n';  // X in WCS coordinates
+    (*m_ssEntity) << " 20" << '\n';
+    (*m_ssEntity) << center[1] << '\n';  // Y in WCS coordinates
+    (*m_ssEntity) << " 30" << '\n';
+    (*m_ssEntity) << center[2] << '\n';  // Z in WCS coordinates
+    (*m_ssEntity) << " 11" << '\n';      //
+    (*m_ssEntity) << m.x << '\n';        // Major X
+    (*m_ssEntity) << " 21" << '\n';
+    (*m_ssEntity) << m.y << '\n';  // Major Y
+    (*m_ssEntity) << " 31" << '\n';
+    (*m_ssEntity) << m.z << '\n';    // Major Z
+    (*m_ssEntity) << " 40" << '\n';  //
     (*m_ssEntity) << ratio
-                  << endl;  // Ratio
-                            //    (*m_ssEntity) << "210"       << endl;    //extrusion dir??
-                            //    (*m_ssEntity) << "0"         << endl;
-                            //    (*m_ssEntity) << "220"       << endl;
-                            //    (*m_ssEntity) << "0"         << endl;
-                            //    (*m_ssEntity) << "230"       << endl;
-                            //    (*m_ssEntity) << "1"         << endl;
-    (*m_ssEntity) << " 41" << endl;
-    (*m_ssEntity) << start_angle << endl;  // Start angle (radians [0..2pi])
-    (*m_ssEntity) << " 42" << endl;
-    (*m_ssEntity) << end_angle << endl;  // End angle
+                  << '\n';  // Ratio
+                            //    (*m_ssEntity) << "210"       << '\n';    //extrusion dir??
+                            //    (*m_ssEntity) << "0"         << '\n';
+                            //    (*m_ssEntity) << "220"       << '\n';
+                            //    (*m_ssEntity) << "0"         << '\n';
+                            //    (*m_ssEntity) << "230"       << '\n';
+                            //    (*m_ssEntity) << "1"         << '\n';
+    (*m_ssEntity) << " 41" << '\n';
+    (*m_ssEntity) << start_angle << '\n';  // Start angle (radians [0..2pi])
+    (*m_ssEntity) << " 42" << '\n';
+    (*m_ssEntity) << end_angle << '\n';  // End angle
 }
 
 //***************************
@@ -843,78 +843,78 @@ void CDxfWrite::writeEllipse(const double* center,
 // added by Wandererfan 2018 (wandererfan@gmail.com) for FreeCAD project
 void CDxfWrite::writeSpline(const SplineDataOut& sd)
 {
-    (*m_ssEntity) << "  0" << endl;
-    (*m_ssEntity) << "SPLINE" << endl;
-    (*m_ssEntity) << "  5" << endl;
-    (*m_ssEntity) << getEntityHandle() << endl;
+    (*m_ssEntity) << "  0" << '\n';
+    (*m_ssEntity) << "SPLINE" << '\n';
+    (*m_ssEntity) << "  5" << '\n';
+    (*m_ssEntity) << getEntityHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "330" << endl;
-        (*m_ssEntity) << m_saveModelSpaceHandle << endl;
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbEntity" << endl;
+        (*m_ssEntity) << "330" << '\n';
+        (*m_ssEntity) << m_saveModelSpaceHandle << '\n';
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbEntity" << '\n';
     }
-    (*m_ssEntity) << "  8" << endl;           // Group code for layer name
-    (*m_ssEntity) << getLayerName() << endl;  // Layer name
+    (*m_ssEntity) << "  8" << '\n';           // Group code for layer name
+    (*m_ssEntity) << getLayerName() << '\n';  // Layer name
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbSpline" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbSpline" << '\n';
     }
-    (*m_ssEntity) << "210" << endl;
-    (*m_ssEntity) << "0" << endl;
-    (*m_ssEntity) << "220" << endl;
-    (*m_ssEntity) << "0" << endl;
-    (*m_ssEntity) << "230" << endl;
-    (*m_ssEntity) << "1" << endl;
+    (*m_ssEntity) << "210" << '\n';
+    (*m_ssEntity) << "0" << '\n';
+    (*m_ssEntity) << "220" << '\n';
+    (*m_ssEntity) << "0" << '\n';
+    (*m_ssEntity) << "230" << '\n';
+    (*m_ssEntity) << "1" << '\n';
 
-    (*m_ssEntity) << " 70" << endl;
-    (*m_ssEntity) << sd.flag << endl;  // flags
-    (*m_ssEntity) << " 71" << endl;
-    (*m_ssEntity) << sd.degree << endl;
-    (*m_ssEntity) << " 72" << endl;
-    (*m_ssEntity) << sd.knots << endl;
-    (*m_ssEntity) << " 73" << endl;
-    (*m_ssEntity) << sd.control_points << endl;
-    (*m_ssEntity) << " 74" << endl;
-    (*m_ssEntity) << 0 << endl;
+    (*m_ssEntity) << " 70" << '\n';
+    (*m_ssEntity) << sd.flag << '\n';  // flags
+    (*m_ssEntity) << " 71" << '\n';
+    (*m_ssEntity) << sd.degree << '\n';
+    (*m_ssEntity) << " 72" << '\n';
+    (*m_ssEntity) << sd.knots << '\n';
+    (*m_ssEntity) << " 73" << '\n';
+    (*m_ssEntity) << sd.control_points << '\n';
+    (*m_ssEntity) << " 74" << '\n';
+    (*m_ssEntity) << 0 << '\n';
 
-    //    (*m_ssEntity) << " 12"          << endl;
-    //    (*m_ssEntity) << sd.starttan.x  << endl;
-    //    (*m_ssEntity) << " 22"          << endl;
-    //    (*m_ssEntity) << sd.starttan.y  << endl;
-    //    (*m_ssEntity) << " 32"          << endl;
-    //    (*m_ssEntity) << sd.starttan.z  << endl;
-    //    (*m_ssEntity) << " 13"          << endl;
-    //    (*m_ssEntity) << sd.endtan.x    << endl;
-    //    (*m_ssEntity) << " 23"          << endl;
-    //    (*m_ssEntity) << sd.endtan.y    << endl;
-    //    (*m_ssEntity) << " 33"          << endl;
-    //    (*m_ssEntity) << sd.endtan.z    << endl;
+    //    (*m_ssEntity) << " 12"          << '\n';
+    //    (*m_ssEntity) << sd.starttan.x  << '\n';
+    //    (*m_ssEntity) << " 22"          << '\n';
+    //    (*m_ssEntity) << sd.starttan.y  << '\n';
+    //    (*m_ssEntity) << " 32"          << '\n';
+    //    (*m_ssEntity) << sd.starttan.z  << '\n';
+    //    (*m_ssEntity) << " 13"          << '\n';
+    //    (*m_ssEntity) << sd.endtan.x    << '\n';
+    //    (*m_ssEntity) << " 23"          << '\n';
+    //    (*m_ssEntity) << sd.endtan.y    << '\n';
+    //    (*m_ssEntity) << " 33"          << '\n';
+    //    (*m_ssEntity) << sd.endtan.z    << '\n';
 
     for (auto& k : sd.knot) {
-        (*m_ssEntity) << " 40" << endl;
-        (*m_ssEntity) << k << endl;
+        (*m_ssEntity) << " 40" << '\n';
+        (*m_ssEntity) << k << '\n';
     }
 
     for (auto& w : sd.weight) {
-        (*m_ssEntity) << " 41" << endl;
-        (*m_ssEntity) << w << endl;
+        (*m_ssEntity) << " 41" << '\n';
+        (*m_ssEntity) << w << '\n';
     }
 
     for (auto& center : sd.control) {
-        (*m_ssEntity) << " 10" << endl;
-        (*m_ssEntity) << center.x << endl;  // X in WCS coordinates
-        (*m_ssEntity) << " 20" << endl;
-        (*m_ssEntity) << center.y << endl;  // Y in WCS coordinates
-        (*m_ssEntity) << " 30" << endl;
-        (*m_ssEntity) << center.z << endl;  // Z in WCS coordinates
+        (*m_ssEntity) << " 10" << '\n';
+        (*m_ssEntity) << center.x << '\n';  // X in WCS coordinates
+        (*m_ssEntity) << " 20" << '\n';
+        (*m_ssEntity) << center.y << '\n';  // Y in WCS coordinates
+        (*m_ssEntity) << " 30" << '\n';
+        (*m_ssEntity) << center.z << '\n';  // Z in WCS coordinates
     }
     for (auto& f : sd.fit) {
-        (*m_ssEntity) << " 11" << endl;
-        (*m_ssEntity) << f.x << endl;  // X in WCS coordinates
-        (*m_ssEntity) << " 21" << endl;
-        (*m_ssEntity) << f.y << endl;  // Y in WCS coordinates
-        (*m_ssEntity) << " 31" << endl;
-        (*m_ssEntity) << f.z << endl;  // Z in WCS coordinates
+        (*m_ssEntity) << " 11" << '\n';
+        (*m_ssEntity) << f.x << '\n';  // X in WCS coordinates
+        (*m_ssEntity) << " 21" << '\n';
+        (*m_ssEntity) << f.y << '\n';  // Y in WCS coordinates
+        (*m_ssEntity) << " 31" << '\n';
+        (*m_ssEntity) << f.z << '\n';  // Z in WCS coordinates
     }
 }
 
@@ -923,30 +923,30 @@ void CDxfWrite::writeSpline(const SplineDataOut& sd)
 // added by Wandererfan 2018 (wandererfan@gmail.com) for FreeCAD project
 void CDxfWrite::writeVertex(double x, double y, double z)
 {
-    (*m_ssEntity) << "  0" << endl;
-    (*m_ssEntity) << "VERTEX" << endl;
-    (*m_ssEntity) << "  5" << endl;
-    (*m_ssEntity) << getEntityHandle() << endl;
+    (*m_ssEntity) << "  0" << '\n';
+    (*m_ssEntity) << "VERTEX" << '\n';
+    (*m_ssEntity) << "  5" << '\n';
+    (*m_ssEntity) << getEntityHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "330" << endl;
-        (*m_ssEntity) << m_saveModelSpaceHandle << endl;
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbEntity" << endl;
+        (*m_ssEntity) << "330" << '\n';
+        (*m_ssEntity) << m_saveModelSpaceHandle << '\n';
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbEntity" << '\n';
     }
-    (*m_ssEntity) << "  8" << endl;
-    (*m_ssEntity) << getLayerName() << endl;
+    (*m_ssEntity) << "  8" << '\n';
+    (*m_ssEntity) << getLayerName() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbVertex" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbVertex" << '\n';
     }
-    (*m_ssEntity) << " 10" << endl;
-    (*m_ssEntity) << x << endl;
-    (*m_ssEntity) << " 20" << endl;
-    (*m_ssEntity) << y << endl;
-    (*m_ssEntity) << " 30" << endl;
-    (*m_ssEntity) << z << endl;
-    (*m_ssEntity) << " 70" << endl;
-    (*m_ssEntity) << 0 << endl;
+    (*m_ssEntity) << " 10" << '\n';
+    (*m_ssEntity) << x << '\n';
+    (*m_ssEntity) << " 20" << '\n';
+    (*m_ssEntity) << y << '\n';
+    (*m_ssEntity) << " 30" << '\n';
+    (*m_ssEntity) << z << '\n';
+    (*m_ssEntity) << " 70" << '\n';
+    (*m_ssEntity) << 0 << '\n';
 }
 
 void CDxfWrite::writeText(const char* text,
@@ -979,64 +979,64 @@ void CDxfWrite::putText(const char* text,
 {
     (void)location2;
 
-    (*outStream) << "  0" << endl;
-    (*outStream) << "TEXT" << endl;
-    (*outStream) << "  5" << endl;
-    (*outStream) << handle << endl;
+    (*outStream) << "  0" << '\n';
+    (*outStream) << "TEXT" << '\n';
+    (*outStream) << "  5" << '\n';
+    (*outStream) << handle << '\n';
     if (m_version > 12) {
-        (*outStream) << "330" << endl;
-        (*outStream) << ownerHandle << endl;
-        (*outStream) << "100" << endl;
-        (*outStream) << "AcDbEntity" << endl;
+        (*outStream) << "330" << '\n';
+        (*outStream) << ownerHandle << '\n';
+        (*outStream) << "100" << '\n';
+        (*outStream) << "AcDbEntity" << '\n';
     }
-    (*outStream) << "  8" << endl;
-    (*outStream) << getLayerName() << endl;
+    (*outStream) << "  8" << '\n';
+    (*outStream) << getLayerName() << '\n';
     if (m_version > 12) {
-        (*outStream) << "100" << endl;
-        (*outStream) << "AcDbText" << endl;
+        (*outStream) << "100" << '\n';
+        (*outStream) << "AcDbText" << '\n';
     }
-    //    (*outStream) << " 39"          << endl;
-    //    (*outStream) << 0              << endl;     //thickness
-    (*outStream) << " 10" << endl;  // first alignment point
-    (*outStream) << location1.x << endl;
-    (*outStream) << " 20" << endl;
-    (*outStream) << location1.y << endl;
-    (*outStream) << " 30" << endl;
-    (*outStream) << location1.z << endl;
-    (*outStream) << " 40" << endl;
-    (*outStream) << height << endl;
-    (*outStream) << "  1" << endl;
-    (*outStream) << text << endl;
-    //    (*outStream) << " 50"          << endl;
-    //    (*outStream) << 0              << endl;    //rotation
-    //    (*outStream) << " 41"          << endl;
-    //    (*outStream) << 1              << endl;
-    //    (*outStream) << " 51"          << endl;
-    //    (*outStream) << 0              << endl;
+    //    (*outStream) << " 39"          << '\n';
+    //    (*outStream) << 0              << '\n';     //thickness
+    (*outStream) << " 10" << '\n';  // first alignment point
+    (*outStream) << location1.x << '\n';
+    (*outStream) << " 20" << '\n';
+    (*outStream) << location1.y << '\n';
+    (*outStream) << " 30" << '\n';
+    (*outStream) << location1.z << '\n';
+    (*outStream) << " 40" << '\n';
+    (*outStream) << height << '\n';
+    (*outStream) << "  1" << '\n';
+    (*outStream) << text << '\n';
+    //    (*outStream) << " 50"          << '\n';
+    //    (*outStream) << 0              << '\n';    //rotation
+    //    (*outStream) << " 41"          << '\n';
+    //    (*outStream) << 1              << '\n';
+    //    (*outStream) << " 51"          << '\n';
+    //    (*outStream) << 0              << '\n';
 
-    (*outStream) << "  7" << endl;
-    (*outStream) << "STANDARD" << endl;  // style
-    //    (*outStream) << " 71"          << endl;  //default
-    //    (*outStream) << "0"            << endl;
-    (*outStream) << " 72" << endl;
-    (*outStream) << horizJust << endl;
-    ////    (*outStream) << " 73"          << endl;
-    ////    (*outStream) << "0"            << endl;
-    (*outStream) << " 11" << endl;  // second alignment point
-    (*outStream) << location2.x << endl;
-    (*outStream) << " 21" << endl;
-    (*outStream) << location2.y << endl;
-    (*outStream) << " 31" << endl;
-    (*outStream) << location2.z << endl;
-    //    (*outStream) << "210"          << endl;
-    //    (*outStream) << "0"            << endl;
-    //    (*outStream) << "220"          << endl;
-    //    (*outStream) << "0"            << endl;
-    //    (*outStream) << "230"          << endl;
-    //    (*outStream) << "1"            << endl;
+    (*outStream) << "  7" << '\n';
+    (*outStream) << "STANDARD" << '\n';  // style
+    //    (*outStream) << " 71"          << '\n';  //default
+    //    (*outStream) << "0"            << '\n';
+    (*outStream) << " 72" << '\n';
+    (*outStream) << horizJust << '\n';
+    ////    (*outStream) << " 73"          << '\n';
+    ////    (*outStream) << "0"            << '\n';
+    (*outStream) << " 11" << '\n';  // second alignment point
+    (*outStream) << location2.x << '\n';
+    (*outStream) << " 21" << '\n';
+    (*outStream) << location2.y << '\n';
+    (*outStream) << " 31" << '\n';
+    (*outStream) << location2.z << '\n';
+    //    (*outStream) << "210"          << '\n';
+    //    (*outStream) << "0"            << '\n';
+    //    (*outStream) << "220"          << '\n';
+    //    (*outStream) << "0"            << '\n';
+    //    (*outStream) << "230"          << '\n';
+    //    (*outStream) << "1"            << '\n';
     if (m_version > 12) {
-        (*outStream) << "100" << endl;
-        (*outStream) << "AcDbText" << endl;
+        (*outStream) << "100" << '\n';
+        (*outStream) << "AcDbText" << '\n';
     }
 }
 
@@ -1047,48 +1047,48 @@ void CDxfWrite::putArrow(Base::Vector3d& arrowPos,
                          const std::string& handle,
                          const std::string& ownerHandle)
 {
-    (*outStream) << "  0" << endl;
-    (*outStream) << "SOLID" << endl;
-    (*outStream) << "  5" << endl;
-    (*outStream) << handle << endl;
+    (*outStream) << "  0" << '\n';
+    (*outStream) << "SOLID" << '\n';
+    (*outStream) << "  5" << '\n';
+    (*outStream) << handle << '\n';
     if (m_version > 12) {
-        (*outStream) << "330" << endl;
-        (*outStream) << ownerHandle << endl;
-        (*outStream) << "100" << endl;
-        (*outStream) << "AcDbEntity" << endl;
+        (*outStream) << "330" << '\n';
+        (*outStream) << ownerHandle << '\n';
+        (*outStream) << "100" << '\n';
+        (*outStream) << "AcDbEntity" << '\n';
     }
-    (*outStream) << "  8" << endl;
-    (*outStream) << "0" << endl;
-    (*outStream) << " 62" << endl;
-    (*outStream) << "     0" << endl;
+    (*outStream) << "  8" << '\n';
+    (*outStream) << "0" << '\n';
+    (*outStream) << " 62" << '\n';
+    (*outStream) << "     0" << '\n';
     if (m_version > 12) {
-        (*outStream) << "100" << endl;
-        (*outStream) << "AcDbTrace" << endl;
+        (*outStream) << "100" << '\n';
+        (*outStream) << "AcDbTrace" << '\n';
     }
-    (*outStream) << " 10" << endl;
-    (*outStream) << barb1Pos.x << endl;
-    (*outStream) << " 20" << endl;
-    (*outStream) << barb1Pos.y << endl;
-    (*outStream) << " 30" << endl;
-    (*outStream) << barb1Pos.z << endl;
-    (*outStream) << " 11" << endl;
-    (*outStream) << barb2Pos.x << endl;
-    (*outStream) << " 21" << endl;
-    (*outStream) << barb2Pos.y << endl;
-    (*outStream) << " 31" << endl;
-    (*outStream) << barb2Pos.z << endl;
-    (*outStream) << " 12" << endl;
-    (*outStream) << arrowPos.x << endl;
-    (*outStream) << " 22" << endl;
-    (*outStream) << arrowPos.y << endl;
-    (*outStream) << " 32" << endl;
-    (*outStream) << arrowPos.z << endl;
-    (*outStream) << " 13" << endl;
-    (*outStream) << arrowPos.x << endl;
-    (*outStream) << " 23" << endl;
-    (*outStream) << arrowPos.y << endl;
-    (*outStream) << " 33" << endl;
-    (*outStream) << arrowPos.z << endl;
+    (*outStream) << " 10" << '\n';
+    (*outStream) << barb1Pos.x << '\n';
+    (*outStream) << " 20" << '\n';
+    (*outStream) << barb1Pos.y << '\n';
+    (*outStream) << " 30" << '\n';
+    (*outStream) << barb1Pos.z << '\n';
+    (*outStream) << " 11" << '\n';
+    (*outStream) << barb2Pos.x << '\n';
+    (*outStream) << " 21" << '\n';
+    (*outStream) << barb2Pos.y << '\n';
+    (*outStream) << " 31" << '\n';
+    (*outStream) << barb2Pos.z << '\n';
+    (*outStream) << " 12" << '\n';
+    (*outStream) << arrowPos.x << '\n';
+    (*outStream) << " 22" << '\n';
+    (*outStream) << arrowPos.y << '\n';
+    (*outStream) << " 32" << '\n';
+    (*outStream) << arrowPos.z << '\n';
+    (*outStream) << " 13" << '\n';
+    (*outStream) << arrowPos.x << '\n';
+    (*outStream) << " 23" << '\n';
+    (*outStream) << arrowPos.y << '\n';
+    (*outStream) << " 33" << '\n';
+    (*outStream) << arrowPos.z << '\n';
 }
 
 //***************************
@@ -1104,75 +1104,75 @@ void CDxfWrite::writeLinearDim(const double* textMidPoint,
                                const char* dimText,
                                int type)
 {
-    (*m_ssEntity) << "  0" << endl;
-    (*m_ssEntity) << "DIMENSION" << endl;
-    (*m_ssEntity) << "  5" << endl;
-    (*m_ssEntity) << getEntityHandle() << endl;
+    (*m_ssEntity) << "  0" << '\n';
+    (*m_ssEntity) << "DIMENSION" << '\n';
+    (*m_ssEntity) << "  5" << '\n';
+    (*m_ssEntity) << getEntityHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "330" << endl;
-        (*m_ssEntity) << m_saveModelSpaceHandle << endl;
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbEntity" << endl;
+        (*m_ssEntity) << "330" << '\n';
+        (*m_ssEntity) << m_saveModelSpaceHandle << '\n';
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbEntity" << '\n';
     }
-    (*m_ssEntity) << "  8" << endl;
-    (*m_ssEntity) << getLayerName() << endl;
+    (*m_ssEntity) << "  8" << '\n';
+    (*m_ssEntity) << getLayerName() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbDimension" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbDimension" << '\n';
     }
-    (*m_ssEntity) << "  2" << endl;
-    (*m_ssEntity) << "*" << getLayerName() << endl;  // blockName
-    (*m_ssEntity) << " 10" << endl;                  // dimension line definition point
-    (*m_ssEntity) << lineDefPoint[0] << endl;
-    (*m_ssEntity) << " 20" << endl;
-    (*m_ssEntity) << lineDefPoint[1] << endl;
-    (*m_ssEntity) << " 30" << endl;
-    (*m_ssEntity) << lineDefPoint[2] << endl;
-    (*m_ssEntity) << " 11" << endl;  // text mid point
-    (*m_ssEntity) << textMidPoint[0] << endl;
-    (*m_ssEntity) << " 21" << endl;
-    (*m_ssEntity) << textMidPoint[1] << endl;
-    (*m_ssEntity) << " 31" << endl;
-    (*m_ssEntity) << textMidPoint[2] << endl;
+    (*m_ssEntity) << "  2" << '\n';
+    (*m_ssEntity) << "*" << getLayerName() << '\n';  // blockName
+    (*m_ssEntity) << " 10" << '\n';                  // dimension line definition point
+    (*m_ssEntity) << lineDefPoint[0] << '\n';
+    (*m_ssEntity) << " 20" << '\n';
+    (*m_ssEntity) << lineDefPoint[1] << '\n';
+    (*m_ssEntity) << " 30" << '\n';
+    (*m_ssEntity) << lineDefPoint[2] << '\n';
+    (*m_ssEntity) << " 11" << '\n';  // text mid point
+    (*m_ssEntity) << textMidPoint[0] << '\n';
+    (*m_ssEntity) << " 21" << '\n';
+    (*m_ssEntity) << textMidPoint[1] << '\n';
+    (*m_ssEntity) << " 31" << '\n';
+    (*m_ssEntity) << textMidPoint[2] << '\n';
     if (type == ALIGNED) {
-        (*m_ssEntity) << " 70" << endl;
-        (*m_ssEntity) << 1 << endl;  // dimType1 = Aligned
+        (*m_ssEntity) << " 70" << '\n';
+        (*m_ssEntity) << 1 << '\n';  // dimType1 = Aligned
     }
     if ((type == HORIZONTAL) || (type == VERTICAL)) {
-        (*m_ssEntity) << " 70" << endl;
-        (*m_ssEntity) << 32 << endl;  // dimType0 = Aligned + 32 (bit for unique block)?
+        (*m_ssEntity) << " 70" << '\n';
+        (*m_ssEntity) << 32 << '\n';  // dimType0 = Aligned + 32 (bit for unique block)?
     }
-    //    (*m_ssEntity) << " 71"          << endl;    // not R12
-    //    (*m_ssEntity) << 1              << endl;    // attachPoint ??1 = topleft
-    (*m_ssEntity) << "  1" << endl;
-    (*m_ssEntity) << dimText << endl;
-    (*m_ssEntity) << "  3" << endl;
-    (*m_ssEntity) << "STANDARD" << endl;  // style
+    //    (*m_ssEntity) << " 71"          << '\n';    // not R12
+    //    (*m_ssEntity) << 1              << '\n';    // attachPoint ??1 = topleft
+    (*m_ssEntity) << "  1" << '\n';
+    (*m_ssEntity) << dimText << '\n';
+    (*m_ssEntity) << "  3" << '\n';
+    (*m_ssEntity) << "STANDARD" << '\n';  // style
     // linear dims
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbAlignedDimension" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbAlignedDimension" << '\n';
     }
-    (*m_ssEntity) << " 13" << endl;
-    (*m_ssEntity) << extLine1[0] << endl;
-    (*m_ssEntity) << " 23" << endl;
-    (*m_ssEntity) << extLine1[1] << endl;
-    (*m_ssEntity) << " 33" << endl;
-    (*m_ssEntity) << extLine1[2] << endl;
-    (*m_ssEntity) << " 14" << endl;
-    (*m_ssEntity) << extLine2[0] << endl;
-    (*m_ssEntity) << " 24" << endl;
-    (*m_ssEntity) << extLine2[1] << endl;
-    (*m_ssEntity) << " 34" << endl;
-    (*m_ssEntity) << extLine2[2] << endl;
+    (*m_ssEntity) << " 13" << '\n';
+    (*m_ssEntity) << extLine1[0] << '\n';
+    (*m_ssEntity) << " 23" << '\n';
+    (*m_ssEntity) << extLine1[1] << '\n';
+    (*m_ssEntity) << " 33" << '\n';
+    (*m_ssEntity) << extLine1[2] << '\n';
+    (*m_ssEntity) << " 14" << '\n';
+    (*m_ssEntity) << extLine2[0] << '\n';
+    (*m_ssEntity) << " 24" << '\n';
+    (*m_ssEntity) << extLine2[1] << '\n';
+    (*m_ssEntity) << " 34" << '\n';
+    (*m_ssEntity) << extLine2[2] << '\n';
     if (m_version > 12) {
         if (type == VERTICAL) {
-            (*m_ssEntity) << " 50" << endl;
-            (*m_ssEntity) << "90" << endl;
+            (*m_ssEntity) << " 50" << '\n';
+            (*m_ssEntity) << "90" << '\n';
         }
         if ((type == HORIZONTAL) || (type == VERTICAL)) {
-            (*m_ssEntity) << "100" << endl;
-            (*m_ssEntity) << "AcDbRotatedDimension" << endl;
+            (*m_ssEntity) << "100" << '\n';
+            (*m_ssEntity) << "AcDbRotatedDimension" << '\n';
         }
     }
 
@@ -1192,80 +1192,80 @@ void CDxfWrite::writeAngularDim(const double* textMidPoint,
                                 const double* endExt2,
                                 const char* dimText)
 {
-    (*m_ssEntity) << "  0" << endl;
-    (*m_ssEntity) << "DIMENSION" << endl;
-    (*m_ssEntity) << "  5" << endl;
-    (*m_ssEntity) << getEntityHandle() << endl;
+    (*m_ssEntity) << "  0" << '\n';
+    (*m_ssEntity) << "DIMENSION" << '\n';
+    (*m_ssEntity) << "  5" << '\n';
+    (*m_ssEntity) << getEntityHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "330" << endl;
-        (*m_ssEntity) << m_saveModelSpaceHandle << endl;
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbEntity" << endl;
+        (*m_ssEntity) << "330" << '\n';
+        (*m_ssEntity) << m_saveModelSpaceHandle << '\n';
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbEntity" << '\n';
     }
-    (*m_ssEntity) << "  8" << endl;
-    (*m_ssEntity) << getLayerName() << endl;
+    (*m_ssEntity) << "  8" << '\n';
+    (*m_ssEntity) << getLayerName() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbDimension" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbDimension" << '\n';
     }
-    (*m_ssEntity) << "  2" << endl;
-    (*m_ssEntity) << "*" << getLayerName() << endl;  // blockName
+    (*m_ssEntity) << "  2" << '\n';
+    (*m_ssEntity) << "*" << getLayerName() << '\n';  // blockName
 
-    (*m_ssEntity) << " 10" << endl;
-    (*m_ssEntity) << endExt2[0] << endl;
-    (*m_ssEntity) << " 20" << endl;
-    (*m_ssEntity) << endExt2[1] << endl;
-    (*m_ssEntity) << " 30" << endl;
-    (*m_ssEntity) << endExt2[2] << endl;
+    (*m_ssEntity) << " 10" << '\n';
+    (*m_ssEntity) << endExt2[0] << '\n';
+    (*m_ssEntity) << " 20" << '\n';
+    (*m_ssEntity) << endExt2[1] << '\n';
+    (*m_ssEntity) << " 30" << '\n';
+    (*m_ssEntity) << endExt2[2] << '\n';
 
-    (*m_ssEntity) << " 11" << endl;
-    (*m_ssEntity) << textMidPoint[0] << endl;
-    (*m_ssEntity) << " 21" << endl;
-    (*m_ssEntity) << textMidPoint[1] << endl;
-    (*m_ssEntity) << " 31" << endl;
-    (*m_ssEntity) << textMidPoint[2] << endl;
+    (*m_ssEntity) << " 11" << '\n';
+    (*m_ssEntity) << textMidPoint[0] << '\n';
+    (*m_ssEntity) << " 21" << '\n';
+    (*m_ssEntity) << textMidPoint[1] << '\n';
+    (*m_ssEntity) << " 31" << '\n';
+    (*m_ssEntity) << textMidPoint[2] << '\n';
 
-    (*m_ssEntity) << " 70" << endl;
-    (*m_ssEntity) << 2 << endl;  // dimType 2 = Angular  5 = Angular 3 point
+    (*m_ssEntity) << " 70" << '\n';
+    (*m_ssEntity) << 2 << '\n';  // dimType 2 = Angular  5 = Angular 3 point
                                  // +32 for block?? (not R12)
-    //    (*m_ssEntity) << " 71"          << endl;    // not R12?  not required?
-    //    (*m_ssEntity) << 5              << endl;    // attachPoint 5 = middle
-    (*m_ssEntity) << "  1" << endl;
-    (*m_ssEntity) << dimText << endl;
-    (*m_ssEntity) << "  3" << endl;
-    (*m_ssEntity) << "STANDARD" << endl;  // style
+    //    (*m_ssEntity) << " 71"          << '\n';    // not R12?  not required?
+    //    (*m_ssEntity) << 5              << '\n';    // attachPoint 5 = middle
+    (*m_ssEntity) << "  1" << '\n';
+    (*m_ssEntity) << dimText << '\n';
+    (*m_ssEntity) << "  3" << '\n';
+    (*m_ssEntity) << "STANDARD" << '\n';  // style
     // angular dims
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDb2LineAngularDimension" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDb2LineAngularDimension" << '\n';
     }
-    (*m_ssEntity) << " 13" << endl;
-    (*m_ssEntity) << startExt1[0] << endl;
-    (*m_ssEntity) << " 23" << endl;
-    (*m_ssEntity) << startExt1[1] << endl;
-    (*m_ssEntity) << " 33" << endl;
-    (*m_ssEntity) << startExt1[2] << endl;
+    (*m_ssEntity) << " 13" << '\n';
+    (*m_ssEntity) << startExt1[0] << '\n';
+    (*m_ssEntity) << " 23" << '\n';
+    (*m_ssEntity) << startExt1[1] << '\n';
+    (*m_ssEntity) << " 33" << '\n';
+    (*m_ssEntity) << startExt1[2] << '\n';
 
-    (*m_ssEntity) << " 14" << endl;
-    (*m_ssEntity) << endExt1[0] << endl;
-    (*m_ssEntity) << " 24" << endl;
-    (*m_ssEntity) << endExt1[1] << endl;
-    (*m_ssEntity) << " 34" << endl;
-    (*m_ssEntity) << endExt1[2] << endl;
+    (*m_ssEntity) << " 14" << '\n';
+    (*m_ssEntity) << endExt1[0] << '\n';
+    (*m_ssEntity) << " 24" << '\n';
+    (*m_ssEntity) << endExt1[1] << '\n';
+    (*m_ssEntity) << " 34" << '\n';
+    (*m_ssEntity) << endExt1[2] << '\n';
 
-    (*m_ssEntity) << " 15" << endl;
-    (*m_ssEntity) << startExt2[0] << endl;
-    (*m_ssEntity) << " 25" << endl;
-    (*m_ssEntity) << startExt2[1] << endl;
-    (*m_ssEntity) << " 35" << endl;
-    (*m_ssEntity) << startExt2[2] << endl;
+    (*m_ssEntity) << " 15" << '\n';
+    (*m_ssEntity) << startExt2[0] << '\n';
+    (*m_ssEntity) << " 25" << '\n';
+    (*m_ssEntity) << startExt2[1] << '\n';
+    (*m_ssEntity) << " 35" << '\n';
+    (*m_ssEntity) << startExt2[2] << '\n';
 
-    (*m_ssEntity) << " 16" << endl;
-    (*m_ssEntity) << lineDefPoint[0] << endl;
-    (*m_ssEntity) << " 26" << endl;
-    (*m_ssEntity) << lineDefPoint[1] << endl;
-    (*m_ssEntity) << " 36" << endl;
-    (*m_ssEntity) << lineDefPoint[2] << endl;
+    (*m_ssEntity) << " 16" << '\n';
+    (*m_ssEntity) << lineDefPoint[0] << '\n';
+    (*m_ssEntity) << " 26" << '\n';
+    (*m_ssEntity) << lineDefPoint[1] << '\n';
+    (*m_ssEntity) << " 36" << '\n';
+    (*m_ssEntity) << lineDefPoint[2] << '\n';
     writeDimBlockPreamble();
     writeAngularDimBlock(textMidPoint,
                          lineDefPoint,
@@ -1285,57 +1285,57 @@ void CDxfWrite::writeRadialDim(const double* centerPoint,
                                const double* arcPoint,
                                const char* dimText)
 {
-    (*m_ssEntity) << "  0" << endl;
-    (*m_ssEntity) << "DIMENSION" << endl;
-    (*m_ssEntity) << "  5" << endl;
-    (*m_ssEntity) << getEntityHandle() << endl;
+    (*m_ssEntity) << "  0" << '\n';
+    (*m_ssEntity) << "DIMENSION" << '\n';
+    (*m_ssEntity) << "  5" << '\n';
+    (*m_ssEntity) << getEntityHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "330" << endl;
-        (*m_ssEntity) << m_saveModelSpaceHandle << endl;
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbEntity" << endl;
+        (*m_ssEntity) << "330" << '\n';
+        (*m_ssEntity) << m_saveModelSpaceHandle << '\n';
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbEntity" << '\n';
     }
-    (*m_ssEntity) << "  8" << endl;
-    (*m_ssEntity) << getLayerName() << endl;
+    (*m_ssEntity) << "  8" << '\n';
+    (*m_ssEntity) << getLayerName() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbDimension" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbDimension" << '\n';
     }
-    (*m_ssEntity) << "  2" << endl;
-    (*m_ssEntity) << "*" << getLayerName() << endl;  // blockName
-    (*m_ssEntity) << " 10" << endl;                  // arc center point
-    (*m_ssEntity) << centerPoint[0] << endl;
-    (*m_ssEntity) << " 20" << endl;
-    (*m_ssEntity) << centerPoint[1] << endl;
-    (*m_ssEntity) << " 30" << endl;
-    (*m_ssEntity) << centerPoint[2] << endl;
-    (*m_ssEntity) << " 11" << endl;  // text mid point
-    (*m_ssEntity) << textMidPoint[0] << endl;
-    (*m_ssEntity) << " 21" << endl;
-    (*m_ssEntity) << textMidPoint[1] << endl;
-    (*m_ssEntity) << " 31" << endl;
-    (*m_ssEntity) << textMidPoint[2] << endl;
-    (*m_ssEntity) << " 70" << endl;
-    (*m_ssEntity) << 4 << endl;  // dimType 4 = Radius
-                                 //    (*m_ssEntity) << " 71"          << endl;    // not R12
-    //    (*m_ssEntity) << 1              << endl;    // attachPoint 5 = middle center
-    (*m_ssEntity) << "  1" << endl;
-    (*m_ssEntity) << dimText << endl;
-    (*m_ssEntity) << "  3" << endl;
-    (*m_ssEntity) << "STANDARD" << endl;  // style
+    (*m_ssEntity) << "  2" << '\n';
+    (*m_ssEntity) << "*" << getLayerName() << '\n';  // blockName
+    (*m_ssEntity) << " 10" << '\n';                  // arc center point
+    (*m_ssEntity) << centerPoint[0] << '\n';
+    (*m_ssEntity) << " 20" << '\n';
+    (*m_ssEntity) << centerPoint[1] << '\n';
+    (*m_ssEntity) << " 30" << '\n';
+    (*m_ssEntity) << centerPoint[2] << '\n';
+    (*m_ssEntity) << " 11" << '\n';  // text mid point
+    (*m_ssEntity) << textMidPoint[0] << '\n';
+    (*m_ssEntity) << " 21" << '\n';
+    (*m_ssEntity) << textMidPoint[1] << '\n';
+    (*m_ssEntity) << " 31" << '\n';
+    (*m_ssEntity) << textMidPoint[2] << '\n';
+    (*m_ssEntity) << " 70" << '\n';
+    (*m_ssEntity) << 4 << '\n';  // dimType 4 = Radius
+                                 //    (*m_ssEntity) << " 71"          << '\n';    // not R12
+    //    (*m_ssEntity) << 1              << '\n';    // attachPoint 5 = middle center
+    (*m_ssEntity) << "  1" << '\n';
+    (*m_ssEntity) << dimText << '\n';
+    (*m_ssEntity) << "  3" << '\n';
+    (*m_ssEntity) << "STANDARD" << '\n';  // style
     // radial dims
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbRadialDimension" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbRadialDimension" << '\n';
     }
-    (*m_ssEntity) << " 15" << endl;
-    (*m_ssEntity) << arcPoint[0] << endl;
-    (*m_ssEntity) << " 25" << endl;
-    (*m_ssEntity) << arcPoint[1] << endl;
-    (*m_ssEntity) << " 35" << endl;
-    (*m_ssEntity) << arcPoint[2] << endl;
-    (*m_ssEntity) << " 40" << endl;  // leader length????
-    (*m_ssEntity) << 0 << endl;
+    (*m_ssEntity) << " 15" << '\n';
+    (*m_ssEntity) << arcPoint[0] << '\n';
+    (*m_ssEntity) << " 25" << '\n';
+    (*m_ssEntity) << arcPoint[1] << '\n';
+    (*m_ssEntity) << " 35" << '\n';
+    (*m_ssEntity) << arcPoint[2] << '\n';
+    (*m_ssEntity) << " 40" << '\n';  // leader length????
+    (*m_ssEntity) << 0 << '\n';
 
     writeDimBlockPreamble();
     writeRadialDimBlock(centerPoint, textMidPoint, arcPoint, dimText);
@@ -1350,57 +1350,57 @@ void CDxfWrite::writeDiametricDim(const double* textMidPoint,
                                   const double* arcPoint2,
                                   const char* dimText)
 {
-    (*m_ssEntity) << "  0" << endl;
-    (*m_ssEntity) << "DIMENSION" << endl;
-    (*m_ssEntity) << "  5" << endl;
-    (*m_ssEntity) << getEntityHandle() << endl;
+    (*m_ssEntity) << "  0" << '\n';
+    (*m_ssEntity) << "DIMENSION" << '\n';
+    (*m_ssEntity) << "  5" << '\n';
+    (*m_ssEntity) << getEntityHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "330" << endl;
-        (*m_ssEntity) << m_saveModelSpaceHandle << endl;
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbEntity" << endl;
+        (*m_ssEntity) << "330" << '\n';
+        (*m_ssEntity) << m_saveModelSpaceHandle << '\n';
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbEntity" << '\n';
     }
-    (*m_ssEntity) << "  8" << endl;
-    (*m_ssEntity) << getLayerName() << endl;
+    (*m_ssEntity) << "  8" << '\n';
+    (*m_ssEntity) << getLayerName() << '\n';
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbDimension" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbDimension" << '\n';
     }
-    (*m_ssEntity) << "  2" << endl;
-    (*m_ssEntity) << "*" << getLayerName() << endl;  // blockName
-    (*m_ssEntity) << " 10" << endl;
-    (*m_ssEntity) << arcPoint1[0] << endl;
-    (*m_ssEntity) << " 20" << endl;
-    (*m_ssEntity) << arcPoint1[1] << endl;
-    (*m_ssEntity) << " 30" << endl;
-    (*m_ssEntity) << arcPoint1[2] << endl;
-    (*m_ssEntity) << " 11" << endl;  // text mid point
-    (*m_ssEntity) << textMidPoint[0] << endl;
-    (*m_ssEntity) << " 21" << endl;
-    (*m_ssEntity) << textMidPoint[1] << endl;
-    (*m_ssEntity) << " 31" << endl;
-    (*m_ssEntity) << textMidPoint[2] << endl;
-    (*m_ssEntity) << " 70" << endl;
-    (*m_ssEntity) << 3 << endl;  // dimType 3 = Diameter
-                                 //    (*m_ssEntity) << " 71"          << endl;    // not R12
-    //    (*m_ssEntity) << 5              << endl;    // attachPoint 5 = middle center
-    (*m_ssEntity) << "  1" << endl;
-    (*m_ssEntity) << dimText << endl;
-    (*m_ssEntity) << "  3" << endl;
-    (*m_ssEntity) << "STANDARD" << endl;  // style
+    (*m_ssEntity) << "  2" << '\n';
+    (*m_ssEntity) << "*" << getLayerName() << '\n';  // blockName
+    (*m_ssEntity) << " 10" << '\n';
+    (*m_ssEntity) << arcPoint1[0] << '\n';
+    (*m_ssEntity) << " 20" << '\n';
+    (*m_ssEntity) << arcPoint1[1] << '\n';
+    (*m_ssEntity) << " 30" << '\n';
+    (*m_ssEntity) << arcPoint1[2] << '\n';
+    (*m_ssEntity) << " 11" << '\n';  // text mid point
+    (*m_ssEntity) << textMidPoint[0] << '\n';
+    (*m_ssEntity) << " 21" << '\n';
+    (*m_ssEntity) << textMidPoint[1] << '\n';
+    (*m_ssEntity) << " 31" << '\n';
+    (*m_ssEntity) << textMidPoint[2] << '\n';
+    (*m_ssEntity) << " 70" << '\n';
+    (*m_ssEntity) << 3 << '\n';  // dimType 3 = Diameter
+                                 //    (*m_ssEntity) << " 71"          << '\n';    // not R12
+    //    (*m_ssEntity) << 5              << '\n';    // attachPoint 5 = middle center
+    (*m_ssEntity) << "  1" << '\n';
+    (*m_ssEntity) << dimText << '\n';
+    (*m_ssEntity) << "  3" << '\n';
+    (*m_ssEntity) << "STANDARD" << '\n';  // style
     // diametric dims
     if (m_version > 12) {
-        (*m_ssEntity) << "100" << endl;
-        (*m_ssEntity) << "AcDbDiametricDimension" << endl;
+        (*m_ssEntity) << "100" << '\n';
+        (*m_ssEntity) << "AcDbDiametricDimension" << '\n';
     }
-    (*m_ssEntity) << " 15" << endl;
-    (*m_ssEntity) << arcPoint2[0] << endl;
-    (*m_ssEntity) << " 25" << endl;
-    (*m_ssEntity) << arcPoint2[1] << endl;
-    (*m_ssEntity) << " 35" << endl;
-    (*m_ssEntity) << arcPoint2[2] << endl;
-    (*m_ssEntity) << " 40" << endl;  // leader length????
-    (*m_ssEntity) << 0 << endl;
+    (*m_ssEntity) << " 15" << '\n';
+    (*m_ssEntity) << arcPoint2[0] << '\n';
+    (*m_ssEntity) << " 25" << '\n';
+    (*m_ssEntity) << arcPoint2[1] << '\n';
+    (*m_ssEntity) << " 35" << '\n';
+    (*m_ssEntity) << arcPoint2[2] << '\n';
+    (*m_ssEntity) << " 40" << '\n';  // leader length????
+    (*m_ssEntity) << 0 << '\n';
 
     writeDimBlockPreamble();
     writeDiametricDimBlock(textMidPoint, arcPoint1, arcPoint2, dimText);
@@ -1420,36 +1420,36 @@ void CDxfWrite::writeDimBlockPreamble()
     }
 
     m_currentBlock = getBlockHandle();
-    (*m_ssBlock) << "  0" << endl;
-    (*m_ssBlock) << "BLOCK" << endl;
-    (*m_ssBlock) << "  5" << endl;
-    (*m_ssBlock) << m_currentBlock << endl;
+    (*m_ssBlock) << "  0" << '\n';
+    (*m_ssBlock) << "BLOCK" << '\n';
+    (*m_ssBlock) << "  5" << '\n';
+    (*m_ssBlock) << m_currentBlock << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "330" << endl;
-        (*m_ssBlock) << m_saveBlkRecordHandle << endl;
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbEntity" << endl;
+        (*m_ssBlock) << "330" << '\n';
+        (*m_ssBlock) << m_saveBlkRecordHandle << '\n';
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbEntity" << '\n';
     }
-    (*m_ssBlock) << "  8" << endl;
-    (*m_ssBlock) << getLayerName() << endl;
+    (*m_ssBlock) << "  8" << '\n';
+    (*m_ssBlock) << getLayerName() << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbBlockBegin" << endl;
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbBlockBegin" << '\n';
     }
-    (*m_ssBlock) << "  2" << endl;
-    (*m_ssBlock) << "*" << getLayerName() << endl;  // blockName
-    (*m_ssBlock) << " 70" << endl;
-    (*m_ssBlock) << "   1" << endl;
-    (*m_ssBlock) << " 10" << endl;
-    (*m_ssBlock) << 0.0 << endl;
-    (*m_ssBlock) << " 20" << endl;
-    (*m_ssBlock) << 0.0 << endl;
-    (*m_ssBlock) << " 30" << endl;
-    (*m_ssBlock) << 0.0 << endl;
-    (*m_ssBlock) << "  3" << endl;
-    (*m_ssBlock) << "*" << getLayerName() << endl;  // blockName
-    (*m_ssBlock) << "  1" << endl;
-    (*m_ssBlock) << " " << endl;
+    (*m_ssBlock) << "  2" << '\n';
+    (*m_ssBlock) << "*" << getLayerName() << '\n';  // blockName
+    (*m_ssBlock) << " 70" << '\n';
+    (*m_ssBlock) << "   1" << '\n';
+    (*m_ssBlock) << " 10" << '\n';
+    (*m_ssBlock) << 0.0 << '\n';
+    (*m_ssBlock) << " 20" << '\n';
+    (*m_ssBlock) << 0.0 << '\n';
+    (*m_ssBlock) << " 30" << '\n';
+    (*m_ssBlock) << 0.0 << '\n';
+    (*m_ssBlock) << "  3" << '\n';
+    (*m_ssBlock) << "*" << getLayerName() << '\n';  // blockName
+    (*m_ssBlock) << "  1" << '\n';
+    (*m_ssBlock) << " " << '\n';
 }
 
 //***************************
@@ -1457,23 +1457,23 @@ void CDxfWrite::writeDimBlockPreamble()
 // added by Wandererfan 2018 (wandererfan@gmail.com) for FreeCAD project
 void CDxfWrite::writeBlockTrailer()
 {
-    (*m_ssBlock) << "  0" << endl;
-    (*m_ssBlock) << "ENDBLK" << endl;
-    (*m_ssBlock) << "  5" << endl;
-    (*m_ssBlock) << getBlockHandle() << endl;
+    (*m_ssBlock) << "  0" << '\n';
+    (*m_ssBlock) << "ENDBLK" << '\n';
+    (*m_ssBlock) << "  5" << '\n';
+    (*m_ssBlock) << getBlockHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "330" << endl;
-        (*m_ssBlock) << m_saveBlkRecordHandle << endl;
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbEntity" << endl;
+        (*m_ssBlock) << "330" << '\n';
+        (*m_ssBlock) << m_saveBlkRecordHandle << '\n';
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbEntity" << '\n';
     }
-    //    (*m_ssBlock) << " 67"    << endl;
-    //    (*m_ssBlock) << "1"    << endl;
-    (*m_ssBlock) << "  8" << endl;
-    (*m_ssBlock) << getLayerName() << endl;
+    //    (*m_ssBlock) << " 67"    << '\n';
+    //    (*m_ssBlock) << "1"    << '\n';
+    (*m_ssBlock) << "  8" << '\n';
+    (*m_ssBlock) << getLayerName() << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbBlockEnd" << endl;
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbBlockEnd" << '\n';
     }
 }
 
@@ -1597,40 +1597,40 @@ void CDxfWrite::writeAngularDimBlock(const double* textMidPoint,
     Base::Vector3d linePt(MakeVector3d(lineDefPoint));
     double radius = (e2S - linePt).Length();
 
-    (*m_ssBlock) << "  0" << endl;
-    (*m_ssBlock) << "ARC" << endl;  // dimline arc
-    (*m_ssBlock) << "  5" << endl;
-    (*m_ssBlock) << getBlockHandle() << endl;
+    (*m_ssBlock) << "  0" << '\n';
+    (*m_ssBlock) << "ARC" << '\n';  // dimline arc
+    (*m_ssBlock) << "  5" << '\n';
+    (*m_ssBlock) << getBlockHandle() << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "330" << endl;
-        (*m_ssBlock) << m_saveBlkRecordHandle << endl;
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbEntity" << endl;
+        (*m_ssBlock) << "330" << '\n';
+        (*m_ssBlock) << m_saveBlkRecordHandle << '\n';
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbEntity" << '\n';
     }
-    (*m_ssBlock) << "  8" << endl;
-    (*m_ssBlock) << "0" << endl;
-    //    (*m_ssBlock) << " 62"          << endl;
-    //    (*m_ssBlock) << "     0"       << endl;
+    (*m_ssBlock) << "  8" << '\n';
+    (*m_ssBlock) << "0" << '\n';
+    //    (*m_ssBlock) << " 62"          << '\n';
+    //    (*m_ssBlock) << "     0"       << '\n';
     if (m_version > 12) {
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbCircle" << endl;
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbCircle" << '\n';
     }
-    (*m_ssBlock) << " 10" << endl;
-    (*m_ssBlock) << startExt2[0] << endl;  // arc center
-    (*m_ssBlock) << " 20" << endl;
-    (*m_ssBlock) << startExt2[1] << endl;
-    (*m_ssBlock) << " 30" << endl;
-    (*m_ssBlock) << startExt2[2] << endl;
-    (*m_ssBlock) << " 40" << endl;
-    (*m_ssBlock) << radius << endl;  // radius
+    (*m_ssBlock) << " 10" << '\n';
+    (*m_ssBlock) << startExt2[0] << '\n';  // arc center
+    (*m_ssBlock) << " 20" << '\n';
+    (*m_ssBlock) << startExt2[1] << '\n';
+    (*m_ssBlock) << " 30" << '\n';
+    (*m_ssBlock) << startExt2[2] << '\n';
+    (*m_ssBlock) << " 40" << '\n';
+    (*m_ssBlock) << radius << '\n';  // radius
     if (m_version > 12) {
-        (*m_ssBlock) << "100" << endl;
-        (*m_ssBlock) << "AcDbArc" << endl;
+        (*m_ssBlock) << "100" << '\n';
+        (*m_ssBlock) << "AcDbArc" << '\n';
     }
-    (*m_ssBlock) << " 50" << endl;
-    (*m_ssBlock) << startAngle << endl;  // start angle
-    (*m_ssBlock) << " 51" << endl;
-    (*m_ssBlock) << endAngle << endl;  // end angle
+    (*m_ssBlock) << " 50" << '\n';
+    (*m_ssBlock) << startAngle << '\n';  // start angle
+    (*m_ssBlock) << " 51" << '\n';
+    (*m_ssBlock) << endAngle << '\n';  // end angle
 
     putText(dimText,
             toVector3d(textMidPoint),
@@ -1761,8 +1761,8 @@ void CDxfWrite::writeBlocksSection()
     // write blocks content
     (*m_ofs) << (*m_ssBlock).str();
 
-    (*m_ofs) << "  0" << endl;
-    (*m_ofs) << "ENDSEC" << endl;
+    (*m_ofs) << "  0" << '\n';
+    (*m_ofs) << "ENDSEC" << '\n';
 }
 
 //***************************
@@ -1779,8 +1779,8 @@ void CDxfWrite::writeEntitiesSection()
     (*m_ofs) << (*m_ssEntity).str();
 
 
-    (*m_ofs) << "  0" << endl;
-    (*m_ofs) << "ENDSEC" << endl;
+    (*m_ofs) << "  0" << '\n';
+    (*m_ofs) << "ENDSEC" << '\n';
 }
 
 //***************************
