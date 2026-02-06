@@ -421,38 +421,17 @@ Application::Application(bool GUIenabled)
         // setting up Python binding
         Base::PyGILStateLocker lock;
 
-        PyDoc_STRVAR(
-            FreeCADGui_doc,
-            "The functions in the FreeCADGui module allow working with GUI documents,\n"
-            "view providers, views, workbenches and much more.\n\n"
-            "The FreeCADGui instance provides a list of references of GUI documents which\n"
-            "can be addressed by a string. These documents contain the view providers for\n"
-            "objects in the associated App document. An App and GUI document can be\n"
-            "accessed with the same name.\n\n"
-            "The FreeCADGui module also provides a set of functions to work with so called\n"
-            "workbenches.");
-
         // if this returns a valid pointer then the 'FreeCADGui' Python module was loaded,
         // otherwise the executable was launched
         PyObject* modules = PyImport_GetModuleDict();
         PyObject* module = PyDict_GetItemString(modules, "FreeCADGui");
         if (!module) {
-            static struct PyModuleDef FreeCADGuiModuleDef = {PyModuleDef_HEAD_INIT,
-                                                             "FreeCADGui",
-                                                             FreeCADGui_doc,
-                                                             -1,
-                                                             ApplicationPy::Methods,
-                                                             nullptr,
-                                                             nullptr,
-                                                             nullptr,
-                                                             nullptr};
-            module = PyModule_Create(&FreeCADGuiModuleDef);
-
+            module = ApplicationPy::createModule();
             PyDict_SetItemString(modules, "FreeCADGui", module);
         }
         else {
             // extend the method list
-            PyModule_AddFunctions(module, ApplicationPy::Methods);
+            ApplicationPy::addMethods(module);
         }
         Py::Module(module).setAttr(std::string("ActiveDocument"), Py::None());
         Py::Module(module).setAttr(std::string("HasQtBug_129596"),

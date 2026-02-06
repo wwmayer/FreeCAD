@@ -75,6 +75,34 @@
 
 
 using namespace Gui;
+PyDoc_STRVAR(
+    FreeCADGui_doc,
+    "The functions in the FreeCADGui module allow working with GUI documents,\n"
+    "view providers, views, workbenches and much more.\n\n"
+    "The FreeCADGui instance provides a list of references of GUI documents which\n"
+    "can be addressed by a string. These documents contain the view providers for\n"
+    "objects in the associated App document. An App and GUI document can be\n"
+    "accessed with the same name.\n\n"
+    "The FreeCADGui module also provides a set of functions to work with so called\n"
+    "workbenches."
+);
+
+PyObject* ApplicationPy::createModule()
+{
+    static struct PyModuleDef FreeCADGuiModuleDef = {
+        PyModuleDef_HEAD_INIT,
+        "FreeCADGui", FreeCADGui_doc, -1,
+        ApplicationPy::Methods,
+        nullptr, nullptr, nullptr, nullptr
+    };
+
+    return PyModule_Create(&FreeCADGuiModuleDef);
+}
+
+void ApplicationPy::addMethods(PyObject* module)
+{
+    PyModule_AddFunctions(module, ApplicationPy::Methods);
+}
 
 // Application methods structure
 PyMethodDef ApplicationPy::Methods[] = {
