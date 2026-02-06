@@ -99,6 +99,7 @@
 #include <Base/TypePy.h>
 #include <Base/UnitPy.h>
 #include <Base/UnitsApi.h>
+#include <Base/UnitsApiPy.h>
 #include <Base/VectorPy.h>
 
 #include "Annotation.h"
@@ -346,13 +347,7 @@ void Application::setupPythonTypes()
     PyModule_AddObject(pAppModule, "Qt", pTranslateModule);
 
     //insert Units module
-    static struct PyModuleDef UnitsModuleDef = {
-        PyModuleDef_HEAD_INIT,
-        "Units", "The Unit API", -1,
-        Base::UnitsApi::Methods,
-        nullptr, nullptr, nullptr, nullptr
-    };
-    PyObject* pUnitsModule = PyModule_Create(&UnitsModuleDef);
+    PyObject* pUnitsModule = Base::UnitsApiPy::createModule();
     Base::InterpreterSingleton::addType(&Base::QuantityPy  ::Type,pUnitsModule,"Quantity");
     // make sure to set the 'nb_true_divide' slot
     Base::InterpreterSingleton::addType(&Base::UnitPy      ::Type,pUnitsModule,"Unit");
