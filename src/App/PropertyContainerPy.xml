@@ -29,6 +29,14 @@ checkOwner : int
     2: return a tuple (owner, propertyValue).</UserDocu>
       </Documentation>
     </Methode>
+    <Methode Name="getPropertyNames" Const="true">
+      <Documentation>
+        <UserDocu>getPropertyNames() -> list
+
+Returns a list of property names.
+        </UserDocu>
+      </Documentation>
+    </Methode>
     <Methode Name="getPropertyTouchList">
       <Documentation>
         <UserDocu>getPropertyTouchList(name) -> tuple
