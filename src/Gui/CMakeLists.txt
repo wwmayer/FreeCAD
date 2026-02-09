@@ -370,6 +370,7 @@ SET(Gui_UIC_SRCS
     Dialogs/DlgPreferencePackManagement.ui
     Dialogs/DlgPreferences.ui
     Dialogs/DlgProjectInformation.ui
+    Dialogs/DlgProjectLicence.ui
     Dialogs/DlgProjectUtility.ui
     Dialogs/DlgPropertyLink.ui
     Dialogs/DlgRevertToBackupConfig.ui
@@ -486,6 +487,7 @@ SET(Dialog_CPP_SRCS
     Dialogs/DlgParameterFind.cpp
     Dialogs/DlgPreferencePackManagementImp.cpp
     Dialogs/DlgProjectInformationImp.cpp
+    Dialogs/DlgProjectLicence.cpp
     Dialogs/DlgProjectUtility.cpp
     Dialogs/DlgPropertyLink.cpp
     Dialogs/DlgRevertToBackupConfigImp.cpp
@@ -528,6 +530,7 @@ SET(Dialog_HPP_SRCS
     Dialogs/DlgParameterFind.h
     Dialogs/DlgPreferencePackManagementImp.h
     Dialogs/DlgProjectInformationImp.h
+    Dialogs/DlgProjectLicence.h
     Dialogs/DlgProjectUtility.h
     Dialogs/DlgPropertyLink.h
     Dialogs/DlgRevertToBackupConfigImp.h
@@ -574,6 +577,7 @@ SET(Dialog_SRCS
     Dialogs/DlgParameterFind.ui
     Dialogs/DlgPreferencePackManagement.ui
     Dialogs/DlgProjectInformation.ui
+    Dialogs/DlgProjectLicence.ui
     Dialogs/DlgProjectUtility.ui
     Dialogs/DlgPropertyLink.ui
     Dialogs/DlgRevertToBackupConfig.ui
