@@ -220,7 +220,12 @@ public:
     };
 
 private:
-    std::unordered_map<const char*, Object> parameters;
+    struct Hasher
+    {
+        std::size_t operator()(const char* s) const;
+        bool operator()(const char* a, const char* b) const;
+    };
+    std::unordered_map<const char*, Object, Hasher, Hasher> parameters;
     ParameterGrp::handle handle;
 
 protected:
