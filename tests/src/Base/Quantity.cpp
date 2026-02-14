@@ -248,6 +248,34 @@ TEST_F(Quantity, TestSchemeImperialOne)
     EXPECT_EQ(result, "0.0 in");
 }
 
+TEST_F(Quantity, TestSchemeImperialBuilding)
+{
+    double factor {};
+    std::string unitString;
+    std::string result;
+    Base::Quantity quantity;
+
+    auto scheme = Base::UnitsApi::createSchema(Base::UnitSystem::ImperialBuilding);
+
+    quantity = getLength(171.45);
+    result = scheme->schemaTranslate(quantity, factor, unitString);
+    EXPECT_EQ(result, "6\" + 3/4\"");
+}
+
+TEST_F(Quantity, TestSchemeImperialBuildingSafe)
+{
+    Base::Quantity quantity {getLength(171.45)};
+
+    auto oldScheme = Base::UnitsApi::getSchema();
+    Base::UnitsApi::setSchema(Base::UnitSystem::ImperialBuilding);
+    // ImperialBuilding creates a string 6" + 3/4" that cannot be parsed and
+    // getSafeUserString() falls back to internal unit system
+    std::string str = quantity.getSafeUserString();
+    Base::UnitsApi::setSchema(oldScheme);
+
+    EXPECT_EQ(str, "171.45 mm");
+}
+
 TEST_F(Quantity, TestSchemeMeterDecimal)
 {
     double factor {};

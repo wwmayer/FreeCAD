@@ -252,9 +252,14 @@ std::string Quantity::getSafeUserString() const
 {
     auto ret = getUserString();
     if (this->myValue != 0.0) {
-        auto feedbackQty = parse(ret);
-        auto feedbackVal = feedbackQty.getValue();
-        if (feedbackVal == 0) {
+        try {
+            auto feedbackQty = parse(ret);
+            auto feedbackVal = feedbackQty.getValue();
+            if (feedbackVal == 0) {
+                ret = fmt::format("{} {}", this->myValue, this->getUnit().getString());
+            }
+        }
+        catch (const Base::ParserError&) {
             ret = fmt::format("{} {}", this->myValue, this->getUnit().getString());
         }
     }
