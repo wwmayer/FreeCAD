@@ -2239,10 +2239,16 @@ QDialogButtonBox::StandardButtons TaskPrimitivesEdit::getStandardButtons() const
 
 bool TaskPrimitivesEdit::accept()
 {
-    widget->accept(location->toPlacement());
-    std::string document = getDocumentName(); // needed because resetEdit() deletes this instance
-    Gui::Command::doCommand(Gui::Command::Gui, "Gui.getDocument('%s').resetEdit()", document.c_str());
-    return true;
+    try {
+        widget->accept(location->toPlacement());
+        std::string document = getDocumentName(); // needed because resetEdit() deletes this instance
+        Gui::Command::doCommand(Gui::Command::Gui, "Gui.getDocument('%s').resetEdit()", document.c_str());
+        return true;
+    }
+    catch (const Base::Exception& e) {
+        QMessageBox::critical(widget, tr("Error"), QString::fromUtf8(e.what()));
+        return false;
+    }
 }
 
 bool TaskPrimitivesEdit::reject()
