@@ -840,6 +840,7 @@ MenuItem* StdWorkbench::setupMenuBar() const
           << "Std_ProjectUtil"
           << "Separator"
           << "Std_TextDocument"
+          << "Std_AnnotationLabel"
           << "Separator"
           << "Std_DemoMode"
           << "Std_UnitsCalculator"
