@@ -673,6 +673,7 @@ PropertyLinkT::PropertyLinkT(const std::vector<DocumentObject*>& objs)
         }
 
         str << "]";
+        toPython = str.str();
     }
 }
 
@@ -706,6 +707,7 @@ PropertyLinkT::PropertyLinkT(const std::vector<DocumentObject*>& objs,
         }
 
         str << "]";
+        toPython = str.str();
     }
 }
 
