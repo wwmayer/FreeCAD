@@ -82,7 +82,7 @@ void ViewProviderLine::attach(App::DocumentObject *obj)
         noRole = true;
     }
 
-    static const float size = App::GetApplication().GetParameterGroupByPath("User parameter:BaseApp/Preferences/View")->GetFloat("DatumLineSize", 70.0);
+    const float size = static_cast<float>(ViewParams::instance()->getDatumLineSize());
 
     auto line = getObject<App::Line>();
     Base::Vector3d dir = line->getBaseDirection();
