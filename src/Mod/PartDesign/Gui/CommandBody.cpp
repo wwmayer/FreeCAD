@@ -35,7 +35,7 @@
 #include <App/Part.h>
 #include <Base/Console.h>
 #include <Base/Tools.h>
-#include <Gui/Command.h>
+#include <Gui/CommandT.h>
 #include <Gui/Control.h>
 #include <Gui/Document.h>
 #include <Gui/Application.h>
@@ -45,6 +45,7 @@
 #include <Mod/PartDesign/App/Body.h>
 #include <Mod/PartDesign/App/FeatureBase.h>
 #include <Mod/PartDesign/App/FeatureSketchBased.h>
+#include <Mod/PartDesign/App/PartDesignParameter.h>
 
 #include "TaskFeaturePick.h"
 #include "Utils.h"
@@ -189,6 +190,7 @@ void CmdPartDesignBody::activated(int iMsg)
 
     std::string bodyName = getUniqueObjectName("Body");
     const char* bodyString = bodyName.c_str();
+    bool allowCompound = PartDesign::PartDesignParameter::instance()->getAllowCompoundDefault();
 
     // add the Body feature itself, and make it active
     doCommand(Doc,"App.activeDocument().addObject('PartDesign::Body','%s')", bodyString);
@@ -196,6 +198,7 @@ void CmdPartDesignBody::activated(int iMsg)
     std::string labelString = QObject::tr("Body").toUtf8().toStdString();
     labelString = Base::Tools::escapeEncodeString(labelString);
     doCommand(Doc,"App.ActiveDocument.getObject('%s').Label = '%s'", bodyString, labelString.c_str());
+    doCommand(Doc,"App.ActiveDocument.getObject('%s').AllowCompound = %s", bodyString, Gui::asString(allowCompound));
     if (baseFeature) {
         if (partOfBaseFeature){
             //withdraw base feature from Part, otherwise visibility madness results
@@ -465,15 +468,18 @@ void CmdPartDesignMigrate::activated(int iMsg)
 
         // Construct a Pretty Body name based on the Tip
         std::string bodyName = getUniqueObjectName (
-                std::string ( chainIt->back()->getNameInDocument() ).append ( "Body" ).c_str () ) ;
+                std::string(chainIt->back()->getNameInDocument()).append("Body").c_str());
+        bool allowCompound = PartDesign::PartDesignParameter::instance()->getAllowCompoundDefault();
 
         // Create a body for the chain
-        doCommand ( Doc,"App.activeDocument().addObject('PartDesign::Body','%s')", bodyName.c_str () );
-        doCommand ( Doc,"App.activeDocument().%s.addObject(App.ActiveDocument.%s)",
-                actPart->getNameInDocument (), bodyName.c_str () );
+        doCommand(Doc, "App.activeDocument().addObject('PartDesign::Body','%s')", bodyName.c_str());
+        doCommand(Doc, "App.ActiveDocument.getObject('%s').AllowCompound = %s", bodyName.c_str(),
+                  Gui::asString(allowCompound));
+        doCommand(Doc, "App.activeDocument().%s.addObject(App.ActiveDocument.%s)",
+                  actPart->getNameInDocument(), bodyName.c_str());
         if (base) {
-            doCommand ( Doc,"App.activeDocument().%s.BaseFeature = App.activeDocument().%s",
-                bodyName.c_str (), base->getNameInDocument () );
+            doCommand(Doc, "App.activeDocument().%s.BaseFeature = App.activeDocument().%s",
+                      bodyName.c_str(), base->getNameInDocument());
         }
 
         // Fill the body with features
