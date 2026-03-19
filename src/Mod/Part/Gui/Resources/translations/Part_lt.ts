@@ -4125,8 +4125,8 @@ during file reading (slower but higher details).</translation>
     </message>
     <message>
       <location filename="../../DlgSettingsGeneral.ui" line="127"/>
-      <source>Allow multiple solids in Part Design Body by default (experimental)</source>
-      <translation>Leisti Detalių kūrybos darbalaukyje įprastai kūnui turėti kelis pilnavidurius daiktus (bandomoji parinktis)</translation>
+      <source>Allow multiple solids in Part Design Body by default</source>
+      <translation>Leisti Detalių kūrybos darbalaukyje įprastai kūnui turėti kelis pilnavidurius daiktus</translation>
     </message>
   </context>
   <context>

@@ -4122,8 +4122,8 @@ tokom učitavanja datoteke (sporije, ali sa više detalja).</translation>
     </message>
     <message>
       <location filename="../../DlgSettingsGeneral.ui" line="127"/>
-      <source>Allow multiple solids in Part Design Body by default (experimental)</source>
-      <translation>Dozvoli nekoliko punih tela unutar jednog kontejnera Telo (eksperimentalno)</translation>
+      <source>Allow multiple solids in Part Design Body by default</source>
+      <translation>Dozvoli nekoliko punih tela unutar jednog kontejnera Telo</translation>
     </message>
   </context>
   <context>
