@@ -114,7 +114,7 @@ void AutoSaver::slotCreateDocument(const App::Document& Doc)
     as->timerId = id;
 
     if (!this->compressed) {
-        std::string dirName = Doc.TransientDir.getValue();
+        std::string dirName = Doc.TransientDir.getStrValue();
         dirName += "/fc_recovery_files";
         Base::FileInfo fi(dirName);
         fi.createDirectory();
@@ -197,7 +197,7 @@ void AutoSaver::saveDocument(const std::string& name, AutoSaveProperty& saver)
             }
             // only create the file if something has changed
             else if (!saver.touched.empty()) {
-                std::string fn = doc->TransientDir.getValue();
+                std::string fn = doc->TransientDir.getStrValue();
                 fn += "/fc_recovery_file.fcstd";
                 Base::FileInfo tmp(fn);
                 Base::ofstream file(tmp, std::ios::out | std::ios::binary);

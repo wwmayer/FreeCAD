@@ -38,6 +38,7 @@
 
 #include <Base/Console.h>
 #include <Base/Exception.h>
+#include <Base/FileInfo.h>
 #include <Base/Interpreter.h>
 #include <Base/ProgramVersion.h>
 #include <Base/Reader.h>
@@ -192,20 +193,23 @@ void PropertyPath::setValue(const std::filesystem::path& Path)
 {
     aboutToSetValue();
     _cValue = Path;
+    _path = Base::FileInfo::pathToString(Path);
     hasSetValue();
 }
 
 void PropertyPath::setValue(const char* Path)
 {
     aboutToSetValue();
-    _cValue = std::filesystem::path(Path);
+    _cValue = Base::FileInfo::stringToPath(Path);
+    _path = Path;
     hasSetValue();
 }
 
 void PropertyPath::setValue(const std::string& Path)
 {
     aboutToSetValue();
-    _cValue = std::filesystem::path(Path);
+    _cValue = Base::FileInfo::stringToPath(Path);
+    _path = Path;
     hasSetValue();
 }
 
@@ -216,12 +220,12 @@ const std::filesystem::path& PropertyPath::getValue() const
 
 std::string PropertyPath::getStrValue() const
 {
-    return _cValue.string();
+    return _path;
 }
 
 const char* PropertyPath::getCStrValue() const
 {
-    return _cValue.c_str();
+    return _path.c_str();
 }
 
 bool PropertyPath::isEmpty() const noexcept
@@ -231,11 +235,7 @@ bool PropertyPath::isEmpty() const noexcept
 
 PyObject* PropertyPath::getPyObject()
 {
-#if (BOOST_FILESYSTEM_VERSION == 2)
-    std::string str = _cValue.native_file_string();
-#else
-    std::string str = _cValue.string();
-#endif
+    std::string str = Base::FileInfo::pathToString(_cValue);
 
     // Returns a new reference, don't increment it!
     PyObject* p = PyUnicode_DecodeUTF8(str.c_str(), str.size(), nullptr);
@@ -258,13 +258,13 @@ void PropertyPath::setPyObject(PyObject* value)
     }
 
     // assign the path
-    setValue(path.c_str());
+    setValue(path);
 }
 
 
 void PropertyPath::Save(Base::Writer& writer) const
 {
-    std::string val = encodeAttribute(_cValue.string());
+    std::string val = encodeAttribute(Base::FileInfo::pathToString(_cValue));
     writer.Stream() << writer.ind() << "<Path value=\"" << val << "\"/>" << std::endl;
 }
 
@@ -280,6 +280,7 @@ Property* PropertyPath::Copy() const
 {
     PropertyPath* p = new PropertyPath();
     p->_cValue = _cValue;
+    p->_path = _path;
     return p;
 }
 
@@ -287,6 +288,7 @@ void PropertyPath::Paste(const Property& from)
 {
     aboutToSetValue();
     _cValue = dynamic_cast<const PropertyPath&>(from)._cValue;
+    _path = dynamic_cast<const PropertyPath&>(from)._path;
     hasSetValue();
 }
 

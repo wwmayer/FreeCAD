@@ -887,8 +887,8 @@ std::vector<Document*> Application::openDocuments(const std::vector<std::string>
                 // 'touched' object requires recomputation. And an object may
                 // become touched during restoring if externally linked
                 // document time stamp mismatches with the stamp saved.
-                _pendingDocs.emplace_back(doc->FileName.getValue());
-                _pendingDocMap.erase(doc->FileName.getValue());
+                _pendingDocs.emplace_back(doc->FileName.getStrValue());
+                _pendingDocMap.erase(doc->FileName.getStrValue());
             }
             FC_DURATION_PLUS(timing.d2,t1);
             seq.next();
@@ -962,7 +962,7 @@ Document* Application::openDocumentPrivate(const char * FileName,
                         for(auto obj2 : doc->getObjects()) {
                             objNames.emplace_back(obj2->getNameInDocument());
                         }
-                        _pendingDocMap[doc->FileName.getValue()] = objNames;
+                        _pendingDocMap[doc->FileName.getStrValue()] = objNames;
                         break;
                     }
                 }

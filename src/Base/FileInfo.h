@@ -63,6 +63,7 @@ public:
     /// Construction
     explicit FileInfo(const char* fileName = "");
     explicit FileInfo(const std::string& fileName);
+    explicit FileInfo(const std::filesystem::path& path);
     /// Set a new file name
     void setFile(const char* name);
     /// Set a new file name
