@@ -55,7 +55,7 @@
 
 void PrintInitHelp();
 
-const char sBanner[] =  "(C) 2001-2025 FreeCAD contributors\n"
+const char sBanner[] =  "(C) 2001-2026 FreeCAD contributors\n"
                         "FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.\n"\
                         "   ______              _____        _____   \n" \
                         "  |  ____|            / ____|  /\\  |  __ \\  \n" \

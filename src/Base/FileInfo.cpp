@@ -92,6 +92,11 @@ FileInfo::FileInfo(const std::string& fileName)
     setFile(fileName.c_str());
 }
 
+FileInfo::FileInfo(const std::filesystem::path& path)
+{
+    setFile(pathToString(path));
+}
+
 const std::string& FileInfo::getTempPath()
 {
     static std::string tempPath;

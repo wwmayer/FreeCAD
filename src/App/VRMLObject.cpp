@@ -185,7 +185,7 @@ void VRMLObject::SaveDocFile(Base::Writer& writer) const
         // saving the 'URLs' in RestoreDocFile() and then we have to
         // try again with the new transient directory.
         if (!fi.exists()) {
-            std::string path = getDocument()->TransientDir.getValue();
+            std::string path = getDocument()->TransientDir.getStrValue();
             url = Resources[this->indexSave];
             url = path + "/" + url;
             fi.setFile(url);
@@ -203,7 +203,7 @@ bool VRMLObject::restoreTextureFinished(Base::Reader& reader)
 {
     Base::StateLocker locker(restoreData, true);
     if (this->indexRestore < Resources.getSize()) {
-        std::string path = getDocument()->TransientDir.getValue();
+        std::string path = getDocument()->TransientDir.getStrValue();
         std::string url = Resources[this->indexRestore];
         std::string intname = this->getNameInDocument();
         url = fixRelativePath(intname, url);

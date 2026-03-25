@@ -80,7 +80,7 @@ std::string PropertyFileIncluded::getDocTransientPath() const
     std::string path;
     PropertyContainer* co = getContainer();
     if (co->isDerivedFrom<DocumentObject>()) {
-        path = static_cast<DocumentObject*>(co)->getDocument()->TransientDir.getValue();
+        path = static_cast<DocumentObject*>(co)->getDocument()->TransientDir.getStrValue();
         std::replace(path.begin(), path.end(), '\\', '/');
     }
     return path;

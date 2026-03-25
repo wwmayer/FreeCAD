@@ -1104,7 +1104,7 @@ void Document::Restore(Base::XMLReader& reader)
     // they will be overridden.
     // Note: This does not affect the internal name of the document in any way
     // that is kept in Application.
-    std::string FilePath = FileName.getValue();
+    std::string FilePath = FileName.getStrValue();
     std::string DocLabel = Label.getValue();
 
     // read the Document Properties, when reading in Uid the transient directory gets renamed
@@ -2557,7 +2557,7 @@ bool Document::afterRestore(const std::vector<DocumentObject*>& objArray, bool c
 
 bool Document::isSaved() const
 {
-    std::string name = FileName.getValue();
+    std::string name = FileName.getStrValue();
     return !name.empty();
 }
 
