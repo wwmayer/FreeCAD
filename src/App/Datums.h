@@ -249,6 +249,7 @@ private:
     {
         Base::Type type;
         const char* role = nullptr;
+        const char* name = nullptr;
         QString label;
         Base::Rotation rot;
     };
