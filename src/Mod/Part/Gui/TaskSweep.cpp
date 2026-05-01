@@ -326,6 +326,9 @@ bool SweepWidget::accept()
         frenet = QStringLiteral("False");
 
     QTextStream str(&list);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    str.setCodec("UTF-8");
+#endif
 
     int count = d->ui.selector->selectedTreeWidget()->topLevelItemCount();
     if (count < 1) {
@@ -344,7 +347,7 @@ bool SweepWidget::accept()
                 .arg(QString::fromStdString(spineLabel)));
             return false;
         }
-        str << "App.getDocument('" << d->document.c_str() << "')." << name << ", ";
+        str << "App.getDocument('" << QString::fromStdString(d->document) << "')." << name << ", ";
     }
 
     try {
