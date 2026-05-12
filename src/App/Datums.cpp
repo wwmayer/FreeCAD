@@ -160,10 +160,15 @@ App::DatumElement* LocalCoordinateSystem::getDatumElement(const char* role) cons
     if (featIt != features.end()) {
         return static_cast<App::DatumElement*>(*featIt);
     }
-    std::stringstream err;
-    err << "LocalCoordinateSystem \"" << getFullName() << "\" doesn't contain feature with role \""
-        << role << '"';
-    throw Base::RuntimeError(err.str().c_str());
+    // During restore, if role lookup fails (e.g. timing issues or fallback to internal name),
+    // we suppress the error. The default getSubObject will try to resolve it by Internal Name next.
+    if (getDocument() && !getDocument()->testStatus(App::Document::Restoring)) {
+        std::stringstream err;
+        err << "LocalCoordinateSystem \"" << getFullName() << "\" doesn't contain feature with role \""
+            << role << '"';
+        throw Base::RuntimeError(err.str().c_str());
+    }
+    return nullptr;
 }
 
 App::Line* LocalCoordinateSystem::getAxis(const char* role) const
@@ -243,13 +248,13 @@ const std::vector<LocalCoordinateSystem::SetupData>& LocalCoordinateSystem::getS
     using Base::numbers::pi;
     static const std::vector<SetupData> setupData = {
         // clang-format off
-        {App::Line::getClassTypeId(),  AxisRoles[0],  tr("X-axis"),   Base::Rotation()},
-        {App::Line::getClassTypeId(),  AxisRoles[1],  tr("Y-axis"),   Base::Rotation(Base::Vector3d(1, 1, 1), pi * 2 / 3)},
-        {App::Line::getClassTypeId(),  AxisRoles[2],  tr("Z-axis"),   Base::Rotation(Base::Vector3d(1,-1, 1), pi * 2 / 3)},
-        {App::Plane::getClassTypeId(), PlaneRoles[0], tr("XY-plane"), Base::Rotation()},
-        {App::Plane::getClassTypeId(), PlaneRoles[1], tr("XZ-plane"), Base::Rotation(1.0, 0.0, 0.0, 1.0)},
-        {App::Plane::getClassTypeId(), PlaneRoles[2], tr("YZ-plane"), Base::Rotation(Base::Vector3d(1, 1, 1), pi * 2 / 3)},
-        {App::Point::getClassTypeId(), PointRoles[0], tr("Origin"),   Base::Rotation()}
+        {App::Line::getClassTypeId(),  AxisRoles[0],  AxisRoles[0],   tr("X-axis"),       Base::Rotation()},
+        {App::Line::getClassTypeId(),  AxisRoles[1],  AxisRoles[1],   tr("Y-axis"),       Base::Rotation(Base::Vector3d(1, 1, 1), pi * 2 / 3)},
+        {App::Line::getClassTypeId(),  AxisRoles[2],  AxisRoles[2],   tr("Z-axis"),       Base::Rotation(Base::Vector3d(1,-1, 1), pi * 2 / 3)},
+        {App::Plane::getClassTypeId(), PlaneRoles[0], PlaneRoles[0],  tr("XY-plane"),     Base::Rotation()},
+        {App::Plane::getClassTypeId(), PlaneRoles[1], PlaneRoles[1],  tr("XZ-plane"),     Base::Rotation(1.0, 0.0, 0.0, 1.0)},
+        {App::Plane::getClassTypeId(), PlaneRoles[2], PlaneRoles[2],  tr("YZ-plane"),     Base::Rotation(Base::Vector3d(1, 1, 1), pi * 2 / 3)},
+        {App::Point::getClassTypeId(), PointRoles[0], "Origin_Point", tr("Origin point"), Base::Rotation()}
         // clang-format on
     };
     return setupData;
@@ -258,13 +263,15 @@ const std::vector<LocalCoordinateSystem::SetupData>& LocalCoordinateSystem::getS
 DatumElement* LocalCoordinateSystem::createDatum(const SetupData& data)
 {
     App::Document* doc = getDocument();
-    std::string objName = doc->getUniqueObjectName(data.role);
+    std::string objName = doc->getUniqueObjectName(data.name);
     App::DocumentObject* featureObj = doc->addObject(data.type.getName(), objName.c_str());
 
     assert(featureObj && featureObj->isDerivedFrom<App::DatumElement>());
 
-    QByteArray byteArray = data.label.toUtf8();
-    featureObj->Label.setValue(byteArray.constData());
+    std::string stdString = data.label.toStdString();
+    stdString = doc->makeUniqueLabel(stdString);
+    featureObj->Label.setValue(stdString);
+    doc->registerLabel(stdString);
 
     auto* feature = static_cast<App::DatumElement*>(featureObj);
     feature->Placement.setValue(Base::Placement(Base::Vector3d(), data.rot));

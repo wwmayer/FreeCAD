@@ -2,17 +2,24 @@
 #include <Base/FileInfo.h>
 #include <Base/Stream.h>
 #include <Base/TimeInfo.h>
+#include <Base/Uuid.h>
 
 class FileInfoTest: public ::testing::Test
 {
 protected:
     FileInfoTest()
     {
-        tmp.setFile(Base::FileInfo::getTempPath() + "fctest");
+        std::string dirname = "fctest_";
+        dirname.append(Base::Uuid::createUuid());
+        tmp.setFile(Base::FileInfo::getTempPath() + dirname);
         tmp.createDirectory();
 
         file.setFile(tmp.filePath() + "/test.txt");
         dir.setFile(tmp.filePath() + "/subdir");
+    }
+    ~FileInfoTest()
+    {
+        tmp.deleteDirectory();
     }
 
     void SetUp() override

@@ -90,6 +90,10 @@ public:
         return false;
     }
 
+    bool canDropObjects() const override {
+        return false;
+    }
+
     /// Returns default size. Use this if it is not possible to determine appropriate size by other means
     static double defaultSize();
 
@@ -111,6 +115,18 @@ private:
     SoGroup *pcGroupChildren;
 
     std::map<Gui::ViewProvider*, bool> tempVisMap;
+};
+
+// Keep for backward compatibility
+class GuiExport ViewProviderOrigin : public ViewProviderCoordinateSystem
+{
+    PROPERTY_HEADER_WITH_OVERRIDE(Gui::ViewProviderOrigin);
+
+public:
+    /// constructor.
+    ViewProviderOrigin() = default;
+    /// destructor.
+    ~ViewProviderOrigin() override = default;
 };
 
 } // namespace Gui
