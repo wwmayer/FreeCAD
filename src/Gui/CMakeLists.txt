@@ -414,6 +414,7 @@ SET(Gui_UIC_SRCS
     Dialogs/DlgObjectSelection.ui
     Dialogs/DlgAddProperty.ui
     Dialogs/DlgAddPropertyVarSet.ui
+    Dialogs/DlgAnnotation.ui
     VectorListEditor.ui
 )
 
@@ -506,6 +507,7 @@ SET(Dialog_CPP_SRCS
     Dialogs/DlgObjectSelection.cpp
     Dialogs/DlgAddProperty.cpp
     Dialogs/DlgAddPropertyVarSet.cpp
+    Dialogs/DlgAnnotation.cpp
     VectorListEditor.cpp
 )
 
@@ -547,6 +549,7 @@ SET(Dialog_HPP_SRCS
     Dialogs/DlgObjectSelection.h
     Dialogs/DlgAddProperty.h
     Dialogs/DlgAddPropertyVarSet.h
+    Dialogs/DlgAnnotation.h
     VectorListEditor.h
 )
 

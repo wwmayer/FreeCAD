@@ -42,7 +42,9 @@
 #include "Action.h"
 #include "BitmapFactory.h"
 #include "Command.h"
+#include "Control.h"
 #include "Dialogs/DlgAbout.h"
+#include "Dialogs/DlgAnnotation.h"
 #include "Dialogs/DlgCustomizeImp.h"
 #include "Dialogs/DlgParameterImp.h"
 #include "Dialogs/DlgPreferencesImp.h"
@@ -818,6 +820,36 @@ bool StdCmdTextDocument::isActive()
 }
 
 //===========================================================================
+// Std_AnnotationLabel
+//===========================================================================
+
+DEF_STD_CMD_A(StdCmdAnnotationLabel)
+
+StdCmdAnnotationLabel::StdCmdAnnotationLabel()
+    : Command("Std_AnnotationLabel")
+{
+    sGroup        = "Tools";
+    sMenuText     = QT_TR_NOOP("Add annotation...");
+    sToolTipText  = QT_TR_NOOP("Add annotation");
+    sWhatsThis    = "Std_AnnotationLabel";
+    sStatusTip    = QT_TR_NOOP("Add annotation");
+    sPixmap       = "Tree_Annotation";
+    eType         = 0;
+}
+
+void StdCmdAnnotationLabel::activated(int iMsg)
+{
+    Q_UNUSED(iMsg);
+    App::Document* doc = getActiveDocument();
+    Gui::Control().showDialog(new Gui::Dialog::TaskAnnotation(doc));
+}
+
+bool StdCmdAnnotationLabel::isActive()
+{
+    return hasActiveDocument() && !Gui::Control().activeDialog();
+}
+
+//===========================================================================
 // Std_UnitsCalculator
 //===========================================================================
 DEF_STD_CMD(StdCmdUnitsCalculator)
@@ -898,6 +930,7 @@ void CreateStdCommands()
     rcCmdMgr.addCommand(new StdCmdPythonWebsite());
     rcCmdMgr.addCommand(new StdCmdReportBug());
     rcCmdMgr.addCommand(new StdCmdTextDocument());
+    rcCmdMgr.addCommand(new StdCmdAnnotationLabel());
     rcCmdMgr.addCommand(new StdCmdUnitsCalculator());
     rcCmdMgr.addCommand(new StdCmdReloadStyleSheet());
     //rcCmdMgr.addCommand(new StdCmdDownloadOnlineHelp());
