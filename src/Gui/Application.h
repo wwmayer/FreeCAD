@@ -196,6 +196,9 @@ public:
     void hideViewProvider(const App::DocumentObject*);
     /// Get the view provider of the given object
     Gui::ViewProvider* getViewProvider(const App::DocumentObject*) const;
+    /// Get the view provider of the given object
+    template<typename T>
+    T* getViewProvider(const App::DocumentObject*) const;
     //@}
 
     /// true when the application shutting down
@@ -260,6 +263,13 @@ private:
 
     friend class ApplicationPy;
 };
+
+template<typename T>
+T* Application::getViewProvider(const App::DocumentObject* obj) const
+{
+    static_assert(std::is_base_of<ViewProvider, T>::value, "T must be derived from ViewProvider");
+    return Base::freecad_dynamic_cast<T>(getViewProvider(obj));
+}
 
 } //namespace Gui
 
