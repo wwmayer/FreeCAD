@@ -28,6 +28,10 @@
 #include <QDialog>
 #include <memory>
 
+namespace App {
+class GeoFeature;
+class Part;
+}
 namespace Gui {
 namespace Dialog {
 
@@ -49,6 +53,10 @@ protected:
 private:
     void ensureTransaction();
     void createAnnotation();
+    void addAnnotation(const QString& text);
+    App::Part* findContainer() const;
+    App::Part* findActivePart() const;
+    App::Part* findParentContainer(const App::GeoFeature* geo) const;
     struct Position
     {
         Base::Vector3d base;
