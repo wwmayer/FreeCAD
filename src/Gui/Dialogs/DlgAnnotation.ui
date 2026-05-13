@@ -14,18 +14,6 @@
    <string>Annotation</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
-   <item row="0" column="0" colspan="2">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Text</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="QPlainTextEdit" name="annotationText"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="1" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
@@ -111,24 +99,16 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="0" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Text</string>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>247</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="1">
-    <widget class="QPushButton" name="buttonCreate">
-     <property name="text">
-      <string>Create</string>
-     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QPlainTextEdit" name="annotationText"/>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
@@ -147,7 +127,6 @@
   <tabstop>checkBoxFrame</tabstop>
   <tabstop>fontComboBox</tabstop>
   <tabstop>fontSize</tabstop>
-  <tabstop>buttonCreate</tabstop>
  </tabstops>
  <resources/>
  <connections/>

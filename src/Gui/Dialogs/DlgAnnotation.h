@@ -28,6 +28,10 @@
 #include <QDialog>
 #include <memory>
 
+namespace App {
+class GeoFeature;
+class Part;
+}
 namespace Gui {
 namespace Dialog {
 
@@ -42,21 +46,34 @@ public:
     ~DlgAnnotation() override;
     void accept() override;
     void reject() override;
+    bool createAnnotation();
 
 protected:
     void changeEvent(QEvent* event) override;
 
 private:
     void ensureTransaction();
-    void createAnnotation();
+    void addAnnotation(const QString& text);
+    App::Part* findContainer() const;
+    App::Part* findActivePart() const;
+    App::Part* findParentContainer(const App::GeoFeature* geo) const;
     struct Position
     {
         Base::Vector3d base;
         Base::Vector3d text;
     };
     Position getPosition() const;
+    bool hasNewAnnotation() const
+    {
+        return newAnnotation;
+    }
+    void setNewAnnotation()
+    {
+        newAnnotation = true;
+    }
 
 private:
+    bool newAnnotation = false;
     std::unique_ptr<Ui_DlgAnnotation> ui;
     App::DocumentWeakPtrT document;
 };
@@ -72,9 +89,14 @@ public:
 public:
     bool accept() override;
     bool reject() override;
+    void clicked(int) override;
 
     QDialogButtonBox::StandardButtons getStandardButtons() const override
-    { return QDialogButtonBox::Ok | QDialogButtonBox::Cancel; }
+    {
+        return QDialogButtonBox::Ok |
+               QDialogButtonBox::Apply |
+               QDialogButtonBox::Cancel;
+    }
 
 private:
     DlgAnnotation* dialog;
