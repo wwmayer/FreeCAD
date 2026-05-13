@@ -33,10 +33,13 @@
 #include "ui_DlgAnnotation.h"
 #include <Base/Color.h>
 #include <App/Annotation.h>
+#include <App/Part.h>
 #include <App/Document.h>
 #include <App/GeoFeature.h>
+#include <App/GeoFeatureGroupExtension.h>
 #include <Gui/Application.h>
 #include <Gui/BitmapFactory.h>
+#include <Gui/MDIView.h>
 #include <Gui/ViewProviderAnnotation.h>
 #include <Gui/Selection/Selection.h>
 
@@ -54,11 +57,6 @@ DlgAnnotation::DlgAnnotation(App::Document* doc, QWidget* parent)
     QFont fn;
     ui->fontSize->setValue(fn.pointSizeF());
     ensureTransaction();
-
-    // clang-format off
-    connect(ui->buttonCreate, &QPushButton::clicked,
-            this, &DlgAnnotation::createAnnotation);
-    // clang-format on
 }
 
 DlgAnnotation::~DlgAnnotation() = default;
@@ -82,7 +80,7 @@ void DlgAnnotation::ensureTransaction()
     }
 }
 
-void DlgAnnotation::createAnnotation()
+bool DlgAnnotation::createAnnotation()
 {
     if (!document.expired()) {
         ensureTransaction();
@@ -92,29 +90,80 @@ void DlgAnnotation::createAnnotation()
             QMessageBox::warning(this, tr("No annotation"),
                                  tr("Please enter the annotation text, first."));
             ui->annotationText->setFocus();
-            return;
+            return false;
         }
 
-        auto obj = document->addObject<App::AnnotationLabel>("Annotation");
-        std::vector<std::string> lines;
-        boost::algorithm::split(lines, text.toStdString(), boost::is_any_of("\n"));
-        obj->LabelText.setValues(lines);
+        addAnnotation(text);
+        setNewAnnotation();
+        return true;
+    }
 
-        auto pos = getPosition();
-        obj->BasePosition.setValue(pos.base);
-        obj->TextPosition.setValue(pos.text);
+    return false;
+}
 
-        auto view = Gui::Application::Instance->getViewProvider<Gui::ViewProviderAnnotationLabel>(obj);
-        if (view) {
-            QColor fgColor = ui->textColor->color();
-            view->TextColor.setValue(Base::Color::fromValue<QColor>(fgColor));
-            QColor bgColor = ui->backgroundColor->color();
-            view->BackgroundColor.setValue(Base::Color::fromValue<QColor>(bgColor));
-            view->FontSize.setValue(ui->fontSize->value());
-            view->FontName.setValue(ui->fontComboBox->currentText().toStdString());
-            view->Frame.setValue(ui->checkBoxFrame->isChecked());
+void DlgAnnotation::addAnnotation(const QString& text)
+{
+    auto label = document->addObject<App::AnnotationLabel>("Annotation");
+    if (auto part = findContainer()) {
+        part->addObject(label);
+    }
+
+    std::vector<std::string> lines;
+    boost::algorithm::split(lines, text.toStdString(), boost::is_any_of("\n"));
+    label->LabelText.setValues(lines);
+
+    auto pos = getPosition();
+    label->BasePosition.setValue(pos.base);
+    label->TextPosition.setValue(pos.text);
+
+    auto view = Gui::Application::Instance->getViewProvider<Gui::ViewProviderAnnotationLabel>(label);
+    if (view) {
+        QColor fgColor = ui->textColor->color();
+        view->TextColor.setValue(Base::Color::fromValue<QColor>(fgColor));
+        QColor bgColor = ui->backgroundColor->color();
+        view->BackgroundColor.setValue(Base::Color::fromValue<QColor>(bgColor));
+        view->FontSize.setValue(ui->fontSize->value());
+        view->FontName.setValue(ui->fontComboBox->currentText().toStdString());
+        view->Frame.setValue(ui->checkBoxFrame->isChecked());
+    }
+}
+
+App::Part* DlgAnnotation::findContainer() const
+{
+    auto select = Gui::Selection().getSelectionEx();
+    if (!select.empty()) {
+        auto& selobj = select.front();
+        auto* obj = selobj.getObject();
+        // Is a Part container selected?
+        if (auto* part = Base::freecad_dynamic_cast<App::Part>(obj)) {
+            return part;
+        }
+
+        // Is the geometry inside a Part container?
+        if (auto* geo = Base::freecad_dynamic_cast<App::GeoFeature>(obj)) {
+            return findParentContainer(geo);
         }
     }
+
+    // Is there an active Part container?
+    if (auto* part = findActivePart()) {
+        return part;
+    }
+
+    // No suitable Part container found
+    return nullptr;
+}
+
+App::Part* DlgAnnotation::findActivePart() const
+{
+    const Gui::MDIView* view = Gui::Application::Instance->activeView();
+    return view ? view->getActiveObject<App::Part*>(PARTKEY) : nullptr;
+}
+
+App::Part* DlgAnnotation::findParentContainer(const App::GeoFeature* geo) const
+{
+    auto grp = App::GeoFeatureGroupExtension::getGroupOfObject(geo);
+    return Base::freecad_dynamic_cast<App::Part>(grp);
 }
 
 DlgAnnotation::Position DlgAnnotation::getPosition() const
@@ -150,6 +199,11 @@ DlgAnnotation::Position DlgAnnotation::getPosition() const
 void DlgAnnotation::accept()
 {
     if (!document.expired()) {
+        if (!hasNewAnnotation()) {
+            if (!createAnnotation()) {
+                return;
+            }
+        }
         document->commitTransaction();
     }
     QDialog::accept();
@@ -183,6 +237,13 @@ bool TaskAnnotation::reject()
 {
     dialog->reject();
     return (dialog->result() == QDialog::Rejected);
+}
+
+void TaskAnnotation::clicked(int button)
+{
+    if (QDialogButtonBox::Apply == button) {
+        dialog->createAnnotation();
+    }
 }
 
 #include "moc_DlgAnnotation.cpp"
