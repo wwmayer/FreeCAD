@@ -57,11 +57,6 @@ DlgAnnotation::DlgAnnotation(App::Document* doc, QWidget* parent)
     QFont fn;
     ui->fontSize->setValue(fn.pointSizeF());
     ensureTransaction();
-
-    // clang-format off
-    connect(ui->buttonCreate, &QPushButton::clicked,
-            this, &DlgAnnotation::createAnnotation);
-    // clang-format on
 }
 
 DlgAnnotation::~DlgAnnotation() = default;
@@ -85,7 +80,7 @@ void DlgAnnotation::ensureTransaction()
     }
 }
 
-void DlgAnnotation::createAnnotation()
+bool DlgAnnotation::createAnnotation()
 {
     if (!document.expired()) {
         ensureTransaction();
@@ -95,11 +90,15 @@ void DlgAnnotation::createAnnotation()
             QMessageBox::warning(this, tr("No annotation"),
                                  tr("Please enter the annotation text, first."));
             ui->annotationText->setFocus();
-            return;
+            return false;
         }
 
         addAnnotation(text);
+        setNewAnnotation();
+        return true;
     }
+
+    return false;
 }
 
 void DlgAnnotation::addAnnotation(const QString& text)
@@ -200,6 +199,11 @@ DlgAnnotation::Position DlgAnnotation::getPosition() const
 void DlgAnnotation::accept()
 {
     if (!document.expired()) {
+        if (!hasNewAnnotation()) {
+            if (!createAnnotation()) {
+                return;
+            }
+        }
         document->commitTransaction();
     }
     QDialog::accept();
@@ -233,6 +237,13 @@ bool TaskAnnotation::reject()
 {
     dialog->reject();
     return (dialog->result() == QDialog::Rejected);
+}
+
+void TaskAnnotation::clicked(int button)
+{
+    if (QDialogButtonBox::Apply == button) {
+        dialog->createAnnotation();
+    }
 }
 
 #include "moc_DlgAnnotation.cpp"
