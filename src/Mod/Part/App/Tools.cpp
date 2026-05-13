@@ -161,7 +161,7 @@ Part::Tools::makeSurface(const TColStd_ListOfTransient &theBoundaries,
             const Handle(Standard_Transient)& aCur = anIt.Value();
             if (aCur.IsNull()) {
                 assert (0);
-                Standard_ConstructionError::Raise ("Tools::makeSurface()");
+                throw Standard_ConstructionError("Tools::makeSurface()");
             }
 #if OCC_VERSION_HEX >= 0x070600
             else if (aCur->IsKind (STANDARD_TYPE (Adaptor3d_CurveOnSurface))) {
@@ -197,12 +197,12 @@ Part::Tools::makeSurface(const TColStd_ListOfTransient &theBoundaries,
                 aPlateBuilder.Add(aConst);
             }
             else {
-                Standard_TypeMismatch::Raise ("Tools::makeSurface()");
+                throw Standard_TypeMismatch("Tools::makeSurface()");
             }
         }
     }
     else {
-        Standard_ConstructionError::Raise ("Tools::makeSurface()");
+        throw Standard_ConstructionError("Tools::makeSurface()");
     }
 
     //construct

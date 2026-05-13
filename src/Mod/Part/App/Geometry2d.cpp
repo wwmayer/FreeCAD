@@ -467,9 +467,9 @@ void Geom2dBSplineCurve::interpolate(const std::vector<gp_Pnt2d>& p,
                                      const std::vector<gp_Vec2d>& t)
 {
     if (p.size() < 2)
-        Standard_ConstructionError::Raise();
+        throw Standard_ConstructionError();
     if (p.size() != t.size())
-        Standard_ConstructionError::Raise();
+        throw Standard_ConstructionError();
 
     double tol3d = Precision::Approximation();
     Handle(TColgp_HArray1OfPnt2d) pts = new TColgp_HArray1OfPnt2d(1, p.size());
@@ -496,9 +496,9 @@ void Geom2dBSplineCurve::getCardinalSplineTangents(const std::vector<gp_Pnt2d>& 
 {
     // https://de.wikipedia.org/wiki/Kubisch_Hermitescher_Spline#Cardinal_Spline
     if (p.size() < 2)
-        Standard_ConstructionError::Raise();
+        throw Standard_ConstructionError();
     if (p.size() != c.size())
-        Standard_ConstructionError::Raise();
+        throw Standard_ConstructionError();
 
     t.resize(p.size());
     if (p.size() == 2) {
@@ -525,7 +525,7 @@ void Geom2dBSplineCurve::getCardinalSplineTangents(const std::vector<gp_Pnt2d>& 
 {
     // https://de.wikipedia.org/wiki/Kubisch_Hermitescher_Spline#Cardinal_Spline
     if (p.size() < 2)
-        Standard_ConstructionError::Raise();
+        throw Standard_ConstructionError();
 
     t.resize(p.size());
     if (p.size() == 2) {
@@ -554,8 +554,7 @@ void Geom2dBSplineCurve::makeC1Continuous(double tol)
 
 std::list<Geometry2d*> Geom2dBSplineCurve::toBiArcs(double /*tolerance*/) const
 {
-    Standard_Failure::Raise("Not yet implemented");
-    return {};
+    throw Standard_Failure("Not yet implemented");
 }
 
 unsigned int Geom2dBSplineCurve::getMemSize() const
@@ -949,7 +948,7 @@ void Geom2dArcOfCircle::setHandle(const Handle(Geom2d_TrimmedCurve)& c)
 {
     Handle(Geom2d_Circle) basis = Handle(Geom2d_Circle)::DownCast(c->BasisCurve());
     if (basis.IsNull())
-        Standard_Failure::Raise("Basis curve is not a circle");
+        throw Standard_Failure("Basis curve is not a circle");
     this->myCurve = Handle(Geom2d_TrimmedCurve)::DownCast(c->Copy());
 }
 
@@ -1228,7 +1227,7 @@ void Geom2dArcOfEllipse::setHandle(const Handle(Geom2d_TrimmedCurve)& c)
 {
     Handle(Geom2d_Ellipse) basis = Handle(Geom2d_Ellipse)::DownCast(c->BasisCurve());
     if (basis.IsNull())
-        Standard_Failure::Raise("Basis curve is not an ellipse");
+        throw Standard_Failure("Basis curve is not an ellipse");
     this->myCurve = Handle(Geom2d_TrimmedCurve)::DownCast(c->Copy());
 }
 
@@ -1525,7 +1524,7 @@ void Geom2dArcOfHyperbola::setHandle(const Handle(Geom2d_TrimmedCurve)& c)
 {
     Handle(Geom2d_Hyperbola) basis = Handle(Geom2d_Hyperbola)::DownCast(c->BasisCurve());
     if (basis.IsNull())
-        Standard_Failure::Raise("Basis curve is not an hyperbola");
+        throw Standard_Failure("Basis curve is not an hyperbola");
     this->myCurve = Handle(Geom2d_TrimmedCurve)::DownCast(c->Copy());
 }
 
@@ -1764,7 +1763,7 @@ void Geom2dArcOfParabola::setHandle(const Handle(Geom2d_TrimmedCurve)& c)
 {
     Handle(Geom2d_Parabola) basis = Handle(Geom2d_Parabola)::DownCast(c->BasisCurve());
     if (basis.IsNull())
-        Standard_Failure::Raise("Basis curve is not a parabola");
+        throw Standard_Failure("Basis curve is not a parabola");
     this->myCurve = Handle(Geom2d_TrimmedCurve)::DownCast(c->Copy());
 }
 
@@ -1989,7 +1988,7 @@ void Geom2dLineSegment::setHandle(const Handle(Geom2d_TrimmedCurve)& c)
 {
     Handle(Geom2d_Line) basis = Handle(Geom2d_Line)::DownCast(c->BasisCurve());
     if (basis.IsNull())
-        Standard_Failure::Raise("Basis curve is not a line");
+        throw Standard_Failure("Basis curve is not a line");
     this->myCurve = Handle(Geom2d_TrimmedCurve)::DownCast(c->Copy());
 }
 
@@ -2027,7 +2026,7 @@ void Geom2dLineSegment::setPoints(const Base::Vector2d& Start, const Base::Vecto
     try {
         // Create line out of two points
         if (p1.Distance(p2) < gp::Resolution())
-            Standard_Failure::Raise("Both points are equal");
+            throw Standard_Failure("Both points are equal");
         GCE2d_MakeSegment ms(p1, p2);
         if (!ms.IsDone()) {
             throw Base::CADKernelError(gce_ErrorStatusText(ms.Status()));

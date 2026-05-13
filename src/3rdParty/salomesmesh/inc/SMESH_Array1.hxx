@@ -108,12 +108,12 @@ template <class TheItemType> class SMESH_Array1
   {
 #if !defined No_Exception && !defined No_Standard_RangeError
     if (theUpper < theLower)
-      Standard_RangeError::Raise ("SMESH_Array1::Create");
+      throw Standard_RangeError ("SMESH_Array1::Create");
 #endif
     TheItemType* pBegin = new TheItemType[Length()];
 #if !defined No_Exception && !defined No_Standard_OutOfMemory
     if (!pBegin)
-      Standard_OutOfMemory::Raise ("SMESH_Array1 : Allocation failed");
+      throw Standard_OutOfMemory ("SMESH_Array1 : Allocation failed");
 #endif
 
     myData = pBegin - theLower;
@@ -129,7 +129,7 @@ template <class TheItemType> class SMESH_Array1
     TheItemType* pBegin = new TheItemType[Length()];
 #if !defined No_Exception && !defined No_Standard_OutOfMemory
     if (!pBegin)
-      Standard_OutOfMemory::Raise ("SMESH_Array1 : Allocation failed");
+      throw Standard_OutOfMemory ("SMESH_Array1 : Allocation failed");
 #endif
     myData = pBegin - myLowerBound;
 
@@ -147,7 +147,7 @@ template <class TheItemType> class SMESH_Array1
   {
 #if !defined No_Exception && !defined No_Standard_RangeError
     if (theUpper < theLower)
-      Standard_RangeError::Raise ("SMESH_Array1::Array1");
+      throw Standard_RangeError ("SMESH_Array1::Array1");
 #endif
     myData = (TheItemType *) &theBegin - theLower; 
   }
@@ -191,7 +191,7 @@ template <class TheItemType> class SMESH_Array1
       return;
 #if !defined No_Exception && !defined No_Standard_DimensionMismatch
     if (Length() != theOther.Size())
-      Standard_DimensionMismatch::Raise ("SMESH_Array1::Assign");
+      throw Standard_DimensionMismatch ("SMESH_Array1::Assign");
 #endif
     TYPENAME NCollection_BaseCollection<TheItemType>::Iterator& anIter2 = 
       theOther.CreateIterator();
@@ -208,7 +208,7 @@ template <class TheItemType> class SMESH_Array1
       return *this;
 #if !defined No_Exception && !defined No_Standard_DimensionMismatch
     if (Length() != theOther.Length())
-      Standard_DimensionMismatch::Raise ("SMESH_Array1::operator=");
+      throw Standard_DimensionMismatch ("SMESH_Array1::operator=");
 #endif
     TheItemType * pMyItem        = &myData[myLowerBound];
     TheItemType * const pEndItem = &(theOther.myData)[theOther.myUpperBound];
@@ -222,7 +222,7 @@ template <class TheItemType> class SMESH_Array1
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theIndex < myLowerBound || theIndex > myUpperBound)
-      Standard_OutOfRange::Raise ("SMESH_Array1::Value");
+      throw Standard_OutOfRange ("SMESH_Array1::Value");
 #endif
     return myData[theIndex];
   }
@@ -236,7 +236,7 @@ template <class TheItemType> class SMESH_Array1
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theIndex < myLowerBound || theIndex > myUpperBound)
-      Standard_OutOfRange::Raise ("SMESH_Array1::ChangeValue");
+      throw Standard_OutOfRange ("SMESH_Array1::ChangeValue");
 #endif
     return myData[theIndex];
   }
@@ -251,7 +251,7 @@ template <class TheItemType> class SMESH_Array1
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theIndex < myLowerBound || theIndex > myUpperBound)
-      Standard_OutOfRange::Raise ("SMESH_Array1::SetValue");
+      throw Standard_OutOfRange ("SMESH_Array1::SetValue");
 #endif
     myData[theIndex] = theItem;
   }

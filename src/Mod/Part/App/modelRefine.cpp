@@ -63,7 +63,6 @@
 # include <TopExp_Explorer.hxx>
 # include <TopTools_DataMapIteratorOfDataMapOfIntegerListOfShape.hxx>
 # include <TopTools_DataMapIteratorOfDataMapOfShapeShape.hxx>
-# include <TopTools_ListIteratorOfListOfShape.hxx>
 # include <TopTools_ListOfShape.hxx>
 #endif // _PreComp_
 
@@ -1239,7 +1238,7 @@ void Part::BRepBuilderAPI_RefineModel::Build()
 #endif
 {
     if (myShape.IsNull())
-        Standard_Failure::Raise("Cannot remove splitter from empty shape");
+        throw Standard_Failure("Cannot remove splitter from empty shape");
 
     if (myShape.ShapeType() == TopAbs_SOLID) {
         const TopoDS_Solid &solid = TopoDS::Solid(myShape);
@@ -1259,7 +1258,7 @@ void Part::BRepBuilderAPI_RefineModel::Build()
                 }
             }
             else {
-                Standard_Failure::Raise("Removing splitter failed");
+                throw Standard_Failure("Removing splitter failed");
             }
         }
         myShape = mkSolid.Solid();
@@ -1273,7 +1272,7 @@ void Part::BRepBuilderAPI_RefineModel::Build()
             LogModifications(uniter);
         }
         else {
-            Standard_Failure::Raise("Removing splitter failed");
+            throw Standard_Failure("Removing splitter failed");
         }
     }
     else if (myShape.ShapeType() == TopAbs_COMPOUND) {

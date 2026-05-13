@@ -106,7 +106,7 @@ std::vector<Handle(Geom_BSplineCurve)> getCurves(const App::PropertyLinkSubList&
                         ShapeConstruct_Curve scc;
                         bspline = scc.ConvertToBSpline(c_geom, u1, u2, Precision::Confusion());
                         if (bspline.IsNull()) {
-                            Standard_Failure::Raise(
+                            throw Standard_Failure(
                                 "A curve was not a B-spline and could not be converted into one.");
                         }                  
                     }
@@ -115,7 +115,7 @@ std::vector<Handle(Geom_BSplineCurve)> getCurves(const App::PropertyLinkSubList&
                 curves.emplace_back(bspline);
             }
             else {
-                Standard_Failure::Raise("Sub-shape is not an edge");
+                throw Standard_Failure("Sub-shape is not an edge");
             }
         }
     }

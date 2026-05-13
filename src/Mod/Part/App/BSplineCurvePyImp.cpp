@@ -297,8 +297,7 @@ PyObject* BSplineCurvePy::segment(PyObject * args)
         tempCurve->Segment(u1, u2);
         if (std::abs(tempCurve->FirstParameter()-u1) > Precision::Approximation() ||
             std::abs(tempCurve->LastParameter()-u2) > Precision::Approximation()) {
-            Standard_Failure::Raise("Failed to segment BSpline curve");
-            return nullptr;
+            throw Standard_Failure("Failed to segment BSpline curve");
         }
         else {
             curve->Segment(u1, u2);
@@ -878,7 +877,7 @@ PyObject* BSplineCurvePy::approximate(PyObject *args, PyObject *kwds)
         }
 
         if (degMin > degMax) {
-            Standard_Failure::Raise("DegMin must be lower or equal to DegMax");
+            throw Standard_Failure("DegMin must be lower or equal to DegMax");
         }
 
         GeomAbs_Shape c;
@@ -909,8 +908,7 @@ PyObject* BSplineCurvePy::approximate(PyObject *args, PyObject *kwds)
                 Py_Return;
             }
             else {
-                Standard_Failure::Raise("Smoothing approximation failed");
-                return nullptr; // goes to the catch block
+                throw Standard_Failure("Smoothing approximation failed");
             }
         }
 
@@ -930,8 +928,7 @@ PyObject* BSplineCurvePy::approximate(PyObject *args, PyObject *kwds)
                 Py_Return;
             }
             else {
-                Standard_Failure::Raise("Approximation with parameters failed");
-                return nullptr; // goes to the catch block
+                throw Standard_Failure("Approximation with parameters failed");
             }
         }
 
@@ -951,8 +948,7 @@ PyObject* BSplineCurvePy::approximate(PyObject *args, PyObject *kwds)
             Py_Return;
         }
         else {
-            Standard_Failure::Raise("failed to approximate points");
-            return nullptr; // goes to the catch block
+            throw Standard_Failure("failed to approximate points");
         }
     }
     catch (Standard_Failure& e) {
@@ -1060,7 +1056,7 @@ PyObject* BSplineCurvePy::interpolate(PyObject *args, PyObject *kwds)
         }
 
         if (points.size() < 2) {
-            Standard_Failure::Raise("not enough points given");
+            throw Standard_Failure("not enough points given");
         }
 
         interpolate.setPoints(points);
@@ -1168,8 +1164,7 @@ PyObject* BSplineCurvePy::buildFromPoles(PyObject *args)
                 Py_Return;
             }
             else {
-                Standard_Failure::Raise("failed to create spline");
-                return nullptr; // goes to the catch block
+                throw Standard_Failure("failed to create spline");
             }
         }
         else {
@@ -1188,8 +1183,7 @@ PyObject* BSplineCurvePy::buildFromPoles(PyObject *args)
                 Py_Return;
             }
             else {
-                Standard_Failure::Raise("failed to create spline");
-                return nullptr; // goes to the catch block
+                throw Standard_Failure("failed to create spline");
             }
         }
     }
@@ -1226,8 +1220,7 @@ PyObject* BSplineCurvePy::buildFromPolesMultsKnots(PyObject *args, PyObject *key
 
         number_of_poles = list.size();
         if ((number_of_poles) < 2) {
-            Standard_Failure::Raise("need two or more poles");
-            return nullptr;
+            throw Standard_Failure("need two or more poles");
         }
         TColgp_Array1OfPnt occpoles(1, number_of_poles);
         Standard_Integer index = 1;
@@ -1240,8 +1233,7 @@ PyObject* BSplineCurvePy::buildFromPolesMultsKnots(PyObject *args, PyObject *key
         if (mults != Py_None && knots != Py_None) {
             number_of_knots = PyObject_Length(mults);
             if (PyObject_Length(knots) != number_of_knots) {
-                Standard_Failure::Raise("number of knots and mults mismatch");
-                return nullptr;
+                throw Standard_Failure("number of knots and mults mismatch");
             }
         }
         else {
@@ -1292,7 +1284,7 @@ PyObject* BSplineCurvePy::buildFromPolesMultsKnots(PyObject *args, PyObject *key
         // check multiplicity of inner knots
         for (Standard_Integer i=2; i < occmults.Length(); i++) {
             if (occmults(i) > degree) {
-                Standard_Failure::Raise("multiplicity of inner knot higher than degree");
+                throw Standard_Failure("multiplicity of inner knot higher than degree");
             }
         }
         if (knots != Py_None) { //knots are given
@@ -1310,8 +1302,7 @@ PyObject* BSplineCurvePy::buildFromPolesMultsKnots(PyObject *args, PyObject *key
         }
         if (weights != Py_None) { //weights are given
             if (PyObject_Length(weights) != number_of_poles) {
-                Standard_Failure::Raise("number of poles and weights mismatch");
-                return nullptr;
+                throw Standard_Failure("number of poles and weights mismatch");
             } //complain about mismatch
             Py::Sequence weightssq(weights);
             Standard_Integer index = 1;
@@ -1328,8 +1319,7 @@ PyObject* BSplineCurvePy::buildFromPolesMultsKnots(PyObject *args, PyObject *key
         // check if the number of poles matches the sum of mults
         if ((Base::asBoolean(periodic) && sum_of_mults != number_of_poles) ||
             (!Base::asBoolean(periodic) && sum_of_mults - degree -1 != number_of_poles)) {
-            Standard_Failure::Raise("number of poles and sum of mults mismatch");
-            return(nullptr);
+            throw Standard_Failure("number of poles and sum of mults mismatch");
         }
 
         Handle(Geom_BSplineCurve) spline = new Geom_BSplineCurve(occpoles,occweights,occknots,occmults,degree,
@@ -1339,8 +1329,7 @@ PyObject* BSplineCurvePy::buildFromPolesMultsKnots(PyObject *args, PyObject *key
             Py_Return;
         }
         else {
-            Standard_Failure::Raise("failed to create spline");
-            return nullptr; // goes to the catch block
+            throw Standard_Failure("failed to create spline");
         }
     }
     catch (const Standard_Failure& e) {
@@ -1426,7 +1415,7 @@ PyObject* BSplineCurvePy::scaleKnotsToBounds(PyObject *args)
         return nullptr;
     try {
         if (u0 >= u1) {
-            Standard_Failure::Raise("Bad parameter range");
+            throw Standard_Failure("Bad parameter range");
             return nullptr;
         }
         GeomBSplineCurve* curve = getGeomBSplineCurvePtr();

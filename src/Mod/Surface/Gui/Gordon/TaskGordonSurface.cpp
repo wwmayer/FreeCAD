@@ -33,7 +33,7 @@
 #include <TopExp.hxx>
 #include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
 #include <TopTools_IndexedMapOfShape.hxx>
-#include <TopTools_ListIteratorOfListOfShape.hxx>
+#include <TopTools_ListOfShape.hxx>
 #endif
 
 #include <App/Document.h>
@@ -64,7 +64,8 @@ class GordonSurfacePanel::ShapeSelection: public Gui::SelectionFilterGate
 public:
     FC_DISABLE_COPY_MOVE(ShapeSelection)
     ShapeSelection(GordonSurfacePanel::SelectionMode& mode,
-                   GordonSurfacePanel::SelectionType& selectionType, Surface::GordonSurface* editedObject)
+                   GordonSurfacePanel::SelectionType& selectionType,
+                   Surface::GordonSurface* editedObject)
         : Gui::SelectionFilterGate(nullPointer())
         , mode(mode)
         , selectionType(selectionType)
@@ -93,9 +94,9 @@ public:
             return false;
         }
 
-        switch (mode) {            
+        switch (mode) {
             case GordonSurfacePanel::AppendEdge:
-                return selectionType == Guide 
+                return selectionType == Guide
                     ? allowEdge(true, editedObject->GuideEdges, pObj, sSubName)
                     : allowEdge(true, editedObject->ProfileEdges, pObj, sSubName);
             case GordonSurfacePanel::RemoveEdge:
@@ -107,8 +108,11 @@ public:
         }
     }
 
-private:   
-    bool allowEdge(bool appendEdges, const App::PropertyLinkSubList& edges, App::DocumentObject* pObj, const char* sSubName)
+private:
+    bool allowEdge(bool appendEdges,
+                   const App::PropertyLinkSubList& edges,
+                   App::DocumentObject* pObj,
+                   const char* sSubName)
     {
         std::string element(sSubName);
         if (element.substr(0, 4) != "Edge") {
@@ -116,7 +120,7 @@ private:
         }
 
         auto links = edges.getSubListValues();
-        
+
         for (const auto& it : links) {
             if (it.first == pObj) {
                 for (const auto& jt : it.second) {
@@ -139,16 +143,16 @@ private:
 // ----------------------------------------------------------------------------
 
 GordonSurfacePanel::GordonSurfacePanel(ViewProviderGordonSurface* vp, Surface::GordonSurface* obj)
-    : selectionMode{None}
-    , selectionType{Profile}
-    , editedObject{obj}
-    , checkCommand{true}
-    , ui{new Ui_TaskGordonSurface()}
-    , vp{vp}
+    : selectionMode {None}
+    , selectionType {Profile}
+    , editedObject {obj}
+    , checkCommand {true}
+    , ui {new Ui_TaskGordonSurface()}
+    , vp {vp}
 {
     ui->setupUi(this);
     setupConnections();
-    //ui->statusLabel->clear();
+    // ui->statusLabel->clear();
 
     setEditedObject(obj);
 
@@ -429,7 +433,8 @@ void GordonSurfacePanel::onButtonGuideRemoveToggled(bool checked)
     }
 }
 
-void GordonSurfacePanel::appendEdges(const Gui::SelectionChanges& msg, QListWidget* list,
+void GordonSurfacePanel::appendEdges(const Gui::SelectionChanges& msg,
+                                     QListWidget* list,
                                      App::PropertyLinkSubList& edges)
 {
     QListWidgetItem* item = new QListWidgetItem(list);
@@ -521,7 +526,7 @@ void GordonSurfacePanel::onSelectionChanged(const Gui::SelectionChanges& msg)
             }
         }
 
-        //editedObject->recomputeFeature();
+        // editedObject->recomputeFeature();
         QTimer::singleShot(50, this, &GordonSurfacePanel::clearSelection);
     }
 }
@@ -555,7 +560,7 @@ void GordonSurfacePanel::onDeleteProfile()
         }
         this->vp->highlightReferences(editedObject->ProfileEdges.getSubListValues(), true);
 
-        //editedObject->recomputeFeature();
+        // editedObject->recomputeFeature();
     }
 }
 
@@ -588,7 +593,7 @@ void GordonSurfacePanel::onDeleteGuide()
         }
         this->vp->highlightReferences(editedObject->GuideEdges.getSubListValues(), true);
 
-        //editedObject->recomputeFeature();
+        // editedObject->recomputeFeature();
     }
 }
 
@@ -617,7 +622,7 @@ void GordonSurfacePanel::onProfileIndexesMoved()
     }
 
     editedObject->ProfileEdges.setValues(objects, element);
-    //editedObject->recomputeFeature();
+    // editedObject->recomputeFeature();
 }
 
 void GordonSurfacePanel::onGuideIndexesMoved()
@@ -645,7 +650,7 @@ void GordonSurfacePanel::onGuideIndexesMoved()
     }
 
     editedObject->GuideEdges.setValues(objects, element);
-    //editedObject->recomputeFeature();
+    // editedObject->recomputeFeature();
 }
 
 void GordonSurfacePanel::onToleranceChanged(double tolerance)
@@ -671,7 +676,7 @@ TaskGordonSurface::TaskGordonSurface(ViewProviderGordonSurface* vp, Surface::Gor
     // first task box
     widget = new GordonSurfacePanel(vp, obj);
     widget->appendButtons(buttonGroup);
-    addTaskBox(Gui::BitmapFactory().pixmap("Surface_GordonSurface"), widget);    
+    addTaskBox(Gui::BitmapFactory().pixmap("Surface_GordonSurface"), widget);
 }
 
 void TaskGordonSurface::setEditedObject(Surface::GordonSurface* obj)
