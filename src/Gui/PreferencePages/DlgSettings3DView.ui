@@ -213,6 +213,22 @@ report this setting as enabled when seeking support on the FreeCAD forums</strin
        </widget>
       </item>
       <item>
+       <widget class="Gui::PrefCheckBox" name="CheckBox_use_select_shading">
+        <property name="text">
+         <string>Use shading for highlighting or selection</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+        <property name="prefEntry" stdset="0">
+         <cstring>UseSelectionShading</cstring>
+        </property>
+        <property name="prefPath" stdset="0">
+         <cstring>View</cstring>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QGridLayout" name="gridLayout">
         <item row="1" column="1">
          <widget class="QComboBox" name="comboAliasing">
