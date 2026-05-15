@@ -1371,7 +1371,7 @@ SET(FreeCADGui_SRCS
     ${Dock_Windows_SRCS}
     ${Editor_SRCS}
     ${Help_SRCS}
-    ${Inventor_CPP_SRCS}
+    ${Inventor_SRCS}
     ${Language_SRCS}
     ${Propertyeditor_SRCS}
     ${Task_View_SRCS}

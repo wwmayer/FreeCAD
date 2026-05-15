@@ -457,6 +457,8 @@ public:
     NaviCube* getNaviCube() const;
     void setEnabledVBO(bool on);
     bool isEnabledVBO() const;
+    void setEnabledSelectionShading(bool on);
+    bool isEnabledSelectionShading() const;
     void setRenderCache(int);
 
     void getDimensions(float& fHeight, float& fWidth) const;
@@ -559,6 +561,7 @@ private:
     //stuff needed to draw the fps counter
     bool fpsEnabled;
     bool vboEnabled;
+    bool shadingEnabled;
     bool naviCubeEnabled;
 
     bool editing;
