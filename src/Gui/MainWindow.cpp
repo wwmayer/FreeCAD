@@ -1034,7 +1034,7 @@ bool MainWindow::event(QEvent *e)
             return true;
         ParameterGrp::handle group = App::GetApplication().GetUserParameter().GetGroup("BaseApp")->
                 GetGroup("Spaceball")->GetGroup("Buttons");
-        QByteArray groupName(QVariant(buttonEvent->buttonNumber()).toByteArray());
+        QByteArray groupName(QByteArray::number(buttonEvent->buttonNumber()));
         if (group->HasGroup(groupName.data())) {
             ParameterGrp::handle commandGroup = group->GetGroup(groupName.data());
             std::string commandName(commandGroup->GetASCII("Command"));
