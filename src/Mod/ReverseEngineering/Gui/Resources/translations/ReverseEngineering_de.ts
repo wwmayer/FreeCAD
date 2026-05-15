@@ -29,7 +29,7 @@
     <message>
       <location filename="../../Command.cpp" line="141"/>
       <source>Plane</source>
-      <translation>Fläche</translation>
+      <translation>Ebene</translation>
     </message>
     <message>
       <location filename="../../Command.cpp" line="142"/>
@@ -586,6 +586,26 @@
       <source>Reverse Engineering</source>
       <translation>Rückführung</translation>
     </message>
+    <message>
+      <location filename="../../Workbench.cpp" line="35"/>
+      <source>&amp;Reverse Engineering</source>
+      <translation>&amp;Rückführung</translation>
+    </message>
+    <message>
+      <location filename="../../Workbench.cpp" line="36"/>
+      <source>Surface reconstruction</source>
+      <translation>Flächenrekonstruktion</translation>
+    </message>
+    <message>
+      <location filename="../../Workbench.cpp" line="37"/>
+      <source>Segmentation</source>
+      <translation>Segmentierung</translation>
+    </message>
+    <message>
+      <location filename="../../Workbench.cpp" line="38"/>
+      <source>Approximation</source>
+      <translation>Approximierung</translation>
+    </message>
   </context>
   <context>
     <name>ReenGui::FitBSplineCurve</name>
@@ -616,13 +636,13 @@
     </message>
     <message>
       <location filename="../../FitBSplineCurve.ui" line="47"/>
-      <source>Iso-Parametric</source>
-      <translation>Iso-Parametrisch</translation>
+      <source>Equidistant</source>
+      <translation>Äquidistant</translation>
     </message>
     <message>
       <location filename="../../FitBSplineCurve.ui" line="55"/>
       <source>Continuity</source>
-      <translation>Kontinuität</translation>
+      <translation>Stetigkeit</translation>
     </message>
     <message>
       <location filename="../../FitBSplineCurve.ui" line="88"/>
