@@ -4167,7 +4167,7 @@ TopoShape& TopoShape::makeElementLoft(const std::vector<TopoShape>& shapes,
                                       IsSolid isSolid,
                                       IsRuled isRuled,
                                       IsClosed isClosed,
-                                      Standard_Integer maxDegree,
+                                      int maxDegree,
                                       const char* op)
 {
     if (!op) {

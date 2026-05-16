@@ -77,7 +77,7 @@ int Part::ImportIgesParts(App::Document *pcDoc, const char* FileName)
 
         // make model
         aReader.ClearShapes();
-        //Standard_Integer nbRootsForTransfer = aReader.NbRootsForTransfer();
+        //int nbRootsForTransfer = aReader.NbRootsForTransfer();
         aReader.TransferRoots();
 
         // put all other free-flying shapes into a single compound
@@ -86,8 +86,8 @@ int Part::ImportIgesParts(App::Document *pcDoc, const char* FileName)
         TopoDS_Compound comp;
         builder.MakeCompound(comp);
 
-        Standard_Integer nbShapes = aReader.NbShapes();
-        for (Standard_Integer i=1; i<=nbShapes; i++) {
+        int nbShapes = aReader.NbShapes();
+        for (int i=1; i<=nbShapes; i++) {
             TopoDS_Shape aShape = aReader.Shape(i);
             if (!aShape.IsNull()) {
                 if (aShape.ShapeType() == TopAbs_SOLID ||

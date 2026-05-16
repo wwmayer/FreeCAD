@@ -734,7 +734,7 @@ double NETGENPlugin_Mesher::GetDefaultMinSize(const TopoDS_Shape& geom,
 #if OCC_VERSION_HEX < 0x070600
     const TColgp_Array1OfPnt&   points = triangulation->Nodes();
 #else
-    auto points = [&triangulation](Standard_Integer index) {
+    auto points = [&triangulation](int index) {
         return triangulation->Node(index);
     };
 #endif
@@ -4205,7 +4205,7 @@ std::string NETGENPlugin_NetgenLibWrapper::getOutputFileName()
   aGenericName += _getpid();
 #endif
   aGenericName += "_";
-  aGenericName += Abs((Standard_Integer)(long) aGenericName.ToCString());
+  aGenericName += Abs((int)(long) aGenericName.ToCString());
   aGenericName += ".out";
 
   return aGenericName.ToCString();

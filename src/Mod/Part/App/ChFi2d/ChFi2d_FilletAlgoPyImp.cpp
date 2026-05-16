@@ -142,7 +142,7 @@ PyObject* ChFi2d_FilletAlgoPy::numberOfResults(PyObject *args)
 
     try {
         Base::Vector3d* vec = static_cast<Base::VectorPy*>(pnt)->getVectorPtr();
-        Standard_Integer num = getChFi2d_FilletAlgoPtr()->NbResults(gp_Pnt(vec->x, vec->y, vec->z));
+        int num = getChFi2d_FilletAlgoPtr()->NbResults(gp_Pnt(vec->x, vec->y, vec->z));
         return Py::new_reference_to(Py::Long(num));
     }
     catch (Standard_Failure& e) {

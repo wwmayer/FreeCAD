@@ -533,7 +533,7 @@ bool InspectNominalShape::isInsideSolid(const gp_Pnt& pnt3d) const
 bool InspectNominalShape::isBelowFace(const gp_Pnt& pnt3d) const
 {
     // check if the distance was computed from a face
-    for (Standard_Integer index = 1; index <= distss->NbSolution(); index++) {
+    for (int index = 1; index <= distss->NbSolution(); index++) {
         if (distss->SupportTypeShape1(index) == BRepExtrema_IsInFace) {
             TopoDS_Shape face = distss->SupportOnShape1(index);
             double u, v;

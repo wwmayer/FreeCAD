@@ -590,25 +590,25 @@ PyObject* GeometryCurvePy::projectPoint(PyObject *args, PyObject* kwds) const
             return Py::new_reference_to(par);
         }
         else if (method == "Distance") {
-            Standard_Integer num = proj.NbPoints();
+            int num = proj.NbPoints();
             Py::List list;
-            for (Standard_Integer i=1; i <= num; i++) {
+            for (int i=1; i <= num; i++) {
                 list.append(Py::Float(proj.Distance(i)));
             }
             return Py::new_reference_to(list);
         }
         else if (method == "Parameter") {
-            Standard_Integer num = proj.NbPoints();
+            int num = proj.NbPoints();
             Py::List list;
-            for (Standard_Integer i=1; i <= num; i++) {
+            for (int i=1; i <= num; i++) {
                 list.append(Py::Float(proj.Parameter(i)));
             }
             return Py::new_reference_to(list);
         }
         else if (method == "Point") {
-            Standard_Integer num = proj.NbPoints();
+            int num = proj.NbPoints();
             Py::List list;
-            for (Standard_Integer i=1; i <= num; i++) {
+            for (int i=1; i <= num; i++) {
                 gp_Pnt pnt = proj.Point(i);
                 Base::Vector3d vec(pnt.X(), pnt.Y(), pnt.Z());
                 list.append(Py::Vector(vec));

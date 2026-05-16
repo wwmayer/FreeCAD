@@ -503,9 +503,9 @@ PyObject* BezierSurfacePy::getPoles(PyObject *args) const
         TColgp_Array2OfPnt p(1,surf->NbUPoles(),1,surf->NbVPoles());
         surf->Poles(p);
         Py::List poles;
-        for (Standard_Integer i=p.LowerRow(); i<=p.UpperRow(); i++) {
+        for (int i=p.LowerRow(); i<=p.UpperRow(); i++) {
             Py::List row;
-            for (Standard_Integer j=p.LowerCol(); j<=p.UpperCol(); j++) {
+            for (int j=p.LowerCol(); j<=p.UpperCol(); j++) {
                 const gp_Pnt& pole = p(i,j);
                 row.append(Py::asObject(new Base::VectorPy(
                     Base::Vector3d(pole.X(),pole.Y(),pole.Z()))));
@@ -618,9 +618,9 @@ PyObject* BezierSurfacePy::getWeights(PyObject *args) const
         TColStd_Array2OfReal w(1,surf->NbUPoles(),1,surf->NbVPoles());
         surf->Weights(w);
         Py::List weights;
-        for (Standard_Integer i=w.LowerRow(); i<=w.UpperRow(); i++) {
+        for (int i=w.LowerRow(); i<=w.UpperRow(); i++) {
             Py::List row;
-            for (Standard_Integer j=w.LowerCol(); j<=w.UpperCol(); j++) {
+            for (int j=w.LowerCol(); j<=w.UpperCol(); j++) {
                 row.append(Py::Float(w(i,j)));
             }
             weights.append(row);

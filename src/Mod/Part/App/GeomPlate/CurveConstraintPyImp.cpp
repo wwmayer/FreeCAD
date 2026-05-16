@@ -146,7 +146,7 @@ PyObject* CurveConstraintPy::order(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Integer v = getGeomPlate_CurveConstraintPtr()->Order();
+        int v = getGeomPlate_CurveConstraintPtr()->Order();
         return PyLong_FromLong(v);
     }
     catch (const Standard_Failure& e) {
@@ -359,7 +359,7 @@ PyObject* CurveConstraintPy::projectedCurve(PyObject *args)
 Py::Long CurveConstraintPy::getNbPoints() const
 {
     try {
-        Standard_Integer v = getGeomPlate_CurveConstraintPtr()->NbPoints();
+        int v = getGeomPlate_CurveConstraintPtr()->NbPoints();
         return Py::Long(v);
     }
     catch (const Standard_Failure& e) {

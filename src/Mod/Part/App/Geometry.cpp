@@ -1185,7 +1185,7 @@ std::vector<Base::Vector3d> GeomBezierCurve::getPoles() const
     TColgp_Array1OfPnt poleArray(1,myCurve->NbPoles());
     myCurve->Poles(poleArray);
 
-    for (Standard_Integer index=poleArray.Lower(); index<=poleArray.Upper(); index++) {
+    for (int index=poleArray.Lower(); index<=poleArray.Upper(); index++) {
         const gp_Pnt& pnt = poleArray(index);
         poles.emplace_back(pnt.X(), pnt.Y(), pnt.Z());
     }
@@ -1199,7 +1199,7 @@ std::vector<double> GeomBezierCurve::getWeights() const
     TColStd_Array1OfReal weightArray(1,myCurve->NbPoles());
     myCurve->Weights(weightArray);
 
-    for (Standard_Integer index=weightArray.Lower(); index<=weightArray.Upper(); index++) {
+    for (int index=weightArray.Lower(); index<=weightArray.Upper(); index++) {
         const double& real = weightArray(index);
         weights.push_back(real);
     }
@@ -1296,12 +1296,12 @@ bool GeomBezierCurve::isSame(const Geometry &_other, double tol, double) const
 
     auto &other = dynamic_cast<const GeomBezierCurve &>(_other);
 
-    Standard_Integer c = myCurve->NbPoles();
+    int c = myCurve->NbPoles();
     if(c!= other.myCurve->NbPoles())
         return false;
 
     double tol2 = tol*tol;
-    for(Standard_Integer index =1; index <=c; ++index) {
+    for(int index =1; index <=c; ++index) {
         if(myCurve->Pole(index).SquareDistance(other.myCurve->Pole(index)) > tol2
                 || fabs(myCurve->Weight(index) - other.myCurve->Weight(index)) > tol)
             return false;
@@ -1453,7 +1453,7 @@ void GeomBSplineCurve::setPoles(const std::vector<Base::Vector3d>& poles, const 
 
     workAroundOCCTBug(weights);
 
-    Standard_Integer index=1;
+    int index=1;
 
     for (std::size_t i = 0; i < poles.size(); i++, index++) {
         setPole(index, poles[i], weights[i]);
@@ -1462,7 +1462,7 @@ void GeomBSplineCurve::setPoles(const std::vector<Base::Vector3d>& poles, const 
 
 void GeomBSplineCurve::setPoles(const std::vector<Base::Vector3d>& poles)
 {
-    Standard_Integer index=1;
+    int index=1;
 
     for (auto it = poles.begin(); it != poles.end(); ++it, index++){
         setPole(index, *it);
@@ -1476,7 +1476,7 @@ std::vector<Base::Vector3d> GeomBSplineCurve::getPoles() const
     TColgp_Array1OfPnt p(1,myCurve->NbPoles());
     myCurve->Poles(p);
 
-    for (Standard_Integer i=p.Lower(); i<=p.Upper(); i++) {
+    for (int i=p.Lower(); i<=p.Upper(); i++) {
         const gp_Pnt& pnt = p(i);
         poles.emplace_back(pnt.X(), pnt.Y(), pnt.Z());
     }
@@ -1490,7 +1490,7 @@ std::vector<double> GeomBSplineCurve::getWeights() const
     TColStd_Array1OfReal w(1,myCurve->NbPoles());
     myCurve->Weights(w);
 
-    for (Standard_Integer i=w.Lower(); i<=w.Upper(); i++) {
+    for (int i=w.Lower(); i<=w.Upper(); i++) {
         const double& real = w(i);
         weights.push_back(real);
     }
@@ -1502,7 +1502,7 @@ void GeomBSplineCurve::setWeights(const std::vector<double>& weights)
     workAroundOCCTBug(weights);
 
     try {
-        Standard_Integer index=1;
+        int index=1;
 
         for (auto it = weights.begin(); it != weights.end(); ++it, index++){
             myCurve->SetWeight(index, *it);
@@ -1530,7 +1530,7 @@ void GeomBSplineCurve::setKnot(int index, const double val, int mult)
 
 void GeomBSplineCurve::setKnots(const std::vector<double>& knots)
 {
-    Standard_Integer index=1;
+    int index=1;
 
     for (auto it = knots.begin(); it != knots.end(); ++it, index++) {
         setKnot(index, *it);
@@ -1542,7 +1542,7 @@ void GeomBSplineCurve::setKnots(const std::vector<double>& knots, const std::vec
     if (knots.size() != multiplicities.size())
         throw Base::ValueError("knots and multiplicities mismatch");
 
-    Standard_Integer index=1;
+    int index=1;
 
     for (std::size_t it = 0; it < knots.size(); it++, index++) {
         setKnot(index, knots[it], multiplicities[it]);
@@ -1556,7 +1556,7 @@ std::vector<double> GeomBSplineCurve::getKnots() const
     TColStd_Array1OfReal k(1,myCurve->NbKnots());
     myCurve->Knots(k);
 
-    for (Standard_Integer i=k.Lower(); i<=k.Upper(); i++) {
+    for (int i=k.Lower(); i<=k.Upper(); i++) {
         const double& real = k(i);
         knots.push_back(real);
     }
@@ -1570,8 +1570,8 @@ std::vector<int> GeomBSplineCurve::getMultiplicities() const
     TColStd_Array1OfInteger m(1,myCurve->NbKnots());
     myCurve->Multiplicities(m);
 
-    for (Standard_Integer i=m.Lower(); i<=m.Upper(); i++) {
-        const Standard_Integer& nm = m(i);
+    for (int i=m.Lower(); i<=m.Upper(); i++) {
+        const int& nm = m(i);
         mults.push_back(nm);
     }
     return mults;
@@ -1758,7 +1758,7 @@ void GeomBSplineCurve::approximate(const std::vector<Base::Vector3d>& pnts,
 {
     try {
         TColgp_Array1OfPnt coords(1, static_cast<int>(pnts.size()));
-        Standard_Integer index = 1;
+        int index = 1;
         for (const auto& it : pnts) {
             coords(index++) = gp_Pnt(it.x, it.y, it.z);
         }
@@ -1784,7 +1784,7 @@ void GeomBSplineCurve::approximate(const std::vector<Base::Vector3d>& pnts,
 {
     try {
         TColgp_Array1OfPnt coords(1, static_cast<int>(pnts.size()));
-        Standard_Integer index = 1;
+        int index = 1;
         for (const auto& it : pnts) {
             coords(index++) = gp_Pnt(it.x, it.y, it.z);
         }
@@ -1820,7 +1820,7 @@ void GeomBSplineCurve::approximate(const std::vector<Base::Vector3d>& pnts,
 {
     try {
         TColgp_Array1OfPnt coords(1, static_cast<int>(pnts.size()));
-        Standard_Integer index = 1;
+        int index = 1;
         for (const auto& it : pnts) {
             coords(index++) = gp_Pnt(it.x, it.y, it.z);
         }
@@ -1872,7 +1872,7 @@ bool GeomBSplineCurve::removeKnot(int index, int multiplicity, double tolerance)
             // It can happen that OCCT computes a negative weight but still claims the removal was successful
             TColStd_Array1OfReal weights(1, curve->NbPoles());
             curve->Weights(weights);
-            for (Standard_Integer i = weights.Lower(); i <= weights.Upper(); i++) {
+            for (int i = weights.Lower(); i <= weights.Upper(); i++) {
                 double v = weights(i);
                 if (v <= gp::Resolution())
                     return false;
@@ -2025,7 +2025,7 @@ void GeomBSplineCurve::Restore(Base::XMLReader& reader)
     for (int i = 1; i <= knotscount; i++) {
         reader.readElement("Knot");
         double val = reader.getAttributeAsFloat("Value");
-        Standard_Integer mult = reader.getAttributeAsInteger("Mult");
+        int mult = reader.getAttributeAsInteger("Mult");
         k.SetValue(i, val);
         m.SetValue(i, mult);
     }
@@ -5013,8 +5013,8 @@ bool GeomBezierSurface::isSame(const Geometry &_other, double tol, double atol) 
         return false;
 
     auto &other = static_cast<const GeomBezierSurface &>(_other);
-    Standard_Integer uc = mySurface->NbUPoles();
-    Standard_Integer vc = mySurface->NbVPoles();
+    int uc = mySurface->NbUPoles();
+    int vc = mySurface->NbVPoles();
     if(uc != other.mySurface->NbUPoles()
             || vc != other.mySurface->NbVPoles()
             || mySurface->UDegree() != other.mySurface->UDegree()
@@ -5023,8 +5023,8 @@ bool GeomBezierSurface::isSame(const Geometry &_other, double tol, double atol) 
 
     (void)atol;
     double tol2 = tol*tol;
-    for(Standard_Integer u=1; u<=uc; ++u) {
-        for(Standard_Integer v=1; v<=vc; ++v) {
+    for(int u=1; u<=uc; ++u) {
+        for(int v=1; v<=vc; ++v) {
             if(mySurface->Pole(u,v).SquareDistance(other.mySurface->Pole(u,v)) > tol2
                     || fabs(mySurface->Weight(u,v) - other.mySurface->Weight(u,v)) > tol)
                 return false;
@@ -5113,9 +5113,9 @@ unsigned int GeomBSplineSurface::getMemSize () const
     unsigned int size = sizeof(Geom_BSplineSurface);
     if (!mySurface.IsNull()) {
         size += mySurface->NbUKnots() * sizeof(double);
-        size += mySurface->NbUKnots() * sizeof(Standard_Integer);
+        size += mySurface->NbUKnots() * sizeof(int);
         size += mySurface->NbVKnots() * sizeof(double);
-        size += mySurface->NbVKnots() * sizeof(Standard_Integer);
+        size += mySurface->NbVKnots() * sizeof(int);
         unsigned int poles = mySurface->NbUPoles();
         poles *= mySurface->NbVPoles();
         size += poles * sizeof(gp_Pnt);
@@ -5151,10 +5151,10 @@ bool GeomBSplineSurface::isSame(const Geometry &_other, double tol, double atol)
     }
 
     auto &other = static_cast<const GeomBSplineSurface &>(_other);
-    Standard_Integer uc = mySurface->NbUPoles();
-    Standard_Integer vc = mySurface->NbVPoles();
-    Standard_Integer ukc = mySurface->NbUKnots();
-    Standard_Integer vkc = mySurface->NbVKnots();
+    int uc = mySurface->NbUPoles();
+    int vc = mySurface->NbVPoles();
+    int ukc = mySurface->NbUKnots();
+    int vkc = mySurface->NbVKnots();
     if(uc != other.mySurface->NbUPoles()
             || vc != other.mySurface->NbVPoles()
             || ukc != other.mySurface->NbUKnots()
@@ -5167,19 +5167,19 @@ bool GeomBSplineSurface::isSame(const Geometry &_other, double tol, double atol)
 
     (void)atol;
     double tol2 = tol*tol;
-    for(Standard_Integer u=1; u<=uc; ++u) {
-        for(Standard_Integer v=1; v<=vc; ++v) {
+    for(int u=1; u<=uc; ++u) {
+        for(int v=1; v<=vc; ++v) {
             if(mySurface->Pole(u,v).SquareDistance(other.mySurface->Pole(u,v)) > tol2
                     || fabs(mySurface->Weight(u,v) - other.mySurface->Weight(u,v)) > tol)
                 return false;
         }
     }
-    for(Standard_Integer u=1; u<=ukc; ++u) {
+    for(int u=1; u<=ukc; ++u) {
         if(fabs(mySurface->UKnot(u) - other.mySurface->UKnot(u)) > tol
                 || fabs(mySurface->UMultiplicity(u) - other.mySurface->UMultiplicity(u)) > tol)
             return false;
     }
-    for(Standard_Integer v=1; v<=ukc; ++v) {
+    for(int v=1; v<=ukc; ++v) {
         if(fabs(mySurface->VKnot(v) - other.mySurface->VKnot(v)) > tol
                 || fabs(mySurface->VMultiplicity(v) - other.mySurface->VMultiplicity(v)) > tol)
             return false;
@@ -5401,8 +5401,8 @@ gp_Vec GeomCone::getDN(double u, double v, int Nu, int Nv) const
                              const gp_Ax3& Pos,
                              const double Radius,
                              const double SAngle,
-                             const Standard_Integer Nu,
-                             const Standard_Integer Nv)
+                             const int Nu,
+                             const int Nv)
     {
        gp_XYZ Xdir = Pos.XDirection().XYZ();
        gp_XYZ Ydir = Pos.YDirection().XYZ();

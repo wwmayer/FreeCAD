@@ -52,8 +52,8 @@ struct SMESHDS_Hasher
   {
     return S1.IsSame(S2);
   }
-  static inline Standard_Integer HashCode(const TopoDS_Shape& S,
-                                          const Standard_Integer Upper)
+  static inline int HashCode(const TopoDS_Shape& S,
+                                          const int Upper)
   {
     return ::HashCode( S, Upper);
   }

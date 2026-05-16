@@ -261,7 +261,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::getStatus(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Integer val = this->getBRepOffsetAPI_MakePipeShellPtr()->GetStatus();
+        int val = this->getBRepOffsetAPI_MakePipeShellPtr()->GetStatus();
         return Py::new_reference_to(Py::Long(val));
     }
     catch (Standard_Failure& e) {

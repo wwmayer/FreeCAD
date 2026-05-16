@@ -295,7 +295,7 @@ void ViewProviderTransformed::showRejectedShape(TopoDS_Shape shape)
             // cycling through the poly mesh
             for (std::size_t g=0; g < nbTriInFace; g++) {
                 // Get the triangle
-                Standard_Integer N1,N2,N3;
+                int N1,N2,N3;
                 facets[g].Get(N1,N2,N3);
 
                 // set the index vector with the 3 point indexes and the end delimiter

@@ -1118,7 +1118,7 @@ void ViewProviderPartExt::updateVisual()
 
             for (int g=1;g<=nbTriInFace;g++) {
                 // Get the triangle
-                Standard_Integer N1,N2,N3;
+                int N1,N2,N3;
 #if OCC_VERSION_HEX < 0x070600
                 Triangles(g).Get(N1,N2,N3);
 #else
@@ -1127,7 +1127,7 @@ void ViewProviderPartExt::updateVisual()
 
                 // change orientation of the triangle if the face is reversed
                 if ( orient != TopAbs_FORWARD ) {
-                    Standard_Integer tmp = N1;
+                    int tmp = N1;
                     N1 = N2;
                     N2 = tmp;
                 }
@@ -1204,7 +1204,7 @@ void ViewProviderPartExt::updateVisual()
 
                     // getting the indexes of the edge polygon
                     const TColStd_Array1OfInteger& indices = aPoly->Nodes();
-                    for (Standard_Integer i=indices.Lower();i <= indices.Upper();i++) {
+                    for (int i=indices.Lower();i <= indices.Upper();i++) {
                         int nodeIndex = indices(i);
                         int index = faceNodeOffset+nodeIndex-1;
                         lineSetMap[edgeIndex].push_back(index);
@@ -1257,7 +1257,7 @@ void ViewProviderPartExt::updateVisual()
                     int nbNodesInEdge = aPoly->NbNodes();
 
                     gp_Pnt pnt;
-                    for (Standard_Integer j=1;j <= nbNodesInEdge;j++) {
+                    for (int j=1;j <= nbNodesInEdge;j++) {
                         pnt = aNodes(j);
                         if (!identity)
                             pnt.Transform(myTransf);

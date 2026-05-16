@@ -2415,7 +2415,7 @@ AttachEngineLine::_calculateAttachedPlacement(const std::vector<App::DocumentObj
                         "AttachEngineLine::calculateAttachedPlacement: Intersection failed");
                 }
 
-                const Standard_Integer intLines = intersector.NbLines();
+                const int intLines = intersector.NbLines();
                 if (intLines == 0) {
                     throw Base::ValueError("AttachEngineLine::calculateAttachedPlacement: The two "
                                            "shapes don't intersect");

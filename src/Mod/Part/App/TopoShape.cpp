@@ -692,7 +692,7 @@ Handle(XSControl_TransferReader) tr = ws->TransferReader();
 
 std::string name;
 Handle(IGESData_IGESModel) aModel = aReader.IGESModel();
-Standard_Integer all = aModel->NbEntities();
+int all = aModel->NbEntities();
 
 TopExp_Explorer ex;
 for (ex.Init(this->_Shape, TopAbs_FACE); ex.More(); ex.Next())
@@ -786,7 +786,7 @@ void TopoShape::importBinary(std::istream& str)
 {
     BinTools_ShapeSet theShapeSet;
     theShapeSet.Read(str);
-    Standard_Integer shapeId=0, locId=0, orient=0;
+    int shapeId=0, locId=0, orient=0;
     BinTools::GetInteger(str, shapeId);
     if (shapeId <= 0 || shapeId > theShapeSet.NbShapes())
         return;
@@ -929,9 +929,9 @@ void TopoShape::exportBinary(std::ostream& out) const
         BinTools::PutInteger(out, -1);
     }
     else {
-        Standard_Integer shapeId = theShapeSet.Add(this->_Shape);
-        Standard_Integer locId = theShapeSet.Locations().Index(this->_Shape.Location());
-        Standard_Integer orient = static_cast<int>(this->_Shape.Orientation());
+        int shapeId = theShapeSet.Add(this->_Shape);
+        int locId = theShapeSet.Locations().Index(this->_Shape.Location());
+        int orient = static_cast<int>(this->_Shape.Orientation());
 
         theShapeSet.Write(out);
         BinTools::PutInteger(out, shapeId);
@@ -994,7 +994,7 @@ void TopoShape::exportFaceSet(double dev, double ca,
         }
 
         for (std::size_t i = 0; i < facets.size(); i++) {
-            Standard_Integer n1,n2,n3;
+            int n1,n2,n3;
             facets[i].Get(n1, n2, n3);
             indices[4 * i    ] = n1;
             indices[4 * i + 1] = n2;
@@ -1986,8 +1986,8 @@ TopoDS_Shape TopoShape::makeTube(double radius, double tol, int cont, int maxdeg
     //Standard_Boolean theIsPolynomial = Standard_True;
     Standard_Boolean myIsElem = Standard_True;
     GeomAbs_Shape theContinuity = GeomAbs_Shape(cont);
-    Standard_Integer theMaxDegree = maxdegree;
-    Standard_Integer theMaxSegment = maxsegm;
+    int theMaxDegree = maxdegree;
+    int theMaxSegment = maxsegm;
 
     if (this->_Shape.IsNull())
         throw Standard_Failure("Cannot sweep along empty spine");
@@ -2390,7 +2390,7 @@ TopoDS_Shape TopoShape::makeLoft(const TopTools_ListOfShape& profiles,
                                  Standard_Boolean isSolid,
                                  Standard_Boolean isRuled,
                                  Standard_Boolean isClosed,
-                                 Standard_Integer maxDegree) const
+                                 int maxDegree) const
 {
     // http://opencascade.blogspot.com/2010/01/surface-modeling-part5.html
     BRepOffsetAPI_ThruSections aGenerator (isSolid,isRuled);
@@ -3282,7 +3282,7 @@ void TopoShape::getDomains(std::vector<Domain>& domains) const
             // copy the triangles
             domain.facets.reserve(facets.size());
             for (const auto& it : facets) {
-                Standard_Integer N1, N2, N3;
+                int N1, N2, N3;
                 it.Get(N1, N2, N3);
 
                 Facet tria;

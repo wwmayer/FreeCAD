@@ -586,7 +586,7 @@ public:
                           Standard_Boolean isSolid,
                           Standard_Boolean isRuled,
                           Standard_Boolean isClosed = Standard_False,
-                          Standard_Integer maxDegree = 5) const;
+                          int maxDegree = 5) const;
     TopoDS_Shape makeOffsetShape(double offset,
                                  double tol,
                                  bool intersection = false,
@@ -1616,7 +1616,7 @@ public:
      */
     TopoShape &makeElementLoft(const std::vector<TopoShape> &sources,
                         IsSolid isSolid, IsRuled isRuled, IsClosed isClosed=IsClosed::notClosed,
-                        Standard_Integer maxDegree=5, const char *op=nullptr);
+                        int maxDegree=5, const char *op=nullptr);
 
     /** Make a ruled surface
      *

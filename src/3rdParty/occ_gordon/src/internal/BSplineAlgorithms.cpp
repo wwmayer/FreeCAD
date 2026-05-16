@@ -661,7 +661,7 @@ ApproxResult BSplineAlgorithms::reparametrizeBSplineContinuouslyApprox(const Han
     }
 
     // create a B-spline as a function for reparametrization
-    Handle(TColgp_HArray1OfPnt2d) old_parameters_pnts = new TColgp_HArray1OfPnt2d(1, static_cast<Standard_Integer>(old_parameters.size()));
+    Handle(TColgp_HArray1OfPnt2d) old_parameters_pnts = new TColgp_HArray1OfPnt2d(1, static_cast<int>(old_parameters.size()));
     for (size_t parameter_idx = 0; parameter_idx < old_parameters.size(); ++parameter_idx) {
         int occIdx = static_cast<int>(parameter_idx + 1);
         old_parameters_pnts->SetValue(occIdx, gp_Pnt2d(old_parameters[parameter_idx], 0));
@@ -722,10 +722,10 @@ ApproxResult BSplineAlgorithms::reparametrizeBSplineContinuouslyApprox(const Han
 
     // Compute points on spline at the new parameters
     // Those will be approximated later on
-    TColgp_Array1OfPnt points(1, static_cast<Standard_Integer>(parameters.size()));
+    TColgp_Array1OfPnt points(1, static_cast<int>(parameters.size()));
     for (size_t i = 1; i <= parameters.size(); ++i) {
         double oldParameter = reparametrizing_spline->Value(parameters[i-1]).X();
-        points(static_cast<Standard_Integer>(i)) = spline->Value(oldParameter);
+        points(static_cast<int>(i)) = spline->Value(oldParameter);
     }
 
     bool makeContinuous = spline->IsClosed() &&
@@ -847,13 +847,13 @@ void BSplineAlgorithms::reparametrizeBSpline(Geom_BSplineCurve& spline, double u
 
 math_Matrix BSplineAlgorithms::bsplineBasisMat(int degree, const TColStd_Array1OfReal& knots, const TColStd_Array1OfReal& params, unsigned int derivOrder)
 {
-    Standard_Integer ncp = knots.Length() - degree - 1;
+    int ncp = knots.Length() - degree - 1;
     math_Matrix mx(1, params.Length(), 1, ncp);
     mx.Init(0.);
     math_Matrix bspl_basis(1, derivOrder + 1, 1, degree + 1);
     bspl_basis.Init(0.);
-    for (Standard_Integer iparm = 1; iparm <= params.Length(); ++iparm) {
-        Standard_Integer basis_start_index = 0;
+    for (int iparm = 1; iparm <= params.Length(); ++iparm) {
+        int basis_start_index = 0;
 #if OCC_VERSION_HEX >= VERSION_HEX_CODE(7,1,0)
         BSplCLib::EvalBsplineBasis(derivOrder, degree + 1, knots, params.Value(iparm), basis_start_index, bspl_basis);
 #else

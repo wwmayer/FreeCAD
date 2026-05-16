@@ -345,7 +345,7 @@ namespace // internal utils
       myNodes           = & tr->Nodes();
 #else
       TColgp_Array1OfPnt* trNodes = new TColgp_Array1OfPnt( 1, tr->NbNodes() );
-      for (Standard_Integer i = myNodes->Lower(); i <= myNodes->Upper(); i++)
+      for (int i = myNodes->Lower(); i <= myNodes->Upper(); i++)
       {
         trNodes->SetValue(i, tr->Node(i));
       }
@@ -419,7 +419,7 @@ namespace // internal utils
 
     // initialize myTrias
     myTrias.resize( myPolyTrias->Length() );
-    Standard_Integer n1,n2,n3;
+    int n1,n2,n3;
     for ( int i = 1; i <= myPolyTrias->Upper(); ++i )
     {
       Triangle & t = myTrias[ i-1 ];
@@ -473,7 +473,7 @@ namespace // internal utils
     map< NLink, double >           lenOfDoneLink;
     map< NLink, double >::iterator link2len;
 
-    Standard_Integer n[4];
+    int n[4];
     gp_Pnt p[4];
     double a[3];
     bool   isDone[3];
@@ -555,7 +555,7 @@ namespace // internal utils
     if ( myFoundTriaIDs.empty() )
       return minDist2;
 
-    Standard_Integer n[ 3 ];
+    int n[ 3 ];
     for ( size_t i = 0; i < myFoundTriaIDs.size(); ++i )
     {
       Triangle& t = me->myTrias[ myFoundTriaIDs[i] ];

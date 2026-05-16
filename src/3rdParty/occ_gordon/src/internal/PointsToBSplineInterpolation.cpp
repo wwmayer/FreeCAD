@@ -164,14 +164,14 @@ Handle(Geom_BSplineCurve) PointsToBSplineInterpolation::Curve() const
         nCtrPnts += 1;
     }
     TColgp_Array1OfPnt poles(1, nCtrPnts);
-    for (Standard_Integer icp = 1; icp <= nParams; ++icp) {
+    for (int icp = 1; icp <= nParams; ++icp) {
         gp_Pnt pnt(cp_x.Value(icp), cp_y.Value(icp), cp_z.Value(icp));
         poles.SetValue(icp, pnt);
     }
 
     if (isClosed()) {
         // wrap control points
-        for (Standard_Integer icp = 1; icp <= degree; ++icp) {
+        for (int icp = 1; icp <= degree; ++icp) {
             gp_Pnt pnt(cp_x.Value(icp), cp_y.Value(icp), cp_z.Value(icp));
             poles.SetValue(nParams + icp, pnt);
         }

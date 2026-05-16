@@ -97,7 +97,7 @@ PyObject* PointConstraintPy::order(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Integer v = getGeomPlate_PointConstraintPtr()->Order();
+        int v = getGeomPlate_PointConstraintPtr()->Order();
         return PyLong_FromLong(v);
     }
     catch (const Standard_Failure& e) {

@@ -45,11 +45,11 @@ namespace
       union
       {
         double    R[3];
-        Standard_Integer I[6];
+        int I[6];
       } U;
 
       point.Coord( U.R[0], U.R[1], U.R[2] );
-      return std::hash<Standard_Integer>{}(U.I[0]/23+U.I[1]/19+U.I[2]/17+U.I[3]/13+U.I[4]/11+U.I[5]/7);
+      return std::hash<int>{}(U.I[0]/23+U.I[1]/19+U.I[2]/17+U.I[3]/13+U.I[4]/11+U.I[5]/7);
     }
 
     size_t operator()(const gp_Pnt& point1, const gp_Pnt& point2) const noexcept
@@ -64,17 +64,17 @@ namespace
     //function : HashCode
     //purpose  :
     //=======================================================================
-    inline static Standard_Integer HashCode
-    (const gp_Pnt& point,  Standard_Integer Upper)
+    inline static int HashCode
+    (const gp_Pnt& point,  int Upper)
     {
       union
       {
         double    R[3];
-        Standard_Integer I[6];
+        int I[6];
       } U;
 
       point.Coord( U.R[0], U.R[1], U.R[2] );
-      return std::hash<Standard_Integer>{}(U.I[0]/23+U.I[1]/19+U.I[2]/17+U.I[3]/13+U.I[4]/11+U.I[5]/7);
+      return std::hash<int>{}(U.I[0]/23+U.I[1]/19+U.I[2]/17+U.I[3]/13+U.I[4]/11+U.I[5]/7);
     }
  
     //=======================================================================
@@ -245,7 +245,7 @@ Driver_Mesh::Status DriverSTL_R_SMDS_Mesh::readAscii(SMESH_File& theFile) const
   FILE* file = fopen( myFile.c_str(),"r");
 
   // count the number of lines
-  Standard_Integer nbLines = 0;
+  int nbLines = 0;
   for (long ipos = 0; ipos < filesize; ++ipos) {
     if (getc(file) == '\n')
       nbLines++;
@@ -254,14 +254,14 @@ Driver_Mesh::Status DriverSTL_R_SMDS_Mesh::readAscii(SMESH_File& theFile) const
   // go back to the beginning of the file
   rewind(file);
   
-  Standard_Integer nbTri = (nbLines / ASCII_LINES_PER_FACET);
+  int nbTri = (nbLines / ASCII_LINES_PER_FACET);
 
   TDataMapOfPntNodePtr uniqnodes;
   // skip header
   while (getc(file) != '\n');
 
   // main reading
-  for (Standard_Integer iTri = 0; iTri < nbTri; ++iTri) {
+  for (int iTri = 0; iTri < nbTri; ++iTri) {
 
     // skipping the facet normal
     Standard_ShortReal normal[3];
@@ -311,14 +311,14 @@ Driver_Mesh::Status DriverSTL_R_SMDS_Mesh::readBinary(SMESH_File& file) const
 
   // don't trust the number of triangles which is coded in the file
   // sometimes it is wrong, and with this technique we don't need to swap endians for integer
-  Standard_Integer nbTri = ((filesize - HEADER_SIZE) / SIZEOF_STL_FACET);
+  int nbTri = ((filesize - HEADER_SIZE) / SIZEOF_STL_FACET);
 
   // skip the header
   file += HEADER_SIZE;
 
   TDataMapOfPntNodePtr uniqnodes;
   
-  for (Standard_Integer iTri = 0; iTri < nbTri; ++iTri) {
+  for (int iTri = 0; iTri < nbTri; ++iTri) {
 
     // ignore normals
     file += 3 * SIZE_OF_FLOAT;

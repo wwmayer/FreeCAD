@@ -552,7 +552,7 @@ bool wireEncirclesAxis(const TopoDS_Wire& wire, const Handle(Geom_CylindricalSur
 
             // Calculate the oriented length of the edge
             gp_Pnt begin;
-            for (Standard_Integer j=1; j <= SeqPnt.Length(); j++) {
+            for (int j=1; j <= SeqPnt.Length(); j++) {
                 gp_Pnt end = SeqPnt.Value(j);
 
                 // Project end point onto the plane

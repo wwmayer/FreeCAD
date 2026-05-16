@@ -123,7 +123,7 @@ static Standard_Boolean FindSHUO(const TDF_LabelSequence& theLabels,
     if (!::XCAFDoc_ShapeTool::GetAllComponentSHUO(aCompLabel, SHUOAttrs)) {
         return Standard_False;
     }
-    for (Standard_Integer i = 1; i <= SHUOAttrs.Length(); i++) {
+    for (int i = 1; i <= SHUOAttrs.Length(); i++) {
         Handle(XCAFDoc_GraphNode) anSHUO = Handle(XCAFDoc_GraphNode)::DownCast(SHUOAttrs.Value(i));
         TDF_LabelSequence aUpLabels;
         // check for any upper_usage

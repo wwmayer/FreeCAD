@@ -734,7 +734,7 @@ void PartGui::DlgProjectionOnSurface::higlight_object(Part::Feature* iCurrentObj
             defaultColor = vp->LineColor.getValue();
         }
 
-        if (static_cast<Standard_Integer>(colors.size()) != anIndices.Extent()) {
+        if (static_cast<int>(colors.size()) != anIndices.Extent()) {
             colors.resize(anIndices.Extent(), defaultColor);
         }
 

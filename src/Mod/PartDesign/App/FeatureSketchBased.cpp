@@ -983,7 +983,7 @@ bool ProfileBased::checkLineCrossesFace(const gp_Lin& line, const TopoDS_Face& f
         TopTools_IndexedDataMapOfShapeListOfShape vertex2Edge;
         TopExp::MapShapesAndAncestors(wire, TopAbs_VERTEX, TopAbs_EDGE, vertex2Edge);
 
-        for (Standard_Integer i = 1; i <= distss.NbSolution(); i++) {
+        for (int i = 1; i <= distss.NbSolution(); i++) {
             if (distss.PointOnShape1(i).Distance(distss.PointOnShape2(i)) > Precision::Confusion())
                 continue;
             BRepExtrema_SupportType type = distss.SupportTypeShape1(i);

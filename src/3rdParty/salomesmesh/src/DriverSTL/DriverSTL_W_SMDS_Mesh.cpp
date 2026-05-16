@@ -156,16 +156,16 @@ SMDS_ElemIteratorPtr DriverSTL_W_SMDS_Mesh::getFaces() const
 
 // static methods
 
-static void writeInteger( const Standard_Integer& theVal, SMESH_File& ofile )
+static void writeInteger( const int& theVal, SMESH_File& ofile )
 {
   union {
-    Standard_Integer i;
+    int i;
     char c[4];
   } u;
 
   u.i = theVal;
 
-  Standard_Integer entier;
+  int entier;
   entier  =  u.c[0] & 0xFF;
   entier |= (u.c[1] & 0xFF) << 0x08;
   entier |= (u.c[2] & 0xFF) << 0x10;
@@ -183,7 +183,7 @@ static void writeFloat( const Standard_ShortReal& theVal, SMESH_File& ofile)
 
   u.f = theVal;
 
-  Standard_Integer entier;
+  int entier;
 
   entier  =  u.c[0] & 0xFF;
   entier |= (u.c[1] & 0xFF) << 0x08;

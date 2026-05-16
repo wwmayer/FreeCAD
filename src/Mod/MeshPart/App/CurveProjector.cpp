@@ -506,8 +506,8 @@ void MeshProjection::discretize(const TopoDS_Edge& aEdge,
 
     GCPnts_UniformDeflection clDefl(clCurve, 0.01f, fFirst, fLast);
     if (clDefl.IsDone() == Standard_True) {
-        Standard_Integer nNbPoints = clDefl.NbPoints();
-        for (Standard_Integer i = 1; i <= nNbPoints; i++) {
+        int nNbPoints = clDefl.NbPoints();
+        for (int i = 1; i <= nNbPoints; i++) {
             gp_Pnt gpPt = clCurve.Value(clDefl.Parameter(i));
             polyline.emplace_back((float)gpPt.X(), (float)gpPt.Y(), (float)gpPt.Z());
         }
@@ -515,13 +515,13 @@ void MeshProjection::discretize(const TopoDS_Edge& aEdge,
 
     if (polyline.size() < minPoints) {
         GCPnts_UniformAbscissa clAbsc(clCurve,
-                                      static_cast<Standard_Integer>(minPoints),
+                                      static_cast<int>(minPoints),
                                       fFirst,
                                       fLast);
         if (clAbsc.IsDone() == Standard_True) {
             polyline.clear();
-            Standard_Integer nNbPoints = clAbsc.NbPoints();
-            for (Standard_Integer i = 1; i <= nNbPoints; i++) {
+            int nNbPoints = clAbsc.NbPoints();
+            for (int i = 1; i <= nNbPoints; i++) {
                 gp_Pnt gpPt = clCurve.Value(clAbsc.Parameter(i));
                 polyline.emplace_back((float)gpPt.X(), (float)gpPt.Y(), (float)gpPt.Z());
             }
@@ -930,7 +930,7 @@ void MeshProjection::projectEdgeToEdge(const TopoDS_Edge& aEdge,
         // get intersection of curve and plane
         GeomAPI_IntCS Alg(hCurve, hPlane);
         if (Alg.IsDone()) {
-            Standard_Integer nNbPoints = Alg.NbPoints();
+            int nNbPoints = Alg.NbPoints();
             if (nNbPoints == 1) {
                 double fU, fV, fW;
                 Alg.Parameters(1, fU, fV, fW);

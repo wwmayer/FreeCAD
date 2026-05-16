@@ -885,7 +885,7 @@ private:
             std::vector<Poly_Triangle> facets;
             if (Tools::getTriangulation(currentFace, points, facets)) {
                 for (const auto& it : facets) {
-                    Standard_Integer n1,n2,n3;
+                    int n1,n2,n3;
                     it.Get(n1, n2, n3);
 
                     gp_Pnt p1 = points[n1];

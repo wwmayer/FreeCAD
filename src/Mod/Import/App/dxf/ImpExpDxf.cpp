@@ -1058,7 +1058,7 @@ void ImpExpDxfWrite::exportBSpline(BRepAdaptor_Curve& c)
     gp_Pnt s, ePt;
 
     double tol3D = 0.001;
-    Standard_Integer maxDegree = 3, maxSegment = 200;
+    int maxDegree = 3, maxSegment = 200;
     Handle(BRepAdaptor_HCurve) hCurve = new BRepAdaptor_HCurve(c);
     Approx_Curve3d approx(hCurve, tol3D, GeomAbs_C0, maxSegment, maxDegree);
     if (approx.IsDone() && approx.HasResult()) {
@@ -1106,7 +1106,7 @@ void ImpExpDxfWrite::exportBSpline(BRepAdaptor_Curve& c)
     sd.endtan = gPntTopoint3D(p);
 
     // next bit is from DrawingExport.cpp (Dan Falk?).
-    Standard_Integer m = 0;
+    int m = 0;
     if (spline->IsPeriodic()) {
         m = spline->NbPoles() + 2 * spline->Degree() - spline->Multiplicity(1) + 2;
     }

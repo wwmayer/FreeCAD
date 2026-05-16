@@ -143,7 +143,7 @@ TopoDS_Edge TechDrawOutput::asCircle(const BRepAdaptor_Curve& c) const
 TopoDS_Edge TechDrawOutput::asBSpline(const BRepAdaptor_Curve& c, int maxDegree) const
 {
     double tol3D = 0.001;
-    Standard_Integer maxSegment = 50;
+    int maxSegment = 50;
     Handle(BRepAdaptor_HCurve) hCurve = new BRepAdaptor_HCurve(c);
     // approximate the curve using a tolerance
     Approx_Curve3d approx(hCurve, tol3D, GeomAbs_C0, maxSegment, maxDegree);
@@ -285,7 +285,7 @@ void SVGOutput::printBezier(const BRepAdaptor_Curve& c, int id, std::ostream& ou
         str << "<path d=\"M";
 
         Handle(Geom_BezierCurve) bezier = c.Bezier();
-        Standard_Integer poles = bezier->NbPoles();
+        int poles = bezier->NbPoles();
 
         // if its a bezier with degree higher than 3 convert it into a B-spline
         if (bezier->Degree() > 3 || bezier->IsRational()) {
@@ -348,7 +348,7 @@ void SVGOutput::printBSpline(const BRepAdaptor_Curve& c, int id, std::ostream& o
         std::stringstream str;
         Handle(Geom_BSplineCurve) spline;
         double tol3D = 0.001;
-        Standard_Integer maxDegree = 3, maxSegment = 100;
+        int maxDegree = 3, maxSegment = 100;
         Handle(BRepAdaptor_HCurve) hCurve = new BRepAdaptor_HCurve(c);
         // approximate the curve using a tolerance
         Approx_Curve3d approx(hCurve, tol3D, GeomAbs_C0, maxSegment, maxDegree);
@@ -361,11 +361,11 @@ void SVGOutput::printBSpline(const BRepAdaptor_Curve& c, int id, std::ostream& o
         }
 
         GeomConvert_BSplineCurveToBezierCurve crt(spline);
-        Standard_Integer arcs = crt.NbArcs();
+        int arcs = crt.NbArcs();
         str << "<path d=\"M";
-        for (Standard_Integer i=1; i<=arcs; i++) {
+        for (int i=1; i<=arcs; i++) {
             Handle(Geom_BezierCurve) bezier = crt.Arc(i);
-            Standard_Integer poles = bezier->NbPoles();
+            int poles = bezier->NbPoles();
             if (i == 1) {
                 gp_Pnt p1 = bezier->Pole(1);
                 str << p1.X() << ", " << p1.Y();
@@ -645,7 +645,7 @@ void DXFOutput::printBSpline(const BRepAdaptor_Curve& c, int id, std::ostream& o
         std::stringstream str;
         Handle(Geom_BSplineCurve) spline;
         double tol3D = 0.001;
-        Standard_Integer maxDegree = 3, maxSegment = 50;
+        int maxDegree = 3, maxSegment = 50;
         Handle(BRepAdaptor_HCurve) hCurve = new BRepAdaptor_HCurve(c);
         // approximate the curve using a tolerance
         Approx_Curve3d approx(hCurve, tol3D, GeomAbs_C0, maxSegment, maxDegree);
@@ -659,9 +659,9 @@ void DXFOutput::printBSpline(const BRepAdaptor_Curve& c, int id, std::ostream& o
 
         //GeomConvert_BSplineCurveToBezierCurve crt(spline);
 		//GeomConvert_BSplineCurveKnotSplitting crt(spline, 0);
-        //Standard_Integer arcs = crt.NbArcs();
-		//Standard_Integer arcs = crt.NbSplits()-1;
-        Standard_Integer m = 0;
+        //int arcs = crt.NbArcs();
+		//int arcs = crt.NbSplits()-1;
+        int m = 0;
         if (spline->IsPeriodic()) {
             m = spline->NbPoles() + 2*spline->Degree() - spline->Multiplicity(1) + 2;
         }

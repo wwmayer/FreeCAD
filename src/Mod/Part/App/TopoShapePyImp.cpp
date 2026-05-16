@@ -917,11 +917,11 @@ PyObject*  TopoShapePy::ancestorsOfType(PyObject *args) const
         const TopTools_ListOfShape& ancestors = mapOfShapeShape.FindFromKey(shape);
 
         Py::List list;
-        std::set<Standard_Integer> hashes;
+        std::set<int> hashes;
         TopTools_ListIteratorOfListOfShape it(ancestors);
         for (; it.More(); it.Next()) {
             // make sure to avoid duplicates
-            Standard_Integer code = ShapeMapHasher{}(it.Value());
+            int code = ShapeMapHasher{}(it.Value());
             if (hashes.find(code) == hashes.end()) {
                 list.append(shape2pyshape(it.Value()));
                 hashes.insert(code);

@@ -488,7 +488,7 @@ SMESH_Block::SMESH_Block():
 //purpose  : 
 //=======================================================================
 
-Standard_Integer SMESH_Block::NbVariables() const
+int SMESH_Block::NbVariables() const
 {
   return 3;
 }
@@ -498,7 +498,7 @@ Standard_Integer SMESH_Block::NbVariables() const
 //purpose  : 
 //=======================================================================
 
-Standard_Integer SMESH_Block::NbEquations() const
+int SMESH_Block::NbEquations() const
 {
   return 1;
 }
@@ -538,7 +538,7 @@ Standard_Boolean SMESH_Block::Derivatives(const math_Vector& XYZ,math_Matrix& Df
 //purpose  : 
 //=======================================================================
 
-Standard_Integer SMESH_Block::GetStateNumber ()
+int SMESH_Block::GetStateNumber ()
 {
   return 0; //myValues[0] < 1e-1;
 }

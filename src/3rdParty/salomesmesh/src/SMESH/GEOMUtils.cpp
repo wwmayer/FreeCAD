@@ -511,14 +511,14 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
   }
 #else
   // old implementation
-  Standard_Integer MaxShapes = SL.Extent();
+  int MaxShapes = SL.Extent();
   TopTools_Array1OfShape  aShapes (1,MaxShapes);
   TColStd_Array1OfInteger OrderInd(1,MaxShapes);
   TColStd_Array1OfReal    MidXYZ  (1,MaxShapes); //X,Y,Z;
   TColStd_Array1OfReal    Length  (1,MaxShapes); //X,Y,Z;
 
   // Computing of CentreOfMass
-  Standard_Integer Index;
+  int Index;
   GProp_GProps GPr;
   gp_Pnt GPoint;
   TopTools_ListIteratorOfListOfShape it(SL);
@@ -557,7 +557,7 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
   }
 
   // Sorting
-  Standard_Integer aTemp;
+  int aTemp;
   Standard_Boolean exchange, Sort = Standard_True;
   double    tol = Precision::Confusion();
   while (Sort)
@@ -759,7 +759,7 @@ TopoDS_Shape GEOMUtils::GetEdgeNearPoint (const TopoDS_Shape& theShape,
 
   // 1. Explode the shape on edges
   TopTools_MapOfShape mapShape;
-  Standard_Integer nbEdges = 0;
+  int nbEdges = 0;
   TopExp_Explorer exp (theShape, TopAbs_EDGE);
   for (; exp.More(); exp.Next()) {
     if (mapShape.Add(exp.Current())) {
@@ -771,7 +771,7 @@ TopoDS_Shape GEOMUtils::GetEdgeNearPoint (const TopoDS_Shape& theShape,
     throw Standard_NullObject("Given shape contains no edges");
 
   mapShape.Clear();
-  Standard_Integer ind = 1;
+  int ind = 1;
   TopTools_Array1OfShape anEdges (1, nbEdges);
   TColStd_Array1OfReal aDistances (1, nbEdges);
   for (exp.Init(theShape, TopAbs_EDGE); exp.More(); exp.Next()) {
@@ -829,7 +829,7 @@ Standard_Boolean GEOMUtils::PreciseBoundingBox
   double aBound[6];
   theBox.Get(aBound[0], aBound[2], aBound[4], aBound[1], aBound[3], aBound[5]);
 
-  Standard_Integer i;
+  int i;
   const gp_Pnt aMid(0.5*(aBound[1] + aBound[0]),  // XMid
                     0.5*(aBound[3] + aBound[2]),  // YMid
                     0.5*(aBound[5] + aBound[4])); // ZMid
@@ -855,7 +855,7 @@ Standard_Boolean GEOMUtils::PreciseBoundingBox
   gp_Pnt aPMin[2];
 
   for (i = 0; i < 6; i++) {
-    const Standard_Integer iHalf = i/2;
+    const int iHalf = i/2;
     const gp_Pln aPln(aPnt[i], aDir[iHalf]);
     BRepBuilderAPI_MakeFace aMkFace(aPln, -aPlnSize[iHalf], aPlnSize[iHalf],
                                     -aPlnSize[iHalf], aPlnSize[iHalf]);

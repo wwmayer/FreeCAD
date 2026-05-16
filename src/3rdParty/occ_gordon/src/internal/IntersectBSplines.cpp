@@ -101,7 +101,7 @@ namespace
             low = gp_Pnt(std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), std::numeric_limits<double>::max());
             high = gp_Pnt(-std::numeric_limits<double>::max(), -std::numeric_limits<double>::max(), -std::numeric_limits<double>::max());
             // compute min / max from control points
-            for (Standard_Integer i = 1; i <= curve->NbPoles(); ++i) {
+            for (int i = 1; i <= curve->NbPoles(); ++i) {
                 gp_XYZ p = curve->Pole(i).XYZ();
                 low = minCoords(low, p);
                 high = maxCoords(high, p);
@@ -140,7 +140,7 @@ namespace
     {
         double len = curve->Pole(1).Distance(curve->Pole(curve->NbPoles()));
         double total = 0.;
-        for (Standard_Integer i = 1; i < curve->NbPoles(); ++i) {
+        for (int i = 1; i < curve->NbPoles(); ++i) {
             gp_Pnt p1 = curve->Pole(i);
             gp_Pnt p2 = curve->Pole(i+1);
             double dist = p1.Distance(p2);
@@ -236,7 +236,7 @@ namespace
             : m_c1(c1), m_c2(c2)
         {}
 
-        virtual Standard_Integer NbVariables()  const override
+        virtual int NbVariables()  const override
         {
             return 2;
         }

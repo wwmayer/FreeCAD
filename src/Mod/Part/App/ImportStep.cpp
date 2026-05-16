@@ -82,14 +82,14 @@ int Part::ImportStepParts(App::Document *pcDoc, const char* Name)
     }
 
     // Root transfers
-    Standard_Integer nbr = aReader.NbRootsForTransfer();
-    for (Standard_Integer n = 1; n<= nbr; n++) {
+    int nbr = aReader.NbRootsForTransfer();
+    for (int n = 1; n<= nbr; n++) {
         Base::Console().Log("STEP: Transferring Root %d\n",n);
         aReader.TransferRoot(n);
     }
 
     // Collecting resulting entities
-    Standard_Integer nbs = aReader.NbShapes();
+    int nbs = aReader.NbShapes();
     if (nbs == 0) {
         throw Base::FileException("No shapes found in file ");
     }
@@ -97,7 +97,7 @@ int Part::ImportStepParts(App::Document *pcDoc, const char* Name)
 
         std::map<int, Quantity_Color> hash_col;
 
-        for (Standard_Integer i=1; i<=nbs; i++) {
+        for (int i=1; i<=nbs; i++) {
             Base::Console().Log("STEP:   Transferring Shape %d\n",i);
             aShape = aReader.Shape(i);
 

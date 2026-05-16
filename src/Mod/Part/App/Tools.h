@@ -112,9 +112,9 @@ class PartExport Tools
 public:
     Handle(Geom_Surface) makeSurface (const TColStd_ListOfTransient& theBoundaries,
                                      const double theTol,
-                                     const Standard_Integer theNbPnts,
-                                     const Standard_Integer theNbIter,
-                                     const Standard_Integer theMaxDeg);
+                                     const int theNbPnts,
+                                     const int theNbIter,
+                                     const int theMaxDeg);
     /*!
      * @brief getTriangulation
      * The indexes of the triangles are adjusted to the points vector.

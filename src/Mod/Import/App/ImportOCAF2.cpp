@@ -559,14 +559,14 @@ App::DocumentObject* ImportOCAF2::loadShapes()
     aShapeTool->GetFreeShapes(labels);
     boost::dynamic_bitset<> vis;
     int count = 0;
-    for (Standard_Integer i = 1; i <= labels.Length(); i++) {
+    for (int i = 1; i <= labels.Length(); i++) {
         auto label = labels.Value(i);
         if (!options.importHidden && !aColorTool->IsVisible(label)) {
             continue;
         }
         ++count;
     }
-    for (Standard_Integer i = 1; i <= labels.Length(); i++) {
+    for (int i = 1; i <= labels.Length(); i++) {
         auto label = labels.Value(i);
         if (!options.importHidden && !aColorTool->IsVisible(label)) {
             continue;

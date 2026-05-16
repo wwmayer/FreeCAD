@@ -33,8 +33,8 @@
 #include <NCollection_DefineDataMap.hxx>
 
 SMESH_EXPORT 
-inline Standard_Integer HashCode(SMDS_MeshElementPtr theElem,
-                                 const Standard_Integer theUpper)
+inline int HashCode(SMDS_MeshElementPtr theElem,
+                                 const int theUpper)
 {
   void* anElem = (void*) theElem;
   return HashCode(anElem,theUpper);

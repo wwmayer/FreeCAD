@@ -409,7 +409,7 @@ PyObject* BSplineCurvePy::getKnots(PyObject * args) const
         TColStd_Array1OfReal w(1,curve->NbKnots());
         curve->Knots(w);
         Py::List knots;
-        for (Standard_Integer i=w.Lower(); i<=w.Upper(); i++) {
+        for (int i=w.Lower(); i<=w.Upper(); i++) {
             knots.append(Py::Float(w(i)));
         }
         return Py::new_reference_to(knots);
@@ -475,7 +475,7 @@ PyObject* BSplineCurvePy::getPoles(PyObject * args) const
         TColgp_Array1OfPnt p(1,curve->NbPoles());
         curve->Poles(p);
         Py::List poles;
-        for (Standard_Integer i=p.Lower(); i<=p.Upper(); i++) {
+        for (int i=p.Lower(); i<=p.Upper(); i++) {
             gp_Pnt pnt = p(i);
             Base::VectorPy* vec = new Base::VectorPy(Base::Vector3d(
                 pnt.X(), pnt.Y(), pnt.Z()));
@@ -502,7 +502,7 @@ PyObject* BSplineCurvePy::getPolesAndWeights(PyObject * args) const
         curve->Weights(w);
 
         Py::List poles;
-        for (Standard_Integer i=p.Lower(); i<=p.Upper(); i++) {
+        for (int i=p.Lower(); i<=p.Upper(); i++) {
             gp_Pnt pnt = p(i);
             double weight = w(i);
             Py::Tuple t(4);
@@ -567,7 +567,7 @@ PyObject* BSplineCurvePy::getWeights(PyObject * args) const
         TColStd_Array1OfReal w(1,curve->NbPoles());
         curve->Weights(w);
         Py::List weights;
-        for (Standard_Integer i=w.Lower(); i<=w.Upper(); i++) {
+        for (int i=w.Lower(); i<=w.Upper(); i++) {
             weights.append(Py::Float(w(i)));
         }
         return Py::new_reference_to(weights);
@@ -693,7 +693,7 @@ PyObject* BSplineCurvePy::getMultiplicities(PyObject * args) const
         TColStd_Array1OfInteger m(1,curve->NbKnots());
         curve->Multiplicities(m);
         Py::List mults;
-        for (Standard_Integer i=m.Lower(); i<=m.Upper(); i++) {
+        for (int i=m.Lower(); i<=m.Upper(); i++) {
             mults.append(Py::Long(m(i)));
         }
         return Py::new_reference_to(mults);
@@ -765,7 +765,7 @@ Py::List BSplineCurvePy::getKnotSequence() const
 {
     Handle(Geom_BSplineCurve) curve = Handle(Geom_BSplineCurve)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Integer m = 0;
+    int m = 0;
     if (curve->IsPeriodic()) {
         // knots=poles+2*degree-mult(1)+2
         m = curve->NbPoles() + 2*curve->Degree() - curve->Multiplicity(1) + 2;
@@ -779,7 +779,7 @@ Py::List BSplineCurvePy::getKnotSequence() const
     TColStd_Array1OfReal k(1,m);
     curve->KnotSequence(k);
     Py::List list;
-    for (Standard_Integer i=k.Lower(); i<=k.Upper(); i++) {
+    for (int i=k.Lower(); i<=k.Upper(); i++) {
         list.append(Py::Float(k(i)));
     }
     return list;
@@ -812,9 +812,9 @@ PyObject* BSplineCurvePy::toBiArcs(PyObject * args) const
 PyObject* BSplineCurvePy::approximate(PyObject *args, PyObject *kwds)
 {
     PyObject *obj;
-    Standard_Integer degMin = 3;
-    Standard_Integer degMax = 8;
-    Standard_Integer segMax = 8;
+    int degMin = 3;
+    int degMax = 8;
+    int segMax = 8;
     const char *continuity = "C2";
     double tol3d = 1e-3;
     const char *parType = "ChordLength";
@@ -870,7 +870,7 @@ PyObject* BSplineCurvePy::approximate(PyObject *args, PyObject *kwds)
     try {
         Py::Sequence list(obj);
         TColgp_Array1OfPnt pnts(1, list.size());
-        Standard_Integer index = 1;
+        int index = 1;
         for (Py::Sequence::iterator it = list.begin(); it != list.end(); ++it) {
             Base::Vector3d vec = Py::Vector(*it).toVector();
             pnts(index++) = gp_Pnt(vec.x,vec.y,vec.z);
@@ -915,7 +915,7 @@ PyObject* BSplineCurvePy::approximate(PyObject *args, PyObject *kwds)
         if (par) {
             Py::Sequence plist(par);
             TColStd_Array1OfReal parameters(1,plist.size());
-            Standard_Integer index = 1;
+            int index = 1;
             for (Py::Sequence::iterator it = plist.begin(); it != plist.end(); ++it) {
                 Py::Float f(*it);
                 parameters(index++) = static_cast<double>(f);
@@ -1128,7 +1128,7 @@ PyObject* BSplineCurvePy::buildFromPoles(PyObject *args)
     try {
         Py::Sequence list(obj);
         TColgp_Array1OfPnt poles(1, list.size());
-        Standard_Integer index = 1;
+        int index = 1;
         for (Py::Sequence::iterator it = list.begin(); it != list.end(); ++it) {
             Py::Vector v(*it);
             Base::Vector3d pnt = v.toVector();
@@ -1223,7 +1223,7 @@ PyObject* BSplineCurvePy::buildFromPolesMultsKnots(PyObject *args, PyObject *key
             throw Standard_Failure("need two or more poles");
         }
         TColgp_Array1OfPnt occpoles(1, number_of_poles);
-        Standard_Integer index = 1;
+        int index = 1;
         for (Py::Sequence::iterator it = list.begin(); it != list.end(); ++it) {
             Py::Vector v(*it);
             Base::Vector3d pnt = v.toVector();
@@ -1259,7 +1259,7 @@ PyObject* BSplineCurvePy::buildFromPolesMultsKnots(PyObject *args, PyObject *key
         TColStd_Array1OfReal occweights(1,number_of_poles);
         if (mults != Py_None) { //mults are given
             Py::Sequence multssq(mults);
-            Standard_Integer index = 1;
+            int index = 1;
             for (Py::Sequence::iterator it = multssq.begin(); it != multssq.end() && index <= occmults.Length(); ++it) {
                 Py::Long mult(*it);
                 if (index < occmults.Length() || !Base::asBoolean(periodic)) {
@@ -1282,7 +1282,7 @@ PyObject* BSplineCurvePy::buildFromPolesMultsKnots(PyObject *args, PyObject *key
             }
         }
         // check multiplicity of inner knots
-        for (Standard_Integer i=2; i < occmults.Length(); i++) {
+        for (int i=2; i < occmults.Length(); i++) {
             if (occmults(i) > degree) {
                 throw Standard_Failure("multiplicity of inner knot higher than degree");
             }
@@ -1305,7 +1305,7 @@ PyObject* BSplineCurvePy::buildFromPolesMultsKnots(PyObject *args, PyObject *key
                 throw Standard_Failure("number of poles and weights mismatch");
             } //complain about mismatch
             Py::Sequence weightssq(weights);
-            Standard_Integer index = 1;
+            int index = 1;
             for (Py::Sequence::iterator it = weightssq.begin(); it != weightssq.end(); ++it) {
                 Py::Float weight(*it);
                 occweights(index++) = weight;
@@ -1351,8 +1351,8 @@ PyObject* BSplineCurvePy::toBezier(PyObject *args) const
         GeomConvert_BSplineCurveToBezierCurve crt(spline);
 
         Py::List list;
-        Standard_Integer arcs = crt.NbArcs();
-        for (Standard_Integer i=1; i<=arcs; i++) {
+        int arcs = crt.NbArcs();
+        for (int i=1; i<=arcs; i++) {
             Handle(Geom_BezierCurve) bezier = crt.Arc(i);
             list.append(Py::asObject(new BezierCurvePy(new GeomBezierCurve(bezier))));
         }

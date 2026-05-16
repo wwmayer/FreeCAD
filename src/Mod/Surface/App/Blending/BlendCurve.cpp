@@ -89,7 +89,7 @@ Handle(Geom_BezierCurve) BlendCurve::compute()
         int cons_idx = 1;
         for (size_t i = 0; i < nb_pts; ++i) {
             math_Matrix bezier_eval(1, blendPoints[i].nbVectors(), 1, num_poles, 0.0);
-            Standard_Integer first_non_zero;
+            int first_non_zero;
             BSplCLib::EvalBsplineBasis(blendPoints[i].nbVectors() - 1,
                                        num_poles,
                                        knots,
