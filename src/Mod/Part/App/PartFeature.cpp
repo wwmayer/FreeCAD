@@ -73,6 +73,7 @@
 #include <Mod/Material/App/MaterialManager.h>
 
 #include "Geometry.h"
+#include "OCCError.h"
 #include "PartFeature.h"
 #include "PartFeaturePy.h"
 #include "PartPyCXX.h"
@@ -467,7 +468,7 @@ App::DocumentObject* Feature::getSubObject(const char* subname,
         Standard_CString msg = e.GetMessageString();
 
         // Avoid name mangling
-        str << e.DynamicType()->get_type_name() << " ";
+        str << getTypeName(e) << " ";
 
         if (msg) {
             str << msg;

@@ -1002,8 +1002,10 @@ PyObject* BSplineCurve2dPy::interpolate(PyObject *args, PyObject *kwds)
         }
     }
     catch (Standard_Failure& e) {
-        std::string err = e.GetMessageString();
-        if (err.empty()) err = e.DynamicType()->Name();
+        std::string err = toString(e);
+        if (err.empty()) {
+            err = getTypeName(e);
+        }
         PyErr_SetString(PartExceptionOCCError, err.c_str());
         return nullptr;
     }
@@ -1268,8 +1270,10 @@ PyObject* BSplineCurve2dPy::makeC1Continuous(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        std::string err = e.GetMessageString();
-        if (err.empty()) err = e.DynamicType()->Name();
+        std::string err = toString(e);
+        if (err.empty()) {
+            err = getTypeName(e);
+        }
         PyErr_SetString(PartExceptionOCCError, err.c_str());
         return nullptr;
     }

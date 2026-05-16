@@ -63,6 +63,7 @@
 
 #include <Standard_Failure.hxx>
 #include <Standard_ErrorHandler.hxx>
+#include <Standard_Version.hxx>
 
 #include <utilities.h>
 
@@ -537,7 +538,11 @@ bool NETGENPlugin_NETGEN_3D::compute(SMESH_Mesh&                     aMesh,
   {
     SMESH_Comment str("Exception in  netgen::OCCGenerateMesh()");
     str << " at " << netgen::multithread.task
+#if OCC_VERSION_HEX >= 0x080000
+        << ": " << ex.ExceptionType();
+#else
         << ": " << ex.DynamicType()->Name();
+#endif
     if ( ex.GetMessageString() && strlen( ex.GetMessageString() ))
       str << ": " << ex.GetMessageString();
     error(str);

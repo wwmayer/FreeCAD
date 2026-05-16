@@ -53,6 +53,7 @@
 #include <Precision.hxx>
 #include <Standard_ErrorHandler.hxx>
 #include <Standard_Failure.hxx>
+#include <Standard_Version.hxx>
 
 #include <utilities.h>
 
@@ -565,7 +566,11 @@ bool NETGENPlugin_NETGEN_2D_ONLY::Compute(SMESH_Mesh&         aMesh,
         err = 1;
         str << "Exception in  netgen::OCCGenerateMesh()"
             << " at " << netgen::multithread.task
+#if OCC_VERSION_HEX >= 0x080000
+            << ": " << ex.ExceptionType();
+#else
             << ": " << ex.DynamicType()->Name();
+#endif
         if ( ex.GetMessageString() && strlen( ex.GetMessageString() ))
           str << ": " << ex.GetMessageString();
       }

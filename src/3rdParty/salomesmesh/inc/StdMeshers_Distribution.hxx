@@ -34,7 +34,12 @@
 #include <vector>
 #include <math_Function.hxx>
 #include <ExprIntrp_GenExp.hxx>
+#include <Standard_Version.hxx>
+#if OCC_VERSION_HEX < 0x080000
 #include <Expr_Array1OfNamedUnknown.hxx>
+#else
+using Expr_Array1OfNamedUnknown = NCollection_Array1<occ::handle<Expr_NamedUnknown>>;
+#endif
 #include <TColStd_Array1OfReal.hxx>
 
 namespace StdMeshers

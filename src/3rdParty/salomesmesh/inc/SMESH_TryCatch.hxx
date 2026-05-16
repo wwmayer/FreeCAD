@@ -70,7 +70,7 @@
   catch (Standard_Failure& ex)                                          \
   {                                                                     \
     SMESH_Comment text("OCCT Exception: ");                             \
-    text << ": " << ex.DynamicType()->Name();                           \
+    /*text << ": " << ex.DynamicType()->Name();*/                       \
     if ( ex.GetMessageString() && strlen( ex.GetMessageString() ))      \
       text << ": " << ex.GetMessageString();                            \
     SMESH_CAUGHT onExceptionFun( text );                                \

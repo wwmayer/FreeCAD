@@ -1262,8 +1262,10 @@ PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        std::string err = e.GetMessageString();
-        if (err.empty()) err = e.DynamicType()->Name();
+        std::string err = toString(e);
+        if (err.empty()) {
+            err = getTypeName(e);
+        }
         PyErr_SetString(PartExceptionOCCError, err.c_str());
         return nullptr;
     }
@@ -1326,8 +1328,10 @@ PyObject* BSplineSurfacePy::interpolate(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        std::string err = e.GetMessageString();
-        if (err.empty()) err = e.DynamicType()->Name();
+        std::string err = toString(e);
+        if (err.empty()) {
+            err = getTypeName(e);
+        }
         PyErr_SetString(PartExceptionOCCError, err.c_str());
         return nullptr;
     }
@@ -1706,8 +1710,10 @@ PyObject* BSplineSurfacePy::scaleKnotsToBounds(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        std::string err = e.GetMessageString();
-        if (err.empty()) err = e.DynamicType()->Name();
+        std::string err = toString(e);
+        if (err.empty()) {
+            err = getTypeName(e);
+        }
         PyErr_SetString(PartExceptionOCCError, err.c_str());
         return nullptr;
     }
