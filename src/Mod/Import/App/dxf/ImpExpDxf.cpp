@@ -324,7 +324,7 @@ Handle(Geom_BSplineCurve) getSplineFromPolesAndKnots(struct SplineData& sd)
         }
     }
 
-    Standard_Boolean periodic = sd.flag == 2;
+    bool periodic = sd.flag == 2;
     Handle(Geom_BSplineCurve) geom =
         new Geom_BSplineCurve(occpoles, occweights, occknots, occmults, sd.degree, periodic);
     return geom;
@@ -354,7 +354,7 @@ Handle(Geom_BSplineCurve) getInterpolationSpline(struct SplineData& sd)
         fitpoints->ChangeValue(index++).SetZ(coordinate);
     }
 
-    Standard_Boolean periodic = sd.flag == 2;
+    bool periodic = sd.flag == 2;
     GeomAPI_Interpolate interp(fitpoints, periodic, Precision::Confusion());
     interp.Perform();
     return interp.Curve();

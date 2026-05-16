@@ -145,7 +145,7 @@ PyObject* GeometrySurfacePy::toShell(PyObject *args, PyObject* kwds) const
     try {
         if (!s.IsNull()) {
             if (segm) {
-                Standard_Boolean segment = Base::asBoolean(segm);
+                bool segment = Base::asBoolean(segm);
                 BRepBuilderAPI_MakeShell mkBuilder(s, segment);
                 TopoDS_Shape sh = mkBuilder.Shape();
                 return new TopoShapeShellPy(new TopoShape(sh));
@@ -481,7 +481,7 @@ PyObject* GeometrySurfacePy::isPlanar(PyObject *args) const
                 return nullptr;
 
             GeomLib_IsPlanarSurface check(surf, tol);
-            Standard_Boolean val = check.IsPlanar();
+            bool val = check.IsPlanar();
             return PyBool_FromLong(val ? 1 : 0);
         }
     }
@@ -616,7 +616,7 @@ PyObject* GeometrySurfacePy::isUPeriodic(PyObject * args) const
 
     Handle(Geom_Surface) surf = Handle(Geom_Surface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsUPeriodic();
+    bool val = surf->IsUPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -627,7 +627,7 @@ PyObject* GeometrySurfacePy::isVPeriodic(PyObject * args) const
 
     Handle(Geom_Surface) surf = Handle(Geom_Surface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsVPeriodic();
+    bool val = surf->IsVPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -638,7 +638,7 @@ PyObject* GeometrySurfacePy::isUClosed(PyObject * args) const
 
     Handle(Geom_Surface) surf = Handle(Geom_Surface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsUClosed();
+    bool val = surf->IsUClosed();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -649,7 +649,7 @@ PyObject* GeometrySurfacePy::isVClosed(PyObject * args) const
 
     Handle(Geom_Surface) surf = Handle(Geom_Surface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsVClosed();
+    bool val = surf->IsVClosed();
     return PyBool_FromLong(val ? 1 : 0);
 }
 

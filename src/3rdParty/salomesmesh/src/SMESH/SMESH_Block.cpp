@@ -508,7 +508,7 @@ int SMESH_Block::NbEquations() const
 //purpose  : 
 //=======================================================================
 
-Standard_Boolean SMESH_Block::Value(const math_Vector& theXYZ, math_Vector& theFxyz) 
+bool SMESH_Block::Value(const math_Vector& theXYZ, math_Vector& theFxyz) 
 {
   gp_XYZ P, params( theXYZ(1), theXYZ(2), theXYZ(3) );
   if ( params.IsEqual( myParam, DBL_MIN )) { // same param
@@ -527,7 +527,7 @@ Standard_Boolean SMESH_Block::Value(const math_Vector& theXYZ, math_Vector& theF
 //purpose  : 
 //=======================================================================
 
-Standard_Boolean SMESH_Block::Derivatives(const math_Vector& XYZ,math_Matrix& Df) 
+bool SMESH_Block::Derivatives(const math_Vector& XYZ,math_Matrix& Df) 
 {
   math_Vector F(1,3);
   return Values(XYZ,F,Df);
@@ -548,7 +548,7 @@ int SMESH_Block::GetStateNumber ()
 //purpose  : 
 //=======================================================================
 
-Standard_Boolean SMESH_Block::Values(const math_Vector& theXYZ,
+bool SMESH_Block::Values(const math_Vector& theXYZ,
                                      math_Vector&       theFxyz,
                                      math_Matrix&       theDf) 
 {

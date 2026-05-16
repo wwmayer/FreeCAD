@@ -241,7 +241,7 @@ PyObject* BuildPlateSurfacePy::isDone(PyObject *args) const
         return nullptr;
 
     try {
-        Standard_Boolean ok = getGeomPlate_BuildPlateSurfacePtr()->IsDone();
+        bool ok = getGeomPlate_BuildPlateSurfacePtr()->IsDone();
         return Py_BuildValue("O", (ok ? Py_True : Py_False));
     }
     catch (const Standard_Failure& e) {

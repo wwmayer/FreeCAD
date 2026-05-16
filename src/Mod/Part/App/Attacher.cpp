@@ -1389,7 +1389,7 @@ AttachEngine3D::_calculateAttachedPlacement(const std::vector<App::DocumentObjec
                 }
             }
 
-            Standard_Boolean ok = plane.Direct();
+            bool ok = plane.Direct();
             if (!ok) {
                 // toggle if plane has a left-handed coordinate system
                 plane.UReverse();
@@ -1454,7 +1454,7 @@ AttachEngine3D::_calculateAttachedPlacement(const std::vector<App::DocumentObjec
             BRepAdaptor_Surface surf(face);
             BRepLProp_SLProps prop(surf, u, v, 1, Precision::Confusion());
             gp_Dir dirX;
-            Standard_Boolean done;
+            bool done;
 
             Tools::getNormal(face, u, v, Precision::Confusion(), SketchNormal, done);
 

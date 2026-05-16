@@ -89,7 +89,7 @@ template <class TheKeyType> class SMESH_IndexedMap
 	  myMap(const_cast<SMESH_IndexedMap<TheKeyType>*>(&theMap) /*(SMESH_IndexedMap *) &theMap*/),
 	  myIndex(1) {}
     //! Query if the end of collection is reached by iterator
-    virtual Standard_Boolean More(void) const
+    virtual bool More(void) const
     { return (myIndex <= myMap->Extent()); }
     //! Make a step along the collection
     virtual void Next(void)
@@ -240,7 +240,7 @@ template <class TheKeyType> class SMESH_IndexedMap
   }
 
   //! Contains
-  Standard_Boolean Contains (const TheKeyType& theKey1) const
+  bool Contains (const TheKeyType& theKey1) const
   {
     if (IsEmpty()) 
       return false;
@@ -383,7 +383,7 @@ template <class TheKeyType> class SMESH_IndexedMap
 
   //! Clear data. If doReleaseMemory is false then the table of
   //! buckets is not released and will be reused.
-  void Clear(const Standard_Boolean doReleaseMemory = true)
+  void Clear(const bool doReleaseMemory = true)
   { Destroy (IndexedMapNode::delNode, this->myAllocator, doReleaseMemory); }
 
   //! Clear data and reset allocator

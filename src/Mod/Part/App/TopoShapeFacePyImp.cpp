@@ -431,7 +431,7 @@ PyObject* TopoShapeFacePy::normalAt(PyObject *args) const
         return nullptr;
 
     auto f = getTopoDSFace(this);
-    Standard_Boolean done;
+    bool done;
     gp_Dir dir;
 
     Tools::getNormal(f, u, v, Precision::Confusion(), dir, done);

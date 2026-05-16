@@ -69,7 +69,7 @@ void ReaderGltf::read(Handle(TDocStd_Document) hDoc, const Message_ProgressRange
 #endif
 
     TCollection_AsciiString filename(file.filePath().c_str());
-    Standard_Boolean ret = aReader.Perform(filename, theProgress);
+    bool ret = aReader.Perform(filename, theProgress);
     if (!ret) {
         throw Base::FileException("Cannot read from file: ", file);
     }
@@ -96,7 +96,7 @@ TopoDS_Shape ReaderGltf::singleShape(Handle(TDocStd_Document) hDoc,
 #endif
 
     TCollection_AsciiString filename(file.filePath().c_str());
-    Standard_Boolean ret = aReader.Perform(filename, theProgress);
+    bool ret = aReader.Perform(filename, theProgress);
     if (!ret) {
         throw Base::FileException("Cannot read from file: ", file);
     }

@@ -205,10 +205,10 @@ public:
     ~BOPProgressIndicator () override;
 
     void Show (const Message_ProgressScope& theScope,
-                       const Standard_Boolean isForce) override;
+                       const bool isForce) override;
     void Reset() override;
 
-    Standard_Boolean UserBreak() override;
+    bool UserBreak() override;
 
 private:
     int steps;

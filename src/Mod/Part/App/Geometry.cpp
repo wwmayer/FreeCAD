@@ -676,7 +676,7 @@ TopoDS_Shape GeomCurve::toShape() const
 // Function : IsLinear
 // purpose : Returns TRUE if theC is line-like.
 //=======================================================================
-static Standard_Boolean IsLinear(const Adaptor3d_Curve& theC)
+static bool IsLinear(const Adaptor3d_Curve& theC)
 {
     const GeomAbs_CurveType aCT = theC.GetType();
     if(aCT == GeomAbs_OffsetCurve)
@@ -1634,7 +1634,7 @@ GeomBSplineCurve::split(double u, double tol) const
                            std::make_shared<GeomBSplineCurve>(curveR));
 }
 
-void GeomBSplineCurve::interpolate(const std::vector<gp_Pnt>& p, Standard_Boolean periodic)
+void GeomBSplineCurve::interpolate(const std::vector<gp_Pnt>& p, bool periodic)
 {
     GeometryInterpolate interpolate(Precision::Approximation(), periodic);
     interpolate.setPoints(p);
@@ -4875,7 +4875,7 @@ bool GeomSurface::tangentV(double u, double v, gp_Dir& dirV) const
 bool GeomSurface::normal(double u, double v, gp_Dir& dir) const
 {
     Handle(Geom_Surface) s = Handle(Geom_Surface)::DownCast(handle());
-    Standard_Boolean done;
+    bool done;
 
     Tools::getNormal(s, u, v, Precision::Confusion(), dir, done);
 

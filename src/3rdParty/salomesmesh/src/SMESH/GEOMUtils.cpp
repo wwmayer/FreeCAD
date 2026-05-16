@@ -126,7 +126,7 @@ namespace
    *
    * \internal
    */
-  Standard_Boolean ModifyShape(const TopoDS_Shape  &theShape,
+  bool ModifyShape(const TopoDS_Shape  &theShape,
                                TopoDS_Shape  &theModifiedShape,
                                double &theAddDist)
   {
@@ -150,7 +150,7 @@ namespace
       if( S->IsKind(STANDARD_TYPE(Geom_SphericalSurface)) ||
           S->IsKind(STANDARD_TYPE(Geom_ToroidalSurface)) ||
           S->IsUPeriodic()) {
-        const Standard_Boolean isShell =
+        const bool isShell =
           (sh.ShapeType()==TopAbs_SHELL || sh.ShapeType()==TopAbs_FACE);
 
         if ( !isShell && S->IsKind(STANDARD_TYPE(Geom_SphericalSurface)) ) {
@@ -400,7 +400,7 @@ gp_Ax3 GEOMUtils::GetPosition (const TopoDS_Shape& theShape)
 //purpose  :
 //=======================================================================
 gp_Vec GEOMUtils::GetVector (const TopoDS_Shape& theShape,
-                             Standard_Boolean doConsiderOrientation)
+                             bool doConsiderOrientation)
 {
   if (theShape.IsNull())
     throw Standard_NullObject("Null shape is given for a vector");
@@ -489,7 +489,7 @@ bool GEOMUtils::CompareShapes::operator() (const TopoDS_Shape& theShape1,
 //purpose  :
 //=======================================================================
 void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
-                            const Standard_Boolean isOldSorting)
+                            const bool isOldSorting)
 {
 #ifdef STD_SORT_ALGO
   std::vector<TopoDS_Shape> aShapesVec;
@@ -558,7 +558,7 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
 
   // Sorting
   int aTemp;
-  Standard_Boolean exchange, Sort = true;
+  bool exchange, Sort = true;
   double    tol = Precision::Confusion();
   while (Sort)
   {
@@ -820,7 +820,7 @@ TopoDS_Shape GEOMUtils::GetEdgeNearPoint (const TopoDS_Shape& theShape,
 //function : PreciseBoundingBox
 //purpose  : 
 //=======================================================================
-Standard_Boolean GEOMUtils::PreciseBoundingBox
+bool GEOMUtils::PreciseBoundingBox
                           (const TopoDS_Shape &theShape, Bnd_Box &theBox)
 {
   if ( theBox.IsVoid() ) BRepBndLib::Add( theShape, theBox );
@@ -896,8 +896,8 @@ double GEOMUtils::GetMinDistanceSingular(const TopoDS_Shape& aSh1,
   TopoDS_Shape     tmpSh2;
   double    AddDist1 = 0.;
   double    AddDist2 = 0.;
-  Standard_Boolean IsChange1 = ModifyShape(aSh1, tmpSh1, AddDist1);
-  Standard_Boolean IsChange2 = ModifyShape(aSh2, tmpSh2, AddDist2);
+  bool IsChange1 = ModifyShape(aSh1, tmpSh1, AddDist1);
+  bool IsChange2 = ModifyShape(aSh2, tmpSh2, AddDist2);
 
   if( !IsChange1 && !IsChange2 )
     return -2.0;
@@ -1212,7 +1212,7 @@ void GEOMUtils::MeshShape( const TopoDS_Shape shape,
   double aDeflection = ( deflection <= 0 ) ? DefaultDeflection() : deflection;
   
   // Is shape triangulated?
-  Standard_Boolean alreadyMeshed = true;
+  bool alreadyMeshed = true;
   TopExp_Explorer ex;
   TopLoc_Location aLoc;
   for ( ex.Init( shape, TopAbs_FACE ); ex.More() && alreadyMeshed; ex.Next() ) {

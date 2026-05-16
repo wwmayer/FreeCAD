@@ -1361,7 +1361,7 @@ const TopTools_ListOfShape& Part::BRepBuilderAPI_RefineModel::Modified(const Top
         return myEmptyList;
 }
 
-Standard_Boolean Part::BRepBuilderAPI_RefineModel::IsDeleted(const TopoDS_Shape& S)
+bool Part::BRepBuilderAPI_RefineModel::IsDeleted(const TopoDS_Shape& S)
 {
     TopTools_ListIteratorOfListOfShape it;
     for (it.Initialize(myDeleted); it.More(); it.Next())

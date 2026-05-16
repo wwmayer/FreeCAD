@@ -40,8 +40,8 @@ public:
     ProgressIndicator ();
     ~ProgressIndicator () override;
 
-    void Show (const Message_ProgressScope& theScope, const Standard_Boolean isForce) override;
-    Standard_Boolean UserBreak() override;
+    void Show (const Message_ProgressScope& theScope, const bool isForce) override;
+    bool UserBreak() override;
     void Reset() override;
 
 private:

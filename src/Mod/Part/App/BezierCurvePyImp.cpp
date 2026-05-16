@@ -65,7 +65,7 @@ PyObject* BezierCurvePy::isRational(PyObject *args) const
         return nullptr;
     Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = curve->IsRational();
+    bool val = curve->IsRational();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -75,7 +75,7 @@ PyObject* BezierCurvePy::isPeriodic(PyObject *args) const
         return nullptr;
     Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = curve->IsPeriodic();
+    bool val = curve->IsPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -85,7 +85,7 @@ PyObject* BezierCurvePy::isClosed(PyObject *args) const
         return nullptr;
     Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = curve->IsClosed();
+    bool val = curve->IsClosed();
     return PyBool_FromLong(val ? 1 : 0);
 }
 

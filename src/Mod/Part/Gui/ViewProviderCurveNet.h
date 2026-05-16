@@ -82,8 +82,8 @@ protected:
     /// root of the edge and vertex points
     SoSeparator *EdgeRoot{nullptr}, *VertexRoot{nullptr};
 
-    Standard_Boolean computeEdges   (SoSeparator* root, const TopoDS_Shape &myShape);
-    Standard_Boolean computeVertices(SoSeparator* root, const TopoDS_Shape &myShape);
+    bool computeEdges   (SoSeparator* root, const TopoDS_Shape &myShape);
+    bool computeVertices(SoSeparator* root, const TopoDS_Shape &myShape);
 };
 
 } // namespace PartGui

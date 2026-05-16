@@ -3192,7 +3192,7 @@ const TopTools_ListOfShape& WireJoiner::Modified (const TopoDS_Shape& SThatModif
     return pimpl->aHistory->Modified(SThatModifies);
 }
 
-Standard_Boolean WireJoiner::IsDeleted (const TopoDS_Shape& SDeleted)
+bool WireJoiner::IsDeleted (const TopoDS_Shape& SDeleted)
 {
     Build();
     return pimpl->aHistory->IsRemoved(SDeleted);

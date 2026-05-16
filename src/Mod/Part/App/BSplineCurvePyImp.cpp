@@ -122,7 +122,7 @@ PyObject* BSplineCurvePy::isRational(PyObject *args) const
         return nullptr;
     Handle(Geom_BSplineCurve) curve = Handle(Geom_BSplineCurve)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = curve->IsRational();
+    bool val = curve->IsRational();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -132,7 +132,7 @@ PyObject* BSplineCurvePy::isPeriodic(PyObject *args) const
         return nullptr;
     Handle(Geom_BSplineCurve) curve = Handle(Geom_BSplineCurve)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = curve->IsPeriodic();
+    bool val = curve->IsPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -142,7 +142,7 @@ PyObject* BSplineCurvePy::isClosed(PyObject *args) const
         return nullptr;
     Handle(Geom_BSplineCurve) curve = Handle(Geom_BSplineCurve)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = curve->IsClosed();
+    bool val = curve->IsClosed();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -275,7 +275,7 @@ PyObject* BSplineCurvePy::removeKnot(PyObject * args)
     try {
         Handle(Geom_BSplineCurve) curve = Handle(Geom_BSplineCurve)::DownCast
             (getGeometryPtr()->handle());
-        Standard_Boolean ok = curve->RemoveKnot(Index, M, tol);
+        bool ok = curve->RemoveKnot(Index, M, tol);
         return PyBool_FromLong(ok ? 1 : 0);
     }
     catch (Standard_Failure& e) {

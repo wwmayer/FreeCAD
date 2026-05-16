@@ -41,7 +41,7 @@ inline int HashCode(SMDS_MeshElementPtr theElem,
 }
 
 SMESH_EXPORT 
-inline Standard_Boolean IsEqual(SMDS_MeshElementPtr theOne,
+inline bool IsEqual(SMDS_MeshElementPtr theOne,
                                 SMDS_MeshElementPtr theTwo)
 {
   return theOne == theTwo;

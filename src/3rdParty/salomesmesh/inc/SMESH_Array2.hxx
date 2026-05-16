@@ -59,7 +59,7 @@ template <class TheItemType> class SMESH_Array2
       myArray   = (SMESH_Array2 *) &theArray; 
     }
     //! Check end
-    virtual Standard_Boolean More (void) const
+    virtual bool More (void) const
     { return (myCurrent < mySize); }
     //! Make step
     virtual void Next (void)
@@ -162,7 +162,7 @@ template <class TheItemType> class SMESH_Array2
   { return myUpperCol; }
 
   //! myDeletable flag
-  Standard_Boolean IsDeletable (void) const
+  bool IsDeletable (void) const
   { return myDeletable; }
 
   //! Assign 
@@ -309,7 +309,7 @@ template <class TheItemType> class SMESH_Array2
 
   TheItemType**    myData;      //!< Pointer to the row pointers table
   TheItemType*     myStart;     //!< Pointer to the memory array
-  Standard_Boolean myDeletable; //!< Flag showing who allocated the array
+  bool myDeletable; //!< Flag showing who allocated the array
 
   // ----------- FRIEND CLASSES ------------
  friend class Iterator;

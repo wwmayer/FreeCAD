@@ -61,7 +61,7 @@ PyObject* BezierCurve2dPy::isRational(PyObject *args)
         return nullptr;
     Handle(Geom2d_BezierCurve) curve = Handle(Geom2d_BezierCurve)::DownCast
         (getGeometry2dPtr()->handle());
-    Standard_Boolean val = curve->IsRational();
+    bool val = curve->IsRational();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -71,7 +71,7 @@ PyObject* BezierCurve2dPy::isPeriodic(PyObject *args)
         return nullptr;
     Handle(Geom2d_BezierCurve) curve = Handle(Geom2d_BezierCurve)::DownCast
         (getGeometry2dPtr()->handle());
-    Standard_Boolean val = curve->IsPeriodic();
+    bool val = curve->IsPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -81,7 +81,7 @@ PyObject* BezierCurve2dPy::isClosed(PyObject *args)
         return nullptr;
     Handle(Geom2d_BezierCurve) curve = Handle(Geom2d_BezierCurve)::DownCast
         (getGeometry2dPtr()->handle());
-    Standard_Boolean val = curve->IsClosed();
+    bool val = curve->IsClosed();
     return PyBool_FromLong(val ? 1 : 0);
 }
 

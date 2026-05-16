@@ -61,7 +61,7 @@ ProgressIndicator::~ProgressIndicator ()
 }
 
 void ProgressIndicator::Show (const Message_ProgressScope& theScope,
-                              const Standard_Boolean isForce)
+                              const bool isForce)
 {
     (void)isForce;
     Standard_CString aName = theScope.Name(); //current step
@@ -76,7 +76,7 @@ void ProgressIndicator::Show (const Message_ProgressScope& theScope,
     myProgress->show();
 }
 
-Standard_Boolean ProgressIndicator::UserBreak()
+bool ProgressIndicator::UserBreak()
 {
     QThread *currentThread = QThread::currentThread();
     if (currentThread == myProgress->thread()) {

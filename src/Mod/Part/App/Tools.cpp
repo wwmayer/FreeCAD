@@ -541,7 +541,7 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
         const TopoDS_Face      aZeroFace = TopoDS::Face(theFace.Located(TopLoc_Location()));
         Handle(Geom_Surface)   aSurf     = BRep_Tool::Surface(aZeroFace);
         const double    aTol      = Precision::Confusion();
-        Standard_Boolean hasNodesUV      = aPolyTri->HasUVNodes() && !aSurf.IsNull();
+        bool hasNodesUV      = aPolyTri->HasUVNodes() && !aSurf.IsNull();
         int aTri[3];
 
         aPolyTri->AddNormals();
@@ -695,7 +695,7 @@ Handle(Poly_Polygon3D) Part::Tools::polygonOfEdge(const TopoDS_Edge& edge, TopLo
 // of the surface given by the #LProp_SLProps objects
 template <typename T>
 void getNormalBySLProp(T& prop, double u, double v, double lastU, double lastV,
-                     const double tol, gp_Dir& dir, Standard_Boolean& done)
+                     const double tol, gp_Dir& dir, bool& done)
 {
     if (prop.D1U().Magnitude() > tol &&
         prop.D1V().Magnitude() > tol &&
@@ -722,7 +722,7 @@ void getNormalBySLProp(T& prop, double u, double v, double lastU, double lastV,
 }
 
 void Part::Tools::getNormal(const Handle(Geom_Surface)& surf, double u, double v,
-                            const double tol, gp_Dir& dir, Standard_Boolean& done)
+                            const double tol, gp_Dir& dir, bool& done)
 {
     GeomLProp_SLProps prop(surf, u, v, 1, tol);
     double u1,u2,v1,v2;
@@ -732,7 +732,7 @@ void Part::Tools::getNormal(const Handle(Geom_Surface)& surf, double u, double v
 }
 
 void Part::Tools::getNormal(const TopoDS_Face& face, double u, double v,
-                            const double tol, gp_Dir& dir, Standard_Boolean& done)
+                            const double tol, gp_Dir& dir, bool& done)
 {
     BRepAdaptor_Surface adapt(face);
     BRepLProp_SLProps prop(adapt, u, v, 1, tol);

@@ -427,7 +427,7 @@ void PropertyPartShape::afterRestore()
 // to disable saving of triangulation
 //
 
-static Standard_Boolean  BRepTools_Write(const TopoDS_Shape& Sh, const Standard_CString File)
+static bool  BRepTools_Write(const TopoDS_Shape& Sh, const Standard_CString File)
 {
   std::ofstream os;
   OSD_OpenStream(os, File, std::ios::out);
@@ -435,7 +435,7 @@ static Standard_Boolean  BRepTools_Write(const TopoDS_Shape& Sh, const Standard_
   if (!os.rdbuf()->is_open())
       return false;
 
-  Standard_Boolean isGood = (os.good() && !os.eof());
+  bool isGood = (os.good() && !os.eof());
   if(!isGood)
     return isGood;
 

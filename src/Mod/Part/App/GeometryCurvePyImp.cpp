@@ -931,8 +931,8 @@ PyObject* GeometryCurvePy::continuityWith(PyObject *args) const
     if (u2 < 0.0)
         u2 = c2->FirstParameter();
 
-    Standard_Boolean r1 = Base::asBoolean(rev1);
-    Standard_Boolean r2 = Base::asBoolean(rev2);
+    bool r1 = Base::asBoolean(rev1);
+    bool r2 = Base::asBoolean(rev2);
 
     try {
         if (!c1.IsNull() && !c2.IsNull()) {
@@ -1192,7 +1192,7 @@ PyObject* GeometryCurvePy::isPeriodic(PyObject *args) const
     try {
         Handle(Geom_Geometry) g = getGeometryPtr()->handle();
         Handle(Geom_Curve) c = Handle(Geom_Curve)::DownCast(g);
-        Standard_Boolean val = c->IsPeriodic();
+        bool val = c->IsPeriodic();
         return PyBool_FromLong(val ? 1 : 0);
     }
     catch (Standard_Failure& e) {
@@ -1224,7 +1224,7 @@ PyObject* GeometryCurvePy::isClosed(PyObject *args) const
     try {
         Handle(Geom_Geometry) g = getGeometryPtr()->handle();
         Handle(Geom_Curve) c = Handle(Geom_Curve)::DownCast(g);
-        Standard_Boolean val = c->IsClosed();
+        bool val = c->IsClosed();
         return PyBool_FromLong(val ? 1 : 0);
     }
     catch (Standard_Failure& e) {

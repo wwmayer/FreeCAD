@@ -1576,8 +1576,8 @@ private:
 
         try {
             TopoShape helix;
-            Standard_Boolean anIsLeft = Base::asBoolean(pleft);
-            Standard_Boolean anIsVertHeight = Base::asBoolean(pvertHeight);
+            bool anIsLeft = Base::asBoolean(pleft);
+            bool anIsVertHeight = Base::asBoolean(pvertHeight);
             TopoDS_Shape wire = helix.makeHelix(pitch, height, radius, angle,
                                                 anIsLeft, anIsVertHeight);
             return Py::asObject(new TopoShapeWirePy(new TopoShape(wire)));
@@ -1597,7 +1597,7 @@ private:
 
         try {
             TopoShape helix;
-            Standard_Boolean anIsLeft = Base::asBoolean(pleft);
+            bool anIsLeft = Base::asBoolean(pleft);
             TopoDS_Shape wire = helix.makeLongHelix(pitch, height, radius, angle, anIsLeft);
             return Py::asObject(new TopoShapeWirePy(new TopoShape(wire)));
         }
@@ -1879,9 +1879,9 @@ private:
                                                  &op)) {
             throw Py::Exception();
         }
-        Standard_Boolean anIsSolid = PyObject_IsTrue(psolid) ? true : false;
-        Standard_Boolean anIsRuled = PyObject_IsTrue(pruled) ? true : false;
-        Standard_Boolean anIsClosed = PyObject_IsTrue(pclosed) ? true : false;
+        bool anIsSolid = PyObject_IsTrue(psolid) ? true : false;
+        bool anIsRuled = PyObject_IsTrue(pruled) ? true : false;
+        bool anIsClosed = PyObject_IsTrue(pclosed) ? true : false;
         return shape2pyshape(TopoShape().makeElementLoft(
             getPyShapes(pcObj),
             anIsSolid ? Part::IsSolid::solid : Part::IsSolid::notSolid,

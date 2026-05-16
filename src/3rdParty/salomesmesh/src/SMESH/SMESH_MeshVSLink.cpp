@@ -146,8 +146,8 @@ SMESH_MeshVSLink::SMESH_MeshVSLink(const SMESH_Mesh *aMesh)
 // Function : GetGeom
 // Purpose  :
 //================================================================
-Standard_Boolean SMESH_MeshVSLink::GetGeom
-   ( const int ID, const Standard_Boolean IsElement,
+bool SMESH_MeshVSLink::GetGeom
+   ( const int ID, const bool IsElement,
 	TColStd_Array1OfReal& Coords, int& NbNodes,
 	MeshVS_EntityType& Type ) const
 {
@@ -189,7 +189,7 @@ Standard_Boolean SMESH_MeshVSLink::GetGeom
 // Function : Get3DGeom
 // Purpose  :
 //================================================================
-Standard_Boolean  SMESH_MeshVSLink::Get3DGeom
+bool  SMESH_MeshVSLink::Get3DGeom
    ( const int ID, int& NbNodes,
 	 Handle(MeshVS_HArray1OfSequenceOfInteger)& Data) const
 {
@@ -233,9 +233,9 @@ Standard_Boolean  SMESH_MeshVSLink::Get3DGeom
 // Function : GetGeomType
 // Purpose  :
 //================================================================
-Standard_Boolean SMESH_MeshVSLink::GetGeomType
+bool SMESH_MeshVSLink::GetGeomType
 	( const int ID,
-	  const Standard_Boolean IsElement,
+	  const bool IsElement,
 	  MeshVS_EntityType& Type ) const
 {
   if( IsElement ) {
@@ -266,7 +266,7 @@ Standard_Boolean SMESH_MeshVSLink::GetGeomType
 // Purpose  :
 //================================================================
 Standard_Address SMESH_MeshVSLink::GetAddr
-	( const int, const Standard_Boolean ) const
+	( const int, const bool ) const
 {
   return NULL;
 }
@@ -275,7 +275,7 @@ Standard_Address SMESH_MeshVSLink::GetAddr
 // Function : GetNodesByElement
 // Purpose  :
 //================================================================
-Standard_Boolean SMESH_MeshVSLink::GetNodesByElement
+bool SMESH_MeshVSLink::GetNodesByElement
 	( const int ID,TColStd_Array1OfInteger& NodeIDs,int& NbNodes ) const
 {
   const SMDS_MeshElement* myElem = myMesh->GetMeshDS()->FindElement(ID);
@@ -320,7 +320,7 @@ void SMESH_MeshVSLink::GetAllGroups(TColStd_PackedMapOfInteger& Ids) const
 // Function : GetNormal
 // Purpose  :
 //================================================================
-Standard_Boolean SMESH_MeshVSLink::GetNormal
+bool SMESH_MeshVSLink::GetNormal
 	( const int Id, const int Max,
 	  double& nx, double& ny,double& nz ) const
 {

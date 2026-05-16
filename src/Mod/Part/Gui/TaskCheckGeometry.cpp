@@ -1428,7 +1428,7 @@ BOPProgressIndicator::~BOPProgressIndicator ()
 }
 
 void BOPProgressIndicator::Show (const Message_ProgressScope& theScope,
-                                 const Standard_Boolean isForce)
+                                 const bool isForce)
 {
     Standard_CString aName = theScope.Name(); //current step
     myProgress->setLabelText (QString::fromUtf8(aName));
@@ -1451,7 +1451,7 @@ void BOPProgressIndicator::Reset()
     myProgress->setValue(0);
 }
 
-Standard_Boolean BOPProgressIndicator::UserBreak()
+bool BOPProgressIndicator::UserBreak()
 {
     QThread *currentThread = QThread::currentThread();
     if (currentThread == myProgress->thread()) {

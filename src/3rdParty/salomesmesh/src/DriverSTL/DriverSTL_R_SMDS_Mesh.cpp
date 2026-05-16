@@ -81,7 +81,7 @@ namespace
     //function : IsEqual
     //purpose  :
     //=======================================================================
-    inline static Standard_Boolean IsEqual
+    inline static bool IsEqual
     (const gp_Pnt& point1, const gp_Pnt& point2)
     {
       static double tab1[3], tab2[3];
@@ -175,7 +175,7 @@ Driver_Mesh::Status DriverSTL_R_SMDS_Mesh::Perform()
 static double readFloat(SMESH_File& theFile)
 {
   union {
-    Standard_Boolean i;
+    bool i;
     Standard_ShortReal f;
   } u;
 

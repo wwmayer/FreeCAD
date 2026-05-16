@@ -45,7 +45,7 @@ class PartExport BRepOffsetAPI_MakeOffsetFix : public BRepBuilderAPI_MakeShape
 {
 public:
     BRepOffsetAPI_MakeOffsetFix();
-    BRepOffsetAPI_MakeOffsetFix(const GeomAbs_JoinType Join, const Standard_Boolean IsOpenResult);
+    BRepOffsetAPI_MakeOffsetFix(const GeomAbs_JoinType Join, const bool IsOpenResult);
     ~BRepOffsetAPI_MakeOffsetFix() override;
 
     //! Initializes the algorithm to construct parallels to the wire Spine.
@@ -72,12 +72,12 @@ public:
     //! If join type is GeomAbs_Intersection, the edges that
     //! intersect in a salient vertex generate the edges
     //! prolonged until intersection.
-    void Init(const TopoDS_Face& Spine, const GeomAbs_JoinType Join = GeomAbs_Arc, const Standard_Boolean IsOpenResult = false);
+    void Init(const TopoDS_Face& Spine, const GeomAbs_JoinType Join = GeomAbs_Arc, const bool IsOpenResult = false);
 
     //! Initialize the evaluation of Offsetting.
-    void Init(const GeomAbs_JoinType Join = GeomAbs_Arc, const Standard_Boolean IsOpenResult = false);
+    void Init(const GeomAbs_JoinType Join = GeomAbs_Arc, const bool IsOpenResult = false);
 
-    Standard_Boolean IsDone() const override;
+    bool IsDone() const override;
 
     //! Returns a shape built by the shape construction algorithm.
     //! Raises exception StdFail_NotDone if the shape was not built.
@@ -92,7 +92,7 @@ public:
     const TopTools_ListOfShape& Modified (const TopoDS_Shape& S) override;
 
     //! Returns true if the shape S has been deleted.
-    Standard_Boolean IsDeleted (const TopoDS_Shape& S) override;
+    bool IsDeleted (const TopoDS_Shape& S) override;
 
     //! Replaces the given curve type with a B-Spline. Input shape <S>
     //! must be a wire or a compound of wires

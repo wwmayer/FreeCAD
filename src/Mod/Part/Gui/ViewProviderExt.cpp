@@ -1091,7 +1091,7 @@ void ViewProviderPartExt::updateVisual()
 
             // getting the transformation of the shape/face
             gp_Trsf myTransf;
-            Standard_Boolean identity = true;
+            bool identity = true;
             if (!aLoc.IsIdentity()) {
                 identity = false;
                 myTransf = aLoc.Transformation();
@@ -1239,7 +1239,7 @@ void ViewProviderPartExt::updateVisual()
         // handling of the free edges
         for (int i=1; i <= edgeMap.Extent(); i++) {
             const TopoDS_Edge& aEdge = TopoDS::Edge(edgeMap(i));
-            Standard_Boolean identity = true;
+            bool identity = true;
             gp_Trsf myTransf;
             TopLoc_Location aLoc;
 

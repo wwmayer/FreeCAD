@@ -85,7 +85,7 @@ void Edgecluster::Perform()
             iter = m_vertices.begin();
         const gp_Pnt& firstPoint = iter->first;
         gp_Pnt currentPoint = firstPoint;
-        Standard_Boolean toContinue;
+        bool toContinue;
         do
         {
             toContinue = PerformEdges(currentPoint);

@@ -745,7 +745,7 @@ PyObject* TopoShapeEdgePy::isSeam(PyObject *args) const
         const TopoDS_Face& f = TopoDS::Face(static_cast<TopoShapeFacePy*>(face)->getTopoShapePtr()->getShape());
 
         ShapeAnalysis_Edge sa;
-        Standard_Boolean ok = sa.IsSeam(e, f);
+        bool ok = sa.IsSeam(e, f);
         return PyBool_FromLong(ok ? 1 : 0);
     }
     catch (Standard_Failure& e) {
@@ -1032,13 +1032,13 @@ Py::Boolean TopoShapeEdgePy::getClosed() const
 {
     if (getTopoShapePtr()->getShape().IsNull())
         throw Py::RuntimeError("Cannot determine the 'Closed'' flag of an empty shape");
-    Standard_Boolean ok = BRep_Tool::IsClosed(getTopoShapePtr()->getShape());
+    bool ok = BRep_Tool::IsClosed(getTopoShapePtr()->getShape());
     return Py::Boolean(ok ? true : false);
 }
 
 Py::Boolean TopoShapeEdgePy::getDegenerated() const
 {
-    Standard_Boolean ok = BRep_Tool::Degenerated(TopoDS::Edge(getTopoShapePtr()->getShape()));
+    bool ok = BRep_Tool::Degenerated(TopoDS::Edge(getTopoShapePtr()->getShape()));
     return Py::Boolean(ok ? true : false);
 }
 

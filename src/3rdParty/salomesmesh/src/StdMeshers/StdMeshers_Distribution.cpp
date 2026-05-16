@@ -210,10 +210,10 @@ FunctionExpr::~FunctionExpr()
 {
 }
 
-Standard_Boolean FunctionExpr::Value( const double T, double& F )
+bool FunctionExpr::Value( const double T, double& F )
 {
   double f;
-  Standard_Boolean res = value( T, f );
+  bool res = value( T, f );
   F = f;
   return res;
 }

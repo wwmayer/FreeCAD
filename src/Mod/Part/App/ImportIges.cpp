@@ -81,7 +81,7 @@ int Part::ImportIgesParts(App::Document *pcDoc, const char* FileName)
         aReader.TransferRoots();
 
         // put all other free-flying shapes into a single compound
-        Standard_Boolean emptyComp = true;
+        bool emptyComp = true;
         BRep_Builder builder;
         TopoDS_Compound comp;
         builder.MakeCompound(comp);

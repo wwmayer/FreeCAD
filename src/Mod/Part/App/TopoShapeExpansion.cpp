@@ -2368,7 +2368,7 @@ static std::vector<TopoShape> prepareProfiles(const std::vector<TopoShape>& shap
 
 TopoShape& TopoShape::makeElementPipeShell(const std::vector<TopoShape>& shapes,
                                            const MakeSolid make_solid,
-                                           const Standard_Boolean isFrenet,
+                                           const bool isFrenet,
                                            TransitionMode transition,
                                            const char* op,
                                            double tol3d,
@@ -4228,7 +4228,7 @@ TopoShape& TopoShape::makeElementLoft(const std::vector<TopoShape>& shapes,
         }
     }
 
-    Standard_Boolean anIsCheck = true;
+    bool anIsCheck = true;
     aGenerator.CheckCompatibility(anIsCheck);  // use BRepFill_CompatibleWires on profiles. force
                                                // #edges, orientation, "origin" to match.
 
@@ -4257,7 +4257,7 @@ TopoShape& TopoShape::makeElementPrismUntil(const TopoShape& _base,
                                             const TopoShape& __uptoface,
                                             const gp_Dir& direction,
                                             PrismMode Mode,
-                                            Standard_Boolean checkLimits,
+                                            bool checkLimits,
                                             const char* op)
 {
     if (!op) {
@@ -4485,7 +4485,7 @@ TopoShape& TopoShape::makeElementRevolution(const TopoShape& _base,
                                             const TopoDS_Face& uptoface,
                                             const char* face_maker,
                                             RevolMode Mode,
-                                            Standard_Boolean Modify,
+                                            bool Modify,
                                             const char* op)
 {
     if (!op) {

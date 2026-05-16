@@ -110,7 +110,7 @@ bool Part2DObject::seekTrimPoints(const std::vector<Geometry *> &geomlist,
 
     gp_Pln plane(gp_Pnt(0,0,0),gp_Dir(0,0,1));
 
-    Standard_Boolean periodic=false;
+    bool periodic=false;
     double period = 0;
     Handle(Geom2d_Curve) primaryCurve;
     Handle(Geom_Geometry) geom = (geomlist[geometryIndex])->handle();

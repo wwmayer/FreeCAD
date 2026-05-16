@@ -246,7 +246,7 @@ void FeatureExtrude::generatePrism(TopoDS_Shape& prism,
                                    const TopoDS_Shape& uptoface,
                                    const gp_Dir& direction,
                                    PrismMode Mode,
-                                   Standard_Boolean Modify)
+                                   bool Modify)
 {
     if (method == "UpToFirst" || method == "UpToFace") {
         BRepFeat_MakePrism PrismMaker;

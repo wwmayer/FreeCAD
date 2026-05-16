@@ -308,7 +308,7 @@ public:
    /*!
     * Interpolate a spline passing through the given points without tangency.
     */
-    void interpolate(const std::vector<gp_Pnt>&, Standard_Boolean=false);
+    void interpolate(const std::vector<gp_Pnt>&, bool=false);
     /*!
      * Set the poles and tangents for the cubic Hermite spline
      */

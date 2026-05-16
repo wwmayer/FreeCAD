@@ -147,7 +147,7 @@ PyObject* ShapeFix_FacePy::fixOrientation(PyObject *args)
     if (!PyArg_ParseTuple(args, ""))
         return nullptr;
 
-    Standard_Boolean ok = getShapeFix_FacePtr()->FixOrientation();
+    bool ok = getShapeFix_FacePtr()->FixOrientation();
     return Py::new_reference_to(Py::Boolean(ok));
 }
 
@@ -156,7 +156,7 @@ PyObject* ShapeFix_FacePy::fixAddNaturalBound(PyObject *args)
     if (!PyArg_ParseTuple(args, ""))
         return nullptr;
 
-    Standard_Boolean ok = getShapeFix_FacePtr()->FixAddNaturalBound();
+    bool ok = getShapeFix_FacePtr()->FixAddNaturalBound();
     return Py::new_reference_to(Py::Boolean(ok));
 }
 
@@ -165,7 +165,7 @@ PyObject* ShapeFix_FacePy::fixMissingSeam(PyObject *args)
     if (!PyArg_ParseTuple(args, ""))
         return nullptr;
 
-    Standard_Boolean ok = getShapeFix_FacePtr()->FixMissingSeam();
+    bool ok = getShapeFix_FacePtr()->FixMissingSeam();
     return Py::new_reference_to(Py::Boolean(ok));
 }
 
@@ -175,7 +175,7 @@ PyObject* ShapeFix_FacePy::fixSmallAreaWire(PyObject *args)
     if (!PyArg_ParseTuple(args, "O!", &PyBool_Type, &removeSmall))
         return nullptr;
 
-    Standard_Boolean ok = getShapeFix_FacePtr()->FixSmallAreaWire(Base::asBoolean(removeSmall));
+    bool ok = getShapeFix_FacePtr()->FixSmallAreaWire(Base::asBoolean(removeSmall));
     return Py::new_reference_to(Py::Boolean(ok));
 }
 
@@ -185,7 +185,7 @@ PyObject* ShapeFix_FacePy::fixLoopWire(PyObject *args)
         return nullptr;
 
     TopTools_SequenceOfShape aResWires;
-    Standard_Boolean ok = getShapeFix_FacePtr()->FixLoopWire(aResWires);
+    bool ok = getShapeFix_FacePtr()->FixLoopWire(aResWires);
     Py::List list;
     for (int index = aResWires.Lower(); index <= aResWires.Upper(); index++) {
         TopoShape sh = aResWires(index);
@@ -199,7 +199,7 @@ PyObject* ShapeFix_FacePy::fixIntersectingWires(PyObject *args)
     if (!PyArg_ParseTuple(args, ""))
         return nullptr;
 
-    Standard_Boolean ok = getShapeFix_FacePtr()->FixIntersectingWires();
+    bool ok = getShapeFix_FacePtr()->FixIntersectingWires();
     return Py::new_reference_to(Py::Boolean(ok));
 }
 
@@ -208,7 +208,7 @@ PyObject* ShapeFix_FacePy::fixWiresTwoCoincidentEdges(PyObject *args)
     if (!PyArg_ParseTuple(args, ""))
         return nullptr;
 
-    Standard_Boolean ok = getShapeFix_FacePtr()->FixWiresTwoCoincEdges();
+    bool ok = getShapeFix_FacePtr()->FixWiresTwoCoincEdges();
     return Py::new_reference_to(Py::Boolean(ok));
 }
 
@@ -217,7 +217,7 @@ PyObject* ShapeFix_FacePy::fixPeriodicDegenerated(PyObject *args)
     if (!PyArg_ParseTuple(args, ""))
         return nullptr;
 
-    Standard_Boolean ok = getShapeFix_FacePtr()->FixPeriodicDegenerated();
+    bool ok = getShapeFix_FacePtr()->FixPeriodicDegenerated();
     return Py::new_reference_to(Py::Boolean(ok));
 }
 
@@ -226,7 +226,7 @@ PyObject* ShapeFix_FacePy::perform(PyObject *args)
     if (!PyArg_ParseTuple(args, ""))
         return nullptr;
 
-    Standard_Boolean ok = getShapeFix_FacePtr()->Perform();
+    bool ok = getShapeFix_FacePtr()->Perform();
     return Py::new_reference_to(Py::Boolean(ok));
 }
 

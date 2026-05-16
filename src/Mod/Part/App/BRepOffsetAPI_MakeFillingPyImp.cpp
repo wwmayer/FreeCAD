@@ -373,7 +373,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::isDone(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Boolean ok = getBRepOffsetAPI_MakeFillingPtr()->IsDone();
+        bool ok = getBRepOffsetAPI_MakeFillingPtr()->IsDone();
         return Py_BuildValue("O", (ok ? Py_True : Py_False));
     }
     catch (const Standard_Failure& e) {

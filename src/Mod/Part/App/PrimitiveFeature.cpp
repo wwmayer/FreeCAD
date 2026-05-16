@@ -791,7 +791,7 @@ App::DocumentObjectExecReturn *Helix::execute()
         double myHeight = Height.getValue();
         double myRadius = Radius.getValue();
         double myAngle  = Angle.getValue();
-        Standard_Boolean myLocalCS = LocalCoord.getValue() ? true : false;
+        bool myLocalCS = LocalCoord.getValue() ? true : false;
         double mySegLen = SegmentLength.getValue();
         if (myPitch < Precision::Confusion())
             throw Standard_Failure("Pitch too small");

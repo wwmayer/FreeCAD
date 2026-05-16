@@ -205,7 +205,7 @@ PyObject* PointConstraintPy::hasPnt2dOnSurf(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Boolean ok = getGeomPlate_PointConstraintPtr()->HasPnt2dOnSurf();
+        bool ok = getGeomPlate_PointConstraintPtr()->HasPnt2dOnSurf();
         return Py_BuildValue("O", (ok ? Py_True : Py_False));
     }
     catch (const Standard_Failure& e) {

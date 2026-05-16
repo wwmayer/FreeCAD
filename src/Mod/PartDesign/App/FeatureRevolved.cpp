@@ -393,7 +393,7 @@ void Revolved::generateRevolution(TopoShape& revol,
                                   const gp_Ax1& axis,
                                   RevolMethod method,
                                   Part::RevolMode Mode,
-                                  Standard_Boolean Modify)
+                                  bool Modify)
 {
     if (method == RevolMethod::ToFirst || method == RevolMethod::ToFace || method == RevolMethod::ToLast) {
         revol = revol.makeElementRevolution(baseshape, profileshape, axis, supportface, uptoface, nullptr,

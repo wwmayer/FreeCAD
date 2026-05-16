@@ -89,7 +89,7 @@ PyObject* BSplineSurfacePy::isURational(PyObject *args) const
 
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsURational();
+    bool val = surf->IsURational();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -100,7 +100,7 @@ PyObject* BSplineSurfacePy::isVRational(PyObject *args) const
 
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsVRational();
+    bool val = surf->IsVRational();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -111,7 +111,7 @@ PyObject* BSplineSurfacePy::isUPeriodic(PyObject *args) const
 
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsUPeriodic();
+    bool val = surf->IsUPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -122,7 +122,7 @@ PyObject* BSplineSurfacePy::isVPeriodic(PyObject *args) const
 
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsVPeriodic();
+    bool val = surf->IsVPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -133,7 +133,7 @@ PyObject* BSplineSurfacePy::isUClosed(PyObject *args) const
 
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsUClosed();
+    bool val = surf->IsUClosed();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -144,7 +144,7 @@ PyObject* BSplineSurfacePy::isVClosed(PyObject *args) const
 
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsVPeriodic();
+    bool val = surf->IsVPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -370,7 +370,7 @@ PyObject* BSplineSurfacePy::removeUKnot(PyObject *args)
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        Standard_Boolean ok = surf->RemoveUKnot(Index,M,tol);
+        bool ok = surf->RemoveUKnot(Index,M,tol);
         return PyBool_FromLong(ok ? 1 : 0);
     }
     catch (Standard_Failure& e) {
@@ -389,7 +389,7 @@ PyObject* BSplineSurfacePy::removeVKnot(PyObject *args)
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        Standard_Boolean ok = surf->RemoveVKnot(Index,M,tol);
+        bool ok = surf->RemoveVKnot(Index,M,tol);
         return PyBool_FromLong(ok ? 1 : 0);
     }
     catch (Standard_Failure& e) {
@@ -1230,7 +1230,7 @@ PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
 
         Approx_ParametrizationType pt;
         std::string pstr = parType;
-        Standard_Boolean useParam = true;
+        bool useParam = true;
         if (pstr == "Uniform" )
             pt = Approx_IsoParametric;
         else if (pstr == "Centripetal" )
@@ -1370,7 +1370,7 @@ PyObject* BSplineSurfacePy::buildFromPolesMultsKnots(PyObject *args, PyObject *k
         int lv = col.size();
         TColgp_Array2OfPnt occpoles(1, lu, 1, lv);
         TColStd_Array2OfReal occweights(1, lu, 1, lv);
-        Standard_Boolean genweights = (weights==Py_None) ? true : false; //cache
+        bool genweights = (weights==Py_None) ? true : false; //cache
         int index1 = 0;
         int index2 = 0;
         for (Py::Sequence::iterator it1 = list.begin(); it1 != list.end(); ++it1) {

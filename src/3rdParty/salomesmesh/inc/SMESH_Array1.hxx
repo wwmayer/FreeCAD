@@ -75,7 +75,7 @@ template <class TheItemType> class SMESH_Array1
       myArray   = (SMESH_Array1 *) &theArray; 
     }
     //! Check end
-    virtual Standard_Boolean More (void) const
+    virtual bool More (void) const
     { return (myCurrent<=myArray->Upper()); }
     //! Make step
     virtual void Next (void)         
@@ -175,11 +175,11 @@ template <class TheItemType> class SMESH_Array1
   { return myUpperBound; }
 
   //! myDeletable flag
-  Standard_Boolean IsDeletable (void) const
+  bool IsDeletable (void) const
   { return myDeletable; }
 
   //! IsAllocated flag - for naming compatibility
-  Standard_Boolean IsAllocated (void) const
+  bool IsAllocated (void) const
   { return myDeletable; }
 
   //! Assign (any collection to this array)
@@ -273,7 +273,7 @@ template <class TheItemType> class SMESH_Array1
   // ---------- PROTECTED FIELDS -----------
   int     myLowerBound;
   int     myUpperBound;
-  Standard_Boolean     myDeletable; //!< Flag showing who allocated the array
+  bool     myDeletable; //!< Flag showing who allocated the array
   TheItemType*         myData;      //!< Pointer to '0'th array item
 };
 

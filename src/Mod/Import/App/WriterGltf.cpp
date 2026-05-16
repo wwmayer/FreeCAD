@@ -59,7 +59,7 @@ void WriterGltf::write(Handle(TDocStd_Document) hDoc) const  // NOLINT
     aWriter.SetForcedUVExport(exportUVCoords());
     aWriter.SetMergeFaces(mergeFaces());
 #endif
-    Standard_Boolean ret = aWriter.Perform(hDoc, aMetadata, Message_ProgressRange());
+    bool ret = aWriter.Perform(hDoc, aMetadata, Message_ProgressRange());
     if (!ret) {
         throw Base::FileException("Cannot save to file: ", file);
     }

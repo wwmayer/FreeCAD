@@ -251,7 +251,7 @@ bool ViewProviderCurveNet::handleEvent(const SoEvent * const ev, Gui::View3DInve
     return false;
 }
 
-Standard_Boolean ViewProviderCurveNet::computeEdges(SoSeparator* root, const TopoDS_Shape &myShape)
+bool ViewProviderCurveNet::computeEdges(SoSeparator* root, const TopoDS_Shape &myShape)
 {
     unsigned long ulNbOfPoints = 50;
 
@@ -296,7 +296,7 @@ Standard_Boolean ViewProviderCurveNet::computeEdges(SoSeparator* root, const Top
     return true;
 }
 
-Standard_Boolean ViewProviderCurveNet::computeVertices(SoSeparator* root, const TopoDS_Shape &myShape)
+bool ViewProviderCurveNet::computeVertices(SoSeparator* root, const TopoDS_Shape &myShape)
 {
     TopExp_Explorer ex;
     SoSeparator *VertexRoot = new SoSeparator();

@@ -76,7 +76,7 @@ PyObject* ShapeFix_ShapePy::perform(PyObject *args)
     if (!PyArg_ParseTuple(args, ""))
         return nullptr;
 
-    Standard_Boolean ok = getShapeFix_ShapePtr()->Perform();
+    bool ok = getShapeFix_ShapePtr()->Perform();
     return Py::new_reference_to(Py::Boolean(ok ? true : false));
 }
 

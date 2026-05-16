@@ -401,7 +401,7 @@ int HashCode(const Link& aLink, int aLimit)
 #endif
 }
 
-Standard_Boolean IsEqual(const Link& aLink1, const Link& aLink2)
+bool IsEqual(const Link& aLink1, const Link& aLink2)
 {
   return ((aLink1.n1 == aLink2.n1 && aLink1.n2 == aLink2.n2) ||
           (aLink1.n1 == aLink2.n2 && aLink1.n2 == aLink2.n1));

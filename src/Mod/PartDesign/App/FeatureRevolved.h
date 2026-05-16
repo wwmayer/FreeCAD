@@ -125,7 +125,7 @@ private:
                             const gp_Ax1& ax1,
                             RevolMethod method,
                             Part::RevolMode Mode,
-                            Standard_Boolean Modify);
+                            bool Modify);
 
     /**
      * Disables settings that are not valid for the current method

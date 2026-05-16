@@ -1802,7 +1802,7 @@ TopoDS_Shape TopoShape::oldFuse(TopoDS_Shape shape) const
     throw Standard_Failure("BRepAlgo_Fuse is deprecated since OCCT 7.3");
 }
 
-TopoDS_Shape TopoShape::section(TopoDS_Shape shape, Standard_Boolean approximate) const
+TopoDS_Shape TopoShape::section(TopoDS_Shape shape, bool approximate) const
 {
     if (this->_Shape.IsNull())
         throw Standard_Failure("Base shape is null");
@@ -1820,7 +1820,7 @@ TopoDS_Shape TopoShape::section(TopoDS_Shape shape, Standard_Boolean approximate
 
 TopoDS_Shape TopoShape::section(const std::vector<TopoDS_Shape>& shapes,
                                 double tolerance,
-                                Standard_Boolean approximate) const
+                                bool approximate) const
 {
     if (this->_Shape.IsNull())
         throw Standard_Failure("Base shape is null");
@@ -1931,8 +1931,8 @@ TopoDS_Shape TopoShape::makePipe(const TopoDS_Shape& profile) const
 }
 
 TopoDS_Shape TopoShape::makePipeShell(const TopTools_ListOfShape& profiles,
-                                      const Standard_Boolean make_solid,
-                                      const Standard_Boolean isFrenet,
+                                      const bool make_solid,
+                                      const bool isFrenet,
                                       int transition) const
 {
     if (this->_Shape.IsNull())
@@ -1983,8 +1983,8 @@ TopoDS_Shape TopoShape::makeTube(double radius, double tol, int cont, int maxdeg
     // http://opencascade.blogspot.com/2009/11/surface-modeling-part3.html
     double theTol = tol;
     double theRadius = radius;
-    //Standard_Boolean theIsPolynomial = true;
-    Standard_Boolean myIsElem = true;
+    //bool theIsPolynomial = true;
+    bool myIsElem = true;
     GeomAbs_Shape theContinuity = GeomAbs_Shape(cont);
     int theMaxDegree = maxdegree;
     int theMaxSegment = maxsegm;
@@ -2092,7 +2092,7 @@ TopoDS_Shape TopoShape::makeSweep(const TopoDS_Shape& profile, double tol, int f
 
 TopoDS_Shape TopoShape::makeTorus(double radius1, double radius2,
                                   double angle1, double angle2,
-                                  double angle3, Standard_Boolean isSolid) const
+                                  double angle3, bool isSolid) const
 {
     // https://forum.freecad.org/viewtopic.php?f=3&t=1445
     // https://forum.freecad.org/viewtopic.php?f=3&t=52719
@@ -2124,8 +2124,8 @@ TopoDS_Shape TopoShape::makeTorus(double radius1, double radius2,
 
 TopoDS_Shape TopoShape::makeHelix(double pitch, double height,
                                   double radius, double angle,
-                                  Standard_Boolean leftHanded,
-                                  Standard_Boolean newStyle) const
+                                  bool leftHanded,
+                                  bool newStyle) const
 {
     using Base::numbers::pi;
 
@@ -2190,7 +2190,7 @@ TopoDS_Shape TopoShape::makeHelix(double pitch, double height,
 //***********
 TopoDS_Shape TopoShape::makeLongHelix(double pitch, double height,
                                       double radius, double angle,
-                                      Standard_Boolean leftHanded) const
+                                      bool leftHanded) const
 {
     using Base::numbers::pi;
 
@@ -2202,7 +2202,7 @@ TopoDS_Shape TopoShape::makeLongHelix(double pitch, double height,
 
     gp_Ax2 cylAx2(gp_Pnt(0.0,0.0,0.0) , gp::DZ());
     Handle(Geom_Surface) surf;
-    Standard_Boolean isCylinder;
+    bool isCylinder;
 
     if (std::fabs(angle) < Precision::Confusion()) {                           // Cylindrical helix
         if (radius < Precision::Confusion())
@@ -2272,7 +2272,7 @@ TopoDS_Shape TopoShape::makeLongHelix(double pitch, double height,
 
 TopoDS_Shape TopoShape::makeSpiralHelix(double radiusbottom, double radiustop,
                                   double height, double nbturns,
-                                  double breakperiod, Standard_Boolean leftHanded) const
+                                  double breakperiod, bool leftHanded) const
 {
     // 1000 periods is an OCCT limit. The 3D curve gets truncated
     // if the 2D curve spans beyond this limit.
@@ -2387,9 +2387,9 @@ TopoDS_Shape TopoShape::makeThread(double pitch,
 }
 
 TopoDS_Shape TopoShape::makeLoft(const TopTools_ListOfShape& profiles,
-                                 Standard_Boolean isSolid,
-                                 Standard_Boolean isRuled,
-                                 Standard_Boolean isClosed,
+                                 bool isSolid,
+                                 bool isRuled,
+                                 bool isClosed,
                                  int maxDegree) const
 {
     // http://opencascade.blogspot.com/2010/01/surface-modeling-part5.html
@@ -2448,7 +2448,7 @@ TopoDS_Shape TopoShape::makeLoft(const TopTools_ListOfShape& profiles,
         }
     }
 
-    Standard_Boolean anIsCheck = true;
+    bool anIsCheck = true;
     aGenerator.CheckCompatibility (anIsCheck);   // use BRepFill_CompatibleWires on profiles. force #edges, orientation, "origin" to match.
     aGenerator.Build();
     if (!aGenerator.IsDone())
@@ -2467,7 +2467,7 @@ TopoDS_Shape TopoShape::makePrism(const gp_Vec& vec) const
     return mkPrism.Shape();
 }
 
-TopoDS_Shape TopoShape::revolve(const gp_Ax1& axis, double d, Standard_Boolean isSolid) const
+TopoDS_Shape TopoShape::revolve(const gp_Ax1& axis, double d, bool isSolid) const
 {
     if (this->_Shape.IsNull()) {
         throw Standard_Failure("cannot revolve empty shape");
@@ -2476,7 +2476,7 @@ TopoDS_Shape TopoShape::revolve(const gp_Ax1& axis, double d, Standard_Boolean i
     TopoDS_Face f;
     TopoDS_Wire w;
     TopoDS_Edge e;
-    Standard_Boolean convertFailed = false;
+    bool convertFailed = false;
 
     TopoDS_Shape base = this->_Shape;
     if ((isSolid) && (BRep_Tool::IsClosed(base)) &&
@@ -3435,7 +3435,7 @@ void TopoShape::setFaces(const std::vector<Base::Vector3d> &Points,
     // However, the computing time can be reduced by 90%.
     // If a shell is needed then the sewShape() function should be called explicitly.
     BRepBuilderAPI_Sewing aSewingTool;
-    Standard_Boolean performSewing = false;
+    bool performSewing = false;
     aSewingTool.Init(tolerance, performSewing);
     aSewingTool.Load(aComp);
 

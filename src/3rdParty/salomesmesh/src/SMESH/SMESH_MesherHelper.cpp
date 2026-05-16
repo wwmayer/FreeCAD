@@ -617,8 +617,8 @@ gp_XY SMESH_MesherHelper::GetNodeUV(const TopoDS_Face&   F,
     { // adjust uv to period
       TopLoc_Location loc;
       Handle(Geom_Surface) S = BRep_Tool::Surface(F,loc);
-      Standard_Boolean isUPeriodic = S->IsUPeriodic();
-      Standard_Boolean isVPeriodic = S->IsVPeriodic();
+      bool isUPeriodic = S->IsUPeriodic();
+      bool isVPeriodic = S->IsVPeriodic();
       gp_Pnt2d newUV = uv;
       if ( isUPeriodic || isVPeriodic ) {
         double UF,UL,VF,VL;
@@ -857,8 +857,8 @@ gp_XY SMESH_MesherHelper::ApplyIn2D(Handle(Geom_Surface) surface,
 {
   if ( surface->IsKind(STANDARD_TYPE(Geom_RectangularTrimmedSurface )))
     surface = Handle(Geom_RectangularTrimmedSurface)::DownCast( surface )->BasisSurface();
-  Standard_Boolean isUPeriodic = surface.IsNull() ? false : surface->IsUPeriodic();
-  Standard_Boolean isVPeriodic = surface.IsNull() ? false : surface->IsVPeriodic();
+  bool isUPeriodic = surface.IsNull() ? false : surface->IsUPeriodic();
+  bool isVPeriodic = surface.IsNull() ? false : surface->IsVPeriodic();
   if ( !isUPeriodic && !isVPeriodic )
     return fun(uv1,uv2);
 
@@ -1701,7 +1701,7 @@ const SMDS_MeshNode* SMESH_MesherHelper::GetMediumNode(const SMDS_MeshNode* n1,
       Handle(Geom_Curve) C = BRep_Tool::Curve(E, f, l);
       if(!C.IsNull())
       {
-        Standard_Boolean isPeriodic = C->IsPeriodic();
+        bool isPeriodic = C->IsPeriodic();
         double U;
         if(isPeriodic) {
           double Period = C->Period();

@@ -111,7 +111,7 @@ void Filling::addConstraints(BRepFill_Filling& builder,
                              const App::PropertyLinkSubList& edges,
                              const App::PropertyStringList& faces,
                              const App::PropertyIntegerList& orders,
-                             Standard_Boolean bnd)
+                             bool bnd)
 {
     auto edge_obj = edges.getValues();
     auto edge_sub = edges.getSubValues();
