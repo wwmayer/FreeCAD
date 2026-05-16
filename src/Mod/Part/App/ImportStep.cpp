@@ -76,8 +76,7 @@ int Part::ImportStepParts(App::Document *pcDoc, const char* Name)
     std::string encodednamestr = encodeFilename(std::string(Name));
     const char * encodedname = encodednamestr.c_str();
 
-    if (aReader.ReadFile((Standard_CString)encodedname) !=
-            IFSelect_RetDone) {
+    if (aReader.ReadFile(encodedname) != IFSelect_RetDone) {
         throw Base::FileException("Cannot open STEP file");
     }
 

@@ -195,7 +195,7 @@ FunctionExpr::FunctionExpr( const char* str, const int conv )
     OCC_CATCH_SIGNALS;
 #endif
     myExpr = ExprIntrp_GenExp::Create();
-    myExpr->Process( ( Standard_CString )str );
+    myExpr->Process( str );
   } catch(Standard_Failure&) {
     ok = false;
   }

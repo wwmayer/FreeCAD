@@ -63,7 +63,7 @@ int Part::ImportIgesParts(App::Document *pcDoc, const char* FileName)
         Message_MsgFile::LoadFromEnv("CSF_SHMessageStd","SHAPEStd");
 
         IGESControl_Reader aReader;
-        if (aReader.ReadFile((Standard_CString)FileName) != IFSelect_RetDone)
+        if (aReader.ReadFile(FileName) != IFSelect_RetDone)
             throw Base::FileException("Error in reading IGES");
 
         // Ignore construction elements

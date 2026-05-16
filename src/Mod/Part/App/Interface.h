@@ -24,7 +24,6 @@
 #define PART_INTERFACE_H
 
 #include <Mod/Part/PartGlobal.h>
-#include <Standard_CString.hxx>
 
 
 namespace Part
@@ -50,25 +49,25 @@ public:
     /** STEP settings */
     //@{
     static void writeStepAssembly(Assembly);
-    static Standard_CString writeStepScheme();
-    static bool writeStepScheme(Standard_CString);
-    static Standard_CString writeStepUnit();
-    static bool writeStepUnit(Standard_CString);
+    static const char* writeStepScheme();
+    static bool writeStepScheme(const char*);
+    static const char* writeStepUnit();
+    static bool writeStepUnit(const char*);
     static bool writeStepUnit(Unit);
-    static Standard_CString writeStepHeaderProduct();
-    static bool writeStepHeaderProduct(Standard_CString);
+    static const char* writeStepHeaderProduct();
+    static bool writeStepHeaderProduct(const char*);
     //@}
 
     /** IGES settings */
     //@{
-    static Standard_CString writeIgesHeaderAuthor();
-    static bool writeIgesHeaderAuthor(Standard_CString);
-    static Standard_CString writeIgesHeaderCompany();
-    static bool writeIgesHeaderCompany(Standard_CString);
-    static Standard_CString writeIgesHeaderProduct();
-    static bool writeIgesHeaderProduct(Standard_CString);
-    static Standard_CString writeIgesUnit();
-    static bool writeIgesUnit(Standard_CString);
+    static const char* writeIgesHeaderAuthor();
+    static bool writeIgesHeaderAuthor(const char*);
+    static const char* writeIgesHeaderCompany();
+    static bool writeIgesHeaderCompany(const char*);
+    static const char* writeIgesHeaderProduct();
+    static bool writeIgesHeaderProduct(const char*);
+    static const char* writeIgesUnit();
+    static bool writeIgesUnit(const char*);
     static bool writeIgesUnit(Unit);
     static int writeIgesBrepMode();
     static bool writeIgesBrepMode(int);

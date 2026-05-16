@@ -465,7 +465,7 @@ App::DocumentObject* Feature::getSubObject(const char* subname,
         // Instead either raise a sub-class of Base::Exception and let it handle by the calling
         // instance or do simply nothing. For now the error message is degraded to a log message.
         std::ostringstream str;
-        Standard_CString msg = e.GetMessageString();
+        const char* msg = e.GetMessageString();
 
         // Avoid name mangling
         str << getTypeName(e) << " ";

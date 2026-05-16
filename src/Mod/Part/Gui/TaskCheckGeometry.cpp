@@ -1430,7 +1430,7 @@ BOPProgressIndicator::~BOPProgressIndicator ()
 void BOPProgressIndicator::Show (const Message_ProgressScope& theScope,
                                  const bool isForce)
 {
-    Standard_CString aName = theScope.Name(); //current step
+    const char* aName = theScope.Name(); //current step
     myProgress->setLabelText (QString::fromUtf8(aName));
 
     if (isForce) {

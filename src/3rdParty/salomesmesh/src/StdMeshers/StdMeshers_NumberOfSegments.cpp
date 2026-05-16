@@ -100,7 +100,7 @@ StdMeshers_NumberOfSegments::~StdMeshers_NumberOfSegments()
 const vector<double>&
 StdMeshers_NumberOfSegments::BuildDistributionExpr( const char* expr,int nbSeg,int conv )
 {
-  if( !buildDistribution( TCollection_AsciiString( ( Standard_CString )expr ), conv, 0.0, 1.0, nbSeg, _distr, 1E-4 ) )
+  if( !buildDistribution( TCollection_AsciiString( expr ), conv, 0.0, 1.0, nbSeg, _distr, 1E-4 ) )
     _distr.resize( 0 );
   return _distr;
 }
@@ -409,7 +409,7 @@ StdMeshers_NumberOfSegments::CheckExpressionFunction( const std::string& expr,
                                                       const int          convMode)
 {
   // remove white spaces
-  TCollection_AsciiString str((Standard_CString)expr.c_str());
+  TCollection_AsciiString str(expr.c_str());
   str.RemoveAll(' ');
   str.RemoveAll('\t');
   str.RemoveAll('\r');

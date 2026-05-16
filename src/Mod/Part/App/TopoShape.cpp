@@ -756,7 +756,7 @@ void TopoShape::importBrep(const char *FileName)
         // read brep-file
         BRep_Builder aBuilder;
         TopoDS_Shape aShape;
-        BRepTools::Read(aShape,static_cast<Standard_CString>(FileName),aBuilder);
+        BRepTools::Read(aShape, FileName, aBuilder);
         this->_Shape = aShape;
     }
     catch (Standard_Failure& e) {

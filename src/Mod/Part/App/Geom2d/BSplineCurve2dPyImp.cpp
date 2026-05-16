@@ -1217,7 +1217,7 @@ PyObject* BSplineCurve2dPy::buildFromPolesMultsKnots(PyObject *args, PyObject *k
         }
     }
     catch (const Standard_Failure& e) {
-        Standard_CString msg = e.GetMessageString();
+        const char* msg = e.GetMessageString();
         PyErr_SetString(PartExceptionOCCError, msg  ? msg : "");
         return nullptr;
     }
