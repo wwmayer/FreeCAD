@@ -30,6 +30,7 @@
 #include <Precision.hxx>
 #include <math_Gauss.hxx>
 #include <math_Householder.hxx>
+#include <TColStd_Array1OfInteger.hxx>
 #endif
 
 #include <Base/Console.h>

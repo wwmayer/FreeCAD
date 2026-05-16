@@ -93,6 +93,7 @@
 # include <Standard_Version.hxx>
 # include <TColgp_Array2OfPnt.hxx>
 # include <TColgp_HArray1OfPnt.hxx>
+# include <TColStd_Array1OfInteger.hxx>
 # include <TColStd_Array1OfReal.hxx>
 # include <TColStd_HArray1OfBoolean.hxx>
 

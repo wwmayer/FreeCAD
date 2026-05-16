@@ -60,6 +60,12 @@
 #ifndef _TColStd_HArray1OfInteger_HeaderFile
 #include <TColStd_HArray1OfInteger.hxx>
 #endif
+#ifndef TColStd_Array1OfReal_HeaderFile
+#include <TColStd_Array1OfReal.hxx>
+#endif
+#ifndef MeshVS_HArray1OfSequenceOfInteger_HeaderFile
+#include <MeshVS_HArray1OfSequenceOfInteger.hxx>
+#endif
 #ifndef _Standard_Real_HeaderFile
 #include <Standard_Real.hxx>
 #endif

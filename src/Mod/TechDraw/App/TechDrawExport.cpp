@@ -45,6 +45,7 @@
 # include <Poly_Polygon3D.hxx>
 # include <Standard_Failure.hxx>
 # include <Standard_Version.hxx>
+# include <TColgp_Array1OfPnt.hxx>
 # include <TColStd_Array1OfReal.hxx>
 # include <TopExp_Explorer.hxx>
 # include <TopoDS.hxx>

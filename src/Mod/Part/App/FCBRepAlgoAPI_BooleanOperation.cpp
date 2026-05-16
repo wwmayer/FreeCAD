@@ -34,6 +34,7 @@
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Iterator.hxx>
 #include <Precision.hxx>
+#include <TopTools_ListOfShape.hxx>
 #include <FuzzyHelper.h>
 #include <SignalException.h>
 

@@ -31,6 +31,7 @@
 #include <vector>
 
 #include <TDocStd_Document.hxx>
+#include <TDF_LabelSequence.hxx>
 
 #include <Mod/Import/ImportGlobal.h>
 #include "Tools.h"

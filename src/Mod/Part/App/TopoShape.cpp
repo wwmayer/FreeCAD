@@ -56,7 +56,7 @@
 # include <BRepBuilderAPI_Transform.hxx>
 # include <BRepCheck_Analyzer.hxx>
 # include <BRepClass_FaceClassifier.hxx>
-# include <BRepCheck_ListIteratorOfListOfStatus.hxx>
+# include <BRepCheck_ListOfStatus.hxx>
 # include <BRepCheck_Result.hxx>
 # include <BRepFill_CompatibleWires.hxx>
 # include <BRepGProp.hxx>
@@ -131,6 +131,7 @@
 # include <STEPControl_Reader.hxx>
 # include <STEPControl_Writer.hxx>
 # include <StlAPI_Writer.hxx>
+# include <TColgp_Array1OfPnt.hxx>
 # include <TopoDS.hxx>
 # include <TopoDS_Compound.hxx>
 # include <TopoDS_Iterator.hxx>

@@ -61,8 +61,10 @@
 # include <TopoDS_Shape.hxx>
 # include <TopExp.hxx>
 # include <TopExp_Explorer.hxx>
-# include <TopTools_DataMapIteratorOfDataMapOfIntegerListOfShape.hxx>
-# include <TopTools_DataMapIteratorOfDataMapOfShapeShape.hxx>
+# include <TopTools_DataMapOfIntegerListOfShape.hxx>
+# include <TopTools_DataMapOfIntegerShape.hxx>
+# include <TopTools_DataMapOfShapeShape.hxx>
+# include <TopTools_IndexedMapOfShape.hxx>
 # include <TopTools_ListOfShape.hxx>
 #endif // _PreComp_
 
