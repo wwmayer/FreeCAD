@@ -2771,7 +2771,7 @@ public:
         fixer.SetContext(reshape);
         fixer.Load(wireData);
         fixer.SetMaxTolerance(myTol);
-        fixer.ClosedWireMode() = Standard_True;
+        fixer.ClosedWireMode() = true;
         fixer.Perform();
         // fixer.FixReorder();
         // fixer.FixConnected();
@@ -2780,7 +2780,7 @@ public:
             // Gap fixing may change vertex, but we need all concident vertexes
             // to be the same one.
             //
-            // fixer.FixGap3d(1, Standard_True);
+            // fixer.FixGap3d(1, true);
         }
 
         fixer.FixClosed();

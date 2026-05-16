@@ -226,7 +226,7 @@ void ExtrusionHelper::makeDraft(const TopoDS_Shape& shape,
         std::vector<TopoDS_Shape> shells;
 
         for (auto& wires : extrusionSections) {
-            BRepOffsetAPI_ThruSections mkTS(isSolid, /*ruled=*/Standard_True, Precision::Confusion());
+            BRepOffsetAPI_ThruSections mkTS(isSolid, /*ruled=*/true, Precision::Confusion());
 
             for (auto& singleWire : wires) {
                 if (singleWire.ShapeType() == TopAbs_VERTEX)
@@ -591,8 +591,8 @@ void ExtrusionHelper::makeElementDraft(const ExtrusionParameters& params,
 #endif
 
             // make loft
-            BRepOffsetAPI_ThruSections mkGenerator(params.solid ? Standard_True : false,
-                                                   /*ruled=*/Standard_True);
+            BRepOffsetAPI_ThruSections mkGenerator(params.solid ? true : false,
+                                                   /*ruled=*/true);
             for (auto& s : list_of_sections) {
                 mkGenerator.AddWire(TopoDS::Wire(s.getShape()));
             }

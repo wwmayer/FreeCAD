@@ -1589,8 +1589,8 @@ PyObject* TopoShapePy::project(PyObject *args) const
             }
         }
 
-        algo.Compute3d(Standard_True);
-        algo.SetLimit(Standard_True);
+        algo.Compute3d(true);
+        algo.SetLimit(true);
         algo.SetParams(1.e-6, 1.e-6, GeomAbs_C1, 14, 10000);
         //algo.SetDefaultParams();
         algo.Build();
@@ -1842,7 +1842,7 @@ PyObject*  TopoShapePy::isInside(PyObject *args) const
             Standard_Boolean test = (solidClassifier.State() == stateIn);
 
             if (Base::asBoolean(checkFace) && solidClassifier.IsOnAFace())
-                test = Standard_True;
+                test = true;
             return Py_BuildValue("O", (test ? Py_True : Py_False));
         }
     }

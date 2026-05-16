@@ -49,7 +49,7 @@ public:
     //! <PerformNow> - the flag:
     //! if <PerformNow>=True - the algorithm is performed immediately
     //! Obsolete
-    Standard_EXPORT FCBRepAlgoAPI_Section(const TopoDS_Shape& S1, const TopoDS_Shape& S2, const Standard_Boolean PerformNow = Standard_True);
+    Standard_EXPORT FCBRepAlgoAPI_Section(const TopoDS_Shape& S1, const TopoDS_Shape& S2, const Standard_Boolean PerformNow = true);
 
     //! Constructor with two shapes
     //! <S1>  - argument
@@ -57,7 +57,7 @@ public:
     //! <PerformNow> - the flag:
     //! if <PerformNow>=True - the algorithm is performed immediately
     //! Obsolete
-    Standard_EXPORT FCBRepAlgoAPI_Section(const TopoDS_Shape& S1, const gp_Pln& Pl, const Standard_Boolean PerformNow = Standard_True);
+    Standard_EXPORT FCBRepAlgoAPI_Section(const TopoDS_Shape& S1, const gp_Pln& Pl, const Standard_Boolean PerformNow = true);
 
     // set fuzzyness based on size
     void setAutoFuzzy();

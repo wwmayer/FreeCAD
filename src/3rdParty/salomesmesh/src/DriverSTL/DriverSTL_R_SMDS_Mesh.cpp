@@ -109,7 +109,7 @@ namespace
 DriverSTL_R_SMDS_Mesh::DriverSTL_R_SMDS_Mesh()
 {
   myIsCreateFaces = true;
-  myIsAscii = Standard_True;
+  myIsAscii = true;
 }
 
 //=======================================================================
@@ -149,7 +149,7 @@ Driver_Mesh::Status DriverSTL_R_SMDS_Mesh::Perform()
   data += HEADER_SIZE;
 
   // we check 128 characters to detect if we have a non-ascii char
-  myIsAscii = Standard_True;
+  myIsAscii = true;
   for (int i = 0; i < 128; ++i, ++data) {
     if ( !isascii( *data ) && data < file.end() ) {
       myIsAscii = false;

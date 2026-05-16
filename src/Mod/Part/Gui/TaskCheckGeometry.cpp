@@ -1461,7 +1461,7 @@ Standard_Boolean BOPProgressIndicator::UserBreak()
         // thread because when calling it from a worker thread the thrown
         // exception isn't handled anywhere and thus std::terminate is called
         if (canceled)
-            return Standard_True;
+            return true;
 
         // it suffices to update only every second
         // to avoid to unnecessarily process events

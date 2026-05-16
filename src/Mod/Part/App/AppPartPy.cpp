@@ -1879,9 +1879,9 @@ private:
                                                  &op)) {
             throw Py::Exception();
         }
-        Standard_Boolean anIsSolid = PyObject_IsTrue(psolid) ? Standard_True : false;
-        Standard_Boolean anIsRuled = PyObject_IsTrue(pruled) ? Standard_True : false;
-        Standard_Boolean anIsClosed = PyObject_IsTrue(pclosed) ? Standard_True : false;
+        Standard_Boolean anIsSolid = PyObject_IsTrue(psolid) ? true : false;
+        Standard_Boolean anIsRuled = PyObject_IsTrue(pruled) ? true : false;
+        Standard_Boolean anIsClosed = PyObject_IsTrue(pclosed) ? true : false;
         return shape2pyshape(TopoShape().makeElementLoft(
             getPyShapes(pcObj),
             anIsSolid ? Part::IsSolid::solid : Part::IsSolid::notSolid,

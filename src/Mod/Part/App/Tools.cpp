@@ -701,7 +701,7 @@ void getNormalBySLProp(T& prop, double u, double v, double lastU, double lastV,
         prop.D1V().Magnitude() > tol &&
         prop.IsNormalDefined()) {
         dir = prop.Normal();
-        done = Standard_True;
+        done = true;
     }
     // use an alternative method in case of a null normal
     else {

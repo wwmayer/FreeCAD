@@ -87,7 +87,7 @@ void FaceMakerBullseye::Build_Essence()
         for (TopoDS_Wire& w : myWires) {
             builder.Add(comp, BRepBuilderAPI_Copy(w).Shape());
         }
-        BRepLib_FindSurface planeFinder(comp, -1, /*OnlyPlane=*/Standard_True);
+        BRepLib_FindSurface planeFinder(comp, -1, /*OnlyPlane=*/true);
         if (!planeFinder.Found())
             throw Base::ValueError("Wires are not coplanar.");
         plane = GeomAdaptor_Surface(planeFinder.Surface()).Plane();
@@ -178,7 +178,7 @@ void FaceMakerBullseye::FaceDriller::addHole(TopoDS_Wire w)
 int FaceMakerBullseye::FaceDriller::getWireDirection(const gp_Pln& plane, const TopoDS_Wire& wire)
 {
     //make a test face
-    BRepBuilderAPI_MakeFace mkFace(wire, /*onlyplane=*/Standard_True);
+    BRepBuilderAPI_MakeFace mkFace(wire, /*onlyplane=*/true);
     TopoDS_Face tmpFace = mkFace.Face();
     if (tmpFace.IsNull()) {
         throw Standard_Failure("getWireDirection: Failed to create face from wire");

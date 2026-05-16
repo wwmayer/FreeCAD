@@ -794,7 +794,7 @@ bool ImportOCAF2::createAssembly(App::Document* _doc,
             continue;
         }
         TDF_Label childLabel;
-        aShapeTool->Search(childShape, childLabel, Standard_True, Standard_True, false);
+        aShapeTool->Search(childShape, childLabel, true, true, false);
         if (!childLabel.IsNull() && !options.importHidden && !aColorTool->IsVisible(childLabel)) {
             continue;
         }

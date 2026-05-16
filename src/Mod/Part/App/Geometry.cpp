@@ -696,7 +696,7 @@ static Standard_Boolean IsLinear(const Adaptor3d_Curve& theC)
 
     if(aCT == GeomAbs_Line)
     {
-        return Standard_True;
+        return true;
     }
 
     return false;
@@ -1360,7 +1360,7 @@ GeomBSplineCurve::GeomBSplineCurve( const std::vector<Base::Vector3d>& poles, co
         m.SetValue(index, multiplicities[index -1]);
     }
 
-    this->myCurve = new Geom_BSplineCurve (p, w, k, m, degree, periodic?Standard_True:false, checkrational?Standard_True:false);
+    this->myCurve = new Geom_BSplineCurve (p, w, k, m, degree, periodic?true:false, checkrational?true:false);
 
 }
 
@@ -1595,7 +1595,7 @@ int GeomBSplineCurve::getDegree() const
 
 bool GeomBSplineCurve::isPeriodic() const
 {
-    return myCurve->IsPeriodic()==Standard_True;
+    return myCurve->IsPeriodic()==true;
 }
 
 void GeomBSplineCurve::setPeriodic() const
@@ -1605,7 +1605,7 @@ void GeomBSplineCurve::setPeriodic() const
 
 bool GeomBSplineCurve::isRational() const
 {
-    return myCurve->IsRational()==Standard_True;
+    return myCurve->IsRational()==true;
 }
 
 bool GeomBSplineCurve::join(const Handle(Geom_BoundedCurve)& other)
@@ -2034,7 +2034,7 @@ void GeomBSplineCurve::Restore(Base::XMLReader& reader)
     // Geom_BSplineCurve(occpoles,occweights,occknots,occmults,degree,periodic,CheckRational
 
     try {
-        Handle(Geom_BSplineCurve) spline = new Geom_BSplineCurve(p, w, k, m, degree, isperiodic ? Standard_True : false, false);
+        Handle(Geom_BSplineCurve) spline = new Geom_BSplineCurve(p, w, k, m, degree, isperiodic ? true : false, false);
 
         if (!spline.IsNull())
             this->myCurve = spline;
@@ -2672,7 +2672,7 @@ GeomBSplineCurve* GeomCircle::toNurbs(double first, double last) const
     knots(3) = 2*pi;
 
     Handle(Geom_BSplineCurve) spline = new Geom_BSplineCurve(poles, weights,knots, mults, 3,
-        false, Standard_True);
+        false, true);
     return new GeomBSplineCurve(spline);
 }
 
@@ -3014,7 +3014,7 @@ void GeomArcOfCircle::Restore(Base::XMLReader &reader)
         GC_MakeCircle mc(xdir, Radius);
         if (!mc.IsDone())
             THROWM(Base::CADKernelError,gce_ErrorStatusText(mc.Status()))
-        GC_MakeArcOfCircle ma(mc.Value()->Circ(), StartAngle, EndAngle, Standard_True);
+        GC_MakeArcOfCircle ma(mc.Value()->Circ(), StartAngle, EndAngle, true);
         if (!ma.IsDone())
             THROWM(Base::CADKernelError,gce_ErrorStatusText(ma.Status()))
 
@@ -3120,7 +3120,7 @@ GeomBSplineCurve* GeomEllipse::toNurbs(double first, double last) const
     knots(3) = 2;
 
     Handle(Geom_BSplineCurve) spline = new Geom_BSplineCurve(poles, weights,knots, mults, 3,
-        false, Standard_True);
+        false, true);
     return new GeomBSplineCurve(spline);
 }
 
@@ -3569,7 +3569,7 @@ void GeomArcOfEllipse::Restore(Base::XMLReader &reader)
         if (!mc.IsDone())
             THROWM(Base::CADKernelError,gce_ErrorStatusText(mc.Status()))
 
-        GC_MakeArcOfEllipse ma(mc.Value()->Elips(), StartAngle, EndAngle, Standard_True);
+        GC_MakeArcOfEllipse ma(mc.Value()->Elips(), StartAngle, EndAngle, true);
         if (!ma.IsDone())
             THROWM(Base::CADKernelError,gce_ErrorStatusText(ma.Status()))
 
@@ -4024,7 +4024,7 @@ void GeomArcOfHyperbola::Restore(Base::XMLReader &reader)
         if (!mc.IsDone())
             THROWM(Base::CADKernelError,gce_ErrorStatusText(mc.Status()))
 
-        GC_MakeArcOfHyperbola ma(mc.Value()->Hypr(), StartAngle, EndAngle, Standard_True);
+        GC_MakeArcOfHyperbola ma(mc.Value()->Hypr(), StartAngle, EndAngle, true);
         if (!ma.IsDone())
             THROWM(Base::CADKernelError,gce_ErrorStatusText(ma.Status()))
 
@@ -4389,7 +4389,7 @@ void GeomArcOfParabola::Restore(Base::XMLReader &reader)
         if (!mc.IsDone())
             THROWM(Base::CADKernelError,gce_ErrorStatusText(mc.Status()))
 
-        GC_MakeArcOfParabola ma(mc.Value(), StartAngle, EndAngle, Standard_True);
+        GC_MakeArcOfParabola ma(mc.Value(), StartAngle, EndAngle, true);
         if (!ma.IsDone())
             THROWM(Base::CADKernelError,gce_ErrorStatusText(ma.Status()))
 

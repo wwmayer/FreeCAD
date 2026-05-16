@@ -93,7 +93,7 @@ template <class TheItemType> class SMESH_Array2
     myUpperRow                                  (theRowUpper),
     myLowerCol                                  (theColLower),
     myUpperCol                                  (theColUpper),
-    myDeletable                                 (Standard_True)
+    myDeletable                                 (true)
   { Allocate(); }
 
   //! Copy constructor 
@@ -103,7 +103,7 @@ template <class TheItemType> class SMESH_Array2
     myUpperRow                                  (theOther.UpperRow()),
     myLowerCol                                  (theOther.LowerCol()),
     myUpperCol                                  (theOther.UpperCol()),
-    myDeletable                                 (Standard_True)
+    myDeletable                                 (true)
   {
     Allocate();
     *this = theOther;

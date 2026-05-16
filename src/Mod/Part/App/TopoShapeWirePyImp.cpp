@@ -373,7 +373,7 @@ PyObject* TopoShapeWirePy::makeHomogenousWires(PyObject *args) const
         const TopoDS_Wire& w1 = TopoDS::Wire(getTopoShapePtr()->getShape());
         const TopoDS_Wire& w2 = TopoDS::Wire(static_cast<TopoShapePy*>(wire)->getTopoShapePtr()->getShape());
         ShapeAlgo_AlgoContainer shapeAlgo;
-        if (shapeAlgo.HomoWires(w1,w2,o1,o2,Standard_True)) {
+        if (shapeAlgo.HomoWires(w1,w2,o1,o2,true)) {
             getTopoShapePtr()->setShape(o1);
             return new TopoShapeWirePy(new TopoShape(o2));
         }

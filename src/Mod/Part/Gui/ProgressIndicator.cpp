@@ -81,7 +81,7 @@ Standard_Boolean ProgressIndicator::UserBreak()
     QThread *currentThread = QThread::currentThread();
     if (currentThread == myProgress->thread()) {
         if (canceled) {
-            return Standard_True;
+            return true;
         }
 
         canceled = myProgress->wasCanceled();

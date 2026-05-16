@@ -433,7 +433,7 @@ bool Constraint::getPoints(std::vector<Base::Vector3d>& points,
             // In that case use points on the outer wire.
             // https://github.com/FreeCAD/FreeCAD/issues/6073
             if (prevSize == points.size()) {
-                BRepAdaptor_CompCurve compCurve(BRepTools::OuterWire(face), Standard_True);
+                BRepAdaptor_CompCurve compCurve(BRepTools::OuterWire(face), true);
                 GProp_GProps linProps;
                 BRepGProp::LinearProperties(compCurve.Wire(), linProps);
                 double outWireLength = linProps.Mass();

@@ -455,8 +455,8 @@ std::vector<TopoDS_Edge> DrawProjectSplit::scrubEdges(std::vector<TopoDS_Edge>& 
     // No solids in the input list
     bopBuilder.SetCheckInverted(false);
     // Use oriented bound boxes
-    bopBuilder.SetUseOBB(Standard_True);
-    bopBuilder.SetRunParallel(Standard_True);
+    bopBuilder.SetUseOBB(true);
+    bopBuilder.SetRunParallel(true);
 
     bopBuilder.Perform();
     if (bopBuilder.HasErrors()) {

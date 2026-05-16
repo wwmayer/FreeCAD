@@ -301,7 +301,7 @@ App::DocumentObjectExecReturn* Filling::execute()
 
         // Add the constraints of border curves/faces (bound)
         int numBoundaries = BoundaryEdges.getSize();
-        addConstraints(builder, BoundaryEdges, BoundaryFaces, BoundaryOrder, Standard_True);
+        addConstraints(builder, BoundaryEdges, BoundaryFaces, BoundaryOrder, true);
 
         // Add additional edge constraints if available (unbound)
         if (UnboundEdges.getSize() > 0) {

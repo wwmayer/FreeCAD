@@ -4380,7 +4380,7 @@ static bool IsSubShape (const TopTools_IndexedMapOfShape& theMap,
   if (theShape.ShapeType() == TopAbs_COMPOUND ||
       theShape.ShapeType() == TopAbs_COMPSOLID)
   {
-    TopoDS_Iterator anIt (theShape, Standard_True, Standard_True);
+    TopoDS_Iterator anIt (theShape, true, true);
     for (; anIt.More(); anIt.Next())
     {
       if (!IsSubShape(theMap, anIt.Value())) {

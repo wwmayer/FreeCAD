@@ -2141,9 +2141,9 @@ TopoShape& TopoShape::makeElementEvolve(const TopoShape& spine,
             TopoDS::Face(spineShape),
             TopoDS::Wire(profileShape),
             joinType,
-            axeProf == CoordinateSystem::global ? Standard_True : false,
-            solid == MakeSolid::makeSolid ? Standard_True : false,
-            profOnSpine == Spine::on ? Standard_True : false,
+            axeProf == CoordinateSystem::global ? true : false,
+            solid == MakeSolid::makeSolid ? true : false,
+            profOnSpine == Spine::on ? true : false,
             tol);
         return makeElementShape(maker, {spine, profile}, op);
     }
@@ -2152,9 +2152,9 @@ TopoShape& TopoShape::makeElementEvolve(const TopoShape& spine,
             TopoDS::Wire(spineShape),
             TopoDS::Wire(profileShape),
             joinType,
-            axeProf == CoordinateSystem::global ? Standard_True : false,
-            solid == MakeSolid::makeSolid ? Standard_True : false,
-            profOnSpine == Spine::on ? Standard_True : false,
+            axeProf == CoordinateSystem::global ? true : false,
+            solid == MakeSolid::makeSolid ? true : false,
+            profOnSpine == Spine::on ? true : false,
             tol);
         return makeElementShape(maker, {spine, profile}, op);
     }
@@ -2456,8 +2456,8 @@ TopoShape& TopoShape::makeElementOffset(const TopoShape& shape,
                            offset,
                            tol,
                            BRepOffset_Mode(offsetMode),
-                           intersection ? Standard_True : false,
-                           selfInter ? Standard_True : false,
+                           intersection ? true : false,
+                           selfInter ? true : false,
                            GeomAbs_JoinType(join));
 
     if (!mkOffset.IsDone()) {
@@ -2529,7 +2529,7 @@ TopoShape& TopoShape::makeElementOffset(const TopoShape& shape,
 
         // It would be nice if we could get thruSections to build planar faces
         // in all areas possible, so we could run through refine. I tried setting
-        // ruled to standard_true, but that didn't have the desired affect.
+        // ruled to true, but that didn't have the desired affect.
         BRepOffsetAPI_ThruSections aGenerator;
         aGenerator.AddWire(TopoDS::Wire(originalWire.getShape()));
         aGenerator.AddWire(offsetWire);
@@ -3026,8 +3026,8 @@ TopoShape& TopoShape::makeElementThickSolid(const TopoShape& shape,
                                  offset,
                                  tol,
                                  BRepOffset_Mode(offsetMode),
-                                 intersection ? Standard_True : false,
-                                 selfInter ? Standard_True : false,
+                                 intersection ? true : false,
+                                 selfInter ? true : false,
                                  GeomAbs_JoinType(join));
     return makeElementShape(mkThick, shape, op);
 }
@@ -3070,7 +3070,7 @@ TopoShape& TopoShape::makeElementWires(const std::vector<TopoShape>& shapes,
         if (hEdges->Length() == 0) {
             FC_THROWM(NullShapeException, "Null shape");
         }
-        ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges, tol, Standard_True, hWires);
+        ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges, tol, true, hWires);
         if (hWires->Length() == 0) {
             FC_THROWM(NullShapeException, "Null shape");
         }
@@ -3374,7 +3374,7 @@ TopoShape& TopoShape::makeElementTransform(const TopoShape& shape,
             FC_THROWM(NullShapeException, "Null input shape");
         }
 
-        BRepBuilderAPI_Transform mkTrf(shape.getShape(), trsf, Standard_True);
+        BRepBuilderAPI_Transform mkTrf(shape.getShape(), trsf, true);
         // TODO: calling Moved() is to make sure the shape has some Location,
         // which is necessary for STEP export to work. However, if we reach
         // here, it probably means BRepBuilderAPI_Transform has modified
@@ -3796,7 +3796,7 @@ TopoShape& TopoShape::makeElementFilledFace(const std::vector<TopoShape>& _shape
         maker.Add(TopoDS::Edge(e.getShape()),
                   getSupport(e.getShape()),
                   getOrder(e.getShape()),
-                  /*IsBound*/ Standard_True);
+                  /*IsBound*/ true);
     }
 
     for (const auto& s : shapes) {
@@ -4092,7 +4092,7 @@ TopoShape& TopoShape::makeElementGeneralFuse(const std::vector<TopoShape>& _shap
     } else if (tol < 0.0) {
         FCBRepAlgoAPIHelper::setAutoFuzzy(&mkGFA);
     }
-    mkGFA.SetNonDestructive(Standard_True);
+    mkGFA.SetNonDestructive(true);
     mkGFA.Build();
     if (!mkGFA.IsDone()) {
         FC_THROWM(Base::CADKernelError, "GeneralFuse failed");
@@ -4228,7 +4228,7 @@ TopoShape& TopoShape::makeElementLoft(const std::vector<TopoShape>& shapes,
         }
     }
 
-    Standard_Boolean anIsCheck = Standard_True;
+    Standard_Boolean anIsCheck = true;
     aGenerator.CheckCompatibility(anIsCheck);  // use BRepFill_CompatibleWires on profiles. force
                                                // #edges, orientation, "origin" to match.
 
@@ -4289,7 +4289,7 @@ TopoShape& TopoShape::makeElementPrismUntil(const TopoShape& _base,
         // to work as expected.
         BRep_Builder builder;
         _uptoface = _uptoface.makeElementCopy();
-        builder.NaturalRestriction(TopoDS::Face(_uptoface.getShape()), Standard_True);
+        builder.NaturalRestriction(TopoDS::Face(_uptoface.getShape()), true);
     }
 
     TopoShape uptoface(_uptoface);
@@ -5772,8 +5772,8 @@ TopoShape& TopoShape::makeElementBoolean(const char* maker,
         }
     }
 
-    mk->SetRunParallel(Standard_True);
-    OSD_Parallel::SetUseOcctThreads(Standard_True);
+    mk->SetRunParallel(true);
+    OSD_Parallel::SetUseOcctThreads(true);
 
     mk->SetArguments(shapeArguments);
     mk->SetTools(shapeTools);

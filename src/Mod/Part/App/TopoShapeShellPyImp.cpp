@@ -137,7 +137,7 @@ PyObject*  TopoShapeShellPy::getFreeEdges(PyObject *args) const
         return nullptr;
     ShapeAnalysis_Shell as;
     as.LoadShells(getTopoShapePtr()->getShape());
-    as.CheckOrientedShells(getTopoShapePtr()->getShape(), Standard_True, Standard_True);
+    as.CheckOrientedShells(getTopoShapePtr()->getShape(), true, true);
 
     TopoDS_Compound comp = as.FreeEdges();
     TopoShape res;
@@ -152,7 +152,7 @@ PyObject*  TopoShapeShellPy::getBadEdges(PyObject *args) const
         return nullptr;
     ShapeAnalysis_Shell as;
     as.LoadShells(getTopoShapePtr()->getShape());
-    as.CheckOrientedShells(getTopoShapePtr()->getShape(), Standard_True, Standard_True);
+    as.CheckOrientedShells(getTopoShapePtr()->getShape(), true, true);
 
     TopoDS_Compound comp = as.BadEdges();
     TopoShape res;

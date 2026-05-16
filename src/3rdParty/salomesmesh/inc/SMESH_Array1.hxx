@@ -104,7 +104,7 @@ template <class TheItemType> class SMESH_Array1
                 NCollection_BaseCollection<TheItemType>  (),
                 myLowerBound                             (theLower),
                 myUpperBound                             (theUpper),
-                myDeletable                              (Standard_True)
+                myDeletable                              (true)
   {
 #if !defined No_Exception && !defined No_Standard_RangeError
     if (theUpper < theLower)
@@ -124,7 +124,7 @@ template <class TheItemType> class SMESH_Array1
     NCollection_BaseCollection<TheItemType>     (),
     myLowerBound                                (theOther.Lower()),
     myUpperBound                                (theOther.Upper()),
-    myDeletable                                 (Standard_True)
+    myDeletable                                 (true)
   {
     TheItemType* pBegin = new TheItemType[Length()];
 #if !defined No_Exception && !defined No_Standard_OutOfMemory

@@ -250,7 +250,7 @@ static bool getShapePlane(const TopoDS_Shape& shape, gp_Pln& pln)
         pln = adapt.Plane();
         return true;
     }
-    BRepLib_FindSurface finder(shape.Located(TopLoc_Location()), -1, Standard_True);
+    BRepLib_FindSurface finder(shape.Located(TopLoc_Location()), -1, true);
     if (!finder.Found()) {
         return false;
     }
@@ -1385,7 +1385,7 @@ struct WireJoiner
         fixer->Perform();
         fixer->FixReorder();
         fixer->SetMaxTolerance(tol);
-        fixer->ClosedWireMode() = Standard_True;
+        fixer->ClosedWireMode() = true;
         fixer->FixConnected(Precision::Confusion());
         fixer->FixClosed(Precision::Confusion());
 
@@ -3894,7 +3894,7 @@ static inline void addGCode(Toolpath& path, const char* name)
 void Area::setWireOrientation(TopoDS_Wire& wire, const gp_Dir& dir, bool wire_ccw)
 {
     // make a test face
-    BRepBuilderAPI_MakeFace mkFace(wire, /*onlyplane=*/Standard_True);
+    BRepBuilderAPI_MakeFace mkFace(wire, /*onlyplane=*/true);
     if (!mkFace.IsDone()) {
         AREA_WARN("setWireOrientation: failed to make test face");
         return;

@@ -68,10 +68,10 @@ int Part::ImportIgesParts(App::Document *pcDoc, const char* FileName)
 
         // Ignore construction elements
         // http://www.opencascade.org/org/forum/thread_20603/?forum=3
-        aReader.SetReadVisible(Standard_True);
+        aReader.SetReadVisible(true);
 
         // check file conformity and output stats
-        aReader.PrintCheckLoad(Standard_True,IFSelect_GeneralInfo);
+        aReader.PrintCheckLoad(true,IFSelect_GeneralInfo);
 
         std::string aName = fi.fileNamePure();
 
@@ -81,7 +81,7 @@ int Part::ImportIgesParts(App::Document *pcDoc, const char* FileName)
         aReader.TransferRoots();
 
         // put all other free-flying shapes into a single compound
-        Standard_Boolean emptyComp = Standard_True;
+        Standard_Boolean emptyComp = true;
         BRep_Builder builder;
         TopoDS_Compound comp;
         builder.MakeCompound(comp);

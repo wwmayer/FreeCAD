@@ -72,7 +72,7 @@ TEST_F(FuzzyBooleanTest, testDefaultFuzzy)
     TopoDS_Shape BOPCopy = BRepBuilderAPI_Copy(ts.getShape()).Shape();
     BOPAlgo_ArgumentAnalyzer BOPCheck;
     BOPCheck.SetShape1(BOPCopy);
-    BOPCheck.SelfInterMode() = Standard_True;
+    BOPCheck.SelfInterMode() = true;
 
     BOPCheck.Perform();
     // Assert
@@ -101,7 +101,7 @@ TEST_F(FuzzyBooleanTest, testGoodFuzzy)
     TopoDS_Shape BOPCopy = BRepBuilderAPI_Copy(ts.getShape()).Shape();
     BOPAlgo_ArgumentAnalyzer BOPCheck;
     BOPCheck.SetShape1(BOPCopy);
-    BOPCheck.SelfInterMode() = Standard_True;
+    BOPCheck.SelfInterMode() = true;
 
     BOPCheck.Perform();
     // Assert
@@ -129,7 +129,7 @@ TEST_F(FuzzyBooleanTest, testFailsTooSmallFuzzy)
     TopoDS_Shape BOPCopy = BRepBuilderAPI_Copy(ts.getShape()).Shape();
     BOPAlgo_ArgumentAnalyzer BOPCheck;
     BOPCheck.SetShape1(BOPCopy);
-    BOPCheck.SelfInterMode() = Standard_True;
+    BOPCheck.SelfInterMode() = true;
 
     BOPCheck.Perform();
     // Assert
@@ -155,7 +155,7 @@ TEST_F(FuzzyBooleanTest, testCompletelyFailsTooBigFuzzy)
             TopoDS_Shape BOPCopy = BRepBuilderAPI_Copy(ts.getShape()).Shape();
             BOPAlgo_ArgumentAnalyzer BOPCheck;
             BOPCheck.SetShape1(BOPCopy);
-            BOPCheck.SelfInterMode() = Standard_True;
+            BOPCheck.SelfInterMode() = true;
 
             BOPCheck.Perform();
             // Assert

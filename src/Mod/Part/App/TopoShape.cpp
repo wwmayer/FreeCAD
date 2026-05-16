@@ -718,7 +718,7 @@ void TopoShape::importIges(const char *FileName)
         IGESControl_Reader aReader;
         // Ignore construction elements
         // http://www.opencascade.org/org/forum/thread_20603/?forum=3
-        aReader.SetReadVisible(Standard_True);
+        aReader.SetReadVisible(true);
         if (aReader.ReadFile(encodeFilename(FileName).c_str()) != IFSelect_RetDone)
             throw Base::FileException("Error in reading IGES");
 
@@ -1905,7 +1905,7 @@ TopoDS_Shape TopoShape::generalFuse(const std::vector<TopoDS_Shape> &sOthers, do
     else if (tolerance < 0.0) {
         FCBRepAlgoAPIHelper::setAutoFuzzy(&mkGFA);
     }
-    mkGFA.SetNonDestructive(Standard_True);
+    mkGFA.SetNonDestructive(true);
     mkGFA.Build();
     if (!mkGFA.IsDone())
         throw BooleanException("MultiFusion failed");
@@ -1983,8 +1983,8 @@ TopoDS_Shape TopoShape::makeTube(double radius, double tol, int cont, int maxdeg
     // http://opencascade.blogspot.com/2009/11/surface-modeling-part3.html
     double theTol = tol;
     double theRadius = radius;
-    //Standard_Boolean theIsPolynomial = Standard_True;
-    Standard_Boolean myIsElem = Standard_True;
+    //Standard_Boolean theIsPolynomial = true;
+    Standard_Boolean myIsElem = true;
     GeomAbs_Shape theContinuity = GeomAbs_Shape(cont);
     int theMaxDegree = maxdegree;
     int theMaxSegment = maxsegm;
@@ -2082,7 +2082,7 @@ TopoDS_Shape TopoShape::makeSweep(const TopoDS_Shape& profile, double tol, int f
         throw Standard_Failure("invalid curve in profile edge");
 
     GeomFill_Pipe mkSweep(hPath, hProfile, static_cast<GeomFill_Trihedron>(fillMode));
-    mkSweep.GenerateParticularCase(Standard_True);
+    mkSweep.GenerateParticularCase(true);
     mkSweep.Perform(tol, false, GeomAbs_C1, BSplCLib::MaxDegree(), 1000);
 
     const Handle(Geom_Surface)& surf = mkSweep.Surface();
@@ -2118,7 +2118,7 @@ TopoDS_Shape TopoShape::makeTorus(double radius1, double radius2,
 
     BRepBuilderAPI_MakeFace mkFace(mkWire.Wire());
     BRepPrimAPI_MakeRevol mkRevol(mkFace.Face(), gp_Ax1(gp_Pnt(0,0,0), gp_Dir(0,0,1)),
-        Base::toRadians<double>(angle3), Standard_True);
+        Base::toRadians<double>(angle3), true);
     return mkRevol.Shape();
 }
 
@@ -2299,7 +2299,7 @@ TopoDS_Shape TopoShape::makeSpiralHelix(double radiusbottom, double radiustop,
     gp_Pnt2d beg(0, 0);
     gp_Pnt2d end(0, 0);
     gp_Vec2d dir(breakperiod * 2.0 * Base::numbers::pi, 1 / nbPeriods);
-    if (leftHanded == Standard_True)
+    if (leftHanded == true)
         dir = gp_Vec2d(-breakperiod * 2.0 * Base::numbers::pi, 1 / nbPeriods);
     Handle(Geom2d_TrimmedCurve) segm;
     TopoDS_Edge edgeOnSurf;
@@ -2377,7 +2377,7 @@ TopoDS_Shape TopoShape::makeThread(double pitch,
     BRepLib::BuildCurves3d(threadingWire1);
     BRepLib::BuildCurves3d(threadingWire2);
 
-    BRepOffsetAPI_ThruSections aTool(Standard_True);
+    BRepOffsetAPI_ThruSections aTool(true);
 
     aTool.AddWire(threadingWire1);
     aTool.AddWire(threadingWire2);
@@ -2448,7 +2448,7 @@ TopoDS_Shape TopoShape::makeLoft(const TopTools_ListOfShape& profiles,
         }
     }
 
-    Standard_Boolean anIsCheck = Standard_True;
+    Standard_Boolean anIsCheck = true;
     aGenerator.CheckCompatibility (anIsCheck);   // use BRepFill_CompatibleWires on profiles. force #edges, orientation, "origin" to match.
     aGenerator.Build();
     if (!aGenerator.IsDone())
@@ -2532,8 +2532,8 @@ TopoDS_Shape TopoShape::makeOffsetShape(double offset, double tol, bool intersec
 
     BRepOffsetAPI_MakeOffsetShape mkOffset;
     mkOffset.PerformByJoin(inputShape, offset, tol, BRepOffset_Mode(offsetMode),
-                           intersection ? Standard_True : false,
-                           selfInter ? Standard_True : false,
+                           intersection ? true : false,
+                           selfInter ? true : false,
                            GeomAbs_JoinType(join));
 
     if (!mkOffset.IsDone())
@@ -2592,7 +2592,7 @@ TopoDS_Shape TopoShape::makeOffsetShape(double offset, double tol, bool intersec
 
         //It would be nice if we could get thruSections to build planar faces
         //in all areas possible, so we could run through refine. I tried setting
-        //ruled to standard_true, but that didn't have the desired affect.
+        //ruled to true, but that didn't have the desired affect.
         BRepOffsetAPI_ThruSections aGenerator;
         aGenerator.AddWire(originalWire);
         aGenerator.AddWire(offsetWire);
@@ -2732,7 +2732,7 @@ TopoDS_Shape TopoShape::makeOffset2D(double offset, short joinType, bool fill, b
             builder.MakeCompound(compoundSourceWires);
             for(TopoDS_Wire &w : sourceWires)
                 builder.Add(compoundSourceWires, w);
-            BRepLib_FindSurface planefinder(compoundSourceWires, -1, Standard_True);
+            BRepLib_FindSurface planefinder(compoundSourceWires, -1, true);
             if (!planefinder.Found())
                 throw Base::CADKernelError("makeOffset2D: wires are nonplanar or noncoplanar");
             if (haveFaces){
@@ -2784,7 +2784,7 @@ TopoDS_Shape TopoShape::makeOffset2D(double offset, short joinType, bool fill, b
         std::list<TopoDS_Wire> offsetWires;
         //interestingly, if wires are removed, empty compounds are returned by MakeOffset (as of OCC 7.0.0)
         //so, we just extract all nesting
-        Handle(TopTools_HSequenceOfShape) seq = ShapeExtend_Explorer().SeqFromCompound(offsetShape, Standard_True);
+        Handle(TopTools_HSequenceOfShape) seq = ShapeExtend_Explorer().SeqFromCompound(offsetShape, true);
         TopoDS_Iterator it(offsetShape);
         for(int i = 0; i < seq->Length(); ++i){
             offsetWires.push_back(TopoDS::Wire(seq->Value(i+1)));
@@ -2924,7 +2924,7 @@ TopoDS_Shape TopoShape::makeOffset2D(double offset, short joinType, bool fill, b
                 result.Orientation(shapesToProcess[0].Orientation());
 
             ShapeExtend_Explorer xp;
-            Handle(TopTools_HSequenceOfShape) result_leaves = xp.SeqFromCompound(result, Standard_True);
+            Handle(TopTools_HSequenceOfShape) result_leaves = xp.SeqFromCompound(result, true);
             for(int i = 0; i < result_leaves->Length(); ++i)
                 shapesToReturn.push_back(result_leaves->Value(i+1));
         }
@@ -2955,8 +2955,8 @@ TopoDS_Shape TopoShape::makeThickSolid(const TopTools_ListOfShape& remFace,
 {
     BRepOffsetAPI_MakeThickSolid mkThick;
     mkThick.MakeThickSolidByJoin(this->_Shape, remFace, offset, tol, BRepOffset_Mode(offsetMode),
-        intersection ? Standard_True : false,
-        selfInter ? Standard_True : false,
+        intersection ? true : false,
+        selfInter ? true : false,
         GeomAbs_JoinType(join));
     return mkThick.Shape();
 }
@@ -3961,7 +3961,7 @@ bool TopoShape::findPlane(gp_Pln& pln, double tol, double atol) const
             // edge has transformation, but underlying geometry does not (or the
             // other way round), BRepLib_FindSurface returns a plane with the
             // wrong transformation
-            BRepLib_FindSurface finder(BRepBuilderAPI_Copy(shape).Shape(), tol, Standard_True);
+            BRepLib_FindSurface finder(BRepBuilderAPI_Copy(shape).Shape(), tol, true);
             if (!finder.Found()) {
                 return false;
             }
@@ -3982,7 +3982,7 @@ bool TopoShape::findPlane(gp_Pln& pln, double tol, double atol) const
                                                         TopoDS::Vertex(vertexes[i + 1]))
                                     .Edge());
                 }
-                BRepLib_FindSurface finder(comp, tol, Standard_True);
+                BRepLib_FindSurface finder(comp, tol, true);
                 if (!finder.Found()) {
                     return false;
                 }
@@ -4119,7 +4119,7 @@ TopoShape &TopoShape::makeTransform(const TopoShape &shape, const gp_Trsf &trsf,
     }
     TopoShape tmp(shape);
     if(copy) {
-        BRepBuilderAPI_Transform mkTrf(shape.getShape(), trsf, Standard_True);
+        BRepBuilderAPI_Transform mkTrf(shape.getShape(), trsf, true);
         // TODO: calling Moved() is to make sure the shape has some Location,
         // which is necessary for STEP export to work. However, if we reach
         // here, it porabably means BRepBuilderAPI_Transform has modified

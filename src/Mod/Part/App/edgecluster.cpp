@@ -90,7 +90,7 @@ void Edgecluster::Perform()
         {
             toContinue = PerformEdges(currentPoint);
         }
-        while (toContinue == Standard_True);
+        while (toContinue == true);
         //Store the current adjacent edges as a cluster
         m_final_cluster.push_back(m_edges);
         //and continue now with the still existing edges in the m_vertices

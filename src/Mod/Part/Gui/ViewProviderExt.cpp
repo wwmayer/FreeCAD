@@ -989,8 +989,8 @@ void ViewProviderPartExt::updateVisual()
         meshParams.Deflection = deflection;
         meshParams.Relative = false;
         meshParams.Angle = AngDeflectionRads;
-        meshParams.InParallel = Standard_True;
-        meshParams.AllowQualityDecrease = Standard_True;
+        meshParams.InParallel = true;
+        meshParams.AllowQualityDecrease = true;
 
         BRepMesh_IncrementalMesh(cShape, meshParams);
 

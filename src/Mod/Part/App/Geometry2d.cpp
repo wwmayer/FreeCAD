@@ -486,7 +486,7 @@ void Geom2dBSplineCurve::interpolate(const std::vector<gp_Pnt2d>& p,
     Handle(TColStd_HArray1OfBoolean) fgs = new TColStd_HArray1OfBoolean(1, t.size());
     for (std::size_t i=0; i<p.size(); i++) {
         tgs.SetValue(i+1, t[i]);
-        fgs->SetValue(i+1, Standard_True);
+        fgs->SetValue(i+1, true);
     }
 
     Geom2dAPI_Interpolate interpolate(pts, false, tol3d);

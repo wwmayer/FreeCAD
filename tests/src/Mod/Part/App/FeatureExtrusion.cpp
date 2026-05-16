@@ -59,7 +59,7 @@ TEST_F(FeatureExtrusionTest, testMustExecute)
     // Assert
     EXPECT_FALSE(_extrusion->mustExecute());
     // Act
-    _extrusion->Solid.setValue(Standard_True);
+    _extrusion->Solid.setValue(true);
     // Assert
     EXPECT_TRUE(_extrusion->mustExecute());
     // Act

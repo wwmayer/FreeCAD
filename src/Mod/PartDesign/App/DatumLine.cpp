@@ -59,7 +59,7 @@ Line::Line()
     if (!builder.IsDone())
         return;
     TopoDS_Shape myShape = builder.Shape();
-    myShape.Infinite(Standard_True);
+    myShape.Infinite(true);
     Shape.setValue(myShape);
 
     Support.touch();

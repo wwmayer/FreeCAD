@@ -161,7 +161,7 @@ namespace
           B.MakeVertex(V,PC,1.e-7);
           theModifiedShape = V;
           theAddDist = SS->Radius();
-          return Standard_True;
+          return true;
         }
         if ( !isShell && S->IsKind(STANDARD_TYPE(Geom_ToroidalSurface)) ) {
           Handle(Geom_ToroidalSurface) TS = Handle(Geom_ToroidalSurface)::DownCast(S);
@@ -172,7 +172,7 @@ namespace
           B.MakeEdge(E,C,1.e-7);
           theModifiedShape = E;
           theAddDist = TS->MinorRadius();
-          return Standard_True;
+          return true;
         }
 
         // non solid case or any periodic surface (Mantis 22454).
@@ -215,7 +215,7 @@ namespace
         sfs->SetMaxTolerance(1.0);
         sfs->Perform();
         theModifiedShape = sfs->Shape();
-        return Standard_True;
+        return true;
       }
     }
     
@@ -447,12 +447,12 @@ bool GEOMUtils::CompareShapes::operator() (const TopoDS_Shape& theShape1,
 
   double dMidXYZ = val1.first - val2.first;
   if (dMidXYZ >= tol) {
-    exchange = Standard_True;
+    exchange = true;
   }
   else if (Abs(dMidXYZ) < tol) {
     double dLength = val1.second - val2.second;
     if (dLength >= tol) {
-      exchange = Standard_True;
+      exchange = true;
     }
     else if (Abs(dLength) < tol && theShape1.ShapeType() <= TopAbs_FACE) {
       // PAL17233
@@ -464,7 +464,7 @@ bool GEOMUtils::CompareShapes::operator() (const TopoDS_Shape& theShape1,
         BRepBndLib::Add(theShape2, box2);
         double dSquareExtent = box1.SquareExtent() - box2.SquareExtent();
         if (dSquareExtent >= tol) {
-          exchange = Standard_True;
+          exchange = true;
         }
         else if (Abs(dSquareExtent) < tol) {
           double aXmin, aYmin, aZmin, aXmax, aYmax, aZmax, val1, val2;
@@ -473,7 +473,7 @@ bool GEOMUtils::CompareShapes::operator() (const TopoDS_Shape& theShape1,
           box2.Get(aXmin, aYmin, aZmin, aXmax, aYmax, aZmax);
           val2 = (aXmin+aXmax)*999.0 + (aYmin+aYmax)*99.0 + (aZmin+aZmax)*0.9;
           if ((val1 - val2) >= tol) {
-            exchange = Standard_True;
+            exchange = true;
           }
         }
       }
@@ -558,7 +558,7 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
 
   // Sorting
   int aTemp;
-  Standard_Boolean exchange, Sort = Standard_True;
+  Standard_Boolean exchange, Sort = true;
   double    tol = Precision::Confusion();
   while (Sort)
   {
@@ -571,12 +571,12 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
       if ( dMidXYZ >= tol ) {
 //         cout << "MidXYZ: " << MidXYZ(OrderInd(Index))<< " > " <<MidXYZ(OrderInd(Index+1))
 //              << " d: " << dMidXYZ << endl;
-        exchange = Standard_True;
+        exchange = true;
       }
       else if ( Abs(dMidXYZ) < tol && dLength >= tol ) {
 //         cout << "Length: " << Length(OrderInd(Index))<< " > " <<Length(OrderInd(Index+1))
 //              << " d: " << dLength << endl;
-        exchange = Standard_True;
+        exchange = true;
       }
       else if ( Abs(dMidXYZ) < tol && Abs(dLength) < tol &&
                 aShapes(OrderInd(Index)).ShapeType() <= TopAbs_FACE) {
@@ -590,7 +590,7 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
         double dSquareExtent = box1.SquareExtent() - box2.SquareExtent();
         if ( dSquareExtent >= tol ) {
 //           cout << "SquareExtent: " << box1.SquareExtent()<<" > "<<box2.SquareExtent() << endl;
-          exchange = Standard_True;
+          exchange = true;
         }
         else if ( Abs(dSquareExtent) < tol ) {
           double aXmin, aYmin, aZmin, aXmax, aYmax, aZmax, val1, val2;
@@ -600,7 +600,7 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
           val2 = (aXmin+aXmax)*999 + (aYmin+aYmax)*99 + (aZmin+aZmax)*0.9;
           //exchange = val1 > val2;
           if ((val1 - val2) >= tol) {
-            exchange = Standard_True;
+            exchange = true;
           }
           //cout << "box: " << val1<<" > "<<val2 << endl;
         }
@@ -612,7 +612,7 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
         aTemp = OrderInd(Index);
         OrderInd(Index) = OrderInd(Index+1);
         OrderInd(Index+1) = aTemp;
-        Sort = Standard_True;
+        Sort = true;
       }
     }
   }
@@ -637,7 +637,7 @@ TopoDS_Shape GEOMUtils::CompsolidToCompound (const TopoDS_Shape& theCompsolid)
   B.MakeCompound(aCompound);
 
   TopTools_MapOfShape mapShape;
-  TopoDS_Iterator It (theCompsolid, Standard_True, Standard_True);
+  TopoDS_Iterator It (theCompsolid, true, true);
 
   for (; It.More(); It.Next()) {
     TopoDS_Shape aShape_i = It.Value();
@@ -662,7 +662,7 @@ void GEOMUtils::AddSimpleShapes (const TopoDS_Shape& theShape, TopTools_ListOfSh
   }
 
   TopTools_MapOfShape mapShape;
-  TopoDS_Iterator It (theShape, Standard_True, Standard_True);
+  TopoDS_Iterator It (theShape, true, true);
 
   for (; It.More(); It.Next()) {
     TopoDS_Shape aShape_i = It.Value();
@@ -881,7 +881,7 @@ Standard_Boolean GEOMUtils::PreciseBoundingBox
   theBox.SetVoid();
   theBox.Update(aBound[0], aBound[2], aBound[4], aBound[1], aBound[3], aBound[5]);
 
-  return Standard_True;
+  return true;
 }
 
 //=======================================================================

@@ -230,7 +230,7 @@ void ViewProviderTransformed::showRejectedShape(TopoDS_Shape shape)
         // create or use the mesh on the data structure
         // Note: This DOES have an effect on shape
         double AngDeflectionRads = Base::toRadians(AngularDeflection.getValue());
-        BRepMesh_IncrementalMesh(shape, deflection, false, AngDeflectionRads, Standard_True);
+        BRepMesh_IncrementalMesh(shape, deflection, false, AngDeflectionRads, true);
 
         // We must reset the location here because the transformation data
         // are set in the placement property

@@ -490,7 +490,7 @@ void ImpExpDxfRead::ExpandInsert(const std::string& name,
             Collector->AddObject(
                 BRepBuilderAPI_Transform(shape,
                                          Part::TopoShape::convert(localTransform),
-                                         Standard_True)
+                                         true)
                     .Shape(),
                 "InsertPart");  // TODO: The collection should contain the nameBase to use
         }

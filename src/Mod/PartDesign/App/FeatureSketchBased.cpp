@@ -920,7 +920,7 @@ void ProfileBased::addOffsetToFace(TopoDS_Face& upToFace, const gp_Dir& dir, dou
             // then the algorithm expects that the 'NaturalRestriction' flag is set in order
             // to work as expected (see generatePrism())
             BRep_Builder builder;
-            builder.NaturalRestriction(upToFace, Standard_True);
+            builder.NaturalRestriction(upToFace, true);
         }
         else {
             throw Base::TypeError("SketchBased: Up to Face: Offset not supported yet for non-planar faces");

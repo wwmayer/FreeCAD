@@ -236,7 +236,7 @@ bool GeomFillSurface::getWire(TopoDS_Wire& aWire)
 
     aShFW->Load(aWD);                         // Load in the wire
     aShFW->FixReorder();                      // Fix the order of the edges if required
-    aShFW->ClosedWireMode() = Standard_True;  // Enables closed wire mode
+    aShFW->ClosedWireMode() = true;  // Enables closed wire mode
     aShFW->FixConnected();                    // Fix connection between wires
     aShFW->FixSelfIntersection();             // Fix Self Intersection
     aShFW->Perform();                         // Perform the fixes

@@ -244,7 +244,7 @@ TopoShape Revolved::tryToRevolveToFace(const TopLoc_Location& invObjLoc,
                             TopoDS::Face(upToFace.getShape()),
                             nullptr,
                             revolMode,
-                            Standard_True);
+                            true);
     }
     catch (const Standard_Failure&) {
         throw Base::RuntimeError("Could not revolve the sketch!");

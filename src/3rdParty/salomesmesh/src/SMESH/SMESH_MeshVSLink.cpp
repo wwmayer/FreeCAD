@@ -182,7 +182,7 @@ Standard_Boolean SMESH_MeshVSLink::GetGeom
 	Coords(2) = myNode->Y();
 	Coords(3) = myNode->Z();
   }
-  return Standard_True;
+  return true;
 }
 
 //================================================================
@@ -226,7 +226,7 @@ Standard_Boolean  SMESH_MeshVSLink::Get3DGeom
 	}
 	Data->SetValue(itr+1, aSeq);
   }
-  return Standard_True;
+  return true;
 }
 
 //================================================================
@@ -258,7 +258,7 @@ Standard_Boolean SMESH_MeshVSLink::GetGeomType
 	else
 	  Type = MeshVS_ET_0D;
   }
-  return Standard_True;
+  return true;
 }
 
 //================================================================
@@ -286,7 +286,7 @@ Standard_Boolean SMESH_MeshVSLink::GetNodesByElement
 	if (!aNode) return false;
 	NodeIDs.SetValue(i+1, aNode->GetID());
   }
-  return Standard_True;
+  return true;
 }
 
 //================================================================
@@ -338,5 +338,5 @@ Standard_Boolean SMESH_MeshVSLink::GetNormal
   nx = normal.X();
   ny = normal.Y();
   nz = normal.Z();
-  return Standard_True;
+  return true;
 }

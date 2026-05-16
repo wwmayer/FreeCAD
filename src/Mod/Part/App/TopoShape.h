@@ -560,7 +560,7 @@ public:
                            double angle1,
                            double angle2,
                            double angle3,
-                           Standard_Boolean isSolid = Standard_True) const;
+                           Standard_Boolean isSolid = true) const;
     TopoDS_Shape makeHelix(double pitch,
                            double height,
                            double radius,
@@ -1132,7 +1132,7 @@ public:
                                      const TopoDS_Face& uptoface,
                                      const char* face_maker = nullptr,
                                      RevolMode Mode = RevolMode::None,
-                                     Standard_Boolean Modify = Standard_True,
+                                     Standard_Boolean Modify = true,
                                      const char* op = nullptr);
 
     /** Make revolved shell around a basis shape
@@ -1155,7 +1155,7 @@ public:
                                      const TopoDS_Face& uptoface,
                                      const char* face_maker = nullptr,
                                      RevolMode Mode = RevolMode::None,
-                                     Standard_Boolean Modify = Standard_True,
+                                     Standard_Boolean Modify = true,
                                      const char* op = nullptr) const
     {
         return TopoShape(0, Hasher).makeElementRevolution(*this,
@@ -1231,7 +1231,7 @@ public:
                                      const TopoShape& upToFace,
                                      const gp_Dir& direction,
                                      PrismMode mode,
-                                     Standard_Boolean checkLimits = Standard_True,
+                                     Standard_Boolean checkLimits = true,
                                      const char* op = nullptr);
 
     /** Make a prism based on this shape that is either depression or protrusion of a profile shape up to a given face
@@ -1256,7 +1256,7 @@ public:
                                     const TopoShape& upToFace,
                                     const gp_Dir& direction,
                                     PrismMode mode,
-                                    Standard_Boolean checkLimits = Standard_True,
+                                    Standard_Boolean checkLimits = true,
                                     const char* op = nullptr) const
     {
         return TopoShape(0, Hasher).makeElementPrismUntil(*this,

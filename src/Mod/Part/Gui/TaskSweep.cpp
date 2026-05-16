@@ -263,7 +263,7 @@ bool SweepWidget::isPathValid(const Gui::SelectionObject& sel) const
             for (TopExp_Explorer xp(shape.getShape(), TopAbs_EDGE); xp.More(); xp.Next())
                 hEdges->Append(xp.Current());
 
-            ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges, Precision::Confusion(), Standard_True, hWires);
+            ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges, Precision::Confusion(), true, hWires);
             int len = hWires->Length();
             if (len != 1)
                 return false;

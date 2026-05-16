@@ -250,7 +250,7 @@ template <class TheKeyType> class SMESH_IndexedMap
     while (pNode1) 
     {
       if (IsEqual(pNode1->Key1(), theKey1)) 
-        return Standard_True;
+        return true;
       pNode1 = (IndexedMapNode *) pNode1->Next();
     }
     return false;
@@ -383,7 +383,7 @@ template <class TheKeyType> class SMESH_IndexedMap
 
   //! Clear data. If doReleaseMemory is false then the table of
   //! buckets is not released and will be reused.
-  void Clear(const Standard_Boolean doReleaseMemory = Standard_True)
+  void Clear(const Standard_Boolean doReleaseMemory = true)
   { Destroy (IndexedMapNode::delNode, this->myAllocator, doReleaseMemory); }
 
   //! Clear data and reset allocator

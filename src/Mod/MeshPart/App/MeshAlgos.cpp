@@ -179,7 +179,7 @@ class _VertexCompare
 public:
     bool operator()(const TopoDS_Vertex& rclV1, const TopoDS_Vertex& rclV2) const
     {
-        if (rclV1.IsSame(rclV2) == Standard_True) {
+        if (rclV1.IsSame(rclV2) == true) {
             return false;
         }
 

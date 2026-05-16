@@ -505,7 +505,7 @@ void MeshProjection::discretize(const TopoDS_Edge& aEdge,
     double fLast = clCurve.LastParameter();
 
     GCPnts_UniformDeflection clDefl(clCurve, 0.01f, fFirst, fLast);
-    if (clDefl.IsDone() == Standard_True) {
+    if (clDefl.IsDone() == true) {
         int nNbPoints = clDefl.NbPoints();
         for (int i = 1; i <= nNbPoints; i++) {
             gp_Pnt gpPt = clCurve.Value(clDefl.Parameter(i));
@@ -518,7 +518,7 @@ void MeshProjection::discretize(const TopoDS_Edge& aEdge,
                                       static_cast<int>(minPoints),
                                       fFirst,
                                       fLast);
-        if (clAbsc.IsDone() == Standard_True) {
+        if (clAbsc.IsDone() == true) {
             polyline.clear();
             int nNbPoints = clAbsc.NbPoints();
             for (int i = 1; i <= nNbPoints; i++) {

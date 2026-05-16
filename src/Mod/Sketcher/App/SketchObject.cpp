@@ -8626,7 +8626,7 @@ void SketchObject::rebuildExternalGeometry(std::optional<ExternalToAdd> extToAdd
 
             if (intersection && !refSubShape.IsNull()) {
                 FCBRepAlgoAPI_Section maker(refSubShape, sketchPlane);
-                maker.Approximation(Standard_True);
+                maker.Approximation(true);
                 if (!maker.IsDone())
                     FC_THROWM(Base::CADKernelError, "Failed to get intersection");
                 Part::TopoShape intersectionShape(maker.Shape());

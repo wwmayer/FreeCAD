@@ -256,7 +256,7 @@ void FaceMakerCheese::Build_Essence()
 {
     TopoDS_Shape faces = makeFace(this->myWires);
     ShapeExtend_Explorer xp;
-    Handle(TopTools_HSequenceOfShape) seq = xp.SeqFromCompound(faces, Standard_True);
+    Handle(TopTools_HSequenceOfShape) seq = xp.SeqFromCompound(faces, true);
     for(int i = 0   ;   i < seq->Length()   ;   i++){
         this->myShapesToReturn.push_back(seq->Value(i+1));
     }

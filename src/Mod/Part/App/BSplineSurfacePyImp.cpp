@@ -1123,12 +1123,12 @@ PyObject* BSplineSurfacePy::reparametrize(PyObject * args) const
             (geom->handle());
         for (int i=1; i<u-1; i++) {
             double U = i * 1.0 / (u-1.0);
-            spline->InsertUKnot(U,i,tol,Standard_True);
+            spline->InsertUKnot(U,i,tol,true);
         }
 
         for (int i=1; i<v-1; i++) {
             double V = i * 1.0 / (v-1.0);
-            spline->InsertVKnot(V,i,tol,Standard_True);
+            spline->InsertVKnot(V,i,tol,true);
         }
 
         for (int j=0; j<u; j++) {
@@ -1230,7 +1230,7 @@ PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
 
         Approx_ParametrizationType pt;
         std::string pstr = parType;
-        Standard_Boolean useParam = Standard_True;
+        Standard_Boolean useParam = true;
         if (pstr == "Uniform" )
             pt = Approx_IsoParametric;
         else if (pstr == "Centripetal" )
@@ -1370,7 +1370,7 @@ PyObject* BSplineSurfacePy::buildFromPolesMultsKnots(PyObject *args, PyObject *k
         int lv = col.size();
         TColgp_Array2OfPnt occpoles(1, lu, 1, lv);
         TColStd_Array2OfReal occweights(1, lu, 1, lv);
-        Standard_Boolean genweights = (weights==Py_None) ? Standard_True : false; //cache
+        Standard_Boolean genweights = (weights==Py_None) ? true : false; //cache
         int index1 = 0;
         int index2 = 0;
         for (Py::Sequence::iterator it1 = list.begin(); it1 != list.end(); ++it1) {
