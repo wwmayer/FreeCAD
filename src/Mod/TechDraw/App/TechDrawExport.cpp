@@ -142,7 +142,7 @@ TopoDS_Edge TechDrawOutput::asCircle(const BRepAdaptor_Curve& c) const
 
 TopoDS_Edge TechDrawOutput::asBSpline(const BRepAdaptor_Curve& c, int maxDegree) const
 {
-    Standard_Real tol3D = 0.001;
+    double tol3D = 0.001;
     Standard_Integer maxSegment = 50;
     Handle(BRepAdaptor_HCurve) hCurve = new BRepAdaptor_HCurve(c);
     // approximate the curve using a tolerance
@@ -259,7 +259,7 @@ void SVGOutput::printEllipse(const BRepAdaptor_Curve& c, int id, std::ostream& o
     // a full ellipse
     // See also https://developer.mozilla.org/en/SVG/Tutorial/Paths
     gp_Dir xaxis = ellp.XAxis().Direction();
-    Standard_Real angle = xaxis.AngleWithRef(gp_Dir(1, 0,0), gp_Dir(0, 0,-1));
+    double angle = xaxis.AngleWithRef(gp_Dir(1, 0,0), gp_Dir(0, 0,-1));
     angle = Base::toDegrees<double>(angle);
     if (fabs(l-f) > 1.0 && s.SquareDistance(e) < 0.001) {
         out << "<g transform = \"rotate(" << angle << ", " << p.X() << ", " << p.Y() << ")\">" << std::endl;
@@ -347,7 +347,7 @@ void SVGOutput::printBSpline(const BRepAdaptor_Curve& c, int id, std::ostream& o
     try {
         std::stringstream str;
         Handle(Geom_BSplineCurve) spline;
-        Standard_Real tol3D = 0.001;
+        double tol3D = 0.001;
         Standard_Integer maxDegree = 3, maxSegment = 100;
         Handle(BRepAdaptor_HCurve) hCurve = new BRepAdaptor_HCurve(c);
         // approximate the curve using a tolerance
@@ -583,7 +583,7 @@ void DXFOutput::printEllipse(const BRepAdaptor_Curve& c, int /*id*/, std::ostrea
     else {
         // See also https://developer.mozilla.org/en/SVG/Tutorial/Paths
         gp_Dir xaxis = ellp.XAxis().Direction();
-        Standard_Real angle = xaxis.Angle(gp_Dir(1, 0,0));
+        double angle = xaxis.Angle(gp_Dir(1, 0,0));
         angle = Base::toDegrees<double>(angle);
         char las = (l-f > Base::numbers::pi) ? '1' : '0'; // large-arc-flag
         char swp = (a < 0) ? '1' : '0'; // sweep-flag, i.e. clockwise (0) or counter-clockwise (1)
@@ -644,7 +644,7 @@ void DXFOutput::printBSpline(const BRepAdaptor_Curve& c, int id, std::ostream& o
     try {
         std::stringstream str;
         Handle(Geom_BSplineCurve) spline;
-        Standard_Real tol3D = 0.001;
+        double tol3D = 0.001;
         Standard_Integer maxDegree = 3, maxSegment = 50;
         Handle(BRepAdaptor_HCurve) hCurve = new BRepAdaptor_HCurve(c);
         // approximate the curve using a tolerance

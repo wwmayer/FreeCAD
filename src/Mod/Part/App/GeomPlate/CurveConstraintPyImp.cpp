@@ -162,7 +162,7 @@ PyObject* CurveConstraintPy::G0Criterion(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = getGeomPlate_CurveConstraintPtr()->G0Criterion(u);
+        double v = getGeomPlate_CurveConstraintPtr()->G0Criterion(u);
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
@@ -178,7 +178,7 @@ PyObject* CurveConstraintPy::G1Criterion(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = getGeomPlate_CurveConstraintPtr()->G1Criterion(u);
+        double v = getGeomPlate_CurveConstraintPtr()->G1Criterion(u);
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
@@ -194,7 +194,7 @@ PyObject* CurveConstraintPy::G2Criterion(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = getGeomPlate_CurveConstraintPtr()->G2Criterion(u);
+        double v = getGeomPlate_CurveConstraintPtr()->G2Criterion(u);
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
@@ -380,7 +380,7 @@ void  CurveConstraintPy::setNbPoints(Py::Long arg)
 Py::Float CurveConstraintPy::getFirstParameter() const
 {
     try {
-        Standard_Real v = getGeomPlate_CurveConstraintPtr()->FirstParameter();
+        double v = getGeomPlate_CurveConstraintPtr()->FirstParameter();
         return Py::Float(v);
     }
     catch (const Standard_Failure& e) {
@@ -391,7 +391,7 @@ Py::Float CurveConstraintPy::getFirstParameter() const
 Py::Float CurveConstraintPy::getLastParameter() const
 {
     try {
-        Standard_Real v = getGeomPlate_CurveConstraintPtr()->LastParameter();
+        double v = getGeomPlate_CurveConstraintPtr()->LastParameter();
         return Py::Float(v);
     }
     catch (const Standard_Failure& e) {
@@ -402,7 +402,7 @@ Py::Float CurveConstraintPy::getLastParameter() const
 Py::Float CurveConstraintPy::getLength() const
 {
     try {
-        Standard_Real v = getGeomPlate_CurveConstraintPtr()->Length();
+        double v = getGeomPlate_CurveConstraintPtr()->Length();
         return Py::Float(v);
     }
     catch (const Standard_Failure& e) {

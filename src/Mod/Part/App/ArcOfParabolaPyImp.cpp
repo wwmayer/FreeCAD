@@ -47,16 +47,16 @@ std::string ArcOfParabolaPy::representation() const
     gp_Ax1 axis = parabola->Axis();
     gp_Dir dir = axis.Direction();
     gp_Pnt loc = axis.Location();
-    Standard_Real fFocal = parabola->Focal();
-    Standard_Real u1 = trim->FirstParameter();
-    Standard_Real u2 = trim->LastParameter();
+    double fFocal = parabola->Focal();
+    double u1 = trim->FirstParameter();
+    double u2 = trim->LastParameter();
 
     gp_Dir normal = parabola->Axis().Direction();
     gp_Dir xdir = parabola->XAxis().Direction();
 
     gp_Ax2 xdirref(loc, normal); // this is a reference XY for the parabola
 
-    Standard_Real fAngleXU = -xdir.AngleWithRef(xdirref.XDirection(),normal);
+    double fAngleXU = -xdir.AngleWithRef(xdirref.XDirection(),normal);
 
 
     std::stringstream str;

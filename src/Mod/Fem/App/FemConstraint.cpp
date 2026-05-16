@@ -406,7 +406,7 @@ bool Constraint::getPoints(std::vector<Base::Vector3d>& points,
             double stepu = (ulp - ufp) / stepsu;
 
             // Create points and normals
-            auto fillPointsAndNormals = [&](Standard_Real u, Standard_Real v) {
+            auto fillPointsAndNormals = [&](double u, double v) {
                 gp_Pnt p = surface.Value(u, v);
                 BRepClass_FaceClassifier classifier(face, p, Precision::Confusion());
                 if (classifier.State() != TopAbs_OUT) {

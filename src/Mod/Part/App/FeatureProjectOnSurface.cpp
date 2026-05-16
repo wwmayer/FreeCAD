@@ -296,8 +296,8 @@ ProjectOnSurface::createWiresFromWires(const std::vector<TopoDS_Shape>& wires,
 
         std::vector<TopoDS_Edge> edgesInParametricSpace;
         for (const auto& edge : edges) {
-            Standard_Real first {};
-            Standard_Real last {};
+            double first {};
+            double last {};
             auto currentCurve = BRep_Tool::CurveOnSurface(TopoDS::Edge(edge),
                                                           supportFace,
                                                           first,

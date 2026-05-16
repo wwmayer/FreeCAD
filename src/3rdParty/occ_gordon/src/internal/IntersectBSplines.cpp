@@ -241,7 +241,7 @@ namespace
             return 2;
         }
 
-        Standard_Boolean Value (const math_Vector& X, Standard_Real& F) override
+        Standard_Boolean Value (const math_Vector& X, double& F) override
         {
             math_Vector G(1, 2);
             return Values(X, F, G);
@@ -249,7 +249,7 @@ namespace
 
         Standard_Boolean Gradient (const math_Vector& X, math_Vector& G) override
         {
-            Standard_Real F = 0.;
+            double F = 0.;
             return Values(X, F, G);
         }
 
@@ -297,7 +297,7 @@ namespace
             return d_activate(x1)*(vmax - vmin);
         }
 
-        virtual  Standard_Boolean Values (const math_Vector& X, Standard_Real& F, math_Vector& G) override
+        virtual  Standard_Boolean Values (const math_Vector& X, double& F, math_Vector& G) override
         {
 
             // We use a reparametrization trick to ensure that u is in [umin, umax] and v in [vmin, vmax]

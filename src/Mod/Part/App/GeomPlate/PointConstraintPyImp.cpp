@@ -112,7 +112,7 @@ PyObject* PointConstraintPy::G0Criterion(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = getGeomPlate_PointConstraintPtr()->G0Criterion();
+        double v = getGeomPlate_PointConstraintPtr()->G0Criterion();
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
@@ -127,7 +127,7 @@ PyObject* PointConstraintPy::G1Criterion(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = getGeomPlate_PointConstraintPtr()->G1Criterion();
+        double v = getGeomPlate_PointConstraintPtr()->G1Criterion();
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
@@ -142,7 +142,7 @@ PyObject* PointConstraintPy::G2Criterion(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = getGeomPlate_PointConstraintPtr()->G2Criterion();
+        double v = getGeomPlate_PointConstraintPtr()->G2Criterion();
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {

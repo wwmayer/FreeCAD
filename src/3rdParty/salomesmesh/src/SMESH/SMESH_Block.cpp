@@ -933,7 +933,7 @@ void SMESH_Block::refineParametersOnFace( const gp_Pnt& thePoint,
                                           int           theFaceID )
 {
   // find UV of thePoint on the FACE
-  Standard_Real U,V;
+  double U,V;
 
   const TFace& tface = myFace[ theFaceID - ID_FirstF ];
   if ( !tface.Surface() ) return;

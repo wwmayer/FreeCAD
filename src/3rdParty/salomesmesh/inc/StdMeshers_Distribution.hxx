@@ -97,7 +97,7 @@ class STDMESHERS_EXPORT FunctionExpr : public Function, public math_Function
 public:
   FunctionExpr( const char*, const int );
   virtual ~FunctionExpr();
-  virtual Standard_Boolean Value( const Standard_Real, Standard_Real& );
+  virtual Standard_Boolean Value( const double, double& );
   virtual bool   value( const double, double& ) const;
   virtual double integral( const double, const double ) const;
 

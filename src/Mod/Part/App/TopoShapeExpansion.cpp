@@ -1360,11 +1360,11 @@ void checkForParallelOrCoplanar(const TopoDS_Shape& newShape,
                 if (pln.Axis().IsParallel(plnOther.Axis(), Precision::Angular())) {
                     if (coplanarFace < 0) {
                         gp_Vec vec(pln.Axis().Location(), plnOther.Axis().Location());
-                        Standard_Real D1 = gp_Vec(pln.Axis().Direction()).Dot(vec);
+                        double D1 = gp_Vec(pln.Axis().Direction()).Dot(vec);
                         if (D1 < 0) {
                             D1 = -D1;
                         }
-                        Standard_Real D2 = gp_Vec(plnOther.Axis().Direction()).Dot(vec);
+                        double D2 = gp_Vec(plnOther.Axis().Direction()).Dot(vec);
                         if (D2 < 0) {
                             D2 = -D2;
                         }
@@ -3177,8 +3177,8 @@ struct EdgePoints
 
 TopoShape TopoShape::reverseEdge(const TopoShape& edge)
 {
-    Standard_Real first = NAN;
-    Standard_Real last = NAN;
+    double first = NAN;
+    double last = NAN;
     const Handle(Geom_Curve)& curve = BRep_Tool::Curve(TopoDS::Edge(edge.getShape()), first, last);
     first = curve->ReversedParameter(first);
     last = curve->ReversedParameter(last);
@@ -4752,7 +4752,7 @@ TopoShape& TopoShape::makeElementBSplineFace(const std::vector<TopoShape>& input
         auto edge = edges[0].getSubShape(TopAbs_EDGE, 1);
         auto e = TopoDS::Edge(edge);
         auto v = TopExp::FirstVertex(e);
-        Standard_Real first, last;
+        double first, last;
         Handle(Geom_Curve) curve = BRep_Tool::Curve(e, first, last);
 
         BRepBuilderAPI_MakeEdge mk1, mk2, mk3, mk4;
@@ -4824,7 +4824,7 @@ TopoShape& TopoShape::makeElementBSplineFace(const std::vector<TopoShape>& input
 
     Handle(Geom_Surface) aSurface;
 
-    Standard_Real u1, u2;
+    double u1, u2;
     if (keepBezier) {
         std::vector<Handle(Geom_BezierCurve)> curves;
         curves.reserve(4);
@@ -4921,7 +4921,7 @@ TopoShape& TopoShape::makeElementBSplineFace(const std::vector<TopoShape>& input
     }
 
     BRepBuilderAPI_MakeFace aFaceBuilder;
-    Standard_Real v1, v2;
+    double v1, v2;
     // transfer surface bounds to face
     aSurface->Bounds(u1, u2, v1, v2);
 

@@ -72,10 +72,10 @@ void ShapeValidator::checkEdge(const TopoDS_Shape& shape)
         throw Standard_Failure("Shape is not an edge.");
     }
 
-    TopoDS_Edge etmp = TopoDS::Edge(shape);                             // Curve TopoDS_Edge
-    TopLoc_Location heloc;                                              // this will be output
-    Standard_Real u0;                                                   // contains output
-    Standard_Real u1;                                                   // contains output
+    TopoDS_Edge etmp = TopoDS::Edge(shape);                      // Curve TopoDS_Edge
+    TopLoc_Location heloc;                                       // this will be output
+    double u0;                                                   // contains output
+    double u1;                                                   // contains output
     Handle(Geom_Curve) c_geom = BRep_Tool::Curve(etmp, heloc, u0, u1);  // The geometric curve
     Handle(Geom_BezierCurve) bez_geom =
         Handle(Geom_BezierCurve)::DownCast(c_geom);  // Try to get Bezier curve
@@ -253,7 +253,7 @@ bool GeomFillSurface::getWire(TopoDS_Wire& aWire)
 void GeomFillSurface::createFace(const Handle(Geom_BoundedSurface) & aSurface)
 {
     BRepBuilderAPI_MakeFace aFaceBuilder;
-    Standard_Real u1, u2, v1, v2;
+    double u1, u2, v1, v2;
     // transfer surface bounds to face
     aSurface->Bounds(u1, u2, v1, v2);
     aFaceBuilder.Init(aSurface, u1, u2, v1, v2, Precision::Confusion());
@@ -274,7 +274,7 @@ void GeomFillSurface::createBezierSurface(TopoDS_Wire& aWire)
     std::vector<Handle(Geom_BezierCurve)> curves;
     curves.reserve(4);
 
-    Standard_Real u1, u2;  // contains output
+    double u1, u2;  // contains output
     TopExp_Explorer anExp(aWire, TopAbs_EDGE);
     for (; anExp.More(); anExp.Next()) {
         const TopoDS_Edge hedge = TopoDS::Edge(anExp.Current());
@@ -325,7 +325,7 @@ void GeomFillSurface::createBSplineSurface(TopoDS_Wire& aWire)
 {
     std::vector<Handle(Geom_BSplineCurve)> curves;
     curves.reserve(4);
-    Standard_Real u1, u2;  // contains output
+    double u1, u2;  // contains output
     TopExp_Explorer anExp(aWire, TopAbs_EDGE);
     for (; anExp.More(); anExp.Next()) {
         const TopoDS_Edge& edge = TopoDS::Edge(anExp.Current());

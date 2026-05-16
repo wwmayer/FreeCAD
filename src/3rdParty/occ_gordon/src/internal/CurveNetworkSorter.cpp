@@ -278,11 +278,11 @@ void CurveNetworkSorter::reverseProfile(size_t profileIdx)
     Standard_Integer pIdx = static_cast<Standard_Integer>(profileIdx);
 
     Handle(Geom_Curve) profile = m_profiles[profileIdx];
-    Standard_Real lastParm = !profile.IsNull() ?
+    double lastParm = !profile.IsNull() ?
                 profile->LastParameter() :
                 m_parmsIntersProfiles(pIdx, static_cast<Standard_Integer>(maxRowIndex(m_parmsIntersProfiles, pIdx)));
 
-    Standard_Real firstParm = !profile.IsNull() ?
+    double firstParm = !profile.IsNull() ?
                 profile->FirstParameter() :
                 m_parmsIntersProfiles(pIdx, static_cast<Standard_Integer>(minRowIndex(m_parmsIntersProfiles, pIdx)));
 
@@ -305,11 +305,11 @@ void CurveNetworkSorter::reverseGuide(size_t guideIdx)
     Standard_Integer gIdx = static_cast<Standard_Integer>(guideIdx);
 
     Handle(Geom_Curve) guide = m_guides[guideIdx];
-    Standard_Real lastParm = !guide.IsNull() ?
+    double lastParm = !guide.IsNull() ?
                 guide->LastParameter() :
                 m_parmsIntersGuides(static_cast<Standard_Integer>(maxColIndex(m_parmsIntersGuides, gIdx)), gIdx);
 
-    Standard_Real firstParm = !guide.IsNull() ?
+    double firstParm = !guide.IsNull() ?
                 guide->FirstParameter() :
                 m_parmsIntersGuides(static_cast<Standard_Integer>(minColIndex(m_parmsIntersGuides, gIdx)), gIdx);
 

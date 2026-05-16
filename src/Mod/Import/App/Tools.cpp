@@ -44,7 +44,7 @@ using namespace Import;
 
 Base::Color Tools::convertColor(const Quantity_ColorRGBA& rgba)
 {
-    Standard_Real red, green, blue;
+    double red, green, blue;
     rgba.GetRGB().Values(red, green, blue, OCC_COLOR_SPACE);
     return Base::Color(static_cast<float>(red),
                        static_cast<float>(green),

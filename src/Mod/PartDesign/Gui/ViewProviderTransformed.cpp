@@ -218,18 +218,18 @@ void ViewProviderTransformed::showRejectedShape(TopoDS_Shape shape)
 {
     try {
         // calculating the deflection value
-        Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+        double xMin, yMin, zMin, xMax, yMax, zMax;
         {
             Bnd_Box bounds;
             BRepBndLib::Add(shape, bounds);
             bounds.SetGap(0.0);
             bounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
         }
-        Standard_Real deflection = ((xMax-xMin)+(yMax-yMin)+(zMax-zMin))/300.0 * Deviation.getValue();
+        double deflection = ((xMax-xMin)+(yMax-yMin)+(zMax-zMin))/300.0 * Deviation.getValue();
 
         // create or use the mesh on the data structure
         // Note: This DOES have an effect on shape
-        Standard_Real AngDeflectionRads = Base::toRadians(AngularDeflection.getValue());
+        double AngDeflectionRads = Base::toRadians(AngularDeflection.getValue());
         BRepMesh_IncrementalMesh(shape, deflection, Standard_False, AngDeflectionRads, Standard_True);
 
         // We must reset the location here because the transformation data

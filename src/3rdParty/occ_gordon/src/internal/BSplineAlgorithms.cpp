@@ -622,8 +622,8 @@ std::vector<Handle(Geom_BSplineSurface) > BSplineAlgorithms::createCommonKnotsVe
 
 void BSplineAlgorithms::matchParameterRange(std::vector<Handle(Geom_BSplineCurve)> const& bsplines, double tolerance)
 {
-    Standard_Real umin = bsplines[0]->FirstParameter();
-    Standard_Real umax = bsplines[0]->LastParameter();
+    double umin = bsplines[0]->FirstParameter();
+    double umax = bsplines[0]->LastParameter();
     for (unsigned iP=1; iP<bsplines.size(); ++iP) {
         Handle(Geom_BSplineCurve) bspl = bsplines[iP];
         if (fabs(bspl->FirstParameter() - umin) > tolerance ||

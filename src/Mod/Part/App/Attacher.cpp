@@ -368,7 +368,7 @@ Base::Placement AttachEngine::placementFactory(const gp_Dir &ZAxis,
     gp_Trsf Trf;
     Trf.SetTransformation(ax3);
     Trf.Invert();
-    Trf.SetScaleFactor(Standard_Real(1.0));
+    Trf.SetScaleFactor(double(1.0));
 
     Base::Matrix4D mtrx;
     TopoShape::convertToMatrix(Trf,mtrx);
@@ -1324,9 +1324,9 @@ AttachEngine3D::_calculateAttachedPlacement(const std::vector<App::DocumentObjec
                 // that is substantially different. The one that is different
                 // corresponds to a defined axis. We'll identify the different one by
                 // comparing differences.
-                Standard_Real I1, I2, I3;
+                double I1, I2, I3;
                 pr.Moments(I1, I2, I3);
-                Standard_Real d12, d23, d31;
+                double d12, d23, d31;
                 d12 = fabs(I1 - I2);
                 d23 = fabs(I2 - I3);
                 d31 = fabs(I3 - I1);
@@ -2237,9 +2237,9 @@ AttachEngineLine::_calculateAttachedPlacement(const std::vector<App::DocumentObj
                 // query moments, to use them to check if axis is defined
                 // See AttachEngine3D::calculateAttachedPlacement:case mmInertial for comment
                 // explaining these comparisons
-                Standard_Real I1, I2, I3;
+                double I1, I2, I3;
                 pr.Moments(I1, I2, I3);
-                Standard_Real d12, d23, d31;
+                double d12, d23, d31;
                 d12 = fabs(I1 - I2);
                 d23 = fabs(I2 - I3);
                 d31 = fabs(I3 - I1);

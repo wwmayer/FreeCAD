@@ -375,7 +375,7 @@ static std::vector<gp_Pnt> discretize(const TopoDS_Edge& edge, double deflection
 {
     std::vector<gp_Pnt> ret;
     BRepAdaptor_Curve curve(edge);
-    Standard_Real efirst, elast;
+    double efirst, elast;
     efirst = curve.FirstParameter();
     elast = curve.LastParameter();
     bool reversed = (edge.Orientation() == TopAbs_REVERSED);
@@ -898,7 +898,7 @@ struct WireJoiner
             }
             return false;
         }
-        Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+        double xMin, yMin, zMin, xMax, yMax, zMax;
         bound.Get(xMin, yMin, zMin, xMax, yMax, zMax);
         box = Box(gp_Pnt(xMin, yMin, zMin), gp_Pnt(xMax, yMax, zMax));
         return true;
@@ -1151,7 +1151,7 @@ struct WireJoiner
                 continue;
             }
 
-            Standard_Real first, last;
+            double first, last;
             Handle(Geom_Curve) curve = BRep_Tool::Curve(it->edge, first, last);
             bool reversed =
                 pstart.SquareDistance(curve->Value(last)) <= Precision::SquareConfusion();
@@ -1739,7 +1739,7 @@ std::vector<shared_ptr<Area>> Area::makeSections(PARAM_ARGS(PARAM_FARG, AREA_PAR
         BRepBndLib::Add(shape, bounds, Standard_False);
     }
     bounds.SetGap(0.0);
-    Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+    double xMin, yMin, zMin, xMax, yMax, zMax;
     bounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
     AREA_TRACE("section bounds X(" << xMin << ',' << xMax << "), Y(" << yMin << ',' << yMax
                                    << "), Z(" << zMin << ',' << zMax << ')');
@@ -1893,7 +1893,7 @@ std::vector<shared_ptr<Area>> Area::makeSections(PARAM_ARGS(PARAM_FARG, AREA_PAR
         bool retried = !can_retry;
         while (true) {
             gp_Pln pln(gp_Pnt(0, 0, z), gp_Dir(0, 0, 1));
-            Standard_Real a, b, c, d;
+            double a, b, c, d;
             pln.Coefficients(a, b, c, d);
             BRepLib_MakeFace mkFace(pln, xMin, xMax, yMin, yMax);
             const TopoDS_Shape& face = mkFace.Face();
@@ -3009,7 +3009,7 @@ struct ShapeInfo
     Wires::iterator myBestWire;
     TopoDS_Shape mySupport;
     ShapeParams& myParams;
-    Standard_Real myBestParameter;
+    double myBestParameter;
     bool mySupportEdge;
     bool myPlanar;
     bool myRebase;
@@ -3162,7 +3162,7 @@ struct ShapeInfo
                 // BRepBuilderAPI_MakeEdge always fails with
                 // PointProjectionFailed. Why??
 
-                Standard_Real first, last;
+                double first, last;
                 Handle(Geom_Curve) curve = BRep_Tool::Curve(edge, first, last);
                 pt = curve->Value(last);
                 bool reversed;
@@ -3497,8 +3497,8 @@ struct WireOrienter
     }
 };
 
-typedef Standard_Real (gp_Pnt::*AxisGetter)() const;
-typedef void (gp_Pnt::*AxisSetter)(Standard_Real);
+typedef double (gp_Pnt::*AxisGetter)() const;
+typedef void (gp_Pnt::*AxisSetter)(double);
 
 std::list<TopoDS_Shape> Area::sortWires(const std::list<TopoDS_Shape>& shapes,
                                         bool has_start,
@@ -3663,7 +3663,7 @@ std::list<TopoDS_Shape> Area::sortWires(const std::list<TopoDS_Shape>& shapes,
     }
 
     bounds.SetGap(0.0);
-    Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+    double xMin, yMin, zMin, xMax, yMax, zMax;
     bounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
     AREA_TRACE("bound (" << xMin << ", " << xMax << "), (" << yMin << ", " << yMax << "), (" << zMin
                          << ", " << zMax << ')');
@@ -3758,7 +3758,7 @@ std::list<TopoDS_Shape> Area::sortWires(const std::list<TopoDS_Shape>& shapes,
                 // Can't use gp_pln.Distance(), because it only calculate
                 // the distance if two plane are parallel. And it checks
                 // parallelity using tolerance gp::Resolution() which is
-                // defined as DBL_MIN (min double) in Standard_Real.hxx.
+                // defined as DBL_MIN (min double).
                 // Really? Is that a bug?
                 const gp_Pnt& P = pln.Position().Location();
                 const gp_Pnt& loc = best_it->myPln.Position().Location();

@@ -44,7 +44,7 @@ namespace
     {
       union
       {
-        Standard_Real    R[3];
+        double    R[3];
         Standard_Integer I[6];
       } U;
 
@@ -54,7 +54,7 @@ namespace
 
     size_t operator()(const gp_Pnt& point1, const gp_Pnt& point2) const noexcept
     {
-      static Standard_Real tab1[3], tab2[3];
+      static double tab1[3], tab2[3];
       point1.Coord(tab1[0],tab1[1],tab1[2]);
       point2.Coord(tab2[0],tab2[1],tab2[2]);
       return (memcmp(tab1,tab2,sizeof(tab1)) == 0);
@@ -69,7 +69,7 @@ namespace
     {
       union
       {
-        Standard_Real    R[3];
+        double    R[3];
         Standard_Integer I[6];
       } U;
 
@@ -84,7 +84,7 @@ namespace
     inline static Standard_Boolean IsEqual
     (const gp_Pnt& point1, const gp_Pnt& point2)
     {
-      static Standard_Real tab1[3], tab2[3];
+      static double tab1[3], tab2[3];
       point1.Coord(tab1[0],tab1[1],tab1[2]);
       point2.Coord(tab2[0],tab2[1],tab2[2]);
       return (memcmp(tab1,tab2,sizeof(tab1)) == 0);
@@ -172,7 +172,7 @@ Driver_Mesh::Status DriverSTL_R_SMDS_Mesh::Perform()
 
 // static methods
 
-static Standard_Real readFloat(SMESH_File& theFile)
+static double readFloat(SMESH_File& theFile)
 {
   union {
     Standard_Boolean i;

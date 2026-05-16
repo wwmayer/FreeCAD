@@ -806,8 +806,8 @@ void PartGui::DlgProjectionOnSurface::create_projection_face_from_wire(
 
                 std::vector<TopoDS_Edge> edgeInParametricSpaceVec;
                 for (auto itEdge : edgeVec) {
-                    Standard_Real first {};
-                    Standard_Real last {};
+                    double first {};
+                    double last {};
                     auto currentCurve = BRep_Tool::CurveOnSurface(TopoDS::Edge(itEdge),
                                                                   itCurrentShape.surfaceToProject,
                                                                   first,

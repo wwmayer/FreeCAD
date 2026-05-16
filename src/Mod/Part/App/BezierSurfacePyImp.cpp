@@ -66,7 +66,7 @@ PyObject* BezierSurfacePy::bounds(PyObject *args) const
     Handle(Geom_BezierSurface) surf = Handle(Geom_BezierSurface)::DownCast
         (getGeometryPtr()->handle());
     Py::Tuple bound(4);
-    Standard_Real u1,u2,v1,v2;
+    double u1,u2,v1,v2;
     surf->Bounds(u1,u2,v1,v2);
     bound.setItem(0,Py::Float(u1));
     bound.setItem(1,Py::Float(u2));
@@ -355,7 +355,7 @@ PyObject* BezierSurfacePy::removePoleRow(PyObject *args)
 
 PyObject* BezierSurfacePy::segment(PyObject *args)
 {
-    Standard_Real u1,u2,v1,v2;
+    double u1,u2,v1,v2;
     if (!PyArg_ParseTuple(args, "dddd",&u1,&u2,&v1,&v2))
         return nullptr;
     try {

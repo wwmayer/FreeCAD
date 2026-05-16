@@ -73,7 +73,7 @@ PyObject* BSplineSurfacePy::bounds(PyObject *args) const
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
     Py::Tuple bound(4);
-    Standard_Real u1,u2,v1,v2;
+    double u1,u2,v1,v2;
     surf->Bounds(u1,u2,v1,v2);
     bound.setItem(0,Py::Float(u1));
     bound.setItem(1,Py::Float(u2));
@@ -1158,15 +1158,15 @@ PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
     Standard_Integer degMin=3;
     Standard_Integer degMax=8;
     Standard_Integer continuity=2;
-    Standard_Real tol3d = Precision::Approximation();
+    double tol3d = Precision::Approximation();
     const char* parType = "None";
-    Standard_Real weight1 = 1.0;
-    Standard_Real weight2 = 1.0;
-    Standard_Real weight3 = 1.0;
-    Standard_Real X0=0;
-    Standard_Real dX=0;
-    Standard_Real Y0=0;
-    Standard_Real dY=0;
+    double weight1 = 1.0;
+    double weight2 = 1.0;
+    double weight3 = 1.0;
+    double X0=0;
+    double dX=0;
+    double Y0=0;
+    double dY=0;
 
     static const std::array<const char *, 14> kwds_interp{"Points", "DegMin", "DegMax", "Continuity", "Tolerance", "X0",
                                                           "dX", "Y0", "dY", "ParamType", "LengthWeight",
@@ -1201,7 +1201,7 @@ PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
                     interpolationPoints.SetValue(index1, index2, newPoint);
                 }
                 else {
-                    Standard_Real val = PyFloat_AsDouble((*it2).ptr());
+                    double val = PyFloat_AsDouble((*it2).ptr());
                     zPoints.SetValue(index1, index2, val);
                 }
             }
@@ -1274,10 +1274,10 @@ PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
 PyObject* BSplineSurfacePy::interpolate(PyObject *args)
 {
     PyObject* obj;
-    Standard_Real X0=0;
-    Standard_Real dX=0;
-    Standard_Real Y0=0;
-    Standard_Real dY=0;
+    double X0=0;
+    double dX=0;
+    double Y0=0;
+    double dY=0;
 
     int len = PyTuple_GET_SIZE(args);
 
@@ -1306,7 +1306,7 @@ PyObject* BSplineSurfacePy::interpolate(PyObject *args)
                     interpolationPoints.SetValue(index1, index2, newPoint);
                 }
                 else {
-                    Standard_Real val = PyFloat_AsDouble((*it2).ptr());
+                    double val = PyFloat_AsDouble((*it2).ptr());
                     zPoints.SetValue(index1, index2, val);
                 }
             }

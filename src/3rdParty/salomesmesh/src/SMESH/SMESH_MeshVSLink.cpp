@@ -322,7 +322,7 @@ void SMESH_MeshVSLink::GetAllGroups(TColStd_PackedMapOfInteger& Ids) const
 //================================================================
 Standard_Boolean SMESH_MeshVSLink::GetNormal
 	( const Standard_Integer Id, const Standard_Integer Max,
-	  Standard_Real& nx, Standard_Real& ny,Standard_Real& nz ) const
+	  double& nx, double& ny,double& nz ) const
 {
   if(Max<3) return Standard_False;
   const SMDS_MeshElement* myElem = myMesh->GetMeshDS()->FindElement(Id);

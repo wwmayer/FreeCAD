@@ -967,9 +967,9 @@ void ViewProviderPartExt::updateVisual()
         Bnd_Box bounds;
         BRepBndLib::Add(cShape, bounds);
         bounds.SetGap(0.0);
-        Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+        double xMin, yMin, zMin, xMax, yMax, zMax;
         bounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
-        Standard_Real deflection = ((xMax-xMin)+(yMax-yMin)+(zMax-zMin))/300.0 * Deviation.getValue();
+        double deflection = ((xMax-xMin)+(yMax-yMin)+(zMax-zMin))/300.0 * Deviation.getValue();
 
         // Since OCCT 7.6 a value of equal 0 is not allowed any more, this can happen if a single vertex
         // should be displayed.
@@ -983,7 +983,7 @@ void ViewProviderPartExt::updateVisual()
         //deflection = std::min(deflection, 20.0);
 
         // create or use the mesh on the data structure
-        Standard_Real AngDeflectionRads = Base::toRadians(AngularDeflection.getValue());
+        double AngDeflectionRads = Base::toRadians(AngularDeflection.getValue());
 
         IMeshTools_Parameters meshParams;
         meshParams.Deflection = deflection;

@@ -102,7 +102,7 @@ int PlateSurfacePy::PyInit(PyObject* args, PyObject* kwds)
             buildPlate.LoadInitSurface(surf);
 
             if (!points && !curves) {
-                Standard_Real U1,U2,V1,V2;
+                double U1,U2,V1,V2;
                 surf->Bounds(U1,U2,V1,V2);
                 buildPlate.Add(new GeomPlate_PointConstraint(surf->Value(U1,V1),0));
                 buildPlate.Add(new GeomPlate_PointConstraint(surf->Value(U1,V2),0));

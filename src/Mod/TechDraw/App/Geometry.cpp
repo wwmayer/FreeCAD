@@ -1160,7 +1160,7 @@ BSpline::BSpline(const TopoDS_Edge &e)
          endAngle += 2.0 * pi;
     }
 
-    Standard_Real tol3D = 0.001;                                   //1/1000 of a mm? screen can't resolve this
+    const double tol3D = 0.001;                                   //1/1000 of a mm? screen can't resolve this
     Standard_Integer maxDegree = 3, maxSegment = 200;
     Handle(BRepAdaptor_HCurve) hCurve = new BRepAdaptor_HCurve(c);
     // approximate the curve using a tolerance

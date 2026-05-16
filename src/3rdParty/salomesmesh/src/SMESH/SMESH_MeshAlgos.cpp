@@ -584,7 +584,7 @@ bool SMESH_ElementSearcherImpl::getIntersParamOnLine(const gp_Lin&           lin
 //    anExtCC.Init( lineCurve, edge);
     if ( anExtCC.NbExtrema() > 0 && anExtCC.LowerDistance() <= tol)
     {
-      Standard_Real pl, pe;
+      double pl, pe;
       anExtCC.LowerDistanceParameters( pl, pe );
       param += pl;
       if ( ++nbInts == 2 )

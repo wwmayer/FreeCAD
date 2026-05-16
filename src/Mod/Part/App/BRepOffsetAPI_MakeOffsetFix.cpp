@@ -93,7 +93,7 @@ void BRepOffsetAPI_MakeOffsetFix::AddWire(const TopoDS_Wire& Spine)
     myResult.Nullify();
 }
 
-void BRepOffsetAPI_MakeOffsetFix::Perform (const Standard_Real Offset, const Standard_Real Alt)
+void BRepOffsetAPI_MakeOffsetFix::Perform (const double Offset, const double Alt)
 {
     mkOffset.Perform(Offset, Alt);
 }

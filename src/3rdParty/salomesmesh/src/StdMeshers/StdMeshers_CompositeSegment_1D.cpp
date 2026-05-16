@@ -426,7 +426,7 @@ bool StdMeshers_CompositeSegment_1D::Compute(SMESH_Mesh &         aMesh,
   // create internal nodes
   list< double >::iterator parIt = params.begin();
   double prevPar = *parIt;
-  Standard_Real u;
+  double u;
   for ( int iN = 0; parIt != params.end(); ++iN, ++parIt)
   {
     if ( !nodes[ iN ] ) {

@@ -135,7 +135,7 @@ If the algorithm fails it returns a null surface.
 */
 Handle(Geom_Surface)
 Part::Tools::makeSurface(const TColStd_ListOfTransient &theBoundaries,
-                         const Standard_Real theTol,
+                         const double theTol,
                          const Standard_Integer theNbPnts,
                          const Standard_Integer theNbIter,
                          const Standard_Integer theMaxDeg)
@@ -147,10 +147,10 @@ Part::Tools::makeSurface(const TColStd_ListOfTransient &theBoundaries,
     const Standard_Integer aDeg = 3; //requested surface degree ?
     const Standard_Integer aMaxDeg = theMaxDeg;
     const Standard_Integer aMaxSeg = 10000;
-    const Standard_Real aTol3d = 1.e-04;
-    const Standard_Real aTol2d = 1.e-05;
-    const Standard_Real anAngTol = 1.e-02; //angular
-    const Standard_Real aCurvTol = 1.e-01; //curvature
+    const double aTol3d = 1.e-04;
+    const double aTol2d = 1.e-05;
+    const double anAngTol = 1.e-02; //angular
+    const double aCurvTol = 1.e-01; //curvature
 
     Handle(Geom_Surface) aRes;
     GeomPlate_BuildPlateSurface aPlateBuilder (aDeg, aNbPnts, aNbIter, aTol2d, aTol3d, anAngTol, aCurvTol);
@@ -215,12 +215,12 @@ Part::Tools::makeSurface(const TColStd_ListOfTransient &theBoundaries,
 
     const Handle(GeomPlate_Surface)& aPlate = aPlateBuilder.Surface();
     //approximation (see BRepFill_Filling - when no initial surface was given)
-    Standard_Real aDMax = aPlateBuilder.G0Error();
+    double aDMax = aPlateBuilder.G0Error();
     TColgp_SequenceOfXY aS2d;
     TColgp_SequenceOfXYZ aS3d;
     aPlateBuilder.Disc2dContour (4, aS2d);
     aPlateBuilder.Disc3dContour (4, 0, aS3d);
-    Standard_Real aMax = Max (aTol3d, 10. * aDMax);
+    double aMax = Max (aTol3d, 10. * aDMax);
     GeomPlate_PlateG0Criterion aCriterion (aS2d, aS3d, aMax);
     {
         //data races in AdvApp2Var used by GeomApprox_Surface, use global mutex
@@ -415,7 +415,7 @@ void Part::Tools::getPointNormals(const std::vector<gp_Pnt>& points, const TopoD
     for (std::size_t i = 0; i < points.size(); i++) {
         try {
             GeomAPI_ProjectPointOnSurf ProPntSrf(points[i], hSurface);
-            Standard_Real u, v;
+            double u, v;
             ProPntSrf.Parameters(1, u, v);
 
             GeomLProp_SLProps propOfFace(hSurface, u, v, 2, gp::Resolution());
@@ -467,7 +467,7 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
         Poly_Connect thePolyConnect(aPolyTri);
         const TopoDS_Face      aZeroFace = TopoDS::Face(theFace.Located(TopLoc_Location()));
         Handle(Geom_Surface)   aSurf     = BRep_Tool::Surface(aZeroFace);
-        const Standard_Real    aTol      = Precision::Confusion();
+        const double    aTol      = Precision::Confusion();
         Handle(TShort_HArray1OfShortReal) aNormals = new TShort_HArray1OfShortReal(1, aPolyTri->NbNodes() * 3);
         const Poly_Array1OfTriangle& aTriangles = aPolyTri->Triangles();
         const TColgp_Array1OfPnt2d*  aNodesUV   = aPolyTri->HasUVNodes() && !aSurf.IsNull()
@@ -489,7 +489,7 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
                     const gp_XYZ v1(aNodes(aTri[1]).Coord() - aNodes(aTri[0]).Coord());
                     const gp_XYZ v2(aNodes(aTri[2]).Coord() - aNodes(aTri[1]).Coord());
                     const gp_XYZ vv = v1 ^ v2;
-                    const Standard_Real aMod = vv.Modulus();
+                    const double aMod = vv.Modulus();
 
                     if(aMod >= aTol)
                     {
@@ -497,7 +497,7 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
                     }
                 }
 
-                const Standard_Real aModMax = eqPlan.Modulus();
+                const double aModMax = eqPlan.Modulus();
                 theNormals(aNodeIter) = (aModMax > aTol) ? gp_Dir(eqPlan) : gp::DZ();
             }
 
@@ -540,7 +540,7 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
         Poly_Connect thePolyConnect(aPolyTri);
         const TopoDS_Face      aZeroFace = TopoDS::Face(theFace.Located(TopLoc_Location()));
         Handle(Geom_Surface)   aSurf     = BRep_Tool::Surface(aZeroFace);
-        const Standard_Real    aTol      = Precision::Confusion();
+        const double    aTol      = Precision::Confusion();
         Standard_Boolean hasNodesUV      = aPolyTri->HasUVNodes() && !aSurf.IsNull();
         Standard_Integer aTri[3];
 
@@ -559,7 +559,7 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
                     const gp_XYZ v1(aPolyTri->Node(aTri[1]).Coord() - aPolyTri->Node(aTri[0]).Coord());
                     const gp_XYZ v2(aPolyTri->Node(aTri[2]).Coord() - aPolyTri->Node(aTri[1]).Coord());
                     const gp_XYZ vv = v1 ^ v2;
-                    const Standard_Real aMod = vv.Modulus();
+                    const double aMod = vv.Modulus();
 
                     if(aMod >= aTol)
                     {
@@ -567,7 +567,7 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
                     }
                 }
 
-                const Standard_Real aModMax = eqPlan.Modulus();
+                const double aModMax = eqPlan.Modulus();
                 theNormals(aNodeIter) = (aModMax > aTol) ? gp_Dir(eqPlan) : gp::DZ();
             }
 
@@ -694,8 +694,8 @@ Handle(Poly_Polygon3D) Part::Tools::polygonOfEdge(const TopoDS_Edge& edge, TopLo
 // helper function to use in getNormal, here we pass the local properties
 // of the surface given by the #LProp_SLProps objects
 template <typename T>
-void getNormalBySLProp(T& prop, double u, double v, Standard_Real lastU, Standard_Real lastV,
-                     const Standard_Real tol, gp_Dir& dir, Standard_Boolean& done)
+void getNormalBySLProp(T& prop, double u, double v, double lastU, double lastV,
+                     const double tol, gp_Dir& dir, Standard_Boolean& done)
 {
     if (prop.D1U().Magnitude() > tol &&
         prop.D1V().Magnitude() > tol &&
@@ -722,22 +722,22 @@ void getNormalBySLProp(T& prop, double u, double v, Standard_Real lastU, Standar
 }
 
 void Part::Tools::getNormal(const Handle(Geom_Surface)& surf, double u, double v,
-                            const Standard_Real tol, gp_Dir& dir, Standard_Boolean& done)
+                            const double tol, gp_Dir& dir, Standard_Boolean& done)
 {
     GeomLProp_SLProps prop(surf, u, v, 1, tol);
-    Standard_Real u1,u2,v1,v2;
+    double u1,u2,v1,v2;
     surf->Bounds(u1,u2,v1,v2);
 
     getNormalBySLProp<GeomLProp_SLProps>(prop, u, v, u2, v2, tol, dir, done);
 }
 
 void Part::Tools::getNormal(const TopoDS_Face& face, double u, double v,
-                            const Standard_Real tol, gp_Dir& dir, Standard_Boolean& done)
+                            const double tol, gp_Dir& dir, Standard_Boolean& done)
 {
     BRepAdaptor_Surface adapt(face);
     BRepLProp_SLProps prop(adapt, u, v, 1, tol);
-    Standard_Real u2 = adapt.LastUParameter();
-    Standard_Real v2 = adapt.LastVParameter();
+    double u2 = adapt.LastUParameter();
+    double v2 = adapt.LastVParameter();
 
     getNormalBySLProp<BRepLProp_SLProps>(prop, u, v, u2, v2, tol, dir, done);
 

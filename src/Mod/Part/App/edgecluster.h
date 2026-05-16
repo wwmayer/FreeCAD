@@ -38,7 +38,7 @@ struct Edgesort_gp_Pnt_Less
 {
     bool operator()(const gp_Pnt & _Left, const gp_Pnt & _Right) const
     {
-        Standard_Real x1,y1,z1,x2,y2,z2;
+        double x1,y1,z1,x2,y2,z2;
         _Left.Coord(x1,y1,z1);
         _Right.Coord(x2,y2,z2);
         if ( fabs(x1- x2) > 0.2 )

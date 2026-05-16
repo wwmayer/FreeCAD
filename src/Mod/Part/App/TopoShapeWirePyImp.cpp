@@ -654,7 +654,7 @@ Py::Object TopoShapeWirePy::getStaticMoments() const
 {
     GProp_GProps props;
     BRepGProp::LinearProperties(getTopoShapePtr()->getShape(), props);
-    Standard_Real lx,ly,lz;
+    double lx,ly,lz;
     props.StaticMoments(lx,ly,lz);
     Py::Tuple tuple(3);
     tuple.setItem(0, Py::Float(lx));
@@ -672,7 +672,7 @@ Py::Dict TopoShapeWirePy::getPrincipalProperties() const
     Py::Dict dict;
     dict.setItem("SymmetryAxis", Py::Boolean(pprops.HasSymmetryAxis() ? true : false));
     dict.setItem("SymmetryPoint", Py::Boolean(pprops.HasSymmetryPoint() ? true : false));
-    Standard_Real lx,ly,lz;
+    double lx,ly,lz;
     pprops.Moments(lx,ly,lz);
     Py::Tuple tuple(3);
     tuple.setItem(0, Py::Float(lx));
@@ -686,7 +686,7 @@ Py::Dict TopoShapeWirePy::getPrincipalProperties() const
     dict.setItem("ThirdAxisOfInertia",Py::Vector(Base::convertTo
         <Base::Vector3d>(pprops.ThirdAxisOfInertia())));
 
-    Standard_Real Rxx,Ryy,Rzz;
+    double Rxx,Ryy,Rzz;
     pprops.RadiusOfGyration(Rxx,Ryy,Rzz);
     Py::Tuple rog(3);
     rog.setItem(0, Py::Float(Rxx));

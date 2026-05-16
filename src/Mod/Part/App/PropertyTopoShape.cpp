@@ -133,7 +133,7 @@ Base::BoundBox3d PropertyPartShape::getBoundingBox() const
         Bnd_Box bounds;
         BRepBndLib::Add(_Shape.getShape(), bounds);
         bounds.SetGap(0.0);
-        Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+        double xMin, yMin, zMin, xMax, yMax, zMax;
         bounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
 
         box.MinX = xMin;

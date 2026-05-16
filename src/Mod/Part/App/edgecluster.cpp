@@ -206,8 +206,8 @@ bool Edgecluster::IsValidEdge(const TopoDS_Edge& edge)
 
     BRepAdaptor_Curve bac(edge);
 
-    Standard_Real fparam = bac.FirstParameter();
-    Standard_Real lparam = bac.LastParameter();
+    double fparam = bac.FirstParameter();
+    double lparam = bac.LastParameter();
 
     gp_Pnt fpoint = bac.Value(fparam);
     gp_Pnt lpoint = bac.Value(lparam);
@@ -218,7 +218,7 @@ bool Edgecluster::IsValidEdge(const TopoDS_Edge& edge)
 
     gp_Pnt mpoint = bac.Value((fparam+lparam)*0.5);
 
-    Standard_Real dist = mpoint.Distance(lpoint);
+    double dist = mpoint.Distance(lpoint);
     if ( dist <= 1e-5 )
         return false;
     dist = mpoint.Distance(fpoint);

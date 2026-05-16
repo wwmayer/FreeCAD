@@ -1089,9 +1089,9 @@ struct Adaptor2dCurve2d : public Adaptor2d_Curve2d
 {
   const StdMeshers_FaceSide* mySide;
   Adaptor2dCurve2d(const StdMeshers_FaceSide* faceSide):mySide(faceSide) {}
-  gp_Pnt2d Value(const Standard_Real U) const { return mySide->Value2d( U ); }
-  Standard_Real FirstParameter() const { return 0; }
-  Standard_Real LastParameter() const { return 1; }
+  gp_Pnt2d Value(const double U) const { return mySide->Value2d( U ); }
+  double FirstParameter() const { return 0; }
+  double LastParameter() const { return 1; }
 };
 
 Adaptor2d_Curve2d* StdMeshers_FaceSide::GetCurve2d() const

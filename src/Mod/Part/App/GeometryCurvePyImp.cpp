@@ -1176,7 +1176,7 @@ PyObject* GeometryCurvePy::reversedParameter(PyObject *args) const
     try {
         Handle(Geom_Geometry) g = getGeometryPtr()->handle();
         Handle(Geom_Curve) c = Handle(Geom_Curve)::DownCast(g);
-        Standard_Real val = c->ReversedParameter(p);
+        double val = c->ReversedParameter(p);
         return PyFloat_FromDouble(val);
     }
     catch (Standard_Failure& e) {
@@ -1208,7 +1208,7 @@ PyObject* GeometryCurvePy::period(PyObject *args) const
     try {
         Handle(Geom_Geometry) g = getGeometryPtr()->handle();
         Handle(Geom_Curve) c = Handle(Geom_Curve)::DownCast(g);
-        Standard_Real val = c->Period();
+        double val = c->Period();
         return PyFloat_FromDouble(val);
     }
     catch (Standard_Failure& e) {

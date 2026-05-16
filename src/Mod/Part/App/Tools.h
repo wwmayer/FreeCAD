@@ -111,7 +111,7 @@ class PartExport Tools
 {
 public:
     Handle(Geom_Surface) makeSurface (const TColStd_ListOfTransient& theBoundaries,
-                                     const Standard_Real theTol,
+                                     const double theTol,
                                      const Standard_Integer theNbPnts,
                                      const Standard_Integer theNbIter,
                                      const Standard_Integer theMaxDeg);
@@ -207,7 +207,7 @@ public:
      * \param dir
      * \param done
      */
-    static void getNormal(const Handle(Geom_Surface)& surf, double u, double v, const Standard_Real tol, gp_Dir& dir, Standard_Boolean& done);
+    static void getNormal(const Handle(Geom_Surface)& surf, double u, double v, const double tol, gp_Dir& dir, Standard_Boolean& done);
     /*! \brief getNormal
      * Returns the normal at the given parameters on the face and the state of the calculation.
      * The orientation is taken into account
@@ -218,7 +218,7 @@ public:
      * \param dir
      * \param done
      */
-    static void getNormal(const TopoDS_Face& face, double u, double v, const Standard_Real tol, gp_Dir& dir, Standard_Boolean& done);
+    static void getNormal(const TopoDS_Face& face, double u, double v, const double tol, gp_Dir& dir, Standard_Boolean& done);
     /*!
      * \brief fromPlacement
      * Converts a placement into a TopLoc_Location

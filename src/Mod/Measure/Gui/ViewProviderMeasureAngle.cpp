@@ -208,7 +208,7 @@ SbMatrix ViewProviderMeasureAngle::getMatrix()
             gp_Vec vec1(extremaPoint1.XYZ());
             gp_Vec vec2(extremaPoint2.XYZ());
             gp_Vec connection(vec2 - vec1);
-            Standard_Real distance = connection.Magnitude();
+            double distance = connection.Magnitude();
             connection.Normalize();
             connection *= (distance / 2.0);
             dimensionOriginPoint.SetXYZ((vec1 + connection).XYZ());

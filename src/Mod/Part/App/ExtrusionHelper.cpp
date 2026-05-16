@@ -247,8 +247,8 @@ void ExtrusionHelper::makeDraft(const TopoDS_Shape& shape,
                 // we take every outer wire prism and cut subsequently all inner wires prisms from it
                 // every resulting shape is the final drafted extrusion shape
                 GProp_GProps tempProperties;
-                Standard_Real momentOfInertiaInitial;
-                Standard_Real momentOfInertiaFinal;
+                double momentOfInertiaInitial;
+                double momentOfInertiaFinal;
                 std::vector<bool>::iterator isInnerWireIterator = isInnerWire.begin();
                 std::vector<bool>::iterator isInnerWireIteratorLoop;
                 for (auto itOuter = shells.begin(); itOuter != shells.end(); ++itOuter) {
@@ -318,8 +318,8 @@ void ExtrusionHelper::checkInnerWires(std::vector<bool>& isInnerWire, const gp_D
             ++numCheckWiresInitial;
     }
     GProp_GProps tempProperties;
-    Standard_Real momentOfInertiaInitial;
-    Standard_Real momentOfInertiaFinal;
+    double momentOfInertiaInitial;
+    double momentOfInertiaFinal;
     size_t numCheckWires = 0;
     std::vector<bool>::iterator isInnerWireIterator = isInnerWire.begin();
     std::vector<bool>::iterator toCheckIterator = checklist.begin();

@@ -801,7 +801,7 @@ void collectConicEdges(const TopoDS_Shell &shell, TopTools_IndexedMapOfShape &ma
     if (currentEdge.IsNull())
       continue;
     TopLoc_Location location;
-    Standard_Real first, last;
+    double first, last;
     const Handle(Geom_Curve) &curve = BRep_Tool::Curve(currentEdge, location, first, last);
     if (curve.IsNull())
       continue;

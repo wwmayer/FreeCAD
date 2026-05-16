@@ -210,7 +210,7 @@ void MeshAlgos::LoftOnCurve(MeshCore::MeshKernel& ResultMesh,
                             float MaxSize)
 {
     TopExp_Explorer Ex;
-    Standard_Real fBegin, fEnd;
+    double fBegin, fEnd;
     std::vector<MeshGeomFacet> cVAry;
     std::map<TopoDS_Vertex, std::vector<Base::Vector3f>, _VertexCompare> ConnectMap;
 

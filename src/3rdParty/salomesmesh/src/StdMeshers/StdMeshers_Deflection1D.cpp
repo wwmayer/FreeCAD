@@ -166,7 +166,7 @@ static double deflection(const GeomAdaptor_Curve & theCurve,
   gp_Lin segment( p1, gp_Vec( p1, p2 ));
 
   // evaluate square distance of theCurve from the segment
-  Standard_Real dist2 = 0;
+  double dist2 = 0;
   const int nbPnt = 7;
   const double step = ( theU2 - theU1 ) / nbPnt;
   while (( theU1 += step ) < theU2 )
@@ -192,7 +192,7 @@ bool StdMeshers_Deflection1D::SetParametersByMesh(const SMESH_Mesh*   theMesh,
 
   _value = 0.;
 
-  Standard_Real UMin, UMax;
+  double UMin, UMax;
   TopLoc_Location L;
 
   int nbEdges = 0;

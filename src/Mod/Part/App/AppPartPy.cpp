@@ -214,7 +214,7 @@ PartExport std::list<TopoDS_Edge> sort_Edges(double tol3d, std::list<TopoDS_Edge
             }
             else if (pEI->v2.SquareDistance(last) <= tol3d) {
                 last = pEI->v1;
-                Standard_Real first, last;
+                double first, last;
                 const Handle(Geom_Curve) & curve = BRep_Tool::Curve(pEI->edge, first, last);
                 first = curve->ReversedParameter(first);
                 last = curve->ReversedParameter(last);
@@ -227,7 +227,7 @@ PartExport std::list<TopoDS_Edge> sort_Edges(double tol3d, std::list<TopoDS_Edge
             }
             else if (pEI->v1.SquareDistance(first) <= tol3d) {
                 first = pEI->v2;
-                Standard_Real first, last;
+                double first, last;
                 const Handle(Geom_Curve) & curve = BRep_Tool::Curve(pEI->edge, first, last);
                 first = curve->ReversedParameter(first);
                 last = curve->ReversedParameter(last);

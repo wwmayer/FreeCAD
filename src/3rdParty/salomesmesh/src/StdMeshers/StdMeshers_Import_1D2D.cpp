@@ -208,7 +208,7 @@ bool StdMeshers_Import_1D2D::Compute(SMESH_Mesh & theMesh, const TopoDS_Shape & 
   Bnd_B2d bndBox2d;
   Bnd_Box bndBox3d;
   {
-    Standard_Real umin,umax,vmin,vmax;
+    double umin,umax,vmin,vmax;
     BRepTools::UVBounds(geomFace,umin,umax,vmin,vmax);
     gp_XY pmin( umin,vmin ), pmax( umax,vmax );
     bndBox2d.Add( pmin );
@@ -417,7 +417,7 @@ bool StdMeshers_Import_1D2D::Compute(SMESH_Mesh & theMesh, const TopoDS_Shape & 
           proj.Perform( gc );
           if ( !proj.IsDone() || proj.NbPoints() < 1 )
             continue;
-          Standard_Real U,V;
+          double U,V;
           proj.LowerDistanceParameters(U,V);
           gp_XY uv( U,V );
           classifier.Perform( geomFace, uv, clsfTol );

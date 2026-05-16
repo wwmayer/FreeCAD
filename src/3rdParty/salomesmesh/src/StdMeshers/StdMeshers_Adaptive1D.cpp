@@ -936,7 +936,7 @@ namespace // internal utils
     gp_Lin segment( p1, gp_Vec( p1, p2 ));
 
     // evaluate square distance of theCurve from the segment
-    Standard_Real dist2 = 0;
+    double dist2 = 0;
     const int nbPnt = 5;
     const double step = ( theU2 - theU1 ) / nbPnt;
     while (( theU1 += step ) < theU2 )
@@ -1174,7 +1174,7 @@ bool AdaptiveAlgo::Compute(SMESH_Mesh &         theMesh,
   {
     Bnd_Box aBox;
     BRepBndLib::Add( theMesh.GetShapeToMesh(), aBox);
-    Standard_Real TXmin, TYmin, TZmin, TXmax, TYmax, TZmax;
+    double TXmin, TYmin, TZmin, TXmax, TYmax, TZmax;
     aBox.Get(TXmin, TYmin, TZmin, TXmax, TYmax, TZmax);
     box.Add( gp_XYZ( TXmin, TYmin, TZmin ));
     box.Add( gp_XYZ( TXmax, TYmax, TZmax ));

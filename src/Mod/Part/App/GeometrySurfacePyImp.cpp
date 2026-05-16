@@ -328,7 +328,7 @@ PyObject* GeometrySurfacePy::projectPoint(PyObject *args, PyObject* kwds) const
             return Py::new_reference_to(dist);
         }
         else if (method == "LowerDistanceParameters") {
-            Standard_Real u, v;
+            double u, v;
             proj.LowerDistanceParameters(u, v);
             Py::Tuple par(2);
             par.setItem(0, Py::Float(u));
@@ -347,7 +347,7 @@ PyObject* GeometrySurfacePy::projectPoint(PyObject *args, PyObject* kwds) const
             Standard_Integer num = proj.NbPoints();
             Py::List list;
             for (Standard_Integer i=1; i <= num; i++) {
-                Standard_Real u, v;
+                double u, v;
                 proj.Parameters(i, u, v);
                 Py::Tuple par(2);
                 par.setItem(0, Py::Float(u));
@@ -532,7 +532,7 @@ PyObject* GeometrySurfacePy::bounds(PyObject * args) const
     Handle(Geom_Surface) surf = Handle(Geom_Surface)
         ::DownCast(getGeometryPtr()->handle());
     Py::Tuple bound(4);
-    Standard_Real u1,u2,v1,v2;
+    double u1,u2,v1,v2;
     surf->Bounds(u1,u2,v1,v2);
     bound.setItem(0,Py::Float(u1));
     bound.setItem(1,Py::Float(u2));
@@ -661,7 +661,7 @@ PyObject* GeometrySurfacePy::UPeriod(PyObject * args) const
     try {
         Handle(Geom_Surface) surf = Handle(Geom_Surface)::DownCast
             (getGeometryPtr()->handle());
-        Standard_Real val = surf->UPeriod();
+        double val = surf->UPeriod();
         return PyFloat_FromDouble(val);
     }
     catch (Standard_Failure& e) {
@@ -679,7 +679,7 @@ PyObject* GeometrySurfacePy::VPeriod(PyObject * args) const
     try {
         Handle(Geom_Surface) surf = Handle(Geom_Surface)::DownCast
             (getGeometryPtr()->handle());
-        Standard_Real val = surf->VPeriod();
+        double val = surf->VPeriod();
         return PyFloat_FromDouble(val);
     }
     catch (Standard_Failure& e) {

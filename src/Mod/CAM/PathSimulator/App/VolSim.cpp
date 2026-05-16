@@ -732,7 +732,7 @@ cSimTool::cSimTool(const TopoDS_Shape& toolShape, float res)
     BRepBndLib::Add(toolShape, boundBox);
 
     boundBox.SetGap(0.0);
-    Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+    double xMin, yMin, zMin, xMax, yMax, zMax;
     boundBox.Get(xMin, yMin, zMin, xMax, yMax, zMax);
     radius = (xMax - xMin) / 2;
     length = zMax - zMin;

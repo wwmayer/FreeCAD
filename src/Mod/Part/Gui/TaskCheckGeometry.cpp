@@ -973,7 +973,7 @@ void PartGui::goSetupResultBoundingBox(ResultEntry *entry)
     {
       Bnd_Box boundingBox;
       BRepBndLib::Add(entry->shape, boundingBox);
-      Standard_Real xmin, ymin, zmin, xmax, ymax, zmax;
+      double xmin, ymin, zmin, xmax, ymax, zmax;
       boundingBox.Get(xmin, ymin, zmin, xmax, ymax, zmax);
       SbVec3f boundCenter((xmax - xmin)/2 + xmin, (ymax - ymin)/2 + ymin, (zmax - zmin)/2 + zmin);
 

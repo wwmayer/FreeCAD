@@ -89,7 +89,6 @@
 # include <Precision.hxx>
 # include <ShapeConstruct_Curve.hxx>
 # include <Standard_ConstructionError.hxx>
-# include <Standard_Real.hxx>
 # include <Standard_Version.hxx>
 # include <TColgp_Array2OfPnt.hxx>
 # include <TColgp_HArray1OfPnt.hxx>
@@ -1201,7 +1200,7 @@ std::vector<double> GeomBezierCurve::getWeights() const
     myCurve->Weights(weightArray);
 
     for (Standard_Integer index=weightArray.Lower(); index<=weightArray.Upper(); index++) {
-        const Standard_Real& real = weightArray(index);
+        const double& real = weightArray(index);
         weights.push_back(real);
     }
     return weights;
@@ -1492,7 +1491,7 @@ std::vector<double> GeomBSplineCurve::getWeights() const
     myCurve->Weights(w);
 
     for (Standard_Integer i=w.Lower(); i<=w.Upper(); i++) {
-        const Standard_Real& real = w(i);
+        const double& real = w(i);
         weights.push_back(real);
     }
     return weights;
@@ -1558,7 +1557,7 @@ std::vector<double> GeomBSplineCurve::getKnots() const
     myCurve->Knots(k);
 
     for (Standard_Integer i=k.Lower(); i<=k.Upper(); i++) {
-        const Standard_Real& real = k(i);
+        const double& real = k(i);
         knots.push_back(real);
     }
     return knots;
@@ -2233,7 +2232,7 @@ GeomBSplineCurve* GeomConic::toNurbs(double first, double last) const
 
     // pass the trimmed conic
     Handle(Geom_BSplineCurve) bspline = GeomConvert::CurveToBSplineCurve(curve);
-    Standard_Real fnew = bspline->FirstParameter(), lnew = bspline->LastParameter(), UTol;
+    double fnew = bspline->FirstParameter(), lnew = bspline->LastParameter(), UTol;
     if (!bspline->IsPeriodic()) {
         bspline->Resolution(Precision::Confusion(), UTol);
         if (Abs(first - fnew) > UTol || Abs(last - lnew) > UTol) {
@@ -3087,8 +3086,8 @@ GeomBSplineCurve* GeomEllipse::toNurbs(double first, double last) const
     }
 
     Handle(Geom_Ellipse) conic =  Handle(Geom_Ellipse)::DownCast(handle());
-    Standard_Real majorRadius = conic->MajorRadius();
-    Standard_Real minorRadius = conic->MinorRadius();
+    double majorRadius = conic->MajorRadius();
+    double minorRadius = conic->MinorRadius();
 
     TColgp_Array1OfPnt poles(1, 7);
     poles(1) = gp_Pnt(majorRadius, 0, 0);
@@ -4844,7 +4843,7 @@ std::optional<Base::Rotation> GeomSurface::getRotation() const
 TopoDS_Shape GeomSurface::toShape() const
 {
     Handle(Geom_Surface) s = Handle(Geom_Surface)::DownCast(handle());
-    Standard_Real u1, u2, v1, v2;
+    double u1, u2, v1, v2;
     s->Bounds(u1, u2, v1, v2);
     BRepBuilderAPI_MakeFace mkBuilder(s, u1, u2, v1, v2, Precision::Confusion());
     return mkBuilder.Shape();
@@ -4988,7 +4987,7 @@ unsigned int GeomBezierSurface::getMemSize () const
         unsigned int poles = mySurface->NbUPoles();
         poles *= mySurface->NbVPoles();
         size += poles * sizeof(gp_Pnt);
-        size += poles * sizeof(Standard_Real);
+        size += poles * sizeof(double);
     }
     return size;
 }
@@ -5086,7 +5085,7 @@ void GeomBSplineSurface::scaleKnotsToBounds(double u0, double u1, double v0, dou
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast(mySurface->Copy());
         Standard_RangeError_Raise_if (u1 <= u0 || v1 <= v0, " ");
-        Standard_Real bu0,bu1,bv0,bv1;
+        double bu0,bu1,bv0,bv1;
         surf->Bounds(bu0,bu1,bv0,bv1);
         if ((abs(u0-bu0) > Precision::Confusion()) || (abs(u1-bu1) > Precision::Confusion())) {
             TColStd_Array1OfReal uk(1,surf->NbUKnots());
@@ -5113,14 +5112,14 @@ unsigned int GeomBSplineSurface::getMemSize () const
 {
     unsigned int size = sizeof(Geom_BSplineSurface);
     if (!mySurface.IsNull()) {
-        size += mySurface->NbUKnots() * sizeof(Standard_Real);
+        size += mySurface->NbUKnots() * sizeof(double);
         size += mySurface->NbUKnots() * sizeof(Standard_Integer);
-        size += mySurface->NbVKnots() * sizeof(Standard_Real);
+        size += mySurface->NbVKnots() * sizeof(double);
         size += mySurface->NbVKnots() * sizeof(Standard_Integer);
         unsigned int poles = mySurface->NbUPoles();
         poles *= mySurface->NbVPoles();
         size += poles * sizeof(gp_Pnt);
-        size += poles * sizeof(Standard_Real);
+        size += poles * sizeof(double);
     }
     return size;
 }
@@ -5397,17 +5396,17 @@ gp_Vec GeomCone::getDN(double u, double v, int Nu, int Nv) const
     return GeomSurface::getDN(u, v, Nu, Nv);
 #else
     // Copied from ElSLib::ConeDN() and applied the needed fix
-    auto ElSLib__ConeDN = [](const Standard_Real U,
-                             const Standard_Real V,
+    auto ElSLib__ConeDN = [](const double U,
+                             const double V,
                              const gp_Ax3& Pos,
-                             const Standard_Real Radius,
-                             const Standard_Real SAngle,
+                             const double Radius,
+                             const double SAngle,
                              const Standard_Integer Nu,
                              const Standard_Integer Nv)
     {
        gp_XYZ Xdir = Pos.XDirection().XYZ();
        gp_XYZ Ydir = Pos.YDirection().XYZ();
-       Standard_Real Um = U + Nu * Base::numbers::pi/2;  // pi * 0.5
+       double Um = U + Nu * Base::numbers::pi/2;  // pi * 0.5
        Xdir.Multiply(cos(Um));
        Ydir.Multiply(sin(Um));
        Xdir.Add(Ydir);
@@ -5900,7 +5899,7 @@ bool GeomTrimmedSurface::isSame(const Geometry &_other, double tol, double atol)
 
     auto &other = static_cast<const GeomTrimmedSurface &>(_other);
 
-    Standard_Real u1[2],u2[2],v1[2],v2[2];
+    double u1[2],u2[2],v1[2],v2[2];
     mySurface->Bounds(u1[0],u2[0],v1[0],v2[0]);
     other.mySurface->Bounds(u1[1],u2[1],v1[1],v2[1]);
 

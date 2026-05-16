@@ -2092,7 +2092,7 @@ PyObject* TopoShapePy::proximity(PyObject *args) const
     using BRepExtrema_OverlappedSubShapes = BRepExtrema_MapOfIntegerPackedMapOfInteger;
 
     PyObject* ps2;
-    Standard_Real tol = Precision::Confusion();
+    double tol = Precision::Confusion();
     if (!PyArg_ParseTuple(args, "O!|d",&(TopoShapePy::Type), &ps2, &tol))
         return nullptr;
 
@@ -2143,8 +2143,8 @@ PyObject* TopoShapePy::distToShape(PyObject *args) const
     gp_Pnt P1, P2;
     BRepExtrema_SupportType supportType1, supportType2;
     TopoDS_Shape suppS1, suppS2;
-    Standard_Real minDist = -1, t1, t2, u1, v1, u2, v2;
-    Standard_Real tol = Precision::Confusion();
+    double minDist = -1, t1, t2, u1, v1, u2, v2;
+    double tol = Precision::Confusion();
 
     if (!PyArg_ParseTuple(args, "O!|d",&(TopoShapePy::Type), &ps2, &tol))
         return nullptr;
@@ -2299,7 +2299,7 @@ PyObject* TopoShapePy::optimalBoundingBox(PyObject *args) const
                                Base::asBoolean(useT),
                                Base::asBoolean(useS));
         bounds.SetGap(0.0);
-        Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+        double xMin, yMin, zMin, xMax, yMax, zMax;
         bounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
 
         Base::BoundBox3d box;

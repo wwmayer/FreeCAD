@@ -55,7 +55,7 @@ public:
     //! at an altitude Alt from the plane of the spine in relation
     //! to the normal to the spine.
     //! Exceptions: StdFail_NotDone if the offset is not built.
-    void Perform (const Standard_Real Offset, const Standard_Real Alt = 0.0);
+    void Perform (const double Offset, const double Alt = 0.0);
 
     //! Builds the resulting shape (redefined from MakeShape).
 #if OCC_VERSION_HEX >= 0x070600

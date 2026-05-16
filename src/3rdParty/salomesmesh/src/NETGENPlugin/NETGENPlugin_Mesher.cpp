@@ -2356,7 +2356,7 @@ namespace
   {
     if ( size <= std::numeric_limits<double>::min() )
       return;
-    Standard_Real u1, u2;
+    double u1, u2;
     Handle(Geom_Curve) curve = BRep_Tool::Curve(edge, u1, u2);
     if ( curve.IsNull() )
     {
@@ -2368,10 +2368,10 @@ namespace
     else
     {
       const int nb = (int)( 1.5 * SMESH_Algo::EdgeLength( edge ) / size );
-      Standard_Real delta = (u2-u1)/nb;
+      double delta = (u2-u1)/nb;
       for(int i=0; i<nb; i++)
       {
-        Standard_Real u = u1 + delta*i;
+        double u = u1 + delta*i;
         gp_Pnt p = curve->Value(u);
         NETGENPlugin_Mesher::RestrictLocalSize( mesh, p.XYZ(), size );
         netgen::Point3d pi(p.X(), p.Y(), p.Z());
