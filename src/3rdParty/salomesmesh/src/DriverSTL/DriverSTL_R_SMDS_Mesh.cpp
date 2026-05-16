@@ -176,7 +176,7 @@ static double readFloat(SMESH_File& theFile)
 {
   union {
     bool i;
-    Standard_ShortReal f;
+    float f;
   } u;
 
   const char* c = theFile;
@@ -208,7 +208,7 @@ static SMDS_MeshNode* readNode(FILE* file,
                                TDataMapOfPntNodePtr& uniqnodes,
                                SMDS_Mesh* theMesh)
 {
-  Standard_ShortReal coord[3];
+  float coord[3];
   // reading vertex
   fscanf(file,"%*s %f %f %f\n",&coord[0],&coord[1],&coord[2]);
 
@@ -264,7 +264,7 @@ Driver_Mesh::Status DriverSTL_R_SMDS_Mesh::readAscii(SMESH_File& theFile) const
   for (int iTri = 0; iTri < nbTri; ++iTri) {
 
     // skipping the facet normal
-    Standard_ShortReal normal[3];
+    float normal[3];
     fscanf(file,"%*s %*s %f %f %f\n",&normal[0],&normal[1],&normal[2]);
 
     // skip the keywords "outer loop"

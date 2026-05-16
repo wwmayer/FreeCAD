@@ -443,7 +443,7 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
     {
         // normals pre-computed in triangulation structure
         const TShort_Array1OfShortReal& aNormals = aPolyTri->Normals();
-        const Standard_ShortReal*       aNormArr = &(aNormals.Value(aNormals.Lower()));
+        const float*                    aNormArr = &(aNormals.Value(aNormals.Lower()));
 
         for(int aNodeIter = aNodes.Lower(); aNodeIter <= aNodes.Upper(); ++aNodeIter)
         {
@@ -502,9 +502,9 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
             }
 
             const int anId = (aNodeIter - aNodes.Lower()) * 3;
-            aNormals->SetValue(anId + 1, (Standard_ShortReal)theNormals(aNodeIter).X());
-            aNormals->SetValue(anId + 2, (Standard_ShortReal)theNormals(aNodeIter).Y());
-            aNormals->SetValue(anId + 3, (Standard_ShortReal)theNormals(aNodeIter).Z());
+            aNormals->SetValue(anId + 1, (float)theNormals(aNodeIter).X());
+            aNormals->SetValue(anId + 2, (float)theNormals(aNodeIter).Y());
+            aNormals->SetValue(anId + 3, (float)theNormals(aNodeIter).Z());
         }
 
         aPolyTri->SetNormals(aNormals);

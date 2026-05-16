@@ -174,10 +174,10 @@ static void writeInteger( const int& theVal, SMESH_File& ofile )
   ofile.write( entier );
 }
 
-static void writeFloat( const Standard_ShortReal& theVal, SMESH_File& ofile)
+static void writeFloat( const float& theVal, SMESH_File& ofile)
 {
   union {
-    Standard_ShortReal f;
+    float f;
     char c[4]; 
   } u;
 
