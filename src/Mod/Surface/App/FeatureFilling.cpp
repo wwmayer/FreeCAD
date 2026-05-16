@@ -305,7 +305,7 @@ App::DocumentObjectExecReturn* Filling::execute()
 
         // Add additional edge constraints if available (unbound)
         if (UnboundEdges.getSize() > 0) {
-            addConstraints(builder, UnboundEdges, UnboundFaces, UnboundOrder, Standard_False);
+            addConstraints(builder, UnboundEdges, UnboundFaces, UnboundOrder, false);
         }
 
         // Add additional constraint on free faces

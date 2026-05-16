@@ -158,25 +158,25 @@ int Part::ImportStepParts(App::Document *pcDoc, const char* Name)
             for (ex.Init(aShape, TopAbs_FACE, TopAbs_SHELL); ex.More(); ex.Next()) {
                 if (!ex.Current().IsNull()) {
                     builder.Add(comp, ex.Current());
-                    emptyComp = Standard_False;
+                    emptyComp = false;
                 }
             }
             for (ex.Init(aShape, TopAbs_WIRE, TopAbs_FACE); ex.More(); ex.Next()) {
                 if (!ex.Current().IsNull()) {
                     builder.Add(comp, ex.Current());
-                    emptyComp = Standard_False;
+                    emptyComp = false;
                 }
             }
             for (ex.Init(aShape, TopAbs_EDGE, TopAbs_WIRE); ex.More(); ex.Next()) {
                 if (!ex.Current().IsNull()) {
                     builder.Add(comp, ex.Current());
-                    emptyComp = Standard_False;
+                    emptyComp = false;
                 }
             }
             for (ex.Init(aShape, TopAbs_VERTEX, TopAbs_EDGE); ex.More(); ex.Next()) {
                 if (!ex.Current().IsNull()) {
                     builder.Add(comp, ex.Current());
-                    emptyComp = Standard_False;
+                    emptyComp = false;
                 }
             }
 
@@ -197,11 +197,11 @@ bool Part::ReadColors (const Handle(XSControl_WorkSession) &WS, std::map<int, Qu
 {
     (void)WS;
     (void)hash_col;
-    return Standard_False;
+    return false;
 }
 
 bool Part::ReadNames (const Handle(XSControl_WorkSession) &WS)
 {
     (void)WS;
-    return Standard_False;
+    return false;
 }

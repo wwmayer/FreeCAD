@@ -985,7 +985,7 @@ PyObject* BSplineCurve2dPy::interpolate(PyObject *args, PyObject *kwds)
             int findex = 1;
             for (Py::Sequence::iterator it = flist.begin(); it != flist.end(); ++it) {
                 Py::Boolean flag(*it);
-                tangentFlags->SetValue(findex++, static_cast<bool>(flag) ? Standard_True : Standard_False);
+                tangentFlags->SetValue(findex++, static_cast<bool>(flag) ? Standard_True : false);
             }
 
             aBSplineInterpolation->Load(tangents, tangentFlags);
@@ -1070,7 +1070,7 @@ PyObject* BSplineCurve2dPy::buildFromPoles(PyObject *args)
             mults.SetValue(1, degree+1);
             mults.SetValue(knots.Length(), degree+1);
 
-            Handle(Geom2d_BSplineCurve) spline = new Geom2d_BSplineCurve(poles, knots, mults, degree, Standard_False);
+            Handle(Geom2d_BSplineCurve) spline = new Geom2d_BSplineCurve(poles, knots, mults, degree, false);
             if (!spline.IsNull()) {
                 this->getGeom2dBSplineCurvePtr()->setHandle(spline);
                 Py_Return;

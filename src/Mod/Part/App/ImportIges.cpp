@@ -98,7 +98,7 @@ int Part::ImportIgesParts(App::Document *pcDoc, const char* FileName)
                 }
                 else {
                     builder.Add(comp, aShape);
-                    emptyComp = Standard_False;
+                    emptyComp = false;
                 }
             }
         }

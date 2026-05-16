@@ -1370,6 +1370,6 @@ Standard_Boolean Part::BRepBuilderAPI_RefineModel::IsDeleted(const TopoDS_Shape&
             return Standard_True;
     }
 
-    return Standard_False;
+    return false;
 }
 

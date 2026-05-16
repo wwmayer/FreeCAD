@@ -591,7 +591,7 @@ void ExtrusionHelper::makeElementDraft(const ExtrusionParameters& params,
 #endif
 
             // make loft
-            BRepOffsetAPI_ThruSections mkGenerator(params.solid ? Standard_True : Standard_False,
+            BRepOffsetAPI_ThruSections mkGenerator(params.solid ? Standard_True : false,
                                                    /*ruled=*/Standard_True);
             for (auto& s : list_of_sections) {
                 mkGenerator.AddWire(TopoDS::Wire(s.getShape()));

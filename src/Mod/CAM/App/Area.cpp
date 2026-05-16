@@ -1736,7 +1736,7 @@ std::vector<shared_ptr<Area>> Area::makeSections(PARAM_ARGS(PARAM_FARG, AREA_PAR
     Bnd_Box bounds;
     for (const Shape& s : myShapes) {
         const TopoDS_Shape& shape = s.shape.Moved(loc);
-        BRepBndLib::Add(shape, bounds, Standard_False);
+        BRepBndLib::Add(shape, bounds, false);
     }
     bounds.SetGap(0.0);
     double xMin, yMin, zMin, xMax, yMax, zMax;
@@ -2769,7 +2769,7 @@ TopoDS_Shape Area::toShape(const CCurve& _c, const gp_Trsf* trsf, int reorient)
 
     ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges,
                                                   Precision::Confusion(),
-                                                  Standard_False,
+                                                  false,
                                                   hWires);
     if (!hWires->Length()) {
         return shape;
@@ -3624,7 +3624,7 @@ std::list<TopoDS_Shape> Area::sortWires(const std::list<TopoDS_Shape>& shapes,
             }
         }
 
-        BRepBndLib::Add(info.myShape, bounds, Standard_False);
+        BRepBndLib::Add(info.myShape, bounds, false);
     }
 
     if (use_bound || sort_mode == SortMode2D5 || sort_mode == SortModeGreedy) {
@@ -3906,7 +3906,7 @@ void Area::setWireOrientation(TopoDS_Wire& wire, const gp_Dir& dir, bool wire_cc
 
     // unlikely, but just in case OCC decided to reverse our wire for the face...  take that into
     // account!
-    TopoDS_Iterator it(tmpFace, /*CumOri=*/Standard_False);
+    TopoDS_Iterator it(tmpFace, /*CumOri=*/false);
     ccw ^= it.Value().Orientation() != wire.Orientation();
 
     if (ccw != wire_ccw) {

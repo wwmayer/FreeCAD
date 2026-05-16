@@ -143,7 +143,7 @@ template <class TheItemType> class SMESH_Array1
     NCollection_BaseCollection<TheItemType>     (),
     myLowerBound                                (theLower),
     myUpperBound                                (theUpper),
-    myDeletable                                 (Standard_False)
+    myDeletable                                 (false)
   {
 #if !defined No_Exception && !defined No_Standard_RangeError
     if (theUpper < theLower)

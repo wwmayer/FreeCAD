@@ -2141,9 +2141,9 @@ TopoShape& TopoShape::makeElementEvolve(const TopoShape& spine,
             TopoDS::Face(spineShape),
             TopoDS::Wire(profileShape),
             joinType,
-            axeProf == CoordinateSystem::global ? Standard_True : Standard_False,
-            solid == MakeSolid::makeSolid ? Standard_True : Standard_False,
-            profOnSpine == Spine::on ? Standard_True : Standard_False,
+            axeProf == CoordinateSystem::global ? Standard_True : false,
+            solid == MakeSolid::makeSolid ? Standard_True : false,
+            profOnSpine == Spine::on ? Standard_True : false,
             tol);
         return makeElementShape(maker, {spine, profile}, op);
     }
@@ -2152,9 +2152,9 @@ TopoShape& TopoShape::makeElementEvolve(const TopoShape& spine,
             TopoDS::Wire(spineShape),
             TopoDS::Wire(profileShape),
             joinType,
-            axeProf == CoordinateSystem::global ? Standard_True : Standard_False,
-            solid == MakeSolid::makeSolid ? Standard_True : Standard_False,
-            profOnSpine == Spine::on ? Standard_True : Standard_False,
+            axeProf == CoordinateSystem::global ? Standard_True : false,
+            solid == MakeSolid::makeSolid ? Standard_True : false,
+            profOnSpine == Spine::on ? Standard_True : false,
             tol);
         return makeElementShape(maker, {spine, profile}, op);
     }
@@ -2456,8 +2456,8 @@ TopoShape& TopoShape::makeElementOffset(const TopoShape& shape,
                            offset,
                            tol,
                            BRepOffset_Mode(offsetMode),
-                           intersection ? Standard_True : Standard_False,
-                           selfInter ? Standard_True : Standard_False,
+                           intersection ? Standard_True : false,
+                           selfInter ? Standard_True : false,
                            GeomAbs_JoinType(join));
 
     if (!mkOffset.IsDone()) {
@@ -3026,8 +3026,8 @@ TopoShape& TopoShape::makeElementThickSolid(const TopoShape& shape,
                                  offset,
                                  tol,
                                  BRepOffset_Mode(offsetMode),
-                                 intersection ? Standard_True : Standard_False,
-                                 selfInter ? Standard_True : Standard_False,
+                                 intersection ? Standard_True : false,
+                                 selfInter ? Standard_True : false,
                                  GeomAbs_JoinType(join));
     return makeElementShape(mkThick, shape, op);
 }
@@ -3809,14 +3809,14 @@ TopoShape& TopoShape::makeElementFilledFace(const std::vector<TopoShape>& _shape
                 maker.Add(TopoDS::Edge(e),
                           getSupport(e),
                           getOrder(e),
-                          /*IsBound*/ Standard_False);
+                          /*IsBound*/ false);
             }
         }
         else if (sh.ShapeType() == TopAbs_EDGE) {
             maker.Add(TopoDS::Edge(sh),
                       getSupport(sh),
                       getOrder(sh),
-                      /*IsBound*/ Standard_False);
+                      /*IsBound*/ false);
         }
         else if (sh.ShapeType() == TopAbs_FACE) {
             maker.Add(TopoDS::Face(sh), getOrder(sh));
@@ -4339,7 +4339,7 @@ TopoShape& TopoShape::makeElementPrismUntil(const TopoShape& _base,
             // Note: Using an unlimited face every time gives unnecessary failures for concave
             // faces
             TopLoc_Location loc = face.Location();
-            BRepAdaptor_Surface adapt(face, Standard_False);
+            BRepAdaptor_Surface adapt(face, false);
             // use the placement of the adapter, not of the upToFace
             loc = TopLoc_Location(adapt.Trsf());
             BRepBuilderAPI_MakeFace mkFace(adapt.Surface().Surface(), Precision::Confusion());
@@ -4416,7 +4416,7 @@ TopoShape& TopoShape::makeElementPrismUntil(const TopoShape& _base,
                                 TopoDS::Face(supportFace.getShape()),
                                 direction,
                                 mode,
-                                Standard_False);
+                                false);
                 mode = PrismMode::FuseWithBase;
 
                 PrismMaker.Perform(uptoface.getShape());

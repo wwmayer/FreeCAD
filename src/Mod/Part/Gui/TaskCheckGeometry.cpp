@@ -1476,7 +1476,7 @@ Standard_Boolean BOPProgressIndicator::UserBreak()
         }
     }
 
-    return Standard_False;
+    return false;
 }
 
 #include "moc_TaskCheckGeometry.cpp"

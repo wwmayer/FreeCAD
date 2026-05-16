@@ -256,7 +256,7 @@ TopoDS_Wire EdgeWalker::makeCleanWire(std::vector<TopoDS_Edge> edges, double tol
     fixer->SetMaxTolerance(tol);
     fixer->ClosedWireMode() = Standard_True;
     fixer->ModifyGeometryMode() = Standard_True;
-    fixer->ModifyTopologyMode() = Standard_False;
+    fixer->ModifyTopologyMode() = false;
     fixer->FixSelfIntersectingEdgeMode() = Standard_True;
     fixer->FixIntersectingEdgesMode() = Standard_True;
     fixer->FixIntersectingEdgesMode() = Standard_True;

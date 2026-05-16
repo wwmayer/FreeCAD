@@ -699,7 +699,7 @@ static Standard_Boolean IsLinear(const Adaptor3d_Curve& theC)
         return Standard_True;
     }
 
-    return Standard_False;
+    return false;
 }
 
 bool GeomCurve::isLinear(Base::Vector3d *dir, Base::Vector3d *base) const
@@ -1360,7 +1360,7 @@ GeomBSplineCurve::GeomBSplineCurve( const std::vector<Base::Vector3d>& poles, co
         m.SetValue(index, multiplicities[index -1]);
     }
 
-    this->myCurve = new Geom_BSplineCurve (p, w, k, m, degree, periodic?Standard_True:Standard_False, checkrational?Standard_True:Standard_False);
+    this->myCurve = new Geom_BSplineCurve (p, w, k, m, degree, periodic?Standard_True:false, checkrational?Standard_True:false);
 
 }
 
@@ -2034,7 +2034,7 @@ void GeomBSplineCurve::Restore(Base::XMLReader& reader)
     // Geom_BSplineCurve(occpoles,occweights,occknots,occmults,degree,periodic,CheckRational
 
     try {
-        Handle(Geom_BSplineCurve) spline = new Geom_BSplineCurve(p, w, k, m, degree, isperiodic ? Standard_True : Standard_False, Standard_False);
+        Handle(Geom_BSplineCurve) spline = new Geom_BSplineCurve(p, w, k, m, degree, isperiodic ? Standard_True : false, false);
 
         if (!spline.IsNull())
             this->myCurve = spline;
@@ -2672,7 +2672,7 @@ GeomBSplineCurve* GeomCircle::toNurbs(double first, double last) const
     knots(3) = 2*pi;
 
     Handle(Geom_BSplineCurve) spline = new Geom_BSplineCurve(poles, weights,knots, mults, 3,
-        Standard_False, Standard_True);
+        false, Standard_True);
     return new GeomBSplineCurve(spline);
 }
 
@@ -3120,7 +3120,7 @@ GeomBSplineCurve* GeomEllipse::toNurbs(double first, double last) const
     knots(3) = 2;
 
     Handle(Geom_BSplineCurve) spline = new Geom_BSplineCurve(poles, weights,knots, mults, 3,
-        Standard_False, Standard_True);
+        false, Standard_True);
     return new GeomBSplineCurve(spline);
 }
 

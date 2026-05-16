@@ -1177,7 +1177,7 @@ PyObject* BSplineCurvePy::buildFromPoles(PyObject *args)
             mults.SetValue(1, degree+1);
             mults.SetValue(knots.Length(), degree+1);
 
-            Handle(Geom_BSplineCurve) spline = new Geom_BSplineCurve(poles, knots, mults, degree, Standard_False);
+            Handle(Geom_BSplineCurve) spline = new Geom_BSplineCurve(poles, knots, mults, degree, false);
             if (!spline.IsNull()) {
                 this->getGeomBSplineCurvePtr()->setHandle(spline);
                 Py_Return;

@@ -624,7 +624,7 @@ std::set<int> FemMesh::getNodesByFace(const TopoDS_Face& face) const
     BRepBndLib::Add(
         face,
         box,
-        Standard_False);  // https://forum.freecad.org/viewtopic.php?f=18&t=21571&start=70#p221591
+        false);  // https://forum.freecad.org/viewtopic.php?f=18&t=21571&start=70#p221591
     // limit where the mesh node belongs to the face:
     double limit = BRep_Tool::Tolerance(face);
     box.Enlarge(limit);

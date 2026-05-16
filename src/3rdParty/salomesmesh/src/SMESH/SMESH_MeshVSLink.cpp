@@ -153,7 +153,7 @@ Standard_Boolean SMESH_MeshVSLink::GetGeom
 {
   if( IsElement ) {
 	const SMDS_MeshElement* myElem = myMesh->GetMeshDS()->FindElement(ID);
-	if (!myElem) return Standard_False;
+	if (!myElem) return false;
 	if (myElem->GetType() == SMDSAbs_Edge)
 	  Type = MeshVS_ET_Link;
 	else if (myElem->GetType() == SMDSAbs_Face)
@@ -172,7 +172,7 @@ Standard_Boolean SMESH_MeshVSLink::GetGeom
   }
   else {
 	const SMDS_MeshNode* myNode = myMesh->GetMeshDS()->FindNode(ID);
-	if (!myNode) return Standard_False;
+	if (!myNode) return false;
 	if (myNode->GetType() == SMDSAbs_Node)
 	  Type = MeshVS_ET_Node;
 	else
@@ -195,8 +195,8 @@ Standard_Boolean  SMESH_MeshVSLink::Get3DGeom
 {
   //check validity of element
   const SMDS_MeshElement* myVolume = myMesh->GetMeshDS()->FindElement(ID);
-  if (!myVolume) return Standard_False;
-  if (myVolume->GetType() != SMDSAbs_Volume) return Standard_False;
+  if (!myVolume) return false;
+  if (myVolume->GetType() != SMDSAbs_Volume) return false;
 
   //initialize VolumeTool
   SMDS_VolumeTool aTool;
@@ -240,7 +240,7 @@ Standard_Boolean SMESH_MeshVSLink::GetGeomType
 {
   if( IsElement ) {
 	const SMDS_MeshElement* myElem = myMesh->GetMeshDS()->FindElement(ID);
-	if (!myElem) return Standard_False;
+	if (!myElem) return false;
 	if (myElem->GetType() == SMDSAbs_Edge)
 	  Type = MeshVS_ET_Link;
 	else if (myElem->GetType() == SMDSAbs_Face)
@@ -252,7 +252,7 @@ Standard_Boolean SMESH_MeshVSLink::GetGeomType
   }
   else {
 	const SMDS_MeshNode* myNode = myMesh->GetMeshDS()->FindNode(ID);
-	if (!myNode) return Standard_False;
+	if (!myNode) return false;
 	if (myNode->GetType() == SMDSAbs_Node)
 	  Type = MeshVS_ET_Node;
 	else
@@ -279,11 +279,11 @@ Standard_Boolean SMESH_MeshVSLink::GetNodesByElement
 	( const int ID,TColStd_Array1OfInteger& NodeIDs,int& NbNodes ) const
 {
   const SMDS_MeshElement* myElem = myMesh->GetMeshDS()->FindElement(ID);
-  if (!myElem) return Standard_False;
+  if (!myElem) return false;
   NbNodes = myElem->NbNodes();
   for(int i = 0; i < NbNodes; i++ ) {
 	const SMDS_MeshNode* aNode = myElem->GetNode(i);
-	if (!aNode) return Standard_False;
+	if (!aNode) return false;
 	NodeIDs.SetValue(i+1, aNode->GetID());
   }
   return Standard_True;
@@ -324,10 +324,10 @@ Standard_Boolean SMESH_MeshVSLink::GetNormal
 	( const int Id, const int Max,
 	  double& nx, double& ny,double& nz ) const
 {
-  if(Max<3) return Standard_False;
+  if(Max<3) return false;
   const SMDS_MeshElement* myElem = myMesh->GetMeshDS()->FindElement(Id);
-  if(!myElem) return Standard_False;
-  if(myElem->NbNodes() < 3) return Standard_False;
+  if(!myElem) return false;
+  if(myElem->NbNodes() < 3) return false;
   gp_XYZ normal;
   gp_XYZ nodes[3];
   for (int itr = 0;itr < 3;itr++)

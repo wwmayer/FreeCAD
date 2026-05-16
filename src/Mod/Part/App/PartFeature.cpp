@@ -1962,7 +1962,7 @@ bool Part::checkIntersection(const TopoDS_Shape& first, const TopoDS_Shape& seco
         if (xp.More()) {
             // At least one solid
             xp.Next();
-            return (xp.More() == Standard_False);
+            return (xp.More() == false);
         } else {
             return false;
         }

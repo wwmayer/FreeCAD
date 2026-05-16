@@ -495,7 +495,7 @@ Base::Vector3d Constraint::getBasePoint(const Base::Vector3d& base,
 
     gp_Pnt projPnt = proj.NearestPoint();
     if ((fabs(dist) > Precision::Confusion())
-        && (projPnt.IsEqual(cylbase, Precision::Confusion()) == Standard_False)) {
+        && (projPnt.IsEqual(cylbase, Precision::Confusion()) == false)) {
         plane.Translate(gp_Vec(projPnt, cylbase).Normalized().Multiplied(dist));
     }
     Handle(Geom_Plane) plnt = new Geom_Plane(plane);

@@ -499,7 +499,7 @@ eRefType AttachEngine::getShapeType(const TopoDS_Shape& sh)
     break;
     case TopAbs_COMPOUND:{
         const TopoDS_Compound &cmpd = TopoDS::Compound(sh);
-        TopoDS_Iterator it (cmpd, Standard_False, Standard_False);//don't mess with placements, to hopefully increase speed
+        TopoDS_Iterator it (cmpd, false, false);//don't mess with placements, to hopefully increase speed
         if (! it.More())//empty compound
             return rtAnything;
         const TopoDS_Shape &sh1 = it.Value();
@@ -518,7 +518,7 @@ eRefType AttachEngine::getShapeType(const TopoDS_Shape& sh)
     break;
     case TopAbs_FACE:{
         const TopoDS_Face &f = TopoDS::Face(sh);
-        BRepAdaptor_Surface surf(f, /*restriction=*/Standard_False);
+        BRepAdaptor_Surface surf(f, /*restriction=*/false);
         switch(surf.GetType()) {
         case GeomAbs_Plane:
             return rtFlatFace;

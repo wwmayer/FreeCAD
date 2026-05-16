@@ -433,7 +433,7 @@ static Standard_Boolean  BRepTools_Write(const TopoDS_Shape& Sh, const Standard_
   OSD_OpenStream(os, File, std::ios::out);
 
   if (!os.rdbuf()->is_open())
-      return Standard_False;
+      return false;
 
   Standard_Boolean isGood = (os.good() && !os.eof());
   if(!isGood)
@@ -446,7 +446,7 @@ static Standard_Boolean  BRepTools_Write(const TopoDS_Shape& Sh, const Standard_
       VERSION_3 = 3
   };
 
-  BRepTools_ShapeSet SS(Standard_False);
+  BRepTools_ShapeSet SS(false);
   SS.SetFormatNb(VERSION_1);
   // SS.SetProgress(PR);
   SS.Add(Sh);

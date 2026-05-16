@@ -816,7 +816,7 @@ void ProfileBased::getUpToFace(TopoDS_Face& upToFace,
         if (remove_limits) {
             // Note: Using an unlimited face every time gives unnecessary failures for concave faces
             TopLoc_Location loc = upToFace.Location();
-            BRepAdaptor_Surface adapt(upToFace, Standard_False);
+            BRepAdaptor_Surface adapt(upToFace, false);
             // use the placement of the adapter, not of the upToFace
             loc = TopLoc_Location(adapt.Trsf());
             BRepBuilderAPI_MakeFace mkFace(adapt.Surface().Surface(), Precision::Confusion());

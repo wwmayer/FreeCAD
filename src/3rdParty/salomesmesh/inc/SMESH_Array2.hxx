@@ -120,7 +120,7 @@ template <class TheItemType> class SMESH_Array2
     myUpperRow                                  (theRowUpper),
     myLowerCol                                  (theColLower),
     myUpperCol                                  (theColUpper),
-    myDeletable                                 (Standard_False)
+    myDeletable                                 (false)
   {
     myStart = (TheItemType *) &theBegin;
     Allocate();

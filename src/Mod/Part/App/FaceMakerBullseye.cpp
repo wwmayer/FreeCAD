@@ -189,7 +189,7 @@ int FaceMakerBullseye::FaceDriller::getWireDirection(const gp_Pln& plane, const 
     bool normal_co = surf.Plane().Axis().Direction().Dot(plane.Axis().Direction()) > 0;
 
     //unlikely, but just in case OCC decided to reverse our wire for the face...  take that into account!
-    TopoDS_Iterator it(tmpFace, /*CumOri=*/Standard_False);
+    TopoDS_Iterator it(tmpFace, /*CumOri=*/false);
     normal_co ^= it.Value().Orientation() != wire.Orientation();
 
     return normal_co ? 1 : -1;

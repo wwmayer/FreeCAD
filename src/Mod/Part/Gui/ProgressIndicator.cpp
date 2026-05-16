@@ -88,7 +88,7 @@ Standard_Boolean ProgressIndicator::UserBreak()
         return canceled;
     }
 
-    return Standard_False;
+    return false;
 }
 
 void ProgressIndicator::Reset()

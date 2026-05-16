@@ -242,7 +242,7 @@ PyObject* TopoShapeSolidPy::offsetFaces(PyObject *args) const
     const TopoDS_Shape& shape = getTopoShapePtr()->getShape();
     BRepOffset_MakeOffset builder;
     // Set here an offset value higher than the tolerance
-    builder.Initialize(shape,1.0,Precision::Confusion(),BRepOffset_Skin,Standard_False,Standard_False,GeomAbs_Intersection);
+    builder.Initialize(shape,1.0,Precision::Confusion(),BRepOffset_Skin,false,false,GeomAbs_Intersection);
     TopExp_Explorer xp(shape,TopAbs_FACE);
     while (xp.More()) {
         // go through all faces and set offset to zero

@@ -72,10 +72,10 @@ public:
     //! If join type is GeomAbs_Intersection, the edges that
     //! intersect in a salient vertex generate the edges
     //! prolonged until intersection.
-    void Init(const TopoDS_Face& Spine, const GeomAbs_JoinType Join = GeomAbs_Arc, const Standard_Boolean IsOpenResult = Standard_False);
+    void Init(const TopoDS_Face& Spine, const GeomAbs_JoinType Join = GeomAbs_Arc, const Standard_Boolean IsOpenResult = false);
 
     //! Initialize the evaluation of Offsetting.
-    void Init(const GeomAbs_JoinType Join = GeomAbs_Arc, const Standard_Boolean IsOpenResult = Standard_False);
+    void Init(const GeomAbs_JoinType Join = GeomAbs_Arc, const Standard_Boolean IsOpenResult = false);
 
     Standard_Boolean IsDone() const override;
 

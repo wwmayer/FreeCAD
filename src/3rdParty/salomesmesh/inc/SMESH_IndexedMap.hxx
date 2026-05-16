@@ -127,12 +127,12 @@ template <class TheKeyType> class SMESH_IndexedMap
   SMESH_IndexedMap (const int NbBuckets=1,
                           const Handle(NCollection_BaseAllocator)& theAllocator=0L) :
     NCollection_BaseCollection<TheKeyType>(theAllocator),
-    NCollection_BaseMap (NbBuckets, Standard_False) {}
+    NCollection_BaseMap (NbBuckets, false) {}
 
   //! Copy constructor
   SMESH_IndexedMap (const SMESH_IndexedMap& theOther) :
     NCollection_BaseCollection<TheKeyType>(theOther.myAllocator),
-    NCollection_BaseMap (theOther.NbBuckets(), Standard_False) 
+    NCollection_BaseMap (theOther.NbBuckets(), false) 
   { *this = theOther; }
 
   //! Assign another collection
@@ -243,7 +243,7 @@ template <class TheKeyType> class SMESH_IndexedMap
   Standard_Boolean Contains (const TheKeyType& theKey1) const
   {
     if (IsEmpty()) 
-      return Standard_False;
+      return false;
     int iK1 = HashCode (theKey1, NbBuckets());
     IndexedMapNode * pNode1;
     pNode1 = (IndexedMapNode *) myData1[iK1];
@@ -253,7 +253,7 @@ template <class TheKeyType> class SMESH_IndexedMap
         return Standard_True;
       pNode1 = (IndexedMapNode *) pNode1->Next();
     }
-    return Standard_False;
+    return false;
   }
 
   //! Substitute

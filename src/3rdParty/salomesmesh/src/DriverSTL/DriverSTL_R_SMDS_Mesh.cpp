@@ -152,7 +152,7 @@ Driver_Mesh::Status DriverSTL_R_SMDS_Mesh::Perform()
   myIsAscii = Standard_True;
   for (int i = 0; i < 128; ++i, ++data) {
     if ( !isascii( *data ) && data < file.end() ) {
-      myIsAscii = Standard_False;
+      myIsAscii = false;
       break;
     }
   }

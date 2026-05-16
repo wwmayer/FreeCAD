@@ -153,7 +153,7 @@ public:
     {}
 
     bool getBBox(const TopoDS_Shape &eForBBox, Bnd_Box &bound) {
-        BRepBndLib::AddOptimal(eForBBox,bound,Standard_False);
+        BRepBndLib::AddOptimal(eForBBox,bound,false);
         if (bound.IsVoid()) {
             if (FC_LOG_INSTANCE.isEnabled(FC_LOGLEVEL_LOG)) {
                 FC_WARN("failed to get bound of edge");

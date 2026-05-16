@@ -885,7 +885,7 @@ void TopoShape::exportStep(const char *filename) const
 void TopoShape::exportBrep(const char *filename) const
 {
 #if OCC_VERSION_HEX >= 0x070600
-    if (!BRepTools::Write(this->_Shape,encodeFilename(filename).c_str(), Standard_False, Standard_False, TopTools_FormatVersion_VERSION_1))
+    if (!BRepTools::Write(this->_Shape,encodeFilename(filename).c_str(), false, false, TopTools_FormatVersion_VERSION_1))
         throw Base::FileException("Writing of BREP failed");
 #else
     if (!BRepTools::Write(this->_Shape,encodeFilename(filename).c_str()))
@@ -901,7 +901,7 @@ void TopoShape::exportBrep(std::ostream& out) const
         VERSION_2 = 2,
         VERSION_3 = 3
     };
-    BRepTools_ShapeSet SS(Standard_False);
+    BRepTools_ShapeSet SS(false);
     SS.SetFormatNb(VERSION_1);
     SS.Add(this->_Shape);
     SS.Write(out);
@@ -949,7 +949,7 @@ void TopoShape::exportStl(const char *filename, double deflection) const
 {
     StlAPI_Writer writer;
     BRepMesh_IncrementalMesh aMesh(this->_Shape, deflection,
-                                   /*isRelative*/ Standard_False,
+                                   /*isRelative*/ false,
                                    /*theAngDeflection*/
                                    defaultAngularDeflection(deflection),
                                    /*isInParallel*/ true);
@@ -972,7 +972,7 @@ void TopoShape::exportFaceSet(double dev, double ca,
 
     std::size_t index=0;
     BRepMesh_IncrementalMesh MESH(this->_Shape, dev,
-                                  /*isRelative*/ Standard_False,
+                                  /*isRelative*/ false,
                                   /*theAngDeflection*/
                                   defaultAngularDeflection(dev),
                                   /*isInParallel*/ true);
@@ -2083,7 +2083,7 @@ TopoDS_Shape TopoShape::makeSweep(const TopoDS_Shape& profile, double tol, int f
 
     GeomFill_Pipe mkSweep(hPath, hProfile, static_cast<GeomFill_Trihedron>(fillMode));
     mkSweep.GenerateParticularCase(Standard_True);
-    mkSweep.Perform(tol, Standard_False, GeomAbs_C1, BSplCLib::MaxDegree(), 1000);
+    mkSweep.Perform(tol, false, GeomAbs_C1, BSplCLib::MaxDegree(), 1000);
 
     const Handle(Geom_Surface)& surf = mkSweep.Surface();
     BRepBuilderAPI_MakeFace mkBuilder(surf, umin, umax, vmin, vmax , Precision::Confusion());
@@ -2381,7 +2381,7 @@ TopoDS_Shape TopoShape::makeThread(double pitch,
 
     aTool.AddWire(threadingWire1);
     aTool.AddWire(threadingWire2);
-    aTool.CheckCompatibility(Standard_False);
+    aTool.CheckCompatibility(false);
 
     return aTool.Shape();
 }
@@ -2525,15 +2525,15 @@ TopoDS_Shape TopoShape::makeOffsetShape(double offset, double tol, bool intersec
             // If exactly one solid then get it
             TopoDS_Shape inputSolid = xp.Current();
             xp.Next();
-            if (xp.More() == Standard_False)
+            if (xp.More() == false)
                 inputShape = inputSolid;
         }
     }
 
     BRepOffsetAPI_MakeOffsetShape mkOffset;
     mkOffset.PerformByJoin(inputShape, offset, tol, BRepOffset_Mode(offsetMode),
-                           intersection ? Standard_True : Standard_False,
-                           selfInter ? Standard_True : Standard_False,
+                           intersection ? Standard_True : false,
+                           selfInter ? Standard_True : false,
                            GeomAbs_JoinType(join));
 
     if (!mkOffset.IsDone())
@@ -2955,8 +2955,8 @@ TopoDS_Shape TopoShape::makeThickSolid(const TopTools_ListOfShape& remFace,
 {
     BRepOffsetAPI_MakeThickSolid mkThick;
     mkThick.MakeThickSolidByJoin(this->_Shape, remFace, offset, tol, BRepOffset_Mode(offsetMode),
-        intersection ? Standard_True : Standard_False,
-        selfInter ? Standard_True : Standard_False,
+        intersection ? Standard_True : false,
+        selfInter ? Standard_True : false,
         GeomAbs_JoinType(join));
     return mkThick.Shape();
 }
@@ -3323,7 +3323,7 @@ void TopoShape::getFaces(std::vector<Base::Vector3d> &aPoints,
 
     // get the meshes of all faces and then merge them
     BRepMesh_IncrementalMesh aMesh(this->_Shape, accuracy,
-                                   /*isRelative*/ Standard_False,
+                                   /*isRelative*/ false,
                                    /*theAngDeflection*/
                                    defaultAngularDeflection(accuracy),
                                    /*isInParallel*/ true);
@@ -3435,7 +3435,7 @@ void TopoShape::setFaces(const std::vector<Base::Vector3d> &Points,
     // However, the computing time can be reduced by 90%.
     // If a shell is needed then the sewShape() function should be called explicitly.
     BRepBuilderAPI_Sewing aSewingTool;
-    Standard_Boolean performSewing = Standard_False;
+    Standard_Boolean performSewing = false;
     aSewingTool.Init(tolerance, performSewing);
     aSewingTool.Load(aComp);
 

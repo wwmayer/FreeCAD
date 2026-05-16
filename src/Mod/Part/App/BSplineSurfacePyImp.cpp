@@ -1238,7 +1238,7 @@ PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
         else if (pstr == "ChordLength" )
             pt = Approx_ChordLength;
         else
-            useParam = Standard_False;
+            useParam = false;
 
         GeomAPI_PointsToBSplineSurface surInterpolation;
         if (!(dX == 0) && !(dY == 0)) {
@@ -1370,7 +1370,7 @@ PyObject* BSplineSurfacePy::buildFromPolesMultsKnots(PyObject *args, PyObject *k
         int lv = col.size();
         TColgp_Array2OfPnt occpoles(1, lu, 1, lv);
         TColStd_Array2OfReal occweights(1, lu, 1, lv);
-        Standard_Boolean genweights = (weights==Py_None) ? Standard_True : Standard_False; //cache
+        Standard_Boolean genweights = (weights==Py_None) ? Standard_True : false; //cache
         int index1 = 0;
         int index2 = 0;
         for (Py::Sequence::iterator it1 = list.begin(); it1 != list.end(); ++it1) {

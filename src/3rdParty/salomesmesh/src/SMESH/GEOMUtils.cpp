@@ -220,7 +220,7 @@ namespace
     }
     
     theModifiedShape = theShape;
-    return Standard_False;
+    return false;
   }
 
   void parseWard( const GEOMUtils::LevelsList &theLevelList, std::string &treeStr )
@@ -443,7 +443,7 @@ bool GEOMUtils::CompareShapes::operator() (const TopoDS_Shape& theShape1,
   std::pair<double, double> val2 = myMap.Find(theShape2);
 
   double tol = Precision::Confusion();
-  bool exchange = Standard_False;
+  bool exchange = false;
 
   double dMidXYZ = val1.first - val2.first;
   if (dMidXYZ >= tol) {
@@ -562,10 +562,10 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
   double    tol = Precision::Confusion();
   while (Sort)
   {
-    Sort = Standard_False;
+    Sort = false;
     for (Index=1; Index < MaxShapes; Index++)
     {
-      exchange = Standard_False;
+      exchange = false;
       double dMidXYZ = MidXYZ(OrderInd(Index)) - MidXYZ(OrderInd(Index+1));
       double dLength = Length(OrderInd(Index)) - Length(OrderInd(Index+1));
       if ( dMidXYZ >= tol ) {
@@ -721,7 +721,7 @@ bool GEOMUtils::CheckTriangulation (const TopoDS_Shape& aShape)
     double aDeflection = Max(Max(dx, dy), dz) * aDeviationCoefficient * 4;
     double aHLRAngle = 0.349066;
 
-    BRepMesh_IncrementalMesh Inc (aShape, aDeflection, Standard_False, aHLRAngle);
+    BRepMesh_IncrementalMesh Inc (aShape, aDeflection, false, aHLRAngle);
   }
 
   return true;
@@ -740,7 +740,7 @@ TopAbs_ShapeEnum GEOMUtils::GetTypeOfSimplePart (const TopoDS_Shape& theShape)
   else if (aType == TopAbs_SOLID || aType == TopAbs_COMPSOLID) return TopAbs_SOLID;
   else if (aType == TopAbs_COMPOUND) {
     // Only the iType of the first shape in the compound is taken into account
-    TopoDS_Iterator It (theShape, Standard_False, Standard_False);
+    TopoDS_Iterator It (theShape, false, false);
     if (It.More()) {
       return GetTypeOfSimplePart(It.Value());
     }
@@ -824,7 +824,7 @@ Standard_Boolean GEOMUtils::PreciseBoundingBox
                           (const TopoDS_Shape &theShape, Bnd_Box &theBox)
 {
   if ( theBox.IsVoid() ) BRepBndLib::Add( theShape, theBox );
-  if ( theBox.IsVoid() ) return Standard_False;
+  if ( theBox.IsVoid() ) return false;
 
   double aBound[6];
   theBox.Get(aBound[0], aBound[2], aBound[4], aBound[1], aBound[3], aBound[5]);
@@ -861,7 +861,7 @@ Standard_Boolean GEOMUtils::PreciseBoundingBox
                                     -aPlnSize[iHalf], aPlnSize[iHalf]);
 
     if (!aMkFace.IsDone()) {
-      return Standard_False;
+      return false;
     }
 
     TopoDS_Shape aFace = aMkFace.Shape();
@@ -871,7 +871,7 @@ Standard_Boolean GEOMUtils::PreciseBoundingBox
       GEOMUtils::GetMinDistance(aFace, theShape, aPMin[0], aPMin[1]);
 
     if (aMinDist < 0.) {
-      return Standard_False;
+      return false;
     }
 
     aBound[i] = aPMin[1].Coord(iHalf + 1);
@@ -1254,7 +1254,7 @@ bool GEOMUtils::IsOpenPath(const TopoDS_Shape &theShape)
 {
   bool isOpen = true;
 
-  if (theShape.IsNull() == Standard_False) {
+  if (theShape.IsNull() == false) {
     if (theShape.Closed()) {
       // The shape is closed
       isOpen = false;
@@ -1273,8 +1273,8 @@ bool GEOMUtils::IsOpenPath(const TopoDS_Shape &theShape)
           TopExp::Vertices(TopoDS::Wire(theShape), aV[0], aV[1]);
         }
 
-        if (aV[0].IsNull() == Standard_False &&
-            aV[1].IsNull() == Standard_False) {
+        if (aV[0].IsNull() == false &&
+            aV[1].IsNull() == false) {
           if (aV[0].IsSame(aV[1])) {
             // The shape is closed
             isOpen = false;

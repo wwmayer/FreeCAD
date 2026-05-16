@@ -489,7 +489,7 @@ void Geom2dBSplineCurve::interpolate(const std::vector<gp_Pnt2d>& p,
         fgs->SetValue(i+1, Standard_True);
     }
 
-    Geom2dAPI_Interpolate interpolate(pts, Standard_False, tol3d);
+    Geom2dAPI_Interpolate interpolate(pts, false, tol3d);
     interpolate.Load(tgs, fgs);
     interpolate.Perform();
     this->myCurve = interpolate.Curve();

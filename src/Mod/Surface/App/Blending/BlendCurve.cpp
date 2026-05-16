@@ -96,7 +96,7 @@ Handle(Geom_BezierCurve) BlendCurve::compute()
                                        params(cons_idx),
                                        first_non_zero,
                                        bezier_eval,
-                                       Standard_False);
+                                       false);
             int idx2 = 1;
             for (int it2 = 0; it2 < blendPoints[i].nbVectors(); ++it2) {
                 OCCmatrix.SetRow(row_idx, bezier_eval.Row(idx2));

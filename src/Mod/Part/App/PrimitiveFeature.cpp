@@ -791,7 +791,7 @@ App::DocumentObjectExecReturn *Helix::execute()
         double myHeight = Height.getValue();
         double myRadius = Radius.getValue();
         double myAngle  = Angle.getValue();
-        Standard_Boolean myLocalCS = LocalCoord.getValue() ? Standard_True : Standard_False;
+        Standard_Boolean myLocalCS = LocalCoord.getValue() ? Standard_True : false;
         double mySegLen = SegmentLength.getValue();
         if (myPitch < Precision::Confusion())
             throw Standard_Failure("Pitch too small");
@@ -871,7 +871,7 @@ App::DocumentObjectExecReturn *Spiral::execute()
         if (myNumRot < Precision::Confusion())
             throw Standard_Failure("Number of rotations too small");
 
-        this->Shape.setValue(TopoShape().makeSpiralHelix(myRadius, myRadiusTop, 0, myNumRot, mySegLen, Standard_False));
+        this->Shape.setValue(TopoShape().makeSpiralHelix(myRadius, myRadiusTop, 0, myNumRot, mySegLen, false));
         GProp_GProps props;
         BRepGProp::LinearProperties(Shape.getShape().getShape(), props);
         Length.setValue(props.Mass());

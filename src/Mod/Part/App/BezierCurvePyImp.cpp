@@ -437,7 +437,7 @@ PyObject* BezierCurvePy::interpolate(PyObject * args)
             Py::Sequence row(*it1);
             math_Matrix bezier_eval(1, row.size(), 1, num_poles, 0.0);
             int first_non_zero;
-            BSplCLib::EvalBsplineBasis(row.size()-1, num_poles, knots, params(cons_idx), first_non_zero, bezier_eval, Standard_False);
+            BSplCLib::EvalBsplineBasis(row.size()-1, num_poles, knots, params(cons_idx), first_non_zero, bezier_eval, false);
             int idx2 = 1;
             for (Py::Sequence::iterator it2 = row.begin(); it2 != row.end(); ++it2) {
                 OCCmatrix.SetRow(row_idx, bezier_eval.Row(idx2));

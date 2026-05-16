@@ -987,7 +987,7 @@ void ViewProviderPartExt::updateVisual()
 
         IMeshTools_Parameters meshParams;
         meshParams.Deflection = deflection;
-        meshParams.Relative = Standard_False;
+        meshParams.Relative = false;
         meshParams.Angle = AngDeflectionRads;
         meshParams.InParallel = Standard_True;
         meshParams.AllowQualityDecrease = Standard_True;
