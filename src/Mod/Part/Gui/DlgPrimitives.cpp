@@ -145,7 +145,7 @@ QString Picker::toPlacement(const gp_Ax2& axis) const
     Trf.Invert();
 
     gp_XYZ theAxis(0,0,1);
-    Standard_Real theAngle = 0.0;
+    double theAngle = 0.0;
     Trf.GetRotation(theAxis,theAngle);
 
     Base::Rotation rot(Base::convertTo<Base::Vector3d>(theAxis), theAngle);

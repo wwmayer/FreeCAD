@@ -310,7 +310,7 @@ void DrawViewDetail::makeDetailShape(const TopoDS_Shape& shape3d, DrawViewPart* 
         //Did we get a result?
         TopExp_Explorer xp;
         xp.Init(mkCommon.Shape(), TopAbs_SOLID);
-        if (xp.More() != Standard_True) {
+        if (xp.More() != true) {
             continue;
         }
         builder.Add(pieces, mkCommon.Shape());
@@ -329,7 +329,7 @@ void DrawViewDetail::makeDetailShape(const TopoDS_Shape& shape3d, DrawViewPart* 
         //Did we get a result?
         TopExp_Explorer xp;
         xp.Init(mkCommon.Shape(), TopAbs_SHELL);
-        if (xp.More() != Standard_True) {
+        if (xp.More() != true) {
             continue;
         }
         builder.Add(pieces, mkCommon.Shape());
@@ -349,7 +349,7 @@ void DrawViewDetail::makeDetailShape(const TopoDS_Shape& shape3d, DrawViewPart* 
         //Did we get a result?
         TopExp_Explorer xp;
         xp.Init(mkCommon.Shape(), TopAbs_EDGE);
-        if (xp.More() != Standard_True) {
+        if (xp.More() != true) {
             continue;
         }
         builder.Add(pieces, mkCommon.Shape());

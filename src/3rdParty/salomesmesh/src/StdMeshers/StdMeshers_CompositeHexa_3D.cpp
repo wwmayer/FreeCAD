@@ -1688,7 +1688,7 @@ int _FaceSide::NbCommonVertices( const TopTools_MapOfShape& VV ) const
 TopoDS_Vertex _FaceSide::FirstVertex() const
 {
   if ( myChildren.empty() )
-    return TopExp::FirstVertex( myEdge, Standard_True );
+    return TopExp::FirstVertex( myEdge, true );
 
   return myChildren.front().FirstVertex();
 }
@@ -1701,7 +1701,7 @@ TopoDS_Vertex _FaceSide::FirstVertex() const
 TopoDS_Vertex _FaceSide::LastVertex() const
 {
   if ( myChildren.empty() )
-    return TopExp::LastVertex( myEdge, Standard_True );
+    return TopExp::LastVertex( myEdge, true );
 
   return myChildren.back().LastVertex();
 }

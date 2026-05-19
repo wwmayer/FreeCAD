@@ -260,7 +260,7 @@ ImportOCAF2::expandShape(App::Document* doc, TDF_Label label, const TopoDS_Shape
     std::vector<App::DocumentObject*> objs;
 
     if (shape.ShapeType() == TopAbs_COMPOUND) {
-        for (TopoDS_Iterator it(shape, Standard_False, Standard_False); it.More(); it.Next()) {
+        for (TopoDS_Iterator it(shape, false, false); it.More(); it.Next()) {
             TDF_Label childLabel;
             if (!label.IsNull()) {
                 aShapeTool->FindSubShape(label, it.Value(), childLabel);
@@ -559,14 +559,14 @@ App::DocumentObject* ImportOCAF2::loadShapes()
     aShapeTool->GetFreeShapes(labels);
     boost::dynamic_bitset<> vis;
     int count = 0;
-    for (Standard_Integer i = 1; i <= labels.Length(); i++) {
+    for (int i = 1; i <= labels.Length(); i++) {
         auto label = labels.Value(i);
         if (!options.importHidden && !aColorTool->IsVisible(label)) {
             continue;
         }
         ++count;
     }
-    for (Standard_Integer i = 1; i <= labels.Length(); i++) {
+    for (int i = 1; i <= labels.Length(); i++) {
         auto label = labels.Value(i);
         if (!options.importHidden && !aColorTool->IsVisible(label)) {
             continue;
@@ -788,13 +788,13 @@ bool ImportOCAF2::createAssembly(App::Document* _doc,
         doc = getDocument(_doc, label);
     }
 
-    for (TopoDS_Iterator it(shape, Standard_False, Standard_False); it.More(); it.Next()) {
+    for (TopoDS_Iterator it(shape, false, false); it.More(); it.Next()) {
         TopoDS_Shape childShape = it.Value();
         if (childShape.IsNull()) {
             continue;
         }
         TDF_Label childLabel;
-        aShapeTool->Search(childShape, childLabel, Standard_True, Standard_True, Standard_False);
+        aShapeTool->Search(childShape, childLabel, true, true, false);
         if (!childLabel.IsNull() && !options.importHidden && !aColorTool->IsVisible(childLabel)) {
             continue;
         }

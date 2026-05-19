@@ -437,12 +437,12 @@ App::DocumentObjectExecReturn* Ellipsoid::execute()
                                         Base::toRadians<double>(Angle1.getValue()),
                                         Base::toRadians<double>(Angle2.getValue()),
                                         Base::toRadians<double>(Angle3.getValue()));
-        Standard_Real scaleX = 1.0;
-        Standard_Real scaleZ = Radius1.getValue()/Radius2.getValue();
+        double scaleX = 1.0;
+        double scaleZ = Radius1.getValue()/Radius2.getValue();
         // issue #1798: A third radius has been introduced. To be backward
         // compatible if Radius3 is 0.0 (default) it's handled to be the same
         // as Radius2
-        Standard_Real scaleY = 1.0;
+        double scaleY = 1.0;
         if (Radius3.getValue() >= Precision::Confusion())
             scaleY = Radius3.getValue()/Radius2.getValue();
         gp_GTrsf mat;

@@ -452,7 +452,7 @@ std::vector<Base::Vector2d> Geom2dBSplineCurve::getPoles() const
     TColgp_Array1OfPnt2d p(1,myCurve->NbPoles());
     myCurve->Poles(p);
 
-    for (Standard_Integer i=p.Lower(); i<=p.Upper(); i++) {
+    for (int i=p.Lower(); i<=p.Upper(); i++) {
         const gp_Pnt2d& pnt = p(i);
         poles.emplace_back(pnt.X(), pnt.Y());
     }
@@ -486,10 +486,10 @@ void Geom2dBSplineCurve::interpolate(const std::vector<gp_Pnt2d>& p,
     Handle(TColStd_HArray1OfBoolean) fgs = new TColStd_HArray1OfBoolean(1, t.size());
     for (std::size_t i=0; i<p.size(); i++) {
         tgs.SetValue(i+1, t[i]);
-        fgs->SetValue(i+1, Standard_True);
+        fgs->SetValue(i+1, true);
     }
 
-    Geom2dAPI_Interpolate interpolate(pts, Standard_False, tol3d);
+    Geom2dAPI_Interpolate interpolate(pts, false, tol3d);
     interpolate.Load(tgs, fgs);
     interpolate.Perform();
     this->myCurve = interpolate.Curve();

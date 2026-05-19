@@ -205,7 +205,7 @@ bool StdMeshers_StartEndLength::SetParametersByMesh(const SMESH_Mesh*   theMesh,
 
   _begLength = _endLength = 0.;
 
-  Standard_Real UMin, UMax;
+  double UMin, UMax;
   TopLoc_Location L;
 
   int nbEdges = 0;

@@ -83,8 +83,8 @@ std::vector<Handle(Geom_BSplineCurve)> getCurves(const App::PropertyLinkSubList&
             const Part::TopoShape& shape = partObj->Shape.getShape().makeElementCopy();
             TopoDS_Shape edgeShape = shape.getSubShape(sub.c_str());
             if (!edgeShape.IsNull() && edgeShape.ShapeType() == TopAbs_EDGE) {
-                Standard_Real u1 {};
-                Standard_Real u2 {};
+                double u1 {};
+                double u2 {};
                 const TopoDS_Edge& edge = TopoDS::Edge(edgeShape);
                 TopLoc_Location heloc;  // this will be output
                 Handle(Geom_Curve) c_geom = BRep_Tool::Curve(edge, heloc, u1, u2);  // The geometric curve

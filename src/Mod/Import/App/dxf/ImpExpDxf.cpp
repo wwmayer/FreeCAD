@@ -324,7 +324,7 @@ Handle(Geom_BSplineCurve) getSplineFromPolesAndKnots(struct SplineData& sd)
         }
     }
 
-    Standard_Boolean periodic = sd.flag == 2;
+    bool periodic = sd.flag == 2;
     Handle(Geom_BSplineCurve) geom =
         new Geom_BSplineCurve(occpoles, occweights, occknots, occmults, sd.degree, periodic);
     return geom;
@@ -354,7 +354,7 @@ Handle(Geom_BSplineCurve) getInterpolationSpline(struct SplineData& sd)
         fitpoints->ChangeValue(index++).SetZ(coordinate);
     }
 
-    Standard_Boolean periodic = sd.flag == 2;
+    bool periodic = sd.flag == 2;
     GeomAPI_Interpolate interp(fitpoints, periodic, Precision::Confusion());
     interp.Perform();
     return interp.Curve();
@@ -490,7 +490,7 @@ void ImpExpDxfRead::ExpandInsert(const std::string& name,
             Collector->AddObject(
                 BRepBuilderAPI_Transform(shape,
                                          Part::TopoShape::convert(localTransform),
-                                         Standard_True)
+                                         true)
                     .Shape(),
                 "InsertPart");  // TODO: The collection should contain the nameBase to use
         }
@@ -1057,8 +1057,8 @@ void ImpExpDxfWrite::exportBSpline(BRepAdaptor_Curve& c)
     double f, l;
     gp_Pnt s, ePt;
 
-    Standard_Real tol3D = 0.001;
-    Standard_Integer maxDegree = 3, maxSegment = 200;
+    double tol3D = 0.001;
+    int maxDegree = 3, maxSegment = 200;
     Handle(BRepAdaptor_HCurve) hCurve = new BRepAdaptor_HCurve(c);
     Approx_Curve3d approx(hCurve, tol3D, GeomAbs_C0, maxSegment, maxDegree);
     if (approx.IsDone() && approx.HasResult()) {
@@ -1106,7 +1106,7 @@ void ImpExpDxfWrite::exportBSpline(BRepAdaptor_Curve& c)
     sd.endtan = gPntTopoint3D(p);
 
     // next bit is from DrawingExport.cpp (Dan Falk?).
-    Standard_Integer m = 0;
+    int m = 0;
     if (spline->IsPeriodic()) {
         m = spline->NbPoles() + 2 * spline->Degree() - spline->Multiplicity(1) + 2;
     }

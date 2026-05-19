@@ -1397,7 +1397,7 @@ std::vector<TopoDS_Edge> DrawComplexSection::getUniqueEdges(const TopoDS_Wire& w
         Ex.Next();
     }
 
-    for (Standard_Integer k = 1; k <= shapeMap.Extent(); k++) {
+    for (int k = 1; k <= shapeMap.Extent(); k++) {
         const TopoDS_Shape& shape = shapeMap(k);
         auto edge = TopoDS::Edge(shape);
         ret.push_back(edge);

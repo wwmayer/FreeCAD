@@ -132,7 +132,7 @@ protected:
                               const TopoDS_Shape& uptoface,
                               const gp_Dir& direction,
                               PrismMode Mode,
-                              Standard_Boolean Modify);
+                              bool Modify);
 
     /**
       * Generates a tapered prism of the input sketchshape and stores it in the given \a prism

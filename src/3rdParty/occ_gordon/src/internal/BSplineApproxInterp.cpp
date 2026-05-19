@@ -80,7 +80,7 @@ BSplineApproxInterp::BSplineApproxInterp(const TColgp_Array1OfPnt& points, int n
     , m_ncp(nControlPoints)
     , m_C2Continuous(continuous_if_closed)
 {
-    for (Standard_Integer i = 0; i < points.Length(); ++i) {
+    for (int i = 0; i < points.Length(); ++i) {
         size_t idx = static_cast<size_t>(i);
         m_indexOfApproximated[idx] = idx;
         m_pnts.SetValue(i + 1, points.Value(points.Lower() + i));
@@ -146,7 +146,7 @@ std::vector<double> BSplineApproxInterp::computeParameters(double alpha) const
     t[0] = 0.0;
     // calc total arc length: dt^2 = dx^2 + dy^2
     for (size_t i = 1; i < nPoints; i++) {
-        Standard_Integer idx = static_cast<Standard_Integer>(i);
+        int idx = static_cast<int>(i);
         double len2 = m_pnts.Value(idx).SquareDistance(m_pnts.Value(idx + 1));
         sum += pow(len2, alpha / 2.);
         t[i] = sum;
@@ -341,13 +341,13 @@ ApproxResult BSplineApproxInterp::solve(const std::vector<double>& params, const
 {
 
     // compute flat knots to solve system
-    Standard_Integer nFlatKnots = BSplCLib::KnotSequenceLength(mults, m_degree, false);
+    int nFlatKnots = BSplCLib::KnotSequenceLength(mults, m_degree, false);
     TColStd_Array1OfReal flatKnots(1, nFlatKnots);
     BSplCLib::KnotSequence(knots, mults, flatKnots);
 
-    Standard_Integer n_apprxmated = static_cast<Standard_Integer>(m_indexOfApproximated.size());
-    Standard_Integer n_intpolated = static_cast<Standard_Integer>(m_indexOfInterpolated.size());
-    Standard_Integer n_continuityConditions = 0;
+    int n_apprxmated = static_cast<int>(m_indexOfApproximated.size());
+    int n_intpolated = static_cast<int>(m_indexOfInterpolated.size());
+    int n_continuityConditions = 0;
     
     bool makeClosed = isClosed();
     
@@ -361,7 +361,7 @@ ApproxResult BSplineApproxInterp::solve(const std::vector<double>& params, const
     }
     
     // Number of control points required
-    Standard_Integer nCtrPnts = flatKnots.Length() - m_degree - 1;
+    int nCtrPnts = flatKnots.Length() - m_degree - 1;
 
     if (nCtrPnts < n_intpolated + n_continuityConditions || nCtrPnts < m_degree + 1 + n_continuityConditions) {
         throw error("Too few control points for curve interpolation!");
@@ -372,7 +372,7 @@ ApproxResult BSplineApproxInterp::solve(const std::vector<double>& params, const
     }
 
     // Build left hand side of the equation
-    Standard_Integer n_vars = nCtrPnts + n_intpolated + n_continuityConditions;
+    int n_vars = nCtrPnts + n_intpolated + n_continuityConditions;
     math_Matrix lhs(1, n_vars, 1, n_vars);
     lhs.Init(0.);
     
@@ -388,9 +388,9 @@ ApproxResult BSplineApproxInterp::solve(const std::vector<double>& params, const
         math_Vector by(1, n_apprxmated);
         math_Vector bz(1, n_apprxmated);
     
-        Standard_Integer appIndex = 1;
+        int appIndex = 1;
         for (std::vector<size_t>::const_iterator it_idx = m_indexOfApproximated.begin(); it_idx != m_indexOfApproximated.end(); ++it_idx) {
-            Standard_Integer ipnt = static_cast<Standard_Integer>(*it_idx + 1);
+            int ipnt = static_cast<int>(*it_idx + 1);
             const gp_Pnt& p = m_pnts.Value(ipnt);
             bx(appIndex) = p.X();
             by(appIndex) = p.Y();
@@ -421,9 +421,9 @@ ApproxResult BSplineApproxInterp::solve(const std::vector<double>& params, const
         math_Vector dz(1, n_intpolated + n_continuityConditions, 0.);
         if(n_intpolated > 0) {
             TColStd_Array1OfReal interpParams(1, n_intpolated);
-            Standard_Integer intpIndex = 1;
+            int intpIndex = 1;
             for (std::vector<size_t>::const_iterator it_idx = m_indexOfInterpolated.begin(); it_idx != m_indexOfInterpolated.end(); ++it_idx) {
-                Standard_Integer ipnt = static_cast<Standard_Integer>(*it_idx + 1);
+                int ipnt = static_cast<int>(*it_idx + 1);
                 const gp_Pnt& p = m_pnts.Value(ipnt);
                 dx(intpIndex) = p.X();
                 dy(intpIndex) = p.Y();
@@ -470,7 +470,7 @@ ApproxResult BSplineApproxInterp::solve(const std::vector<double>& params, const
     }
 
     TColgp_Array1OfPnt poles(1, nCtrPnts);
-    for (Standard_Integer icp = 1; icp <= nCtrPnts; ++icp) {
+    for (int icp = 1; icp <= nCtrPnts; ++icp) {
         gp_Pnt pnt(cp_x.Value(icp), cp_y.Value(icp), cp_z.Value(icp));
         poles.SetValue(icp, pnt);
     }
@@ -481,7 +481,7 @@ ApproxResult BSplineApproxInterp::solve(const std::vector<double>& params, const
     // compute error
     double max_error = 0.;
     for (std::vector<size_t>::const_iterator it_idx = m_indexOfApproximated.begin(); it_idx != m_indexOfApproximated.end(); ++it_idx) {
-        Standard_Integer ipnt = static_cast<Standard_Integer>(*it_idx + 1);
+        int ipnt = static_cast<int>(*it_idx + 1);
         const gp_Pnt& p = m_pnts.Value(ipnt);
         double par = params[*it_idx];
 
@@ -503,7 +503,7 @@ void BSplineApproxInterp::optimizeParameters(const Handle(Geom_Curve)& curve, st
     for (std::vector<size_t>::const_iterator it_idx = m_indexOfApproximated.begin(); it_idx != m_indexOfApproximated.end(); ++it_idx) {
         size_t idx = *it_idx;
 
-        ProjectResult res = projectOnCurve(m_pnts.Value(static_cast<Standard_Integer>(idx + 1)), curve, m_t[idx]);
+        ProjectResult res = projectOnCurve(m_pnts.Value(static_cast<int>(idx + 1)), curve, m_t[idx]);
 
         // store optimised parameter
         m_t[idx] = res.parameter;

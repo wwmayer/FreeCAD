@@ -113,7 +113,7 @@ void ExportOCAF2::setName(TDF_Label label, App::DocumentObject* obj, const char*
 // Similar to XCAFDoc_ShapeTool::FindSHUO but return only main SHUO, i.e. SHUO
 // with no upper_usage. It should not be necessary if we strictly export from
 // bottom up, but let's make sure of it.
-static Standard_Boolean FindSHUO(const TDF_LabelSequence& theLabels,
+static bool FindSHUO(const TDF_LabelSequence& theLabels,
                                  Handle(XCAFDoc_GraphNode) & theSHUOAttr)
 {
     assert(theLabels.Length() > 1);
@@ -121,9 +121,9 @@ static Standard_Boolean FindSHUO(const TDF_LabelSequence& theLabels,
     TDF_AttributeSequence SHUOAttrs;
     TDF_Label aCompLabel = theLabels.Value(1);
     if (!::XCAFDoc_ShapeTool::GetAllComponentSHUO(aCompLabel, SHUOAttrs)) {
-        return Standard_False;
+        return false;
     }
-    for (Standard_Integer i = 1; i <= SHUOAttrs.Length(); i++) {
+    for (int i = 1; i <= SHUOAttrs.Length(); i++) {
         Handle(XCAFDoc_GraphNode) anSHUO = Handle(XCAFDoc_GraphNode)::DownCast(SHUOAttrs.Value(i));
         TDF_LabelSequence aUpLabels;
         // check for any upper_usage
@@ -277,7 +277,7 @@ void ExportOCAF2::setupObject(TDF_Label label,
         }
         for (auto& vv : v.second) {
             if (vv.first == App::DocumentObject::hiddenMarker()) {
-                aColorTool->SetVisibility(nodeLabel, Standard_False);
+                aColorTool->SetVisibility(nodeLabel, false);
                 continue;
             }
             const Base::Color& c = vv.second;
@@ -439,10 +439,10 @@ TDF_Label ExportOCAF2::exportObject(App::DocumentObject* parentObj,
             auto baseShape = aShapeTool->GetShape(it->second);
             shape.setShape(baseShape.Located(shape.getShape().Location()));
             if (!parent.IsNull()) {
-                label = aShapeTool->AddComponent(parent, shape.getShape(), Standard_False);
+                label = aShapeTool->AddComponent(parent, shape.getShape(), false);
             }
             else {
-                label = aShapeTool->AddShape(shape.getShape(), Standard_False, Standard_False);
+                label = aShapeTool->AddShape(shape.getShape(), false, false);
             }
             setupObject(label, name ? parentObj : obj, shape, prefix, name);
             return label;
@@ -470,7 +470,7 @@ TDF_Label ExportOCAF2::exportObject(App::DocumentObject* parentObj,
                 setupObject(label, linked, baseShape, prefix);
             }
 
-            label = aShapeTool->AddComponent(parent, shape.getShape(), Standard_False);
+            label = aShapeTool->AddComponent(parent, shape.getShape(), false);
             setupObject(label, name ? parentObj : obj, shape, prefix, name);
         }
         else {
@@ -490,7 +490,7 @@ TDF_Label ExportOCAF2::exportObject(App::DocumentObject* parentObj,
                 // a TopLoc_Location, so we need to clear it again.
                 shape.setShape(shape.getShape().Located(TopLoc_Location()));
             }
-            label = aShapeTool->AddShape(shape.getShape(), Standard_False, Standard_False);
+            label = aShapeTool->AddShape(shape.getShape(), false, false);
             auto o = name ? parentObj : obj;
             if (o != linked) {
                 setupObject(label, linked, shape, prefix, nullptr, true);
@@ -573,7 +573,7 @@ TDF_Label ExportOCAF2::exportObject(App::DocumentObject* parentObj,
                 aColorTool->SetColor(childLabel, Tools::convertColor(c), XCAFDoc_ColorGen);
                 FC_WARN(Tools::labelName(childLabel) << " set default color");
             }
-            aColorTool->SetVisibility(childLabel, Standard_False);
+            aColorTool->SetVisibility(childLabel, false);
         }
     }
 

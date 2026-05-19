@@ -172,7 +172,7 @@ void ViewProviderSplineExtension::showControlPoints(bool show, const App::Proper
 void ViewProviderSplineExtension::showControlPointsOfEdge(const TopoDS_Edge& edge)
 {
     std::list<gp_Pnt> poles, knots;
-    Standard_Integer nCt=0;
+    int nCt=0;
 
     TopoDS_Edge edge_loc(edge);
     TopLoc_Location aLoc;
@@ -185,7 +185,7 @@ void ViewProviderSplineExtension::showControlPointsOfEdge(const TopoDS_Edge& edg
         {
             Handle(Geom_BezierCurve) hBezier = curve.Bezier();
             nCt = hBezier->NbPoles();
-            for (Standard_Integer i = 1; i <= nCt; i++)
+            for (int i = 1; i <= nCt; i++)
                 poles.push_back(hBezier->Pole(i));
             if (hBezier->IsClosed()) {
                 nCt++;
@@ -196,13 +196,13 @@ void ViewProviderSplineExtension::showControlPointsOfEdge(const TopoDS_Edge& edg
         {
             Handle(Geom_BSplineCurve) hBSpline = curve.BSpline();
             nCt = hBSpline->NbPoles();
-            for (Standard_Integer i = 1; i <= nCt; i++)
+            for (int i = 1; i <= nCt; i++)
                 poles.push_back(hBSpline->Pole(i));
             if (hBSpline->IsClosed()) {
                 nCt++;
                 poles.push_back(hBSpline->Pole(1));
             }
-            for (Standard_Integer i = hBSpline->FirstUKnotIndex()+1; i <= hBSpline->LastUKnotIndex()-1; i++)
+            for (int i = hBSpline->FirstUKnotIndex()+1; i <= hBSpline->LastUKnotIndex()-1; i++)
                 knots.push_back(hBSpline->Value(hBSpline->Knot(i)));
         }   break;
     default:
@@ -241,7 +241,7 @@ void ViewProviderSplineExtension::showControlPointsOfFace(const TopoDS_Face& fac
 {
     std::list<gp_Pnt> knots;
     std::vector<std::vector<gp_Pnt> > poles;
-    Standard_Integer nCtU=0, nCtV=0;
+    int nCtU=0, nCtV=0;
 
     TopoDS_Face face_loc(face);
     TopLoc_Location aLoc;
@@ -256,9 +256,9 @@ void ViewProviderSplineExtension::showControlPointsOfFace(const TopoDS_Face& fac
             nCtU = hBezier->NbUPoles();
             nCtV = hBezier->NbVPoles();
             poles.resize(nCtU);
-            for (Standard_Integer u = 1; u <= nCtU; u++) {
+            for (int u = 1; u <= nCtU; u++) {
                 poles[u-1].resize(nCtV);
-                for (Standard_Integer v = 1; v <= nCtV; v++)
+                for (int v = 1; v <= nCtV; v++)
                     poles[u-1][v-1] = hBezier->Pole(u, v);
             }
         }   break;
@@ -268,16 +268,16 @@ void ViewProviderSplineExtension::showControlPointsOfFace(const TopoDS_Face& fac
             nCtU = hBSpline->NbUPoles();
             nCtV = hBSpline->NbVPoles();
             poles.resize(nCtU);
-            for (Standard_Integer u = 1; u <= nCtU; u++) {
+            for (int u = 1; u <= nCtU; u++) {
                 poles[u-1].resize(nCtV);
-                for (Standard_Integer v = 1; v <= nCtV; v++)
+                for (int v = 1; v <= nCtV; v++)
                     poles[u-1][v-1] = hBSpline->Pole(u, v);
             }
 
-            //Standard_Integer nKnU = hBSpline->NbUKnots();
-            //Standard_Integer nKnV = hBSpline->NbVKnots();
-            for (Standard_Integer u = 1; u <= hBSpline->NbUKnots(); u++) {
-                for (Standard_Integer v = 1; v <= hBSpline->NbVKnots(); v++)
+            //int nKnU = hBSpline->NbUKnots();
+            //int nKnV = hBSpline->NbVKnots();
+            for (int u = 1; u <= hBSpline->NbUKnots(); u++) {
+                for (int v = 1; v <= hBSpline->NbVKnots(); v++)
                     knots.push_back(hBSpline->Value(hBSpline->UKnot(u), hBSpline->VKnot(v)));
             }
         }   break;

@@ -476,7 +476,7 @@ std::vector<SbVec3f> CurveOnMeshHandler::getPoints() const
 Handle(Geom_BSplineCurve) CurveOnMeshHandler::approximateSpline(const std::vector<SbVec3f>& points)
 {
     TColgp_Array1OfPnt pnts(1, points.size());
-    Standard_Integer index = 1;
+    int index = 1;
     for (const auto& it : points) {
         float x, y, z;
         it.getValue(x, y, z);

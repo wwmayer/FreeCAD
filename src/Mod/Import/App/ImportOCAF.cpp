@@ -464,12 +464,12 @@ void ImportXCAF::loadShapes()
     hColors->GetColors(colorLabels);
 
     // set presentations and show
-    for (Standard_Integer i = 1; i <= shapeLabels.Length(); i++) {
+    for (int i = 1; i <= shapeLabels.Length(); i++) {
         // get the shapes and attributes
         const TDF_Label& label = shapeLabels.Value(i);
         loadShapes(label);
     }
-    std::map<Standard_Integer, TopoDS_Shape>::iterator it;
+    std::map<int, TopoDS_Shape>::iterator it;
     // go through solids
     for (it = mySolids.begin(); it != mySolids.end(); ++it) {
         createShape(it->second, true, true);
@@ -500,7 +500,7 @@ void ImportXCAF::createShape(const TopoDS_Shape& shape, bool perface, bool setna
     part = doc->addObject<Part::Feature>(default_name.c_str());
     part->Label.setValue(default_name);
     part->Shape.setValue(shape);
-    std::map<Standard_Integer, Quantity_ColorRGBA>::const_iterator jt;
+    std::map<int, Quantity_ColorRGBA>::const_iterator jt;
     jt = myColorMap.find(Part::ShapeMapHasher {}(shape));
 
     Base::Color partColor(0.8f, 0.8f, 0.8f);
@@ -508,7 +508,7 @@ void ImportXCAF::createShape(const TopoDS_Shape& shape, bool perface, bool setna
 
     // set label name if defined
     if (setname && !myNameMap.empty()) {
-        std::map<Standard_Integer, std::string>::const_iterator jt;
+        std::map<int, std::string>::const_iterator jt;
         jt = myNameMap.find(Part::ShapeMapHasher {}(shape));
         if (jt != myNameMap.end()) {
             part->Label.setValue(jt->second);

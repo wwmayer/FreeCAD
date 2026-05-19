@@ -47,17 +47,17 @@ std::string ArcOfEllipsePy::representation() const
     gp_Ax1 axis = ellipse->Axis();
     gp_Dir dir = axis.Direction();
     gp_Pnt loc = axis.Location();
-    Standard_Real fMajRad = ellipse->MajorRadius();
-    Standard_Real fMinRad = ellipse->MinorRadius();
-    Standard_Real u1 = trim->FirstParameter();
-    Standard_Real u2 = trim->LastParameter();
+    double fMajRad = ellipse->MajorRadius();
+    double fMinRad = ellipse->MinorRadius();
+    double u1 = trim->FirstParameter();
+    double u2 = trim->LastParameter();
 
     gp_Dir normal = ellipse->Axis().Direction();
     gp_Dir xdir = ellipse->XAxis().Direction();
 
     gp_Ax2 xdirref(loc, normal); // this is a reference XY for the ellipse
 
-    Standard_Real fAngleXU = -xdir.AngleWithRef(xdirref.XDirection(),normal);
+    double fAngleXU = -xdir.AngleWithRef(xdirref.XDirection(),normal);
 
 
     std::stringstream str;

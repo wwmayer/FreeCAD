@@ -44,7 +44,7 @@ std::string SpherePy::representation() const
     gp_Ax1 axis = sphere->Axis();
     gp_Dir dir = axis.Direction();
     gp_Pnt loc = axis.Location();
-    Standard_Real fRad = sphere->Radius();
+    double fRad = sphere->Radius();
 
     std::stringstream str;
     str << "Sphere (";
@@ -143,7 +143,7 @@ Py::Object SpherePy::getAxis() const
 
 void SpherePy::setAxis(Py::Object arg)
 {
-    Standard_Real dir_x, dir_y, dir_z;
+    double dir_x, dir_y, dir_z;
     PyObject *p = arg.ptr();
     if (PyObject_TypeCheck(p, &(Base::VectorPy::Type))) {
         Base::Vector3d v = static_cast<Base::VectorPy*>(p)->value();

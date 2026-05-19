@@ -402,7 +402,7 @@ void ViewProviderSubShapeBinder::updatePlacement(bool transaction) {
     }
     catch (Standard_Failure& e) {
         std::ostringstream str;
-        Standard_CString msg = e.GetMessageString();
+        const char* msg = e.GetMessageString();
         str << typeid(e).name() << " ";
         if (msg) { str << msg; }
         else { str << "No OCCT Exception Message"; }

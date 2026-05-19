@@ -504,16 +504,16 @@ public:
     /** @name Boolean operation*/
     //@{
     TopoDS_Shape cut(TopoDS_Shape) const;
-    TopoDS_Shape cut(const std::vector<TopoDS_Shape>&, Standard_Real tolerance = -1.0) const;
+    TopoDS_Shape cut(const std::vector<TopoDS_Shape>&, double tolerance = -1.0) const;
     TopoDS_Shape common(TopoDS_Shape) const;
-    TopoDS_Shape common(const std::vector<TopoDS_Shape>&, Standard_Real tolerance = -1.0) const;
+    TopoDS_Shape common(const std::vector<TopoDS_Shape>&, double tolerance = -1.0) const;
     TopoDS_Shape fuse(TopoDS_Shape) const;
-    TopoDS_Shape fuse(const std::vector<TopoDS_Shape>&, Standard_Real tolerance = -1.0) const;
+    TopoDS_Shape fuse(const std::vector<TopoDS_Shape>&, double tolerance = -1.0) const;
     TopoDS_Shape oldFuse(TopoDS_Shape) const;
-    TopoDS_Shape section(TopoDS_Shape, Standard_Boolean approximate = Standard_False) const;
+    TopoDS_Shape section(TopoDS_Shape, bool approximate = false) const;
     TopoDS_Shape section(const std::vector<TopoDS_Shape>&,
-                         Standard_Real tolerance = -1.0,
-                         Standard_Boolean approximate = Standard_False) const;
+                         double tolerance = -1.0,
+                         bool approximate = false) const;
     std::list<TopoDS_Wire> slice(const Base::Vector3d&, double) const;
     TopoDS_Compound slices(const Base::Vector3d&, const std::vector<double>&) const;
     /**
@@ -538,7 +538,7 @@ public:
      * three solids: two cuts and common.
      */
     TopoDS_Shape generalFuse(const std::vector<TopoDS_Shape>& sOthers,
-                             Standard_Real tolerance,
+                             double tolerance,
                              std::vector<TopTools_ListOfShape>* mapInOut = nullptr) const;
     //@}
 
@@ -546,47 +546,47 @@ public:
     //@{
     TopoDS_Shape makePipe(const TopoDS_Shape& profile) const;
     TopoDS_Shape makePipeShell(const TopTools_ListOfShape& profiles,
-                               const Standard_Boolean make_solid,
-                               const Standard_Boolean isFrenet = Standard_False,
+                               const bool make_solid,
+                               const bool isFrenet = false,
                                int transition = 0) const;
     TopoDS_Shape makePrism(const gp_Vec&) const;
     /// revolve shape. Note: isSolid is deprecated (instead, use some Part::FaceMaker to make a
     /// face, first).
-    TopoDS_Shape revolve(const gp_Ax1&, double d, Standard_Boolean isSolid = Standard_False) const;
+    TopoDS_Shape revolve(const gp_Ax1&, double d, bool isSolid = false) const;
     TopoDS_Shape makeSweep(const TopoDS_Shape& profile, double, int) const;
     TopoDS_Shape makeTube(double radius, double tol, int cont, int maxdeg, int maxsegm) const;
-    TopoDS_Shape makeTorus(Standard_Real radius1,
-                           Standard_Real radius2,
-                           Standard_Real angle1,
-                           Standard_Real angle2,
-                           Standard_Real angle3,
-                           Standard_Boolean isSolid = Standard_True) const;
-    TopoDS_Shape makeHelix(Standard_Real pitch,
-                           Standard_Real height,
-                           Standard_Real radius,
-                           Standard_Real angle = 0,
-                           Standard_Boolean left = Standard_False,
-                           Standard_Boolean style = Standard_False) const;
-    TopoDS_Shape makeLongHelix(Standard_Real pitch,
-                               Standard_Real height,
-                               Standard_Real radius,
-                               Standard_Real angle = 0,
-                               Standard_Boolean left = Standard_False) const;
-    TopoDS_Shape makeSpiralHelix(Standard_Real radiusbottom,
-                                 Standard_Real radiustop,
-                                 Standard_Real height,
-                                 Standard_Real nbturns = 1,
-                                 Standard_Real breakperiod = 1,
-                                 Standard_Boolean left = Standard_False) const;
-    TopoDS_Shape makeThread(Standard_Real pitch,
-                            Standard_Real depth,
-                            Standard_Real height,
-                            Standard_Real radius) const;
+    TopoDS_Shape makeTorus(double radius1,
+                           double radius2,
+                           double angle1,
+                           double angle2,
+                           double angle3,
+                           bool isSolid = true) const;
+    TopoDS_Shape makeHelix(double pitch,
+                           double height,
+                           double radius,
+                           double angle = 0,
+                           bool left = false,
+                           bool style = false) const;
+    TopoDS_Shape makeLongHelix(double pitch,
+                               double height,
+                               double radius,
+                               double angle = 0,
+                               bool left = false) const;
+    TopoDS_Shape makeSpiralHelix(double radiusbottom,
+                                 double radiustop,
+                                 double height,
+                                 double nbturns = 1,
+                                 double breakperiod = 1,
+                                 bool left = false) const;
+    TopoDS_Shape makeThread(double pitch,
+                            double depth,
+                            double height,
+                            double radius) const;
     TopoDS_Shape makeLoft(const TopTools_ListOfShape& profiles,
-                          Standard_Boolean isSolid,
-                          Standard_Boolean isRuled,
-                          Standard_Boolean isClosed = Standard_False,
-                          Standard_Integer maxDegree = 5) const;
+                          bool isSolid,
+                          bool isRuled,
+                          bool isClosed = false,
+                          int maxDegree = 5) const;
     TopoDS_Shape makeOffsetShape(double offset,
                                  double tol,
                                  bool intersection = false,
@@ -1132,7 +1132,7 @@ public:
                                      const TopoDS_Face& uptoface,
                                      const char* face_maker = nullptr,
                                      RevolMode Mode = RevolMode::None,
-                                     Standard_Boolean Modify = Standard_True,
+                                     bool Modify = true,
                                      const char* op = nullptr);
 
     /** Make revolved shell around a basis shape
@@ -1155,7 +1155,7 @@ public:
                                      const TopoDS_Face& uptoface,
                                      const char* face_maker = nullptr,
                                      RevolMode Mode = RevolMode::None,
-                                     Standard_Boolean Modify = Standard_True,
+                                     bool Modify = true,
                                      const char* op = nullptr) const
     {
         return TopoShape(0, Hasher).makeElementRevolution(*this,
@@ -1231,7 +1231,7 @@ public:
                                      const TopoShape& upToFace,
                                      const gp_Dir& direction,
                                      PrismMode mode,
-                                     Standard_Boolean checkLimits = Standard_True,
+                                     bool checkLimits = true,
                                      const char* op = nullptr);
 
     /** Make a prism based on this shape that is either depression or protrusion of a profile shape up to a given face
@@ -1256,7 +1256,7 @@ public:
                                     const TopoShape& upToFace,
                                     const gp_Dir& direction,
                                     PrismMode mode,
-                                    Standard_Boolean checkLimits = Standard_True,
+                                    bool checkLimits = true,
                                     const char* op = nullptr) const
     {
         return TopoShape(0, Hasher).makeElementPrismUntil(*this,
@@ -1293,7 +1293,7 @@ public:
      */
     TopoShape& makeElementPipeShell(const std::vector<TopoShape>& sources,
                                     const MakeSolid makeSolid,
-                                    const Standard_Boolean isFrenet,
+                                    const bool isFrenet,
                                     TransitionMode transition = TransitionMode::Transformed,
                                     const char* op = nullptr,
                                     double tol3d = 0.0,
@@ -1616,7 +1616,7 @@ public:
      */
     TopoShape &makeElementLoft(const std::vector<TopoShape> &sources,
                         IsSolid isSolid, IsRuled isRuled, IsClosed isClosed=IsClosed::notClosed,
-                        Standard_Integer maxDegree=5, const char *op=nullptr);
+                        int maxDegree=5, const char *op=nullptr);
 
     /** Make a ruled surface
      *

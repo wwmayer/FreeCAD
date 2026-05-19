@@ -317,7 +317,7 @@ private:
     TopoDS_Edge GetEdge( const int edge ) const;
     int InsertSubShapes( TBlockShapes& shapeMap ) const;
     // redefine Adaptor methods
-    gp_Pnt Value(const Standard_Real U,const Standard_Real V) const;
+    gp_Pnt Value(const double U,const double V) const;
     // debug
     void dumpNodes(int nbNodes) const;
   };
@@ -332,9 +332,9 @@ private:
     const TNodeColumn* myNodeColumn;
   public:
     TVerticalEdgeAdaptor( const TParam2ColumnMap* columnsMap, const double parameter );
-    gp_Pnt Value(const Standard_Real U) const;
-    Standard_Real FirstParameter() const { return 0; }
-    Standard_Real LastParameter() const { return 1; }
+    gp_Pnt Value(const double U) const;
+    double FirstParameter() const { return 0; }
+    double LastParameter() const { return 1; }
     // debug
     void dumpNodes(int nbNodes) const;
   };
@@ -351,9 +351,9 @@ private:
   public:
     THorizontalEdgeAdaptor( const TSideFace* sideFace, const bool isTop)
       :mySide(sideFace), myV( isTop ? 1.0 : 0.0 ) {}
-    gp_Pnt Value(const Standard_Real U) const;
-    Standard_Real FirstParameter() const { return 0; }
-    Standard_Real LastParameter() const { return 1; }
+    gp_Pnt Value(const double U) const;
+    double FirstParameter() const { return 0; }
+    double LastParameter() const { return 1; }
     // debug
     void dumpNodes(int nbNodes) const;
   };
@@ -370,9 +370,9 @@ private:
     TPCurveOnHorFaceAdaptor( const TSideFace*   sideFace,
                              const bool         isTop,
                              const TopoDS_Face& horFace);
-    gp_Pnt2d Value(const Standard_Real U) const;
-    Standard_Real FirstParameter() const { return 0; }
-    Standard_Real LastParameter() const { return 1; }
+    gp_Pnt2d Value(const double U) const;
+    double FirstParameter() const { return 0; }
+    double LastParameter() const { return 1; }
   };
 
   bool                  myNotQuadOnTop;

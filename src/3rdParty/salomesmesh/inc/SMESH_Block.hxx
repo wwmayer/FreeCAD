@@ -296,12 +296,12 @@ public:
   // Methods of math_FunctionSetWithDerivatives used internally
   // to define parameters by coordinates
   // -----------------------------------------------------------
-  Standard_Integer NbVariables() const;
-  Standard_Integer NbEquations() const;
-  Standard_Boolean Value(const math_Vector& X,math_Vector& F) ;
-  Standard_Boolean Derivatives(const math_Vector& X,math_Matrix& D) ;
-  Standard_Boolean Values(const math_Vector& X,math_Vector& F,math_Matrix& D) ;
-  Standard_Integer GetStateNumber ();
+  int NbVariables() const;
+  int NbEquations() const;
+  bool Value(const math_Vector& X,math_Vector& F) ;
+  bool Derivatives(const math_Vector& X,math_Matrix& D) ;
+  bool Values(const math_Vector& X,math_Vector& F,math_Matrix& D) ;
+  int GetStateNumber ();
 
  protected:
 

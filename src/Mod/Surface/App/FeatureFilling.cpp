@@ -111,7 +111,7 @@ void Filling::addConstraints(BRepFill_Filling& builder,
                              const App::PropertyLinkSubList& edges,
                              const App::PropertyStringList& faces,
                              const App::PropertyIntegerList& orders,
-                             Standard_Boolean bnd)
+                             bool bnd)
 {
     auto edge_obj = edges.getValues();
     auto edge_sub = edges.getSubValues();
@@ -301,11 +301,11 @@ App::DocumentObjectExecReturn* Filling::execute()
 
         // Add the constraints of border curves/faces (bound)
         int numBoundaries = BoundaryEdges.getSize();
-        addConstraints(builder, BoundaryEdges, BoundaryFaces, BoundaryOrder, Standard_True);
+        addConstraints(builder, BoundaryEdges, BoundaryFaces, BoundaryOrder, true);
 
         // Add additional edge constraints if available (unbound)
         if (UnboundEdges.getSize() > 0) {
-            addConstraints(builder, UnboundEdges, UnboundFaces, UnboundOrder, Standard_False);
+            addConstraints(builder, UnboundEdges, UnboundFaces, UnboundOrder, false);
         }
 
         // Add additional constraint on free faces

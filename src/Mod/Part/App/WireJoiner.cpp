@@ -132,12 +132,12 @@ public:
         if (box.IsVoid()) {
             return false;
         }
-        Standard_Real xMin = Standard_Real();
-        Standard_Real yMin = Standard_Real();
-        Standard_Real zMin = Standard_Real();
-        Standard_Real xMax = Standard_Real();
-        Standard_Real yMax = Standard_Real();
-        Standard_Real zMax = Standard_Real();
+        double xMin = double();
+        double yMin = double();
+        double zMin = double();
+        double xMax = double();
+        double yMax = double();
+        double zMax = double();
         box.Get(xMin, yMin, zMin, xMax, yMax, zMax);
         return zMax - zMin <= myTol;
     }
@@ -153,7 +153,7 @@ public:
     {}
 
     bool getBBox(const TopoDS_Shape &eForBBox, Bnd_Box &bound) {
-        BRepBndLib::AddOptimal(eForBBox,bound,Standard_False);
+        BRepBndLib::AddOptimal(eForBBox,bound,false);
         if (bound.IsVoid()) {
             if (FC_LOG_INSTANCE.isEnabled(FC_LOGLEVEL_LOG)) {
                 FC_WARN("failed to get bound of edge");
@@ -175,12 +175,12 @@ public:
         if (!getBBox(eForBBox, bound)) {
             return false;
         }
-        Standard_Real xMin = Standard_Real();
-        Standard_Real yMin = Standard_Real();
-        Standard_Real zMin = Standard_Real();
-        Standard_Real xMax = Standard_Real();
-        Standard_Real yMax = Standard_Real();
-        Standard_Real zMax = Standard_Real();
+        double xMin = double();
+        double yMin = double();
+        double zMin = double();
+        double xMax = double();
+        double yMax = double();
+        double zMax = double();
         bound.Get(xMin, yMin, zMin, xMax, yMax, zMax);
         box = Box(gp_Pnt(xMin,yMin,zMin), gp_Pnt(xMax,yMax,zMax));
         return true;
@@ -206,8 +206,8 @@ public:
         std::shared_ptr<WireInfo> wireInfo {};
         std::shared_ptr<WireInfo> wireInfo2 {}; // an edge can be shared by at most two tight bound wires.
         std::unique_ptr<Geometry> geo {};
-        Standard_Real firstParam {};
-        Standard_Real lastParam {};
+        double firstParam {};
+        double lastParam {};
         Handle(Geom_Curve) curve;
         GeomAbs_CurveType type {};
         bool isLinear;
@@ -1068,7 +1068,7 @@ public:
                     }
                 }
                 for (int i = 1; i <= extss.NbSolution(); ++i) {
-                    Standard_Real par = Standard_Real();
+                    double par = double();
                     auto s1 = extss.SupportOnShape1(i);
                     auto s2 = extss.SupportOnShape2(i);
                     if (s1.ShapeType() == TopAbs_EDGE) {
@@ -1255,8 +1255,8 @@ public:
         //
         const gp_Pnt& p1 = itPrevParam->point;
         const gp_Pnt& p2 = itParam->point;
-        const Standard_Real& param1 = itPrevParam->param;
-        const Standard_Real& param2 = itParam->param;
+        const double& param1 = itPrevParam->param;
+        const double& param2 = itParam->param;
 
         BRepBuilderAPI_MakeEdge mkEdge(info.curve, param1, param2);
         if (mkEdge.IsDone()) {
@@ -2771,7 +2771,7 @@ public:
         fixer.SetContext(reshape);
         fixer.Load(wireData);
         fixer.SetMaxTolerance(myTol);
-        fixer.ClosedWireMode() = Standard_True;
+        fixer.ClosedWireMode() = true;
         fixer.Perform();
         // fixer.FixReorder();
         // fixer.FixConnected();
@@ -2780,7 +2780,7 @@ public:
             // Gap fixing may change vertex, but we need all concident vertexes
             // to be the same one.
             //
-            // fixer.FixGap3d(1, Standard_True);
+            // fixer.FixGap3d(1, true);
         }
 
         fixer.FixClosed();
@@ -3192,7 +3192,7 @@ const TopTools_ListOfShape& WireJoiner::Modified (const TopoDS_Shape& SThatModif
     return pimpl->aHistory->Modified(SThatModifies);
 }
 
-Standard_Boolean WireJoiner::IsDeleted (const TopoDS_Shape& SDeleted)
+bool WireJoiner::IsDeleted (const TopoDS_Shape& SDeleted)
 {
     Build();
     return pimpl->aHistory->IsRemoved(SDeleted);

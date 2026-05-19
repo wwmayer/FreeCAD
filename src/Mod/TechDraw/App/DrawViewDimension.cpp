@@ -1688,7 +1688,7 @@ std::vector<TopoShape> DrawViewDimension::getEdges(const TopoShape& inShape)
         Ex.Next();
     }
 
-    for (Standard_Integer k = 1; k <= shapeMap.Extent(); k++) {
+    for (int k = 1; k <= shapeMap.Extent(); k++) {
         const TopoDS_Shape& shape = shapeMap(k);
         ret.push_back(TopoShape(shape));
     }
@@ -1707,7 +1707,7 @@ std::vector<TopoShape> DrawViewDimension::getVertexes(const TopoShape& inShape)
         Ex.Next();
     }
 
-    for (Standard_Integer k = 1; k <= shapeMap.Extent(); k++) {
+    for (int k = 1; k <= shapeMap.Extent(); k++) {
         const TopoDS_Shape& shape = shapeMap(k);
         ret.push_back(TopoShape(shape));
     }

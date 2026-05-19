@@ -223,11 +223,11 @@ PyMOD_INIT_FUNC(Part)
 
     // This is highly experimental and we should keep an eye on it
     // if we have mysterious crashes
-    // The argument must be 'Standard_False' to avoid FPE caused by
+    // The argument must be 'false' to avoid FPE caused by
     // Python's cmath module.
     // For Linux use segmentation_fault_handler in Application.cpp
 #if !defined(_DEBUG) && !defined(FC_OS_LINUX)
-    //OSD::SetSignal(Standard_False);
+    //OSD::SetSignal(false);
 #endif
 
     PyObject* partModule = Part::initModule();

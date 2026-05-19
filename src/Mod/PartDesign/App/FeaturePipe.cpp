@@ -600,7 +600,7 @@ void Pipe::buildPipePath(const Part::TopoShape& shape, const std::vector<std::st
                     hEdges->Append(xp.Current());
 
                 ShapeAnalysis_FreeBounds::ConnectEdgesToWires(
-                    hEdges, Precision::Confusion(), Standard_True, hWires);
+                    hEdges, Precision::Confusion(), true, hWires);
                 int len = hWires->Length();
                 if (len != 1)
                     throw Base::ValueError(QT_TRANSLATE_NOOP("Exception", "Spine is not connected."));

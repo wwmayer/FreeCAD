@@ -168,7 +168,7 @@ void create3dCurve(const TopoDS_Edge& edge)
         BRepLib::BuildCurves3d(edge3d, Precision::Confusion(), GeomAbs_Shape::GeomAbs_C1, 14, 10000);
         break;
     }
-    Standard_Real aFirst, aLast;
+    double aFirst, aLast;
     Handle(Geom_Curve) curve = BRep_Tool::Curve(edge3d, aFirst, aLast);
     BRep_Builder builder;
     builder.UpdateEdge(edge, curve, Precision::Confusion());

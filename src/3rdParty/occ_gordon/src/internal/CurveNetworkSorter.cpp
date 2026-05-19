@@ -23,9 +23,9 @@ namespace
         double max = DBL_MIN;
         size_t jmax = 0;
 
-        for (Standard_Integer jcol = 0; jcol < m.ColNumber(); ++jcol) {
-            if (m(static_cast<Standard_Integer>(irow), jcol) > max) {
-                max = m(static_cast<Standard_Integer>(irow), jcol);
+        for (int jcol = 0; jcol < m.ColNumber(); ++jcol) {
+            if (m(static_cast<int>(irow), jcol) > max) {
+                max = m(static_cast<int>(irow), jcol);
                 jmax = static_cast<size_t>(jcol);
             }
         }
@@ -39,9 +39,9 @@ namespace
         double max = DBL_MIN;
         size_t imax = 0;
 
-        for (Standard_Integer irow = 0; irow < m.RowNumber(); ++irow) {
-            if (m(irow, static_cast<Standard_Integer>(jcol)) > max) {
-                max = m(irow, static_cast<Standard_Integer>(jcol));
+        for (int irow = 0; irow < m.RowNumber(); ++irow) {
+            if (m(irow, static_cast<int>(jcol)) > max) {
+                max = m(irow, static_cast<int>(jcol));
                 imax = static_cast<size_t>(irow);
             }
         }
@@ -55,9 +55,9 @@ namespace
         double min = DBL_MAX;
         size_t jmin = 0;
 
-        for (Standard_Integer jcol = 0; jcol < m.ColNumber(); ++jcol) {
-            if (m(static_cast<Standard_Integer>(irow), jcol) < min) {
-                min = m(static_cast<Standard_Integer>(irow), jcol);
+        for (int jcol = 0; jcol < m.ColNumber(); ++jcol) {
+            if (m(static_cast<int>(irow), jcol) < min) {
+                min = m(static_cast<int>(irow), jcol);
                 jmin = static_cast<size_t>(jcol);
             }
         }
@@ -71,9 +71,9 @@ namespace
         double min = DBL_MAX;
         size_t imin = 0;
 
-        for (Standard_Integer irow = 0; irow < m.RowNumber(); ++irow) {
-            if (m(irow, static_cast<Standard_Integer>(jcol)) < min) {
-                min = m(irow, static_cast<Standard_Integer>(jcol));
+        for (int irow = 0; irow < m.RowNumber(); ++irow) {
+            if (m(irow, static_cast<int>(jcol)) < min) {
+                min = m(irow, static_cast<int>(jcol));
                 imin = static_cast<size_t>(irow);
             }
         }
@@ -144,8 +144,8 @@ void CurveNetworkSorter::swapProfiles(size_t idx1, size_t idx2)
 
     std::swap(m_profiles[idx1], m_profiles[idx2]);
     std::swap(m_profIdx[idx1], m_profIdx[idx2]);
-    m_parmsIntersGuides.SwapRow(static_cast<Standard_Integer>(idx1), static_cast<Standard_Integer>(idx2));
-    m_parmsIntersProfiles.SwapRow(static_cast<Standard_Integer>(idx1), static_cast<Standard_Integer>(idx2));
+    m_parmsIntersGuides.SwapRow(static_cast<int>(idx1), static_cast<int>(idx2));
+    m_parmsIntersProfiles.SwapRow(static_cast<int>(idx1), static_cast<int>(idx2));
 }
 
 void CurveNetworkSorter::swapGuides(size_t idx1, size_t idx2)
@@ -156,8 +156,8 @@ void CurveNetworkSorter::swapGuides(size_t idx1, size_t idx2)
 
     std::swap(m_guides[idx1], m_guides[idx2]);
     std::swap(m_guidIdx[idx1], m_guidIdx[idx2]);
-    m_parmsIntersGuides.SwapCol(static_cast<Standard_Integer>(idx1), static_cast<Standard_Integer>(idx2));
-    m_parmsIntersProfiles.SwapCol(static_cast<Standard_Integer>(idx1), static_cast<Standard_Integer>(idx2));
+    m_parmsIntersGuides.SwapCol(static_cast<int>(idx1), static_cast<int>(idx2));
+    m_parmsIntersProfiles.SwapCol(static_cast<int>(idx1), static_cast<int>(idx2));
 }
 
 void CurveNetworkSorter::GetStartCurveIndices(size_t &prof_idx, size_t &guid_idx, bool &guideMustBeReversed) const
@@ -202,8 +202,8 @@ void CurveNetworkSorter::Perform()
     }
 
     size_t prof_start = 0, guide_start = 0;
-    Standard_Integer nGuid = static_cast<Standard_Integer>(NGuides());
-    Standard_Integer nProf = static_cast<Standard_Integer>(NProfiles());
+    int nGuid = static_cast<int>(NGuides());
+    int nProf = static_cast<int>(NProfiles());
 
     bool guideMustBeReversed = false;
     GetStartCurveIndices(prof_start, guide_start, guideMustBeReversed);
@@ -237,14 +237,14 @@ void CurveNetworkSorter::Perform()
     }
 
     // reverse profiles, if necessary
-    for (Standard_Integer iProf = 1; iProf < nProf; ++iProf) {
+    for (int iProf = 1; iProf < nProf; ++iProf) {
         if (m_parmsIntersProfiles(iProf, 0) > m_parmsIntersProfiles(iProf, nGuid - 1)) {
             reverseProfile(iProf);
         }
     }
 
     // reverse guide, if necessary
-    for (Standard_Integer iGuid = 1; iGuid < nGuid; ++iGuid) {
+    for (int iGuid = 1; iGuid < nGuid; ++iGuid) {
         if (m_parmsIntersGuides(0, iGuid) > m_parmsIntersGuides(nProf - 1, iGuid)) {
             reverseGuide(iGuid);
         }
@@ -275,16 +275,16 @@ const std::vector<std::string> &CurveNetworkSorter::GuideIndices() const
 
 void CurveNetworkSorter::reverseProfile(size_t profileIdx)
 {
-    Standard_Integer pIdx = static_cast<Standard_Integer>(profileIdx);
+    int pIdx = static_cast<int>(profileIdx);
 
     Handle(Geom_Curve) profile = m_profiles[profileIdx];
-    Standard_Real lastParm = !profile.IsNull() ?
+    double lastParm = !profile.IsNull() ?
                 profile->LastParameter() :
-                m_parmsIntersProfiles(pIdx, static_cast<Standard_Integer>(maxRowIndex(m_parmsIntersProfiles, pIdx)));
+                m_parmsIntersProfiles(pIdx, static_cast<int>(maxRowIndex(m_parmsIntersProfiles, pIdx)));
 
-    Standard_Real firstParm = !profile.IsNull() ?
+    double firstParm = !profile.IsNull() ?
                 profile->FirstParameter() :
-                m_parmsIntersProfiles(pIdx, static_cast<Standard_Integer>(minRowIndex(m_parmsIntersProfiles, pIdx)));
+                m_parmsIntersProfiles(pIdx, static_cast<int>(minRowIndex(m_parmsIntersProfiles, pIdx)));
 
 
     // compute new parameters
@@ -302,16 +302,16 @@ void CurveNetworkSorter::reverseProfile(size_t profileIdx)
 void CurveNetworkSorter::reverseGuide(size_t guideIdx)
 {
 
-    Standard_Integer gIdx = static_cast<Standard_Integer>(guideIdx);
+    int gIdx = static_cast<int>(guideIdx);
 
     Handle(Geom_Curve) guide = m_guides[guideIdx];
-    Standard_Real lastParm = !guide.IsNull() ?
+    double lastParm = !guide.IsNull() ?
                 guide->LastParameter() :
-                m_parmsIntersGuides(static_cast<Standard_Integer>(maxColIndex(m_parmsIntersGuides, gIdx)), gIdx);
+                m_parmsIntersGuides(static_cast<int>(maxColIndex(m_parmsIntersGuides, gIdx)), gIdx);
 
-    Standard_Real firstParm = !guide.IsNull() ?
+    double firstParm = !guide.IsNull() ?
                 guide->FirstParameter() :
-                m_parmsIntersGuides(static_cast<Standard_Integer>(minColIndex(m_parmsIntersGuides, gIdx)), gIdx);
+                m_parmsIntersGuides(static_cast<int>(minColIndex(m_parmsIntersGuides, gIdx)), gIdx);
 
     // compute new parameter
     for (int irow = 0; irow < static_cast<int>(NProfiles()); ++irow) {

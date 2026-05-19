@@ -49,9 +49,9 @@ std::string ArcOfCirclePy::representation() const
     gp_Ax1 axis = circle->Axis();
     gp_Dir dir = axis.Direction();
     gp_Pnt loc = axis.Location();
-    Standard_Real fRad = circle->Radius();
-    Standard_Real u1 = trim->FirstParameter();
-    Standard_Real u2 = trim->LastParameter();
+    double fRad = circle->Radius();
+    double u1 = trim->FirstParameter();
+    double u2 = trim->LastParameter();
 
     std::stringstream str;
     str << "ArcOfCircle (";

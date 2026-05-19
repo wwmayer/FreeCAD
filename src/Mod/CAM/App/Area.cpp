@@ -250,7 +250,7 @@ static bool getShapePlane(const TopoDS_Shape& shape, gp_Pln& pln)
         pln = adapt.Plane();
         return true;
     }
-    BRepLib_FindSurface finder(shape.Located(TopLoc_Location()), -1, Standard_True);
+    BRepLib_FindSurface finder(shape.Located(TopLoc_Location()), -1, true);
     if (!finder.Found()) {
         return false;
     }
@@ -375,7 +375,7 @@ static std::vector<gp_Pnt> discretize(const TopoDS_Edge& edge, double deflection
 {
     std::vector<gp_Pnt> ret;
     BRepAdaptor_Curve curve(edge);
-    Standard_Real efirst, elast;
+    double efirst, elast;
     efirst = curve.FirstParameter();
     elast = curve.LastParameter();
     bool reversed = (edge.Orientation() == TopAbs_REVERSED);
@@ -898,7 +898,7 @@ struct WireJoiner
             }
             return false;
         }
-        Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+        double xMin, yMin, zMin, xMax, yMax, zMax;
         bound.Get(xMin, yMin, zMin, xMax, yMax, zMax);
         box = Box(gp_Pnt(xMin, yMin, zMin), gp_Pnt(xMax, yMax, zMax));
         return true;
@@ -1151,7 +1151,7 @@ struct WireJoiner
                 continue;
             }
 
-            Standard_Real first, last;
+            double first, last;
             Handle(Geom_Curve) curve = BRep_Tool::Curve(it->edge, first, last);
             bool reversed =
                 pstart.SquareDistance(curve->Value(last)) <= Precision::SquareConfusion();
@@ -1385,7 +1385,7 @@ struct WireJoiner
         fixer->Perform();
         fixer->FixReorder();
         fixer->SetMaxTolerance(tol);
-        fixer->ClosedWireMode() = Standard_True;
+        fixer->ClosedWireMode() = true;
         fixer->FixConnected(Precision::Confusion());
         fixer->FixClosed(Precision::Confusion());
 
@@ -1736,10 +1736,10 @@ std::vector<shared_ptr<Area>> Area::makeSections(PARAM_ARGS(PARAM_FARG, AREA_PAR
     Bnd_Box bounds;
     for (const Shape& s : myShapes) {
         const TopoDS_Shape& shape = s.shape.Moved(loc);
-        BRepBndLib::Add(shape, bounds, Standard_False);
+        BRepBndLib::Add(shape, bounds, false);
     }
     bounds.SetGap(0.0);
-    Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+    double xMin, yMin, zMin, xMax, yMax, zMax;
     bounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
     AREA_TRACE("section bounds X(" << xMin << ',' << xMax << "), Y(" << yMin << ',' << yMax
                                    << "), Z(" << zMin << ',' << zMax << ')');
@@ -1893,7 +1893,7 @@ std::vector<shared_ptr<Area>> Area::makeSections(PARAM_ARGS(PARAM_FARG, AREA_PAR
         bool retried = !can_retry;
         while (true) {
             gp_Pln pln(gp_Pnt(0, 0, z), gp_Dir(0, 0, 1));
-            Standard_Real a, b, c, d;
+            double a, b, c, d;
             pln.Coefficients(a, b, c, d);
             BRepLib_MakeFace mkFace(pln, xMin, xMax, yMin, yMax);
             const TopoDS_Shape& face = mkFace.Face();
@@ -2769,7 +2769,7 @@ TopoDS_Shape Area::toShape(const CCurve& _c, const gp_Trsf* trsf, int reorient)
 
     ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges,
                                                   Precision::Confusion(),
-                                                  Standard_False,
+                                                  false,
                                                   hWires);
     if (!hWires->Length()) {
         return shape;
@@ -3009,7 +3009,7 @@ struct ShapeInfo
     Wires::iterator myBestWire;
     TopoDS_Shape mySupport;
     ShapeParams& myParams;
-    Standard_Real myBestParameter;
+    double myBestParameter;
     bool mySupportEdge;
     bool myPlanar;
     bool myRebase;
@@ -3162,7 +3162,7 @@ struct ShapeInfo
                 // BRepBuilderAPI_MakeEdge always fails with
                 // PointProjectionFailed. Why??
 
-                Standard_Real first, last;
+                double first, last;
                 Handle(Geom_Curve) curve = BRep_Tool::Curve(edge, first, last);
                 pt = curve->Value(last);
                 bool reversed;
@@ -3497,8 +3497,8 @@ struct WireOrienter
     }
 };
 
-typedef Standard_Real (gp_Pnt::*AxisGetter)() const;
-typedef void (gp_Pnt::*AxisSetter)(Standard_Real);
+typedef double (gp_Pnt::*AxisGetter)() const;
+typedef void (gp_Pnt::*AxisSetter)(double);
 
 std::list<TopoDS_Shape> Area::sortWires(const std::list<TopoDS_Shape>& shapes,
                                         bool has_start,
@@ -3624,7 +3624,7 @@ std::list<TopoDS_Shape> Area::sortWires(const std::list<TopoDS_Shape>& shapes,
             }
         }
 
-        BRepBndLib::Add(info.myShape, bounds, Standard_False);
+        BRepBndLib::Add(info.myShape, bounds, false);
     }
 
     if (use_bound || sort_mode == SortMode2D5 || sort_mode == SortModeGreedy) {
@@ -3663,7 +3663,7 @@ std::list<TopoDS_Shape> Area::sortWires(const std::list<TopoDS_Shape>& shapes,
     }
 
     bounds.SetGap(0.0);
-    Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+    double xMin, yMin, zMin, xMax, yMax, zMax;
     bounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
     AREA_TRACE("bound (" << xMin << ", " << xMax << "), (" << yMin << ", " << yMax << "), (" << zMin
                          << ", " << zMax << ')');
@@ -3758,7 +3758,7 @@ std::list<TopoDS_Shape> Area::sortWires(const std::list<TopoDS_Shape>& shapes,
                 // Can't use gp_pln.Distance(), because it only calculate
                 // the distance if two plane are parallel. And it checks
                 // parallelity using tolerance gp::Resolution() which is
-                // defined as DBL_MIN (min double) in Standard_Real.hxx.
+                // defined as DBL_MIN (min double).
                 // Really? Is that a bug?
                 const gp_Pnt& P = pln.Position().Location();
                 const gp_Pnt& loc = best_it->myPln.Position().Location();
@@ -3894,7 +3894,7 @@ static inline void addGCode(Toolpath& path, const char* name)
 void Area::setWireOrientation(TopoDS_Wire& wire, const gp_Dir& dir, bool wire_ccw)
 {
     // make a test face
-    BRepBuilderAPI_MakeFace mkFace(wire, /*onlyplane=*/Standard_True);
+    BRepBuilderAPI_MakeFace mkFace(wire, /*onlyplane=*/true);
     if (!mkFace.IsDone()) {
         AREA_WARN("setWireOrientation: failed to make test face");
         return;
@@ -3906,7 +3906,7 @@ void Area::setWireOrientation(TopoDS_Wire& wire, const gp_Dir& dir, bool wire_cc
 
     // unlikely, but just in case OCC decided to reverse our wire for the face...  take that into
     // account!
-    TopoDS_Iterator it(tmpFace, /*CumOri=*/Standard_False);
+    TopoDS_Iterator it(tmpFace, /*CumOri=*/false);
     ccw ^= it.Value().Orientation() != wire.Orientation();
 
     if (ccw != wire_ccw) {

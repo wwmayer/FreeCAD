@@ -3562,8 +3562,8 @@ bool SMESH_MeshEditor::SortHexaNodes (const SMDS_Mesh * theMesh,
 
   set<int> faceNodes;  // ids of bottom face nodes, to be found
   set<int> checkedId1; // ids of tried 2-nd nodes
-  Standard_Real leastDist = DBL_MAX; // dist of the 4-th node from 123 plane
-  const Standard_Real tol = 1.e-6;   // tolerance to find nodes in plane
+  double leastDist = DBL_MAX; // dist of the 4-th node from 123 plane
+  const double tol = 1.e-6;   // tolerance to find nodes in plane
   int iMin, iLoop1 = 0;
 
   // Loop to try the 2-nd nodes
@@ -3588,7 +3588,7 @@ bool SMESH_MeshEditor::SortHexaNodes (const SMDS_Mesh * theMesh,
     while ( ++iLoop2 < 6 ) {
 
       // get 1-2-3 plane coeffs
-      Standard_Real A, B, C, D;
+      double A, B, C, D;
       gp_Vec N = gp_Vec (P[0], P[1]).Crossed( gp_Vec (P[0], P[2]) );
       if ( N.SquareMagnitude() > gp::Resolution() )
       {
@@ -3596,7 +3596,7 @@ bool SMESH_MeshEditor::SortHexaNodes (const SMDS_Mesh * theMesh,
         pln.Coefficients( A, B, C, D );
 
         // find the node (iMin) closest to pln
-        Standard_Real dist[ 8 ], minDist = DBL_MAX;
+        double dist[ 8 ], minDist = DBL_MAX;
         set<int> idInPln;
         for ( i = 3; i < 8; i++ ) {
           dist[i] = A * P[i].X() + B * P[i].Y() + C * P[i].Z() + D;
@@ -3700,7 +3700,7 @@ bool SMESH_MeshEditor::SortHexaNodes (const SMDS_Mesh * theMesh,
 
   // Get direction from the bottom to the top face
   gp_Vec upDir ( aGCb, aGCt );
-  Standard_Real upDirSize = upDir.Magnitude();
+  double upDirSize = upDir.Magnitude();
   if ( upDirSize <= gp::Resolution() ) return false;
   upDir / upDirSize;
 
@@ -3713,11 +3713,11 @@ bool SMESH_MeshEditor::SortHexaNodes (const SMDS_Mesh * theMesh,
   }
 
   // Find 5-th node - the one closest to the 1-st among the last 4 nodes.
-  Standard_Real minDist = DBL_MAX;
+  double minDist = DBL_MAX;
   for ( i = 4; i < 8; i++ ) {
     // projection of P[i] to the plane defined by P[0] and upDir
     gp_Pnt Pp = P[i].Translated( upDir * ( upDir.Dot( gp_Vec( P[i], P[0] ))));
-    Standard_Real sqDist = P[0].SquareDistance( Pp );
+    double sqDist = P[0].SquareDistance( Pp );
     if ( sqDist < minDist ) {
       minDist = sqDist;
       iMin = i;
@@ -4341,7 +4341,7 @@ void SMESH_MeshEditor::Smooth (TIDSortedElemSet &          theElems,
 
         // node displacement
         gp_XYZ aNewPos ( node->X(), node->Y(), node->Z() );
-        Standard_Real aDispl = (aPrevPos - aNewPos).SquareModulus();
+        double aDispl = (aPrevPos - aNewPos).SquareModulus();
         if ( aDispl > maxDisplacement )
           maxDisplacement = aDispl;
       }
@@ -6433,7 +6433,7 @@ SMESH_MeshEditor::MakeEdgePathPoints(std::list<double>&                aPrms,
                                      bool                              FirstIsStart,
                                      list<SMESH_MeshEditor_PathPoint>& LPP)
 {
-  Standard_Real aTx1, aTx2, aL2, aTolVec, aTolVec2;
+  double aTx1, aTx2, aL2, aTolVec, aTolVec2;
   aTolVec=1.e-7;
   aTolVec2=aTolVec*aTolVec;
   double aT1, aT2;
@@ -6568,7 +6568,7 @@ SMESH_MeshEditor::MakeExtrElements(TIDSortedElemSet                  theElemSets
         if ( listNewNodes.empty() )
         {
           // make new nodes
-          Standard_Real aAngle1x, aAngleT1T0, aTolAng;
+          double aAngle1x, aAngleT1T0, aTolAng;
           gp_Pnt aP0x, aP1x, aPN0, aPN1, aV0x, aV1x;
           gp_Ax1 anAx1, anAxT1T0;
           gp_Dir aDT1x, aDT0x, aDT1T0;

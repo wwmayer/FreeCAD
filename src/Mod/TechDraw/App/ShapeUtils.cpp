@@ -167,10 +167,10 @@ gp_Pnt ShapeUtils::findCentroid(const TopoDS_Shape& shape)
     tBounds.SetGap(0.0);
     BRepBndLib::AddOptimal(shape, tBounds, true, false);
 
-    Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+    double xMin, yMin, zMin, xMax, yMax, zMax;
     tBounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
 
-    Standard_Real x = (xMin + xMax) / 2.0, y = (yMin + yMax) / 2.0, z = (zMin + zMax) / 2.0;
+    double x = (xMin + xMax) / 2.0, y = (yMin + yMax) / 2.0, z = (zMin + zMax) / 2.0;
 
     return gp_Pnt(x, y, z);
 }
@@ -197,10 +197,10 @@ gp_Pnt ShapeUtils::findCentroid(const TopoDS_Shape& shape, const gp_Ax2& viewAxi
     tBounds.SetGap(0.0);
     BRepBndLib::AddOptimal(builder.Shape(), tBounds, true, false);
 
-    Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+    double xMin, yMin, zMin, xMax, yMax, zMax;
     tBounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
 
-    Standard_Real x = (xMin + xMax) / 2.0, y = (yMin + yMax) / 2.0, z = (zMin + zMax) / 2.0;
+    double x = (xMin + xMax) / 2.0, y = (yMin + yMax) / 2.0, z = (zMin + zMax) / 2.0;
 
     // Get centroid back into object space
     tempTransform.Inverted().Transforms(x, y, z);

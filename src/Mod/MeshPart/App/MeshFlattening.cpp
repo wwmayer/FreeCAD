@@ -147,14 +147,14 @@ FaceUnwrapper::FaceUnwrapper(const TopoDS_Face& face)
         throw std::runtime_error("null triangulation in face construction");
     }
 
-    Standard_Integer numNodes = triangulation->NbNodes();
-    Standard_Integer numTriangles = triangulation->NbTriangles();
+    int numNodes = triangulation->NbNodes();
+    int numTriangles = triangulation->NbTriangles();
 
     //  compute uv coordinates
     if (triangulation->HasUVNodes()) {
         this->uv_nodes.resize(numNodes, 2);
         i = 0;
-        for (Standard_Integer index = 1; index <= numNodes; ++index) {
+        for (int index = 1; index <= numNodes; ++index) {
             const gp_Pnt2d& _uv_node = triangulation->UVNode(index);
             this->uv_nodes.row(i) << _uv_node.X(), _uv_node.Y();
             i++;
@@ -163,7 +163,7 @@ FaceUnwrapper::FaceUnwrapper(const TopoDS_Face& face)
     //
     this->xyz_nodes.resize(numNodes, 3);
     i = 0;
-    for (Standard_Integer index = 1; index <= numNodes; ++index) {
+    for (int index = 1; index <= numNodes; ++index) {
         gp_Pnt _node = triangulation->Node(index);
         this->xyz_nodes.row(i) << _node.X(), _node.Y(), _node.Z();
         i++;
@@ -171,7 +171,7 @@ FaceUnwrapper::FaceUnwrapper(const TopoDS_Face& face)
 
     this->tris.resize(numTriangles, 3);
     i = 0;
-    for (Standard_Integer index = 1; index <= numTriangles; ++index) {
+    for (int index = 1; index <= numTriangles; ++index) {
         int n1, n2, n3;
         const Poly_Triangle& _tri = triangulation->Triangle(index);
         _tri.Get(n1, n2, n3);

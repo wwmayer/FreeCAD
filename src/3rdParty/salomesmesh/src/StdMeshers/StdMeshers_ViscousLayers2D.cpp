@@ -1295,7 +1295,7 @@ void _ViscousBuilder2D::setLayerEdgeData( _LayerEdge&                 lEdge,
     faceProj->Perform( p );
     if ( !faceProj->IsDone() || faceProj->NbPoints() < 1 )
       return setLayerEdgeData( lEdge, u, pcurve, curve, p, reverse, NULL );
-    Standard_Real U,V;
+    double U,V;
     faceProj->LowerDistanceParameters(U,V);
     lEdge._normal2D.SetCoord( U - uv.X(), V - uv.Y() );
     lEdge._normal2D.Normalize();

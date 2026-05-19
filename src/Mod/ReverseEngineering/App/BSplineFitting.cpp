@@ -168,14 +168,14 @@ Handle(Geom_BSplineSurface) BSplineFitting::perform()
     int numUPoles = fit.m_nurbs.CVCount(0);
     int uDegree = fit.m_nurbs.Degree(0);
     bool uPeriodic = fit.m_nurbs.IsPeriodic(0) ? true : false;
-    std::map<Standard_Real, int> uKnots;
+    std::map<double, int> uKnots;
 
     // v parameters
     int numVKnots = fit.m_nurbs.KnotCount(1);
     int numVPoles = fit.m_nurbs.CVCount(1);
     int vDegree = fit.m_nurbs.Degree(1);
     bool vPeriodic = fit.m_nurbs.IsPeriodic(1) ? true : false;
-    std::map<Standard_Real, int> vKnots;
+    std::map<double, int> vKnots;
 
     TColgp_Array2OfPnt poles(1, numUPoles, 1, numVPoles);
     TColStd_Array2OfReal weights(1, numUPoles, 1, numVPoles);
@@ -186,7 +186,7 @@ Handle(Geom_BSplineSurface) BSplineFitting::perform()
             fit.m_nurbs.GetCV(i, j, cv);
             poles.SetValue(i + 1, j + 1, gp_Pnt(cv.x, cv.y, cv.z));
 
-            Standard_Real weight = fit.m_nurbs.Weight(i, j);
+            double weight = fit.m_nurbs.Weight(i, j);
             weights.SetValue(i + 1, j + 1, weight);
         }
     }
@@ -194,8 +194,8 @@ Handle(Geom_BSplineSurface) BSplineFitting::perform()
     uKnots[fit.m_nurbs.SuperfluousKnot(0, 0)] = 1;
     uKnots[fit.m_nurbs.SuperfluousKnot(0, 1)] = 1;
     for (int i = 0; i < numUKnots; i++) {
-        Standard_Real value = fit.m_nurbs.Knot(0, i);
-        std::map<Standard_Real, int>::iterator it = uKnots.find(value);
+        double value = fit.m_nurbs.Knot(0, i);
+        std::map<double, int>::iterator it = uKnots.find(value);
         if (it == uKnots.end()) {
             uKnots[value] = 1;
         }
@@ -207,8 +207,8 @@ Handle(Geom_BSplineSurface) BSplineFitting::perform()
     vKnots[fit.m_nurbs.SuperfluousKnot(1, 0)] = 1;
     vKnots[fit.m_nurbs.SuperfluousKnot(1, 1)] = 1;
     for (int i = 0; i < numVKnots; i++) {
-        Standard_Real value = fit.m_nurbs.Knot(1, i);
-        std::map<Standard_Real, int>::iterator it = vKnots.find(value);
+        double value = fit.m_nurbs.Knot(1, i);
+        std::map<double, int>::iterator it = vKnots.find(value);
         if (it == vKnots.end()) {
             vKnots[value] = 1;
         }
@@ -220,7 +220,7 @@ Handle(Geom_BSplineSurface) BSplineFitting::perform()
     TColStd_Array1OfReal uKnotArray(1, uKnots.size());
     TColStd_Array1OfInteger uMultArray(1, uKnots.size());
     int index = 1;
-    for (std::map<Standard_Real, int>::iterator it = uKnots.begin(); it != uKnots.end();
+    for (std::map<double, int>::iterator it = uKnots.begin(); it != uKnots.end();
          ++it, index++) {
         uKnotArray.SetValue(index, it->first);
         uMultArray.SetValue(index, it->second);
@@ -229,7 +229,7 @@ Handle(Geom_BSplineSurface) BSplineFitting::perform()
     TColStd_Array1OfReal vKnotArray(1, vKnots.size());
     TColStd_Array1OfInteger vMultArray(1, vKnots.size());
     index = 1;
-    for (std::map<Standard_Real, int>::iterator it = vKnots.begin(); it != vKnots.end();
+    for (std::map<double, int>::iterator it = vKnots.begin(); it != vKnots.end();
          ++it, index++) {
         vKnotArray.SetValue(index, it->first);
         vMultArray.SetValue(index, it->second);

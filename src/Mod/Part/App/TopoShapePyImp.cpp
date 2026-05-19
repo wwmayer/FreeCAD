@@ -917,11 +917,11 @@ PyObject*  TopoShapePy::ancestorsOfType(PyObject *args) const
         const TopTools_ListOfShape& ancestors = mapOfShapeShape.FindFromKey(shape);
 
         Py::List list;
-        std::set<Standard_Integer> hashes;
+        std::set<int> hashes;
         TopTools_ListIteratorOfListOfShape it(ancestors);
         for (; it.More(); it.Next()) {
             // make sure to avoid duplicates
-            Standard_Integer code = ShapeMapHasher{}(it.Value());
+            int code = ShapeMapHasher{}(it.Value());
             if (hashes.find(code) == hashes.end()) {
                 list.append(shape2pyshape(it.Value()));
                 hashes.insert(code);
@@ -1431,7 +1431,7 @@ PyObject*  TopoShapePy::isEqual(PyObject *args) const
         return nullptr;
 
     TopoDS_Shape shape = static_cast<TopoShapePy*>(pcObj)->getTopoShapePtr()->getShape();
-    Standard_Boolean test = (getTopoShapePtr()->getShape().IsEqual(shape));
+    bool test = (getTopoShapePtr()->getShape().IsEqual(shape));
 
     return Py_BuildValue("O", (test ? Py_True : Py_False));
 }
@@ -1443,7 +1443,7 @@ PyObject*  TopoShapePy::isSame(PyObject *args) const
         return nullptr;
 
     TopoDS_Shape shape = static_cast<TopoShapePy*>(pcObj)->getTopoShapePtr()->getShape();
-    Standard_Boolean test = getTopoShapePtr()->getShape().IsSame(shape);
+    bool test = getTopoShapePtr()->getShape().IsSame(shape);
 
     return Py_BuildValue("O", (test ? Py_True : Py_False));
 }
@@ -1455,7 +1455,7 @@ PyObject*  TopoShapePy::isPartner(PyObject *args) const
         return nullptr;
 
     TopoDS_Shape shape = static_cast<TopoShapePy*>(pcObj)->getTopoShapePtr()->getShape();
-    Standard_Boolean test = getTopoShapePtr()->getShape().IsPartner(shape);
+    bool test = getTopoShapePtr()->getShape().IsPartner(shape);
 
     return Py_BuildValue("O", (test ? Py_True : Py_False));
 }
@@ -1589,8 +1589,8 @@ PyObject* TopoShapePy::project(PyObject *args) const
             }
         }
 
-        algo.Compute3d(Standard_True);
-        algo.SetLimit(Standard_True);
+        algo.Compute3d(true);
+        algo.SetLimit(true);
         algo.SetParams(1.e-6, 1.e-6, GeomAbs_C1, 14, 10000);
         //algo.SetDefaultParams();
         algo.Build();
@@ -1833,16 +1833,16 @@ PyObject*  TopoShapePy::isInside(PyObject *args) const
                 PyErr_SetString(PartExceptionOCCError, "Failed to determine distance to shape");
                 return nullptr;
             }
-            Standard_Boolean test = (extss.Value() <= tolerance);
+            bool test = (extss.Value() <= tolerance);
             return Py_BuildValue("O", (test ? Py_True : Py_False));
         }
         else {
             BRepClass3d_SolidClassifier solidClassifier(shape);
             solidClassifier.Perform(vertex, tolerance);
-            Standard_Boolean test = (solidClassifier.State() == stateIn);
+            bool test = (solidClassifier.State() == stateIn);
 
             if (Base::asBoolean(checkFace) && solidClassifier.IsOnAFace())
-                test = Standard_True;
+                test = true;
             return Py_BuildValue("O", (test ? Py_True : Py_False));
         }
     }
@@ -2060,7 +2060,7 @@ PyObject* TopoShapePy::limitTolerance(PyObject *args) const
         }
 
         ShapeFix_ShapeTolerance fix;
-        Standard_Boolean ok = fix.LimitTolerance(shape, tmin, tmax, shapetype);
+        bool ok = fix.LimitTolerance(shape, tmin, tmax, shapetype);
         return PyBool_FromLong(ok ? 1 : 0);
     }
     catch (Standard_Failure& e) {
@@ -2092,7 +2092,7 @@ PyObject* TopoShapePy::proximity(PyObject *args) const
     using BRepExtrema_OverlappedSubShapes = BRepExtrema_MapOfIntegerPackedMapOfInteger;
 
     PyObject* ps2;
-    Standard_Real tol = Precision::Confusion();
+    double tol = Precision::Confusion();
     if (!PyArg_ParseTuple(args, "O!|d",&(TopoShapePy::Type), &ps2, &tol))
         return nullptr;
 
@@ -2143,8 +2143,8 @@ PyObject* TopoShapePy::distToShape(PyObject *args) const
     gp_Pnt P1, P2;
     BRepExtrema_SupportType supportType1, supportType2;
     TopoDS_Shape suppS1, suppS2;
-    Standard_Real minDist = -1, t1, t2, u1, v1, u2, v2;
-    Standard_Real tol = Precision::Confusion();
+    double minDist = -1, t1, t2, u1, v1, u2, v2;
+    double tol = Precision::Confusion();
 
     if (!PyArg_ParseTuple(args, "O!|d",&(TopoShapePy::Type), &ps2, &tol))
         return nullptr;
@@ -2299,7 +2299,7 @@ PyObject* TopoShapePy::optimalBoundingBox(PyObject *args) const
                                Base::asBoolean(useT),
                                Base::asBoolean(useS));
         bounds.SetGap(0.0);
-        Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+        double xMin, yMin, zMin, xMax, yMax, zMax;
         bounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
 
         Base::BoundBox3d box;

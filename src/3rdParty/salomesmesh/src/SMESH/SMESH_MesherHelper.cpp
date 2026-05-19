@@ -617,11 +617,11 @@ gp_XY SMESH_MesherHelper::GetNodeUV(const TopoDS_Face&   F,
     { // adjust uv to period
       TopLoc_Location loc;
       Handle(Geom_Surface) S = BRep_Tool::Surface(F,loc);
-      Standard_Boolean isUPeriodic = S->IsUPeriodic();
-      Standard_Boolean isVPeriodic = S->IsVPeriodic();
+      bool isUPeriodic = S->IsUPeriodic();
+      bool isVPeriodic = S->IsVPeriodic();
       gp_Pnt2d newUV = uv;
       if ( isUPeriodic || isVPeriodic ) {
-        Standard_Real UF,UL,VF,VL;
+        double UF,UL,VF,VL;
         S->Bounds(UF,UL,VF,VL);
         if ( isUPeriodic ) newUV.SetX( uv.X() + ShapeAnalysis::AdjustToPeriod(uv.X(),UF,UL));
         if ( isVPeriodic ) newUV.SetY( uv.Y() + ShapeAnalysis::AdjustToPeriod(uv.Y(),VF,VL));
@@ -764,7 +764,7 @@ bool SMESH_MesherHelper::CheckNodeUV(const TopoDS_Face&   F,
         MESSAGE( "SMESH_MesherHelper::CheckNodeUV() failed to project" );
         return false;
       }
-      Standard_Real U,V;
+      double U,V;
       projector.LowerDistanceParameters(U,V);
       uv.SetCoord( U,V );
       surfPnt = surface->Value( U, V );
@@ -857,8 +857,8 @@ gp_XY SMESH_MesherHelper::ApplyIn2D(Handle(Geom_Surface) surface,
 {
   if ( surface->IsKind(STANDARD_TYPE(Geom_RectangularTrimmedSurface )))
     surface = Handle(Geom_RectangularTrimmedSurface)::DownCast( surface )->BasisSurface();
-  Standard_Boolean isUPeriodic = surface.IsNull() ? false : surface->IsUPeriodic();
-  Standard_Boolean isVPeriodic = surface.IsNull() ? false : surface->IsVPeriodic();
+  bool isUPeriodic = surface.IsNull() ? false : surface->IsUPeriodic();
+  bool isVPeriodic = surface.IsNull() ? false : surface->IsVPeriodic();
   if ( !isUPeriodic && !isVPeriodic )
     return fun(uv1,uv2);
 
@@ -874,7 +874,7 @@ gp_XY SMESH_MesherHelper::ApplyIn2D(Handle(Geom_Surface) surface,
   // move result within period
   if ( resultInPeriod )
   {
-    Standard_Real UF,UL,VF,VL;
+    double UF,UL,VF,VL;
     surface->Bounds(UF,UL,VF,VL);
     if ( isUPeriodic )
       res.SetX( res.X() + ShapeAnalysis::AdjustToPeriod(res.X(),UF,UL));
@@ -978,7 +978,7 @@ double SMESH_MesherHelper::GetNodeU(const TopoDS_Edge&   E,
   {
     if ( inEdgeNode && TopExp::FirstVertex( E ).IsSame( TopExp::LastVertex( E ))) // issue 0020128
     {
-      Standard_Real f,l;
+      double f,l;
       BRep_Tool::Range( E, f,l );
       double uInEdge = GetNodeU( E, inEdgeNode );
       param = ( fabs( uInEdge - f ) < fabs( l - uInEdge )) ? f : l;
@@ -1070,7 +1070,7 @@ bool SMESH_MesherHelper::CheckNodeU(const TopoDS_Edge&   E,
           MESSAGE( "SMESH_MesherHelper::CheckNodeU() failed to project" );
           return false;
         }
-        Standard_Real U = projector->LowerDistanceParameter();
+        double U = projector->LowerDistanceParameter();
         u = double( U );
         MESSAGE(" f " << f << " l " << l << " u " << u);
         curvPnt = curve->Value( u );
@@ -1701,12 +1701,12 @@ const SMDS_MeshNode* SMESH_MesherHelper::GetMediumNode(const SMDS_MeshNode* n1,
       Handle(Geom_Curve) C = BRep_Tool::Curve(E, f, l);
       if(!C.IsNull())
       {
-        Standard_Boolean isPeriodic = C->IsPeriodic();
+        bool isPeriodic = C->IsPeriodic();
         double U;
         if(isPeriodic) {
-          Standard_Real Period = C->Period();
-          Standard_Real p = u[1]+ShapeAnalysis::AdjustByPeriod(u[1],u[0],Period);
-          Standard_Real pmid = (u[0]+p)/2.;
+          double Period = C->Period();
+          double p = u[1]+ShapeAnalysis::AdjustByPeriod(u[1],u[0],Period);
+          double pmid = (u[0]+p)/2.;
           U = pmid+ShapeAnalysis::AdjustToPeriod(pmid,C->FirstParameter(),C->LastParameter());
         }
         else

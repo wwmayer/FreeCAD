@@ -97,7 +97,7 @@ PyObject* PointConstraintPy::order(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Integer v = getGeomPlate_PointConstraintPtr()->Order();
+        int v = getGeomPlate_PointConstraintPtr()->Order();
         return PyLong_FromLong(v);
     }
     catch (const Standard_Failure& e) {
@@ -112,7 +112,7 @@ PyObject* PointConstraintPy::G0Criterion(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = getGeomPlate_PointConstraintPtr()->G0Criterion();
+        double v = getGeomPlate_PointConstraintPtr()->G0Criterion();
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
@@ -127,7 +127,7 @@ PyObject* PointConstraintPy::G1Criterion(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = getGeomPlate_PointConstraintPtr()->G1Criterion();
+        double v = getGeomPlate_PointConstraintPtr()->G1Criterion();
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
@@ -142,7 +142,7 @@ PyObject* PointConstraintPy::G2Criterion(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = getGeomPlate_PointConstraintPtr()->G2Criterion();
+        double v = getGeomPlate_PointConstraintPtr()->G2Criterion();
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
@@ -205,7 +205,7 @@ PyObject* PointConstraintPy::hasPnt2dOnSurf(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Boolean ok = getGeomPlate_PointConstraintPtr()->HasPnt2dOnSurf();
+        bool ok = getGeomPlate_PointConstraintPtr()->HasPnt2dOnSurf();
         return Py_BuildValue("O", (ok ? Py_True : Py_False));
     }
     catch (const Standard_Failure& e) {
