@@ -39,6 +39,7 @@
 #include "TopoShapeVertexPy.h"
 #include "TopoShapeVertexPy.cpp"
 #include "PointPy.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -157,8 +158,7 @@ Py::Float TopoShapeVertexPy::getX() const
         return Py::Float(BRep_Tool::Pnt(v).X());
     }
     catch (Standard_Failure& e) {
-
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -169,8 +169,7 @@ Py::Float TopoShapeVertexPy::getY() const
         return Py::Float(BRep_Tool::Pnt(v).Y());
     }
     catch (Standard_Failure& e) {
-
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -181,8 +180,7 @@ Py::Float TopoShapeVertexPy::getZ() const
         return Py::Float(BRep_Tool::Pnt(v).Z());
     }
     catch (Standard_Failure& e) {
-
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -196,8 +194,7 @@ Py::Object TopoShapeVertexPy::getPoint() const
         return Py::asObject(pnt);
     }
     catch (Standard_Failure& e) {
-
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 

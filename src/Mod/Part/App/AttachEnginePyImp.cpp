@@ -104,7 +104,7 @@ Py::String AttachEnginePy::getAttacherType() const
   */
 #define ATTACHERPY_STDCATCH_ATTR \
     catch (Standard_Failure& e) {\
-        throw Py::Exception(Part::PartExceptionOCCError, e.GetMessageString());\
+        throw Py::Exception(Part::PartExceptionOCCError, Part::toString(e));\
     } catch (Base::Exception &e) {\
         e.setPyException();\
         throw Py::Exception();\
@@ -251,7 +251,7 @@ Py::List AttachEnginePy::getImplementedModes() const
   */
 #define ATTACHERPY_STDCATCH_METH \
     catch (Standard_Failure& e) {\
-        PyErr_SetString(Part::PartExceptionOCCError, e.GetMessageString());\
+        PyErr_SetString(Part::PartExceptionOCCError, Part::toString(e));\
         return NULL;\
     } catch (Base::Exception &e) {\
         PyErr_SetString(Base::PyExc_FC_GeneralError, e.what());\

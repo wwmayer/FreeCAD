@@ -37,6 +37,7 @@
 #endif
 
 #include "FeatureGordonSurface.h"
+#include <Mod/Part/App/OCCError.h>
 #include "occ_gordon/src/occ_gordon/occ_gordon.h"
 
 
@@ -160,6 +161,6 @@ App::DocumentObjectExecReturn* GordonSurface::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (const Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }

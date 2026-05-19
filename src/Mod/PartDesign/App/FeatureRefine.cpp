@@ -31,6 +31,7 @@
 #include <App/FeaturePythonPyImp.h>
 #include <Base/Parameter.h>
 #include <Mod/Part/App/modelRefine.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "FeatureRefine.h"
 #include "FeaturePy.h"
@@ -92,7 +93,7 @@ TopoShape FeatureRefine::refineShapeIfActive(const TopoShape& oldShape,
     catch (Standard_Failure& err) {
         if (onError == RefineErrorPolicy::Warn) {
             Base::Console().Warning(
-                fmt::format("Refine failed: {}", err.GetMessageString()).c_str());
+                fmt::format("Refine failed: {}", Part::toString(err)).c_str());
         }
         else {
             throw;

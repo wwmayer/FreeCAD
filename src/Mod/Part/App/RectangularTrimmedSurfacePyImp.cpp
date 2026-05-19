@@ -102,7 +102,7 @@ PyObject* RectangularTrimmedSurfacePy::setTrim(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }

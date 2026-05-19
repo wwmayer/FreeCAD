@@ -84,6 +84,7 @@
 #include <Gui/ViewParams.h>
 #include <Mod/Part/App/ShapeMapHasher.h>
 #include <Mod/Part/App/Tools.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "ViewProviderExt.h"
 #include "ViewProviderPartExtPy.h"
@@ -1306,7 +1307,7 @@ void ViewProviderPartExt::updateVisual()
     }
     catch (const Standard_Failure& e) {
         FC_ERR("Cannot compute Inventor representation for the shape of "
-               << pcObject->getFullName() << ": " << e.GetMessageString());
+               << pcObject->getFullName() << ": " << Part::toString(e));
     }
     catch (...) {
         FC_ERR("Cannot compute Inventor representation for the shape of " << pcObject->getFullName());

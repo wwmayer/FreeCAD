@@ -72,6 +72,7 @@
 #include <Base/Numbers.h>
 
 #include "modelRefine.h"
+#include "OCCError.h"
 
 
 using namespace ModelRefine;
@@ -943,8 +944,8 @@ bool FaceTypedBSpline::isEqual(const TopoDS_Face &faceOne, const TopoDS_Face &fa
   catch (Standard_Failure& e)
   {
     std::ostringstream stream;
-    if (e.GetMessageString())
-      stream << "FaceTypedBSpline::isEqual: OCC Error: " << e.GetMessageString() << std::endl;
+    if (const char* msg = Part::toString(e))
+      stream << "FaceTypedBSpline::isEqual: OCC Error: " << msg << std::endl;
     else
       stream << "FaceTypedBSpline::isEqual: Unknown OCC Error" << std::endl;
     Base::Console().Message(stream.str().c_str());

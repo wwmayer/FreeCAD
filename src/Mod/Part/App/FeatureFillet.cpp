@@ -35,6 +35,7 @@
 
 #include "FeatureFillet.h"
 #include "TopoShapeOpCode.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -93,7 +94,7 @@ App::DocumentObjectExecReturn *Fillet::execute()
         return Part::FilletBase::execute();
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
     catch (...) {
         return new App::DocumentObjectExecReturn("A fatal error occurred when making fillets");

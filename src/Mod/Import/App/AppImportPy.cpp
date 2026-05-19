@@ -63,6 +63,7 @@
 #include <Mod/Part/App/PartFeaturePy.h>
 #include <Mod/Part/App/TopoShapePy.h>
 #include <Mod/Part/App/encodeFilename.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "ImportOCAF2.h"
 #include "ReaderGltf.h"
@@ -160,7 +161,7 @@ private:
                     reader.read(hDoc);
                 }
                 catch (OSD_Exception& e) {
-                    Base::Console().Error("%s\n", e.GetMessageString());
+                    Base::Console().Error("%s\n", Part::toString(e));
                     Base::Console().Message("Try to load STEP file without colors...\n");
 
                     Part::ImportStepParts(pcDoc, Utf8Name.c_str());
@@ -173,7 +174,7 @@ private:
                     reader.read(hDoc);
                 }
                 catch (OSD_Exception& e) {
-                    Base::Console().Error("%s\n", e.GetMessageString());
+                    Base::Console().Error("%s\n", Part::toString(e));
                     Base::Console().Message("Try to load IGES file without colors...\n");
 
                     Part::ImportIgesParts(pcDoc, Utf8Name.c_str());
@@ -223,7 +224,7 @@ private:
             }
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(Base::PyExc_FC_GeneralError, e.GetMessageString());
+            throw Py::Exception(Base::PyExc_FC_GeneralError, Part::toString(e));
         }
         catch (const Base::Exception& e) {
             e.setPyException();
@@ -352,7 +353,7 @@ private:
             hApp->Close(hDoc);
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(Base::PyExc_FC_GeneralError, e.GetMessageString());
+            throw Py::Exception(Base::PyExc_FC_GeneralError, Part::toString(e));
         }
         catch (const Base::Exception& e) {
             e.setPyException();
@@ -418,7 +419,7 @@ private:
             pcDoc->recompute();
         }
         catch (const Standard_Failure& e) {
-            throw Py::RuntimeError(e.GetMessageString());
+            throw Py::RuntimeError(Part::toString(e));
         }
         catch (const Base::Exception& e) {
             throw Py::RuntimeError(e.what());

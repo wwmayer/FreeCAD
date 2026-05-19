@@ -45,6 +45,7 @@
 
 #include "ImportIges.h"
 #include "PartFeature.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -109,7 +110,7 @@ int Part::ImportIgesParts(App::Document *pcDoc, const char* FileName)
         }
     }
     catch (Standard_Failure& e) {
-        throw Base::CADKernelError(e.GetMessageString());
+        throw Base::CADKernelError(Part::toString(e));
     }
 
     return 0;

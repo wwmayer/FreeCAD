@@ -154,7 +154,7 @@ int Line2dSegmentPy::PyInit(PyObject* args, PyObject* /*kwd*/)
         }
         catch (Standard_Failure& e) {
 
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
         catch (...) {
@@ -185,7 +185,7 @@ PyObject* Line2dSegmentPy::setParameterRange(PyObject *args)
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -242,7 +242,7 @@ void Line2dSegmentPy::setStartPoint(Py::Object arg)
         this_curv->SetTrim(that_curv->FirstParameter(), that_curv->LastParameter());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -296,7 +296,7 @@ void Line2dSegmentPy::setEndPoint(Py::Object arg)
         this_curv->SetTrim(that_curv->FirstParameter(), that_curv->LastParameter());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 

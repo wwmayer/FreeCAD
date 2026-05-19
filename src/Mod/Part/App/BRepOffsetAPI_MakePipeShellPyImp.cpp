@@ -83,7 +83,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::setFrenetMode(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -102,7 +102,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::setTrihedronMode(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -119,7 +119,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::setBiNormalMode(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -136,7 +136,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::setSpineSupport(PyObject *args)
         return Py::new_reference_to(Py::Boolean(ok ? true : false));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -175,7 +175,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::setAuxiliarySpine(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -192,7 +192,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::add(PyObject *args, PyObject *kwds)
             Py_Return;
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -211,7 +211,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::add(PyObject *args, PyObject *kwds)
             Py_Return;
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -235,7 +235,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::remove(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -250,7 +250,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::isReady(PyObject *args)
         return Py::new_reference_to(Py::Boolean(ok ? true : false));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -265,7 +265,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::getStatus(PyObject *args)
         return Py::new_reference_to(Py::Long(val));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -280,7 +280,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::makeSolid(PyObject *args)
         return Py::new_reference_to(Py::Boolean(ok ? true : false));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -295,7 +295,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::build(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -310,7 +310,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::shape(PyObject *args)
         return new TopoShapePy(new TopoShape(shape));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -325,7 +325,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::firstShape(PyObject *args)
         return new TopoShapePy(new TopoShape(shape));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -340,7 +340,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::lastShape(PyObject *args)
         return new TopoShapePy(new TopoShape(shape));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -364,7 +364,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::generated(PyObject *args)
         return Py::new_reference_to(shapes);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -380,7 +380,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::setTolerance(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -396,7 +396,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::setTransitionMode(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -412,7 +412,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::setMaxDegree(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -428,7 +428,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::setMaxSegments(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -444,7 +444,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::setForceApproxC1(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -469,7 +469,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::simulate(PyObject *args)
         return Py::new_reference_to(shapes);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }

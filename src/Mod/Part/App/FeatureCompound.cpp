@@ -30,6 +30,7 @@
 #endif
 
 #include "FeatureCompound.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -76,7 +77,7 @@ App::DocumentObjectExecReturn *Compound::execute()
         return Part::Feature::execute();
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 

@@ -29,6 +29,7 @@
 // clang-format on
 #include <Base/VectorPy.h>
 #include <Mod/Part/App/BezierCurvePy.h>
+#include <Mod/Part/App/OCCError.h>
 
 using namespace Surface;
 
@@ -90,7 +91,7 @@ PyObject* BlendCurvePy::setSize(PyObject* args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }

@@ -36,6 +36,7 @@
 #include "ShapeUpgrade/UnifySameDomainPy.cpp"
 #include "PartPyCXX.h"
 #include "TopoShapePy.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -74,7 +75,7 @@ int UnifySameDomainPy::PyInit(PyObject* args, PyObject* kwds)
         return 0;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return -1;
     }
 }
@@ -105,7 +106,7 @@ PyObject* UnifySameDomainPy::initialize(PyObject *args, PyObject* kwds)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -127,7 +128,7 @@ PyObject* UnifySameDomainPy::allowInternalEdges(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -144,7 +145,7 @@ PyObject* UnifySameDomainPy::keepShape(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -167,7 +168,7 @@ PyObject* UnifySameDomainPy::keepShapes(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -183,7 +184,7 @@ PyObject* UnifySameDomainPy::setSafeInputMode(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -199,7 +200,7 @@ PyObject* UnifySameDomainPy::setLinearTolerance(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -215,7 +216,7 @@ PyObject* UnifySameDomainPy::setAngularTolerance(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -230,7 +231,7 @@ PyObject* UnifySameDomainPy::build(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -245,7 +246,7 @@ PyObject* UnifySameDomainPy::shape(PyObject *args) const
         return new TopoShapePy(new TopoShape(shape));
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }

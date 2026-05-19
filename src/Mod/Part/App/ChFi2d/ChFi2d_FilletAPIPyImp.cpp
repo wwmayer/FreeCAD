@@ -35,6 +35,7 @@
 #include "TopoShapeWirePy.h"
 #include "PlanePy.h"
 #include "Tools.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -128,7 +129,7 @@ PyObject* ChFi2d_FilletAPIPy::perform(PyObject *args)
         return Py::new_reference_to(Py::Boolean(ok));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }
@@ -145,7 +146,7 @@ PyObject* ChFi2d_FilletAPIPy::numberOfResults(PyObject *args)
         return Py::new_reference_to(Py::Long(num));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }
@@ -169,7 +170,7 @@ PyObject* ChFi2d_FilletAPIPy::result(PyObject *args)
         return Py::new_reference_to(tuple);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }

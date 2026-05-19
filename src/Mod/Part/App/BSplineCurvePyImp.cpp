@@ -180,7 +180,7 @@ PyObject* BSplineCurvePy::increaseMultiplicity(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -197,7 +197,7 @@ PyObject* BSplineCurvePy::incrementMultiplicity(PyObject * args)
         curve->IncrementMultiplicity(start, end, mult);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -218,7 +218,7 @@ PyObject* BSplineCurvePy::insertKnot(PyObject * args)
         curve->InsertKnot(U, M, tol, Base::asBoolean(add));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -258,7 +258,7 @@ PyObject* BSplineCurvePy::insertKnots(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -279,7 +279,7 @@ PyObject* BSplineCurvePy::removeKnot(PyObject * args)
         return PyBool_FromLong(ok ? 1 : 0);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -305,7 +305,7 @@ PyObject* BSplineCurvePy::segment(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -325,7 +325,7 @@ PyObject* BSplineCurvePy::split(PyObject * args) const
         return Py::new_reference_to(tuple);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -350,7 +350,7 @@ PyObject* BSplineCurvePy::setKnot(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -369,7 +369,7 @@ PyObject* BSplineCurvePy::getKnot(PyObject * args) const
         return Py_BuildValue("d",M);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -394,7 +394,7 @@ PyObject* BSplineCurvePy::setKnots(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -415,7 +415,7 @@ PyObject* BSplineCurvePy::getKnots(PyObject * args) const
         return Py::new_reference_to(knots);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -439,7 +439,7 @@ PyObject* BSplineCurvePy::setPole(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -460,7 +460,7 @@ PyObject* BSplineCurvePy::getPole(PyObject * args) const
         return vec;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -484,7 +484,7 @@ PyObject* BSplineCurvePy::getPoles(PyObject * args) const
         return Py::new_reference_to(poles);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -515,7 +515,7 @@ PyObject* BSplineCurvePy::getPolesAndWeights(PyObject * args) const
         return Py::new_reference_to(poles);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -533,7 +533,7 @@ PyObject* BSplineCurvePy::setWeight(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -552,7 +552,7 @@ PyObject* BSplineCurvePy::getWeight(PyObject * args) const
         return Py_BuildValue("d", weight);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -573,7 +573,7 @@ PyObject* BSplineCurvePy::getWeights(PyObject * args) const
         return Py::new_reference_to(weights);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -591,7 +591,7 @@ PyObject* BSplineCurvePy::getResolution(PyObject * args) const
         return Py_BuildValue("d",utol);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -612,7 +612,7 @@ PyObject* BSplineCurvePy::movePoint(PyObject * args)
         return Py_BuildValue("(ii)",first, last);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -628,7 +628,7 @@ PyObject* BSplineCurvePy::setNotPeriodic(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -644,7 +644,7 @@ PyObject* BSplineCurvePy::setPeriodic(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -661,7 +661,7 @@ PyObject* BSplineCurvePy::setOrigin(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -678,7 +678,7 @@ PyObject* BSplineCurvePy::getMultiplicity(PyObject * args) const
         return Py_BuildValue("i", mult);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -699,7 +699,7 @@ PyObject* BSplineCurvePy::getMultiplicities(PyObject * args) const
         return Py::new_reference_to(mults);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -804,7 +804,7 @@ PyObject* BSplineCurvePy::toBiArcs(PyObject * args) const
         return Py::new_reference_to(list);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -952,7 +952,7 @@ PyObject* BSplineCurvePy::approximate(PyObject *args, PyObject *kwds)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1188,7 +1188,7 @@ PyObject* BSplineCurvePy::buildFromPoles(PyObject *args)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1333,7 +1333,7 @@ PyObject* BSplineCurvePy::buildFromPolesMultsKnots(PyObject *args, PyObject *key
         }
     }
     catch (const Standard_Failure& e) {
-        const char* msg = e.GetMessageString();
+        const char* msg = Part::toString(e);
         PyErr_SetString(PartExceptionOCCError, msg  ? msg : "");
         return nullptr;
     }
@@ -1360,7 +1360,7 @@ PyObject* BSplineCurvePy::toBezier(PyObject *args) const
         return Py::new_reference_to(list);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1382,7 +1382,7 @@ PyObject* BSplineCurvePy::join(PyObject *args)
         return PyBool_FromLong(ok ? 1 : 0);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }

@@ -1550,13 +1550,17 @@ bool SMESH_subMesh::ComputeStateEngine(int event)
           _computeError->myName    = COMPERR_OCC_EXCEPTION;
 #if OCC_VERSION_HEX >= 0x080000
           _computeError->myComment += ex.ExceptionType();
+          if ( ex.what() && strlen( ex.what() )) {
+              _computeError->myComment += ": ";
+              _computeError->myComment += ex.what();
+          }
 #else
           _computeError->myComment += ex.DynamicType()->Name();
-#endif
           if ( ex.GetMessageString() && strlen( ex.GetMessageString() )) {
             _computeError->myComment += ": ";
             _computeError->myComment += ex.GetMessageString();
           }
+#endif
         }
         catch ( SALOME_Exception& S_ex ) {
           const int skipSalomeShift = 7; /* to skip "Salome " of

@@ -29,6 +29,7 @@
 #include <Base/Reader.h>
 
 #include "FeaturePartBox.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -75,7 +76,7 @@ App::DocumentObjectExecReturn *Box::execute()
         return Primitive::execute();
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 

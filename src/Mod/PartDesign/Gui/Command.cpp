@@ -46,6 +46,7 @@
 #include <Gui/Selection/Selection.h>
 #include <Gui/Selection/SelectionObject.h>
 #include <Mod/Sketcher/App/SketchObject.h>
+#include <Mod/Part/App/OCCError.h>
 #include <Mod/PartDesign/App/Body.h>
 #include <Mod/PartDesign/App/FeatureBoolean.h>
 #include <Mod/PartDesign/App/FeatureGroove.h>
@@ -148,7 +149,7 @@ void UnifiedDatumCommand(Gui::Command &cmd, Base::Type type, std::string name)
     } catch (Base::Exception &e) {
         QMessageBox::warning(Gui::getMainWindow(),QObject::tr("Error"),QApplication::translate("Exception", e.what()));
     } catch (Standard_Failure &e) {
-        QMessageBox::warning(Gui::getMainWindow(),QObject::tr("Error"),QString::fromUtf8(e.GetMessageString()));
+        QMessageBox::warning(Gui::getMainWindow(),QObject::tr("Error"),QString::fromUtf8(Part::toString(e)));
     }
 }
 
@@ -416,7 +417,7 @@ void CmdPartDesignSubShapeBinder::activated(int iMsg)
     }
     catch (const Standard_Failure &e) {
         QMessageBox::critical(Gui::getMainWindow(),
-                QObject::tr("Sub-Shape Binder"), QApplication::translate("Exception", e.GetMessageString()));
+                QObject::tr("Sub-Shape Binder"), QApplication::translate("Exception", Part::toString(e)));
         abortCommand();
     }
 }

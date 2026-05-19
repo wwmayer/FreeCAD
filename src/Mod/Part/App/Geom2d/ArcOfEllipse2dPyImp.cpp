@@ -71,7 +71,7 @@ int ArcOfEllipse2dPy::PyInit(PyObject* args, PyObject* /*kwds*/)
         }
         catch (Standard_Failure& e) {
 
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
         catch (...) {

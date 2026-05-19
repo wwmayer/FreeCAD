@@ -117,7 +117,7 @@ PyObject* GeometryCurvePy::toShape(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -319,7 +319,7 @@ PyObject* GeometryCurvePy::length(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -344,7 +344,7 @@ PyObject* GeometryCurvePy::parameterAtDistance(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -367,7 +367,7 @@ PyObject* GeometryCurvePy::getD0(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -394,7 +394,7 @@ PyObject* GeometryCurvePy::getD1(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -422,7 +422,7 @@ PyObject* GeometryCurvePy::getD2(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -451,7 +451,7 @@ PyObject* GeometryCurvePy::getD3(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -474,7 +474,7 @@ PyObject* GeometryCurvePy::getDN(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -496,7 +496,7 @@ PyObject* GeometryCurvePy::value(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -525,7 +525,7 @@ PyObject* GeometryCurvePy::tangent(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -549,7 +549,7 @@ PyObject* GeometryCurvePy::normal(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -621,7 +621,7 @@ PyObject* GeometryCurvePy::projectPoint(PyObject *args, PyObject* kwds) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -641,7 +641,7 @@ PyObject* GeometryCurvePy::curvature(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -665,7 +665,7 @@ PyObject* GeometryCurvePy::centerOfCurvature(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -728,7 +728,7 @@ PyObject* GeometryCurvePy::makeRuledSurface(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -777,7 +777,7 @@ PyObject* GeometryCurvePy::intersect2d(PyObject *args) const
         return Py::new_reference_to(list);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -798,7 +798,7 @@ PyObject* GeometryCurvePy::toBSpline(PyObject * args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -822,7 +822,7 @@ PyObject* GeometryCurvePy::toNurbs(PyObject * args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -845,7 +845,7 @@ PyObject* GeometryCurvePy::trim(PyObject * args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -898,7 +898,7 @@ PyObject* GeometryCurvePy::approximateBSpline(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -973,7 +973,7 @@ PyObject* GeometryCurvePy::continuityWith(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -1073,7 +1073,7 @@ PyObject* GeometryCurvePy::intersectCS(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 
@@ -1133,7 +1133,7 @@ PyObject* GeometryCurvePy::intersect(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 
@@ -1162,7 +1162,7 @@ PyObject* GeometryCurvePy::reverse(PyObject *args)
         c->Reverse();
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
     Py_Return;
@@ -1180,7 +1180,7 @@ PyObject* GeometryCurvePy::reversedParameter(PyObject *args) const
         return PyFloat_FromDouble(val);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1196,7 +1196,7 @@ PyObject* GeometryCurvePy::isPeriodic(PyObject *args) const
         return PyBool_FromLong(val ? 1 : 0);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1212,7 +1212,7 @@ PyObject* GeometryCurvePy::period(PyObject *args) const
         return PyFloat_FromDouble(val);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1228,7 +1228,7 @@ PyObject* GeometryCurvePy::isClosed(PyObject *args) const
         return PyBool_FromLong(val ? 1 : 0);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }

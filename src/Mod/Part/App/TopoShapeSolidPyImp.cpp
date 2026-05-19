@@ -92,7 +92,7 @@ int TopoShapeSolidPy::PyInit(PyObject* args, PyObject* /*kwd*/)
     }
     catch (Standard_Failure& err) {
         std::stringstream errmsg;
-        errmsg << "Creation of solid failed: " << err.GetMessageString();
+        errmsg << "Creation of solid failed: " << Part::toString(err);
         PyErr_SetString(PartExceptionOCCError, errmsg.str().c_str());
         return -1;
     }
@@ -206,7 +206,7 @@ PyObject* TopoShapeSolidPy::getMomentOfInertia(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -229,7 +229,7 @@ PyObject* TopoShapeSolidPy::getRadiusOfGyration(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -291,7 +291,7 @@ PyObject* TopoShapeSolidPy::offsetFaces(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }

@@ -212,7 +212,7 @@ PyObject* BSplineSurfacePy::incrementUMultiplicity(PyObject *args)
         surf->IncrementUMultiplicity(start, end, mult);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -231,7 +231,7 @@ PyObject* BSplineSurfacePy::incrementVMultiplicity(PyObject *args)
         surf->IncrementVMultiplicity(start, end, mult);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -252,7 +252,7 @@ PyObject* BSplineSurfacePy::insertUKnot(PyObject *args)
         surf->InsertUKnot(U, M, tol, Base::asBoolean(add));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -292,7 +292,7 @@ PyObject* BSplineSurfacePy::insertUKnots(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -313,7 +313,7 @@ PyObject* BSplineSurfacePy::insertVKnot(PyObject *args)
         surf->InsertVKnot(V, M, tol, Base::asBoolean(add));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -353,7 +353,7 @@ PyObject* BSplineSurfacePy::insertVKnots(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -374,7 +374,7 @@ PyObject* BSplineSurfacePy::removeUKnot(PyObject *args)
         return PyBool_FromLong(ok ? 1 : 0);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -393,7 +393,7 @@ PyObject* BSplineSurfacePy::removeVKnot(PyObject *args)
         return PyBool_FromLong(ok ? 1 : 0);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -411,7 +411,7 @@ PyObject* BSplineSurfacePy::segment(PyObject *args)
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -500,7 +500,7 @@ PyObject* BSplineSurfacePy::setUKnots(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -525,7 +525,7 @@ PyObject* BSplineSurfacePy::setVKnots(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -546,7 +546,7 @@ PyObject* BSplineSurfacePy::getUKnots(PyObject *args) const
         return Py::new_reference_to(knots);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -567,7 +567,7 @@ PyObject* BSplineSurfacePy::getVKnots(PyObject *args) const
         return Py::new_reference_to(knots);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -591,7 +591,7 @@ PyObject* BSplineSurfacePy::setPole(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -631,7 +631,7 @@ PyObject* BSplineSurfacePy::setPoleCol(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -671,7 +671,7 @@ PyObject* BSplineSurfacePy::setPoleRow(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -693,7 +693,7 @@ PyObject* BSplineSurfacePy::getPole(PyObject *args) const
         return vec;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -720,7 +720,7 @@ PyObject* BSplineSurfacePy::getPoles(PyObject *args) const
         return Py::new_reference_to(poles);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -738,7 +738,7 @@ PyObject* BSplineSurfacePy::setWeight(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -763,7 +763,7 @@ PyObject* BSplineSurfacePy::setWeightCol(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -788,7 +788,7 @@ PyObject* BSplineSurfacePy::setWeightRow(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -808,7 +808,7 @@ PyObject* BSplineSurfacePy::getWeight(PyObject *args) const
         return Py_BuildValue("d", w);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -833,7 +833,7 @@ PyObject* BSplineSurfacePy::getWeights(PyObject *args) const
         return Py::new_reference_to(weights);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -868,7 +868,7 @@ PyObject* BSplineSurfacePy::getPolesAndWeights(PyObject *args) const
         return Py::new_reference_to(poles);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -886,7 +886,7 @@ PyObject* BSplineSurfacePy::getResolution(PyObject *args) const
         return Py_BuildValue("(dd)",utol,vtol);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -910,7 +910,7 @@ PyObject* BSplineSurfacePy::movePoint(PyObject *args)
         return Py_BuildValue("(iiii)",ufirst, ulast, vfirst, vlast);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -926,7 +926,7 @@ PyObject* BSplineSurfacePy::setUNotPeriodic(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -942,7 +942,7 @@ PyObject* BSplineSurfacePy::setVNotPeriodic(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -958,7 +958,7 @@ PyObject* BSplineSurfacePy::setUPeriodic(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -974,7 +974,7 @@ PyObject* BSplineSurfacePy::setVPeriodic(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -991,7 +991,7 @@ PyObject* BSplineSurfacePy::setUOrigin(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1008,7 +1008,7 @@ PyObject* BSplineSurfacePy::setVOrigin(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1025,7 +1025,7 @@ PyObject* BSplineSurfacePy::getUMultiplicity(PyObject *args) const
         return Py_BuildValue("i", mult);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1042,7 +1042,7 @@ PyObject* BSplineSurfacePy::getVMultiplicity(PyObject *args) const
         return Py_BuildValue("i", mult);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1063,7 +1063,7 @@ PyObject* BSplineSurfacePy::getUMultiplicities(PyObject *args) const
         return Py::new_reference_to(mults);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1084,7 +1084,7 @@ PyObject* BSplineSurfacePy::getVMultiplicities(PyObject *args) const
         return Py::new_reference_to(mults);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1147,7 +1147,7 @@ PyObject* BSplineSurfacePy::reparametrize(PyObject * args) const
         return new BSplineSurfacePy(geom);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1498,7 +1498,7 @@ PyObject* BSplineSurfacePy::buildFromPolesMultsKnots(PyObject *args, PyObject *k
 
     }
     catch (const Standard_Failure& e) {
-        const char* msg = e.GetMessageString();
+        const char* msg = Part::toString(e);
         PyErr_SetString(PartExceptionOCCError, msg  ? msg : "");
         return nullptr;
     }
@@ -1559,7 +1559,7 @@ PyObject* BSplineSurfacePy::buildFromNSections(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        const char* msg = e.GetMessageString();
+        const char* msg = Part::toString(e);
         PyErr_SetString(PartExceptionOCCError, msg  ? msg : "");
         return nullptr;
     }

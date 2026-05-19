@@ -653,7 +653,7 @@ private:
         }
         catch (const Standard_Failure &e) {
             std::string str;
-            const char* msg = e.GetMessageString();
+            const char* msg = Part::toString(e);
             str += typeid(e).name();
             str += " ";
             if (msg) {str += msg;}
@@ -686,7 +686,7 @@ private:
         }
         catch (const Standard_Failure &e) {
             std::string str;
-            const char* msg = e.GetMessageString();
+            const char* msg = Part::toString(e);
             str += typeid(e).name();
             str += " ";
             if (msg) {str += msg;}
@@ -1394,7 +1394,7 @@ private:
             return Py::asObject(new TopoShapeWirePy(new TopoShape(mkPoly.Wire())));
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
     Py::Object makeCircle(const Py::Tuple& args)
@@ -1583,7 +1583,7 @@ private:
             return Py::asObject(new TopoShapeWirePy(new TopoShape(wire)));
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
     Py::Object makeLongHelix(const Py::Tuple& args)
@@ -1602,7 +1602,7 @@ private:
             return Py::asObject(new TopoShapeWirePy(new TopoShape(wire)));
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
     Py::Object makeThread(const Py::Tuple& args)
@@ -1617,7 +1617,7 @@ private:
             return Py::asObject(new TopoShapeWirePy(new TopoShape(wire)));
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
     Py::Object makeRevolution(const Py::Tuple& args)
@@ -1818,7 +1818,7 @@ private:
             return Py::asObject(new TopoShapeFacePy(new TopoShape(face)));
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
     Py::Object makeSweepSurface(const Py::Tuple& args)
@@ -1848,7 +1848,7 @@ private:
                         tolerance));
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
 
@@ -1968,7 +1968,7 @@ private:
             return tuple;
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
     Py::Object makeWireString(const Py::Tuple& args)

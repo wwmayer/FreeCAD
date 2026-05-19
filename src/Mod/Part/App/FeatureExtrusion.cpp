@@ -46,6 +46,7 @@
 #include "ExtrusionHelper.h"
 #include "Part2DObject.h"
 #include "Tools.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -384,7 +385,7 @@ App::DocumentObjectExecReturn* Extrusion::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 
