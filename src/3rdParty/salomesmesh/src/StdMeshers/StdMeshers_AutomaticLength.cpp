@@ -180,7 +180,7 @@ namespace {
       TopoDS_Edge edge = TopoDS::Edge( edgeMap(i) );
       //if ( BRep_Tool::Degenerated( edge )) continue;
 
-      Standard_Real L = SMESH_Algo::EdgeLength( edge );
+      double L = SMESH_Algo::EdgeLength( edge );
       if ( L < DBL_MIN ) continue;
 
       if ( L > Lmax ) Lmax = L;

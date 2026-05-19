@@ -101,7 +101,7 @@ namespace
             low = gp_Pnt(std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), std::numeric_limits<double>::max());
             high = gp_Pnt(-std::numeric_limits<double>::max(), -std::numeric_limits<double>::max(), -std::numeric_limits<double>::max());
             // compute min / max from control points
-            for (Standard_Integer i = 1; i <= curve->NbPoles(); ++i) {
+            for (int i = 1; i <= curve->NbPoles(); ++i) {
                 gp_XYZ p = curve->Pole(i).XYZ();
                 low = minCoords(low, p);
                 high = maxCoords(high, p);
@@ -140,7 +140,7 @@ namespace
     {
         double len = curve->Pole(1).Distance(curve->Pole(curve->NbPoles()));
         double total = 0.;
-        for (Standard_Integer i = 1; i < curve->NbPoles(); ++i) {
+        for (int i = 1; i < curve->NbPoles(); ++i) {
             gp_Pnt p1 = curve->Pole(i);
             gp_Pnt p2 = curve->Pole(i+1);
             double dist = p1.Distance(p2);
@@ -236,20 +236,20 @@ namespace
             : m_c1(c1), m_c2(c2)
         {}
 
-        virtual Standard_Integer NbVariables()  const override
+        virtual int NbVariables()  const override
         {
             return 2;
         }
 
-        Standard_Boolean Value (const math_Vector& X, Standard_Real& F) override
+        bool Value (const math_Vector& X, double& F) override
         {
             math_Vector G(1, 2);
             return Values(X, F, G);
         }
 
-        Standard_Boolean Gradient (const math_Vector& X, math_Vector& G) override
+        bool Gradient (const math_Vector& X, math_Vector& G) override
         {
-            Standard_Real F = 0.;
+            double F = 0.;
             return Values(X, F, G);
         }
 
@@ -297,7 +297,7 @@ namespace
             return d_activate(x1)*(vmax - vmin);
         }
 
-        virtual  Standard_Boolean Values (const math_Vector& X, Standard_Real& F, math_Vector& G) override
+        virtual  bool Values (const math_Vector& X, double& F, math_Vector& G) override
         {
 
             // We use a reparametrization trick to ensure that u is in [umin, umax] and v in [vmin, vmax]

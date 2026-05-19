@@ -252,7 +252,7 @@ QString OCAFBrowser::toText(const Handle(TNaming_NamedShape) & namedShape)
 
 QString OCAFBrowser::toText(const Handle(TDataStd_TreeNode) & treeNode)
 {
-    Standard_CString type = "";
+    const char* type = "";
     if (treeNode->ID() == XCAFDoc::ShapeRefGUID()) {
         type = "Shape Instance Link";
     }

@@ -373,7 +373,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::isDone(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Boolean ok = getBRepOffsetAPI_MakeFillingPtr()->IsDone();
+        bool ok = getBRepOffsetAPI_MakeFillingPtr()->IsDone();
         return Py_BuildValue("O", (ok ? Py_True : Py_False));
     }
     catch (const Standard_Failure& e) {
@@ -389,7 +389,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::G0Error(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = index < 1 ? getBRepOffsetAPI_MakeFillingPtr()->G0Error()
+        double v = index < 1 ? getBRepOffsetAPI_MakeFillingPtr()->G0Error()
                                     : getBRepOffsetAPI_MakeFillingPtr()->G0Error(index);
         return PyFloat_FromDouble(v);
     }
@@ -406,7 +406,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::G1Error(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = index < 1 ? getBRepOffsetAPI_MakeFillingPtr()->G1Error()
+        double v = index < 1 ? getBRepOffsetAPI_MakeFillingPtr()->G1Error()
                                     : getBRepOffsetAPI_MakeFillingPtr()->G1Error(index);
         return PyFloat_FromDouble(v);
     }
@@ -423,7 +423,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::G2Error(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = index < 1 ? getBRepOffsetAPI_MakeFillingPtr()->G2Error()
+        double v = index < 1 ? getBRepOffsetAPI_MakeFillingPtr()->G2Error()
                                     : getBRepOffsetAPI_MakeFillingPtr()->G2Error(index);
         return PyFloat_FromDouble(v);
     }

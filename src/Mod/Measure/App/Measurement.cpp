@@ -485,7 +485,7 @@ double Measurement::angle(const Base::Vector3d& /*param*/) const
                 gp_Lin l1 = gp_Lin(pnt1First, dir1);    // (A)
                 gp_Lin l2 = gp_Lin(pnt1First, dir2);    // (B)
                 gp_Lin l2r = gp_Lin(pnt1First, dir2r);  // (B')
-                Standard_Real aRad = l1.Angle(l2);
+                double aRad = l1.Angle(l2);
                 double aRadr = l1.Angle(l2r);
                 return Base::toDegrees<double>(std::min(aRad, aRadr));
             }

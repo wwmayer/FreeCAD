@@ -1846,7 +1846,7 @@ StdMeshers_ProjectionUtils::GetPropagationEdge( SMESH_Mesh*                 aMes
         // There are objects of different type among the ancestors of edge
         if ( aW.ShapeType() == TopAbs_WIRE /*&& checkedWires.Add( aW )*/)
         {
-          Standard_Integer nb = 0, found = -1;
+          int nb = 0, found = -1;
           for ( aWE.Init( TopoDS::Wire( aW )); aWE.More(); aWE.Next() ) {
             if (nb+1 > 4) {
               found = -1;

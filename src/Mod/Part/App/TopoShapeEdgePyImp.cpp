@@ -312,11 +312,11 @@ PyObject* TopoShapeEdgePy::parameterAt(PyObject *args) const
 
         if (face) {
             const TopoDS_Shape& f = static_cast<TopoShapeFacePy*>(face)->getTopoShapePtr()->getShape();
-            Standard_Real par = BRep_Tool::Parameter(TopoDS::Vertex(v), e, TopoDS::Face(f));
+            double par = BRep_Tool::Parameter(TopoDS::Vertex(v), e, TopoDS::Face(f));
             return PyFloat_FromDouble(par);
         }
         else {
-            Standard_Real par = BRep_Tool::Parameter(TopoDS::Vertex(v), e);
+            double par = BRep_Tool::Parameter(TopoDS::Vertex(v), e);
             return PyFloat_FromDouble(par);
         }
     }
@@ -671,10 +671,10 @@ PyObject* TopoShapeEdgePy::split(PyObject *args) const
 
     try {
         BRepAdaptor_Curve adapt(TopoDS::Edge(getTopoShapePtr()->getShape()));
-        Standard_Real f = adapt.FirstParameter();
-        Standard_Real l = adapt.LastParameter();
+        double f = adapt.FirstParameter();
+        double l = adapt.LastParameter();
 
-        std::vector<Standard_Real> par;
+        std::vector<double> par;
         par.push_back(f);
         if (PyFloat_Check(float_or_list)) {
             double val = PyFloat_AsDouble(float_or_list);
@@ -716,8 +716,8 @@ PyObject* TopoShapeEdgePy::split(PyObject *args) const
         const TopoDS_Edge& edge = TopoDS::Edge(this->getTopoShapePtr()->getShape());
         BRep_Builder builder;
         TopoDS_Edge e;
-        std::vector<Standard_Real>::iterator end = par.end() - 1;
-        for (std::vector<Standard_Real>::iterator it = par.begin(); it != end; ++it) {
+        std::vector<double>::iterator end = par.end() - 1;
+        for (std::vector<double>::iterator it = par.begin(); it != end; ++it) {
             BRepBuilderAPI_MakeEdge mke(c, it[0], it[1]);
             e =  mke.Edge();
             builder.Transfert(edge, e);
@@ -745,7 +745,7 @@ PyObject* TopoShapeEdgePy::isSeam(PyObject *args) const
         const TopoDS_Face& f = TopoDS::Face(static_cast<TopoShapeFacePy*>(face)->getTopoShapePtr()->getShape());
 
         ShapeAnalysis_Edge sa;
-        Standard_Boolean ok = sa.IsSeam(e, f);
+        bool ok = sa.IsSeam(e, f);
         return PyBool_FromLong(ok ? 1 : 0);
     }
     catch (Standard_Failure& e) {
@@ -853,8 +853,8 @@ Py::Object TopoShapeEdgePy::getCurve() const
             Handle(Geom_Circle) this_curv = Handle(Geom_Circle)::DownCast
                 (circle->handle());
             this_curv->SetCirc(adapt.Circle());
-            //Standard_Real dd = adapt.FirstParameter();
-            //Standard_Real ee = adapt.LastParameter();
+            //double dd = adapt.FirstParameter();
+            //double ee = adapt.LastParameter();
             curve = new CirclePy(circle);
             break;
         }
@@ -899,7 +899,7 @@ Py::Object TopoShapeEdgePy::getCurve() const
         }
     case GeomAbs_OffsetCurve:
         {
-            Standard_Real first, last;
+            double first, last;
             Handle(Geom_Curve) c = BRep_Tool::Curve(e, first, last);
             Handle(Geom_OffsetCurve) off = Handle(Geom_OffsetCurve)::DownCast(c);
             if (!off.IsNull()) {
@@ -986,7 +986,7 @@ Py::Object TopoShapeEdgePy::getStaticMoments() const
 {
     GProp_GProps props;
     BRepGProp::LinearProperties(getTopoShapePtr()->getShape(), props);
-    Standard_Real lx,ly,lz;
+    double lx,ly,lz;
     props.StaticMoments(lx,ly,lz);
     Py::Tuple tuple(3);
     tuple.setItem(0, Py::Float(lx));
@@ -1004,7 +1004,7 @@ Py::Dict TopoShapeEdgePy::getPrincipalProperties() const
     Py::Dict dict;
     dict.setItem("SymmetryAxis", Py::Boolean(pprops.HasSymmetryAxis() ? true : false));
     dict.setItem("SymmetryPoint", Py::Boolean(pprops.HasSymmetryPoint() ? true : false));
-    Standard_Real lx,ly,lz;
+    double lx,ly,lz;
     pprops.Moments(lx,ly,lz);
     Py::Tuple tuple(3);
     tuple.setItem(0, Py::Float(lx));
@@ -1018,7 +1018,7 @@ Py::Dict TopoShapeEdgePy::getPrincipalProperties() const
     dict.setItem("ThirdAxisOfInertia",Py::Vector(Base::convertTo
         <Base::Vector3d>(pprops.ThirdAxisOfInertia())));
 
-    Standard_Real Rxx,Ryy,Rzz;
+    double Rxx,Ryy,Rzz;
     pprops.RadiusOfGyration(Rxx,Ryy,Rzz);
     Py::Tuple rog(3);
     rog.setItem(0, Py::Float(Rxx));
@@ -1032,13 +1032,13 @@ Py::Boolean TopoShapeEdgePy::getClosed() const
 {
     if (getTopoShapePtr()->getShape().IsNull())
         throw Py::RuntimeError("Cannot determine the 'Closed'' flag of an empty shape");
-    Standard_Boolean ok = BRep_Tool::IsClosed(getTopoShapePtr()->getShape());
+    bool ok = BRep_Tool::IsClosed(getTopoShapePtr()->getShape());
     return Py::Boolean(ok ? true : false);
 }
 
 Py::Boolean TopoShapeEdgePy::getDegenerated() const
 {
-    Standard_Boolean ok = BRep_Tool::Degenerated(TopoDS::Edge(getTopoShapePtr()->getShape()));
+    bool ok = BRep_Tool::Degenerated(TopoDS::Edge(getTopoShapePtr()->getShape()));
     return Py::Boolean(ok ? true : false);
 }
 
@@ -1053,7 +1053,7 @@ PyObject* TopoShapeEdgePy::curveOnSurface(PyObject *args) const
         Handle(Geom2d_Curve) curve;
         Handle(Geom_Surface) surf;
         TopLoc_Location loc;
-        Standard_Real first, last;
+        double first, last;
 
         BRep_Tool::CurveOnSurface(edge, curve, surf, loc, first, last, idx+1);
         if (curve.IsNull())
@@ -1068,7 +1068,7 @@ PyObject* TopoShapeEdgePy::curveOnSurface(PyObject *args) const
         gp_Trsf trsf = loc.Transformation();
         gp_XYZ pos = trsf.TranslationPart();
         gp_XYZ axis;
-        Standard_Real angle;
+        double angle;
         trsf.GetRotation(axis, angle);
         Base::Rotation rot(Base::Vector3d(axis.X(), axis.Y(), axis.Z()), angle);
         Base::Placement placement(Base::Vector3d(pos.X(), pos.Y(), pos.Z()), rot);

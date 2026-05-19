@@ -140,10 +140,10 @@ App::DocumentObjectExecReturn* Extend::execute()
     }
 
     Approx_ParametrizationType ParType = Approx_ChordLength;
-    Standard_Integer DegMin = 3;
-    Standard_Integer DegMax = 5;
+    int DegMin = 3;
+    int DegMax = 5;
     GeomAbs_Shape Continuity = GeomAbs_C2;
-    Standard_Real Tol3d = Tolerance.getValue();
+    double Tol3d = Tolerance.getValue();
 
     GeomAPI_PointsToBSplineSurface approx;
     approx.Init(approxPoints, ParType, DegMin, DegMax, Continuity, Tol3d);

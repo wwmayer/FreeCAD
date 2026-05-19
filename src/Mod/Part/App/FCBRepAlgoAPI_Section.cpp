@@ -36,11 +36,11 @@
 
 FCBRepAlgoAPI_Section::FCBRepAlgoAPI_Section()
 {
-    SetRunParallel(Standard_True);
-    SetNonDestructive(Standard_True);
+    SetRunParallel(true);
+    SetNonDestructive(true);
 }
 
-FCBRepAlgoAPI_Section::FCBRepAlgoAPI_Section(const TopoDS_Shape& S1, const TopoDS_Shape& S2, const Standard_Boolean PerformNow)
+FCBRepAlgoAPI_Section::FCBRepAlgoAPI_Section(const TopoDS_Shape& S1, const TopoDS_Shape& S2, const bool PerformNow)
 : BRepAlgoAPI_Section(S1,S2,false) 
 {
     if (!BRepCheck_Analyzer(S1).IsValid()){
@@ -50,15 +50,15 @@ FCBRepAlgoAPI_Section::FCBRepAlgoAPI_Section(const TopoDS_Shape& S1, const TopoD
         throw Standard_ConstructionError("Tool shape is not valid for boolean operation");
     }
     setAutoFuzzy();
-    SetRunParallel(Standard_True);
-    SetNonDestructive(Standard_True);
+    SetRunParallel(true);
+    SetNonDestructive(true);
     if (PerformNow) Build();
 }
 
 FCBRepAlgoAPI_Section::FCBRepAlgoAPI_Section
 (const TopoDS_Shape&    Sh,
 const gp_Pln&          Pl,
-const Standard_Boolean PerformNow)
+const bool PerformNow)
 : 
 BRepAlgoAPI_Section(Sh,Pl,false) 
 {
@@ -66,7 +66,7 @@ BRepAlgoAPI_Section(Sh,Pl,false)
         throw Standard_ConstructionError("Base shape is not valid for boolean operation");
     }
     setAutoFuzzy();
-    SetRunParallel(Standard_True);
+    SetRunParallel(true);
     if (PerformNow) Build();
 }
 

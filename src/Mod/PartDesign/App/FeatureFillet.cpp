@@ -104,7 +104,7 @@ App::DocumentObjectExecReturn *Fillet::execute()
 
         TopTools_ListOfShape aLarg;
         aLarg.Append(baseShape.getShape());
-        if (!BRepAlgo::IsValid(aLarg, shape.getShape(), Standard_False, Standard_False)) {
+        if (!BRepAlgo::IsValid(aLarg, shape.getShape(), false, false)) {
             ShapeFix_ShapeTolerance aSFT;
             aSFT.LimitTolerance(shape.getShape(),
                                 Precision::Confusion(),

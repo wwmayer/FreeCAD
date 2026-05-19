@@ -87,7 +87,7 @@ void CurvesToSurface::CalculateParameters(std::vector<Handle(Geom_BSplineCurve)>
 
     // create a matrix of control points of all B-splines (splines do have the same amount of control points now)
     TColgp_Array2OfPnt controlPoints(1, _compatibleSplines[0]->NbPoles(),
-                                     1, static_cast<Standard_Integer>(_compatibleSplines.size()));
+                                     1, static_cast<int>(_compatibleSplines.size()));
 
     for (unsigned int spline_idx = 1; spline_idx <= _compatibleSplines.size(); ++spline_idx) {
         for (int point_idx = 1; point_idx <= _compatibleSplines[0]->NbPoles(); ++point_idx) {
@@ -128,7 +128,7 @@ void CurvesToSurface::Perform()
 
     // create matrix of new control points with size which is possibly DIFFERENT from the size of controlPoints
     Handle(TColgp_HArray2OfPnt) cpSurf;
-    Handle(TColgp_HArray1OfPnt) interpPointsVDir = new TColgp_HArray1OfPnt(1, static_cast<Standard_Integer>(nCurves));
+    Handle(TColgp_HArray1OfPnt) interpPointsVDir = new TColgp_HArray1OfPnt(1, static_cast<int>(nCurves));
 
     // now continue to create new control points by interpolating the remaining columns of controlPoints in Skinning direction (here v-direction) by B-splines
     for (int cpUIdx = 1; cpUIdx <= static_cast<int>(numControlPointsU); ++cpUIdx) {
@@ -149,7 +149,7 @@ void CurvesToSurface::Perform()
             interpSpline->Knots(knotsV->ChangeArray1());
             multsV = new TColStd_HArray1OfInteger(1, interpSpline->NbKnots());
             interpSpline->Multiplicities(multsV->ChangeArray1());
-            cpSurf = new TColgp_HArray2OfPnt(1, static_cast<Standard_Integer>(numControlPointsU), 1, interpSpline->NbPoles());
+            cpSurf = new TColgp_HArray2OfPnt(1, static_cast<int>(numControlPointsU), 1, interpSpline->NbPoles());
         }
 
         // the final surface control points are the control points resulting from

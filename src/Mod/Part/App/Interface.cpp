@@ -95,17 +95,17 @@ void Interface::writeStepAssembly(Interface::Assembly mode)
     Interface_Static::SetIVal("write.step.assembly", static_cast<int>(mode));
 }
 
-Standard_CString Interface::writeStepScheme()
+const char* Interface::writeStepScheme()
 {
     return Interface_Static::CVal("write.step.schema");
 }
 
-bool Interface::writeStepScheme(Standard_CString scheme)
+bool Interface::writeStepScheme(const char* scheme)
 {
     return Interface_Static::SetCVal("write.step.schema", scheme);
 }
 
-bool Interface::writeStepUnit(Standard_CString unit)
+bool Interface::writeStepUnit(const char* unit)
 {
     return Interface_Static::SetCVal("write.step.unit", unit);
 }
@@ -122,52 +122,52 @@ bool Interface::writeStepUnit(Interface::Unit unit)
     }
 }
 
-Standard_CString Interface::writeStepUnit()
+const char* Interface::writeStepUnit()
 {
     return Interface_Static::CVal("write.step.unit");
 }
 
-Standard_CString Interface::writeStepHeaderProduct()
+const char* Interface::writeStepHeaderProduct()
 {
     return Interface_Static::CVal("write.step.product.name");
 }
 
-bool Interface::writeStepHeaderProduct(Standard_CString name)
+bool Interface::writeStepHeaderProduct(const char* name)
 {
     return Interface_Static::SetCVal("write.step.product.name", name);
 }
 
-Standard_CString Interface::writeIgesHeaderAuthor()
+const char* Interface::writeIgesHeaderAuthor()
 {
     return Interface_Static::CVal("write.iges.header.author");
 }
 
-bool Interface::writeIgesHeaderAuthor(Standard_CString name)
+bool Interface::writeIgesHeaderAuthor(const char* name)
 {
     return Interface_Static::SetCVal("write.iges.header.author", name);
 }
 
-Standard_CString Interface::writeIgesHeaderCompany()
+const char* Interface::writeIgesHeaderCompany()
 {
     return Interface_Static::CVal("write.iges.header.company");
 }
 
-bool Interface::writeIgesHeaderCompany(Standard_CString name)
+bool Interface::writeIgesHeaderCompany(const char* name)
 {
     return Interface_Static::SetCVal("write.iges.header.company", name);
 }
 
-Standard_CString Interface::writeIgesHeaderProduct()
+const char* Interface::writeIgesHeaderProduct()
 {
     return Interface_Static::CVal("write.iges.header.product");
 }
 
-bool Interface::writeIgesHeaderProduct(Standard_CString name)
+bool Interface::writeIgesHeaderProduct(const char* name)
 {
     return Interface_Static::SetCVal("write.iges.header.product", name);
 }
 
-bool Interface::writeIgesUnit(Standard_CString unit)
+bool Interface::writeIgesUnit(const char* unit)
 {
     return Interface_Static::SetCVal("write.iges.unit", unit);
 }
@@ -184,7 +184,7 @@ bool Interface::writeIgesUnit(Interface::Unit unit)
     }
 }
 
-Standard_CString Interface::writeIgesUnit()
+const char* Interface::writeIgesUnit()
 {
     return Interface_Static::CVal("write.iges.unit");
 }

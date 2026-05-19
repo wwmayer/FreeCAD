@@ -63,7 +63,7 @@ PartExport extern PyObject* PartExceptionOCCDimensionError;
     catch (Standard_Failure &e)                                     \
     {                                                               \
         std::string str;                                            \
-        Standard_CString msg = e.GetMessageString();                \
+        const char* msg = e.GetMessageString();                     \
         str += typeid(e).name();                                    \
         str += " ";                                                 \
         if (msg) {str += msg;}                                      \

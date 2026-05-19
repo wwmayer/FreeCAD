@@ -440,7 +440,7 @@ bool SMESH_Algo::GetSortedNodesOnEdge(const SMESHDS_Mesh*                   theM
   TopExp::Vertices(theEdge, v1, v2);
   const SMDS_MeshNode* n1 = VertexNode( v1, eSubMesh, 0 );
   const SMDS_MeshNode* n2 = VertexNode( v2, eSubMesh, 0 );
-  Standard_Real f, l;
+  double f, l;
   BRep_Tool::Range(theEdge, f, l);
   if ( v1.Orientation() != TopAbs_FORWARD )
     std::swap( f, l );
@@ -512,11 +512,11 @@ GeomAbs_Shape SMESH_Algo::Continuity(TopoDS_Edge E1,
   else if ( VV1[0].IsSame( VV2[0] ))  { V = VV1[0]; E1.Reverse(); }
   else { return GeomAbs_C0; }
 
-  Standard_Real u1 = BRep_Tool::Parameter( V, E1 );
-  Standard_Real u2 = BRep_Tool::Parameter( V, E2 );
+  double u1 = BRep_Tool::Parameter( V, E1 );
+  double u2 = BRep_Tool::Parameter( V, E2 );
   BRepAdaptor_Curve C1( E1 ), C2( E2 );
-  Standard_Real tol = BRep_Tool::Tolerance( V );
-  Standard_Real angTol = 2e-3;
+  double tol = BRep_Tool::Tolerance( V );
+  double angTol = 2e-3;
   try {
     OCC_CATCH_SIGNALS;
     return BRepLProp::Continuity(C1, C2, u1, u2, tol, angTol);

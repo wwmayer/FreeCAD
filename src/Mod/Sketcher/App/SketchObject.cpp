@@ -7552,8 +7552,8 @@ void adjustParameterRange(const TopoDS_Edge &edge,
     auto adjustPeriodic = [](Handle(Geom_Curve) curve, double &f, double &l) {
         // Copied from Geom_TrimmedCurve::setTrim()
         if (curve->IsPeriodic()) {
-            Standard_Real Udeb = curve->FirstParameter();
-            Standard_Real Ufin = curve->LastParameter();
+            double Udeb = curve->FirstParameter();
+            double Ufin = curve->LastParameter();
             // set f in the range Udeb , Ufin
             // set l in the range f , f + Period()
             ElCLib::AdjustPeriodic(Udeb, Ufin,
@@ -8626,7 +8626,7 @@ void SketchObject::rebuildExternalGeometry(std::optional<ExternalToAdd> extToAdd
 
             if (intersection && !refSubShape.IsNull()) {
                 FCBRepAlgoAPI_Section maker(refSubShape, sketchPlane);
-                maker.Approximation(Standard_True);
+                maker.Approximation(true);
                 if (!maker.IsDone())
                     FC_THROWM(Base::CADKernelError, "Failed to get intersection");
                 Part::TopoShape intersectionShape(maker.Shape());

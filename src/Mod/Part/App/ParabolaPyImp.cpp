@@ -94,7 +94,7 @@ int ParabolaPy::PyInit(PyObject* args, PyObject* kwds)
 
         gp_Ax2 xdir(p1, norm, xdiroce);
 
-        gce_MakeParab mc(xdir, (Standard_Real) xvect.Length());
+        gce_MakeParab mc(xdir, (double) xvect.Length());
         if (!mc.IsDone()) {
             PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(mc.Status()));
             return -1;

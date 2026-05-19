@@ -358,7 +358,7 @@ void DlgExtrusion::autoSolid()
         if (sh.IsNull())
             return;
         ShapeExtend_Explorer xp;
-        Handle(TopTools_HSequenceOfShape) leaves = xp.SeqFromCompound(sh, /*recursive= */Standard_True);
+        Handle(TopTools_HSequenceOfShape) leaves = xp.SeqFromCompound(sh, /*recursive= */true);
         int cntClosedWires = 0;
         for(int i = 0; i < leaves->Length(); i++){
             const TopoDS_Shape &leaf = leaves->Value(i+1);

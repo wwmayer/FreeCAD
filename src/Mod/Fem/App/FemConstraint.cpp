@@ -406,7 +406,7 @@ bool Constraint::getPoints(std::vector<Base::Vector3d>& points,
             double stepu = (ulp - ufp) / stepsu;
 
             // Create points and normals
-            auto fillPointsAndNormals = [&](Standard_Real u, Standard_Real v) {
+            auto fillPointsAndNormals = [&](double u, double v) {
                 gp_Pnt p = surface.Value(u, v);
                 BRepClass_FaceClassifier classifier(face, p, Precision::Confusion());
                 if (classifier.State() != TopAbs_OUT) {
@@ -433,7 +433,7 @@ bool Constraint::getPoints(std::vector<Base::Vector3d>& points,
             // In that case use points on the outer wire.
             // https://github.com/FreeCAD/FreeCAD/issues/6073
             if (prevSize == points.size()) {
-                BRepAdaptor_CompCurve compCurve(BRepTools::OuterWire(face), Standard_True);
+                BRepAdaptor_CompCurve compCurve(BRepTools::OuterWire(face), true);
                 GProp_GProps linProps;
                 BRepGProp::LinearProperties(compCurve.Wire(), linProps);
                 double outWireLength = linProps.Mass();
@@ -495,7 +495,7 @@ Base::Vector3d Constraint::getBasePoint(const Base::Vector3d& base,
 
     gp_Pnt projPnt = proj.NearestPoint();
     if ((fabs(dist) > Precision::Confusion())
-        && (projPnt.IsEqual(cylbase, Precision::Confusion()) == Standard_False)) {
+        && (projPnt.IsEqual(cylbase, Precision::Confusion()) == false)) {
         plane.Translate(gp_Vec(projPnt, cylbase).Normalized().Multiplied(dist));
     }
     Handle(Geom_Plane) plnt = new Geom_Plane(plane);

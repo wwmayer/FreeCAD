@@ -46,7 +46,7 @@ std::string CirclePy::representation() const
     gp_Ax1 axis = circle->Axis();
     gp_Dir dir = axis.Direction();
     gp_Pnt loc = axis.Location();
-    Standard_Real fRad = circle->Radius();
+    double fRad = circle->Radius();
 
     std::stringstream str;
     str << "Circle (";

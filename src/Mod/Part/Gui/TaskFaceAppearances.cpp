@@ -177,7 +177,7 @@ public:
             }
 
             App::Document* appdoc = doc->getDocument();
-            for (Standard_Integer k = 1; k <= M.Extent(); k++) {
+            for (int k = 1; k <= M.Extent(); k++) {
                 const TopoDS_Shape& face = M(k);
 
                 TopExp_Explorer xp_vertex(face, TopAbs_VERTEX);

@@ -76,20 +76,19 @@ int Part::ImportStepParts(App::Document *pcDoc, const char* Name)
     std::string encodednamestr = encodeFilename(std::string(Name));
     const char * encodedname = encodednamestr.c_str();
 
-    if (aReader.ReadFile((Standard_CString)encodedname) !=
-            IFSelect_RetDone) {
+    if (aReader.ReadFile(encodedname) != IFSelect_RetDone) {
         throw Base::FileException("Cannot open STEP file");
     }
 
     // Root transfers
-    Standard_Integer nbr = aReader.NbRootsForTransfer();
-    for (Standard_Integer n = 1; n<= nbr; n++) {
+    int nbr = aReader.NbRootsForTransfer();
+    for (int n = 1; n<= nbr; n++) {
         Base::Console().Log("STEP: Transferring Root %d\n",n);
         aReader.TransferRoot(n);
     }
 
     // Collecting resulting entities
-    Standard_Integer nbs = aReader.NbShapes();
+    int nbs = aReader.NbShapes();
     if (nbs == 0) {
         throw Base::FileException("No shapes found in file ");
     }
@@ -97,7 +96,7 @@ int Part::ImportStepParts(App::Document *pcDoc, const char* Name)
 
         std::map<int, Quantity_Color> hash_col;
 
-        for (Standard_Integer i=1; i<=nbs; i++) {
+        for (int i=1; i<=nbs; i++) {
             Base::Console().Log("STEP:   Transferring Shape %d\n",i);
             aShape = aReader.Shape(i);
 
@@ -150,7 +149,7 @@ int Part::ImportStepParts(App::Document *pcDoc, const char* Name)
             }
 
             // put all other free-flying shapes into a single compound
-            Standard_Boolean emptyComp = Standard_True;
+            bool emptyComp = true;
             BRep_Builder builder;
             TopoDS_Compound comp;
             builder.MakeCompound(comp);
@@ -158,25 +157,25 @@ int Part::ImportStepParts(App::Document *pcDoc, const char* Name)
             for (ex.Init(aShape, TopAbs_FACE, TopAbs_SHELL); ex.More(); ex.Next()) {
                 if (!ex.Current().IsNull()) {
                     builder.Add(comp, ex.Current());
-                    emptyComp = Standard_False;
+                    emptyComp = false;
                 }
             }
             for (ex.Init(aShape, TopAbs_WIRE, TopAbs_FACE); ex.More(); ex.Next()) {
                 if (!ex.Current().IsNull()) {
                     builder.Add(comp, ex.Current());
-                    emptyComp = Standard_False;
+                    emptyComp = false;
                 }
             }
             for (ex.Init(aShape, TopAbs_EDGE, TopAbs_WIRE); ex.More(); ex.Next()) {
                 if (!ex.Current().IsNull()) {
                     builder.Add(comp, ex.Current());
-                    emptyComp = Standard_False;
+                    emptyComp = false;
                 }
             }
             for (ex.Init(aShape, TopAbs_VERTEX, TopAbs_EDGE); ex.More(); ex.Next()) {
                 if (!ex.Current().IsNull()) {
                     builder.Add(comp, ex.Current());
-                    emptyComp = Standard_False;
+                    emptyComp = false;
                 }
             }
 
@@ -197,11 +196,11 @@ bool Part::ReadColors (const Handle(XSControl_WorkSession) &WS, std::map<int, Qu
 {
     (void)WS;
     (void)hash_col;
-    return Standard_False;
+    return false;
 }
 
 bool Part::ReadNames (const Handle(XSControl_WorkSession) &WS)
 {
     (void)WS;
-    return Standard_False;
+    return false;
 }

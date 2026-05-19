@@ -40,8 +40,8 @@
 
 FCBRepAlgoAPI_BooleanOperation::FCBRepAlgoAPI_BooleanOperation()
 {
-    SetRunParallel(Standard_True);
-    SetNonDestructive(Standard_True);
+    SetRunParallel(true);
+    SetNonDestructive(true);
 }
 
 
@@ -57,8 +57,8 @@ FCBRepAlgoAPI_BooleanOperation::FCBRepAlgoAPI_BooleanOperation(const TopoDS_Shap
         throw Standard_ConstructionError("Tool shape is not valid for boolean operation");
     }
     setAutoFuzzy();
-    SetRunParallel(Standard_True);
-    SetNonDestructive(Standard_True);
+    SetRunParallel(true);
+    SetNonDestructive(true);
 }
 
 void FCBRepAlgoAPI_BooleanOperation::setAutoFuzzy()

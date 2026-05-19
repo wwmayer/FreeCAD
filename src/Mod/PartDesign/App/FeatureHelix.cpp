@@ -249,7 +249,7 @@ App::DocumentObjectExecReturn* Helix::execute()
         // increasing a tiny bit of extra tolerance to the path fixes this. This will in any case
         // be less than the tolerance lower limit below, but sufficient to avoid the bug
 
-        BRepOffsetAPI_MakePipe mkPS(TopoDS::Wire(path), face, GeomFill_Trihedron::GeomFill_IsFrenet, Standard_False);
+        BRepOffsetAPI_MakePipe mkPS(TopoDS::Wire(path), face, GeomFill_Trihedron::GeomFill_IsFrenet, false);
         result = mkPS.Shape();
 
         BRepClass3d_SolidClassifier SC(result);

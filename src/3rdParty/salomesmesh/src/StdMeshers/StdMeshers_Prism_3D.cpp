@@ -4020,8 +4020,8 @@ TSideFace::GetNodesAtZ(const int Z,
  */
 //================================================================================
 
-gp_Pnt StdMeshers_PrismAsBlock::TSideFace::Value(const Standard_Real U,
-                                                 const Standard_Real V) const
+gp_Pnt StdMeshers_PrismAsBlock::TSideFace::Value(const double U,
+                                                 const double V) const
 {
   if ( !myComponents.empty() ) {
     double u;
@@ -4337,7 +4337,7 @@ TVerticalEdgeAdaptor( const TParam2ColumnMap* columnsMap, const double parameter
  */
 //================================================================================
 
-gp_Pnt StdMeshers_PrismAsBlock::TVerticalEdgeAdaptor::Value(const Standard_Real U) const
+gp_Pnt StdMeshers_PrismAsBlock::TVerticalEdgeAdaptor::Value(const double U) const
 {
   const SMDS_MeshNode* n1;
   const SMDS_MeshNode* n2;
@@ -4369,7 +4369,7 @@ void StdMeshers_PrismAsBlock::TVerticalEdgeAdaptor::dumpNodes(int nbNodes) const
  */
 //================================================================================
 
-gp_Pnt StdMeshers_PrismAsBlock::THorizontalEdgeAdaptor::Value(const Standard_Real U) const
+gp_Pnt StdMeshers_PrismAsBlock::THorizontalEdgeAdaptor::Value(const double U) const
 {
   return mySide->TSideFace::Value( U, myV );
 }
@@ -4501,7 +4501,7 @@ TPCurveOnHorFaceAdaptor::TPCurveOnHorFaceAdaptor( const TSideFace*   sideFace,
  */
 //================================================================================
 
-gp_Pnt2d StdMeshers_PrismAsBlock::TPCurveOnHorFaceAdaptor::Value(const Standard_Real U) const
+gp_Pnt2d StdMeshers_PrismAsBlock::TPCurveOnHorFaceAdaptor::Value(const double U) const
 {
   map< double, gp_XY >::const_iterator i1 = myUVmap.upper_bound( U );
 

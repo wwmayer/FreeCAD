@@ -47,13 +47,13 @@ struct SMESHDS_Hasher
 #else
 struct SMESHDS_Hasher
 {
-  static inline Standard_Boolean IsEqual(const TopoDS_Shape& S1,
+  static inline bool IsEqual(const TopoDS_Shape& S1,
                                         const TopoDS_Shape& S2)
   {
     return S1.IsSame(S2);
   }
-  static inline Standard_Integer HashCode(const TopoDS_Shape& S,
-                                          const Standard_Integer Upper)
+  static inline int HashCode(const TopoDS_Shape& S,
+                                          const int Upper)
   {
     return ::HashCode( S, Upper);
   }

@@ -465,7 +465,7 @@ App::DocumentObject* Feature::getSubObject(const char* subname,
         // Instead either raise a sub-class of Base::Exception and let it handle by the calling
         // instance or do simply nothing. For now the error message is degraded to a log message.
         std::ostringstream str;
-        Standard_CString msg = e.GetMessageString();
+        const char* msg = e.GetMessageString();
 
         // Avoid name mangling
         str << getTypeName(e) << " ";
@@ -997,7 +997,7 @@ static TopoShape _getTopoShape(const App::DocumentObject* obj,
                     Base::Vector3d dir = line->getBaseDirection();
                     BRepBuilderAPI_MakeEdge builder(gp_Lin(gp_Pnt(0, 0, 0), Base::convertTo<gp_Dir>(dir)));
                     _shape = builder.Shape();
-                    _shape.Infinite(Standard_True);
+                    _shape.Infinite(true);
                 }
                 shape = TopoShape(tag, hasher, _shape);
             }
@@ -1008,7 +1008,7 @@ static TopoShape _getTopoShape(const App::DocumentObject* obj,
                     Base::Vector3d dir = plane->getBaseDirection();
                     BRepBuilderAPI_MakeFace builder(gp_Pln(gp_Pnt(0, 0, 0), Base::convertTo<gp_Dir>(dir)));
                     _shape = builder.Shape();
-                    _shape.Infinite(Standard_True);
+                    _shape.Infinite(true);
                 }
                 shape = TopoShape(tag, hasher, _shape);
             }
@@ -1031,7 +1031,7 @@ static TopoShape _getTopoShape(const App::DocumentObject* obj,
                             BRepBuilderAPI_MakeEdge builder(
                                 gp_Lin(gp_Pnt(0, 0, 0), gp_Dir(0, 0, 1)));
                             _shape = builder.Shape();
-                            _shape.Infinite(Standard_True);
+                            _shape.Infinite(true);
                         }
                         shape = TopoShape(tag, hasher, _shape);
                     }
@@ -1040,7 +1040,7 @@ static TopoShape _getTopoShape(const App::DocumentObject* obj,
                         if (_shape.IsNull()) {
                             BRepBuilderAPI_MakeVertex builder(gp_Pnt(0, 0, 0));
                             _shape = builder.Shape();
-                            _shape.Infinite(Standard_True);
+                            _shape.Infinite(true);
                         }
                         shape = TopoShape(tag, hasher, _shape);
                     }
@@ -1050,7 +1050,7 @@ static TopoShape _getTopoShape(const App::DocumentObject* obj,
                     if (_shape.IsNull()) {
                         BRepBuilderAPI_MakeFace builder(gp_Pln(gp_Pnt(0, 0, 0), gp_Dir(0, 0, 1)));
                         _shape = builder.Shape();
-                        _shape.Infinite(Standard_True);
+                        _shape.Infinite(true);
                     }
                     shape = TopoShape(tag, hasher, _shape);
                 }
@@ -1962,7 +1962,7 @@ bool Part::checkIntersection(const TopoDS_Shape& first, const TopoDS_Shape& seco
         if (xp.More()) {
             // At least one solid
             xp.Next();
-            return (xp.More() == Standard_False);
+            return (xp.More() == false);
         } else {
             return false;
         }
@@ -1977,7 +1977,7 @@ bool Part::checkIntersection(const TopoDS_Shape& first, const TopoDS_Shape& seco
         // Did we get a solid?
         TopExp_Explorer xp;
         xp.Init(mkCommon.Shape(),TopAbs_SOLID);
-        return (xp.More() == Standard_True);
+        return (xp.More() == true);
     }
 
 }

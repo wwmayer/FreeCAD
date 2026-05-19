@@ -132,7 +132,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::setSpineSupport(PyObject *args)
 
     try {
         const TopoDS_Shape& s = static_cast<Part::TopoShapePy*>(shape)->getTopoShapePtr()->getShape();
-        Standard_Boolean ok = this->getBRepOffsetAPI_MakePipeShellPtr()->SetMode(s);
+        bool ok = this->getBRepOffsetAPI_MakePipeShellPtr()->SetMode(s);
         return Py::new_reference_to(Py::Boolean(ok ? true : false));
     }
     catch (Standard_Failure& e) {
@@ -246,7 +246,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::isReady(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Boolean ok = this->getBRepOffsetAPI_MakePipeShellPtr()->IsReady();
+        bool ok = this->getBRepOffsetAPI_MakePipeShellPtr()->IsReady();
         return Py::new_reference_to(Py::Boolean(ok ? true : false));
     }
     catch (Standard_Failure& e) {
@@ -261,7 +261,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::getStatus(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Integer val = this->getBRepOffsetAPI_MakePipeShellPtr()->GetStatus();
+        int val = this->getBRepOffsetAPI_MakePipeShellPtr()->GetStatus();
         return Py::new_reference_to(Py::Long(val));
     }
     catch (Standard_Failure& e) {
@@ -276,7 +276,7 @@ PyObject* BRepOffsetAPI_MakePipeShellPy::makeSolid(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Boolean ok = this->getBRepOffsetAPI_MakePipeShellPtr()->MakeSolid();
+        bool ok = this->getBRepOffsetAPI_MakePipeShellPtr()->MakeSolid();
         return Py::new_reference_to(Py::Boolean(ok ? true : false));
     }
     catch (Standard_Failure& e) {

@@ -120,16 +120,16 @@ void GordonSurfaceBuilder::CreateGordonSurface(const std::vector<Handle(Geom_BSp
 
     // setting everything up for creating Tensor Product Surface by interpolating intersection points of profiles and guides with B-Spline surface
     // find the intersection points:
-    TColgp_Array2OfPnt intersection_pnts(1, static_cast<Standard_Integer>(intersection_params_spline_u.size()),
-                                         1, static_cast<Standard_Integer>(intersection_params_spline_v.size()));
+    TColgp_Array2OfPnt intersection_pnts(1, static_cast<int>(intersection_params_spline_u.size()),
+                                         1, static_cast<int>(intersection_params_spline_v.size()));
 
     // use splines in u-direction to get intersection points
     for (size_t spline_idx = 0; spline_idx < profiles.size(); ++spline_idx) {
         for (size_t intersection_idx = 0; intersection_idx < intersection_params_spline_u.size(); ++intersection_idx) {
             Handle(Geom_BSplineCurve) spline_u = profiles[spline_idx];
             double parameter = intersection_params_spline_u[intersection_idx];
-            intersection_pnts(static_cast<Standard_Integer>(intersection_idx + 1),
-                              static_cast<Standard_Integer>(spline_idx + 1)) = spline_u->Value(parameter);
+            intersection_pnts(static_cast<int>(intersection_idx + 1),
+                              static_cast<int>(spline_idx + 1)) = spline_u->Value(parameter);
         }
     }
 
@@ -160,11 +160,11 @@ void GordonSurfaceBuilder::CreateGordonSurface(const std::vector<Handle(Geom_BSp
                                                                                          intersection_params_spline_u, intersection_params_spline_v,
                                                                                          makeUClosed, makeVClosed);
     // match degree of all three surfaces
-    Standard_Integer degreeU = std::max(std::max(surfGuides->UDegree(),
+    int degreeU = std::max(std::max(surfGuides->UDegree(),
                                                  surfProfiles->UDegree()),
                                                  tensorProdSurf->UDegree());
 
-    Standard_Integer degreeV = std::max(std::max(surfGuides->VDegree(),
+    int degreeV = std::max(std::max(surfGuides->VDegree(),
                                                  surfProfiles->VDegree()),
                                                  tensorProdSurf->VDegree());
 

@@ -65,7 +65,7 @@ PyObject* BezierCurvePy::isRational(PyObject *args) const
         return nullptr;
     Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = curve->IsRational();
+    bool val = curve->IsRational();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -75,7 +75,7 @@ PyObject* BezierCurvePy::isPeriodic(PyObject *args) const
         return nullptr;
     Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = curve->IsPeriodic();
+    bool val = curve->IsPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -85,7 +85,7 @@ PyObject* BezierCurvePy::isClosed(PyObject *args) const
         return nullptr;
     Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = curve->IsClosed();
+    bool val = curve->IsClosed();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -231,7 +231,7 @@ PyObject* BezierCurvePy::getPoles(PyObject * args) const
         TColgp_Array1OfPnt p(1,curve->NbPoles());
         curve->Poles(p);
         Py::List poles;
-        for (Standard_Integer i=p.Lower(); i<=p.Upper(); i++) {
+        for (int i=p.Lower(); i<=p.Upper(); i++) {
             gp_Pnt pnt = p(i);
             Base::VectorPy* vec = new Base::VectorPy(Base::Vector3d(
                 pnt.X(), pnt.Y(), pnt.Z()));
@@ -317,7 +317,7 @@ PyObject* BezierCurvePy::getWeights(PyObject * args) const
         TColStd_Array1OfReal w(1,curve->NbPoles());
         curve->Weights(w);
         Py::List weights;
-        for (Standard_Integer i=w.Lower(); i<=w.Upper(); i++) {
+        for (int i=w.Lower(); i<=w.Upper(); i++) {
             weights.append(Py::Float(w(i)));
         }
         return Py::new_reference_to(weights);
@@ -436,8 +436,8 @@ PyObject* BezierCurvePy::interpolate(PyObject * args)
         for (Py::Sequence::iterator it1 = constraints.begin(); it1 != constraints.end(); ++it1) {
             Py::Sequence row(*it1);
             math_Matrix bezier_eval(1, row.size(), 1, num_poles, 0.0);
-            Standard_Integer first_non_zero;
-            BSplCLib::EvalBsplineBasis(row.size()-1, num_poles, knots, params(cons_idx), first_non_zero, bezier_eval, Standard_False);
+            int first_non_zero;
+            BSplCLib::EvalBsplineBasis(row.size()-1, num_poles, knots, params(cons_idx), first_non_zero, bezier_eval, false);
             int idx2 = 1;
             for (Py::Sequence::iterator it2 = row.begin(); it2 != row.end(); ++it2) {
                 OCCmatrix.SetRow(row_idx, bezier_eval.Row(idx2));

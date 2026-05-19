@@ -56,7 +56,7 @@ void WriterIges::write(Handle(TDocStd_Document) hDoc) const  // NOLINT
     header.SetSendName(new TCollection_HAsciiString(Part::Interface::writeIgesHeaderProduct()));
     writer.Model()->SetGlobalSection(header);
     writer.Transfer(hDoc);
-    Standard_Boolean ret = writer.Write(name8bit.c_str());
+    bool ret = writer.Write(name8bit.c_str());
     if (!ret) {
         throw Base::FileException("Cannot open file: ", file);
     }

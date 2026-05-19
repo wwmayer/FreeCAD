@@ -112,7 +112,7 @@ void CurveProjectorShape::Do()
 void CurveProjectorShape::projectCurve(const TopoDS_Edge& aEdge,
                                        std::vector<FaceSplitEdge>& vSplitEdges)
 {
-    Standard_Real fFirst, fLast;
+    double fFirst, fLast;
     Handle(Geom_Curve) hCurve = BRep_Tool::Curve(aEdge, fFirst, fLast);
 
     // getting start point
@@ -289,7 +289,7 @@ void CurveProjectorSimple::GetSampledCurves(const TopoDS_Edge& aEdge,
 {
     rclPoints.clear();
 
-    Standard_Real fBegin, fEnd;
+    double fBegin, fEnd;
 
     Handle(Geom_Curve) hCurve = BRep_Tool::Curve(aEdge, fBegin, fEnd);
     float fLen = float(fEnd - fBegin);
@@ -310,7 +310,7 @@ void CurveProjectorSimple::projectCurve(const TopoDS_Edge& aEdge,
     Base::Vector3f TempResultPoint;
     bool bFirst = true;
 
-    Standard_Real fBegin, fEnd;
+    double fBegin, fEnd;
     Handle(Geom_Curve) hCurve = BRep_Tool::Curve(aEdge, fBegin, fEnd);
     float fLen = float(fEnd - fBegin);
 
@@ -420,7 +420,7 @@ void CurveProjectorWithToolMesh::Do()
 void CurveProjectorWithToolMesh::makeToolMesh(const TopoDS_Edge& aEdge,
                                               std::vector<MeshGeomFacet>& cVAry)
 {
-    Standard_Real fBegin, fEnd;
+    double fBegin, fEnd;
     Handle(Geom_Curve) hCurve = BRep_Tool::Curve(aEdge, fBegin, fEnd);
     float fLen = float(fEnd - fBegin);
     Base::Vector3f cResultPoint;
@@ -501,13 +501,13 @@ void MeshProjection::discretize(const TopoDS_Edge& aEdge,
 {
     BRepAdaptor_Curve clCurve(aEdge);
 
-    Standard_Real fFirst = clCurve.FirstParameter();
-    Standard_Real fLast = clCurve.LastParameter();
+    double fFirst = clCurve.FirstParameter();
+    double fLast = clCurve.LastParameter();
 
     GCPnts_UniformDeflection clDefl(clCurve, 0.01f, fFirst, fLast);
-    if (clDefl.IsDone() == Standard_True) {
-        Standard_Integer nNbPoints = clDefl.NbPoints();
-        for (Standard_Integer i = 1; i <= nNbPoints; i++) {
+    if (clDefl.IsDone() == true) {
+        int nNbPoints = clDefl.NbPoints();
+        for (int i = 1; i <= nNbPoints; i++) {
             gp_Pnt gpPt = clCurve.Value(clDefl.Parameter(i));
             polyline.emplace_back((float)gpPt.X(), (float)gpPt.Y(), (float)gpPt.Z());
         }
@@ -515,13 +515,13 @@ void MeshProjection::discretize(const TopoDS_Edge& aEdge,
 
     if (polyline.size() < minPoints) {
         GCPnts_UniformAbscissa clAbsc(clCurve,
-                                      static_cast<Standard_Integer>(minPoints),
+                                      static_cast<int>(minPoints),
                                       fFirst,
                                       fLast);
-        if (clAbsc.IsDone() == Standard_True) {
+        if (clAbsc.IsDone() == true) {
             polyline.clear();
-            Standard_Integer nNbPoints = clAbsc.NbPoints();
-            for (Standard_Integer i = 1; i <= nNbPoints; i++) {
+            int nNbPoints = clAbsc.NbPoints();
+            for (int i = 1; i <= nNbPoints; i++) {
                 gp_Pnt gpPt = clCurve.Value(clAbsc.Parameter(i));
                 polyline.emplace_back((float)gpPt.X(), (float)gpPt.Y(), (float)gpPt.Z());
             }
@@ -613,7 +613,7 @@ void MeshProjection::findSectionParameters(const TopoDS_Edge& edge,
                         BRepBuilderAPI_MakeVertex aBuilder(gp_Pnt(res.x, res.y, res.z));
                         BRepExtrema_DistShapeShape extss(aBuilder.Vertex(), edge);
                         if (extss.NbSolution() == 1) {
-                            Standard_Real par;
+                            double par;
                             extss.ParOnEdgeS2(1, par);
                             parameters.insert(par);
                             break;
@@ -886,11 +886,11 @@ void MeshProjection::projectEdgeToEdge(const TopoDS_Edge& aEdge,
     }
 
     // sort intersection points by parameter
-    std::map<Standard_Real, SplitEdge> rParamSplitEdges;
+    std::map<double, SplitEdge> rParamSplitEdges;
 
     BRepAdaptor_Curve clCurve(aEdge);
-    Standard_Real fFirst = clCurve.FirstParameter();
-    Standard_Real fLast = clCurve.LastParameter();
+    double fFirst = clCurve.FirstParameter();
+    double fLast = clCurve.LastParameter();
     Handle(Geom_Curve) hCurve = BRep_Tool::Curve(aEdge, fFirst, fLast);
 
     MeshPointIterator cPI(_rcMesh);
@@ -930,9 +930,9 @@ void MeshProjection::projectEdgeToEdge(const TopoDS_Edge& aEdge,
         // get intersection of curve and plane
         GeomAPI_IntCS Alg(hCurve, hPlane);
         if (Alg.IsDone()) {
-            Standard_Integer nNbPoints = Alg.NbPoints();
+            int nNbPoints = Alg.NbPoints();
             if (nNbPoints == 1) {
-                Standard_Real fU, fV, fW;
+                double fU, fV, fW;
                 Alg.Parameters(1, fU, fV, fW);
 
                 gp_Pnt P = Alg.Point(1);
@@ -958,10 +958,10 @@ void MeshProjection::projectEdgeToEdge(const TopoDS_Edge& aEdge,
             else if (nNbPoints > 1) {
                 int nCntSol = 0;
                 Base::Vector3f cSplitPoint;
-                Standard_Real fSol;
+                double fSol;
                 Base::Vector3f cP0;
                 for (int j = 1; j <= nNbPoints; j++) {
-                    Standard_Real fU, fV, fW;
+                    double fU, fV, fW;
                     Alg.Parameters(j, fU, fV, fW);
                     gp_Pnt P = Alg.Point(j);
                     cP0.Set((float)P.X(), (float)P.Y(), (float)P.Z());

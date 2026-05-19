@@ -308,8 +308,8 @@ void FaceTypedBase::boundarySplit(const FaceVectorType &facesIn, std::vector<Edg
     std::copy(bEdges.begin(), bEdges.end(), back_inserter(edges));
     while(!edges.empty())
     {
-        TopoDS_Vertex destination = TopExp::FirstVertex(edges.front(), Standard_True);
-        TopoDS_Vertex lastVertex = TopExp::LastVertex(edges.front(), Standard_True);
+        TopoDS_Vertex destination = TopExp::FirstVertex(edges.front(), true);
+        TopoDS_Vertex lastVertex = TopExp::LastVertex(edges.front(), true);
         EdgeVectorType boundary;
         boundary.push_back(edges.front());
         edges.pop_front();
@@ -324,11 +324,11 @@ void FaceTypedBase::boundarySplit(const FaceVectorType &facesIn, std::vector<Edg
         std::list<TopoDS_Edge>::iterator it;
         for (it = edges.begin(); it != edges.end();)
         {
-            TopoDS_Vertex currentVertex = TopExp::FirstVertex(*it, Standard_True);
+            TopoDS_Vertex currentVertex = TopExp::FirstVertex(*it, true);
             if (lastVertex.IsSame(currentVertex))
             {
                 boundary.push_back(*it);
-                lastVertex = TopExp::LastVertex(*it, Standard_True);
+                lastVertex = TopExp::LastVertex(*it, true);
                 edges.erase(it);
                 it = edges.begin();
                 if (lastVertex.IsSame(destination))
@@ -409,7 +409,7 @@ TopoDS_Face FaceTypedPlane::buildFace(const FaceVectorType &faces) const
 
     std::sort(wires.begin(), wires.end(), ModelRefine::WireSort());
 
-    BRepLib_MakeFace faceMaker(wires.at(0), Standard_True);
+    BRepLib_MakeFace faceMaker(wires.at(0), true);
     if (faceMaker.Error() != BRepLib_FaceDone)
         return {};
     TopoDS_Face current = faceMaker.Face();
@@ -552,7 +552,7 @@ bool wireEncirclesAxis(const TopoDS_Wire& wire, const Handle(Geom_CylindricalSur
 
             // Calculate the oriented length of the edge
             gp_Pnt begin;
-            for (Standard_Integer j=1; j <= SeqPnt.Length(); j++) {
+            for (int j=1; j <= SeqPnt.Length(); j++) {
                 gp_Pnt end = SeqPnt.Value(j);
 
                 // Project end point onto the plane
@@ -731,8 +731,8 @@ void FaceTypedCylinder::boundarySplit(const FaceVectorType &facesIn, std::vector
 
     while (!sortedEdges.empty())
     {
-        TopoDS_Vertex destination = TopExp::FirstVertex(sortedEdges.back(), Standard_True);
-        TopoDS_Vertex lastVertex = TopExp::LastVertex(sortedEdges.back(), Standard_True);
+        TopoDS_Vertex destination = TopExp::FirstVertex(sortedEdges.back(), true);
+        TopoDS_Vertex lastVertex = TopExp::LastVertex(sortedEdges.back(), true);
         bool closedSignal(false);
         std::list<TopoDS_Edge> boundary;
         boundary.push_back(sortedEdges.back());
@@ -745,7 +745,7 @@ void FaceTypedCylinder::boundarySplit(const FaceVectorType &facesIn, std::vector
             std::list<TopoDS_Edge>::iterator sortedIt;
             for (sortedIt = sortedEdges.begin(); sortedIt != sortedEdges.end();)
             {
-                TopoDS_Vertex currentVertex = TopExp::FirstVertex(*sortedIt, Standard_True);
+                TopoDS_Vertex currentVertex = TopExp::FirstVertex(*sortedIt, true);
 
                 //Seam edges lie on top of each other. i.e. same. and we remove every match from the list
                 //so we don't actually ever compare the same edge.
@@ -757,7 +757,7 @@ void FaceTypedCylinder::boundarySplit(const FaceVectorType &facesIn, std::vector
                 if (lastVertex.IsSame(currentVertex))
                 {
                     boundary.push_back(*sortedIt);
-                    lastVertex = TopExp::LastVertex(*sortedIt, Standard_True);
+                    lastVertex = TopExp::LastVertex(*sortedIt, true);
                     if (lastVertex.IsSame(destination))
                     {
                         closedSignal = true;
@@ -801,7 +801,7 @@ void collectConicEdges(const TopoDS_Shell &shell, TopTools_IndexedMapOfShape &ma
     if (currentEdge.IsNull())
       continue;
     TopLoc_Location location;
-    Standard_Real first, last;
+    double first, last;
     const Handle(Geom_Curve) &curve = BRep_Tool::Curve(currentEdge, location, first, last);
     if (curve.IsNull())
       continue;
@@ -1361,15 +1361,15 @@ const TopTools_ListOfShape& Part::BRepBuilderAPI_RefineModel::Modified(const Top
         return myEmptyList;
 }
 
-Standard_Boolean Part::BRepBuilderAPI_RefineModel::IsDeleted(const TopoDS_Shape& S)
+bool Part::BRepBuilderAPI_RefineModel::IsDeleted(const TopoDS_Shape& S)
 {
     TopTools_ListIteratorOfListOfShape it;
     for (it.Initialize(myDeleted); it.More(); it.Next())
     {
         if (it.Value().IsSame(S))
-            return Standard_True;
+            return true;
     }
 
-    return Standard_False;
+    return false;
 }
 

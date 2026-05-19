@@ -179,7 +179,7 @@ class _VertexCompare
 public:
     bool operator()(const TopoDS_Vertex& rclV1, const TopoDS_Vertex& rclV2) const
     {
-        if (rclV1.IsSame(rclV2) == Standard_True) {
+        if (rclV1.IsSame(rclV2) == true) {
             return false;
         }
 
@@ -210,7 +210,7 @@ void MeshAlgos::LoftOnCurve(MeshCore::MeshKernel& ResultMesh,
                             float MaxSize)
 {
     TopExp_Explorer Ex;
-    Standard_Real fBegin, fEnd;
+    double fBegin, fEnd;
     std::vector<MeshGeomFacet> cVAry;
     std::map<TopoDS_Vertex, std::vector<Base::Vector3f>, _VertexCompare> ConnectMap;
 

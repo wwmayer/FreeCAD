@@ -377,12 +377,12 @@ void InterpolateCurveNetwork::EliminateInaccuraciesNetworkIntersections(const st
                                                                              math_Matrix & intersection_params_u,
                                                                              math_Matrix & intersection_params_v) const
 {
-    Standard_Integer nProfiles = static_cast<Standard_Integer>(sortedProfiles.size());
-    Standard_Integer nGuides = static_cast<Standard_Integer>(sortedGuides.size());
+    int nProfiles = static_cast<int>(sortedProfiles.size());
+    int nGuides = static_cast<int>(sortedGuides.size());
     // eliminate small inaccuracies of the intersection parameters:
 
     // first intersection
-    for (Standard_Integer spline_u_idx = 0; spline_u_idx < nProfiles; ++spline_u_idx) {
+    for (int spline_u_idx = 0; spline_u_idx < nProfiles; ++spline_u_idx) {
         if (std::abs(intersection_params_u(spline_u_idx, 0) - sortedProfiles[0]->Knot(1)) < 0.001) {
             if (std::abs(sortedProfiles[0]->Knot(1)) < 1e-10) {
                 intersection_params_u(spline_u_idx, 0) = 0;
@@ -393,7 +393,7 @@ void InterpolateCurveNetwork::EliminateInaccuraciesNetworkIntersections(const st
         }
     }
 
-    for (Standard_Integer spline_v_idx = 0; spline_v_idx < nGuides; ++spline_v_idx) {
+    for (int spline_v_idx = 0; spline_v_idx < nGuides; ++spline_v_idx) {
         if (std::abs(intersection_params_v(0, spline_v_idx) - sortedGuides[0]->Knot(1)) < 0.001) {
             if (std::abs(sortedGuides[0]->Knot(1)) < 1e-10) {
                 intersection_params_v(0, spline_v_idx) = 0;
@@ -405,13 +405,13 @@ void InterpolateCurveNetwork::EliminateInaccuraciesNetworkIntersections(const st
     }
 
     // last intersection
-    for (Standard_Integer spline_u_idx = 0; spline_u_idx < nProfiles; ++spline_u_idx) {
+    for (int spline_u_idx = 0; spline_u_idx < nProfiles; ++spline_u_idx) {
         if (std::abs(intersection_params_u(spline_u_idx, nGuides - 1) - sortedProfiles[0]->Knot(sortedProfiles[0]->NbKnots())) < 0.001) {
             intersection_params_u(spline_u_idx, nGuides - 1) = sortedProfiles[0]->Knot(sortedProfiles[0]->NbKnots());
         }
     }
 
-    for (Standard_Integer spline_v_idx = 0; spline_v_idx < nGuides; ++spline_v_idx) {
+    for (int spline_v_idx = 0; spline_v_idx < nGuides; ++spline_v_idx) {
         if (std::abs(intersection_params_v(nProfiles - 1, spline_v_idx) - sortedGuides[0]->Knot(sortedGuides[0]->NbKnots())) < 0.001) {
             intersection_params_v(nProfiles - 1, spline_v_idx) = sortedGuides[0]->Knot(sortedGuides[0]->NbKnots());
         }

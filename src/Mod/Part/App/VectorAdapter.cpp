@@ -77,8 +77,8 @@ VectorAdapter::VectorAdapter(const TopoDS_Edge &edgeIn, const gp_Vec &pickedPoin
     : status(false)
     , origin(pickedPointIn)
 {
-    TopoDS_Vertex firstVertex = TopExp::FirstVertex(edgeIn, Standard_True);
-    TopoDS_Vertex lastVertex = TopExp::LastVertex(edgeIn, Standard_True);
+    TopoDS_Vertex firstVertex = TopExp::FirstVertex(edgeIn, true);
+    TopoDS_Vertex lastVertex = TopExp::LastVertex(edgeIn, true);
     vector = convert(lastVertex) - convert(firstVertex);
     if (vector.Magnitude() < Precision::Confusion()) {
         return;

@@ -50,7 +50,7 @@ public:
     App::PropertyIntegerConstraint EndContinuity;
     App::PropertyFloatConstraint EndSize;
 
-    Standard_Integer maxDegree;
+    int maxDegree;
 
     App::DocumentObjectExecReturn* execute() override;
     short mustExecute() const override;

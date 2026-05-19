@@ -57,7 +57,7 @@ int StepShape::read(const char* fileName)
         throw Base::FileException(str.str().c_str());
     }
 
-    if (aReader.ReadFile((Standard_CString)fileName) != IFSelect_RetDone) {
+    if (aReader.ReadFile(fileName) != IFSelect_RetDone) {
         throw Base::FileException("Cannot open STEP file");
     }
 
@@ -65,7 +65,7 @@ int StepShape::read(const char* fileName)
     Handle(TColStd_HSequenceOfTransient) list = aReader.GiveList();
 
     // Use method StepData_StepModel::NextNumberForLabel to find its rank with the following:
-    // Standard_CString label = "#...";
+    // const char* label = "#...";
     Handle(StepData_StepModel) model = aReader.StepModel();
 
 

@@ -401,7 +401,7 @@ int HashCode(const Link& aLink, int aLimit)
 #endif
 }
 
-Standard_Boolean IsEqual(const Link& aLink1, const Link& aLink2)
+bool IsEqual(const Link& aLink1, const Link& aLink2)
 {
   return ((aLink1.n1 == aLink2.n1 && aLink1.n2 == aLink2.n2) ||
           (aLink1.n1 == aLink2.n2 && aLink1.n2 == aLink2.n1));
@@ -734,7 +734,7 @@ double NETGENPlugin_Mesher::GetDefaultMinSize(const TopoDS_Shape& geom,
 #if OCC_VERSION_HEX < 0x070600
     const TColgp_Array1OfPnt&   points = triangulation->Nodes();
 #else
-    auto points = [&triangulation](Standard_Integer index) {
+    auto points = [&triangulation](int index) {
         return triangulation->Node(index);
     };
 #endif
@@ -2356,7 +2356,7 @@ namespace
   {
     if ( size <= std::numeric_limits<double>::min() )
       return;
-    Standard_Real u1, u2;
+    double u1, u2;
     Handle(Geom_Curve) curve = BRep_Tool::Curve(edge, u1, u2);
     if ( curve.IsNull() )
     {
@@ -2368,10 +2368,10 @@ namespace
     else
     {
       const int nb = (int)( 1.5 * SMESH_Algo::EdgeLength( edge ) / size );
-      Standard_Real delta = (u2-u1)/nb;
+      double delta = (u2-u1)/nb;
       for(int i=0; i<nb; i++)
       {
-        Standard_Real u = u1 + delta*i;
+        double u = u1 + delta*i;
         gp_Pnt p = curve->Value(u);
         NETGENPlugin_Mesher::RestrictLocalSize( mesh, p.XYZ(), size );
         netgen::Point3d pi(p.X(), p.Y(), p.Z());
@@ -4205,7 +4205,7 @@ std::string NETGENPlugin_NetgenLibWrapper::getOutputFileName()
   aGenericName += _getpid();
 #endif
   aGenericName += "_";
-  aGenericName += Abs((Standard_Integer)(long) aGenericName.ToCString());
+  aGenericName += Abs((int)(long) aGenericName.ToCString());
   aGenericName += ".out";
 
   return aGenericName.ToCString();

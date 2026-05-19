@@ -973,7 +973,7 @@ void PartGui::goSetupResultBoundingBox(ResultEntry *entry)
     {
       Bnd_Box boundingBox;
       BRepBndLib::Add(entry->shape, boundingBox);
-      Standard_Real xmin, ymin, zmin, xmax, ymax, zmax;
+      double xmin, ymin, zmin, xmax, ymax, zmax;
       boundingBox.Get(xmin, ymin, zmin, xmax, ymax, zmax);
       SbVec3f boundCenter((xmax - xmin)/2 + xmin, (ymax - ymin)/2 + ymin, (zmax - zmin)/2 + zmin);
 
@@ -1428,9 +1428,9 @@ BOPProgressIndicator::~BOPProgressIndicator ()
 }
 
 void BOPProgressIndicator::Show (const Message_ProgressScope& theScope,
-                                 const Standard_Boolean isForce)
+                                 const bool isForce)
 {
-    Standard_CString aName = theScope.Name(); //current step
+    const char* aName = theScope.Name(); //current step
     myProgress->setLabelText (QString::fromUtf8(aName));
 
     if (isForce) {
@@ -1451,7 +1451,7 @@ void BOPProgressIndicator::Reset()
     myProgress->setValue(0);
 }
 
-Standard_Boolean BOPProgressIndicator::UserBreak()
+bool BOPProgressIndicator::UserBreak()
 {
     QThread *currentThread = QThread::currentThread();
     if (currentThread == myProgress->thread()) {
@@ -1461,7 +1461,7 @@ Standard_Boolean BOPProgressIndicator::UserBreak()
         // thread because when calling it from a worker thread the thrown
         // exception isn't handled anywhere and thus std::terminate is called
         if (canceled)
-            return Standard_True;
+            return true;
 
         // it suffices to update only every second
         // to avoid to unnecessarily process events
@@ -1476,7 +1476,7 @@ Standard_Boolean BOPProgressIndicator::UserBreak()
         }
     }
 
-    return Standard_False;
+    return false;
 }
 
 #include "moc_TaskCheckGeometry.cpp"

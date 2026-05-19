@@ -782,7 +782,7 @@ void ParameterCorrection::GetUVW(Base::Vector3d& clU,
 
 Base::Vector3d ParameterCorrection::GetGravityPoint() const
 {
-    Standard_Integer ulSize = _pvcPoints->Length();
+    int ulSize = _pvcPoints->Length();
     double x = 0.0, y = 0.0, z = 0.0;
     for (int i = _pvcPoints->Lower(); i <= _pvcPoints->Upper(); i++) {
         const gp_Pnt& pnt = (*_pvcPoints)(i);

@@ -135,7 +135,6 @@
 #include <Precision.hxx>
 #include <ShapeAnalysis_ShapeTolerance.hxx>
 #include <ShapeAnalysis_Surface.hxx>
-#include <Standard_Real.hxx>
 #include <Standard_Version.hxx>
 #include <TColgp_Array2OfPnt.hxx>
 #include <TopoDS.hxx>

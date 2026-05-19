@@ -75,7 +75,7 @@ template <class TheItemType> class SMESH_Array1
       myArray   = (SMESH_Array1 *) &theArray; 
     }
     //! Check end
-    virtual Standard_Boolean More (void) const
+    virtual bool More (void) const
     { return (myCurrent<=myArray->Upper()); }
     //! Make step
     virtual void Next (void)         
@@ -91,7 +91,7 @@ template <class TheItemType> class SMESH_Array1
                        const Handle(NCollection_BaseAllocator)& theAllocator) 
     { return theAllocator->Allocate(theSize); }
   private:
-    Standard_Integer    myCurrent; //!< Index of the current item
+    int    myCurrent; //!< Index of the current item
     SMESH_Array1* myArray;   //!< Pointer to the array being iterated
   }; // End of the nested class Iterator
 
@@ -99,12 +99,12 @@ template <class TheItemType> class SMESH_Array1
   // ---------- PUBLIC METHODS ------------
 
   //! Constructor
-  SMESH_Array1(const Standard_Integer theLower,
-                     const Standard_Integer theUpper) :
+  SMESH_Array1(const int theLower,
+                     const int theUpper) :
                 NCollection_BaseCollection<TheItemType>  (),
                 myLowerBound                             (theLower),
                 myUpperBound                             (theUpper),
-                myDeletable                              (Standard_True)
+                myDeletable                              (true)
   {
 #if !defined No_Exception && !defined No_Standard_RangeError
     if (theUpper < theLower)
@@ -124,7 +124,7 @@ template <class TheItemType> class SMESH_Array1
     NCollection_BaseCollection<TheItemType>     (),
     myLowerBound                                (theOther.Lower()),
     myUpperBound                                (theOther.Upper()),
-    myDeletable                                 (Standard_True)
+    myDeletable                                 (true)
   {
     TheItemType* pBegin = new TheItemType[Length()];
 #if !defined No_Exception && !defined No_Standard_OutOfMemory
@@ -138,12 +138,12 @@ template <class TheItemType> class SMESH_Array1
 
   //! C array-based constructor
   SMESH_Array1 (const TheItemType& theBegin,
-                      const Standard_Integer theLower,
-                      const Standard_Integer theUpper) :
+                      const int theLower,
+                      const int theUpper) :
     NCollection_BaseCollection<TheItemType>     (),
     myLowerBound                                (theLower),
     myUpperBound                                (theUpper),
-    myDeletable                                 (Standard_False)
+    myDeletable                                 (false)
   {
 #if !defined No_Exception && !defined No_Standard_RangeError
     if (theUpper < theLower)
@@ -161,25 +161,25 @@ template <class TheItemType> class SMESH_Array1
   }
 
   //! Size query
-  virtual Standard_Integer Size (void) const
+  virtual int Size (void) const
   { return Length(); }
   //! Length query (the same)
-  Standard_Integer Length (void) const
+  int Length (void) const
   { return (myUpperBound-myLowerBound+1); }
 
   //! Lower bound
-  Standard_Integer Lower (void) const
+  int Lower (void) const
   { return myLowerBound; }
   //! Upper bound
-  Standard_Integer Upper (void) const
+  int Upper (void) const
   { return myUpperBound; }
 
   //! myDeletable flag
-  Standard_Boolean IsDeletable (void) const
+  bool IsDeletable (void) const
   { return myDeletable; }
 
   //! IsAllocated flag - for naming compatibility
-  Standard_Boolean IsAllocated (void) const
+  bool IsAllocated (void) const
   { return myDeletable; }
 
   //! Assign (any collection to this array)
@@ -218,7 +218,7 @@ template <class TheItemType> class SMESH_Array1
   }
 
   //! Constant value access
-  const TheItemType& Value (const Standard_Integer theIndex) const
+  const TheItemType& Value (const int theIndex) const
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theIndex < myLowerBound || theIndex > myUpperBound)
@@ -228,11 +228,11 @@ template <class TheItemType> class SMESH_Array1
   }
 
   //! operator() - alias to Value
-  const TheItemType& operator() (const Standard_Integer theIndex) const
+  const TheItemType& operator() (const int theIndex) const
   { return Value (theIndex); }
 
   //! Variable value access
-  TheItemType& ChangeValue (const Standard_Integer theIndex)
+  TheItemType& ChangeValue (const int theIndex)
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theIndex < myLowerBound || theIndex > myUpperBound)
@@ -242,11 +242,11 @@ template <class TheItemType> class SMESH_Array1
   }
 
   //! operator() - alias to ChangeValue
-  TheItemType& operator() (const Standard_Integer theIndex)
+  TheItemType& operator() (const int theIndex)
   { return ChangeValue (theIndex); }
 
   //! Set value 
-  void SetValue (const Standard_Integer theIndex,
+  void SetValue (const int theIndex,
                  const TheItemType&     theItem)
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
@@ -271,9 +271,9 @@ template <class TheItemType> class SMESH_Array1
 
  protected:
   // ---------- PROTECTED FIELDS -----------
-  Standard_Integer     myLowerBound;
-  Standard_Integer     myUpperBound;
-  Standard_Boolean     myDeletable; //!< Flag showing who allocated the array
+  int     myLowerBound;
+  int     myUpperBound;
+  bool     myDeletable; //!< Flag showing who allocated the array
   TheItemType*         myData;      //!< Pointer to '0'th array item
 };
 

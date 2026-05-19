@@ -368,7 +368,7 @@ Base::Placement AttachEngine::placementFactory(const gp_Dir &ZAxis,
     gp_Trsf Trf;
     Trf.SetTransformation(ax3);
     Trf.Invert();
-    Trf.SetScaleFactor(Standard_Real(1.0));
+    Trf.SetScaleFactor(double(1.0));
 
     Base::Matrix4D mtrx;
     TopoShape::convertToMatrix(Trf,mtrx);
@@ -499,7 +499,7 @@ eRefType AttachEngine::getShapeType(const TopoDS_Shape& sh)
     break;
     case TopAbs_COMPOUND:{
         const TopoDS_Compound &cmpd = TopoDS::Compound(sh);
-        TopoDS_Iterator it (cmpd, Standard_False, Standard_False);//don't mess with placements, to hopefully increase speed
+        TopoDS_Iterator it (cmpd, false, false);//don't mess with placements, to hopefully increase speed
         if (! it.More())//empty compound
             return rtAnything;
         const TopoDS_Shape &sh1 = it.Value();
@@ -518,7 +518,7 @@ eRefType AttachEngine::getShapeType(const TopoDS_Shape& sh)
     break;
     case TopAbs_FACE:{
         const TopoDS_Face &f = TopoDS::Face(sh);
-        BRepAdaptor_Surface surf(f, /*restriction=*/Standard_False);
+        BRepAdaptor_Surface surf(f, /*restriction=*/false);
         switch(surf.GetType()) {
         case GeomAbs_Plane:
             return rtFlatFace;
@@ -1324,9 +1324,9 @@ AttachEngine3D::_calculateAttachedPlacement(const std::vector<App::DocumentObjec
                 // that is substantially different. The one that is different
                 // corresponds to a defined axis. We'll identify the different one by
                 // comparing differences.
-                Standard_Real I1, I2, I3;
+                double I1, I2, I3;
                 pr.Moments(I1, I2, I3);
-                Standard_Real d12, d23, d31;
+                double d12, d23, d31;
                 d12 = fabs(I1 - I2);
                 d23 = fabs(I2 - I3);
                 d31 = fabs(I3 - I1);
@@ -1389,7 +1389,7 @@ AttachEngine3D::_calculateAttachedPlacement(const std::vector<App::DocumentObjec
                 }
             }
 
-            Standard_Boolean ok = plane.Direct();
+            bool ok = plane.Direct();
             if (!ok) {
                 // toggle if plane has a left-handed coordinate system
                 plane.UReverse();
@@ -1454,7 +1454,7 @@ AttachEngine3D::_calculateAttachedPlacement(const std::vector<App::DocumentObjec
             BRepAdaptor_Surface surf(face);
             BRepLProp_SLProps prop(surf, u, v, 1, Precision::Confusion());
             gp_Dir dirX;
-            Standard_Boolean done;
+            bool done;
 
             Tools::getNormal(face, u, v, Precision::Confusion(), SketchNormal, done);
 
@@ -2237,9 +2237,9 @@ AttachEngineLine::_calculateAttachedPlacement(const std::vector<App::DocumentObj
                 // query moments, to use them to check if axis is defined
                 // See AttachEngine3D::calculateAttachedPlacement:case mmInertial for comment
                 // explaining these comparisons
-                Standard_Real I1, I2, I3;
+                double I1, I2, I3;
                 pr.Moments(I1, I2, I3);
-                Standard_Real d12, d23, d31;
+                double d12, d23, d31;
                 d12 = fabs(I1 - I2);
                 d23 = fabs(I2 - I3);
                 d31 = fabs(I3 - I1);
@@ -2415,7 +2415,7 @@ AttachEngineLine::_calculateAttachedPlacement(const std::vector<App::DocumentObj
                         "AttachEngineLine::calculateAttachedPlacement: Intersection failed");
                 }
 
-                const Standard_Integer intLines = intersector.NbLines();
+                const int intLines = intersector.NbLines();
                 if (intLines == 0) {
                     throw Base::ValueError("AttachEngineLine::calculateAttachedPlacement: The two "
                                            "shapes don't intersect");

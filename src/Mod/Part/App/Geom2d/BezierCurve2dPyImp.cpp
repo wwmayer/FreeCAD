@@ -61,7 +61,7 @@ PyObject* BezierCurve2dPy::isRational(PyObject *args)
         return nullptr;
     Handle(Geom2d_BezierCurve) curve = Handle(Geom2d_BezierCurve)::DownCast
         (getGeometry2dPtr()->handle());
-    Standard_Boolean val = curve->IsRational();
+    bool val = curve->IsRational();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -71,7 +71,7 @@ PyObject* BezierCurve2dPy::isPeriodic(PyObject *args)
         return nullptr;
     Handle(Geom2d_BezierCurve) curve = Handle(Geom2d_BezierCurve)::DownCast
         (getGeometry2dPtr()->handle());
-    Standard_Boolean val = curve->IsPeriodic();
+    bool val = curve->IsPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -81,7 +81,7 @@ PyObject* BezierCurve2dPy::isClosed(PyObject *args)
         return nullptr;
     Handle(Geom2d_BezierCurve) curve = Handle(Geom2d_BezierCurve)::DownCast
         (getGeometry2dPtr()->handle());
-    Standard_Boolean val = curve->IsClosed();
+    bool val = curve->IsClosed();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -226,7 +226,7 @@ PyObject* BezierCurve2dPy::getPoles(PyObject * args)
         curve->Poles(p);
         Py::List poles;
 
-        for (Standard_Integer i=p.Lower(); i<=p.Upper(); i++) {
+        for (int i=p.Lower(); i<=p.Upper(); i++) {
             gp_Pnt2d pnt = p(i);
             poles.append(Base::Vector2dPy::create(pnt.X(), pnt.Y()));
         }
@@ -309,7 +309,7 @@ PyObject* BezierCurve2dPy::getWeights(PyObject * args)
         TColStd_Array1OfReal w(1,curve->NbPoles());
         curve->Weights(w);
         Py::List weights;
-        for (Standard_Integer i=w.Lower(); i<=w.Upper(); i++) {
+        for (int i=w.Lower(); i<=w.Upper(); i++) {
             weights.append(Py::Float(w(i)));
         }
         return Py::new_reference_to(weights);

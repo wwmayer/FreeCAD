@@ -206,7 +206,7 @@ public:
     void Build() override;
 #endif
     const TopTools_ListOfShape& Modified(const TopoDS_Shape& S) override;
-    Standard_Boolean IsDeleted(const TopoDS_Shape& S) override;
+    bool IsDeleted(const TopoDS_Shape& S) override;
 
 private:
     void LogModifications(const ModelRefine::FaceUniter& uniter);

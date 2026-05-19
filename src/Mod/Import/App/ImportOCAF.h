@@ -131,12 +131,12 @@ private:
     Handle(XCAFDoc_ShapeTool) aShapeTool;
     Handle(XCAFDoc_ColorTool) hColors;
     std::string default_name;
-    std::map<Standard_Integer, TopoDS_Shape> mySolids;
-    std::map<Standard_Integer, TopoDS_Shape> myShells;
-    std::map<Standard_Integer, TopoDS_Shape> myCompds;
-    std::map<Standard_Integer, TopoDS_Shape> myShapes;
-    std::map<Standard_Integer, Quantity_ColorRGBA> myColorMap;
-    std::map<Standard_Integer, std::string> myNameMap;
+    std::map<int, TopoDS_Shape> mySolids;
+    std::map<int, TopoDS_Shape> myShells;
+    std::map<int, TopoDS_Shape> myCompds;
+    std::map<int, TopoDS_Shape> myShapes;
+    std::map<int, Quantity_ColorRGBA> myColorMap;
+    std::map<int, std::string> myNameMap;
 };
 
 }  // namespace Import

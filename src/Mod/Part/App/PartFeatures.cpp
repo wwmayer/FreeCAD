@@ -319,7 +319,7 @@ App::DocumentObjectExecReturn* Sweep::execute()
         }
     }
     MakeSolid isSolid = Solid.getValue() ? MakeSolid::makeSolid : MakeSolid::noSolid;
-    Standard_Boolean isFrenet = Frenet.getValue() ? Standard_True : Standard_False;
+    bool isFrenet = Frenet.getValue() ? true : false;
     auto transMode = static_cast<TransitionMode>(Transition.getValue());
     try {
         TopoShape result(0);
