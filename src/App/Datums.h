@@ -231,7 +231,7 @@ private:
 
     class LCSExtension: public GeoFeatureGroupExtension
     {
-        LocalCoordinateSystem* obj;
+        LocalCoordinateSystem* lcs;
 
     public:
         explicit LCSExtension(LocalCoordinateSystem* obj);
@@ -242,6 +242,7 @@ private:
                                    Base::Matrix4D*,
                                    bool,
                                    int) const override;
+        bool hasObject(const DocumentObject* obj, bool recursive = false) const override;
     };
     LCSExtension extension;
 

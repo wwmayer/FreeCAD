@@ -400,12 +400,20 @@ bool Feature::isDatum(const App::DocumentObject* feature)
 
 gp_Pln Feature::makePlnFromPlane(const App::DocumentObject* obj)
 {
-    const App::GeoFeature* plane = static_cast<const App::GeoFeature*>(obj);
-    if (!plane)
+    const auto geo = dynamic_cast<const App::GeoFeature*>(obj);
+    if (!geo) {
         throw Base::ValueError("Feature: Null object");
+    }
 
-    Base::Vector3d pos = plane->Placement.getValue().getPosition();
-    Base::Rotation rot = plane->Placement.getValue().getRotation();
+    Base::Placement placement = geo->Placement.getValue();
+    if (const auto plane = dynamic_cast<const App::Plane*>(obj)) {
+        if (auto lcs = plane->getLCS()) {
+            placement = lcs->Placement.getValue();
+        }
+    }
+
+    Base::Vector3d pos = placement.getPosition();
+    Base::Rotation rot = placement.getRotation();
     Base::Vector3d normal(0,0,1);
     rot.multVec(normal, normal);
     return gp_Pln(gp_Pnt(pos.x,pos.y,pos.z), gp_Dir(normal.x,normal.y,normal.z));
