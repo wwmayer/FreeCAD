@@ -275,13 +275,16 @@ int TopoShapeFacePy::PyInit(PyObject* args, PyObject* /*kwd*/)
                 PyObject* item = (*it).ptr();
                 if (PyObject_TypeCheck(item, &(Part::TopoShapePy::Type))) {
                     const TopoDS_Shape& sh = static_cast<Part::TopoShapePy*>(item)->getTopoShapePtr()->getShape();
-                    if (sh.ShapeType() == TopAbs_WIRE)
+                    if (sh.ShapeType() == TopAbs_WIRE) {
                         wires.push_back(TopoDS::Wire(sh));
-                    else
-                        Standard_Failure::Raise("shape is not a wire");
+                    }
+                    else {
+                        throw Standard_Failure("shape is not a wire");
+                    }
                 }
-                else
-                    Standard_Failure::Raise("shape is not a wire");
+                else {
+                    throw Standard_Failure("shape is not a wire");
+                }
             }
 
             if (!wires.empty()) {
@@ -289,19 +292,19 @@ int TopoShapeFacePy::PyInit(PyObject* args, PyObject* /*kwd*/)
                 if (!mkFace.IsDone()) {
                     switch (mkFace.Error()) {
                     case BRepBuilderAPI_NoFace:
-                        Standard_Failure::Raise("No face");
+                        throw Standard_Failure("No face");
                         break;
                     case BRepBuilderAPI_NotPlanar:
-                        Standard_Failure::Raise("Not planar");
+                        throw Standard_Failure("Not planar");
                         break;
                     case BRepBuilderAPI_CurveProjectionFailed:
-                        Standard_Failure::Raise("Curve projection failed");
+                        throw Standard_Failure("Curve projection failed");
                         break;
                     case BRepBuilderAPI_ParametersOutOfRange:
-                        Standard_Failure::Raise("Parameters out of range");
+                        throw Standard_Failure("Parameters out of range");
                         break;
                     default:
-                        Standard_Failure::Raise("Unknown failure");
+                        throw Standard_Failure("Unknown failure");
                         break;
                     }
                 }
@@ -311,7 +314,7 @@ int TopoShapeFacePy::PyInit(PyObject* args, PyObject* /*kwd*/)
                 return 0;
             }
             else {
-                Standard_Failure::Raise("no wires in list");
+                throw Standard_Failure("no wires in list");
             }
         }
         catch (Standard_Failure& e) {
@@ -757,13 +760,16 @@ PyObject* TopoShapeFacePy::cutHoles(PyObject *args)
                 PyObject* item = (*it).ptr();
                 if (PyObject_TypeCheck(item, &(Part::TopoShapePy::Type))) {
                     const TopoDS_Shape& sh = static_cast<Part::TopoShapePy*>(item)->getTopoShapePtr()->getShape();
-                    if (sh.ShapeType() == TopAbs_WIRE)
+                    if (sh.ShapeType() == TopAbs_WIRE) {
                         wires.push_back(TopoDS::Wire(sh));
-                    else
-                        Standard_Failure::Raise("shape is not a wire");
+                    }
+                    else {
+                        throw Standard_Failure("shape is not a wire");
+                    }
                 }
-                else
-                    Standard_Failure::Raise("argument is not a shape");
+                else {
+                    throw Standard_Failure("argument is not a shape");
+                }
             }
 
             if (!wires.empty()) {
@@ -774,19 +780,19 @@ PyObject* TopoShapeFacePy::cutHoles(PyObject *args)
                 if (!mkFace.IsDone()) {
                     switch (mkFace.Error()) {
                     case BRepBuilderAPI_NoFace:
-                        Standard_Failure::Raise("No face");
+                        throw Standard_Failure("No face");
                         break;
                     case BRepBuilderAPI_NotPlanar:
-                        Standard_Failure::Raise("Not planar");
+                        throw Standard_Failure("Not planar");
                         break;
                     case BRepBuilderAPI_CurveProjectionFailed:
-                        Standard_Failure::Raise("Curve projection failed");
+                        throw Standard_Failure("Curve projection failed");
                         break;
                     case BRepBuilderAPI_ParametersOutOfRange:
-                        Standard_Failure::Raise("Parameters out of range");
+                        throw Standard_Failure("Parameters out of range");
                         break;
                     default:
-                        Standard_Failure::Raise("Unknown failure");
+                        throw Standard_Failure("Unknown failure");
                         break;
                     }
                 }
@@ -795,7 +801,7 @@ PyObject* TopoShapeFacePy::cutHoles(PyObject *args)
                 Py_Return;
             }
             else {
-                Standard_Failure::Raise("empty wire list");
+                throw Standard_Failure("empty wire list");
             }
         }
         catch (Standard_Failure& e) {

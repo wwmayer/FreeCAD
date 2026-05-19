@@ -62,7 +62,12 @@
 #include <BRepBuilderAPI_Copy.hxx>
 #include <BRepMesh_IncrementalMesh.hxx>
 #include <BRep_Tool.hxx>
+#include <Standard_Version.hxx>
+#if OCC_VERSION_HEX < 0x080000
 #include <Bnd_B3d.hxx>
+#else
+#include <Bnd_B3.hxx>
+#endif
 #include <NCollection_Map.hxx>
 #include <Standard_ErrorHandler.hxx>
 #include <Standard_ProgramError.hxx>
@@ -70,8 +75,6 @@
 #include <TColStd_MapOfInteger.hxx>
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
-#include <TopTools_DataMapIteratorOfDataMapOfShapeInteger.hxx>
-#include <TopTools_DataMapIteratorOfDataMapOfShapeShape.hxx>
 #include <TopTools_DataMapOfShapeInteger.hxx>
 #include <TopTools_DataMapOfShapeShape.hxx>
 #include <TopTools_MapOfShape.hxx>
@@ -2404,7 +2407,11 @@ namespace
   {
     SMESH_Comment str("Exception in netgen::OCCGenerateMesh()");
     str << " at " << netgen::multithread.task
+#if OCC_VERSION_HEX >= 0x080000
+        << ": " << ex.ExceptionType();
+#else
         << ": " << ex.DynamicType()->Name();
+#endif
     if ( ex.GetMessageString() && strlen( ex.GetMessageString() ))
       str << ": " << ex.GetMessageString();
     return std::move(str);

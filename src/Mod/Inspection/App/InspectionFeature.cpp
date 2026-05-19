@@ -33,6 +33,7 @@
 #include <BRepGProp_Face.hxx>
 #include <TopExp.hxx>
 #include <TopoDS.hxx>
+#include <TopTools_IndexedMapOfShape.hxx>
 #include <gp_Pnt.hxx>
 
 #include <QEventLoop>

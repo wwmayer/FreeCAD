@@ -23,6 +23,7 @@
 #include "PreCompiled.h"
 #ifndef _PreComp_
 # include <TopoDS.hxx>
+# include <TopTools_SequenceOfShape.hxx>
 #endif
 
 #include "ShapeFix/ShapeFix_FacePy.h"

@@ -34,7 +34,11 @@
 #include "StdMeshers_QuadrangleParams.hxx"
 
 #include <TopoDS_Face.hxx>
+#if OCC_VERSION_HEX < 0x080000
 #include <Bnd_B2d.hxx>
+#else
+#include <Bnd_B2.hxx>
+#endif
 
 class SMDS_MeshNode;
 class SMESH_Mesh;

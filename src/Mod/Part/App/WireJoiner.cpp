@@ -43,11 +43,14 @@
 # include <GeomAdaptor_Curve.hxx>
 # include <GeomLProp_CLProps.hxx>
 # include <GProp_GProps.hxx>
+# include <IntRes2d_SequenceOfIntersectionPoint.hxx>
 # include <ShapeAnalysis_Wire.hxx>
 # include <ShapeFix_ShapeTolerance.hxx>
 # include <ShapeExtend_WireData.hxx>
 # include <ShapeFix_Wire.hxx>
 # include <ShapeFix_Shape.hxx>
+# include <TColgp_SequenceOfPnt.hxx>
+# include <TColStd_SequenceOfReal.hxx>
 # include <TopExp.hxx>
 # include <TopExp_Explorer.hxx>
 # include <TopTools_HSequenceOfShape.hxx>

@@ -31,6 +31,7 @@
 #include <Standard_Version.hxx>
 #include <TopLoc_Location.hxx>
 #include <TopoDS.hxx>
+#include <TColGeom_SequenceOfCurve.hxx>
 #endif
 
 #include "FeatureSections.h"

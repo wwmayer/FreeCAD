@@ -68,7 +68,7 @@
 # include <TopoDS_Face.hxx>
 # include <TopoDS_Shell.hxx>
 # include <TopoDS_Solid.hxx>
-# include <TopTools_ListIteratorOfListOfShape.hxx>
+# include <TopTools_ListOfShape.hxx>
 #endif
 # include <BRepFill_Generator.hxx>
 
@@ -1382,7 +1382,7 @@ private:
             }
 
             if (!mkPoly.IsDone())
-                Standard_Failure::Raise("Cannot create polygon because less than two vertices are given");
+                throw Standard_Failure("Cannot create polygon because less than two vertices are given");
 
             // if the polygon should be closed
             if (Base::asBoolean(pclosed)) {

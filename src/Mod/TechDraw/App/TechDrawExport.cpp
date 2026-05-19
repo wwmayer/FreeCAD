@@ -45,6 +45,7 @@
 # include <Poly_Polygon3D.hxx>
 # include <Standard_Failure.hxx>
 # include <Standard_Version.hxx>
+# include <TColgp_Array1OfPnt.hxx>
 # include <TColStd_Array1OfReal.hxx>
 # include <TopExp_Explorer.hxx>
 # include <TopoDS.hxx>
@@ -294,7 +295,7 @@ void SVGOutput::printBezier(const BRepAdaptor_Curve& c, int id, std::ostream& ou
                 printBSpline(spline, id, out);
             }
             else {
-                Standard_Failure::Raise("do it the generic way");
+                throw Standard_Failure("do it the generic way");
             }
 
             return;
@@ -305,7 +306,7 @@ void SVGOutput::printBezier(const BRepAdaptor_Curve& c, int id, std::ostream& ou
         str << p1.X() << ", " << p1.Y();
         if (bezier->Degree() == 3) {
             if (poles != 4)
-                Standard_Failure::Raise("do it the generic way");
+                throw Standard_Failure("do it the generic way");
             gp_Pnt p2 = bezier->Pole(2);
             gp_Pnt p3 = bezier->Pole(3);
             gp_Pnt p4 = bezier->Pole(4);
@@ -316,7 +317,7 @@ void SVGOutput::printBezier(const BRepAdaptor_Curve& c, int id, std::ostream& ou
         }
         else if (bezier->Degree() == 2) {
             if (poles != 3)
-                Standard_Failure::Raise("do it the generic way");
+                throw Standard_Failure("do it the generic way");
             gp_Pnt p2 = bezier->Pole(2);
             gp_Pnt p3 = bezier->Pole(3);
             str << " Q"
@@ -325,12 +326,12 @@ void SVGOutput::printBezier(const BRepAdaptor_Curve& c, int id, std::ostream& ou
         }
         else if (bezier->Degree() == 1) {
             if (poles != 2)
-                Standard_Failure::Raise("do it the generic way");
+                throw Standard_Failure("do it the generic way");
             gp_Pnt p2 = bezier->Pole(2);
             str << " L" << p2.X() << ", " << p2.Y() << " ";
         }
         else {
-            Standard_Failure::Raise("do it the generic way");
+            throw Standard_Failure("do it the generic way");
         }
 
         str << "\" />";
@@ -371,7 +372,7 @@ void SVGOutput::printBSpline(const BRepAdaptor_Curve& c, int id, std::ostream& o
             }
             if (bezier->Degree() == 3) {
                 if (poles != 4)
-                    Standard_Failure::Raise("do it the generic way");
+                    throw Standard_Failure("do it the generic way");
                 gp_Pnt p2 = bezier->Pole(2);
                 gp_Pnt p3 = bezier->Pole(3);
                 gp_Pnt p4 = bezier->Pole(4);
@@ -382,7 +383,7 @@ void SVGOutput::printBSpline(const BRepAdaptor_Curve& c, int id, std::ostream& o
             }
             else if (bezier->Degree() == 2) {
                 if (poles != 3)
-                    Standard_Failure::Raise("do it the generic way");
+                    throw Standard_Failure("do it the generic way");
                 gp_Pnt p2 = bezier->Pole(2);
                 gp_Pnt p3 = bezier->Pole(3);
                 str << " Q"
@@ -391,12 +392,12 @@ void SVGOutput::printBSpline(const BRepAdaptor_Curve& c, int id, std::ostream& o
             }
             else if (bezier->Degree() == 1) {
                 if (poles != 2)
-                    Standard_Failure::Raise("do it the generic way");
+                    throw Standard_Failure("do it the generic way");
                 gp_Pnt p2 = bezier->Pole(2);
                 str << " L" << p2.X() << ", " << p2.Y() << " ";
             }
             else {
-                Standard_Failure::Raise("do it the generic way");
+                throw Standard_Failure("do it the generic way");
             }
         }
 

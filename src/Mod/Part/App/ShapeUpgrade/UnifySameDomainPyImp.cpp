@@ -27,6 +27,7 @@
 
 // Needed for OCCT 7.5.2
 #include <TopoDS_Edge.hxx>
+#include <TopTools_MapOfShape.hxx>
 #endif
 
 #include <Base/PyWrapParseTupleAndKeywords.h>

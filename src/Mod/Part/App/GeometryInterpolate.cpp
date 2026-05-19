@@ -28,6 +28,7 @@
 #include <Precision.hxx>
 #include <Standard_ConstructionError.hxx>
 #include <TColgp_HArray1OfPnt.hxx>
+#include <TColStd_Array1OfInteger.hxx>
 #endif
 
 #include "GeometryInterpolate.h"
