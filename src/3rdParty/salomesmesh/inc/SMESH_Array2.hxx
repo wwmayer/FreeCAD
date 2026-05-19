@@ -174,7 +174,7 @@ template <class TheItemType> class SMESH_Array2
       return;
 #if !defined No_Exception && !defined No_Standard_DimensionMismatch
     if (Length() != theOther.Size())
-      Standard_DimensionMismatch::Raise ("SMESH_Array2::Assign");
+      throw Standard_DimensionMismatch ("SMESH_Array2::Assign");
 #endif
     TYPENAME NCollection_BaseCollection<TheItemType>::Iterator& anIter2 = 
       theOther.CreateIterator();
@@ -192,7 +192,7 @@ template <class TheItemType> class SMESH_Array2
       return *this;
 #if !defined No_Exception && !defined No_Standard_DimensionMismatch
     if (Length() != theOther.Length())
-      Standard_DimensionMismatch::Raise ("SMESH_Array2::operator=");
+      throw Standard_DimensionMismatch ("SMESH_Array2::operator=");
 #endif
     TheItemType * pMyItem  = myStart;
     TheItemType * pItem    = theOther.myStart;
@@ -209,7 +209,7 @@ template <class TheItemType> class SMESH_Array2
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theRow < myLowerRow || theRow > myUpperRow ||
         theCol < myLowerCol || theCol > myUpperCol)
-      Standard_OutOfRange::Raise ("SMESH_Array2::Value");
+      throw Standard_OutOfRange ("SMESH_Array2::Value");
 #endif
     return myData[theRow][theCol];
   }
@@ -226,7 +226,7 @@ template <class TheItemType> class SMESH_Array2
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theRow < myLowerRow || theRow > myUpperRow ||
         theCol < myLowerCol || theCol > myUpperCol)
-      Standard_OutOfRange::Raise ("SMESH_Array2::ChangeValue");
+      throw Standard_OutOfRange ("SMESH_Array2::ChangeValue");
 #endif
     return myData[theRow][theCol];
   }
@@ -244,7 +244,7 @@ template <class TheItemType> class SMESH_Array2
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theRow < myLowerRow || theRow > myUpperRow ||
         theCol < myLowerCol || theCol > myUpperCol)
-      Standard_OutOfRange::Raise ("SMESH_Array2::SetValue");
+      throw Standard_OutOfRange ("SMESH_Array2::SetValue");
 #endif
     myData[theRow][theCol] = theItem;
   }
@@ -266,21 +266,21 @@ template <class TheItemType> class SMESH_Array2
     const Standard_Integer iColSize = myUpperRow - myLowerRow + 1;
 #if !defined No_Exception && !defined No_Standard_RangeError
     if (iRowSize <= 0  || iColSize <= 0)
-      Standard_RangeError::Raise ("SMESH_Array2::Allocate");
+      throw Standard_RangeError ("SMESH_Array2::Allocate");
 #endif
     if (myDeletable) {
       // allocation of the data in the array
       myStart = new TheItemType[iRowSize * iColSize];
 #if !defined No_Exception && !defined No_Standard_OutOfMemory
       if (!myStart)
-        Standard_OutOfMemory::Raise ("SMESH_Array2 : Allocation failed");
+        throw Standard_OutOfMemory ("SMESH_Array2 : Allocation failed");
 #endif
     }
     // else myStart is set to the beginning of the given array
     TheItemType** pTable = new TheItemType* [iColSize];
 #if !defined No_Exception && !defined No_Standard_OutOfMemory
     if (!pTable)
-      Standard_OutOfMemory::Raise ("SMESH_Array2 : Allocation failed");
+      throw Standard_OutOfMemory ("SMESH_Array2 : Allocation failed");
 #endif
 
     // Items of pTable point to the '0'th items in the rows of the array

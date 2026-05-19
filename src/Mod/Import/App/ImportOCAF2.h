@@ -30,6 +30,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include <TDF_LabelSequence.hxx>
 #include <TDocStd_Document.hxx>
 #include <TopoDS_Shape.hxx>
 #include <XCAFDoc_ColorTool.hxx>

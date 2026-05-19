@@ -24,6 +24,7 @@
 #ifndef _PreComp_
 #include <QAction>
 #include <QMenu>
+#include <TopTools_IndexedMapOfShape.hxx>
 #endif
 
 #include "ViewProviderGordonSurface.h"

@@ -4696,8 +4696,7 @@ TopoShape& TopoShape::makeElementRefine(const TopoShape& shape, const char* op, 
                 text.append(msg);
                 text.append(")");
             }
-            e.SetMessageString(text.c_str());
-            throw;
+            throw Standard_Failure(text.c_str());
         }
         if (isClosed() == closed) {
             return *this;
@@ -4790,9 +4789,9 @@ TopoShape& TopoShape::makeElementBSplineFace(const std::vector<TopoShape>& input
         auto e4 = mk4.Edge();
 
         ShapeMapper mapper;
-        mapper.populate(MappingStatus::Modified, e, {e1, e2, e3, e4});
-        mapper.populate(MappingStatus::Generated, v, {TopExp::FirstVertex(e1)});
-        mapper.populate(MappingStatus::Generated, v, {TopExp::LastVertex(e4)});
+        mapper.populate(MappingStatus::Modified, e, std::vector<TopoShape>{e1, e2, e3, e4});
+        mapper.populate(MappingStatus::Generated, v, std::vector<TopoShape>{TopExp::FirstVertex(e1)});
+        mapper.populate(MappingStatus::Generated, v, std::vector<TopoShape>{TopExp::LastVertex(e4)});
 
         BRep_Builder builder;
         TopoDS_Compound comp;
@@ -4896,7 +4895,7 @@ TopoShape& TopoShape::makeElementBSplineFace(const std::vector<TopoShape>& input
                     Handle(Geom_BSplineCurve) spline =
                         scc.ConvertToBSpline(c_geom, u1, u2, Precision::Confusion());
                     if (spline.IsNull()) {
-                        Standard_Failure::Raise(
+                        throw Standard_Failure(
                             "A curve was not a B-spline and could not be converted into one.");
                     }
                     gp_Trsf transf = heloc2.Transformation();
@@ -5543,7 +5542,7 @@ bool TopoShape::fixSolidOrientation()
         catch (Standard_Failure& e) {
             auto msg = e.GetMessageString();
             if (Base::Tools::isNullOrEmpty(msg)) {
-                e.SetMessageString("BRepLib::OrientClosedSolid failed");
+                throw Standard_Failure("BRepLib::OrientClosedSolid failed");
             }
             throw;
         }

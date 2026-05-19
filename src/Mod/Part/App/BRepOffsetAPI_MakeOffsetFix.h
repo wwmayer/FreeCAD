@@ -31,6 +31,7 @@
 #include <BRepOffsetAPI_MakeOffset.hxx>
 #include <GeomAbs_CurveType.hxx>
 #include <Standard_Version.hxx>
+#include <TopTools_ListOfShape.hxx>
 
 
 namespace Part {

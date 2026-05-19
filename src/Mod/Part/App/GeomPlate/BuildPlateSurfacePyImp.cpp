@@ -23,6 +23,10 @@
 #include "PreCompiled.h"
 #ifndef _PreComp_
 # include <Standard_Failure.hxx>
+# include <TColgp_SequenceOfXY.hxx>
+# include <TColgp_SequenceOfXYZ.hxx>
+# include <TColGeom2d_HArray1OfCurve.hxx>
+# include <TColStd_HArray1OfInteger.hxx>
 #endif
 
 #include "GeomPlate/BuildPlateSurfacePy.h"

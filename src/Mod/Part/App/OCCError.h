@@ -31,6 +31,24 @@
 
 
 namespace Part {
+inline const char* toString(const Standard_Failure& exc)
+{
+#if OCC_VERSION_HEX >= 0x080000
+    return exc.what();
+#else
+    return exc.GetMessageString();
+#endif
+}
+
+inline const char* getTypeName(const Standard_Failure& exc)
+{
+#if OCC_VERSION_HEX >= 0x080000
+    return exc.ExceptionType();
+#else
+    return exc.DynamicType()->Name();
+#endif
+}
+
 PartExport extern PyObject* PartExceptionOCCError;
 PartExport extern PyObject* PartExceptionOCCDomainError;
 PartExport extern PyObject* PartExceptionOCCRangeError;

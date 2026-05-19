@@ -99,14 +99,14 @@ template <class TheKeyType> class SMESH_IndexedMap
     {
 #if !defined No_Exception && !defined No_Standard_NoSuchObject
       if (!More())
-        Standard_NoSuchObject::Raise("SMESH_IndexedMap::Iterator::Value");
+        throw Standard_NoSuchObject("SMESH_IndexedMap::Iterator::Value");
 #endif
       return myMap->FindKey(myIndex);
     }
     //! Value change access denied - use Substitute
     virtual TheKeyType& ChangeValue(void) const
-    {  
-      Standard_ImmutableObject::Raise ("impossible to ChangeValue");
+    {
+      throw Standard_ImmutableObject ("impossible to ChangeValue");
       return * (TheKeyType *) NULL; // This for compiler
     }
     
@@ -262,7 +262,7 @@ template <class TheKeyType> class SMESH_IndexedMap
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theIndex < 1 || theIndex > Extent())
-      Standard_OutOfRange::Raise ("SMESH_IndexedMap::Substitute");
+      throw Standard_OutOfRange ("SMESH_IndexedMap::Substitute");
 #endif
     IndexedMapNode * p;
     // check if theKey1 is not already in the map
@@ -270,8 +270,8 @@ template <class TheKeyType> class SMESH_IndexedMap
     p = (IndexedMapNode *) myData1[iK1];
     while (p) 
     {
-      if (IsEqual (p->Key1(), theKey1)) 
-        Standard_DomainError::Raise("SMESH_IndexedMap::Substitute");
+      if (IsEqual (p->Key1(), theKey1))
+        throw Standard_DomainError("SMESH_IndexedMap::Substitute");
       p = (IndexedMapNode *) p->Next();
     }
 
@@ -308,7 +308,7 @@ template <class TheKeyType> class SMESH_IndexedMap
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (Extent() == 0)
-      Standard_OutOfRange::Raise ("SMESH_IndexedMap::RemoveLast");
+      throw Standard_OutOfRange ("SMESH_IndexedMap::RemoveLast");
 #endif
     IndexedMapNode * p, * q;
     // Find the node for the last index and remove it
@@ -348,7 +348,7 @@ template <class TheKeyType> class SMESH_IndexedMap
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theKey2 < 1 || theKey2 > Extent())
-      Standard_OutOfRange::Raise ("SMESH_IndexedMap::FindKey");
+      throw Standard_OutOfRange ("SMESH_IndexedMap::FindKey");
 #endif
     IndexedMapNode * pNode2 =
       (IndexedMapNode *) myData2[HashCode(theKey2,NbBuckets())];
@@ -358,7 +358,7 @@ template <class TheKeyType> class SMESH_IndexedMap
         return pNode2->Key1();
       pNode2 = (IndexedMapNode*) pNode2->Next2();
     }
-    Standard_NoSuchObject::Raise("SMESH_IndexedMap::FindKey");
+    throw Standard_NoSuchObject("SMESH_IndexedMap::FindKey");
     return pNode2->Key1(); // This for compiler
   }
 

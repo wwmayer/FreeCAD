@@ -33,6 +33,7 @@
 # include <Standard_Failure.hxx>
 # include <Standard_Version.hxx>
 # include <TopoDS.hxx>
+# include <TopTools_IndexedMapOfShape.hxx>
 #endif // _PreComp_
 
 #include <App/Application.h>
