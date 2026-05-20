@@ -74,6 +74,7 @@
 #include <ShapeBuild_ReShape.hxx>
 #include <ShapeConstruct_Curve.hxx>
 #include <ShapeUpgrade_ShellSewing.hxx>
+#include <Standard_Version.hxx>
 #include <TopTools_HSequenceOfShape.hxx>
 #include <ShapeFix_Shape.hxx>
 #include <ShapeFix_ShapeTolerance.hxx>
@@ -3071,7 +3072,11 @@ TopoShape& TopoShape::makeElementWires(const std::vector<TopoShape>& shapes,
         if (hEdges->Length() == 0) {
             FC_THROWM(NullShapeException, "Null shape");
         }
+#if OCC_VERSION_HEX < 0x080000
         ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges, tol, true, hWires);
+#else
+        hWires = ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges, tol, true);
+#endif
         if (hWires->Length() == 0) {
             FC_THROWM(NullShapeException, "Null shape");
         }
