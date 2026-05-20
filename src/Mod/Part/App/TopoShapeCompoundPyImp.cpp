@@ -88,7 +88,7 @@ int TopoShapeCompoundPy::PyInit(PyObject* args, PyObject* /*kwd*/)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return -1;
     }
 
@@ -116,7 +116,7 @@ PyObject*  TopoShapeCompoundPy::add(PyObject *args)
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -156,7 +156,7 @@ PyObject* TopoShapeCompoundPy::connectEdgesToWires(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }

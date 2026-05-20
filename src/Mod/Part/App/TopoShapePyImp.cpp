@@ -461,8 +461,7 @@ PyObject*  TopoShapePy::dumpToString(PyObject *args) const
         return nullptr;
     }
     catch (Standard_Failure& e) {
-
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -487,7 +486,7 @@ PyObject*  TopoShapePy::exportBrepToString(PyObject *args) const
         return nullptr;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -575,7 +574,7 @@ PyObject*  TopoShapePy::importBrepFromString(PyObject *args)
         return nullptr;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -617,7 +616,7 @@ PyObject*  TopoShapePy::exportStl(PyObject *args) const
         return nullptr;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -636,7 +635,7 @@ PyObject* TopoShapePy::extrude(PyObject *args) const
             shape2pyshape(getTopoShapePtr()->makeElementPrism(gp_Vec(vec.x, vec.y, vec.z))));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -655,7 +654,7 @@ PyObject* TopoShapePy::revolve(PyObject *args) const
             Base::toRadians<double>(angle))));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -713,7 +712,7 @@ PyObject*  TopoShapePy::oldFuse(PyObject *args) const
         return new TopoShapePy(new TopoShape(fusShape));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
     catch (const std::exception& e) {
@@ -750,7 +749,7 @@ PyObject*  TopoShapePy::slice(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
     catch (const std::exception& e) {
@@ -775,7 +774,7 @@ PyObject*  TopoShapePy::slices(PyObject *args) const
         return Py::new_reference_to(shape2pyshape(getTopoShapePtr()->makeElementSlices(vec, d)));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
     catch (const std::exception& e) {
@@ -830,7 +829,7 @@ PyObject*  TopoShapePy::sewShape(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -931,7 +930,7 @@ PyObject*  TopoShapePy::ancestorsOfType(PyObject *args) const
         return Py::new_reference_to(list);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -949,7 +948,7 @@ PyObject*  TopoShapePy::removeInternalWires(PyObject *args)
         return ret;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -968,7 +967,7 @@ PyObject*  TopoShapePy::mirror(PyObject *args) const
         return Py::new_reference_to(shape2pyshape(getTopoShapePtr()->makeElementMirror(ax2)));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -986,7 +985,7 @@ PyObject*  TopoShapePy::transformGeometry(PyObject *args) const
         return new TopoShapePy(new TopoShape(shape));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1184,7 +1183,7 @@ PyObject* TopoShapePy::makeFillet(PyObject *args) const
             return new TopoShapePy(new TopoShape(mkFillet.Shape()));
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -1244,7 +1243,7 @@ PyObject* TopoShapePy::makeChamfer(PyObject *args) const
             return new TopoShapePy(new TopoShape(mkChamfer.Shape()));
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -1277,7 +1276,7 @@ PyObject* TopoShapePy::makeThickness(PyObject *args) const
                                                      static_cast<JoinType>(join))));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1308,7 +1307,7 @@ PyObject* TopoShapePy::makeOffsetShape(PyObject *args, PyObject *keywds) const
             PyObject_IsTrue(fill) ? FillType::fill : FillType::noFill)));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1566,7 +1565,7 @@ PyObject* TopoShapePy::tessellate(PyObject *args) const
         return Py::new_reference_to(tuple);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1617,7 +1616,7 @@ PyObject* TopoShapePy::makeParallelProjection(PyObject *args) const
         return new TopoShapePy(new TopoShape(projected));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1637,7 +1636,7 @@ PyObject* TopoShapePy::makePerspectiveProjection(PyObject *args) const
         return new TopoShapePy(new TopoShape(projected));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1706,7 +1705,7 @@ PyObject* TopoShapePy::reflectLines(PyObject *args, PyObject *kwds) const
         return new TopoShapePy(new TopoShape(lines));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1797,7 +1796,7 @@ PyObject* TopoShapePy::toNurbs(PyObject *args) const
         return new TopoShapePy(new TopoShape(nurbs));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1847,7 +1846,7 @@ PyObject*  TopoShapePy::isInside(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
     catch (const std::exception& e) {
@@ -1865,7 +1864,7 @@ PyObject* TopoShapePy::removeSplitter(PyObject *args) const
         return Py::new_reference_to(shape2pyshape(getTopoShapePtr()->makeElementRefine()));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1922,7 +1921,7 @@ PyObject* TopoShapePy::getTolerance(PyObject *args) const
         return PyFloat_FromDouble(tolerance);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1956,7 +1955,7 @@ PyObject* TopoShapePy::overTolerance(PyObject *args) const
         return Py::new_reference_to(tuple);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1991,7 +1990,7 @@ PyObject* TopoShapePy::inTolerance(PyObject *args) const
         return Py::new_reference_to(tuple);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -2011,7 +2010,7 @@ PyObject* TopoShapePy::globalTolerance(PyObject *args) const
         return PyFloat_FromDouble(tolerance);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -2037,7 +2036,7 @@ PyObject* TopoShapePy::fixTolerance(PyObject *args) const
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -2064,7 +2063,7 @@ PyObject* TopoShapePy::limitTolerance(PyObject *args) const
         return PyBool_FromLong(ok ? 1 : 0);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -2169,7 +2168,7 @@ PyObject* TopoShapePy::distToShape(PyObject *args) const
         extss.Perform();
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
     if (!extss.IsDone()) {
@@ -2314,7 +2313,7 @@ PyObject* TopoShapePy::optimalBoundingBox(PyObject *args) const
         return Py::new_reference_to(pybox);
     }
     catch (const Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -2349,7 +2348,7 @@ PyObject* TopoShapePy::defeaturing(PyObject *args) const
         return inst;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }

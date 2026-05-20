@@ -107,7 +107,7 @@ PyObject* TopoShapeCompSolidPy::add(PyObject* args)
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }

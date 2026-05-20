@@ -35,6 +35,7 @@
 #include <Base/Reader.h>
 #include <Base/Tools.h>
 #include <Mod/TechDraw/App/DrawViewPy.h>  // generated from DrawViewPy.xml
+#include <Mod/Part/App/OCCError.h>
 
 #include "DrawView.h"
 #include "DrawLeaderLine.h"
@@ -118,7 +119,7 @@ App::DocumentObjectExecReturn* DrawView::recompute()
         return App::DocumentObject::recompute();
     }
     catch (Standard_Failure& e) {
-        auto ret = new App::DocumentObjectExecReturn(e.GetMessageString());
+        auto ret = new App::DocumentObjectExecReturn(Part::toString(e));
         if (ret->Why.empty()) {
             ret->Why = "Unknown OCC exception";
         }

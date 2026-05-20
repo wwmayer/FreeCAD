@@ -78,6 +78,7 @@
 #include <Mod/Part/App/FaceMakerBullseye.h>
 #include <Mod/Part/App/FuzzyHelper.h>
 #include <Mod/Part/App/PartFeature.h>
+#include <Mod/Part/App/OCCError.h>
 #include <Mod/CAM/App/PathSegmentWalker.h>
 #include <Mod/CAM/libarea/Area.h>
 
@@ -2755,10 +2756,10 @@ TopoDS_Shape Area::toShape(const CCurve& _c, const gp_Trsf* trsf, int reorient)
                 catch (Standard_Failure& e) {
                     if (!fix_arc) {
                         fix_arc = true;
-                        AREA_WARN("OCC exception on making arc: " << e.GetMessageString());
+                        AREA_WARN("OCC exception on making arc: " << Part::toString(e));
                     }
                     else {
-                        AREA_ERR("OCC exception on making arc: " << e.GetMessageString());
+                        AREA_ERR("OCC exception on making arc: " << Part::toString(e));
                         throw;
                     }
                 }

@@ -56,6 +56,7 @@
 #include <App/Datums.h>
 #include <Base/Reader.h>
 #include <Mod/Part/App/FaceMakerCheese.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "FeatureSketchBased.h"
 #include "DatumLine.h"
@@ -63,7 +64,7 @@
 #include "Mod/Part/App/Geometry.h"
 
 
-FC_LOG_LEVEL_INIT("PartDesign",true,true);
+FC_LOG_LEVEL_INIT("PartDesign",true,true)
 
 using namespace PartDesign;
 
@@ -359,7 +360,7 @@ TopoDS_Shape ProfileBased::getVerifiedFace(bool silent) const {
                 return shape.getShape();
         }
         catch (Standard_Failure& e) {
-            _err = e.GetMessageString();
+            _err = Part::toString(e);
             err = _err.c_str();
         }
     }
@@ -1379,7 +1380,7 @@ void ProfileBased::getAxis(const App::DocumentObject * pcReferenceAxis, const st
             ref = refShape.getSubShape(subReferenceAxis[0].c_str());
         }
         catch (const Standard_Failure& e) {
-            throw Base::RuntimeError(e.GetMessageString());
+            throw Base::RuntimeError(Part::toString(e));
         }
 
         if (ref.ShapeType() == TopAbs_EDGE) {

@@ -39,6 +39,7 @@
 #include <Mod/Part/App/TopoShapeEdgePy.h>
 #include <Mod/Part/App/TopoShapePy.h>
 #include <Mod/Part/App/TopoShapeWirePy.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "MeshAlgos.h"
 #include "Mesher.h"
@@ -150,7 +151,7 @@ private:
         }
         catch (const Standard_Failure &e) {
             std::string str;
-            const char* msg = e.GetMessageString();
+            const char* msg = Part::toString(e);
             str += typeid(e).name();
             str += " ";
             if (msg) {str += msg;}

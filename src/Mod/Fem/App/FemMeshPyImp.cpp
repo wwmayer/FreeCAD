@@ -48,6 +48,7 @@
 #include <Mod/Part/App/TopoShapePy.h>
 #include <Mod/Part/App/TopoShapeSolidPy.h>
 #include <Mod/Part/App/TopoShapeVertexPy.h>
+#include <Mod/Part/App/OCCError.h>
 
 // clang-format off
 // inclusion of the generated files (generated out of FemMeshPy.xml)
@@ -1256,7 +1257,7 @@ PyObject* FemMeshPy::getFacesByFace(PyObject* args) const
         return Py::new_reference_to(ret);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1288,7 +1289,7 @@ PyObject* FemMeshPy::getEdgesByEdge(PyObject* args) const
         return Py::new_reference_to(ret);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1324,7 +1325,7 @@ PyObject* FemMeshPy::getVolumesByFace(PyObject* args) const
         return Py::new_reference_to(ret);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1359,7 +1360,7 @@ PyObject* FemMeshPy::getccxVolumesByFace(PyObject* args) const
         return Py::new_reference_to(ret);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1409,7 +1410,7 @@ PyObject* FemMeshPy::getNodesBySolid(PyObject* args) const
         return Py::new_reference_to(ret);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1438,7 +1439,7 @@ PyObject* FemMeshPy::getNodesByFace(PyObject* args) const
         return Py::new_reference_to(ret);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1467,7 +1468,7 @@ PyObject* FemMeshPy::getNodesByEdge(PyObject* args) const
         return Py::new_reference_to(ret);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1496,7 +1497,7 @@ PyObject* FemMeshPy::getNodesByVertex(PyObject* args) const
         return Py::new_reference_to(ret);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1519,7 +1520,7 @@ PyObject* FemMeshPy::getElementNodes(PyObject* args) const
         return Py::new_reference_to(ret);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1656,7 +1657,7 @@ PyObject* FemMeshPy::addGroup(PyObject* args) const
         retId = getFemMeshPtr()->addGroup(EncodedTypeString, EncodedName, theId);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
     std::cout << "Added Group: Name: \'" << EncodedName << "\' Type: \'" << EncodedTypeString
@@ -1704,7 +1705,7 @@ PyObject* FemMeshPy::addGroupElements(PyObject* args) const
         getFemMeshPtr()->addGroupElements(id, int_ids);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 

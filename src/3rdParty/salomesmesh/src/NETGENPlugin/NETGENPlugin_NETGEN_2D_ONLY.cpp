@@ -568,11 +568,13 @@ bool NETGENPlugin_NETGEN_2D_ONLY::Compute(SMESH_Mesh&         aMesh,
             << " at " << netgen::multithread.task
 #if OCC_VERSION_HEX >= 0x080000
             << ": " << ex.ExceptionType();
+        if ( ex.what() && strlen( ex.what() ))
+            str << ": " << ex.what();
 #else
             << ": " << ex.DynamicType()->Name();
-#endif
         if ( ex.GetMessageString() && strlen( ex.GetMessageString() ))
           str << ": " << ex.GetMessageString();
+#endif
       }
       catch (...) {
         err = 1;

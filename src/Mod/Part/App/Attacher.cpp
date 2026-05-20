@@ -69,6 +69,7 @@
 #include "Attacher.h"
 #include "AttachExtension.h"
 #include "Tools.h"
+#include "OCCError.h"
 
 #include <Geometry.h>
 
@@ -903,7 +904,7 @@ TopoShape AttachEngine::extractSubShape(App::DocumentObject* obj, const std::str
         FC_THROWM(AttachEngineException,
                   "AttachEngine3D: subshape not found " << obj->getNameInDocument() << '.'
                                                         << subname << std::endl
-                                                        << e.GetMessageString());
+                                                        << Part::toString(e));
     }
     catch (Base::CADKernelError& e) {
         FC_THROWM(AttachEngineException,
@@ -1579,7 +1580,7 @@ AttachEngine3D::_calculateAttachedPlacement(const std::vector<App::DocumentObjec
                     dd = gp_Vec(0., 0., 0.);
                     Base::Console().Warning("AttachEngine3D::calculateAttachedPlacement: can't "
                                             "calculate second derivative of curve. OCC error: %s\n",
-                                            e.GetMessageString());
+                                            Part::toString(e));
                 }
 
                 gp_Vec T, N, B;  // Frenet?Serret axes: tangent, normal, binormal

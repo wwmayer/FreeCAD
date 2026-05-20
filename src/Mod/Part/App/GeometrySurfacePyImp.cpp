@@ -122,7 +122,7 @@ PyObject* GeometrySurfacePy::toShape(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -169,7 +169,7 @@ PyObject* GeometrySurfacePy::toShell(PyObject *args, PyObject* kwds) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -192,7 +192,7 @@ PyObject* GeometrySurfacePy::getD0(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -211,7 +211,7 @@ PyObject* GeometrySurfacePy::getDN(PyObject *args) const
         return new Base::VectorPy(Base::Vector3d(v1.X(),v1.Y(),v1.Z()));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -231,7 +231,7 @@ PyObject* GeometrySurfacePy::value(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -265,7 +265,7 @@ PyObject* GeometrySurfacePy::tangent(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -292,7 +292,7 @@ PyObject* GeometrySurfacePy::normal(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -372,7 +372,7 @@ PyObject* GeometrySurfacePy::projectPoint(PyObject *args, PyObject* kwds) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -392,7 +392,7 @@ PyObject* GeometrySurfacePy::isUmbillic(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -420,7 +420,7 @@ PyObject* GeometrySurfacePy::curvatureDirections(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -462,7 +462,7 @@ PyObject* GeometrySurfacePy::curvature(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -486,7 +486,7 @@ PyObject* GeometrySurfacePy::isPlanar(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -516,7 +516,7 @@ PyObject* GeometrySurfacePy::parameter(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -570,7 +570,7 @@ PyObject* GeometrySurfacePy::uIso(PyObject * args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -604,7 +604,7 @@ PyObject* GeometrySurfacePy::vIso(PyObject * args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -666,7 +666,7 @@ PyObject* GeometrySurfacePy::UPeriod(PyObject * args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -684,7 +684,7 @@ PyObject* GeometrySurfacePy::VPeriod(PyObject * args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -790,7 +790,7 @@ PyObject* GeometrySurfacePy::toBSpline(PyObject * args, PyObject * kwds) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
     }
 
     return nullptr;
@@ -835,7 +835,7 @@ PyObject* GeometrySurfacePy::intersectSS(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 
@@ -873,7 +873,7 @@ PyObject* GeometrySurfacePy::intersect(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 

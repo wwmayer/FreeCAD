@@ -48,6 +48,7 @@
 #include "TopoShape.h"
 #include "BRepOffsetAPI_MakeOffsetFix.h"
 #include "Geometry.h"
+#include "OCCError.h"
 
 using namespace Part;
 
@@ -298,7 +299,7 @@ void ExtrusionHelper::makeDraft(const TopoDS_Shape& shape,
         }
     }
     catch (Standard_Failure& e) {
-        throw Base::RuntimeError(e.GetMessageString());
+        throw Base::RuntimeError(Part::toString(e));
     }
     catch (const Base::Exception& e) {
         throw Base::RuntimeError(e.what());

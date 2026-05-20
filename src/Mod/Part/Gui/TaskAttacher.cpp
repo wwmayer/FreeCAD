@@ -47,6 +47,7 @@
 #include <Base/Tools.h>
 #include <Mod/Part/App/AttachExtension.h>
 #include <Mod/Part/App/DatumFeature.h>
+#include <Mod/Part/App/OCCError.h>
 #include <Mod/Part/Gui/AttacherTexts.h>
 #include <Mod/Part/Gui/TaskAttacher.h>
 
@@ -321,7 +322,7 @@ bool TaskAttacher::updatePreview()
         errMessage = QCoreApplication::translate("Exception", err.what());
     }
     catch (Standard_Failure& err) {
-        errMessage = tr("OCC error: %1").arg(QString::fromUtf8(err.GetMessageString()));
+        errMessage = tr("OCC error: %1").arg(QString::fromUtf8(Part::toString(err)));
     }
     catch (...) {
         errMessage = tr("unknown error");

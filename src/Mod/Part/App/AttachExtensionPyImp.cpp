@@ -44,7 +44,7 @@ PyObject* AttachExtensionPy::positionBySupport(PyObject *args)
     try{
         bAttached = this->getAttachExtensionPtr()->positionBySupport();
     } catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     } catch (Base::Exception &e) {
         e.setPyException();
@@ -62,7 +62,7 @@ PyObject* AttachExtensionPy::changeAttacherType(PyObject *args)
     try{
         ret = this->getAttachExtensionPtr()->changeAttacherType(typeName);
     } catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     } catch (Base::Exception &e) {
         e.setPyException();
@@ -82,7 +82,7 @@ Py::Object AttachExtensionPy::getAttacher() const
     try {
         return Py::Object( new Attacher::AttachEnginePy(this->getAttachExtensionPtr()->attacher().copy()), true);
     } catch (Standard_Failure& e) {
-        throw Py::Exception(Part::PartExceptionOCCError, e.GetMessageString());
+        throw Py::Exception(Part::PartExceptionOCCError, Part::toString(e));
     } catch (Base::Exception &e) {
         e.setPyException();
         throw Py::Exception();

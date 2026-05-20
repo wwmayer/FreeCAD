@@ -40,8 +40,9 @@
 #include <Base/Numbers.h>
 #include <Base/Tools.h>
 #include <Mod/Part/App/ExtrusionHelper.h>
-#include "Mod/Part/App/TopoShapeOpCode.h"
+#include <Mod/Part/App/TopoShapeOpCode.h>
 #include <Mod/Part/App/PartFeature.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "FeatureExtrude.h"
 
@@ -542,7 +543,7 @@ App::DocumentObjectExecReturn* FeatureExtrude::buildExtrusion(ExtrudeOptions opt
         return new App::DocumentObjectExecReturn(e.what());
     }
     catch (const Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     // if the Base property has a valid shape, fuse the prism into it
@@ -839,14 +840,14 @@ App::DocumentObjectExecReturn* FeatureExtrude::buildExtrusion(ExtrudeOptions opt
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-        if (std::string(e.GetMessageString()) == "TopoDS::Face") {
+        if (std::string(Part::toString(e)) == "TopoDS::Face") {
             return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP(
                 "Exception",
                 "Could not create face from sketch.\n"
                 "Intersecting sketch entities or multiple faces in a sketch are not allowed."));
         }
         else {
-            return new App::DocumentObjectExecReturn(e.GetMessageString());
+            return new App::DocumentObjectExecReturn(Part::toString(e));
         }
     }
     catch (Base::Exception& e) {

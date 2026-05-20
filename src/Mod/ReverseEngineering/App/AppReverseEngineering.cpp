@@ -40,6 +40,8 @@
 #include <pcl/point_types.h>
 #endif
 
+#include <Mod/Part/App/OCCError.h>
+
 #include "ApproxSurface.h"
 #include "BSplineFitting.h"
 #include "RegionGrowing.h"
@@ -436,7 +438,7 @@ private:
         }
         catch (Standard_Failure &e) {
             std::string str;
-            const char* msg = e.GetMessageString();
+            const char* msg = Part::toString(e);
             str += typeid(e).name();
             str += " ";
             if (msg) {str += msg;}

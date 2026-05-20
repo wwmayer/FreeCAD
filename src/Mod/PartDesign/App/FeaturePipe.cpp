@@ -47,11 +47,12 @@
 #include <Mod/Part/App/FaceMakerCheese.h>
 
 #include "FeaturePipe.h"
-#include "Mod/Part/App/TopoShapeOpCode.h"
-#include "Mod/Part/App/TopoShapeMapper.h"
+#include <Mod/Part/App/OCCError.h>
+#include <Mod/Part/App/TopoShapeOpCode.h>
+#include <Mod/Part/App/TopoShapeMapper.h>
 #include "FeatureLoft.h"
 
-FC_LOG_LEVEL_INIT("PartDesign",true,true);
+FC_LOG_LEVEL_INIT("PartDesign",true,true)
 
 using namespace PartDesign;
 
@@ -460,8 +461,7 @@ App::DocumentObjectExecReturn *Pipe::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
     catch (...) {
         return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP("Exception", "A fatal error occurred when making the pipe"));

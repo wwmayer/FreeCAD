@@ -45,6 +45,7 @@
 #include <Base/Tools.h>
 #include <Mod/Part/App/PartFeature.h>
 #include <Mod/Part/App/TopoShape.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "Measurement.h"
 #include "MeasurementPy.h"
@@ -133,8 +134,8 @@ MeasureType Measurement::findType() const
         catch (Standard_Failure& e) {
             std::stringstream errorMsg;
 
-            errorMsg << "Measurement - getType - " << e.GetMessageString() << std::endl;
-            throw Base::CADKernelError(e.GetMessageString());
+            errorMsg << "Measurement - getType - " << Part::toString(e) << std::endl;
+            throw Base::CADKernelError(Part::toString(e));
         }
 
         switch (refSubShape.ShapeType()) {
@@ -768,8 +769,8 @@ bool Measurement::planesAreParallel() const
         }
         catch (Standard_Failure& e) {
             std::stringstream errorMsg;
-            errorMsg << "Measurement - planesAreParallel - " << e.GetMessageString() << std::endl;
-            throw Base::CADKernelError(e.GetMessageString());
+            errorMsg << "Measurement - planesAreParallel - " << Part::toString(e) << std::endl;
+            throw Base::CADKernelError(Part::toString(e));
         }
 
         if (refSubShape.ShapeType() == TopAbs_FACE) {

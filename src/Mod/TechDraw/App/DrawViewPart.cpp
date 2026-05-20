@@ -73,6 +73,7 @@
 #include <Base/Numbers.h>
 #include <Base/Parameter.h>
 #include <Base/Tools.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "Cosmetic.h"
 #include "CenterLine.h"
@@ -441,7 +442,7 @@ void DrawViewPart::onHlrFinished()
         catch (Standard_Failure& e) {
             waitingForFaces(false);
             Base::Console().Error("DVP::partExec - %s - extractFaces failed - %s **\n",
-                                  getNameInDocument(), e.GetMessageString());
+                                  getNameInDocument(), Part::toString(e));
             throw Base::RuntimeError("DVP::onHlrFinished - error extracting faces");
         }
     }

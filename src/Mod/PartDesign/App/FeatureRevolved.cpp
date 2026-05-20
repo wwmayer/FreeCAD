@@ -34,7 +34,8 @@
 #include <Base/Tools.h>
 
 #include "FeatureRevolved.h"
-#include "Mod/Part/App/TopoShapeOpCode.h"
+#include <Mod/Part/App/OCCError.h>
+#include <Mod/Part/App/TopoShapeOpCode.h>
 
 using namespace PartDesign;
 
@@ -71,14 +72,14 @@ App::DocumentObjectExecReturn* Revolved::executeRevolved(Part::RevolMode revolMo
         return tryExecuteRevolved(revolMode);
     }
     catch (const Standard_Failure& e) {
-        if (std::string(e.GetMessageString()) == "TopoDS::Face") {
+        if (std::string(Part::toString(e)) == "TopoDS::Face") {
             return new App::DocumentObjectExecReturn(
                 QT_TRANSLATE_NOOP("Exception",
                                   "Could not create face from sketch.\n"
                                   "Intersecting sketch entities in a sketch are not allowed."));
         }
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
     catch (const Base::Exception& e) {
         return new App::DocumentObjectExecReturn(e.what());

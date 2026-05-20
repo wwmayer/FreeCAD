@@ -27,6 +27,7 @@
 
 #include "AttachExtension.h"
 #include "AttachExtensionPy.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -391,8 +392,8 @@ App::DocumentObjectExecReturn* AttachExtension::extensionExecute()
             // Convert OCC exceptions to Base::Exception
         }
         catch (Standard_Failure& e) {
-            throw Base::RuntimeError(e.GetMessageString());
-            //            return new App::DocumentObjectExecReturn(e.GetMessageString());
+            throw Base::RuntimeError(Part::toString(e));
+            //            return new App::DocumentObjectExecReturn(Part::toString(e));
         }
     }
     return App::DocumentObjectExtension::extensionExecute();
@@ -419,7 +420,7 @@ void AttachExtension::extensionOnChanged(const App::Property* prop)
             }
             catch (Standard_Failure &e){
                 getExtendedObject()->setStatus(App::Error, true);
-                Base::Console().Error("PositionBySupport: %s\n",e.GetMessageString());
+                Base::Console().Error("PositionBySupport: %s\n",Part::toString(e));
             }
 
             updateSinglePropertyStatus(bAttached);

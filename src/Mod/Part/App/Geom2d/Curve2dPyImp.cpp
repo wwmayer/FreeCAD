@@ -105,7 +105,7 @@ PyObject* Curve2dPy::reverse(PyObject * args)
             Py_Return;
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -188,7 +188,7 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
             return Py::new_reference_to(shape2pyshape(edge));
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -204,7 +204,7 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
             return Py::new_reference_to(shape2pyshape(edge));
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -224,7 +224,7 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
             return Py::new_reference_to(shape2pyshape(edge));
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -244,7 +244,7 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
         }
         catch (Standard_Failure& e) {
 
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -263,7 +263,7 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
             return Py::new_reference_to(shape2pyshape(edge));
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -282,7 +282,7 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
             return Py::new_reference_to(shape2pyshape(edge));
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -478,7 +478,7 @@ PyObject* Curve2dPy::length(PyObject *args)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -503,7 +503,7 @@ PyObject* Curve2dPy::parameterAtDistance(PyObject *args)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -525,7 +525,7 @@ PyObject* Curve2dPy::value(PyObject *args)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -552,7 +552,7 @@ PyObject* Curve2dPy::tangent(PyObject *args)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -577,7 +577,7 @@ PyObject* Curve2dPy::normal(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -600,7 +600,7 @@ PyObject* Curve2dPy::curvature(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -625,7 +625,7 @@ PyObject* Curve2dPy::centerOfCurvature(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -651,7 +651,7 @@ PyObject* Curve2dPy::parameter(PyObject *args)
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -678,7 +678,7 @@ PyObject* Curve2dPy::toBSpline(PyObject * args)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -731,7 +731,7 @@ PyObject* Curve2dPy::approximateBSpline(PyObject *args)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -847,7 +847,7 @@ PyObject* Curve2dPy::intersectCC(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 

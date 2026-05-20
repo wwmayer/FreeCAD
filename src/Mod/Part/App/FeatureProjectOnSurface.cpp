@@ -47,6 +47,7 @@
 #endif
 
 #include "FeatureProjectOnSurface.h"
+#include "OCCError.h"
 #include <Base/Exception.h>
 
 
@@ -73,7 +74,7 @@ App::DocumentObjectExecReturn* ProjectOnSurface::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (const Standard_Failure& error) {
-        throw Base::ValueError(error.GetMessageString());
+        throw Base::ValueError(Part::toString(error));
     }
 }
 

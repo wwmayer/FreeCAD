@@ -34,8 +34,9 @@
 #include "TopoShape.h"
 #include "modelRefine.h"
 #include "TopoShapeOpCode.h"
+#include "OCCError.h"
 
-FC_LOG_LEVEL_INIT("Part",true,true);
+FC_LOG_LEVEL_INIT("Part",true,true)
 
 using namespace Part;
 
@@ -208,7 +209,7 @@ App::DocumentObjectExecReturn *MultiFuse::execute()
             return Part::Feature::execute();
         }
         catch (Standard_Failure& e) {
-            return new App::DocumentObjectExecReturn(e.GetMessageString());
+            return new App::DocumentObjectExecReturn(Part::toString(e));
         }
     }
     else {

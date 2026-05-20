@@ -269,7 +269,7 @@ PyObject* ShapeFix_WirePy::fixSmall(PyObject *args)
             return Py::new_reference_to(Py::Long(num));
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -282,7 +282,7 @@ PyObject* ShapeFix_WirePy::fixSmall(PyObject *args)
             return Py::new_reference_to(Py::Boolean(ok));
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -302,7 +302,7 @@ PyObject* ShapeFix_WirePy::fixConnected(PyObject *args)
             return Py::new_reference_to(Py::Boolean(ok));
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -315,7 +315,7 @@ PyObject* ShapeFix_WirePy::fixConnected(PyObject *args)
             return Py::new_reference_to(Py::Boolean(ok));
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -347,7 +347,7 @@ PyObject* ShapeFix_WirePy::fixDegenerated(PyObject *args)
         return Py::new_reference_to(Py::Boolean(ok));
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -370,7 +370,7 @@ PyObject* ShapeFix_WirePy::fixLacking(PyObject *args)
             return Py::new_reference_to(Py::Boolean(ok));
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -384,7 +384,7 @@ PyObject* ShapeFix_WirePy::fixLacking(PyObject *args)
             return Py::new_reference_to(Py::Boolean(ok));
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -435,7 +435,7 @@ PyObject* ShapeFix_WirePy::fixGap3d(PyObject *args)
         return Py::new_reference_to(Py::Boolean(ok));
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -452,7 +452,7 @@ PyObject* ShapeFix_WirePy::fixGap2d(PyObject *args)
         return Py::new_reference_to(Py::Boolean(ok));
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -468,7 +468,7 @@ PyObject* ShapeFix_WirePy::fixSeam(PyObject *args)
         return Py::new_reference_to(Py::Boolean(ok));
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }

@@ -66,6 +66,7 @@
 
 #include <Base/Console.h>
 #include <Base/Numbers.h>
+#include <Mod/Part/App/OCCError.h>
 #include <Mod/Part/App/PartFeature.h>
 
 #include "Cosmetic.h"
@@ -163,7 +164,7 @@ void GeometryObject::projectShape(const TopoDS_Shape& inShape, const gp_Ax2& vie
     }
     catch (const Standard_Failure& e) {
         Base::Console().Error("GO::projectShape - OCC error - %s - while projecting shape\n",
-                              e.GetMessageString());
+                              Part::toString(e));
         throw Base::RuntimeError("GeometryObject::projectShape - OCC error");
     }
     catch (...) {
@@ -331,7 +332,7 @@ void GeometryObject::projectShapeWithPolygonAlgo(const TopoDS_Shape& input, cons
     catch (const Standard_Failure& e) {
         Base::Console().Error(
             "GO::projectShapeWithPolygonAlgo - OCC error - %s - while projecting shape\n",
-            e.GetMessageString());
+            Part::toString(e));
         throw Base::RuntimeError("GeometryObject::projectShapeWithPolygonAlgo - OCC error");
     }
     catch (...) {
@@ -379,7 +380,7 @@ void GeometryObject::projectShapeWithPolygonAlgo(const TopoDS_Shape& input, cons
     catch (const Standard_Failure& e) {
         Base::Console().Error(
             "GO::projectShapeWithPolygonAlgo - OCC error - %s - while extracting edges\n",
-            e.GetMessageString());
+            Part::toString(e));
         throw Base::RuntimeError("GeometryObject::projectShapeWithPolygonAlgo - OCC error occurred "
                                  "while extracting edges");
     }

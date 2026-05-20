@@ -36,6 +36,7 @@
 #include "GeomPlate/CurveConstraintPy.cpp"
 #include "Geom2d/Curve2dPy.h"
 #include "GeometryCurvePy.h"
+#include "OCCError.h"
 #include <Base/PyWrapParseTupleAndKeywords.h>
 
 
@@ -113,7 +114,7 @@ int CurveConstraintPy::PyInit(PyObject* args, PyObject* kwds)
         return 0;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return -1;
     }
 }
@@ -135,7 +136,7 @@ PyObject* CurveConstraintPy::setOrder(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -150,7 +151,7 @@ PyObject* CurveConstraintPy::order(PyObject *args)
         return PyLong_FromLong(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -166,7 +167,7 @@ PyObject* CurveConstraintPy::G0Criterion(PyObject *args)
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -182,7 +183,7 @@ PyObject* CurveConstraintPy::G1Criterion(PyObject *args)
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -198,7 +199,7 @@ PyObject* CurveConstraintPy::G2Criterion(PyObject *args)
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -240,7 +241,7 @@ PyObject* CurveConstraintPy::curve3d(PyObject *args)
         return ptr->getPyObject();
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -262,7 +263,7 @@ PyObject* CurveConstraintPy::setCurve2dOnSurf(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -281,7 +282,7 @@ PyObject* CurveConstraintPy::curve2dOnSurf(PyObject *args)
         return ptr->getPyObject();
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -327,7 +328,7 @@ PyObject* CurveConstraintPy::setProjectedCurve(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -351,7 +352,7 @@ PyObject* CurveConstraintPy::projectedCurve(PyObject *args)
         return ptr->getPyObject();
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -363,7 +364,7 @@ Py::Long CurveConstraintPy::getNbPoints() const
         return Py::Long(v);
     }
     catch (const Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -373,7 +374,7 @@ void  CurveConstraintPy::setNbPoints(Py::Long arg)
         getGeomPlate_CurveConstraintPtr()->SetNbPoints(static_cast<long>(arg));
     }
     catch (const Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -384,7 +385,7 @@ Py::Float CurveConstraintPy::getFirstParameter() const
         return Py::Float(v);
     }
     catch (const Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -395,7 +396,7 @@ Py::Float CurveConstraintPy::getLastParameter() const
         return Py::Float(v);
     }
     catch (const Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -406,7 +407,7 @@ Py::Float CurveConstraintPy::getLength() const
         return Py::Float(v);
     }
     catch (const Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 

@@ -33,6 +33,7 @@
 
 #include "FeatureChamfer.h"
 #include "TopoShapeOpCode.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -89,7 +90,7 @@ App::DocumentObjectExecReturn *Chamfer::execute()
         return Part::FilletBase::execute();
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 

@@ -49,6 +49,7 @@
 
 #include "PrimitiveFeature.h"
 #include "PartFeaturePy.h"
+#include "OCCError.h"
 
 namespace Part {
     using num_float = std::numeric_limits<float>;
@@ -365,8 +366,7 @@ App::DocumentObjectExecReturn *Sphere::execute()
         this->Shape.setValue(ResultShape);
     }
     catch (Standard_Failure& e) {
-
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -448,7 +448,7 @@ App::DocumentObjectExecReturn *Ellipsoid::execute()
     }
     catch (Standard_Failure& e) {
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -497,7 +497,7 @@ App::DocumentObjectExecReturn *Cylinder::execute()
     }
     catch (Standard_Failure& e) {
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -556,7 +556,7 @@ App::DocumentObjectExecReturn *Prism::execute()
         this->Shape.setValue(makePrism(Height.getValue(), mkFace.Face()));
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -608,7 +608,7 @@ App::DocumentObjectExecReturn *RegularPolygon::execute()
     }
     catch (Standard_Failure& e) {
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -667,7 +667,7 @@ App::DocumentObjectExecReturn *Cone::execute()
     }
     catch (Standard_Failure& e) {
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -719,7 +719,7 @@ App::DocumentObjectExecReturn *Torus::execute()
                                              Angle3.getValue()));
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -810,7 +810,7 @@ App::DocumentObjectExecReturn *Helix::execute()
     }
     catch (Standard_Failure& e) {
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -878,7 +878,7 @@ App::DocumentObjectExecReturn *Spiral::execute()
         return Primitive::execute();
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 
@@ -960,7 +960,7 @@ App::DocumentObjectExecReturn *Wedge::execute()
         this->Shape.setValue(mkSolid.Solid());
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();

@@ -109,7 +109,7 @@ App::DocumentObjectExecReturn *Feature::recompute()
     }
     catch (Standard_Failure& e) {
 
-        App::DocumentObjectExecReturn* ret = new App::DocumentObjectExecReturn(e.GetMessageString());
+        App::DocumentObjectExecReturn* ret = new App::DocumentObjectExecReturn(Part::toString(e));
         if (ret->Why.empty()) ret->Why = "Unknown OCC exception";
         return ret;
     }
@@ -465,7 +465,7 @@ App::DocumentObject* Feature::getSubObject(const char* subname,
         // Instead either raise a sub-class of Base::Exception and let it handle by the calling
         // instance or do simply nothing. For now the error message is degraded to a log message.
         std::ostringstream str;
-        const char* msg = e.GetMessageString();
+        const char* msg = Part::toString(e);
 
         // Avoid name mangling
         str << getTypeName(e) << " ";

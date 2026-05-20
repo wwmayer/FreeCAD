@@ -52,6 +52,7 @@
 #include <Mod/Part/App/TopoShapeFacePy.h>
 #include <Mod/Part/App/TopoShapeWirePy.h>
 #include <Mod/Part/App/TopoShapeWirePy.cpp>
+#include <Mod/Part/App/OCCError.h>
 #include "OCCError.h"
 #include "Tools.h"
 
@@ -110,8 +111,7 @@ int TopoShapeWirePy::PyInit(PyObject* args, PyObject* /*kwd*/)
             return 0;
         }
         catch (Standard_Failure& e) {
-
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
     }
@@ -153,8 +153,7 @@ int TopoShapeWirePy::PyInit(PyObject* args, PyObject* /*kwd*/)
             return 0;
         }
         catch (Standard_Failure& e) {
-
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
     }
@@ -190,8 +189,7 @@ PyObject* TopoShapeWirePy::add(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -224,8 +222,7 @@ PyObject* TopoShapeWirePy::fixWire(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -258,8 +255,7 @@ PyObject* TopoShapeWirePy::makePipe(PyObject *args) const
             return new TopoShapePy(new TopoShape(shape));
         }
         catch (Standard_Failure& e) {
-
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -292,8 +288,7 @@ PyObject* TopoShapeWirePy::makePipeShell(PyObject *args) const
             return new TopoShapePy(new TopoShape(shape));
         }
         catch (Standard_Failure& e) {
-
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -358,7 +353,7 @@ PyObject* TopoShapeWirePy::makeEvolved(PyObject *args, PyObject *kwds) const
         return Py::new_reference_to(shape2pyshape(shape));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -383,8 +378,7 @@ PyObject* TopoShapeWirePy::makeHomogenousWires(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }

@@ -48,6 +48,7 @@
 #include <Base/Numbers.h>
 #include <Base/Tools.h>
 #include <Mod/Part/App/TopoShape.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "FeatureDraft.h"
 #include "DatumLine.h"
@@ -331,7 +332,6 @@ App::DocumentObjectExecReturn *Draft::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }

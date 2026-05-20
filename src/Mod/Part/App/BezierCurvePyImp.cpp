@@ -116,7 +116,7 @@ PyObject* BezierCurvePy::insertPoleAfter(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -137,7 +137,7 @@ PyObject* BezierCurvePy::insertPoleBefore(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -154,7 +154,7 @@ PyObject* BezierCurvePy::removePole(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -171,7 +171,7 @@ PyObject* BezierCurvePy::segment(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -195,7 +195,7 @@ PyObject* BezierCurvePy::setPole(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -216,7 +216,7 @@ PyObject* BezierCurvePy::getPole(PyObject * args) const
         return vec;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -240,7 +240,7 @@ PyObject* BezierCurvePy::getPoles(PyObject * args) const
         return Py::new_reference_to(poles);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -265,7 +265,7 @@ PyObject* BezierCurvePy::setPoles(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -283,7 +283,7 @@ PyObject* BezierCurvePy::setWeight(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -302,7 +302,7 @@ PyObject* BezierCurvePy::getWeight(PyObject * args) const
         return Py_BuildValue("d", weight);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -323,7 +323,7 @@ PyObject* BezierCurvePy::getWeights(PyObject * args) const
         return Py::new_reference_to(weights);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -341,7 +341,7 @@ PyObject* BezierCurvePy::getResolution(PyObject* args) const
         return Py_BuildValue("d",utol);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -472,7 +472,7 @@ PyObject* BezierCurvePy::interpolate(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
