@@ -852,10 +852,8 @@ bool FaceTypedBSpline::isEqual(const TopoDS_Face &faceOne, const TopoDS_Face &fa
     if (uPoleCountOne != uPoleCountTwo || vPoleCountOne != vPoleCountTwo)
         return false;
 
-    TColgp_Array2OfPnt polesOne(1, uPoleCountOne, 1, vPoleCountOne);
-    TColgp_Array2OfPnt polesTwo(1, uPoleCountTwo, 1, vPoleCountTwo);
-    surfaceOne->Poles(polesOne);
-    surfaceTwo->Poles(polesTwo);
+    const TColgp_Array2OfPnt& polesOne = surfaceOne->Poles();
+    const TColgp_Array2OfPnt& polesTwo = surfaceTwo->Poles();
 
     for (int indexU = 1; indexU <= uPoleCountOne; ++indexU)
     {

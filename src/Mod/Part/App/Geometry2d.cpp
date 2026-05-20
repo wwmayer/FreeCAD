@@ -449,8 +449,7 @@ std::vector<Base::Vector2d> Geom2dBSplineCurve::getPoles() const
 {
     std::vector<Base::Vector2d> poles;
     poles.reserve(myCurve->NbPoles());
-    TColgp_Array1OfPnt2d p(1,myCurve->NbPoles());
-    myCurve->Poles(p);
+    const TColgp_Array1OfPnt2d& p = myCurve->Poles();
 
     for (int i=p.Lower(); i<=p.Upper(); i++) {
         const gp_Pnt2d& pnt = p(i);

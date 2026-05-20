@@ -390,8 +390,7 @@ PyObject* BSplineCurve2dPy::getPoles(PyObject * args)
     try {
         Handle(Geom2d_BSplineCurve) curve = Handle(Geom2d_BSplineCurve)::DownCast
             (getGeometry2dPtr()->handle());
-        TColgp_Array1OfPnt2d p(1, (int)curve->NbPoles());
-        curve->Poles(p);
+        const TColgp_Array1OfPnt2d& p = curve->Poles();
 
         Py::List poles;
         for (int i=p.Lower(); i<=p.Upper(); i++) {
@@ -413,8 +412,7 @@ PyObject* BSplineCurve2dPy::getPolesAndWeights(PyObject * args)
     try {
         Handle(Geom2d_BSplineCurve) curve = Handle(Geom2d_BSplineCurve)::DownCast
             (getGeometry2dPtr()->handle());
-        TColgp_Array1OfPnt2d p(1,curve->NbPoles());
-        curve->Poles(p);
+        const TColgp_Array1OfPnt2d& p = curve->Poles();
         TColStd_Array1OfReal w(1,curve->NbPoles());
         curve->Weights(w);
 

@@ -228,8 +228,7 @@ PyObject* BezierCurvePy::getPoles(PyObject * args) const
     try {
         Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
             (getGeometryPtr()->handle());
-        TColgp_Array1OfPnt p(1,curve->NbPoles());
-        curve->Poles(p);
+        const TColgp_Array1OfPnt& p = curve->Poles();
         Py::List poles;
         for (int i=p.Lower(); i<=p.Upper(); i++) {
             gp_Pnt pnt = p(i);

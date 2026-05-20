@@ -1178,8 +1178,7 @@ std::vector<Base::Vector3d> GeomBezierCurve::getPoles() const
 {
     std::vector<Base::Vector3d> poles;
     poles.reserve(myCurve->NbPoles());
-    TColgp_Array1OfPnt poleArray(1,myCurve->NbPoles());
-    myCurve->Poles(poleArray);
+    const TColgp_Array1OfPnt& poleArray = myCurve->Poles();
 
     for (int index=poleArray.Lower(); index<=poleArray.Upper(); index++) {
         const gp_Pnt& pnt = poleArray(index);
@@ -1468,8 +1467,7 @@ std::vector<Base::Vector3d> GeomBSplineCurve::getPoles() const
 {
     std::vector<Base::Vector3d> poles;
     poles.reserve(myCurve->NbPoles());
-    TColgp_Array1OfPnt p(1,myCurve->NbPoles());
-    myCurve->Poles(p);
+    const TColgp_Array1OfPnt& p = myCurve->Poles();
 
     for (int i=p.Lower(); i<=p.Upper(); i++) {
         const gp_Pnt& pnt = p(i);

@@ -222,8 +222,7 @@ PyObject* BezierCurve2dPy::getPoles(PyObject * args)
     try {
         Handle(Geom2d_BezierCurve) curve = Handle(Geom2d_BezierCurve)::DownCast
             (getGeometry2dPtr()->handle());
-        TColgp_Array1OfPnt2d p(1,curve->NbPoles());
-        curve->Poles(p);
+        const TColgp_Array1OfPnt2d& p = curve->Poles();
         Py::List poles;
 
         for (int i=p.Lower(); i<=p.Upper(); i++) {

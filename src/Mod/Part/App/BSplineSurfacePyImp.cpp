@@ -705,8 +705,7 @@ PyObject* BSplineSurfacePy::getPoles(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColgp_Array2OfPnt p(1,surf->NbUPoles(),1,surf->NbVPoles());
-        surf->Poles(p);
+        const TColgp_Array2OfPnt& p = surf->Poles();
         Py::List poles;
         for (int i=p.LowerRow(); i<=p.UpperRow(); i++) {
             Py::List row;
@@ -845,8 +844,7 @@ PyObject* BSplineSurfacePy::getPolesAndWeights(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColgp_Array2OfPnt p(1,surf->NbUPoles(),1,surf->NbVPoles());
-        surf->Poles(p);
+        const TColgp_Array2OfPnt& p = surf->Poles();
         TColStd_Array2OfReal w(1,surf->NbUPoles(),1,surf->NbVPoles());
         surf->Weights(w);
 
