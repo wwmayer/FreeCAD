@@ -26,6 +26,7 @@
 # include <Geom2d_Circle.hxx>
 # include <Geom2d_TrimmedCurve.hxx>
 # include <gp_Circ2d.hxx>
+# include <Standard_Version.hxx>
 #endif
 
 #include <Base/GeometryPyCXX.h>
@@ -35,6 +36,9 @@
 #include "Geom2d/Circle2dPy.h"
 #include "OCCError.h"
 
+#if OCC_VERSION_HEX < 0x080000
+using GC_MakeArcOfCircle2d = GCE2d_MakeArcOfCircle;
+#endif
 
 using namespace Part;
 
@@ -62,7 +66,7 @@ int ArcOfCircle2dPy::PyInit(PyObject* args, PyObject* /*kwds*/)
         try {
             Handle(Geom2d_Circle) circle = Handle(Geom2d_Circle)::DownCast
                 (static_cast<Circle2dPy*>(o)->getGeom2dCirclePtr()->handle());
-            GCE2d_MakeArcOfCircle arc(circle->Circ2d(), u1, u2, Base::asBoolean(sense));
+            GC_MakeArcOfCircle2d arc(circle->Circ2d(), u1, u2, Base::asBoolean(sense));
             if (!arc.IsDone()) {
                 PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(arc.Status()));
                 return -1;
@@ -90,9 +94,9 @@ int ArcOfCircle2dPy::PyInit(PyObject* args, PyObject* /*kwds*/)
         Base::Vector2d v2 = Py::toVector2d(pV2);
         Base::Vector2d v3 = Py::toVector2d(pV3);
 
-        GCE2d_MakeArcOfCircle arc(gp_Pnt2d(v1.x,v1.y),
-                                  gp_Pnt2d(v2.x,v2.y),
-                                  gp_Pnt2d(v3.x,v3.y));
+        GC_MakeArcOfCircle2d arc(gp_Pnt2d(v1.x,v1.y),
+                                 gp_Pnt2d(v2.x,v2.y),
+                                 gp_Pnt2d(v3.x,v3.y));
         if (!arc.IsDone()) {
             PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(arc.Status()));
             return -1;

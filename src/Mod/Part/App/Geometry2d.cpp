@@ -58,7 +58,6 @@
 # include <GeomLProp_CLProps.hxx>
 # else
 # include <Geom2dLProp_CLProps2d.hxx>
-using GeomLProp_CLProps2d = Geom2dLProp_CLProps2d;
 # endif
 #endif
 
@@ -84,6 +83,20 @@ using GeomLProp_CLProps2d = Geom2dLProp_CLProps2d;
 #include <Geom2d/OffsetCurve2dPy.h>
 #include <Geom2d/Parabola2dPy.h>
 
+
+#if OCC_VERSION_HEX < 0x080000
+using GeomLProp_CLProps2d = Geom2dLProp_CLProps2d;
+using GC_MakeArcOfCircle2d = GCE2d_MakeArcOfCircle;
+using GC_MakeArcOfEllipse2d = GCE2d_MakeArcOfEllipse;
+using GC_MakeArcOfParabola2d = GCE2d_MakeArcOfParabola;
+using GC_MakeArcOfHyperbola2d = GCE2d_MakeArcOfHyperbola;
+using GC_MakeCircle2d = GCE2d_MakeCircle;
+using GC_MakeEllipse2d = GCE2d_MakeEllipse;
+using GC_MakeHyperbola2d = GCE2d_MakeHyperbola;
+using GC_MakeLine2d = GCE2d_MakeLine;
+using GC_MakeSegment2d = GCE2d_MakeSegment;
+using GC_MakeParabola2d = GCE2d_MakeParabola;
+#endif
 
 using namespace Part;
 using namespace std;
@@ -869,7 +882,7 @@ void Geom2dCircle::Restore(Base::XMLReader& reader)
     Radius = reader.getAttributeAsFloat("Radius");
 
     try {
-        GCE2d_MakeCircle mc(axis, Radius);
+        GC_MakeCircle2d mc(axis, Radius);
         if (!mc.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(mc.Status()));
 
@@ -1028,10 +1041,10 @@ void Geom2dArcOfCircle::Restore(Base::XMLReader &reader)
     Radius = reader.getAttributeAsFloat("Radius");
 
     try {
-        GCE2d_MakeCircle mc(axis, Radius);
+        GC_MakeCircle2d mc(axis, Radius);
         if (!mc.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(mc.Status()));
-        GCE2d_MakeArcOfCircle ma(mc.Value()->Circ2d(), u, v);
+        GC_MakeArcOfCircle2d ma(mc.Value()->Circ2d(), u, v);
         if (!ma.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(ma.Status()));
 
@@ -1189,7 +1202,7 @@ void Geom2dEllipse::Restore(Base::XMLReader& reader)
     MinorRadius = reader.getAttributeAsFloat("MinorRadius");
 
     try {
-        GCE2d_MakeEllipse mc(axis, MajorRadius, MinorRadius);
+        GC_MakeEllipse2d mc(axis, MajorRadius, MinorRadius);
         if (!mc.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(mc.Status()));
 
@@ -1364,11 +1377,11 @@ void Geom2dArcOfEllipse::Restore(Base::XMLReader &reader)
     MinorRadius = reader.getAttributeAsFloat("MinorRadius");
 
     try {
-        GCE2d_MakeEllipse mc(axis, MajorRadius, MinorRadius);
+        GC_MakeEllipse2d mc(axis, MajorRadius, MinorRadius);
         if (!mc.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(mc.Status()));
 
-        GCE2d_MakeArcOfEllipse ma(mc.Value()->Elips2d(), u, v);
+        GC_MakeArcOfEllipse2d ma(mc.Value()->Elips2d(), u, v);
         if (!ma.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(ma.Status()));
 
@@ -1491,7 +1504,7 @@ void Geom2dHyperbola::Restore(Base::XMLReader& reader)
     MinorRadius = reader.getAttributeAsFloat("MinorRadius");
 
     try {
-        GCE2d_MakeHyperbola mc(axis, MajorRadius, MinorRadius);
+        GC_MakeHyperbola2d mc(axis, MajorRadius, MinorRadius);
         if (!mc.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(mc.Status()));
 
@@ -1622,11 +1635,11 @@ void Geom2dArcOfHyperbola::Restore(Base::XMLReader &reader)
     MinorRadius = reader.getAttributeAsFloat("MinorRadius");
 
     try {
-        GCE2d_MakeHyperbola mc(axis, MajorRadius, MinorRadius);
+        GC_MakeHyperbola2d mc(axis, MajorRadius, MinorRadius);
         if (!mc.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(mc.Status()));
 
-        GCE2d_MakeArcOfHyperbola ma(mc.Value()->Hypr2d(), u, v);
+        GC_MakeArcOfHyperbola2d ma(mc.Value()->Hypr2d(), u, v);
         if (!ma.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(ma.Status()));
 
@@ -1730,7 +1743,7 @@ void Geom2dParabola::Restore(Base::XMLReader& reader)
     Focal = reader.getAttributeAsFloat("Focal");
 
     try {
-        GCE2d_MakeParabola mc(axis, Focal);
+        GC_MakeParabola2d mc(axis, Focal);
         if (!mc.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(mc.Status()));
 
@@ -1841,11 +1854,11 @@ void Geom2dArcOfParabola::Restore(Base::XMLReader &reader)
     Focal = reader.getAttributeAsFloat("Focal");
 
     try {
-        GCE2d_MakeParabola mc(axis, Focal);
+        GC_MakeParabola2d mc(axis, Focal);
         if (!mc.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(mc.Status()));
 
-        GCE2d_MakeArcOfParabola ma(mc.Value()->Parab2d(), u, v);
+        GC_MakeArcOfParabola2d ma(mc.Value()->Parab2d(), u, v);
         if (!ma.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(ma.Status()));
 
@@ -1957,7 +1970,7 @@ void Geom2dLine::Restore(Base::XMLReader &reader)
     gp_Dir2d dir(DirX, DirY);
 
     try {
-        GCE2d_MakeLine mc(pnt, dir);
+        GC_MakeLine2d mc(pnt, dir);
         if (!mc.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(mc.Status()));
 
@@ -2031,7 +2044,7 @@ void Geom2dLineSegment::setPoints(const Base::Vector2d& Start, const Base::Vecto
         // Create line out of two points
         if (p1.Distance(p2) < gp::Resolution())
             throw Standard_Failure("Both points are equal");
-        GCE2d_MakeSegment ms(p1, p2);
+        GC_MakeSegment2d ms(p1, p2);
         if (!ms.IsDone()) {
             throw Base::CADKernelError(gce_ErrorStatusText(ms.Status()));
         }
@@ -2090,7 +2103,7 @@ void Geom2dLineSegment::Restore(Base::XMLReader &reader)
     gp_Pnt2d p2(EndX, EndY);
 
     try {
-        GCE2d_MakeSegment mc(p1, p2);
+        GC_MakeSegment2d mc(p1, p2);
         if (!mc.IsDone())
             throw Base::CADKernelError(gce_ErrorStatusText(mc.Status()));
 

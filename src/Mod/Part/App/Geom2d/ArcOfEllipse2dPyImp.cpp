@@ -34,6 +34,10 @@
 #include "OCCError.h"
 
 
+#if OCC_VERSION_HEX < 0x080000
+using GC_MakeArcOfEllipse2d = GCE2d_MakeArcOfEllipse;
+#endif
+
 using namespace Part;
 
 extern const char* gce_ErrorStatusText(gce_ErrorType et);
@@ -60,7 +64,7 @@ int ArcOfEllipse2dPy::PyInit(PyObject* args, PyObject* /*kwds*/)
         try {
             Handle(Geom2d_Ellipse) ellipse = Handle(Geom2d_Ellipse)::DownCast
                 (static_cast<Ellipse2dPy*>(o)->getGeom2dEllipsePtr()->handle());
-            GCE2d_MakeArcOfEllipse arc(ellipse->Elips2d(), u1, u2, Base::asBoolean(sense));
+            GC_MakeArcOfEllipse2d arc(ellipse->Elips2d(), u1, u2, Base::asBoolean(sense));
             if (!arc.IsDone()) {
                 PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(arc.Status()));
                 return -1;
