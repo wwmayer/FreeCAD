@@ -1191,12 +1191,14 @@ std::vector<double> GeomBezierCurve::getWeights() const
 {
     std::vector<double> weights;
     weights.reserve(myCurve->NbPoles());
-    TColStd_Array1OfReal weightArray(1,myCurve->NbPoles());
-    myCurve->Weights(weightArray);
-
-    for (int index=weightArray.Lower(); index<=weightArray.Upper(); index++) {
-        const double& real = weightArray(index);
-        weights.push_back(real);
+    if (const TColStd_Array1OfReal* weightArray = myCurve->Weights()) {
+        for (int index = weightArray->Lower(); index <= weightArray->Upper(); index++) {
+            double real = (*weightArray)(index);
+            weights.push_back(real);
+        }
+    }
+    else {
+        weights.resize(myCurve->NbPoles(), 1.0);
     }
     return weights;
 }
@@ -1480,12 +1482,14 @@ std::vector<double> GeomBSplineCurve::getWeights() const
 {
     std::vector<double> weights;
     weights.reserve(myCurve->NbPoles());
-    TColStd_Array1OfReal w(1,myCurve->NbPoles());
-    myCurve->Weights(w);
-
-    for (int i=w.Lower(); i<=w.Upper(); i++) {
-        const double& real = w(i);
-        weights.push_back(real);
+    if (const TColStd_Array1OfReal* weightArray = myCurve->Weights()) {
+        for (int index = weightArray->Lower(); index <= weightArray->Upper(); index++) {
+            double real = (*weightArray)(index);
+            weights.push_back(real);
+        }
+    }
+    else {
+        weights.resize(myCurve->NbPoles(), 1.0);
     }
     return weights;
 }
@@ -1502,7 +1506,6 @@ void GeomBSplineCurve::setWeights(const std::vector<double>& weights)
         }
     }
     catch (Standard_Failure& e) {
-
         THROWM(Base::CADKernelError,Part::toString(e))
     }
 }
@@ -1859,12 +1862,12 @@ bool GeomBSplineCurve::removeKnot(int index, int multiplicity, double tolerance)
         if (curve->RemoveKnot(index, multiplicity, tolerance)) {
 
             // It can happen that OCCT computes a negative weight but still claims the removal was successful
-            TColStd_Array1OfReal weights(1, curve->NbPoles());
-            curve->Weights(weights);
-            for (int i = weights.Lower(); i <= weights.Upper(); i++) {
-                double v = weights(i);
-                if (v <= gp::Resolution())
-                    return false;
+            if (const TColStd_Array1OfReal* weights = curve->Weights()) {
+                for (int i = weights->Lower(); i <= weights->Upper(); i++) {
+                    double v = (*weights)(i);
+                    if (v <= gp::Resolution())
+                        return false;
+                }
             }
 
             myCurve = curve;

@@ -614,15 +614,27 @@ PyObject* BezierSurfacePy::getWeights(PyObject *args) const
     try {
         Handle(Geom_BezierSurface) surf = Handle(Geom_BezierSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array2OfReal w(1,surf->NbUPoles(),1,surf->NbVPoles());
-        surf->Weights(w);
         Py::List weights;
-        for (int i=w.LowerRow(); i<=w.UpperRow(); i++) {
-            Py::List row;
-            for (int j=w.LowerCol(); j<=w.UpperCol(); j++) {
-                row.append(Py::Float(w(i,j)));
+        if (const TColStd_Array2OfReal* w = surf->Weights()) {
+            for (int i = w->LowerRow(); i <= w->UpperRow(); i++) {
+                Py::List row;
+                for (int j = w->LowerCol(); j <= w->UpperCol(); j++) {
+                    row.append(Py::Float((*w)(i,j)));
+                }
+                weights.append(row);
             }
-            weights.append(row);
+        }
+        else {
+            int numUPoles = surf->NbUPoles();
+            int numVPoles = surf->NbVPoles();
+            Py::Float value(1.0);
+            Py::List row;
+            for (int i = 0; i < numUPoles; i++) {
+                row.append(value);
+            }
+            for (int i = 0; i < numVPoles; i++) {
+                weights.append(row);
+            }
         }
         return Py::new_reference_to(weights);
     }

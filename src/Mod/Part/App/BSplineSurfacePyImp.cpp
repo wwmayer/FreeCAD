@@ -817,15 +817,27 @@ PyObject* BSplineSurfacePy::getWeights(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array2OfReal w(1,surf->NbUPoles(),1,surf->NbVPoles());
-        surf->Weights(w);
         Py::List weights;
-        for (int i=w.LowerRow(); i<=w.UpperRow(); i++) {
-            Py::List row;
-            for (int j=w.LowerCol(); j<=w.UpperCol(); j++) {
-                row.append(Py::Float(w(i,j)));
+        if (const TColStd_Array2OfReal* w = surf->Weights()) {
+            for (int i = w->LowerRow(); i <= w->UpperRow(); i++) {
+                Py::List row;
+                for (int j = w->LowerCol(); j <= w->UpperCol(); j++) {
+                    row.append(Py::Float((*w)(i,j)));
+                }
+                weights.append(row);
             }
-            weights.append(row);
+        }
+        else {
+            int numUPoles = surf->NbUPoles();
+            int numVPoles = surf->NbVPoles();
+            Py::Float value(1.0);
+            Py::List row;
+            for (int i = 0; i < numUPoles; i++) {
+                row.append(value);
+            }
+            for (int i = 0; i < numVPoles; i++) {
+                weights.append(row);
+            }
         }
         return Py::new_reference_to(weights);
     }
@@ -843,15 +855,14 @@ PyObject* BSplineSurfacePy::getPolesAndWeights(PyObject *args) const
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
         const TColgp_Array2OfPnt& p = surf->Poles();
-        TColStd_Array2OfReal w(1,surf->NbUPoles(),1,surf->NbVPoles());
-        surf->Weights(w);
+        const TColStd_Array2OfReal* w = surf->Weights();
 
         Py::List poles;
         for (int i=p.LowerRow(); i<=p.UpperRow(); i++) {
             Py::List row;
             for (int j=p.LowerCol(); j<=p.UpperCol(); j++) {
                 const gp_Pnt& pole = p(i,j);
-                double weight = w(i,j);
+                double weight = w ? (*w)(i,j) : 1.0;
                 Py::Tuple t(4);
                 t.setItem(0, Py::Float(pole.X()));
                 t.setItem(1, Py::Float(pole.Y()));
