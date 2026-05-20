@@ -681,19 +681,7 @@ Py::List BSplineCurve2dPy::getKnotSequence() const
 {
     Handle(Geom2d_BSplineCurve) curve = Handle(Geom2d_BSplineCurve)::DownCast
         (getGeometry2dPtr()->handle());
-    int m = 0;
-    if (curve->IsPeriodic()) {
-        // knots=poles+2*degree-mult(1)+2
-        m = (int)(curve->NbPoles() + 2*curve->Degree() - curve->Multiplicity(1) + 2);
-    }
-    else {
-        // knots=poles+degree+1
-        for (int i=1; i<= curve->NbKnots(); i++)
-            m += (int)curve->Multiplicity(i);
-    }
-
-    TColStd_Array1OfReal k(1,m);
-    curve->KnotSequence(k);
+    const TColStd_Array1OfReal& k = curve->KnotSequence();
     Py::List list;
     for (int i=k.Lower(); i<=k.Upper(); i++) {
         list.append(Py::Float(k(i)));

@@ -763,19 +763,9 @@ Py::List BSplineCurvePy::getKnotSequence() const
 {
     Handle(Geom_BSplineCurve) curve = Handle(Geom_BSplineCurve)::DownCast
         (getGeometryPtr()->handle());
-    int m = 0;
-    if (curve->IsPeriodic()) {
-        // knots=poles+2*degree-mult(1)+2
-        m = curve->NbPoles() + 2*curve->Degree() - curve->Multiplicity(1) + 2;
-    }
-    else {
-        // knots=poles+degree+1
-        for (int i=1; i<= curve->NbKnots(); i++)
-            m += curve->Multiplicity(i);
-    }
-
-    TColStd_Array1OfReal k(1,m);
-    curve->KnotSequence(k);
+    // Periodic: knots = poles + 2 * degree - mult(1) + 2
+    // Non-periodic: knots = poles + degree + 1
+    const TColStd_Array1OfReal& k = curve->KnotSequence();
     Py::List list;
     for (int i=k.Lower(); i<=k.Upper(); i++) {
         list.append(Py::Float(k(i)));

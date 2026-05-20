@@ -1106,17 +1106,7 @@ void ImpExpDxfWrite::exportBSpline(BRepAdaptor_Curve& c)
     sd.endtan = gPntTopoint3D(p);
 
     // next bit is from DrawingExport.cpp (Dan Falk?).
-    int m = 0;
-    if (spline->IsPeriodic()) {
-        m = spline->NbPoles() + 2 * spline->Degree() - spline->Multiplicity(1) + 2;
-    }
-    else {
-        for (int i = 1; i <= spline->NbKnots(); i++) {
-            m += spline->Multiplicity(i);
-        }
-    }
-    TColStd_Array1OfReal knotsequence(1, m);
-    spline->KnotSequence(knotsequence);
+    const TColStd_Array1OfReal& knotsequence = spline->KnotSequence();
     for (int i = knotsequence.Lower(); i <= knotsequence.Upper(); i++) {
         sd.knot.push_back(knotsequence(i));
     }

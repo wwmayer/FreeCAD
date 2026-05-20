@@ -1650,17 +1650,7 @@ Py::List BSplineSurfacePy::getUKnotSequence() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    int m = 0;
-    if (surf->IsUPeriodic()) {
-        // knots=poles+2*degree-mult(1)+2
-        m = surf->NbUPoles() + 2*surf->UDegree() - surf->UMultiplicity(1) + 2;
-    }
-    else {
-        for (int i=1; i<= surf->NbUKnots(); i++)
-            m += surf->UMultiplicity(i);
-    }
-    TColStd_Array1OfReal k(1,m);
-    surf->UKnotSequence(k);
+    const TColStd_Array1OfReal& k = surf->UKnotSequence();
     Py::List list;
     for (int i=k.Lower(); i<=k.Upper(); i++) {
         list.append(Py::Float(k(i)));
@@ -1672,17 +1662,7 @@ Py::List BSplineSurfacePy::getVKnotSequence() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    int m = 0;
-    if (surf->IsVPeriodic()) {
-        // knots=poles+2*degree-mult(1)+2
-        m = surf->NbVPoles() + 2*surf->VDegree() - surf->VMultiplicity(1) + 2;
-    }
-    else {
-        for (int i=1; i<= surf->NbVKnots(); i++)
-            m += surf->VMultiplicity(i);
-    }
-    TColStd_Array1OfReal k(1,m);
-    surf->VKnotSequence(k);
+    const TColStd_Array1OfReal& k = surf->VKnotSequence();
     Py::List list;
     for (int i=k.Lower(); i<=k.Upper(); i++) {
         list.append(Py::Float(k(i)));
