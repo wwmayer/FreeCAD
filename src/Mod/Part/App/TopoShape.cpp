@@ -191,6 +191,7 @@
 #include "TopoShapeSolidPy.h"
 #include "TopoShapeVertexPy.h"
 #include "TopoShapeWirePy.h"
+#include "OCCError.h"
 
 
 FC_LOG_LEVEL_INIT("TopoShape",true,true)
@@ -729,7 +730,7 @@ void TopoShape::importIges(const char *FileName)
         this->_Shape = aReader.OneShape();
     }
     catch (Standard_Failure& e) {
-        throw Base::CADKernelError(e.GetMessageString());
+        throw Base::CADKernelError(Part::toString(e));
     }
 }
 
@@ -746,7 +747,7 @@ void TopoShape::importStep(const char *FileName)
         this->_Shape = aReader.OneShape();
     }
     catch (Standard_Failure& e) {
-        throw Base::CADKernelError(e.GetMessageString());
+        throw Base::CADKernelError(Part::toString(e));
     }
 }
 
@@ -760,7 +761,7 @@ void TopoShape::importBrep(const char *FileName)
         this->_Shape = aShape;
     }
     catch (Standard_Failure& e) {
-        throw Base::CADKernelError(e.GetMessageString());
+        throw Base::CADKernelError(Part::toString(e));
     }
 }
 
@@ -775,7 +776,7 @@ void TopoShape::importBrep(std::istream& str, int indicator)
         this->_Shape = aShape;
     }
     catch (Standard_Failure& e) {
-        throw Base::CADKernelError(e.GetMessageString());
+        throw Base::CADKernelError(Part::toString(e));
     }
     catch (const std::exception& e) {
         throw Base::CADKernelError(e.what());
@@ -846,7 +847,7 @@ void TopoShape::exportIges(const char *filename) const
             throw Base::FileException("Writing of IGES failed");
     }
     catch (Standard_Failure& e) {
-        throw Base::CADKernelError(e.GetMessageString());
+        throw Base::CADKernelError(Part::toString(e));
     }
 }
 
@@ -878,7 +879,7 @@ void TopoShape::exportStep(const char *filename) const
             throw Base::FileException("Writing of STEP failed");
     }
     catch (Standard_Failure& e) {
-        throw Base::CADKernelError(e.GetMessageString());
+        throw Base::CADKernelError(Part::toString(e));
     }
 }
 
@@ -2970,7 +2971,7 @@ void TopoShape::transformGeometry(const Base::Matrix4D &rclMat)
         *this = makeGTransform(rclMat);
     }
     catch (const Standard_Failure& e) {
-        throw Base::CADKernelError(e.GetMessageString());
+        throw Base::CADKernelError(Part::toString(e));
     }
 }
 
@@ -4023,7 +4024,7 @@ bool TopoShape::findPlane(gp_Pln& pln, double tol, double atol) const
         // the geometry of some edge, causing exception with message
         // BRepAdaptor_Curve::No geometry. However, without the above
         // copy, circular edges often have the wrong transformation!
-        FC_LOG("failed to find surface: " << e.GetMessageString());
+        FC_LOG("failed to find surface: " << Part::toString(e));
         return false;
     }
 }
@@ -4102,7 +4103,7 @@ bool TopoShape::_makeTransform(const TopoShape &shape,
             }
         }
         catch (const Standard_Failure& e) {
-            Base::Console().Warning("TopoShape::makeGTransform failed: %s\n", e.GetMessageString());
+            Base::Console().Warning("TopoShape::makeGTransform failed: %s\n", Part::toString(e));
         }
     }
     makeTransform(shape,convert(rclTrf),op,copy);

@@ -103,6 +103,7 @@
 #include <BRepFeat_MakeRevol.hxx>
 
 #include "Tools.h"
+#include "OCCError.h"
 
 FC_LOG_LEVEL_INIT("TopoShape", true, true)  // NOLINT
 
@@ -2471,7 +2472,7 @@ TopoShape& TopoShape::makeElementOffset(const TopoShape& shape,
             res = res.makeElementSolid();
         }
         catch (Standard_Failure& e) {
-            FC_WARN("failed to make solid: " << e.GetMessageString());
+            FC_WARN("failed to make solid: " << Part::toString(e));
         }
     }
     if (fill == FillType::noFill) {
@@ -3484,7 +3485,7 @@ const std::vector<TopoDS_Shape>& MapperSewing::modified(const TopoDS_Shape& s) c
     }
     catch (const Standard_Failure& e) {
         if (FC_LOG_INSTANCE.isEnabled(FC_LOGLEVEL_LOG)) {
-            FC_WARN("Exception on shape mapper: " << e.GetMessageString());
+            FC_WARN("Exception on shape mapper: " << Part::toString(e));
         }
     }
     return _res;
@@ -3526,7 +3527,7 @@ struct MapperThruSections: MapperMaker
         }
         catch (const Standard_Failure& e) {
             if (FC_LOG_INSTANCE.isEnabled(FC_LOGLEVEL_LOG)) {
-                FC_WARN("Exception on shape mapper: " << e.GetMessageString());
+                FC_WARN("Exception on shape mapper: " << Part::toString(e));
             }
         }
         return _res;
@@ -4690,7 +4691,7 @@ TopoShape& TopoShape::makeElementRefine(const TopoShape& shape, const char* op, 
         }
         catch (Standard_Failure& e) {
             std::string text = "Shape refinement failed";
-            auto msg = e.GetMessageString();
+            auto msg = Part::toString(e);
             if (!Base::Tools::isNullOrEmpty(msg)) {
                 text.append(" (");
                 text.append(msg);
@@ -5318,7 +5319,7 @@ struct MapperFill: Part::TopoShape::Mapper
         }
         catch (const Standard_Failure& e) {
             if (FC_LOG_INSTANCE.isEnabled(FC_LOGLEVEL_LOG)) {
-                FC_WARN("Exception on shape mapper: " << e.GetMessageString());
+                FC_WARN("Exception on shape mapper: " << Part::toString(e));
             }
         }
         return _res;
@@ -5336,7 +5337,7 @@ const std::vector<TopoDS_Shape>& MapperMaker::modified(const TopoDS_Shape& s) co
     }
     catch (const Standard_Failure& e) {
         if (FC_LOG_INSTANCE.isEnabled(FC_LOGLEVEL_LOG)) {
-            FC_WARN("Exception on shape mapper: " << e.GetMessageString());
+            FC_WARN("Exception on shape mapper: " << Part::toString(e));
         }
     }
     return _res;
@@ -5353,7 +5354,7 @@ const std::vector<TopoDS_Shape>& MapperMaker::generated(const TopoDS_Shape& s) c
     }
     catch (const Standard_Failure& e) {
         if (FC_LOG_INSTANCE.isEnabled(FC_LOGLEVEL_LOG)) {
-            FC_WARN("Exception on shape mapper: " << e.GetMessageString());
+            FC_WARN("Exception on shape mapper: " << Part::toString(e));
         }
     }
     return _res;
@@ -5390,7 +5391,7 @@ const std::vector<TopoDS_Shape>& MapperHistory::modified(const TopoDS_Shape& s) 
     }
     catch (const Standard_Failure& e) {
         if (FC_LOG_INSTANCE.isEnabled(FC_LOGLEVEL_LOG)) {
-            FC_WARN("Exception on shape mapper: " << e.GetMessageString());
+            FC_WARN("Exception on shape mapper: " << Part::toString(e));
         }
     }
     return _res;
@@ -5409,7 +5410,7 @@ const std::vector<TopoDS_Shape>& MapperHistory::generated(const TopoDS_Shape& s)
     }
     catch (const Standard_Failure& e) {
         if (FC_LOG_INSTANCE.isEnabled(FC_LOGLEVEL_LOG)) {
-            FC_WARN("Exception on shape mapper: " << e.GetMessageString());
+            FC_WARN("Exception on shape mapper: " << Part::toString(e));
         }
     }
     return _res;
@@ -5499,7 +5500,7 @@ TopoShape& TopoShape::makeElementShell(bool silent, const char* op)
     }
     catch (Standard_Failure& e) {
         if (!silent) {
-            FC_THROWM(Base::CADKernelError, "Failed to make shell: " << e.GetMessageString());
+            FC_THROWM(Base::CADKernelError, "Failed to make shell: " << Part::toString(e));
         }
     }
 
@@ -5540,7 +5541,7 @@ bool TopoShape::fixSolidOrientation()
             BRepLib::OrientClosedSolid(solid);
         }
         catch (Standard_Failure& e) {
-            auto msg = e.GetMessageString();
+            auto msg = Part::toString(e);
             if (Base::Tools::isNullOrEmpty(msg)) {
                 throw Standard_Failure("BRepLib::OrientClosedSolid failed");
             }

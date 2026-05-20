@@ -54,6 +54,7 @@
 #include <Gui/Application.h>
 #include <Gui/Selection/SelectionObject.h>
 #include <Inventor/SbVec3d.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "DlgProjectionOnSurface.h"
 #include "ui_DlgProjectionOnSurface.h"
@@ -185,7 +186,7 @@ DlgProjectionOnSurface::~DlgProjectionOnSurface()
         }
         catch (Standard_NoSuchObject& e) {
             Base::Console().Warning("DlgProjectionOnSurface::~DlgProjectionOnSurface: %s",
-                                    e.GetMessageString());
+                                    Part::toString(e));
         }
         auto vp = dynamic_cast<PartGui::ViewProviderPartExt*>(
             Gui::Application::Instance->getViewProvider(it.partFeature));
@@ -200,7 +201,7 @@ DlgProjectionOnSurface::~DlgProjectionOnSurface()
         }
         catch (Standard_NoSuchObject& e) {
             Base::Console().Warning("DlgProjectionOnSurface::~DlgProjectionOnSurface: %s",
-                                    e.GetMessageString());
+                                    Part::toString(e));
         }
     }
     Gui::Selection().rmvSelectionGate();

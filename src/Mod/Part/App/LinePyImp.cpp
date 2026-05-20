@@ -103,7 +103,7 @@ int LinePy::PyInit(PyObject* args, PyObject* /*kwd*/)
         }
         catch (Standard_Failure& e) {
 
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
         catch (...) {
@@ -165,7 +165,7 @@ void LinePy::setLocation(Py::Object arg)
         this_curv->SetLin(that_curv->Lin());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -214,7 +214,7 @@ void LinePy::setDirection(Py::Object arg)
         this_curv->SetLin(that_curv->Lin());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 

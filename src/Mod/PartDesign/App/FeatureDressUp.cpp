@@ -39,7 +39,8 @@
 #include <Base/Console.h>
 #include <App/Document.h>
 #include <Base/Exception.h>
-#include "Mod/Part/App/TopoShapeMapper.h"
+#include <Mod/Part/App/TopoShapeMapper.h>
+#include <Mod/Part/App/OCCError.h>
 
 FC_LOG_LEVEL_INIT("PartDesign",true,true)
 
@@ -353,7 +354,7 @@ void DressUp::getAddSubShape(Part::TopoShape &addShape, Part::TopoShape &subShap
 
         } catch (Standard_Failure &e) {
             FC_THROWM(Base::CADKernelError, "Failed to calculate AddSub shape: "
-                    << e.GetMessageString());
+                    << Part::toString(e));
         }
         res = AddSubShape.getShape();
     }

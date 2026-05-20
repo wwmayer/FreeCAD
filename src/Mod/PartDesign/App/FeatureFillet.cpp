@@ -35,6 +35,7 @@
 #include <Base/Exception.h>
 #include <Base/Reader.h>
 #include <Mod/Part/App/TopoShape.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "FeatureFillet.h"
 
@@ -124,7 +125,7 @@ App::DocumentObjectExecReturn *Fillet::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 

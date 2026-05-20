@@ -33,6 +33,7 @@
 #endif
 
 #include "FeatureFilling.h"
+#include <Mod/Part/App/OCCError.h>
 
 
 using namespace Surface;
@@ -332,6 +333,6 @@ App::DocumentObjectExecReturn* Filling::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }

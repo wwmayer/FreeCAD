@@ -37,8 +37,8 @@
 #include <Base/Exception.h>
 #include <Base/Reader.h>
 #include <Mod/Part/App/FaceMakerCheese.h>
-
-#include "Mod/Part/App/TopoShapeOpCode.h"
+#include <Mod/Part/App/OCCError.h>
+#include <Mod/Part/App/TopoShapeOpCode.h>
 
 #include "FeatureLoft.h"
 using namespace PartDesign;
@@ -294,7 +294,7 @@ App::DocumentObjectExecReturn *Loft::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
     catch (const Base::Exception& e) {
         return new App::DocumentObjectExecReturn(e.what());

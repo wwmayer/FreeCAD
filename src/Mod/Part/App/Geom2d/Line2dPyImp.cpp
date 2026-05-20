@@ -102,7 +102,7 @@ int Line2dPy::PyInit(PyObject* args, PyObject* /*kwd*/)
         }
         catch (Standard_Failure& e) {
 
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
         catch (...) {
@@ -162,7 +162,7 @@ void Line2dPy::setLocation(Py::Object arg)
         this_line->SetLin2d(that_line->Lin2d());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -210,7 +210,7 @@ void Line2dPy::setDirection(Py::Object arg)
         this_line->SetLin2d(that_line->Lin2d());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 

@@ -39,6 +39,7 @@
 #include <Base/Exception.h>
 #include <Base/Reader.h>
 #include <Mod/Part/App/modelRefine.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "FeatureTransformed.h"
 #include "Body.h"
@@ -241,7 +242,7 @@ App::DocumentObjectExecReturn* Transformed::execute()
         return new App::DocumentObjectExecReturn(e.what());
     }
     catch (const Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     if (transformations.empty()) {

@@ -62,6 +62,7 @@
 #include <App/Datums.h>
 #include <Mod/Part/App/PartFeature.h>
 #include <Mod/Part/App/Tools.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "FemConstraint.h"
 #include "FemTools.h"
@@ -134,7 +135,7 @@ App::DocumentObjectExecReturn* Constraint::execute()
         return StdReturn;
     }
     catch (const Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString(), this);
+        return new App::DocumentObjectExecReturn(Part::toString(e), this);
     }
 }
 

@@ -81,6 +81,7 @@
 
 #include <Mod/Part/App/FaceMakerCheese.h>
 #include <Mod/Part/App/Geometry.h>
+#include <Mod/Part/App/OCCError.h>
 #include <Mod/Part/App/TopoShape.h>
 
 #include "DrawViewPart.h"
@@ -536,7 +537,7 @@ BaseGeomPtr BaseGeom::baseFactory(TopoDS_Edge edge, bool isCosmetic)
         }
         catch (const Standard_Failure& e) {
             Base::Console().Log("Geom::baseFactory - OCC error - %s - while making spline\n",
-                              e.GetMessageString());
+                                Part::toString(e));
             break;
         }
         catch (...) {
@@ -577,7 +578,7 @@ TopoDS_Edge BaseGeom::completeEdge(const TopoDS_Edge &edge) {
         }
     }
     catch (Standard_Failure &e) {
-        Base::Console().Error("BaseGeom::completeEdge OCC error: %s\n", e.GetMessageString());
+        Base::Console().Error("BaseGeom::completeEdge OCC error: %s\n", Part::toString(e));
     }
 
     return TopoDS_Edge();
@@ -686,7 +687,7 @@ AOE::AOE(const TopoDS_Edge &e) : Ellipse(e)
     }
     catch (const Standard_Failure& e) {
         Base::Console().Error("Geom::AOE::AOE - OCC error - %s - while making AOE in ctor\n",
-                              e.GetMessageString());
+                              Part::toString(e));
     }
 
     startAngle = fmod(f, 2.0*pi);
@@ -1725,7 +1726,7 @@ double GeometryUtils::edgeLength(TopoDS_Edge occEdge)
         return GCPnts_AbscissaPoint::Length(adaptor,first,last,Precision::Confusion());
     }
     catch (Standard_Failure& exc) {
-        THROWM(Base::CADKernelError, exc.GetMessageString())
+        THROWM(Base::CADKernelError, Part::toString(exc))
     }
 }
 

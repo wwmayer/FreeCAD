@@ -52,6 +52,7 @@
 
 # include <Mod/Part/App/TopoShape.h>
 # include <Mod/Part/App/FaceMakerCheese.h>
+# include <Mod/Part/App/OCCError.h>
 
 # include "FeatureHelix.h"
 
@@ -337,10 +338,10 @@ App::DocumentObjectExecReturn* Helix::execute()
     }
     catch (Standard_Failure& e) {
 
-        if (std::string(e.GetMessageString()) == "TopoDS::Face")
+        if (std::string(Part::toString(e)) == "TopoDS::Face")
             return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP("Exception", "Error: Could not create face from sketch"));
         else
-            return new App::DocumentObjectExecReturn(e.GetMessageString());
+            return new App::DocumentObjectExecReturn(Part::toString(e));
     }
     catch (Base::Exception& e) {
         return new App::DocumentObjectExecReturn(e.what());

@@ -122,7 +122,7 @@ PyObject*  TopoShapeShellPy::add(PyObject *args)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -173,7 +173,7 @@ PyObject* TopoShapeShellPy::makeHalfSpace(PyObject *args) const
         return new TopoShapeSolidPy(new TopoShape(mkHS.Solid()));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }

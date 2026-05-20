@@ -40,6 +40,7 @@
 #include <Base/Reader.h>
 #include <Base/Tools.h>
 #include <Mod/Part/App/TopoShape.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "FeatureChamfer.h"
 
@@ -179,7 +180,7 @@ App::DocumentObjectExecReturn *Chamfer::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 

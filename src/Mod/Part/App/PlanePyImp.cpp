@@ -204,7 +204,7 @@ void PlanePy::setPosition(Py::Object arg)
         this_surf->SetLocation(loc);
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 

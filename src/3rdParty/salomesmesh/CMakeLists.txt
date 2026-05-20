@@ -43,6 +43,12 @@ if(CMAKE_COMPILER_IS_GNUCXX)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-overloaded-virtual")
     endif ()
 
+    unset(_flag_found CACHE)
+    check_cxx_compiler_flag("-Wno-deprecated-declarations" _flag_found)
+    if (_flag_found)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
+    endif ()
+
 # Suppress clang warnings
 elseif(CMAKE_COMPILER_IS_CLANGXX)
     set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -Wno-self-assign -Wno-sign-compare -Wno-logical-op-parentheses -Wno-reorder -Wno-switch -Wno-switch-enum -Wno-unknown-pragmas -Wno-unused-variable -Wno-unused-private-field")
@@ -52,6 +58,12 @@ elseif(CMAKE_COMPILER_IS_CLANGXX)
     check_cxx_compiler_flag("-Wno-deprecated-copy" _flag_found)
     if (_flag_found)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-copy")
+    endif ()
+
+    unset(_flag_found CACHE)
+    check_cxx_compiler_flag("-Wno-deprecated-declarations" _flag_found)
+    if (_flag_found)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
     endif ()
 
     unset(_flag_found CACHE)

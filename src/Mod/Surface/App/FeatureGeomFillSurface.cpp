@@ -49,6 +49,7 @@
 #include <gp_Trsf.hxx>
 #endif
 
+#include <Mod/Part/App/OCCError.h>
 #include "FeatureGeomFillSurface.h"
 
 
@@ -185,7 +186,7 @@ App::DocumentObjectExecReturn* GeomFillSurface::execute()
             "A curve was not a B-spline and could not be converted into one.");
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 

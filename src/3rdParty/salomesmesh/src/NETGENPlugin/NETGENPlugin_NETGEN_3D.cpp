@@ -540,11 +540,13 @@ bool NETGENPlugin_NETGEN_3D::compute(SMESH_Mesh&                     aMesh,
     str << " at " << netgen::multithread.task
 #if OCC_VERSION_HEX >= 0x080000
         << ": " << ex.ExceptionType();
+    if ( ex.what() && strlen( ex.what() ))
+        str << ": " << ex.what();
 #else
         << ": " << ex.DynamicType()->Name();
-#endif
     if ( ex.GetMessageString() && strlen( ex.GetMessageString() ))
       str << ": " << ex.GetMessageString();
+#endif
     error(str);
   }
   catch (netgen::NgException& exc)

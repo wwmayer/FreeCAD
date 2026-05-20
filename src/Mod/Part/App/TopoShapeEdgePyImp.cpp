@@ -149,7 +149,7 @@ int TopoShapeEdgePy::PyInit(PyObject* args, PyObject* /*kwd*/)
         }
         catch (Standard_Failure& e) {
 
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
     }
@@ -182,7 +182,7 @@ int TopoShapeEdgePy::PyInit(PyObject* args, PyObject* /*kwd*/)
         }
         catch (Standard_Failure& e) {
 
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
     }
@@ -322,7 +322,7 @@ PyObject* TopoShapeEdgePy::parameterAt(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -365,7 +365,7 @@ PyObject* TopoShapeEdgePy::normalAt(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -386,7 +386,7 @@ PyObject* TopoShapeEdgePy::curvatureAt(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -408,7 +408,7 @@ PyObject* TopoShapeEdgePy::centerOfCurvatureAt(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -429,7 +429,7 @@ PyObject* TopoShapeEdgePy::derivative1At(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -450,7 +450,7 @@ PyObject* TopoShapeEdgePy::derivative2At(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -471,7 +471,7 @@ PyObject* TopoShapeEdgePy::derivative3At(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -729,7 +729,7 @@ PyObject* TopoShapeEdgePy::split(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -750,7 +750,7 @@ PyObject* TopoShapeEdgePy::isSeam(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1082,7 +1082,7 @@ PyObject* TopoShapeEdgePy::curveOnSurface(PyObject *args) const
         return Py::new_reference_to(tuple);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }

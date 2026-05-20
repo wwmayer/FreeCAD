@@ -105,6 +105,7 @@
 #include <Mod/Part/App/GeometryMigrationExtension.h>
 #include <Mod/Part/App/TopoShapeOpCode.h>
 #include <Mod/Part/App/WireJoiner.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include <memory>
 
@@ -484,7 +485,7 @@ Part::TopoShape SketchObject::buildInternals(const Part::TopoShape &edges) const
     } catch (Base::Exception &e) {
         FC_WARN("Failed to make face for sketch: " << e.what());
     } catch (Standard_Failure &e) {
-        FC_WARN("Failed to make face for sketch: " << e.GetMessageString());
+        FC_WARN("Failed to make face for sketch: " << Part::toString(e));
     }
     return Part::TopoShape();
 }
@@ -8239,7 +8240,7 @@ void processEdge(const TopoDS_Edge& edge,
                 }
             }
             catch (Standard_Failure& e) {
-                throw Base::CADKernelError(e.GetMessageString());
+                throw Base::CADKernelError(Part::toString(e));
             }
         }
     }
@@ -8263,7 +8264,7 @@ std::vector<TopoDS_Shape> projectShape(const TopoDS_Shape& inShape, const gp_Ax3
     }
     catch (const Standard_Failure& e) {
         Base::Console().Error("GO::projectShape - OCC error - %s - while projecting shape\n",
-            e.GetMessageString());
+                              Part::toString(e));
         throw Base::RuntimeError("SketchObject::projectShape - OCC error");
     }
     catch (...) {
@@ -8674,7 +8675,7 @@ void SketchObject::rebuildExternalGeometry(std::optional<ExternalToAdd> extToAdd
             continue;
         } catch (Standard_Failure &e) {
             FC_ERR("Failed to project external geometry in "
-                   << getFullName() << ": " << key << std::endl << e.GetMessageString());
+                   << getFullName() << ": " << key << std::endl << Part::toString(e));
             continue;
         } catch (std::exception &e) {
             FC_ERR("Failed to project external geometry in "
