@@ -4116,7 +4116,7 @@ TopoShape &TopoShape::makeTransform(const TopoShape &shape, const gp_Trsf &trsf,
     if(!copy) {
         // OCCT checks the ScaleFactor against gp::Resolution() which is DBL_MIN!!!
         copy = trsf.ScaleFactor()*trsf.HVectorialPart().Determinant() < 0. ||
-               Abs(Abs(trsf.ScaleFactor()) - 1) > Precision::Confusion();
+               std::fabs(std::fabs(trsf.ScaleFactor()) - 1) > Precision::Confusion();
     }
     TopoShape tmp(shape);
     if(copy) {

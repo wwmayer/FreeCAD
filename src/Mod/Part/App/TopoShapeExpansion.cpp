@@ -3365,7 +3365,7 @@ TopoShape& TopoShape::makeElementTransform(const TopoShape& shape,
     if (copy == CopyType::noCopy) {
         // OCCT checks the ScaleFactor against gp::Resolution() which is DBL_MIN!!!
         copy = trsf.ScaleFactor() * trsf.HVectorialPart().Determinant() < 0.
-                || Abs(Abs(trsf.ScaleFactor()) - 1) > Precision::Confusion()
+                || std::fabs(std::fabs(trsf.ScaleFactor()) - 1) > Precision::Confusion()
             ? CopyType::copy
             : CopyType::noCopy;
     }

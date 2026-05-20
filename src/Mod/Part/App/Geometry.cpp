@@ -2230,7 +2230,7 @@ GeomBSplineCurve* GeomConic::toNurbs(double first, double last) const
     double fnew = bspline->FirstParameter(), lnew = bspline->LastParameter(), UTol;
     if (!bspline->IsPeriodic()) {
         bspline->Resolution(Precision::Confusion(), UTol);
-        if (Abs(first - fnew) > UTol || Abs(last - lnew) > UTol) {
+        if (std::fabs(first - fnew) > UTol || std::fabs(last - lnew) > UTol) {
             TColStd_Array1OfReal knots(1,bspline->NbKnots());
             bspline->Knots(knots);
             BSplCLib::Reparametrize(first, last, knots);
