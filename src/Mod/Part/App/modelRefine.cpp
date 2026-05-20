@@ -871,14 +871,10 @@ bool FaceTypedBSpline::isEqual(const TopoDS_Face &faceOne, const TopoDS_Face &fa
     int vKnotCountTwo(surfaceTwo->NbVKnots());
     if (uKnotCountOne != uKnotCountTwo || vKnotCountOne != vKnotCountTwo)
         return false;
-    TColStd_Array1OfReal uKnotsOne(1, uKnotCountOne);
-    TColStd_Array1OfReal vKnotsOne(1, vKnotCountOne);
-    TColStd_Array1OfReal uKnotsTwo(1, uKnotCountTwo);
-    TColStd_Array1OfReal vKnotsTwo(1, vKnotCountTwo);
-    surfaceOne->UKnots(uKnotsOne);
-    surfaceOne->VKnots(vKnotsOne);
-    surfaceTwo->UKnots(uKnotsTwo);
-    surfaceTwo->VKnots(vKnotsTwo);
+    const TColStd_Array1OfReal& uKnotsOne = surfaceOne->UKnots();
+    const TColStd_Array1OfReal& vKnotsOne = surfaceOne->VKnots();
+    const TColStd_Array1OfReal& uKnotsTwo = surfaceTwo->UKnots();
+    const TColStd_Array1OfReal& vKnotsTwo = surfaceTwo->VKnots();
     for (int indexU = 1; indexU <= uKnotCountOne; ++indexU)
         if (uKnotsOne.Value(indexU) != uKnotsTwo.Value(indexU))
             return false;

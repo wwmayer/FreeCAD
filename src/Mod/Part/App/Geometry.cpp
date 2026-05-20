@@ -1546,8 +1546,7 @@ std::vector<double> GeomBSplineCurve::getKnots() const
 {
     std::vector<double> knots;
     knots.reserve(myCurve->NbKnots());
-    TColStd_Array1OfReal k(1,myCurve->NbKnots());
-    myCurve->Knots(k);
+    const TColStd_Array1OfReal& k = myCurve->Knots();
 
     for (int i=k.Lower(); i<=k.Upper(); i++) {
         const double& real = k(i);
@@ -1910,8 +1909,7 @@ void GeomBSplineCurve::scaleKnotsToBounds(double u0, double u1)
     try {
         Handle(Geom_BSplineCurve) curve = Handle(Geom_BSplineCurve)::DownCast(myCurve->Copy());
         Standard_RangeError_Raise_if (u1 <= u0, " ");
-        TColStd_Array1OfReal k(1,curve->NbKnots());
-        curve->Knots(k);
+        TColStd_Array1OfReal k = curve->Knots();
         if ((abs(u0-k.First()) > Precision::Confusion()) || (abs(u1-k.Last()) > Precision::Confusion())) {
             BSplCLib::Reparametrize(u0, u1, k);
             curve->SetKnots(k);
@@ -2229,8 +2227,7 @@ GeomBSplineCurve* GeomConic::toNurbs(double first, double last) const
     if (!bspline->IsPeriodic()) {
         bspline->Resolution(Precision::Confusion(), UTol);
         if (std::fabs(first - fnew) > UTol || std::fabs(last - lnew) > UTol) {
-            TColStd_Array1OfReal knots(1,bspline->NbKnots());
-            bspline->Knots(knots);
+            TColStd_Array1OfReal knots = bspline->Knots();
             BSplCLib::Reparametrize(first, last, knots);
             bspline->SetKnots(knots);
         }
@@ -5081,14 +5078,12 @@ void GeomBSplineSurface::scaleKnotsToBounds(double u0, double u1, double v0, dou
         double bu0,bu1,bv0,bv1;
         surf->Bounds(bu0,bu1,bv0,bv1);
         if ((abs(u0-bu0) > Precision::Confusion()) || (abs(u1-bu1) > Precision::Confusion())) {
-            TColStd_Array1OfReal uk(1,surf->NbUKnots());
-            surf->UKnots(uk);
+            TColStd_Array1OfReal uk = surf->UKnots();
             BSplCLib::Reparametrize(u0, u1, uk);
             surf->SetUKnots(uk);
         }
         if ((abs(v0-bv0) > Precision::Confusion()) || (abs(v1-bv1) > Precision::Confusion())) {
-            TColStd_Array1OfReal vk(1,surf->NbVKnots());
-            surf->VKnots(vk);
+            TColStd_Array1OfReal vk = surf->VKnots();
             BSplCLib::Reparametrize(v0, v1, vk);
             surf->SetVKnots(vk);
         }

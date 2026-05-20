@@ -537,8 +537,7 @@ PyObject* BSplineSurfacePy::getUKnots(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array1OfReal w(1,surf->NbUKnots());
-        surf->UKnots(w);
+        const TColStd_Array1OfReal& w = surf->UKnots();
         Py::List knots;
         for (int i=w.Lower(); i<=w.Upper(); i++) {
             knots.append(Py::Float(w(i)));
@@ -558,8 +557,7 @@ PyObject* BSplineSurfacePy::getVKnots(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array1OfReal w(1,surf->NbVKnots());
-        surf->VKnots(w);
+        const TColStd_Array1OfReal& w = surf->VKnots();
         Py::List knots;
         for (int i=w.Lower(); i<=w.Upper(); i++) {
             knots.append(Py::Float(w(i)));

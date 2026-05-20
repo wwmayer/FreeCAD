@@ -326,8 +326,7 @@ PyObject* BSplineCurve2dPy::getKnots(PyObject * args)
     try {
         Handle(Geom2d_BSplineCurve) curve = Handle(Geom2d_BSplineCurve)::DownCast
             (getGeometry2dPtr()->handle());
-        TColStd_Array1OfReal w(1,curve->NbKnots());
-        curve->Knots(w);
+        const TColStd_Array1OfReal& w = curve->Knots();
         Py::List knots;
         for (int i=w.Lower(); i<=w.Upper(); i++) {
             knots.append(Py::Float(w(i)));
