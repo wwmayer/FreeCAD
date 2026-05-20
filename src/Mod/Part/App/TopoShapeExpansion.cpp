@@ -4348,7 +4348,7 @@ TopoShape& TopoShape::makeElementPrismUntil(const TopoShape& _base,
             BRepAdaptor_Surface adapt(face, false);
             // use the placement of the adapter, not of the upToFace
             loc = TopLoc_Location(adapt.Trsf());
-            BRepBuilderAPI_MakeFace mkFace(adapt.Surface().Surface(), Precision::Confusion());
+            BRepBuilderAPI_MakeFace mkFace(Tools::getSurface(adapt), Precision::Confusion());
             if (mkFace.IsDone()) {
                 uptoface.setShape(located(mkFace.Shape(), loc), false);
             }
@@ -5254,7 +5254,8 @@ bool TopoShape::isPlanarFace(double tol) const
         return false;
     }
 
-    return GeomSurface::isPlanar(BRepAdaptor_Surface(TopoDS::Face(getShape())).Surface().Surface(),
+    BRepAdaptor_Surface adapt(TopoDS::Face(getShape()));
+    return GeomSurface::isPlanar(Tools::getSurface(adapt),
                                  nullptr,
                                  tol);
 }

@@ -57,6 +57,7 @@
 #include <Base/Reader.h>
 #include <Mod/Part/App/FaceMakerCheese.h>
 #include <Mod/Part/App/OCCError.h>
+#include <Mod/Part/App/Tools.h>
 
 #include "FeatureSketchBased.h"
 #include "DatumLine.h"
@@ -820,7 +821,7 @@ void ProfileBased::getUpToFace(TopoDS_Face& upToFace,
             BRepAdaptor_Surface adapt(upToFace, false);
             // use the placement of the adapter, not of the upToFace
             loc = TopLoc_Location(adapt.Trsf());
-            BRepBuilderAPI_MakeFace mkFace(adapt.Surface().Surface(), Precision::Confusion());
+            BRepBuilderAPI_MakeFace mkFace(Part::Tools::getSurface(adapt), Precision::Confusion());
             if (!mkFace.IsDone())
                 throw Base::ValueError("SketchBased: Up To Face: Failed to create unlimited face");
             upToFace = TopoDS::Face(mkFace.Shape());

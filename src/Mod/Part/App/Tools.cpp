@@ -232,6 +232,15 @@ Part::Tools::makeSurface(const TColStd_ListOfTransient &theBoundaries,
     return aRes;
 }
 
+Handle(Geom_Surface) Part::Tools::getSurface(const BRepAdaptor_Surface& adaptor)
+{
+#if OCC_VERSION_HEX < 0x080000
+    return adaptor.Surface().Surface();
+#else
+    return adaptor.AdaptorSurfaceOriginal().Surface();
+#endif
+}
+
 bool Part::Tools::getTriangulation(const TopoDS_Face& face, std::vector<gp_Pnt>& points, std::vector<Poly_Triangle>& facets)
 {
     TopLoc_Location loc;
