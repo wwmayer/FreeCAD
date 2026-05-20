@@ -604,8 +604,7 @@ PyObject* BSplineCurve2dPy::getMultiplicities(PyObject * args)
     try {
         Handle(Geom2d_BSplineCurve) curve = Handle(Geom2d_BSplineCurve)::DownCast
             (getGeometry2dPtr()->handle());
-        TColStd_Array1OfInteger m(1,curve->NbKnots());
-        curve->Multiplicities(m);
+        const TColStd_Array1OfInteger& m = curve->Multiplicities();
         Py::List mults;
         for (int i=m.Lower(); i<=m.Upper(); i++) {
             mults.append(Py::Long(m(i)));

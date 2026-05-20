@@ -1559,12 +1559,10 @@ std::vector<int> GeomBSplineCurve::getMultiplicities() const
 {
     std::vector<int> mults;
     mults.reserve(myCurve->NbKnots());
-    TColStd_Array1OfInteger m(1,myCurve->NbKnots());
-    myCurve->Multiplicities(m);
+    const TColStd_Array1OfInteger& m = myCurve->Multiplicities();
 
     for (int i=m.Lower(); i<=m.Upper(); i++) {
-        const int& nm = m(i);
-        mults.push_back(nm);
+        mults.push_back(m(i));
     }
     return mults;
 }
@@ -1575,7 +1573,6 @@ int GeomBSplineCurve::getMultiplicity(int index) const
         return myCurve->Multiplicity(index);
     }
     catch (Standard_Failure& e) {
-
         THROWM(Base::CADKernelError,Part::toString(e))
     }
 }

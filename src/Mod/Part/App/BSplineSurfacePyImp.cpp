@@ -1050,8 +1050,7 @@ PyObject* BSplineSurfacePy::getUMultiplicities(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array1OfInteger m(1,surf->NbUKnots());
-        surf->UMultiplicities(m);
+        const TColStd_Array1OfInteger& m = surf->UMultiplicities();
         Py::List mults;
         for (int i=m.Lower(); i<=m.Upper(); i++) {
             mults.append(Py::Long(m(i)));
@@ -1071,8 +1070,7 @@ PyObject* BSplineSurfacePy::getVMultiplicities(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array1OfInteger m(1,surf->NbVKnots());
-        surf->VMultiplicities(m);
+        const TColStd_Array1OfInteger& m = surf->VMultiplicities();
         Py::List mults;
         for (int i=m.Lower(); i<=m.Upper(); i++) {
             mults.append(Py::Long(m(i)));
