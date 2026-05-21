@@ -1391,7 +1391,7 @@ TopoShape& TopoShape::makeShapeWithElementMap(const TopoDS_Shape& shape,
 {
     setShape(shape);
     if (shape.IsNull()) {
-        FC_THROWM(NullShapeException, "Null shape");
+        FC_THROWM(NullShapeException, "Cannot create element map from null shape");
     }
 
     if (shapes.empty()) {
