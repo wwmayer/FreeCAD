@@ -48,7 +48,7 @@ DlgProjectLicence::DlgProjectLicence(App::Document* doc,
                                      QWidget* parent,
                                      Qt::WindowFlags fl)
     : QDialog(parent, fl)
-    , _doc(doc)
+    , model(doc)
     , gridLayout(nullptr)
     , textLabel(nullptr)
     , addButton(nullptr)
@@ -59,19 +59,6 @@ DlgProjectLicence::DlgProjectLicence(App::Document* doc,
 }
 
 DlgProjectLicence::~DlgProjectLicence() = default;
-
-QStringList DlgProjectLicence::getLicencesFromDocument() const
-{
-    QStringList lics;
-    if (auto list = dynamic_cast<App::PropertyStringList*>(_doc->getPropertyByName(propName))) {
-        auto values = list->getValues();
-        for (const auto& value : values) {
-            lics << QString::fromStdString(value);
-        }
-    }
-
-    return lics;
-}
 
 QStringList DlgProjectLicence::getLicencesFromDialog() const
 {
@@ -89,11 +76,12 @@ QStringList DlgProjectLicence::getLicencesFromDialog() const
 
 void DlgProjectLicence::addLicenceItems(QComboBox* cb)
 {
+    QByteArrayList lics = model.getAvailableLicenses();
+
     // load comboBox with license names
-    for (const auto& item : App::licenseItems) {
-        const char* name {item.at(App::posnOfFullName)};
-        QString translated = QApplication::translate("Gui::Dialog::DlgSettingsDocument", name);
-        cb->addItem(translated, QByteArray(name));
+    for (const auto& name : lics) {
+        QString translated = QApplication::translate("Gui::Dialog::DlgSettingsDocument", name.data());
+        cb->addItem(translated, name);
     }
 }
 
@@ -108,6 +96,22 @@ void DlgProjectLicence::setLicenceIndex(QComboBox* cb, const QString& lic)
         index = cb->count();
         cb->addItem(lic, lic.toUtf8());
         cb->setCurrentIndex(index);
+    }
+}
+
+/*!
+ * \brief DlgProjectLicence::setCurrentIndex
+ * Sets the first item text that is not part of \a used.
+ */
+void DlgProjectLicence::setCurrentIndex(QComboBox* cb, const QStringList& used)
+{
+    int numItems = cb->count();
+    for (int index = 0; index < numItems; index++) {
+        QString data = cb->itemData(index).toString();
+        if (!used.contains(data)) {
+            cb->setCurrentIndex(index);
+            break;
+        }
     }
 }
 
@@ -154,7 +158,7 @@ void DlgProjectLicence::addStandardButtons(int numLicences)
 
 void DlgProjectLicence::setupDialog()
 {
-    const QStringList lics = getLicencesFromDocument();
+    const QStringList lics = model.getLicencesFromDocument();
     const int numLicences = lics.size();
 
     gridLayout = new QGridLayout();
@@ -169,6 +173,7 @@ void DlgProjectLicence::setupDialog()
 
 void DlgProjectLicence::addLicence()
 {
+    QStringList used = getLicencesFromDialog();
     int countHidden = -1;
     for (const auto& it : std::as_const(buttonMap)) {
         if (it.first->isHidden()) {
@@ -176,6 +181,7 @@ void DlgProjectLicence::addLicence()
             if (countHidden == 0) {
                 QComboBox* licence = it.first;
                 licence->setVisible(true);
+                setCurrentIndex(licence, used);
                 QPushButton* removeButton = it.second;
                 removeButton->setVisible(true);
             }
@@ -201,16 +207,34 @@ void DlgProjectLicence::removeLicence()
     }
 }
 
-void DlgProjectLicence::setLicencesToDocument(const QStringList& lics)
+void DlgProjectLicence::accept()
 {
-    auto prop = dynamic_cast<App::PropertyStringList*>(_doc->getPropertyByName(propName));
+    try {
+        const QStringList lics = getLicencesFromDialog();
+        model.setLicencesToDocument(lics);
+    }
+    catch (const Base::Exception& e) {
+        QMessageBox::warning(this, tr("Cannot add licences"), QString::fromUtf8(e.what()));
+    }
+    QDialog::accept();
+}
+
+// ----------------------------------------------------------------------------
+
+LicenseModel::LicenseModel(App::Document* doc)
+    : doc {doc}
+{}
+
+void LicenseModel::setLicencesToDocument(const QStringList& lics)
+{
+    auto prop = dynamic_cast<App::PropertyStringList*>(doc->getPropertyByName(propName));
     if (!prop && lics.isEmpty()) {
         // nothing to do
         return;
     }
 
     if (!prop) {
-        prop = dynamic_cast<App::PropertyStringList*>(_doc->addDynamicProperty
+        prop = dynamic_cast<App::PropertyStringList*>(doc->addDynamicProperty
                                                       ("App::PropertyStringList", propName));
     }
 
@@ -222,16 +246,32 @@ void DlgProjectLicence::setLicencesToDocument(const QStringList& lics)
     prop->setValues(values);
 }
 
-void DlgProjectLicence::accept()
+QStringList LicenseModel::getLicencesFromDocument() const
 {
-    try {
-        const QStringList lics = getLicencesFromDialog();
-        setLicencesToDocument(lics);
+    QStringList lics;
+    if (auto list = dynamic_cast<App::PropertyStringList*>(doc->getPropertyByName(propName))) {
+        auto values = list->getValues();
+        for (const auto& value : values) {
+            lics << QString::fromStdString(value);
+        }
     }
-    catch (const Base::Exception& e) {
-        QMessageBox::warning(this, tr("Cannot add licences"), QString::fromUtf8(e.what()));
+
+    return lics;
+}
+
+QByteArrayList LicenseModel::getAvailableLicenses() const
+{
+    QByteArrayList lics;
+    std::string_view mainLicense(doc->License.getValue());
+
+    for (const auto& item : App::licenseItems) {
+        const char* name {item.at(App::posnOfFullName)};
+        if (mainLicense != name) {
+            lics << QByteArray(name);
+        }
     }
-    QDialog::accept();
+
+    return lics;
 }
 
 #include "moc_DlgProjectLicence.cpp"

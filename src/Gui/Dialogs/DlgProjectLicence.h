@@ -19,7 +19,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #ifndef GUI_DIALOG_DLGPROJECTLICENCE_H
 #define GUI_DIALOG_DLGPROJECTLICENCE_H
 
@@ -38,6 +37,18 @@ namespace Gui {
 
 namespace Dialog {
 
+class LicenseModel
+{
+public:
+    explicit LicenseModel(App::Document* doc);
+    void setLicencesToDocument(const QStringList& lics);
+    QStringList getLicencesFromDocument() const;
+    QByteArrayList getAvailableLicenses() const;
+
+private:
+    App::Document* doc;
+};
+
 class Ui_DlgProjectLicence;
 class DlgProjectLicence : public QDialog
 {
@@ -55,16 +66,15 @@ private:
     void setupDialog();
     void addLicence();
     void removeLicence();
-    QStringList getLicencesFromDocument() const;
     QStringList getLicencesFromDialog() const;
-    void setLicencesToDocument(const QStringList& lics);
     void addComboBoxes(const QStringList& lics);
     void addStandardButtons(int numLicences);
     void addLicenceItems(QComboBox* cb);
     void setLicenceIndex(QComboBox* cb, const QString& lic);
+    void setCurrentIndex(QComboBox* cb, const QStringList& used);
 
 private:
-    App::Document* _doc;
+    LicenseModel model;
     const int maxLicences = 10;
     QGridLayout* gridLayout;
     QLabel* textLabel;
