@@ -74,7 +74,7 @@ public:
     const App::DocumentObject* getObject() const;
     /// returns the selected DocumentObject or NULL if the object is already deleted
     template <class T>
-    const T* getObject() const { return dynamic_cast<T*>(getObject()); };
+    const T* getObject() const { return dynamic_cast<T*>(getObject()); }
     /// returns the selected DocumentObject or NULL if the object is already deleted
     App::DocumentObject *getObject();
     /// returns the selected DocumentObject if it is of T type or null otherwise

@@ -55,9 +55,11 @@ SelectionObject::SelectionObject(const Gui::SelectionChanges& msg)
 
 SelectionObject::SelectionObject(const App::DocumentObject* obj)
 {
-    FeatName = obj->getNameInDocument();
-    DocName = obj->getDocument()->getName();
-    TypeName = obj->getTypeId().getName();
+    if (const char* name = obj->getNameInDocument()) {
+        FeatName = name;
+        DocName = obj->getDocument()->getName();
+        TypeName = obj->getTypeId().getName();
+    }
 }
 
 SelectionObject::~SelectionObject() = default;
