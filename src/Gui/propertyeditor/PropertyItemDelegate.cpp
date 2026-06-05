@@ -240,14 +240,21 @@ void PropertyItemDelegate::setEditorData(QWidget *editor, const QModelIndex &ind
 
 void PropertyItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
 {
-    if (!index.isValid() || !changed || userEditor)
+    if (!index.isValid() || userEditor) {
         return;
+    }
     auto childItem = static_cast<PropertyItem*>(index.internalPointer());
+    const bool editFinised = childItem->editingFinished(editor);
+    if (!changed && !editFinised) {
+        return;
+    }
     QVariant data;
-    if(expressionEditor == editor)
+    if (expressionEditor == editor) {
         data = childItem->expressionEditorData(editor);
-    else
+    }
+    else {
         data = childItem->editorData(editor);
+    }
     model->setData(index, data, Qt::EditRole);
 }
 
