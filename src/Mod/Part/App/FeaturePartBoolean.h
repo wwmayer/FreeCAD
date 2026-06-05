@@ -32,7 +32,19 @@ class FCBRepAlgoAPI_BooleanOperation;
 namespace Part
 {
 
-class PartExport Boolean : public Part::Feature
+class PartExport BooleanBase : public Feature
+{
+    PROPERTY_HEADER_WITH_OVERRIDE(Part::BooleanBase);
+
+public:
+    BooleanBase();
+
+    App::PropertyBool Refine;
+    App::PropertyFloatConstraint FuzzyTolerance;
+    PropertyShapeHistory History;
+};
+
+class PartExport Boolean : public BooleanBase
 {
     PROPERTY_HEADER_WITH_OVERRIDE(Part::Boolean);
 
@@ -41,8 +53,6 @@ public:
 
     App::PropertyLink Base;
     App::PropertyLink Tool;
-    PropertyShapeHistory History;
-    App::PropertyBool Refine;
 
     /** @name methods override Feature */
     //@{

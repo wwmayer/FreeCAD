@@ -2058,7 +2058,7 @@ App::DocumentObjectExecReturn* Hole::execute()
             if (base.isNull())
                 result = compound;
             else
-                result.makeElementBoolean(maker, {base,compound});
+                result.makeElementBoolean(maker, {base, compound}, nullptr, FuzzyTolerance.getValue());
             result = getSolid(result);
             retry = false;
         } catch (Standard_Failure & e) {
@@ -2074,7 +2074,7 @@ App::DocumentObjectExecReturn* Hole::execute()
             for (auto & hole : holes) {
                 ++i;
                 try {
-                    result.makeElementBoolean(maker, {base,hole});
+                    result.makeElementBoolean(maker, {base, hole}, nullptr, FuzzyTolerance.getValue());
                 } catch (Standard_Failure &) {
                     std::string msg(QT_TRANSLATE_NOOP("Exception", "Boolean operation failed on profile Edge"));
                     msg += std::to_string(i);

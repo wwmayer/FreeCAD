@@ -118,7 +118,7 @@ App::DocumentObjectExecReturn* FeaturePrimitive::execute(const TopoDS_Shape& pri
                     QT_TRANSLATE_NOOP("Exception", "Unknown operation type"));
         }
         try {
-            boolOp.makeElementBoolean(maker, {base, primitiveShape});
+            boolOp.makeElementBoolean(maker, {base, primitiveShape}, nullptr, FuzzyTolerance.getValue());
         }
         catch (Standard_Failure&) {
             return new App::DocumentObjectExecReturn(
