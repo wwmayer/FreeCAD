@@ -12,6 +12,7 @@ target_sources(Tests_run PRIVATE
         Handle.cpp
         Matrix.cpp
         Parameter.cpp
+        ParameterObserver.cpp
         Placement.cpp
         Quantity.cpp
         Reader.cpp
