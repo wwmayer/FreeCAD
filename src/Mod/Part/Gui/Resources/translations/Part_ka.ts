@@ -4122,8 +4122,8 @@ during file reading (slower but higher details).</translation>
     </message>
     <message>
       <location filename="../../DlgSettingsGeneral.ui" line="127"/>
-      <source>Allow multiple solids in Part Design Body by default (experimental)</source>
-      <translation>ერთზე მეტი მყარი სხეულის ნაგულისხმევი დაშვება დეტალის შექმნის სხეულში (ექსპერიმენტული)</translation>
+      <source>Allow multiple solids in Part Design Body by default</source>
+      <translation>ერთზე მეტი მყარი სხეულის ნაგულისხმევი დაშვება დეტალის შექმნის სხეულში</translation>
     </message>
   </context>
   <context>

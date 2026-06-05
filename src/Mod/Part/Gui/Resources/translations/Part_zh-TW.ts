@@ -4113,8 +4113,8 @@ during file reading (slower but higher details).</source>
     </message>
     <message>
       <location filename="../../DlgSettingsGeneral.ui" line="127"/>
-      <source>Allow multiple solids in Part Design Body by default (experimental)</source>
-      <translation>預設允許在零件設計主體中包含多個實體 (實驗功能)</translation>
+      <source>Allow multiple solids in Part Design Body by default</source>
+      <translation>預設允許在零件設計主體中包含多個實體</translation>
     </message>
   </context>
   <context>

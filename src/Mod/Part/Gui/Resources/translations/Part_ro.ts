@@ -4120,8 +4120,8 @@ during file reading (slower but higher details).</translation>
     </message>
     <message>
       <location filename="../../DlgSettingsGeneral.ui" line="127"/>
-      <source>Allow multiple solids in Part Design Body by default (experimental)</source>
-      <translation type="unfinished">Allow multiple solids in Part Design Body by default (experimental)</translation>
+      <source>Allow multiple solids in Part Design Body by default</source>
+      <translation type="unfinished">Allow multiple solids in Part Design Body by default</translation>
     </message>
   </context>
   <context>

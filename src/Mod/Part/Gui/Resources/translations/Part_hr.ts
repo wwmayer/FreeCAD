@@ -4135,8 +4135,8 @@ tijekom čitanja datoteke (sporije, ali veći detalji).</translation>
     </message>
     <message>
       <location filename="../../DlgSettingsGeneral.ui" line="127"/>
-      <source>Allow multiple solids in Part Design Body by default (experimental)</source>
-      <translation>Prema zadanim postavkama dopusti više čvrstih tijela u tijelu dizajna dijela (eksperimentalno)</translation>
+      <source>Allow multiple solids in Part Design Body by default</source>
+      <translation>Prema zadanim postavkama dopusti više čvrstih tijela u tijelu dizajna dijela</translation>
     </message>
   </context>
   <context>

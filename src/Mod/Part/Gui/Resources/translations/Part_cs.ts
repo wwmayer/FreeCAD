@@ -4122,8 +4122,8 @@ složeniny (pomalejší ale s podrobnějšími detaily).</translation>
     </message>
     <message>
       <location filename="../../DlgSettingsGeneral.ui" line="127"/>
-      <source>Allow multiple solids in Part Design Body by default (experimental)</source>
-      <translation>Povolit ve výchozím nastavení více pevných objektu v tělese návrhu dílu (experimentální)</translation>
+      <source>Allow multiple solids in Part Design Body by default</source>
+      <translation>Povolit ve výchozím nastavení více pevných objektu v tělese návrhu dílu</translation>
     </message>
   </context>
   <context>

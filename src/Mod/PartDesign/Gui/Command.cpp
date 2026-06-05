@@ -58,6 +58,7 @@
 #include <Mod/PartDesign/App/DatumPoint.h>
 #include <Mod/PartDesign/App/FeatureDressUp.h>
 #include <Mod/PartDesign/App/ShapeBinder.h>
+#include <Mod/PartDesign/App/PartDesignParameter.h>
 
 #include "DlgActiveBody.h"
 #include "ReferenceSelection.h"
@@ -460,6 +461,7 @@ void CmdPartDesignClone::activated(int iMsg)
         auto objCmd = getObjectCmd(obj);
         std::string cloneName = getUniqueObjectName("Clone", obj);
         std::string bodyName = getUniqueObjectName("Body", obj);
+        bool allowCompound = PartDesign::PartDesignParameter::instance()->getAllowCompoundDefault();
 
         // Create body and clone
         Gui::cmdAppDocument(obj, std::stringstream()
@@ -471,6 +473,8 @@ void CmdPartDesignClone::activated(int iMsg)
         auto cloneObj = obj->getDocument()->getObject(cloneName.c_str());
 
         // In the first step set the group link and tip of the body
+        Gui::cmdAppObject(bodyObj, std::stringstream()
+                          << "AllowCompound = " << Gui::asString(allowCompound));
         Gui::cmdAppObject(bodyObj, std::stringstream()
                           << "Group = [" << getObjectCmd(cloneObj) << "]");
         Gui::cmdAppObject(bodyObj, std::stringstream()

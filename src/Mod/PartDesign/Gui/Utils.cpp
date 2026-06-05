@@ -38,6 +38,7 @@
 #include <Mod/PartDesign/App/Body.h>
 #include <Mod/PartDesign/App/Feature.h>
 #include <Mod/PartDesign/App/FeatureSketchBased.h>
+#include <Mod/PartDesign/App/PartDesignParameter.h>
 #include <Mod/Sketcher/App/SketchObject.h>
 
 #include "Utils.h"
@@ -195,9 +196,13 @@ PartDesign::Body * makeBody(App::Document *doc)
 {
     // This is intended as a convenience when starting a new document.
     auto bodyName( doc->getUniqueObjectName("Body") );
-    Gui::Command::doCommand( Gui::Command::Doc,
-                             "App.getDocument('%s').addObject('PartDesign::Body','%s')",
+    bool allowCompound = PartDesign::PartDesignParameter::instance()->getAllowCompoundDefault();
+    Gui::Command::doCommand(Gui::Command::Doc,
+                            "App.getDocument('%s').addObject('PartDesign::Body','%s')",
                              doc->getName(), bodyName.c_str() );
+    Gui::Command::doCommand(Gui::Command::Doc,
+                            "App.getDocument('%s').getObject('%s').AllowCompound = %s",
+                            doc->getName(), bodyName.c_str(), Gui::asString(allowCompound));
     auto body = dynamic_cast<PartDesign::Body*>(doc->getObject(bodyName.c_str()));
     if(body)
         makeBodyActive(body, doc);

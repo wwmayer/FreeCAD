@@ -4121,8 +4121,8 @@ during file reading (slower but higher details).</source>
     </message>
     <message>
         <location filename="../../DlgSettingsGeneral.ui" line="127"/>
-        <source>Allow multiple solids in Part Design Body by default (experimental)</source>
-        <translation>Erlaube mehrere Volumenkörper in einem Part Design Körper (experimentell)</translation>
+        <source>Allow multiple solids in Part Design Body by default</source>
+        <translation>Erlaube mehrere Volumenkörper in einem Part Design Körper</translation>
     </message>
 </context>
 <context>
