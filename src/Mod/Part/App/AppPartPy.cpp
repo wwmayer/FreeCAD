@@ -180,8 +180,9 @@ PartExport std::list<TopoDS_Edge> sort_Edges(double tol3d, std::list<TopoDS_Edge
         edge_points.push_back(ep);
     }
 
-    if (edge_points.empty())
+    if (edge_points.empty()) {
         return {};
+    }
 
     std::list<TopoDS_Edge> sorted;
     gp_Pnt first, last;
@@ -215,11 +216,14 @@ PartExport std::list<TopoDS_Edge> sort_Edges(double tol3d, std::list<TopoDS_Edge
             else if (pEI->v2.SquareDistance(last) <= tol3d) {
                 last = pEI->v1;
                 double first, last;
+                BRepLib::BuildCurves3d(pEI->edge);
                 const Handle(Geom_Curve) & curve = BRep_Tool::Curve(pEI->edge, first, last);
-                first = curve->ReversedParameter(first);
-                last = curve->ReversedParameter(last);
-                TopoDS_Edge edgeReversed = BRepBuilderAPI_MakeEdge(curve->Reversed(), last, first);
-                sorted.push_back(edgeReversed);
+                if (!curve.IsNull()) {
+                    first = curve->ReversedParameter(first);
+                    last = curve->ReversedParameter(last);
+                    TopoDS_Edge edgeReversed = BRepBuilderAPI_MakeEdge(curve->Reversed(), last, first);
+                    sorted.push_back(edgeReversed);
+                }
                 edges.erase(pEI->it);
                 edge_points.erase(pEI);
                 pEI = edge_points.begin();
@@ -228,11 +232,14 @@ PartExport std::list<TopoDS_Edge> sort_Edges(double tol3d, std::list<TopoDS_Edge
             else if (pEI->v1.SquareDistance(first) <= tol3d) {
                 first = pEI->v2;
                 double first, last;
+                BRepLib::BuildCurves3d(pEI->edge);
                 const Handle(Geom_Curve) & curve = BRep_Tool::Curve(pEI->edge, first, last);
-                first = curve->ReversedParameter(first);
-                last = curve->ReversedParameter(last);
-                TopoDS_Edge edgeReversed = BRepBuilderAPI_MakeEdge(curve->Reversed(), last, first);
-                sorted.push_front(edgeReversed);
+                if (!curve.IsNull()) {
+                    first = curve->ReversedParameter(first);
+                    last = curve->ReversedParameter(last);
+                    TopoDS_Edge edgeReversed = BRepBuilderAPI_MakeEdge(curve->Reversed(), last, first);
+                    sorted.push_front(edgeReversed);
+                }
                 edges.erase(pEI->it);
                 edge_points.erase(pEI);
                 pEI = edge_points.begin();
