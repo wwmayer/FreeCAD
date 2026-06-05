@@ -31,6 +31,7 @@
 #include <gp_Pnt.hxx>
 #include <gp_Vec.hxx>
 #include <gp_XYZ.hxx>
+#include <BRepAdaptor_Surface.hxx>
 #include <Geom_Surface.hxx>
 #include <Poly_Polygon3D.hxx>
 #include <Poly_Triangle.hxx>
@@ -115,6 +116,7 @@ public:
                                      const int theNbPnts,
                                      const int theNbIter,
                                      const int theMaxDeg);
+    static Handle(Geom_Surface) getSurface(const BRepAdaptor_Surface& adaptor);
     /*!
      * @brief getTriangulation
      * The indexes of the triangles are adjusted to the points vector.

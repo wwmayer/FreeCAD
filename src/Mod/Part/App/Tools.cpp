@@ -220,7 +220,7 @@ Part::Tools::makeSurface(const TColStd_ListOfTransient &theBoundaries,
     TColgp_SequenceOfXYZ aS3d;
     aPlateBuilder.Disc2dContour (4, aS2d);
     aPlateBuilder.Disc3dContour (4, 0, aS3d);
-    double aMax = Max (aTol3d, 10. * aDMax);
+    double aMax = std::max (aTol3d, 10. * aDMax);
     GeomPlate_PlateG0Criterion aCriterion (aS2d, aS3d, aMax);
     {
         //data races in AdvApp2Var used by GeomApprox_Surface, use global mutex
@@ -230,6 +230,15 @@ Part::Tools::makeSurface(const TColStd_ListOfTransient &theBoundaries,
     }
 
     return aRes;
+}
+
+Handle(Geom_Surface) Part::Tools::getSurface(const BRepAdaptor_Surface& adaptor)
+{
+#if OCC_VERSION_HEX < 0x080000
+    return adaptor.Surface().Surface();
+#else
+    return adaptor.AdaptorSurfaceOriginal().Surface();
+#endif
 }
 
 bool Part::Tools::getTriangulation(const TopoDS_Face& face, std::vector<gp_Pnt>& points, std::vector<Poly_Triangle>& facets)
@@ -711,11 +720,11 @@ void getNormalBySLProp(T& prop, double u, double v, double lastU, double lastV,
         // at the right boundary, the normal is flipped with respect to the
         // normal on surrounding points.
         if (stat == CSLib_D1NuIsNull) {
-            if (Abs(lastV - v) < tol)
+            if (std::fabs(lastV - v) < tol)
                 dir.Reverse();
         }
         else if (stat == CSLib_D1NvIsNull || stat == CSLib_D1NuIsParallelD1Nv) {
-            if (Abs(lastU - u) < tol)
+            if (std::fabs(lastU - u) < tol)
                 dir.Reverse();
         }
     }

@@ -196,6 +196,10 @@
 
 FC_LOG_LEVEL_INIT("TopoShape",true,true)
 
+#if OCC_VERSION_HEX < 0x080000
+using GC_MakeSegment2d = GCE2d_MakeSegment;
+#endif
+
 using namespace Part;
 
 const char* BRepBuilderAPI_FaceErrorText(BRepBuilderAPI_FaceError et)
@@ -2177,7 +2181,7 @@ TopoDS_Shape TopoShape::makeHelix(double pitch, double height,
         }
     }
 
-    Handle(Geom2d_TrimmedCurve) segm = GCE2d_MakeSegment(beg , end);
+    Handle(Geom2d_TrimmedCurve) segm = GC_MakeSegment2d(beg , end);
 
     TopoDS_Edge edgeOnSurf = BRepBuilderAPI_MakeEdge(segm , surf);
     TopoDS_Wire wire = BRepBuilderAPI_MakeWire(edgeOnSurf);
@@ -2246,7 +2250,7 @@ TopoDS_Shape TopoShape::makeLongHelix(double pitch, double height,
             v = ((i+1) * pitch) / cos(angle);
             end = gp_Pnt2d(u, v);
         }
-        segm = GCE2d_MakeSegment(beg , end);
+        segm = GC_MakeSegment2d(beg , end);
         edgeOnSurf = BRepBuilderAPI_MakeEdge(segm , surf);
         mkWire.Add(edgeOnSurf);
         beg = end;
@@ -2261,7 +2265,7 @@ TopoDS_Shape TopoShape::makeLongHelix(double pitch, double height,
             v = height / cos(angle);
             end = gp_Pnt2d(u, v);
         }
-        segm = GCE2d_MakeSegment(beg , end);
+        segm = GC_MakeSegment2d(beg , end);
         edgeOnSurf = BRepBuilderAPI_MakeEdge(segm , surf);
         mkWire.Add(edgeOnSurf);
     }
@@ -2307,7 +2311,7 @@ TopoDS_Shape TopoShape::makeSpiralHelix(double radiusbottom, double radiustop,
     BRepBuilderAPI_MakeWire mkWire;
     for (unsigned long i = 0; i < nbFullPeriods; i++) {
         end = beg.Translated(dir);
-        segm = GCE2d_MakeSegment(beg , end);
+        segm = GC_MakeSegment2d(beg , end);
         edgeOnSurf = BRepBuilderAPI_MakeEdge(segm , surf);
         mkWire.Add(edgeOnSurf);
         beg = end;
@@ -2315,7 +2319,7 @@ TopoDS_Shape TopoShape::makeSpiralHelix(double radiusbottom, double radiustop,
     if (partPeriod > Precision::Confusion()) {
         dir.Scale(partPeriod);
         end = beg.Translated(dir);
-        segm = GCE2d_MakeSegment(beg , end);
+        segm = GC_MakeSegment2d(beg , end);
         edgeOnSurf = BRepBuilderAPI_MakeEdge(segm , surf);
         mkWire.Add(edgeOnSurf);
     }
@@ -2364,7 +2368,7 @@ TopoDS_Shape TopoShape::makeThread(double pitch,
     gp_Pnt2d anEllipsePnt1 = anEllipse1->Value(0);
     gp_Pnt2d anEllipsePnt2 = anEllipse1->Value(Base::numbers::pi);
 
-    Handle(Geom2d_TrimmedCurve) aSegment = GCE2d_MakeSegment(anEllipsePnt1 , anEllipsePnt2);
+    Handle(Geom2d_TrimmedCurve) aSegment = GC_MakeSegment2d(anEllipsePnt1 , anEllipsePnt2);
 
     //Threading : Build Edges and Wires
     TopoDS_Edge aEdge1OnSurf1 = BRepBuilderAPI_MakeEdge(aArc1 , aCyl1);
@@ -4116,7 +4120,7 @@ TopoShape &TopoShape::makeTransform(const TopoShape &shape, const gp_Trsf &trsf,
     if(!copy) {
         // OCCT checks the ScaleFactor against gp::Resolution() which is DBL_MIN!!!
         copy = trsf.ScaleFactor()*trsf.HVectorialPart().Determinant() < 0. ||
-               Abs(Abs(trsf.ScaleFactor()) - 1) > Precision::Confusion();
+               std::fabs(std::fabs(trsf.ScaleFactor()) - 1) > Precision::Confusion();
     }
     TopoShape tmp(shape);
     if(copy) {

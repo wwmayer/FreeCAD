@@ -34,6 +34,10 @@
 #include "OCCError.h"
 
 
+#if OCC_VERSION_HEX < 0x080000
+using GC_MakeArcOfParabola2d = GCE2d_MakeArcOfParabola;
+#endif
+
 using namespace Part;
 
 extern const char* gce_ErrorStatusText(gce_ErrorType et);
@@ -60,7 +64,7 @@ int ArcOfParabola2dPy::PyInit(PyObject* args, PyObject* /*kwds*/)
         try {
             Handle(Geom2d_Parabola) parabola = Handle(Geom2d_Parabola)::DownCast
                 (static_cast<Parabola2dPy*>(o)->getGeom2dParabolaPtr()->handle());
-            GCE2d_MakeArcOfParabola arc(parabola->Parab2d(), u1, u2, Base::asBoolean(sense));
+            GC_MakeArcOfParabola2d arc(parabola->Parab2d(), u1, u2, Base::asBoolean(sense));
             if (!arc.IsDone()) {
                 PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(arc.Status()));
                 return -1;

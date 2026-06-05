@@ -442,7 +442,7 @@ bool Constraint::getPoints(std::vector<Base::Vector3d>& points,
                 // apply subshape transformation to the geometry
                 gp_Trsf faceTrans = face.Location().Transformation();
                 Handle(Geom_Geometry) transGeo =
-                    surface.Surface().Surface()->Transformed(faceTrans);
+                    Part::Tools::getSurface(surface)->Transformed(faceTrans);
                 ShapeAnalysis_Surface surfAnalysis(Handle(Geom_Surface)::DownCast(transGeo));
                 for (int i = 0; i < stepWire; ++i) {
                     gp_Pnt p = compCurve.Value(outWireLength * i / stepWire);

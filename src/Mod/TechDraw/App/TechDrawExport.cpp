@@ -658,21 +658,11 @@ void DXFOutput::printBSpline(const BRepAdaptor_Curve& c, int id, std::ostream& o
         }
 
         //GeomConvert_BSplineCurveToBezierCurve crt(spline);
-		//GeomConvert_BSplineCurveKnotSplitting crt(spline, 0);
+        //GeomConvert_BSplineCurveKnotSplitting crt(spline, 0);
         //int arcs = crt.NbArcs();
-		//int arcs = crt.NbSplits()-1;
-        int m = 0;
-        if (spline->IsPeriodic()) {
-            m = spline->NbPoles() + 2*spline->Degree() - spline->Multiplicity(1) + 2;
-        }
-        else {
-            for (int i=1; i<= spline->NbKnots(); i++)
-                m += spline->Multiplicity(i);
-        }
-        TColStd_Array1OfReal knotsequence(1, m);
-        spline->KnotSequence(knotsequence);
-        TColgp_Array1OfPnt poles(1, spline->NbPoles());
-        spline->Poles(poles);
+        //int arcs = crt.NbSplits()-1;
+        const TColStd_Array1OfReal& knotsequence = spline->KnotSequence();
+        const TColgp_Array1OfPnt& poles = spline->Poles();
 
 
         str << 0 << endl

@@ -537,8 +537,7 @@ PyObject* BSplineSurfacePy::getUKnots(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array1OfReal w(1,surf->NbUKnots());
-        surf->UKnots(w);
+        const TColStd_Array1OfReal& w = surf->UKnots();
         Py::List knots;
         for (int i=w.Lower(); i<=w.Upper(); i++) {
             knots.append(Py::Float(w(i)));
@@ -558,8 +557,7 @@ PyObject* BSplineSurfacePy::getVKnots(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array1OfReal w(1,surf->NbVKnots());
-        surf->VKnots(w);
+        const TColStd_Array1OfReal& w = surf->VKnots();
         Py::List knots;
         for (int i=w.Lower(); i<=w.Upper(); i++) {
             knots.append(Py::Float(w(i)));
@@ -705,8 +703,7 @@ PyObject* BSplineSurfacePy::getPoles(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColgp_Array2OfPnt p(1,surf->NbUPoles(),1,surf->NbVPoles());
-        surf->Poles(p);
+        const TColgp_Array2OfPnt& p = surf->Poles();
         Py::List poles;
         for (int i=p.LowerRow(); i<=p.UpperRow(); i++) {
             Py::List row;
@@ -820,15 +817,27 @@ PyObject* BSplineSurfacePy::getWeights(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array2OfReal w(1,surf->NbUPoles(),1,surf->NbVPoles());
-        surf->Weights(w);
         Py::List weights;
-        for (int i=w.LowerRow(); i<=w.UpperRow(); i++) {
-            Py::List row;
-            for (int j=w.LowerCol(); j<=w.UpperCol(); j++) {
-                row.append(Py::Float(w(i,j)));
+        if (const TColStd_Array2OfReal* w = surf->Weights()) {
+            for (int i = w->LowerRow(); i <= w->UpperRow(); i++) {
+                Py::List row;
+                for (int j = w->LowerCol(); j <= w->UpperCol(); j++) {
+                    row.append(Py::Float((*w)(i,j)));
+                }
+                weights.append(row);
             }
-            weights.append(row);
+        }
+        else {
+            int numUPoles = surf->NbUPoles();
+            int numVPoles = surf->NbVPoles();
+            Py::Float value(1.0);
+            Py::List row;
+            for (int i = 0; i < numUPoles; i++) {
+                row.append(value);
+            }
+            for (int i = 0; i < numVPoles; i++) {
+                weights.append(row);
+            }
         }
         return Py::new_reference_to(weights);
     }
@@ -845,17 +854,15 @@ PyObject* BSplineSurfacePy::getPolesAndWeights(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColgp_Array2OfPnt p(1,surf->NbUPoles(),1,surf->NbVPoles());
-        surf->Poles(p);
-        TColStd_Array2OfReal w(1,surf->NbUPoles(),1,surf->NbVPoles());
-        surf->Weights(w);
+        const TColgp_Array2OfPnt& p = surf->Poles();
+        const TColStd_Array2OfReal* w = surf->Weights();
 
         Py::List poles;
         for (int i=p.LowerRow(); i<=p.UpperRow(); i++) {
             Py::List row;
             for (int j=p.LowerCol(); j<=p.UpperCol(); j++) {
                 const gp_Pnt& pole = p(i,j);
-                double weight = w(i,j);
+                double weight = w ? (*w)(i,j) : 1.0;
                 Py::Tuple t(4);
                 t.setItem(0, Py::Float(pole.X()));
                 t.setItem(1, Py::Float(pole.Y()));
@@ -1054,8 +1061,7 @@ PyObject* BSplineSurfacePy::getUMultiplicities(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array1OfInteger m(1,surf->NbUKnots());
-        surf->UMultiplicities(m);
+        const TColStd_Array1OfInteger& m = surf->UMultiplicities();
         Py::List mults;
         for (int i=m.Lower(); i<=m.Upper(); i++) {
             mults.append(Py::Long(m(i)));
@@ -1075,8 +1081,7 @@ PyObject* BSplineSurfacePy::getVMultiplicities(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array1OfInteger m(1,surf->NbVKnots());
-        surf->VMultiplicities(m);
+        const TColStd_Array1OfInteger& m = surf->VMultiplicities();
         Py::List mults;
         for (int i=m.Lower(); i<=m.Upper(); i++) {
             mults.append(Py::Long(m(i)));
@@ -1652,17 +1657,7 @@ Py::List BSplineSurfacePy::getUKnotSequence() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    int m = 0;
-    if (surf->IsUPeriodic()) {
-        // knots=poles+2*degree-mult(1)+2
-        m = surf->NbUPoles() + 2*surf->UDegree() - surf->UMultiplicity(1) + 2;
-    }
-    else {
-        for (int i=1; i<= surf->NbUKnots(); i++)
-            m += surf->UMultiplicity(i);
-    }
-    TColStd_Array1OfReal k(1,m);
-    surf->UKnotSequence(k);
+    const TColStd_Array1OfReal& k = surf->UKnotSequence();
     Py::List list;
     for (int i=k.Lower(); i<=k.Upper(); i++) {
         list.append(Py::Float(k(i)));
@@ -1674,17 +1669,7 @@ Py::List BSplineSurfacePy::getVKnotSequence() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    int m = 0;
-    if (surf->IsVPeriodic()) {
-        // knots=poles+2*degree-mult(1)+2
-        m = surf->NbVPoles() + 2*surf->VDegree() - surf->VMultiplicity(1) + 2;
-    }
-    else {
-        for (int i=1; i<= surf->NbVKnots(); i++)
-            m += surf->VMultiplicity(i);
-    }
-    TColStd_Array1OfReal k(1,m);
-    surf->VKnotSequence(k);
+    const TColStd_Array1OfReal& k = surf->VKnotSequence();
     Py::List list;
     for (int i=k.Lower(); i<=k.Upper(); i++) {
         list.append(Py::Float(k(i)));

@@ -35,6 +35,10 @@
 #include "OCCError.h"
 
 
+#if OCC_VERSION_HEX < 0x080000
+using GC_MakeEllipse2d = GCE2d_MakeEllipse;
+#endif
+
 using namespace Part;
 
 extern const char* gce_ErrorStatusText(gce_ErrorType et);
@@ -85,9 +89,9 @@ int Ellipse2dPy::PyInit(PyObject* args, PyObject* kwds)
         Base::Vector2d v1 = Py::toVector2d(pV1);
         Base::Vector2d v2 = Py::toVector2d(pV2);
         Base::Vector2d v3 = Py::toVector2d(pV3);
-        GCE2d_MakeEllipse me(gp_Pnt2d(v1.x,v1.y),
-                             gp_Pnt2d(v2.x,v2.y),
-                             gp_Pnt2d(v3.x,v3.y));
+        GC_MakeEllipse2d me(gp_Pnt2d(v1.x,v1.y),
+                            gp_Pnt2d(v2.x,v2.y),
+                            gp_Pnt2d(v3.x,v3.y));
         if (!me.IsDone()) {
             PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(me.Status()));
             return -1;
@@ -106,8 +110,8 @@ int Ellipse2dPy::PyInit(PyObject* args, PyObject* kwds)
                                             Base::Vector2dPy::type_object(), &pV,
                                             &major, &minor)) {
         Base::Vector2d c = Py::toVector2d(pV);
-        GCE2d_MakeEllipse me(gp_Ax2d(gp_Pnt2d(c.x,c.y), gp_Dir2d(0.0,1.0)),
-                          major, minor);
+        GC_MakeEllipse2d me(gp_Ax2d(gp_Pnt2d(c.x,c.y), gp_Dir2d(0.0,1.0)),
+                            major, minor);
         if (!me.IsDone()) {
             PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(me.Status()));
             return -1;

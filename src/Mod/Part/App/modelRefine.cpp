@@ -852,10 +852,8 @@ bool FaceTypedBSpline::isEqual(const TopoDS_Face &faceOne, const TopoDS_Face &fa
     if (uPoleCountOne != uPoleCountTwo || vPoleCountOne != vPoleCountTwo)
         return false;
 
-    TColgp_Array2OfPnt polesOne(1, uPoleCountOne, 1, vPoleCountOne);
-    TColgp_Array2OfPnt polesTwo(1, uPoleCountTwo, 1, vPoleCountTwo);
-    surfaceOne->Poles(polesOne);
-    surfaceTwo->Poles(polesTwo);
+    const TColgp_Array2OfPnt& polesOne = surfaceOne->Poles();
+    const TColgp_Array2OfPnt& polesTwo = surfaceTwo->Poles();
 
     for (int indexU = 1; indexU <= uPoleCountOne; ++indexU)
     {
@@ -873,14 +871,10 @@ bool FaceTypedBSpline::isEqual(const TopoDS_Face &faceOne, const TopoDS_Face &fa
     int vKnotCountTwo(surfaceTwo->NbVKnots());
     if (uKnotCountOne != uKnotCountTwo || vKnotCountOne != vKnotCountTwo)
         return false;
-    TColStd_Array1OfReal uKnotsOne(1, uKnotCountOne);
-    TColStd_Array1OfReal vKnotsOne(1, vKnotCountOne);
-    TColStd_Array1OfReal uKnotsTwo(1, uKnotCountTwo);
-    TColStd_Array1OfReal vKnotsTwo(1, vKnotCountTwo);
-    surfaceOne->UKnots(uKnotsOne);
-    surfaceOne->VKnots(vKnotsOne);
-    surfaceTwo->UKnots(uKnotsTwo);
-    surfaceTwo->VKnots(vKnotsTwo);
+    const TColStd_Array1OfReal& uKnotsOne = surfaceOne->UKnots();
+    const TColStd_Array1OfReal& vKnotsOne = surfaceOne->VKnots();
+    const TColStd_Array1OfReal& uKnotsTwo = surfaceTwo->UKnots();
+    const TColStd_Array1OfReal& vKnotsTwo = surfaceTwo->VKnots();
     for (int indexU = 1; indexU <= uKnotCountOne; ++indexU)
         if (uKnotsOne.Value(indexU) != uKnotsTwo.Value(indexU))
             return false;
@@ -925,14 +919,10 @@ bool FaceTypedBSpline::isEqual(const TopoDS_Face &faceOne, const TopoDS_Face &fa
     int vKnotSequenceTwoCount(getVKnotSequenceSize(surfaceTwo));
     if (uKnotSequenceOneCount != uKnotSequenceTwoCount || vKnotSequenceOneCount != vKnotSequenceTwoCount)
         return false;
-    TColStd_Array1OfReal uKnotSequenceOne(1, uKnotSequenceOneCount);
-    TColStd_Array1OfReal vKnotSequenceOne(1, vKnotSequenceOneCount);
-    TColStd_Array1OfReal uKnotSequenceTwo(1, uKnotSequenceTwoCount);
-    TColStd_Array1OfReal vKnotSequenceTwo(1, vKnotSequenceTwoCount);
-    surfaceOne->UKnotSequence(uKnotSequenceOne);
-    surfaceOne->VKnotSequence(vKnotSequenceOne);
-    surfaceTwo->UKnotSequence(uKnotSequenceTwo);
-    surfaceTwo->VKnotSequence(vKnotSequenceTwo);
+    TColStd_Array1OfReal uKnotSequenceOne = surfaceOne->UKnotSequence();
+    TColStd_Array1OfReal vKnotSequenceOne = surfaceOne->VKnotSequence();
+    TColStd_Array1OfReal uKnotSequenceTwo = surfaceTwo->UKnotSequence();
+    TColStd_Array1OfReal vKnotSequenceTwo = surfaceTwo->VKnotSequence();
     for (int indexU = 1; indexU <= uKnotSequenceOneCount; ++indexU)
         if (uKnotSequenceOne.Value(indexU) != uKnotSequenceTwo.Value(indexU))
             return false;
