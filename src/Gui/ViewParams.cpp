@@ -53,6 +53,9 @@ void ViewParams::setup()
     addParameter("AxisYColor", Unsigned{0x33CC3300});
     addParameter("AxisZColor", Unsigned{0x3333CC00});
     addParameter("DraggerScale", Double{0.03});
+    addParameter("DatumPointSize", Double{2.5});
+    addParameter("DatumLineSize", Double{70.0});
+    addParameter("DatumPlaneSize", Double{40.0});
     // NOLINTEND
 }
 
@@ -94,3 +97,6 @@ FC_PARAM_GETSET_IMP(ViewParams, AxisXColor, unsigned long)
 FC_PARAM_GETSET_IMP(ViewParams, AxisYColor, unsigned long)
 FC_PARAM_GETSET_IMP(ViewParams, AxisZColor, unsigned long)
 FC_PARAM_GETSET_IMP(ViewParams, DraggerScale, double)
+FC_PARAM_GETSET_IMP(ViewParams, DatumPointSize, double)
+FC_PARAM_GETSET_IMP(ViewParams, DatumLineSize, double)
+FC_PARAM_GETSET_IMP(ViewParams, DatumPlaneSize, double)
