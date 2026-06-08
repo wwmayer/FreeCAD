@@ -640,7 +640,8 @@ void StdWorkbench::setupContextMenu(const char* recipient, MenuItem* item) const
     else if (strcmp(recipient,"Tree") == 0)
     {
         if (Gui::Selection().countObjectsOfType<App::DocumentObject>() > 0) {
-            *item << "Std_ToggleFreeze"
+            *item << "Std_ToggleSuppress"
+                  << "Std_ToggleFreeze"
                   << "Separator"
                   << "Std_Placement"
                   << "Std_ToggleVisibility"
