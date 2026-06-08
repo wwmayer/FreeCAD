@@ -54,7 +54,7 @@
 #include <App/Part.h>
 #include <Gui/Application.h>
 #include <Gui/BitmapFactory.h>
-#include <Gui/Command.h>
+#include <Gui/CommandT.h>
 #include <Gui/Document.h>
 #include <Gui/Selection/Selection.h>
 #include <Gui/Utilities.h>
@@ -343,9 +343,11 @@ bool Mirroring::accept()
             .arg(selectionString);
         Gui::Command::runCommand(Gui::Command::App, code.toUtf8());
         QByteArray from = shape.toUtf8();
-        Gui::Command::copyVisual("ActiveObject", "ShapeAppearance", from);
-        Gui::Command::copyVisual("ActiveObject", "LineColor", from);
-        Gui::Command::copyVisual("ActiveObject", "PointColor", from);
+        auto dst = activeDoc->getActiveObject();
+        auto src = activeDoc->getObject(from);
+        Gui::copyVisualT(dst, "ShapeAppearance", src);
+        Gui::copyVisualT(dst, "LineColor", src);
+        Gui::copyVisualT(dst, "PointColor", src);
     }
 
     activeDoc->commitTransaction();
