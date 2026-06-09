@@ -534,10 +534,15 @@ void DlgExpressionInput::acceptWithVarSet()
 }
 
 void DlgExpressionInput::accept() {
-    if (varSetsVisible) {
-        acceptWithVarSet();
+    try {
+        if (varSetsVisible) {
+            acceptWithVarSet();
+        }
+        QDialog::accept();
     }
-    QDialog::accept();
+    catch (const Base::Exception& e) {
+        e.ReportException();
+    }
 }
 
 static void addGroupsVarSetComboBox(App::VarSet* varSet, QTreeWidgetItem* varSetItem)
