@@ -24,6 +24,7 @@
 #ifndef _PreComp_
 #include <boost/tokenizer.hpp>
 #include <memory>
+#include <numeric>
 #include <ostream>
 #include <sstream>
 #include <xercesc/dom/DOM.hpp>
@@ -61,12 +62,8 @@ Reader3MF::Reader3MF(const std::string& filename)
 
 std::vector<int> Reader3MF::GetMeshIds() const
 {
-    std::vector<int> ids;
-    ids.reserve(meshes.size());
-    for (const auto& it : meshes) {
-        ids.emplace_back(it.first);
-    }
-
+    std::vector<int> ids(meshes.size());
+    std::iota(ids.begin(), ids.end(), 0);
     return ids;
 }
 
@@ -152,9 +149,13 @@ bool Reader3MF::LoadModel(DOMDocument& xmlDocument, const Component& comp)
 
 bool Reader3MF::LoadResourcesAndBuild(DOMElement* node, const Component& comp)
 {
-    bool resource =
-        LoadResources(node->getElementsByTagName(XStrLiteral("resources").unicodeForm()), comp);
+    bool resource = LoadResources(node->getElementsByTagName(XStrLiteral("resources").unicodeForm()), comp);
     bool build = LoadBuild(node->getElementsByTagName(XStrLiteral("build").unicodeForm()));
+
+    if (components.empty()) {
+        LoadBuildObject(node->getElementsByTagName(XStrLiteral("build").unicodeForm()));
+    }
+
     return (resource && build);
 }
 
@@ -195,6 +196,24 @@ bool Reader3MF::LoadBuild(DOMNodeList* nodes)
     return false;
 }
 
+bool Reader3MF::LoadBuildObject(XERCES_CPP_NAMESPACE::DOMNodeList* nodes)
+{
+    if (!nodes) {
+        return false;
+    }
+
+    for (XMLSize_t i = 0; i < nodes->getLength(); i++) {
+        DOMNode* node = nodes->item(i);
+        if (node->getNodeType() == DOMNode::ELEMENT_NODE) {
+            auto elem = static_cast<DOMElement*>(node);
+            DOMNodeList* objectList = elem->getElementsByTagName(XStrLiteral("item").unicodeForm());
+            return LoadBuildItems(objectList);
+        }
+    }
+
+    return false;
+}
+
 bool Reader3MF::LoadItems(DOMNodeList* nodes)
 {
     if (!nodes) {
@@ -221,9 +240,11 @@ void Reader3MF::LoadItem(DOMNamedNodeMap* nodeMap)
         if (transformAttr) {
             std::optional<Base::Matrix4D> mat = ReadTransform(transformAttr);
             if (mat) {
-                auto it = meshes.find(idValue);
+                auto it = std::find_if(meshes.begin(), meshes.end(), [idValue](const auto& element){
+                    return element.index == idValue;
+                });
                 if (it != meshes.end()) {
-                    it->second.transform = mat.value();
+                    it->transform = mat.value();
                 }
 
                 auto jt = std::find_if(components.begin(),
@@ -237,6 +258,27 @@ void Reader3MF::LoadItem(DOMNamedNodeMap* nodeMap)
             }
         }
     }
+}
+
+bool Reader3MF::LoadBuildItems(DOMNodeList* nodes)
+{
+    if (!nodes) {
+        return false;
+    }
+
+    for (XMLSize_t i = 0; i < nodes->getLength(); i++) {
+        DOMNode* itemNode = nodes->item(i);
+        DOMNamedNodeMap* nodeMap = itemNode->getAttributes();
+        LoadBuildItem(nodeMap);
+    }
+
+    // Call LoadMeshFromComponents in TryLoad()
+    return false;
+}
+
+void Reader3MF::LoadBuildItem(DOMNamedNodeMap* nodeMap)
+{
+    LoadComponent(nodeMap, 1);
 }
 
 std::optional<Base::Matrix4D> Reader3MF::ReadTransform(DOMNode* transformAttr)
@@ -297,7 +339,7 @@ bool Reader3MF::LoadObject(DOMNodeList* nodes, const Component& comp)
                 if (meshNode->getLength() > 0) {
                     LoadMesh(meshNode, id, comp, name);
                 }
-                else {
+                else if (comp.objectId < 0) {
                     DOMNodeList* compNode =
                         elem->getElementsByTagName(XStrLiteral("components").unicodeForm());
                     LoadComponents(compNode, id);
@@ -405,7 +447,8 @@ void Reader3MF::LoadMesh(DOMNodeList* nodes, int id, const Component& comp, cons
             kernelTrsf.transform = comp.transform;
             kernelTrsf.kernel.Adopt(points, facets);
             kernelTrsf.name = name;
-            meshes.emplace(id, kernelTrsf);
+            kernelTrsf.index = id;
+            meshes.push_back(kernelTrsf);
         }
     }
 }
