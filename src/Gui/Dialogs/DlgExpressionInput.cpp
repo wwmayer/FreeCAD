@@ -41,7 +41,7 @@
 #include "Dialogs/DlgExpressionInput.h"
 #include "ui_DlgExpressionInput.h"
 #include "Application.h"
-#include "Command.h"
+#include "CommandT.h"
 #include "Tools.h"
 #include "ExpressionBinding.h"
 #include "BitmapFactory.h"
@@ -506,17 +506,12 @@ void DlgExpressionInput::acceptWithVarSet()
     if (ne) {
         // the value is a number: directly assign it to the property instead of
         // making it an expression in the variable set
-        Gui::Command::doCommand(Gui::Command::Doc, "App.getDocument('%s').getObject('%s').%s = %f",
-                                obj->getDocument()->getName(),
-                                obj->getNameInDocument(),
-                                prop->getName(), ne->getValue());
+        Gui::cmdAppObjectArgs(obj, "%s = %f", prop->getName(), ne->getValue());
     }
     else if (se) {
         // the value is a string: directly assign it to the property.
-        Gui::Command::doCommand(Gui::Command::Doc, "App.getDocument('%s').getObject('%s').%s = \"%s\"",
-                                obj->getDocument()->getName(),
-                                obj->getNameInDocument(),
-                                prop->getName(), se->getText().c_str());
+        std::string text = Base::Tools::quoted(se->getText());
+        Gui::cmdAppObjectArgs(obj, "%s = %s", prop->getName(), text);
     }
     else {
         // the value is an epxression: make an expression binding in the variable set.
