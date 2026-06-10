@@ -327,6 +327,7 @@ bool Mirroring::accept()
         if (pos > -1)
             label = label.left(pos);
         label.append(QStringLiteral(" (Mirror #%1)").arg(++count));
+        label = Base::Tools::escapeEncodeString(label);
 
         QString code = QStringLiteral(
             "__doc__=FreeCAD.getDocument(\"%1\")\n"
@@ -366,7 +367,13 @@ TaskMirroring::TaskMirroring()
 
 bool TaskMirroring::accept()
 {
-    return widget->accept();
+    try {
+        return widget->accept();
+    }
+    catch (const Base::Exception& e) {
+        e.ReportException();
+        return false;
+    }
 }
 
 bool TaskMirroring::reject()
