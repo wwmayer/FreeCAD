@@ -29,6 +29,31 @@ TEST(ZipFile, TestNonExisting)
     EXPECT_EQ(zf.isValid(), false);
 }
 
+TEST(ZipFile, TestExisting)
+{
+    std::string zip(DATADIR);
+    zip.append("/tests/test.zip");
+
+    zipios::ZipFile zf(zip);
+    EXPECT_TRUE(zf.isValid());
+    EXPECT_EQ(zf.size(), 4);
+
+    auto f1 = zf.getEntry("file1.txt");
+    EXPECT_TRUE(f1);
+
+    auto f2 = zf.getEntry("file2.txt");
+    EXPECT_TRUE(f2);
+
+    auto f3 = zf.getEntry("file3.txt");
+    EXPECT_TRUE(f3);
+
+    auto f4 = zf.getEntry("testfile.bin");
+    EXPECT_TRUE(f4);
+
+    auto f5 = zf.getEntry("testfile.txt");
+    EXPECT_FALSE(f5);
+}
+
 class ZipFileTest: public ::testing::Test
 {
 protected:
