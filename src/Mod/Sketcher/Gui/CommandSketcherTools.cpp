@@ -204,13 +204,15 @@ Sketcher::SketchObject* getSketchObject()
 
 // Copy
 
-bool copySelectionToClipboard(Sketcher::SketchObject* obj) {
+bool copySelectionToClipboard(Sketcher::SketchObject* obj)
+{
     std::vector<int> listOfGeoId = getListOfSelectedGeoIds(true);
     if (listOfGeoId.empty()) { return false; }
     sort(listOfGeoId.begin(), listOfGeoId.end());
 
     //Export selected geometries as a formatted string.
     std::vector<Part::Geometry*> shapeGeometry;
+    shapeGeometry.reserve(listOfGeoId.size());
     for (auto geoId : listOfGeoId) {
         Part::Geometry* geoNew = obj->getGeometry(geoId)->copy();
         shapeGeometry.push_back(geoNew);
@@ -219,6 +221,10 @@ bool copySelectionToClipboard(Sketcher::SketchObject* obj) {
         "objectStr",
         shapeGeometry,
         Sketcher::PythonConverter::Mode::OmitInternalGeometry);
+
+    std::for_each(shapeGeometry.begin(), shapeGeometry.end(), [](auto geo) {
+        delete geo;
+    });
 
     // Export constraints of selected geos.
     std::vector<Sketcher::Constraint*> shapeConstraints;
@@ -250,10 +256,21 @@ bool copySelectionToClipboard(Sketcher::SketchObject* obj) {
         }
         shapeConstraints.push_back(temp);
     }
-    std::string cstrAsStr = Sketcher::PythonConverter::convert("objectStr", shapeConstraints, Sketcher::PythonConverter::GeoIdMode::AddLastGeoIdToGeoIds);
+    std::string cstrAsStr = Sketcher::PythonConverter::convert(
+        "objectStr",
+        shapeConstraints,
+        Sketcher::PythonConverter::GeoIdMode::AddLastGeoIdToGeoIds);
 
-    std::string exportedData = "# Copied from sketcher. From:\n#objectStr = " + Gui::Command::getObjectCmd(obj) + "\n"
-        + geosAsStr + "\n" + cstrAsStr;
+    std::for_each(shapeConstraints.begin(), shapeConstraints.end(), [](auto con) {
+        delete con;
+    });
+
+    std::string exportedData = "# Copied from sketcher. From:\n#objectStr = ";
+    exportedData.append(Gui::Command::getObjectCmd(obj));
+    exportedData.append("\n");
+    exportedData.append(geosAsStr);
+    exportedData.append("\n");
+    exportedData.append(cstrAsStr);
 
     if (!exportedData.empty()) {
         QClipboard* clipboard = QGuiApplication::clipboard();
