@@ -41,6 +41,7 @@ target_include_directories(occ_gordon_internal
 target_include_directories(occ_gordon_internal
     SYSTEM
     PUBLIC
+        ${CMAKE_SOURCE_DIR}/src/3rdParty/occ
         ${OCC_INCLUDE_DIR}
 )
 
