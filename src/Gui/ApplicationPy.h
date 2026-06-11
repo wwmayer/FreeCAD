@@ -35,6 +35,10 @@ namespace Gui{
 class GuiExport ApplicationPy
 {
 public:
+    static PyObject* createModule();
+    static void addMethods(PyObject* module);
+
+private:
     // clang-format off
     //---------------------------------------------------------------------
     // python exports goes here +++++++++++++++++++++++++++++++++++++++++++

@@ -1266,8 +1266,10 @@ SET(Selection_SRCS
     Selection/SelectionObjectPyImp.cpp
     Selection/SelectionObject.h
     Selection/SelectionObject.cpp
-    Selection/Selection.h
     Selection/Selection.cpp
+    Selection/Selection.h
+    Selection/SelectionPy.cpp
+    Selection/SelectionPy.h
     Selection/SelectionFilter.h
     Selection/SelectionFilter.cpp
     Selection/SelectionFilterPy.h

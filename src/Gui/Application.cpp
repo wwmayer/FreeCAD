@@ -88,6 +88,7 @@
 #include "Placement.h"
 #include "SoFCDB.h"
 #include "Selection.h"
+#include "SelectionPy.h"
 #include "SelectionFilterPy.h"
 #include "SoQtOffscreenRendererPy.h"
 #include "SpaceMouseParameter.h"
@@ -421,38 +422,17 @@ Application::Application(bool GUIenabled)
         // setting up Python binding
         Base::PyGILStateLocker lock;
 
-        PyDoc_STRVAR(
-            FreeCADGui_doc,
-            "The functions in the FreeCADGui module allow working with GUI documents,\n"
-            "view providers, views, workbenches and much more.\n\n"
-            "The FreeCADGui instance provides a list of references of GUI documents which\n"
-            "can be addressed by a string. These documents contain the view providers for\n"
-            "objects in the associated App document. An App and GUI document can be\n"
-            "accessed with the same name.\n\n"
-            "The FreeCADGui module also provides a set of functions to work with so called\n"
-            "workbenches.");
-
         // if this returns a valid pointer then the 'FreeCADGui' Python module was loaded,
         // otherwise the executable was launched
         PyObject* modules = PyImport_GetModuleDict();
         PyObject* module = PyDict_GetItemString(modules, "FreeCADGui");
         if (!module) {
-            static struct PyModuleDef FreeCADGuiModuleDef = {PyModuleDef_HEAD_INIT,
-                                                             "FreeCADGui",
-                                                             FreeCADGui_doc,
-                                                             -1,
-                                                             ApplicationPy::Methods,
-                                                             nullptr,
-                                                             nullptr,
-                                                             nullptr,
-                                                             nullptr};
-            module = PyModule_Create(&FreeCADGuiModuleDef);
-
+            module = ApplicationPy::createModule();
             PyDict_SetItemString(modules, "FreeCADGui", module);
         }
         else {
             // extend the method list
-            PyModule_AddFunctions(module, ApplicationPy::Methods);
+            ApplicationPy::addMethods(module);
         }
         Py::Module(module).setAttr(std::string("ActiveDocument"), Py::None());
         Py::Module(module).setAttr(std::string("HasQtBug_129596"),
@@ -480,16 +460,7 @@ Application::Application(bool GUIenabled)
                                     "ExpressionBinding");
 
         // insert Selection module
-        static struct PyModuleDef SelectionModuleDef = {PyModuleDef_HEAD_INIT,
-                                                        "Selection",
-                                                        "Selection module",
-                                                        -1,
-                                                        SelectionSingleton::Methods,
-                                                        nullptr,
-                                                        nullptr,
-                                                        nullptr,
-                                                        nullptr};
-        PyObject* pSelectionModule = PyModule_Create(&SelectionModuleDef);
+        PyObject* pSelectionModule = SelectionPy::createModule();
         Py_INCREF(pSelectionModule);
         PyModule_AddObject(module, "Selection", pSelectionModule);
 

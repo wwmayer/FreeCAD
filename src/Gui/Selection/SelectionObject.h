@@ -88,6 +88,7 @@ public:
     std::string getAsPropertyLinkSubString() const;
 
     friend class SelectionSingleton;
+    friend class SelectionPy;
 
 protected:
     std::vector<std::string>    SubNames;
