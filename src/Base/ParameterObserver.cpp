@@ -22,6 +22,7 @@
  **************************************************************************/
 
 #include "PreCompiled.h"
+#include <boost/container_hash/hash.hpp>
 #include <string_view>
 
 #include "ParameterObserver.h"
