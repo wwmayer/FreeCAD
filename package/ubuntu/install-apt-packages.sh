@@ -27,6 +27,7 @@ packages=(
   libboost-thread-dev
   libcoin-dev
   libeigen3-dev
+  libfmt-dev
   libkdtree++-dev
   libmedc-dev
   libocct-data-exchange-dev
