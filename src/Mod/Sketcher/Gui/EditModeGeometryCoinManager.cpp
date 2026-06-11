@@ -138,7 +138,9 @@ void EditModeGeometryCoinManager::updateGeometryColor(const GeoListFacade& geoli
     auto isExternalDefiningGeomPoint = [&geolistfacade](int GeoId) {
         auto geom = geolistfacade.getGeometryFacadeFromGeoId(GeoId);
         if (geom) {
-            auto egf = ExternalGeometryFacade::getFacade(geom->clone());
+            std::unique_ptr<Part::Geometry> geomCopy(geom->clone());
+            // The ExternalGeometryFacade is not the owner of the geometry
+            auto egf = ExternalGeometryFacade::getFacade(geomCopy.get());
             auto ref = egf->getRef();
             return egf->testFlag(ExternalGeometryExtension::Defining);
         }
@@ -438,7 +440,9 @@ void EditModeGeometryCoinManager::updateGeometryColor(const GeoListFacade& geoli
                 }
                 else if (isExternal) {
                     auto geom = geolistfacade.getGeometryFacadeFromGeoId(GeoId);
-                    auto egf = ExternalGeometryFacade::getFacade(geom->clone());
+                    std::unique_ptr<Part::Geometry> geomCopy(geom->clone());
+                    // The ExternalGeometryFacade is not the owner of the geometry
+                    auto egf = ExternalGeometryFacade::getFacade(geomCopy.get());
                     auto ref = egf->getRef();
                     if (egf->testFlag(ExternalGeometryExtension::Missing)) {
                         color[i] = drawingParameters.InvalidSketchColor;
