@@ -12,6 +12,7 @@ target_sources(Tests_run PRIVATE
         Handle.cpp
         Matrix.cpp
         Parameter.cpp
+        ParameterObserver.cpp
         Placement.cpp
         Quantity.cpp
         Reader.cpp
@@ -28,6 +29,7 @@ target_sources(Tests_run PRIVATE
         Vector3D.cpp
         ViewProj.cpp
         Writer.cpp
+        XMLTools.cpp
 )
 
 setup_qt_test(InventorBuilder)

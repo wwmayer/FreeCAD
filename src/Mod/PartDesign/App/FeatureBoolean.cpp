@@ -149,7 +149,7 @@ App::DocumentObjectExecReturn *Boolean::execute()
             return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP("Exception", "Unsupported boolean operation"));
 
         try {
-            result.makeElementBoolean(op, shapes);
+            result.makeElementBoolean(op, shapes, nullptr, FuzzyTolerance.getValue());
         } catch (Standard_Failure &e) {
             FC_ERR("Boolean operation failed: " << Part::toString(e));
             return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP("Exception", "Boolean operation failed"));

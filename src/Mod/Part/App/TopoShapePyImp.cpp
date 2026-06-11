@@ -456,12 +456,12 @@ PyObject*  TopoShapePy::dumpToString(PyObject *args) const
         PyErr_SetString(PartExceptionOCCError,e.what());
         return nullptr;
     }
-    catch (const std::exception& e) {
-        PyErr_SetString(PartExceptionOCCError,e.what());
+    catch (const Standard_Failure& e) {
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
-    catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
+    catch (const std::exception& e) {
+        PyErr_SetString(PartExceptionOCCError,e.what());
         return nullptr;
     }
 }
@@ -481,12 +481,12 @@ PyObject*  TopoShapePy::exportBrepToString(PyObject *args) const
         PyErr_SetString(PartExceptionOCCError,e.what());
         return nullptr;
     }
-    catch (const std::exception& e) {
-        PyErr_SetString(PartExceptionOCCError,e.what());
+    catch (const Standard_Failure& e) {
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
-    catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
+    catch (const std::exception& e) {
+        PyErr_SetString(PartExceptionOCCError,e.what());
         return nullptr;
     }
 }
@@ -569,12 +569,12 @@ PyObject*  TopoShapePy::importBrepFromString(PyObject *args)
         PyErr_SetString(PartExceptionOCCError,e.what());
         return nullptr;
     }
-    catch (const std::exception& e) {
-        PyErr_SetString(PartExceptionOCCError,e.what());
+    catch (const Standard_Failure& e) {
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
-    catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
+    catch (const std::exception& e) {
+        PyErr_SetString(PartExceptionOCCError,e.what());
         return nullptr;
     }
 
@@ -685,7 +685,7 @@ static PyObject *makeShape(const char *op,const TopoShape &shape, PyObject *args
         std::vector<TopoShape> shapes;
         shapes.push_back(shape);
         getPyShapes(pcObj,shapes);
-        return Py::new_reference_to(shape2pyshape(TopoShape().makeElementBoolean(op,shapes,0,tol)));
+        return Py::new_reference_to(shape2pyshape(TopoShape().makeElementBoolean(op, shapes, nullptr, tol)));
     } PY_CATCH_OCC
 }
 

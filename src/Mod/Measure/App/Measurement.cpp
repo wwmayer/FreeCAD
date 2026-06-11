@@ -22,6 +22,7 @@
 
 #include "PreCompiled.h"
 #ifndef _PreComp_
+#include <cmath>
 #include <BRep_Tool.hxx>
 #include <BRepAdaptor_Curve.hxx>
 #include <BRepAdaptor_Surface.hxx>
@@ -446,7 +447,7 @@ double Measurement::planePlaneDistance() const
     gp_Vec vectorBetweenPlanes(pointOnPlane1, pointOnPlane2);
 
     // Project this vector onto the plane normal
-    double distance = Abs(vectorBetweenPlanes.Dot(normalToPlane1));
+    double distance = std::abs(vectorBetweenPlanes.Dot(normalToPlane1));
 
     return distance;
 }

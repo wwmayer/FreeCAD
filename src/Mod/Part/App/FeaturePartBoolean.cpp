@@ -67,20 +67,54 @@ bool getRefineModelParameter()
 
 }
 
-PROPERTY_SOURCE_ABSTRACT(Part::Boolean, Part::Feature)
+// ------------------------------------------------------------------------------------------------
+
+namespace
+{
+    const App::PropertyFloatConstraint::Constraints floatFuzzy = {-1.0, 1.0, 0.0001};
+}
+
+PROPERTY_SOURCE_ABSTRACT(Part::BooleanBase, Part::Feature)
+
+BooleanBase::BooleanBase()
+{
+    ADD_PROPERTY_TYPE(Refine,
+                      (false),
+                      "Boolean",
+                      (App::PropertyType)(App::Prop_None),
+                      "Refine shape (clean up redundant edges) after this boolean operation");
+
+    this->Refine.setValue(getRefineModelParameter());
+
+    ADD_PROPERTY_TYPE(FuzzyTolerance,
+                      (0.0),
+                      "Boolean",
+                      (App::PropertyType)(App::Prop_None),
+                      "Fuzzy tolerance:\n"
+                      "If value > 0: use the value\n"
+                      "If value = 0: leave default value\n"
+                      "If value < 0: determine value");
+    FuzzyTolerance.setConstraints(&floatFuzzy);
+
+    ADD_PROPERTY_TYPE(History,
+                      (ShapeHistory()),
+                      "Boolean",
+                      (App::PropertyType)(App::Prop_Output |
+                                          App::Prop_Transient |
+                                          App::Prop_Hidden),
+                      "Shape history");
+    History.setSize(0);
+}
+
+// ------------------------------------------------------------------------------------------------
+
+PROPERTY_SOURCE_ABSTRACT(Part::Boolean, Part::BooleanBase)
 
 
 Boolean::Boolean()
 {
     ADD_PROPERTY(Base,(nullptr));
     ADD_PROPERTY(Tool,(nullptr));
-    ADD_PROPERTY_TYPE(History,(ShapeHistory()), "Boolean", (App::PropertyType)
-        (App::Prop_Output|App::Prop_Transient|App::Prop_Hidden), "Shape history");
-    History.setSize(0);
-
-    ADD_PROPERTY_TYPE(Refine,(0),"Boolean",(App::PropertyType)(App::Prop_None),"Refine shape (clean up redundant edges) after this boolean operation");
-
-    this->Refine.setValue(getRefineModelParameter());
 }
 
 short Boolean::mustExecute() const

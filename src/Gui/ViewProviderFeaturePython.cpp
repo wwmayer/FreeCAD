@@ -548,7 +548,7 @@ bool ViewProviderFeaturePythonImp::setupContextMenu(QMenu* menu)
     return true;
 }
 
-void ViewProviderFeaturePythonImp::attach(App::DocumentObject *pcObject)
+void ViewProviderFeaturePythonImp::attach([[maybe_unused]]App::DocumentObject *pcObject)
 {
     _FC_PY_CALL_CHECK(attach,return);
 
@@ -566,7 +566,11 @@ void ViewProviderFeaturePythonImp::attach(App::DocumentObject *pcObject)
 
         // #0000415: Now simulate a property change event to call
         // claimChildren if implemented.
-        pcObject->Label.touch();
+        //
+        // #29818: Do not touch the 'Label' property because this registers its value to
+        // the UniqueNameManager with the result that reusing a renamed label may fail.
+        // Since v0.17 the simulated property change is not needed any more to trigger the
+        // call of claimChildren
     }
     catch (Py::Exception&) {
         Base::PyException e; // extract the Python error text

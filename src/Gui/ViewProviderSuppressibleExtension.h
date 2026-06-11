@@ -41,7 +41,6 @@ public:
 
     void setSuppressedIcon(bool onoff);
     QIcon extensionMergeColorfullOverlayIcons (const QIcon & orig) const override;
-    void extensionSetupContextMenu(QMenu* menu, QObject*, const char*) override;
 
 private:
     bool isSetSuppressedIcon{false};

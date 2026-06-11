@@ -428,6 +428,7 @@ void FeatureExtrude::updateProperties(const std::string &method)
         isReversedEnabled = true;
     }
     else if (method == "ThroughAll") {
+        isTaperVisible = true;
         isMidplaneEnabled = true;
         isReversedEnabled = !Midplane.getValue();
     }
@@ -471,8 +472,9 @@ void FeatureExtrude::setupObject()
 
 App::DocumentObjectExecReturn* FeatureExtrude::buildExtrusion(ExtrudeOptions options)
 {
-    if (onlyHaveRefined()) { return App::DocumentObject::StdReturn; }
-
+    if (onlyHaveRefined()) {
+        return App::DocumentObject::StdReturn;
+    }
 
     bool makeface = options.testFlag(ExtrudeOption::MakeFace);
     bool fuse = options.testFlag(ExtrudeOption::MakeFuse);
@@ -482,12 +484,19 @@ App::DocumentObjectExecReturn* FeatureExtrude::buildExtrusion(ExtrudeOptions opt
     std::string method(Type.getValueAsString());
 
     // Validate parameters
-    double L = Length.getValue();
-    if ((method == "Length") && (L < Precision::Confusion())) {
-        return new App::DocumentObjectExecReturn(
-            QT_TRANSLATE_NOOP("Exception", "Length too small"));
+    double L = 0.0;
+    if (method == "Length") {
+        L = Length.getValue();
+        if (L < Precision::Confusion()) {
+            return new App::DocumentObjectExecReturn(
+                QT_TRANSLATE_NOOP("Exception", "Length too small"));
+        }
     }
-    double L2 = 0;
+    else if (method == "ThroughAll") {
+        L = getThroughAllLength();
+    }
+
+    double L2 = 0.0;
     if ((method == "TwoLengths")) {
         L2 = Length2.getValue();
         if (std::abs(L2) < Precision::Confusion()) {
@@ -787,7 +796,7 @@ App::DocumentObjectExecReturn* FeatureExtrude::buildExtrusion(ExtrudeOptions opt
                     default:
                         maker = Part::OpCodes::Fuse;
                 }
-                result.makeElementBoolean(maker, {base, prism});
+                result.makeElementBoolean(maker, {base, prism}, nullptr, FuzzyTolerance.getValue());
             }
             catch (Standard_Failure&) {
                 return new App::DocumentObjectExecReturn(

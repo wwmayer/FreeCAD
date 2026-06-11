@@ -2768,10 +2768,16 @@ TopoDS_Shape Area::toShape(const CCurve& _c, const gp_Trsf* trsf, int reorient)
         pt = pnext;
     }
 
+#if OCC_VERSION_HEX < 0x080000
     ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges,
                                                   Precision::Confusion(),
                                                   false,
                                                   hWires);
+#else
+    hWires = ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges,
+                                                           Precision::Confusion(),
+                                                           false);
+#endif
     if (!hWires->Length()) {
         return shape;
     }

@@ -35,10 +35,6 @@
 
 #include <fmt/printf.h>
 
-// Python stuff
-using PyObject = struct _object;
-using PyMethodDef = struct PyMethodDef;
-
 // FIXME: Even with parameter packs this is necessary for MSYS2
 #if defined(__clang__)
 #pragma clang diagnostic push
@@ -836,33 +832,12 @@ public:
     // retrieval of an observer by name
     ILogger* Get(const char* Name) const;
 
-    static PyMethodDef Methods[];
-
     void Refresh();
     void EnableRefresh(bool enable);
 
     inline constexpr FreeCAD_ConsoleMsgType getConsoleMsg(Base::LogStyle style);
 
 private:
-    // python exports goes here +++++++++++++++++++++++++++++++++++++++++++
-    // static python wrapper of the exported functions
-    static PyObject* sPyLog(PyObject* self, PyObject* args);
-    static PyObject* sPyMessage(PyObject* self, PyObject* args);
-    static PyObject* sPyWarning(PyObject* self, PyObject* args);
-    static PyObject* sPyDeveloperWarning(PyObject* self, PyObject* args);
-    static PyObject* sPyUserWarning(PyObject* self, PyObject* args);
-    static PyObject* sPyTranslatedUserWarning(PyObject* self, PyObject* args);
-    static PyObject* sPyError(PyObject* self, PyObject* args);
-    static PyObject* sPyDeveloperError(PyObject* self, PyObject* args);
-    static PyObject* sPyUserError(PyObject* self, PyObject* args);
-    static PyObject* sPyTranslatedUserError(PyObject* self, PyObject* args);
-    static PyObject* sPyCritical(PyObject* self, PyObject* args);
-    static PyObject* sPyNotification(PyObject* self, PyObject* args);
-    static PyObject* sPyTranslatedNotification(PyObject* self, PyObject* args);
-    static PyObject* sPySetStatus(PyObject* self, PyObject* args);
-    static PyObject* sPyGetStatus(PyObject* self, PyObject* args);
-    static PyObject* sPyGetObservers(PyObject* self, PyObject* args);
-
     bool _bVerbose {true};
     bool _bCanRefresh {true};
     ConnectionMode connectionMode {Direct};
@@ -900,6 +875,7 @@ private:
     int _defaultLogLevel;
 
     friend class ConsoleOutput;
+    friend class ConsolePy;
 };
 
 /** Access to the Console

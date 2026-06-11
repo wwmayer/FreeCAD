@@ -220,7 +220,12 @@ public:
     };
 
 private:
-    std::unordered_map<const char*, Object> parameters;
+    struct Hasher
+    {
+        std::size_t operator()(const char* s) const;
+        bool operator()(const char* a, const char* b) const;
+    };
+    std::unordered_map<const char*, Object, Hasher, Hasher> parameters;
     ParameterGrp::handle handle;
 
 protected:
@@ -263,6 +268,11 @@ protected:
             str << "Wrong cast of parameter " << key << '\n';
             throw Base::TypeError(str.str());
         }
+        catch (const std::exception&) {
+            std::stringstream str;
+            str << "Unknown parameter " << key << '\n';
+            throw Base::IndexError(str.str());
+        }
     }
     template<typename T>
     T getValue(const char* key) const
@@ -291,6 +301,11 @@ protected:
             std::stringstream str;
             str << "Wrong cast of parameter " << key << '\n';
             throw Base::TypeError(str.str());
+        }
+        catch (const std::exception&) {
+            std::stringstream str;
+            str << "Unknown parameter " << key << '\n';
+            throw Base::IndexError(str.str());
         }
     }
 };

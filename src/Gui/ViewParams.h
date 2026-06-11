@@ -110,6 +110,15 @@ public:
     double getDraggerScale() const;
     void setDraggerScale(double);
 
+    double getDatumPointSize() const;
+    void setDatumPointSize(double);
+
+    double getDatumLineSize() const;
+    void setDatumLineSize(double);
+
+    double getDatumPlaneSize() const;
+    void setDatumPlaneSize(double);
+
 private:
     void setup();
 };

@@ -45,7 +45,7 @@ protected:
     //@}
 };
 
-class PartExport MultiCommon : public Part::Feature
+class PartExport MultiCommon : public BooleanBase
 {
     PROPERTY_HEADER_WITH_OVERRIDE(Part::MultiCommon);
 
@@ -53,8 +53,6 @@ public:
     MultiCommon();
 
     App::PropertyLinkList Shapes;
-    PropertyShapeHistory History;
-    App::PropertyBool Refine;
 
     /** @name methods override feature */
     //@{

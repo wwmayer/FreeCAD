@@ -151,7 +151,7 @@ App::DocumentObjectExecReturn* Edge2TracObject::execute()
                 case GeomAbs_BSplineCurve: {
                     double Length = CPnts_AbscissaPoint::Length(adapt);
                     double ParLength = adapt.LastParameter() - adapt.FirstParameter();
-                    double NbrSegments = Round(Length / SegValue.getValue());
+                    double NbrSegments = std::round(Length / SegValue.getValue());
 
                     double beg = adapt.FirstParameter();
                     double end = adapt.LastParameter();
@@ -207,7 +207,7 @@ App::DocumentObjectExecReturn* Edge2TracObject::execute()
                 case GeomAbs_Circle: {
                     double Length = CPnts_AbscissaPoint::Length(adapt);
                     double ParLength = adapt.LastParameter() - adapt.FirstParameter();
-                    double NbrSegments = Round(Length / SegValue.getValue());
+                    double NbrSegments = std::round(Length / SegValue.getValue());
                     double SegLength = ParLength / NbrSegments;
 
                     if (it2.Orientation() == TopAbs_REVERSED) {

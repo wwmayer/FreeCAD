@@ -67,6 +67,7 @@ using GeomLProp_CLProps2d = Geom2dLProp_CLProps2d;
 #include "Geom2d/BSplineCurve2dPy.h"
 #include "GeometrySurfacePy.h"
 #include "OCCError.h"
+#include "Tools.h"
 #include "TopoShapeFacePy.h"
 
 
@@ -173,7 +174,6 @@ void create3dCurve(const TopoDS_Edge& edge)
     BRep_Builder builder;
     builder.UpdateEdge(edge, curve, Precision::Confusion());
     builder.Range(edge, aFirst, aLast, true);
-    return;
 }
 }
 
@@ -256,7 +256,7 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
             Handle(Geom2d_Curve) curv = Handle(Geom2d_Curve)::DownCast(getGeometry2dPtr()->handle());
 
             BRepAdaptor_Surface adapt(face);
-            BRepBuilderAPI_MakeEdge mkBuilder(curv, adapt.Surface().Surface());
+            BRepBuilderAPI_MakeEdge mkBuilder(curv, Tools::getSurface(adapt));
             TopoDS_Edge edge =  mkBuilder.Edge();
             create3dCurve(edge);
 
@@ -275,7 +275,7 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
             Handle(Geom2d_Curve) curv = Handle(Geom2d_Curve)::DownCast(getGeometry2dPtr()->handle());
 
             BRepAdaptor_Surface adapt(face);
-            BRepBuilderAPI_MakeEdge mkBuilder(curv, adapt.Surface().Surface(), u1, u2);
+            BRepBuilderAPI_MakeEdge mkBuilder(curv, Tools::getSurface(adapt), u1, u2);
             TopoDS_Edge edge =  mkBuilder.Edge();
             create3dCurve(edge);
 

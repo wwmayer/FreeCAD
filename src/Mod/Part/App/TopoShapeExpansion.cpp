@@ -74,6 +74,7 @@
 #include <ShapeBuild_ReShape.hxx>
 #include <ShapeConstruct_Curve.hxx>
 #include <ShapeUpgrade_ShellSewing.hxx>
+#include <Standard_Version.hxx>
 #include <TopTools_HSequenceOfShape.hxx>
 #include <ShapeFix_Shape.hxx>
 #include <ShapeFix_ShapeTolerance.hxx>
@@ -1391,7 +1392,7 @@ TopoShape& TopoShape::makeShapeWithElementMap(const TopoDS_Shape& shape,
 {
     setShape(shape);
     if (shape.IsNull()) {
-        FC_THROWM(NullShapeException, "Null shape");
+        FC_THROWM(NullShapeException, "Cannot create element map from null shape");
     }
 
     if (shapes.empty()) {
@@ -3071,7 +3072,11 @@ TopoShape& TopoShape::makeElementWires(const std::vector<TopoShape>& shapes,
         if (hEdges->Length() == 0) {
             FC_THROWM(NullShapeException, "Null shape");
         }
+#if OCC_VERSION_HEX < 0x080000
         ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges, tol, true, hWires);
+#else
+        hWires = ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges, tol, true);
+#endif
         if (hWires->Length() == 0) {
             FC_THROWM(NullShapeException, "Null shape");
         }
@@ -3365,7 +3370,7 @@ TopoShape& TopoShape::makeElementTransform(const TopoShape& shape,
     if (copy == CopyType::noCopy) {
         // OCCT checks the ScaleFactor against gp::Resolution() which is DBL_MIN!!!
         copy = trsf.ScaleFactor() * trsf.HVectorialPart().Determinant() < 0.
-                || Abs(Abs(trsf.ScaleFactor()) - 1) > Precision::Confusion()
+                || std::fabs(std::fabs(trsf.ScaleFactor()) - 1) > Precision::Confusion()
             ? CopyType::copy
             : CopyType::noCopy;
     }
@@ -4343,7 +4348,7 @@ TopoShape& TopoShape::makeElementPrismUntil(const TopoShape& _base,
             BRepAdaptor_Surface adapt(face, false);
             // use the placement of the adapter, not of the upToFace
             loc = TopLoc_Location(adapt.Trsf());
-            BRepBuilderAPI_MakeFace mkFace(adapt.Surface().Surface(), Precision::Confusion());
+            BRepBuilderAPI_MakeFace mkFace(Tools::getSurface(adapt), Precision::Confusion());
             if (mkFace.IsDone()) {
                 uptoface.setShape(located(mkFace.Shape(), loc), false);
             }
@@ -5249,7 +5254,8 @@ bool TopoShape::isPlanarFace(double tol) const
         return false;
     }
 
-    return GeomSurface::isPlanar(BRepAdaptor_Surface(TopoDS::Face(getShape())).Surface().Surface(),
+    BRepAdaptor_Surface adapt(TopoDS::Face(getShape()));
+    return GeomSurface::isPlanar(Tools::getSurface(adapt),
                                  nullptr,
                                  tol);
 }

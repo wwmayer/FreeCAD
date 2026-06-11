@@ -4118,8 +4118,8 @@ durant la lectura del fitxer (detalls més lents però més alts).</translation>
     </message>
     <message>
       <location filename="../../DlgSettingsGeneral.ui" line="127"/>
-      <source>Allow multiple solids in Part Design Body by default (experimental)</source>
-      <translation>Permetre múltiples sòlids al Cos del Disseny de Peces per defecte (experimental)</translation>
+      <source>Allow multiple solids in Part Design Body by default</source>
+      <translation>Permetre múltiples sòlids al Cos del Disseny de Peces per defecte</translation>
     </message>
   </context>
   <context>

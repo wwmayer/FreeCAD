@@ -84,8 +84,7 @@ bool Fem::Tools::isPlanar(const TopoDS_Face& face)
     else if (surface.GetType() == GeomAbs_BSplineSurface) {
         Handle(Geom_BSplineSurface) spline = surface.BSpline();
         try {
-            TColgp_Array2OfPnt poles(1, spline->NbUPoles(), 1, spline->NbVPoles());
-            spline->Poles(poles);
+            const TColgp_Array2OfPnt& poles = spline->Poles();
 
             // get the plane from three control points
             gp_Pnt p1 = poles(poles.LowerRow(), poles.LowerCol());
@@ -116,8 +115,7 @@ bool Fem::Tools::isPlanar(const TopoDS_Face& face)
     else if (surface.GetType() == GeomAbs_BezierSurface) {
         Handle(Geom_BezierSurface) bezier = surface.Bezier();
         try {
-            TColgp_Array2OfPnt poles(1, bezier->NbUPoles(), 1, bezier->NbVPoles());
-            bezier->Poles(poles);
+            const TColgp_Array2OfPnt& poles = bezier->Poles();
 
             // get the plane from three control points
             gp_Pnt p1 = poles(poles.LowerRow(), poles.LowerCol());
@@ -160,8 +158,7 @@ gp_XYZ Fem::Tools::getDirection(const TopoDS_Face& face)
     else if (surface.GetType() == GeomAbs_BSplineSurface) {
         Handle(Geom_BSplineSurface) spline = surface.BSpline();
         try {
-            TColgp_Array2OfPnt poles(1, spline->NbUPoles(), 1, spline->NbVPoles());
-            spline->Poles(poles);
+            const TColgp_Array2OfPnt& poles = spline->Poles();
 
             // get the plane from three control points
             gp_Pnt p1 = poles(poles.LowerRow(), poles.LowerCol());
@@ -179,8 +176,7 @@ gp_XYZ Fem::Tools::getDirection(const TopoDS_Face& face)
     else if (surface.GetType() == GeomAbs_BezierSurface) {
         Handle(Geom_BezierSurface) bezier = surface.Bezier();
         try {
-            TColgp_Array2OfPnt poles(1, bezier->NbUPoles(), 1, bezier->NbVPoles());
-            bezier->Poles(poles);
+            const TColgp_Array2OfPnt& poles = bezier->Poles();
 
             // get the plane from three control points
             gp_Pnt p1 = poles(poles.LowerRow(), poles.LowerCol());

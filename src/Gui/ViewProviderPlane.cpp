@@ -82,8 +82,8 @@ void ViewProviderPlane::attach(App::DocumentObject * obj) {
         material->diffuseColor.setValue(color);
     }
 
-    static const float size = App::GetApplication().GetParameterGroupByPath("User parameter:BaseApp/Preferences/View")->GetFloat("DatumPlaneSize", 40.0);
-    static const float startSize = 0.25 * size; //NOLINT
+    const float size = static_cast<float>(ViewParams::instance()->getDatumPlaneSize());
+    const float startSize = 0.25 * size; //NOLINT
 
     SbVec3f verts[4];
     if (role.empty()) {

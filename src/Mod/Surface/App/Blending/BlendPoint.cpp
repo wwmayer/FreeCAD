@@ -43,7 +43,7 @@ BlendPoint::BlendPoint()
 void BlendPoint::multiply(double f)
 {
     for (int i = 0; i < nbVectors(); i++) {
-        vectors[i] *= Pow(f, i);
+        vectors[i] *= std::pow(f, i);
     }
 }
 

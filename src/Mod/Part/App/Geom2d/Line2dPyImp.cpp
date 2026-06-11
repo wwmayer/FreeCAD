@@ -34,6 +34,10 @@
 #include "OCCError.h"
 
 
+#if OCC_VERSION_HEX < 0x080000
+using GC_MakeLine2d = GCE2d_MakeLine;
+#endif
+
 using namespace Part;
 
 extern const char* gce_ErrorStatusText(gce_ErrorType et);
@@ -86,8 +90,8 @@ int Line2dPy::PyInit(PyObject* args, PyObject* /*kwd*/)
             double distance = (v1-v2).Length();
             if (distance < gp::Resolution())
                 throw Standard_Failure("Both points are equal");
-            GCE2d_MakeLine ms(gp_Pnt2d(v1.x,v1.y),
-                              gp_Pnt2d(v2.x,v2.y));
+            GC_MakeLine2d ms(gp_Pnt2d(v1.x,v1.y),
+                             gp_Pnt2d(v2.x,v2.y));
             if (!ms.IsDone()) {
                 PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(ms.Status()));
                 return -1;
@@ -152,7 +156,7 @@ void Line2dPy::setLocation(Py::Object arg)
     }
 
     try {
-        GCE2d_MakeLine ms(pnt, dir);
+        GC_MakeLine2d ms(pnt, dir);
         if (!ms.IsDone()) {
             throw Py::RuntimeError(gce_ErrorStatusText(ms.Status()));
         }
@@ -200,7 +204,7 @@ void Line2dPy::setDirection(Py::Object arg)
     }
 
     try {
-        GCE2d_MakeLine ms(pnt, dir);
+        GC_MakeLine2d ms(pnt, dir);
         if (!ms.IsDone()) {
             throw Py::RuntimeError(gce_ErrorStatusText(ms.Status()));
         }

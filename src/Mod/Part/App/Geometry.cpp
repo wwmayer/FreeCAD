@@ -1178,8 +1178,7 @@ std::vector<Base::Vector3d> GeomBezierCurve::getPoles() const
 {
     std::vector<Base::Vector3d> poles;
     poles.reserve(myCurve->NbPoles());
-    TColgp_Array1OfPnt poleArray(1,myCurve->NbPoles());
-    myCurve->Poles(poleArray);
+    const TColgp_Array1OfPnt& poleArray = myCurve->Poles();
 
     for (int index=poleArray.Lower(); index<=poleArray.Upper(); index++) {
         const gp_Pnt& pnt = poleArray(index);
@@ -1192,12 +1191,14 @@ std::vector<double> GeomBezierCurve::getWeights() const
 {
     std::vector<double> weights;
     weights.reserve(myCurve->NbPoles());
-    TColStd_Array1OfReal weightArray(1,myCurve->NbPoles());
-    myCurve->Weights(weightArray);
-
-    for (int index=weightArray.Lower(); index<=weightArray.Upper(); index++) {
-        const double& real = weightArray(index);
-        weights.push_back(real);
+    if (const TColStd_Array1OfReal* weightArray = myCurve->Weights()) {
+        for (int index = weightArray->Lower(); index <= weightArray->Upper(); index++) {
+            double real = (*weightArray)(index);
+            weights.push_back(real);
+        }
+    }
+    else {
+        weights.resize(myCurve->NbPoles(), 1.0);
     }
     return weights;
 }
@@ -1468,8 +1469,7 @@ std::vector<Base::Vector3d> GeomBSplineCurve::getPoles() const
 {
     std::vector<Base::Vector3d> poles;
     poles.reserve(myCurve->NbPoles());
-    TColgp_Array1OfPnt p(1,myCurve->NbPoles());
-    myCurve->Poles(p);
+    const TColgp_Array1OfPnt& p = myCurve->Poles();
 
     for (int i=p.Lower(); i<=p.Upper(); i++) {
         const gp_Pnt& pnt = p(i);
@@ -1482,12 +1482,14 @@ std::vector<double> GeomBSplineCurve::getWeights() const
 {
     std::vector<double> weights;
     weights.reserve(myCurve->NbPoles());
-    TColStd_Array1OfReal w(1,myCurve->NbPoles());
-    myCurve->Weights(w);
-
-    for (int i=w.Lower(); i<=w.Upper(); i++) {
-        const double& real = w(i);
-        weights.push_back(real);
+    if (const TColStd_Array1OfReal* weightArray = myCurve->Weights()) {
+        for (int index = weightArray->Lower(); index <= weightArray->Upper(); index++) {
+            double real = (*weightArray)(index);
+            weights.push_back(real);
+        }
+    }
+    else {
+        weights.resize(myCurve->NbPoles(), 1.0);
     }
     return weights;
 }
@@ -1504,7 +1506,6 @@ void GeomBSplineCurve::setWeights(const std::vector<double>& weights)
         }
     }
     catch (Standard_Failure& e) {
-
         THROWM(Base::CADKernelError,Part::toString(e))
     }
 }
@@ -1548,8 +1549,7 @@ std::vector<double> GeomBSplineCurve::getKnots() const
 {
     std::vector<double> knots;
     knots.reserve(myCurve->NbKnots());
-    TColStd_Array1OfReal k(1,myCurve->NbKnots());
-    myCurve->Knots(k);
+    const TColStd_Array1OfReal& k = myCurve->Knots();
 
     for (int i=k.Lower(); i<=k.Upper(); i++) {
         const double& real = k(i);
@@ -1562,12 +1562,10 @@ std::vector<int> GeomBSplineCurve::getMultiplicities() const
 {
     std::vector<int> mults;
     mults.reserve(myCurve->NbKnots());
-    TColStd_Array1OfInteger m(1,myCurve->NbKnots());
-    myCurve->Multiplicities(m);
+    const TColStd_Array1OfInteger& m = myCurve->Multiplicities();
 
     for (int i=m.Lower(); i<=m.Upper(); i++) {
-        const int& nm = m(i);
-        mults.push_back(nm);
+        mults.push_back(m(i));
     }
     return mults;
 }
@@ -1578,7 +1576,6 @@ int GeomBSplineCurve::getMultiplicity(int index) const
         return myCurve->Multiplicity(index);
     }
     catch (Standard_Failure& e) {
-
         THROWM(Base::CADKernelError,Part::toString(e))
     }
 }
@@ -1865,12 +1862,12 @@ bool GeomBSplineCurve::removeKnot(int index, int multiplicity, double tolerance)
         if (curve->RemoveKnot(index, multiplicity, tolerance)) {
 
             // It can happen that OCCT computes a negative weight but still claims the removal was successful
-            TColStd_Array1OfReal weights(1, curve->NbPoles());
-            curve->Weights(weights);
-            for (int i = weights.Lower(); i <= weights.Upper(); i++) {
-                double v = weights(i);
-                if (v <= gp::Resolution())
-                    return false;
+            if (const TColStd_Array1OfReal* weights = curve->Weights()) {
+                for (int i = weights->Lower(); i <= weights->Upper(); i++) {
+                    double v = (*weights)(i);
+                    if (v <= gp::Resolution())
+                        return false;
+                }
             }
 
             myCurve = curve;
@@ -1912,8 +1909,7 @@ void GeomBSplineCurve::scaleKnotsToBounds(double u0, double u1)
     try {
         Handle(Geom_BSplineCurve) curve = Handle(Geom_BSplineCurve)::DownCast(myCurve->Copy());
         Standard_RangeError_Raise_if (u1 <= u0, " ");
-        TColStd_Array1OfReal k(1,curve->NbKnots());
-        curve->Knots(k);
+        TColStd_Array1OfReal k = curve->Knots();
         if ((abs(u0-k.First()) > Precision::Confusion()) || (abs(u1-k.Last()) > Precision::Confusion())) {
             BSplCLib::Reparametrize(u0, u1, k);
             curve->SetKnots(k);
@@ -2230,9 +2226,8 @@ GeomBSplineCurve* GeomConic::toNurbs(double first, double last) const
     double fnew = bspline->FirstParameter(), lnew = bspline->LastParameter(), UTol;
     if (!bspline->IsPeriodic()) {
         bspline->Resolution(Precision::Confusion(), UTol);
-        if (Abs(first - fnew) > UTol || Abs(last - lnew) > UTol) {
-            TColStd_Array1OfReal knots(1,bspline->NbKnots());
-            bspline->Knots(knots);
+        if (std::fabs(first - fnew) > UTol || std::fabs(last - lnew) > UTol) {
+            TColStd_Array1OfReal knots = bspline->Knots();
             BSplCLib::Reparametrize(first, last, knots);
             bspline->SetKnots(knots);
         }
@@ -5083,14 +5078,12 @@ void GeomBSplineSurface::scaleKnotsToBounds(double u0, double u1, double v0, dou
         double bu0,bu1,bv0,bv1;
         surf->Bounds(bu0,bu1,bv0,bv1);
         if ((abs(u0-bu0) > Precision::Confusion()) || (abs(u1-bu1) > Precision::Confusion())) {
-            TColStd_Array1OfReal uk(1,surf->NbUKnots());
-            surf->UKnots(uk);
+            TColStd_Array1OfReal uk = surf->UKnots();
             BSplCLib::Reparametrize(u0, u1, uk);
             surf->SetUKnots(uk);
         }
         if ((abs(v0-bv0) > Precision::Confusion()) || (abs(v1-bv1) > Precision::Confusion())) {
-            TColStd_Array1OfReal vk(1,surf->NbVKnots());
-            surf->VKnots(vk);
+            TColStd_Array1OfReal vk = surf->VKnots();
             BSplCLib::Reparametrize(v0, v1, vk);
             surf->SetVKnots(vk);
         }

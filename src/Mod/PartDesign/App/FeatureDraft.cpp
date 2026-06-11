@@ -48,6 +48,7 @@
 #include <Base/Numbers.h>
 #include <Base/Tools.h>
 #include <Mod/Part/App/TopoShape.h>
+#include <Mod/Part/App/Tools.h>
 #include <Mod/Part/App/OCCError.h>
 
 #include "FeatureDraft.h"
@@ -196,7 +197,7 @@ App::DocumentObjectExecReturn *Draft::execute()
                 Handle(Geom_Plane) aux = new Geom_Plane(pm, gp_Dir(p2.X() - p1.X(), p2.Y() - p1.Y(), p2.Z() - p1.Z()));
                 // Intersect plane with face. Is there no easier way?
                 BRepAdaptor_Surface adapt(TopoDS::Face(face), false);
-                Handle(Geom_Surface) sf = adapt.Surface().Surface();
+                Handle(Geom_Surface) sf = Part::Tools::getSurface(adapt);
                 GeomAPI_IntSS intersector(aux, sf, Precision::Confusion());
                 if (!intersector.IsDone() || intersector.NbLines() < 1)
                     continue;

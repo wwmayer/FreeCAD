@@ -35,6 +35,7 @@
 #include <Base/UnitsApi.h>
 
 #include "Dialogs/DlgProjectInformationImp.h"
+#include "Dialogs/DlgProjectLicence.h"
 #include "ui_DlgProjectInformation.h"
 
 #include "MainWindow.h"
@@ -59,13 +60,6 @@ using namespace Gui::Dialog;
 
 /* TRANSLATOR Gui::Dialog::DlgProjectInformationImp */
 
-/**
- *  Constructs a Gui::Dialog::DlgProjectInformationImp as a child of 'parent', with the
- *  name 'name' and widget flags set to 'fl'.
- *
- *  The dialog will by default be modeless, unless you set 'modal' to
- *  true to construct a modal dialog.
- */
 DlgProjectInformationImp::DlgProjectInformationImp(App::Document* doc,
                                                    QWidget* parent,
                                                    Qt::WindowFlags fl)
@@ -93,6 +87,8 @@ DlgProjectInformationImp::DlgProjectInformationImp(App::Document* doc,
     ui->lineEditLastMod->setText(QString::fromUtf8(doc->LastModifiedBy.getValue()));
     ui->lineEditLastModDate->setText(convertISODate(doc->LastModifiedDate.getValue()));
     ui->lineEditCompany->setText(QString::fromUtf8(doc->Company.getValue()));
+
+    ui->pushButtonLicenses->setToolTip(tr("Add more licenses to the project file"));
 
     // Load comboBox with unit systems
     int num = static_cast<int>(Base::UnitSystem::NumUnitSystemTypes);
@@ -135,11 +131,10 @@ DlgProjectInformationImp::DlgProjectInformationImp(App::Document* doc,
             this, &DlgProjectInformationImp::open_url);
     connect(ui->comboLicense, qOverload<int>(&QComboBox::currentIndexChanged),
             this, &DlgProjectInformationImp::onLicenseTypeChanged);
+    connect(ui->pushButtonLicenses, &QPushButton::clicked,
+            this, &DlgProjectInformationImp::onMoreLicenses);
 }
 
-/**
- *  Destroys the object and frees any allocated resources
- */
 DlgProjectInformationImp::~DlgProjectInformationImp()
 {
     // no need to delete child widgets, Qt does it all for us
@@ -180,6 +175,12 @@ void DlgProjectInformationImp::onLicenseTypeChanged(int index)
                          : _doc->LicenseURL.getValue()};
 
     ui->lineEditLicenseURL->setText(QString::fromLatin1(url));
+}
+
+void DlgProjectInformationImp::onMoreLicenses()
+{
+    DlgProjectLicence dlg(_doc, this);
+    dlg.exec();
 }
 
 /**

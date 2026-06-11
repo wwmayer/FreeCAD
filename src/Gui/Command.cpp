@@ -781,13 +781,15 @@ void Command::_copyVisual(const char *file, int line, const char* to, const char
     _copyVisual(file,line,to,attr,from,attr);
 }
 
-void Command::_copyVisual(const char *file, int line, const char* to, const char* attr_to, const char* from, const char* attr_from)
+void Command::_copyVisual(const char *file, int line,
+                          const char* to, const char* attr_to,
+                          const char* from, const char* attr_from)
 {
-    auto doc = App::GetApplication().getActiveDocument();
-    if(!doc)
-        return;
-    return _copyVisual(file,line,doc->getObject(to),attr_to,
-            doc->getObject(from),attr_from);
+    if (auto doc = App::GetApplication().getActiveDocument()) {
+        auto dst = doc->getObject(to);
+        auto src = doc->getObject(from);
+        _copyVisual(file, line, dst, attr_to, src, attr_from);
+    }
 }
 
 void Command::_copyVisual(const char *file, int line, const App::DocumentObject *to, const char* attr_to, const App::DocumentObject *from, const char *attr_from)

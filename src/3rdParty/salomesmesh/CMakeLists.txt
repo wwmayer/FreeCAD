@@ -96,6 +96,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_CURRENT_BINARY_DIR}
     ${Boost_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}/src/3rdParty/occ
     ${OCC_INCLUDE_DIR}
     ${NGLIB_INCLUDE_DIR}
     ${NETGEN_INCLUDE_DIRS}

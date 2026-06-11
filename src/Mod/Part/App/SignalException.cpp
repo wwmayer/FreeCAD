@@ -63,7 +63,7 @@ static OSD_SignalMode OSD_WasSetSignal = OSD_SignalMode_AsIs;  // NOLINT
 
 static void SegvHandler(const int              theSignal,
                         siginfo_t*             theSigInfo,
-                        const Standard_Address theContext)
+                        void* theContext)
 {
     std::cerr << "\nStacktrace:" << std::endl;
     std::cerr << "SIGSEGV signal raised: " << theSignal << std::endl;
@@ -83,7 +83,7 @@ static void SegvHandler(const int              theSignal,
 
 static void throw_exc(const int theSignal,
                       siginfo_t* /*theSigInfo*/,
-                      const Standard_Address /*theContext*/)
+                      void* /*theContext*/)
 {
     struct sigaction oldact;
     struct sigaction act;

@@ -326,8 +326,7 @@ PyObject* BSplineCurve2dPy::getKnots(PyObject * args)
     try {
         Handle(Geom2d_BSplineCurve) curve = Handle(Geom2d_BSplineCurve)::DownCast
             (getGeometry2dPtr()->handle());
-        TColStd_Array1OfReal w(1,curve->NbKnots());
-        curve->Knots(w);
+        const TColStd_Array1OfReal& w = curve->Knots();
         Py::List knots;
         for (int i=w.Lower(); i<=w.Upper(); i++) {
             knots.append(Py::Float(w(i)));
@@ -390,8 +389,7 @@ PyObject* BSplineCurve2dPy::getPoles(PyObject * args)
     try {
         Handle(Geom2d_BSplineCurve) curve = Handle(Geom2d_BSplineCurve)::DownCast
             (getGeometry2dPtr()->handle());
-        TColgp_Array1OfPnt2d p(1, (int)curve->NbPoles());
-        curve->Poles(p);
+        const TColgp_Array1OfPnt2d& p = curve->Poles();
 
         Py::List poles;
         for (int i=p.Lower(); i<=p.Upper(); i++) {
@@ -413,15 +411,13 @@ PyObject* BSplineCurve2dPy::getPolesAndWeights(PyObject * args)
     try {
         Handle(Geom2d_BSplineCurve) curve = Handle(Geom2d_BSplineCurve)::DownCast
             (getGeometry2dPtr()->handle());
-        TColgp_Array1OfPnt2d p(1,curve->NbPoles());
-        curve->Poles(p);
-        TColStd_Array1OfReal w(1,curve->NbPoles());
-        curve->Weights(w);
+        const TColgp_Array1OfPnt2d& p = curve->Poles();
+        const TColStd_Array1OfReal* w = curve->Weights();
 
         Py::List poles;
         for (int i=p.Lower(); i<=p.Upper(); i++) {
             gp_Pnt2d pnt = p(i);
-            double weight = w(i);
+            double weight = w ? (*w)(i) : 1.0;
             Py::Tuple t(3);
             t.setItem(0, Py::Float(pnt.X()));
             t.setItem(1, Py::Float(pnt.Y()));
@@ -480,11 +476,18 @@ PyObject* BSplineCurve2dPy::getWeights(PyObject * args)
     try {
         Handle(Geom2d_BSplineCurve) curve = Handle(Geom2d_BSplineCurve)::DownCast
             (getGeometry2dPtr()->handle());
-        TColStd_Array1OfReal w(1,curve->NbPoles());
-        curve->Weights(w);
         Py::List weights;
-        for (int i=w.Lower(); i<=w.Upper(); i++) {
-            weights.append(Py::Float(w(i)));
+        if (const TColStd_Array1OfReal* w = curve->Weights()) {
+            for (int i = w->Lower(); i <= w->Upper(); i++) {
+                weights.append(Py::Float((*w)(i)));
+            }
+        }
+        else {
+            int numPoles = curve->NbPoles();
+            Py::Float value(1.0);
+            for (int i = 0; i < numPoles; i++) {
+                weights.append(value);
+            }
         }
         return Py::new_reference_to(weights);
     }
@@ -607,8 +610,7 @@ PyObject* BSplineCurve2dPy::getMultiplicities(PyObject * args)
     try {
         Handle(Geom2d_BSplineCurve) curve = Handle(Geom2d_BSplineCurve)::DownCast
             (getGeometry2dPtr()->handle());
-        TColStd_Array1OfInteger m(1,curve->NbKnots());
-        curve->Multiplicities(m);
+        const TColStd_Array1OfInteger& m = curve->Multiplicities();
         Py::List mults;
         for (int i=m.Lower(); i<=m.Upper(); i++) {
             mults.append(Py::Long(m(i)));
@@ -683,19 +685,7 @@ Py::List BSplineCurve2dPy::getKnotSequence() const
 {
     Handle(Geom2d_BSplineCurve) curve = Handle(Geom2d_BSplineCurve)::DownCast
         (getGeometry2dPtr()->handle());
-    int m = 0;
-    if (curve->IsPeriodic()) {
-        // knots=poles+2*degree-mult(1)+2
-        m = (int)(curve->NbPoles() + 2*curve->Degree() - curve->Multiplicity(1) + 2);
-    }
-    else {
-        // knots=poles+degree+1
-        for (int i=1; i<= curve->NbKnots(); i++)
-            m += (int)curve->Multiplicity(i);
-    }
-
-    TColStd_Array1OfReal k(1,m);
-    curve->KnotSequence(k);
+    const TColStd_Array1OfReal& k = curve->KnotSequence();
     Py::List list;
     for (int i=k.Lower(); i<=k.Upper(); i++) {
         list.append(Py::Float(k(i)));

@@ -45,7 +45,7 @@ protected:
     //@}
 };
 
-class PartExport MultiFuse : public Part::Feature
+class PartExport MultiFuse : public BooleanBase
 {
     PROPERTY_HEADER_WITH_OVERRIDE(Part::MultiFuse);
 
@@ -53,8 +53,6 @@ public:
     MultiFuse();
 
     App::PropertyLinkList Shapes;
-    PropertyShapeHistory History;
-    App::PropertyBool Refine;
 
     /** @name methods override feature */
     //@{
