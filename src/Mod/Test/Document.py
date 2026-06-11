@@ -630,6 +630,48 @@ class DocumentBasicCases(unittest.TestCase):
         self.assertEqual(ext.Link, obj)
         self.assertNotEqual(ext.Link, sli)
 
+    def testIssue29818(self):
+        if not FreeCAD.GuiUp:
+            return
+
+        class _Test:
+            def __init__(self,obj):
+                obj.addProperty("App::PropertyLink","Base")
+                obj.Proxy = self
+
+            def execute(self,obj):
+                pass
+
+        class _ViewProviderTest:
+            def __init__(self,obj):
+                obj.Proxy = self
+                self.Object = obj.Object
+
+            def claimChildren(self):
+                return [self.Object.Base]
+
+            def attach(self,vobj):
+                self.Object = vobj.Object
+
+        doc = self.Doc
+        obj = doc.addObject("App::FeaturePython","Label01")
+        box = doc.addObject("App::FeaturePython","Label02")
+
+        _Test(obj)
+        obj.Base = box
+
+        _ViewProviderTest(obj.ViewObject)
+        doc.recompute()
+
+        # Change label from Label01 to Label00
+        obj.Label = "Label00"
+        self.assertEqual(obj.Label, "Label00")
+
+        # Change label from Label02 to Label01
+        box.Label = "Label01"
+        self.assertEqual(box.Label, "Label01")
+
+
     def testIssue4823(self):
         # https://forum.freecad.org/viewtopic.php?f=3&t=52775
         # The issue was only visible in GUI mode and it crashed in the tree view
