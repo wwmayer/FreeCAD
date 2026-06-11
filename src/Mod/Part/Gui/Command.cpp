@@ -1101,12 +1101,16 @@ void CmdPartMakeSolid::activated(int iMsg)
     Q_UNUSED(iMsg);
     std::vector<App::DocumentObject*> objs = Gui::Selection().getObjectsOfType
         (App::DocumentObject::getClassTypeId(), nullptr, Gui::ResolveMode::FollowLink);
-    runCommand(Doc, "import Part");
+    addModule(Doc, "Part");
+    openCommand("Make solid");
     for (auto it : objs) {
         const TopoDS_Shape& shape = Part::Feature::getShape(it);
         if (!shape.IsNull()) {
             TopAbs_ShapeEnum type = shape.ShapeType();
             QString str;
+            QString name = QString::fromUtf8(it->getNameInDocument());
+            QString label = QString::fromUtf8(it->Label.getValue());
+            label = Base::Tools::escapeEncodeString(label);
             if (type == TopAbs_SOLID) {
                 Base::Console().Message("%s is ignored because it is already a solid.\n",
                     it->Label.getValue());
@@ -1120,8 +1124,7 @@ void CmdPartMakeSolid::activated(int iMsg)
                     "__o__.Shape=__s__\n"
                     "del __s__, __o__"
                     )
-                    .arg(QString::fromUtf8(it->getNameInDocument()),
-                         QString::fromUtf8(it->Label.getValue()));
+                    .arg(name, label);
             }
             else if (type == TopAbs_SHELL) {
                 str = QStringLiteral(
@@ -1132,8 +1135,7 @@ void CmdPartMakeSolid::activated(int iMsg)
                     "__o__.Shape=__s__\n"
                     "del __s__, __o__"
                     )
-                    .arg(QString::fromUtf8(it->getNameInDocument()),
-                         QString::fromUtf8(it->Label.getValue()));
+                    .arg(name, label);
             }
             else {
                 Base::Console().Message("%s is ignored because it is neither a shell nor a compound.\n",
@@ -1141,8 +1143,9 @@ void CmdPartMakeSolid::activated(int iMsg)
             }
 
             try {
-                if (!str.isEmpty())
+                if (!str.isEmpty()) {
                     runCommand(Doc, str.toUtf8());
+                }
             }
             catch (const Base::Exception& e) {
                 Base::Console().Error("Cannot convert %s because %s.\n",
@@ -1150,6 +1153,8 @@ void CmdPartMakeSolid::activated(int iMsg)
             }
         }
     }
+
+    commitCommand();
 }
 
 bool CmdPartMakeSolid::isActive()
@@ -1187,15 +1192,17 @@ void CmdPartReverseShape::activated(int iMsg)
             name += "_rev";
             name = getUniqueObjectName(name.c_str());
 
+            QString label = QString::fromUtf8(it->Label.getValue());
+            label = Base::Tools::escapeEncodeString(label);
             QString str = QStringLiteral(
                 "__o__=App.ActiveDocument.addObject(\"Part::Reverse\",\"%1\")\n"
                 "__o__.Source=App.ActiveDocument.%2\n"
                 "__o__.Label=\"%3 (Rev)\"\n"
                 "del __o__"
                 )
-                .arg(QString::fromUtf8(name.c_str()),
+                .arg(QString::fromStdString(name),
                      QString::fromUtf8(it->getNameInDocument()),
-                     QString::fromUtf8(it->Label.getValue()));
+                     label);
 
             try {
                 runCommand(Doc, str.toUtf8());

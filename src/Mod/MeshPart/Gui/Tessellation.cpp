@@ -327,6 +327,7 @@ void Tessellation::process(int method,
             }
 
             QString label = QString::fromUtf8(sobj->Label.getValue());
+            label = Base::Tools::escapeEncodeString(label);
 
             QString param = getMeshingParameters(method, sobj);
 
