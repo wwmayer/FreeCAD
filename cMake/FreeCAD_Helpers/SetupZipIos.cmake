@@ -18,10 +18,16 @@ macro(SetupZipIos)
         set(ZIPIOS_INCLUDES ${CMAKE_SOURCE_DIR}/src/3rdParty)
         SET(zipios_SRCS
             ${ZIPIOS_INCLUDES}/zipios++/backbuffer.h
+            ${ZIPIOS_INCLUDES}/zipios++/basicentry.cpp
+            ${ZIPIOS_INCLUDES}/zipios++/basicentry.h
             ${ZIPIOS_INCLUDES}/zipios++/collcoll.cpp
             ${ZIPIOS_INCLUDES}/zipios++/collcoll.h
             ${ZIPIOS_INCLUDES}/zipios++/deflateoutputstreambuf.cpp
             ${ZIPIOS_INCLUDES}/zipios++/deflateoutputstreambuf.h
+            ${ZIPIOS_INCLUDES}/zipios++/dircoll.cpp
+            ${ZIPIOS_INCLUDES}/zipios++/dircoll.h
+            ${ZIPIOS_INCLUDES}/zipios++/directory.cpp
+            ${ZIPIOS_INCLUDES}/zipios++/directory.h
             ${ZIPIOS_INCLUDES}/zipios++/fcoll.cpp
             ${ZIPIOS_INCLUDES}/zipios++/fcoll.h
             ${ZIPIOS_INCLUDES}/zipios++/fcollexceptions.cpp
