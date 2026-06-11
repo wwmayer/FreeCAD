@@ -140,10 +140,6 @@
             "type": "BOOL",
             "value": "OFF"
           },
-          "FREECAD_USE_EXTERNAL_FMT": {
-            "type": "BOOL",
-            "value": "ON"
-          },
           "FREECAD_USE_EXTERNAL_SMESH": {
             "type": "BOOL",
             "value": "ON"
