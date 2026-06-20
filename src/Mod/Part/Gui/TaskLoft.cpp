@@ -180,6 +180,9 @@ bool LoftWidget::accept()
         closed = QStringLiteral("False");
 
     QTextStream str(&list);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    str.setCodec("UTF-8");
+#endif
 
     int count = d->ui.selector->selectedTreeWidget()->topLevelItemCount();
     if (count < 2) {
@@ -189,12 +192,12 @@ bool LoftWidget::accept()
     for (int i=0; i<count; i++) {
         QTreeWidgetItem* child = d->ui.selector->selectedTreeWidget()->topLevelItem(i);
         QString name = child->data(0, Qt::UserRole).toString();
-        str << "App.getDocument('" << d->document.c_str() << "')." << name << ", ";
+        str << "App.getDocument('" << QString::fromStdString(d->document) << "')." << name << ", ";
     }
 
     try {
         QString cmd;
-        cmd = QStringLiteral(
+        cmd = QString::fromUtf8(
             "App.getDocument('%5').addObject('Part::Loft','Loft')\n"
             "App.getDocument('%5').ActiveObject.Sections=[%1]\n"
             "App.getDocument('%5').ActiveObject.Solid=%2\n"

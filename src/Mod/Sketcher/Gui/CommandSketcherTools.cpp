@@ -228,6 +228,7 @@ bool copySelectionToClipboard(Sketcher::SketchObject* obj)
 
     // Export constraints of selected geos.
     std::vector<Sketcher::Constraint*> shapeConstraints;
+#if 0
     for (auto constr : obj->Constraints.getValues()) {
 
         auto isSelectedGeoOrAxis = [](const std::vector<int>& vec, int value) {
@@ -256,6 +257,8 @@ bool copySelectionToClipboard(Sketcher::SketchObject* obj)
         }
         shapeConstraints.push_back(temp);
     }
+#endif
+
     std::string cstrAsStr = Sketcher::PythonConverter::convert(
         "objectStr",
         shapeConstraints,
