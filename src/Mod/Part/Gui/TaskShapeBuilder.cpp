@@ -236,7 +236,8 @@ void ShapeBuilderWidget::createEdgeFromVertex()
         for (jt=it->getSubNames().begin();jt!=it->getSubNames().end();++jt) {
             QString line;
             QTextStream str(&line);
-            str << "App.ActiveDocument." << it->getFeatName() << ".Shape." << jt->c_str() << ".Point";
+            str << "App.ActiveDocument." << QString::fromUtf8(it->getFeatName())
+                << ".Shape." << jt->c_str() << ".Point";
             elements.push_back(line);
         }
     }
@@ -284,7 +285,8 @@ void ShapeBuilderWidget::createWireFromEdge()
     str << "[";
     for (it=sel.begin();it!=sel.end();++it) {
         for (jt=it->getSubNames().begin();jt!=it->getSubNames().end();++jt) {
-            str << "App.ActiveDocument." << it->getFeatName() << ".Shape." << jt->c_str() << ", ";
+            str << "App.ActiveDocument." << QString::fromUtf8(it->getFeatName())
+                << ".Shape." << jt->c_str() << ", ";
         }
     }
     str << "]";
@@ -325,7 +327,8 @@ void ShapeBuilderWidget::createFaceFromVertex()
     str << "[";
     for (it=sel.begin();it!=sel.end();++it) {
         for (jt=it->getSubNames().begin();jt!=it->getSubNames().end();++jt) {
-            str << "App.ActiveDocument." << it->getFeatName() << ".Shape." << jt->c_str() << ".Point, ";
+            str << "App.ActiveDocument." << QString::fromUtf8(it->getFeatName())
+                << ".Shape." << jt->c_str() << ".Point, ";
         }
     }
     str << "]";
@@ -377,7 +380,8 @@ void ShapeBuilderWidget::createFaceFromEdge()
     str << "[";
     for (it=sel.begin();it!=sel.end();++it) {
         for (jt=it->getSubNames().begin();jt!=it->getSubNames().end();++jt) {
-            str << "App.ActiveDocument." << it->getFeatName() << ".Shape." << jt->c_str() << ", ";
+            str << "App.ActiveDocument." << QString::fromUtf8(it->getFeatName())
+                << ".Shape." << jt->c_str() << ", ";
         }
     }
     str << "]";
@@ -430,14 +434,17 @@ void ShapeBuilderWidget::createShellFromFace()
             obj.insert(it.getObject());
         str << "[]";
         for (auto it : obj) {
-            str << "+ App.ActiveDocument." << it->getNameInDocument() << ".Shape.Faces";
+            str << "+ App.ActiveDocument."
+                << QString::fromUtf8(it->getNameInDocument())
+                << ".Shape.Faces";
         }
     }
     else {
         str << "[";
         for (const auto& it : sel) {
             for (const auto& jt : it.getSubNames()) {
-                str << "App.ActiveDocument." << it.getFeatName() << ".Shape." << jt.c_str() << ", ";
+                str << "App.ActiveDocument." << QString::fromUtf8(it.getFeatName())
+                    << ".Shape." << jt.c_str() << ", ";
             }
         }
         str << "]";
@@ -487,7 +494,7 @@ void ShapeBuilderWidget::createSolidFromShell()
     std::vector<Gui::SelectionObject> sel = partFilter.Result[0];
     std::vector<Gui::SelectionObject>::iterator it;
     for (it=sel.begin();it!=sel.end();++it) {
-        str << "App.ActiveDocument." << it->getFeatName() << ".Shape";
+        str << "App.ActiveDocument." << QString::fromUtf8(it->getFeatName()) << ".Shape";
         break;
     }
 
