@@ -59,6 +59,7 @@
 #include <Mod/Part/App/FaceMakerCheese.h>
 #include <Mod/Part/App/TopoShapeMapper.h>
 #include <Mod/Part/App/TopoShapeOpCode.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "FeatureHole.h"
 #include "json.hpp"
@@ -2057,12 +2058,12 @@ App::DocumentObjectExecReturn* Hole::execute()
             if (base.isNull())
                 result = compound;
             else
-                result.makeElementBoolean(maker, {base,compound});
+                result.makeElementBoolean(maker, {base, compound}, nullptr, FuzzyTolerance.getValue());
             result = getSolid(result);
             retry = false;
         } catch (Standard_Failure & e) {
             FC_WARN(getFullName() << ": boolean operation with compound failed ("
-                                  << e.GetMessageString() << "), retry...");
+                                  << Part::toString(e) << "), retry...");
         } catch (Base::Exception & e)  {
             FC_WARN(getFullName() << ": boolean operation with compound failed ("
                                   << e.what() << "), retry...");
@@ -2073,7 +2074,7 @@ App::DocumentObjectExecReturn* Hole::execute()
             for (auto & hole : holes) {
                 ++i;
                 try {
-                    result.makeElementBoolean(maker, {base,hole});
+                    result.makeElementBoolean(maker, {base, hole}, nullptr, FuzzyTolerance.getValue());
                 } catch (Standard_Failure &) {
                     std::string msg(QT_TRANSLATE_NOOP("Exception", "Boolean operation failed on profile Edge"));
                     msg += std::to_string(i);
@@ -2104,7 +2105,7 @@ App::DocumentObjectExecReturn* Hole::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-        if (std::string(e.GetMessageString()) == "TopoDS::Face"
+        if (std::string(Part::toString(e)) == "TopoDS::Face"
             && (std::string(DepthType.getValueAsString()) == "UpToFirst"
                 || std::string(DepthType.getValueAsString()) == "UpToFace"))
             return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP("Exception",
@@ -2112,7 +2113,7 @@ App::DocumentObjectExecReturn* Hole::execute()
                 "Intersecting sketch entities or multiple faces in a sketch are not allowed "
                 "for making a pocket up to a face."));
         else
-            return new App::DocumentObjectExecReturn(e.GetMessageString());
+            return new App::DocumentObjectExecReturn(Part::toString(e));
     }
     catch (Base::Exception& e) {
         return new App::DocumentObjectExecReturn(e.what());

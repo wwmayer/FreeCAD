@@ -78,7 +78,7 @@ int SurfaceOfRevolutionPy::PyInit(PyObject* args, PyObject* /*kwd*/)
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return -1;
     }
 }
@@ -172,7 +172,7 @@ void  SurfaceOfRevolutionPy::setBasisCurve(Py::Object arg)
             curve2->SetBasisCurve(curve);
         }
         catch (Standard_Failure& e) {
-            throw Py::RuntimeError(e.GetMessageString());
+            throw Py::RuntimeError(Part::toString(e));
         }
     }
 }

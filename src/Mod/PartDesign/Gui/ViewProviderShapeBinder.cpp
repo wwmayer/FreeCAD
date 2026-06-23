@@ -41,6 +41,7 @@
 #include <Gui/MainWindow.h>
 #include <Gui/ViewParams.h>
 #include <Mod/PartDesign/App/ShapeBinder.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "ViewProviderShapeBinder.h"
 #include "TaskShapeBinder.h"
@@ -402,7 +403,7 @@ void ViewProviderSubShapeBinder::updatePlacement(bool transaction) {
     }
     catch (Standard_Failure& e) {
         std::ostringstream str;
-        Standard_CString msg = e.GetMessageString();
+        const char* msg = Part::toString(e);
         str << typeid(e).name() << " ";
         if (msg) { str << msg; }
         else { str << "No OCCT Exception Message"; }

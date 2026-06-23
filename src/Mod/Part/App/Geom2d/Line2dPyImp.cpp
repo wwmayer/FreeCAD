@@ -34,6 +34,10 @@
 #include "OCCError.h"
 
 
+#if OCC_VERSION_HEX < 0x080000
+using GC_MakeLine2d = GCE2d_MakeLine;
+#endif
+
 using namespace Part;
 
 extern const char* gce_ErrorStatusText(gce_ErrorType et);
@@ -85,9 +89,9 @@ int Line2dPy::PyInit(PyObject* args, PyObject* /*kwd*/)
             // Create line out of two points
             double distance = (v1-v2).Length();
             if (distance < gp::Resolution())
-                Standard_Failure::Raise("Both points are equal");
-            GCE2d_MakeLine ms(gp_Pnt2d(v1.x,v1.y),
-                              gp_Pnt2d(v2.x,v2.y));
+                throw Standard_Failure("Both points are equal");
+            GC_MakeLine2d ms(gp_Pnt2d(v1.x,v1.y),
+                             gp_Pnt2d(v2.x,v2.y));
             if (!ms.IsDone()) {
                 PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(ms.Status()));
                 return -1;
@@ -102,7 +106,7 @@ int Line2dPy::PyInit(PyObject* args, PyObject* /*kwd*/)
         }
         catch (Standard_Failure& e) {
 
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
         catch (...) {
@@ -152,7 +156,7 @@ void Line2dPy::setLocation(Py::Object arg)
     }
 
     try {
-        GCE2d_MakeLine ms(pnt, dir);
+        GC_MakeLine2d ms(pnt, dir);
         if (!ms.IsDone()) {
             throw Py::RuntimeError(gce_ErrorStatusText(ms.Status()));
         }
@@ -162,7 +166,7 @@ void Line2dPy::setLocation(Py::Object arg)
         this_line->SetLin2d(that_line->Lin2d());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -200,7 +204,7 @@ void Line2dPy::setDirection(Py::Object arg)
     }
 
     try {
-        GCE2d_MakeLine ms(pnt, dir);
+        GC_MakeLine2d ms(pnt, dir);
         if (!ms.IsDone()) {
             throw Py::RuntimeError(gce_ErrorStatusText(ms.Status()));
         }
@@ -210,7 +214,7 @@ void Line2dPy::setDirection(Py::Object arg)
         this_line->SetLin2d(that_line->Lin2d());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 

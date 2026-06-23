@@ -49,9 +49,9 @@ std::string ArcOfCirclePy::representation() const
     gp_Ax1 axis = circle->Axis();
     gp_Dir dir = axis.Direction();
     gp_Pnt loc = axis.Location();
-    Standard_Real fRad = circle->Radius();
-    Standard_Real u1 = trim->FirstParameter();
-    Standard_Real u2 = trim->LastParameter();
+    double fRad = circle->Radius();
+    double u1 = trim->FirstParameter();
+    double u2 = trim->LastParameter();
 
     std::stringstream str;
     str << "ArcOfCircle (";
@@ -90,7 +90,7 @@ int ArcOfCirclePy::PyInit(PyObject* args, PyObject* /*kwds*/)
             return 0;
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
         catch (...) {

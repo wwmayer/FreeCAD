@@ -302,6 +302,7 @@ SET(FreeCADApp_HPP_SRCS
     ${Document_HPP_SRCS}
     ${Properties_HPP_SRCS}
     Application.h
+    ApplicationPy.h
     AutoTransaction.h
     Branding.h
     CleanupProcess.h

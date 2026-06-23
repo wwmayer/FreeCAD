@@ -26,8 +26,6 @@
 # pragma clang diagnostic ignored "-Wimport-preprocessor-directive-pedantic"
 #endif
 
-#include <Standard_Stream.hxx>
-
 #include <GEOMUtils.hxx>
 
 #include <Basics_OCCTVersion.hxx>
@@ -69,7 +67,6 @@
 #include <TopExp_Explorer.hxx>
 #include <TopTools_MapOfShape.hxx>
 #include <TopTools_ListOfShape.hxx>
-#include <TopTools_ListIteratorOfListOfShape.hxx>
 #include <TopTools_Array1OfShape.hxx>
 
 #include <Geom_Circle.hxx>
@@ -129,9 +126,9 @@ namespace
    *
    * \internal
    */
-  Standard_Boolean ModifyShape(const TopoDS_Shape  &theShape,
+  bool ModifyShape(const TopoDS_Shape  &theShape,
                                TopoDS_Shape  &theModifiedShape,
-                               Standard_Real &theAddDist)
+                               double &theAddDist)
   {
     TopExp_Explorer anExp;
     int nbf = 0;
@@ -153,7 +150,7 @@ namespace
       if( S->IsKind(STANDARD_TYPE(Geom_SphericalSurface)) ||
           S->IsKind(STANDARD_TYPE(Geom_ToroidalSurface)) ||
           S->IsUPeriodic()) {
-        const Standard_Boolean isShell =
+        const bool isShell =
           (sh.ShapeType()==TopAbs_SHELL || sh.ShapeType()==TopAbs_FACE);
 
         if ( !isShell && S->IsKind(STANDARD_TYPE(Geom_SphericalSurface)) ) {
@@ -164,7 +161,7 @@ namespace
           B.MakeVertex(V,PC,1.e-7);
           theModifiedShape = V;
           theAddDist = SS->Radius();
-          return Standard_True;
+          return true;
         }
         if ( !isShell && S->IsKind(STANDARD_TYPE(Geom_ToroidalSurface)) ) {
           Handle(Geom_ToroidalSurface) TS = Handle(Geom_ToroidalSurface)::DownCast(S);
@@ -175,7 +172,7 @@ namespace
           B.MakeEdge(E,C,1.e-7);
           theModifiedShape = E;
           theAddDist = TS->MinorRadius();
-          return Standard_True;
+          return true;
         }
 
         // non solid case or any periodic surface (Mantis 22454).
@@ -218,12 +215,12 @@ namespace
         sfs->SetMaxTolerance(1.0);
         sfs->Perform();
         theModifiedShape = sfs->Shape();
-        return Standard_True;
+        return true;
       }
     }
     
     theModifiedShape = theShape;
-    return Standard_False;
+    return false;
   }
 
   void parseWard( const GEOMUtils::LevelsList &theLevelList, std::string &treeStr )
@@ -403,13 +400,13 @@ gp_Ax3 GEOMUtils::GetPosition (const TopoDS_Shape& theShape)
 //purpose  :
 //=======================================================================
 gp_Vec GEOMUtils::GetVector (const TopoDS_Shape& theShape,
-                             Standard_Boolean doConsiderOrientation)
+                             bool doConsiderOrientation)
 {
   if (theShape.IsNull())
-    Standard_NullObject::Raise("Null shape is given for a vector");
+    throw Standard_NullObject("Null shape is given for a vector");
 
   if (theShape.ShapeType() != TopAbs_EDGE)
-    Standard_TypeMismatch::Raise("Invalid shape is given, must be a vector or an edge");
+    throw Standard_TypeMismatch("Invalid shape is given, must be a vector or an edge");
 
   TopoDS_Edge anE = TopoDS::Edge(theShape);
 
@@ -417,11 +414,11 @@ gp_Vec GEOMUtils::GetVector (const TopoDS_Shape& theShape,
   TopExp::Vertices(anE, V1, V2, doConsiderOrientation);
 
   if (V1.IsNull() || V2.IsNull())
-    Standard_NullObject::Raise("Invalid edge is given, it must have two points");
+    throw Standard_NullObject("Invalid edge is given, it must have two points");
 
   gp_Vec aV (BRep_Tool::Pnt(V1), BRep_Tool::Pnt(V2));
   if (aV.Magnitude() < gp::Resolution()) {
-    Standard_ConstructionError::Raise("Vector of zero length is given");
+    throw Standard_ConstructionError("Vector of zero length is given");
   }
 
   return aV;
@@ -446,16 +443,16 @@ bool GEOMUtils::CompareShapes::operator() (const TopoDS_Shape& theShape1,
   std::pair<double, double> val2 = myMap.Find(theShape2);
 
   double tol = Precision::Confusion();
-  bool exchange = Standard_False;
+  bool exchange = false;
 
   double dMidXYZ = val1.first - val2.first;
   if (dMidXYZ >= tol) {
-    exchange = Standard_True;
+    exchange = true;
   }
   else if (Abs(dMidXYZ) < tol) {
     double dLength = val1.second - val2.second;
     if (dLength >= tol) {
-      exchange = Standard_True;
+      exchange = true;
     }
     else if (Abs(dLength) < tol && theShape1.ShapeType() <= TopAbs_FACE) {
       // PAL17233
@@ -465,18 +462,18 @@ bool GEOMUtils::CompareShapes::operator() (const TopoDS_Shape& theShape1,
       BRepBndLib::Add(theShape1, box1);
       if (!box1.IsVoid()) {
         BRepBndLib::Add(theShape2, box2);
-        Standard_Real dSquareExtent = box1.SquareExtent() - box2.SquareExtent();
+        double dSquareExtent = box1.SquareExtent() - box2.SquareExtent();
         if (dSquareExtent >= tol) {
-          exchange = Standard_True;
+          exchange = true;
         }
         else if (Abs(dSquareExtent) < tol) {
-          Standard_Real aXmin, aYmin, aZmin, aXmax, aYmax, aZmax, val1, val2;
+          double aXmin, aYmin, aZmin, aXmax, aYmax, aZmax, val1, val2;
           box1.Get(aXmin, aYmin, aZmin, aXmax, aYmax, aZmax);
           val1 = (aXmin+aXmax)*999.0 + (aYmin+aYmax)*99.0 + (aZmin+aZmax)*0.9;
           box2.Get(aXmin, aYmin, aZmin, aXmax, aYmax, aZmax);
           val2 = (aXmin+aXmax)*999.0 + (aYmin+aYmax)*99.0 + (aZmin+aZmax)*0.9;
           if ((val1 - val2) >= tol) {
-            exchange = Standard_True;
+            exchange = true;
           }
         }
       }
@@ -492,7 +489,7 @@ bool GEOMUtils::CompareShapes::operator() (const TopoDS_Shape& theShape1,
 //purpose  :
 //=======================================================================
 void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
-                            const Standard_Boolean isOldSorting)
+                            const bool isOldSorting)
 {
 #ifdef STD_SORT_ALGO
   std::vector<TopoDS_Shape> aShapesVec;
@@ -514,14 +511,14 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
   }
 #else
   // old implementation
-  Standard_Integer MaxShapes = SL.Extent();
+  int MaxShapes = SL.Extent();
   TopTools_Array1OfShape  aShapes (1,MaxShapes);
   TColStd_Array1OfInteger OrderInd(1,MaxShapes);
   TColStd_Array1OfReal    MidXYZ  (1,MaxShapes); //X,Y,Z;
   TColStd_Array1OfReal    Length  (1,MaxShapes); //X,Y,Z;
 
   // Computing of CentreOfMass
-  Standard_Integer Index;
+  int Index;
   GProp_GProps GPr;
   gp_Pnt GPoint;
   TopTools_ListIteratorOfListOfShape it(SL);
@@ -533,7 +530,7 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
     OrderInd.SetValue (Index, Index);
     if (S.ShapeType() == TopAbs_VERTEX) {
       GPoint = BRep_Tool::Pnt( TopoDS::Vertex( S ));
-      Length.SetValue( Index, (Standard_Real) S.Orientation());
+      Length.SetValue( Index, (double) S.Orientation());
     }
     else {
       // BEGIN: fix for Mantis issue 0020842
@@ -560,26 +557,26 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
   }
 
   // Sorting
-  Standard_Integer aTemp;
-  Standard_Boolean exchange, Sort = Standard_True;
-  Standard_Real    tol = Precision::Confusion();
+  int aTemp;
+  bool exchange, Sort = true;
+  double    tol = Precision::Confusion();
   while (Sort)
   {
-    Sort = Standard_False;
+    Sort = false;
     for (Index=1; Index < MaxShapes; Index++)
     {
-      exchange = Standard_False;
-      Standard_Real dMidXYZ = MidXYZ(OrderInd(Index)) - MidXYZ(OrderInd(Index+1));
-      Standard_Real dLength = Length(OrderInd(Index)) - Length(OrderInd(Index+1));
+      exchange = false;
+      double dMidXYZ = MidXYZ(OrderInd(Index)) - MidXYZ(OrderInd(Index+1));
+      double dLength = Length(OrderInd(Index)) - Length(OrderInd(Index+1));
       if ( dMidXYZ >= tol ) {
 //         cout << "MidXYZ: " << MidXYZ(OrderInd(Index))<< " > " <<MidXYZ(OrderInd(Index+1))
 //              << " d: " << dMidXYZ << endl;
-        exchange = Standard_True;
+        exchange = true;
       }
       else if ( Abs(dMidXYZ) < tol && dLength >= tol ) {
 //         cout << "Length: " << Length(OrderInd(Index))<< " > " <<Length(OrderInd(Index+1))
 //              << " d: " << dLength << endl;
-        exchange = Standard_True;
+        exchange = true;
       }
       else if ( Abs(dMidXYZ) < tol && Abs(dLength) < tol &&
                 aShapes(OrderInd(Index)).ShapeType() <= TopAbs_FACE) {
@@ -590,20 +587,20 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
         BRepBndLib::Add( aShapes( OrderInd(Index) ), box1 );
         if ( box1.IsVoid() ) continue;
         BRepBndLib::Add( aShapes( OrderInd(Index+1) ), box2 );
-        Standard_Real dSquareExtent = box1.SquareExtent() - box2.SquareExtent();
+        double dSquareExtent = box1.SquareExtent() - box2.SquareExtent();
         if ( dSquareExtent >= tol ) {
 //           cout << "SquareExtent: " << box1.SquareExtent()<<" > "<<box2.SquareExtent() << endl;
-          exchange = Standard_True;
+          exchange = true;
         }
         else if ( Abs(dSquareExtent) < tol ) {
-          Standard_Real aXmin, aYmin, aZmin, aXmax, aYmax, aZmax, val1, val2;
+          double aXmin, aYmin, aZmin, aXmax, aYmax, aZmax, val1, val2;
           box1.Get(aXmin, aYmin, aZmin, aXmax, aYmax, aZmax);
           val1 = (aXmin+aXmax)*999 + (aYmin+aYmax)*99 + (aZmin+aZmax)*0.9;
           box2.Get(aXmin, aYmin, aZmin, aXmax, aYmax, aZmax);
           val2 = (aXmin+aXmax)*999 + (aYmin+aYmax)*99 + (aZmin+aZmax)*0.9;
           //exchange = val1 > val2;
           if ((val1 - val2) >= tol) {
-            exchange = Standard_True;
+            exchange = true;
           }
           //cout << "box: " << val1<<" > "<<val2 << endl;
         }
@@ -615,7 +612,7 @@ void GEOMUtils::SortShapes (TopTools_ListOfShape& SL,
         aTemp = OrderInd(Index);
         OrderInd(Index) = OrderInd(Index+1);
         OrderInd(Index+1) = aTemp;
-        Sort = Standard_True;
+        Sort = true;
       }
     }
   }
@@ -640,7 +637,7 @@ TopoDS_Shape GEOMUtils::CompsolidToCompound (const TopoDS_Shape& theCompsolid)
   B.MakeCompound(aCompound);
 
   TopTools_MapOfShape mapShape;
-  TopoDS_Iterator It (theCompsolid, Standard_True, Standard_True);
+  TopoDS_Iterator It (theCompsolid, true, true);
 
   for (; It.More(); It.Next()) {
     TopoDS_Shape aShape_i = It.Value();
@@ -665,7 +662,7 @@ void GEOMUtils::AddSimpleShapes (const TopoDS_Shape& theShape, TopTools_ListOfSh
   }
 
   TopTools_MapOfShape mapShape;
-  TopoDS_Iterator It (theShape, Standard_True, Standard_True);
+  TopoDS_Iterator It (theShape, true, true);
 
   for (; It.More(); It.Next()) {
     TopoDS_Shape aShape_i = It.Value();
@@ -713,18 +710,18 @@ bool GEOMUtils::CheckTriangulation (const TopoDS_Shape& aShape)
 
   if (!isTriangulation) {
     // calculate deflection
-    Standard_Real aDeviationCoefficient = 0.001;
+    double aDeviationCoefficient = 0.001;
 
     Bnd_Box B;
     BRepBndLib::Add(aShape, B);
-    Standard_Real aXmin, aYmin, aZmin, aXmax, aYmax, aZmax;
+    double aXmin, aYmin, aZmin, aXmax, aYmax, aZmax;
     B.Get(aXmin, aYmin, aZmin, aXmax, aYmax, aZmax);
 
-    Standard_Real dx = aXmax - aXmin, dy = aYmax - aYmin, dz = aZmax - aZmin;
-    Standard_Real aDeflection = Max(Max(dx, dy), dz) * aDeviationCoefficient * 4;
-    Standard_Real aHLRAngle = 0.349066;
+    double dx = aXmax - aXmin, dy = aYmax - aYmin, dz = aZmax - aZmin;
+    double aDeflection = Max(Max(dx, dy), dz) * aDeviationCoefficient * 4;
+    double aHLRAngle = 0.349066;
 
-    BRepMesh_IncrementalMesh Inc (aShape, aDeflection, Standard_False, aHLRAngle);
+    BRepMesh_IncrementalMesh Inc (aShape, aDeflection, false, aHLRAngle);
   }
 
   return true;
@@ -743,7 +740,7 @@ TopAbs_ShapeEnum GEOMUtils::GetTypeOfSimplePart (const TopoDS_Shape& theShape)
   else if (aType == TopAbs_SOLID || aType == TopAbs_COMPSOLID) return TopAbs_SOLID;
   else if (aType == TopAbs_COMPOUND) {
     // Only the iType of the first shape in the compound is taken into account
-    TopoDS_Iterator It (theShape, Standard_False, Standard_False);
+    TopoDS_Iterator It (theShape, false, false);
     if (It.More()) {
       return GetTypeOfSimplePart(It.Value());
     }
@@ -762,7 +759,7 @@ TopoDS_Shape GEOMUtils::GetEdgeNearPoint (const TopoDS_Shape& theShape,
 
   // 1. Explode the shape on edges
   TopTools_MapOfShape mapShape;
-  Standard_Integer nbEdges = 0;
+  int nbEdges = 0;
   TopExp_Explorer exp (theShape, TopAbs_EDGE);
   for (; exp.More(); exp.Next()) {
     if (mapShape.Add(exp.Current())) {
@@ -771,10 +768,10 @@ TopoDS_Shape GEOMUtils::GetEdgeNearPoint (const TopoDS_Shape& theShape,
   }
 
   if (nbEdges == 0)
-    Standard_NullObject::Raise("Given shape contains no edges");
+    throw Standard_NullObject("Given shape contains no edges");
 
   mapShape.Clear();
-  Standard_Integer ind = 1;
+  int ind = 1;
   TopTools_Array1OfShape anEdges (1, nbEdges);
   TColStd_Array1OfReal aDistances (1, nbEdges);
   for (exp.Init(theShape, TopAbs_EDGE); exp.More(); exp.Next()) {
@@ -785,7 +782,7 @@ TopoDS_Shape GEOMUtils::GetEdgeNearPoint (const TopoDS_Shape& theShape,
       // 2. Classify the point relatively each edge
       BRepExtrema_DistShapeShape aDistTool (thePoint, anEdges(ind));
       if (!aDistTool.IsDone())
-        Standard_ConstructionError::Raise("Cannot find a distance from the given point to one of edges");
+        throw Standard_ConstructionError("Cannot find a distance from the given point to one of edges");
 
       aDistances(ind) = aDistTool.Value();
       ind++;
@@ -793,8 +790,8 @@ TopoDS_Shape GEOMUtils::GetEdgeNearPoint (const TopoDS_Shape& theShape,
   }
 
   // 3. Define edge, having minimum distance to the point
-  Standard_Real nearest = RealLast(), nbFound = 0;
-  Standard_Real prec = Precision::Confusion();
+  double nearest = RealLast(), nbFound = 0;
+  double prec = Precision::Confusion();
   for (ind = 1; ind <= nbEdges; ind++) {
     if (Abs(aDistances(ind) - nearest) < prec) {
       nbFound++;
@@ -808,10 +805,10 @@ TopoDS_Shape GEOMUtils::GetEdgeNearPoint (const TopoDS_Shape& theShape,
     }
   }
   if (nbFound > 1) {
-    Standard_ConstructionError::Raise("Multiple edges near the given point are found");
+    throw Standard_ConstructionError("Multiple edges near the given point are found");
   }
   else if (nbFound == 0) {
-    Standard_ConstructionError::Raise("There are no edges near the given point");
+    throw Standard_ConstructionError("There are no edges near the given point");
   }
   else {
   }
@@ -823,16 +820,16 @@ TopoDS_Shape GEOMUtils::GetEdgeNearPoint (const TopoDS_Shape& theShape,
 //function : PreciseBoundingBox
 //purpose  : 
 //=======================================================================
-Standard_Boolean GEOMUtils::PreciseBoundingBox
+bool GEOMUtils::PreciseBoundingBox
                           (const TopoDS_Shape &theShape, Bnd_Box &theBox)
 {
   if ( theBox.IsVoid() ) BRepBndLib::Add( theShape, theBox );
-  if ( theBox.IsVoid() ) return Standard_False;
+  if ( theBox.IsVoid() ) return false;
 
-  Standard_Real aBound[6];
+  double aBound[6];
   theBox.Get(aBound[0], aBound[2], aBound[4], aBound[1], aBound[3], aBound[5]);
 
-  Standard_Integer i;
+  int i;
   const gp_Pnt aMid(0.5*(aBound[1] + aBound[0]),  // XMid
                     0.5*(aBound[3] + aBound[2]),  // YMid
                     0.5*(aBound[5] + aBound[4])); // ZMid
@@ -849,7 +846,7 @@ Standard_Boolean GEOMUtils::PreciseBoundingBox
       gp_Pnt(aMid.X(), aMid.Y(), aBound[5] + (aBound[5] - aBound[4]))  // ZMax
     };
   const gp_Dir aDir[3] = { gp::DX(), gp::DY(), gp::DZ() };
-  const Standard_Real aPlnSize[3] =
+  const double aPlnSize[3] =
     {
       0.5*Max(aSize.Y(), aSize.Z()), // XMin, XMax planes
       0.5*Max(aSize.X(), aSize.Z()), // YMin, YMax planes
@@ -858,23 +855,23 @@ Standard_Boolean GEOMUtils::PreciseBoundingBox
   gp_Pnt aPMin[2];
 
   for (i = 0; i < 6; i++) {
-    const Standard_Integer iHalf = i/2;
+    const int iHalf = i/2;
     const gp_Pln aPln(aPnt[i], aDir[iHalf]);
     BRepBuilderAPI_MakeFace aMkFace(aPln, -aPlnSize[iHalf], aPlnSize[iHalf],
                                     -aPlnSize[iHalf], aPlnSize[iHalf]);
 
     if (!aMkFace.IsDone()) {
-      return Standard_False;
+      return false;
     }
 
     TopoDS_Shape aFace = aMkFace.Shape();
 
     // Get minimal distance between planar face and shape.
-    Standard_Real aMinDist =
+    double aMinDist =
       GEOMUtils::GetMinDistance(aFace, theShape, aPMin[0], aPMin[1]);
 
     if (aMinDist < 0.) {
-      return Standard_False;
+      return false;
     }
 
     aBound[i] = aPMin[1].Coord(iHalf + 1);
@@ -884,7 +881,7 @@ Standard_Boolean GEOMUtils::PreciseBoundingBox
   theBox.SetVoid();
   theBox.Update(aBound[0], aBound[2], aBound[4], aBound[1], aBound[3], aBound[5]);
 
-  return Standard_True;
+  return true;
 }
 
 //=======================================================================
@@ -897,10 +894,10 @@ double GEOMUtils::GetMinDistanceSingular(const TopoDS_Shape& aSh1,
 {
   TopoDS_Shape     tmpSh1;
   TopoDS_Shape     tmpSh2;
-  Standard_Real    AddDist1 = 0.;
-  Standard_Real    AddDist2 = 0.;
-  Standard_Boolean IsChange1 = ModifyShape(aSh1, tmpSh1, AddDist1);
-  Standard_Boolean IsChange2 = ModifyShape(aSh2, tmpSh2, AddDist2);
+  double    AddDist1 = 0.;
+  double    AddDist2 = 0.;
+  bool IsChange1 = ModifyShape(aSh1, tmpSh1, AddDist1);
+  bool IsChange2 = ModifyShape(aSh2, tmpSh2, AddDist2);
 
   if( !IsChange1 && !IsChange2 )
     return -2.0;
@@ -912,7 +909,7 @@ double GEOMUtils::GetMinDistanceSingular(const TopoDS_Shape& aSh1,
     for (int i = 1; i <= dst.NbSolution(); i++) {
       P1 = dst.PointOnShape1(i);
       P2 = dst.PointOnShape2(i);
-      Standard_Real Dist = P1.Distance(P2);
+      double Dist = P1.Distance(P2);
       if (MinDist > Dist) {
         MinDist = Dist;
         PMin1 = P1;
@@ -960,12 +957,12 @@ double GEOMUtils::GetMinDistanceSingular(const TopoDS_Shape& aSh1,
 //function : GetMinDistance
 //purpose  : 
 //=======================================================================
-Standard_Real GEOMUtils::GetMinDistance
+double GEOMUtils::GetMinDistance
                                (const TopoDS_Shape& theShape1,
                                 const TopoDS_Shape& theShape2,
                                 gp_Pnt& thePnt1, gp_Pnt& thePnt2)
 {
-  Standard_Real aResult = 1.e9;
+  double aResult = 1.e9;
 
   // Issue 0020231: A min distance bug with torus and vertex.
   // Make GetMinDistance() return zero if a sole VERTEX is inside any of SOLIDs
@@ -1011,7 +1008,7 @@ Standard_Real GEOMUtils::GetMinDistance
       P1 = dst.PointOnShape1(i);
       P2 = dst.PointOnShape2(i);
 
-      Standard_Real Dist = P1.Distance(P2);
+      double Dist = P1.Distance(P2);
       if (aResult > Dist) {
         aResult = Dist;
         thePnt1 = P1;
@@ -1042,7 +1039,7 @@ gp_Pnt GEOMUtils::ConvertClickToPoint( int x, int y, Handle(V3d_View) aView )
   gp_Dir EyeDir( EyeVector );
 
   gp_Pln PlaneOfTheView = gp_Pln( AtPoint, EyeDir );
-  Standard_Real X, Y, Z;
+  double X, Y, Z;
   //aView->Convert( x, y, X, Y, Z );
   gp_Pnt ConvertedPoint( X, Y, Z );
 
@@ -1107,7 +1104,7 @@ bool GEOMUtils::CheckShape( TopoDS_Shape& shape,
 
 bool GEOMUtils::FixShapeTolerance( TopoDS_Shape& shape,
                                    TopAbs_ShapeEnum type,
-                                   Standard_Real tolerance,
+                                   double tolerance,
                                    bool checkGeometry )
 {
   ShapeFix_ShapeTolerance aSft;
@@ -1119,7 +1116,7 @@ bool GEOMUtils::FixShapeTolerance( TopoDS_Shape& shape,
 }
 
 bool GEOMUtils::FixShapeTolerance( TopoDS_Shape& shape,
-                                   Standard_Real tolerance,
+                                   double tolerance,
                                    bool checkGeometry )
 {
   return FixShapeTolerance( shape, TopAbs_SHAPE, tolerance, checkGeometry );
@@ -1133,9 +1130,9 @@ bool GEOMUtils::FixShapeTolerance( TopoDS_Shape& shape,
 
 bool GEOMUtils::FixShapeCurves( TopoDS_Shape& shape )
 {
-  Standard_Real aT, aTolE, aD, aDMax = 0.0;
+  double aT, aTolE, aD, aDMax = 0.0;
   TopExp_Explorer aExpF, aExpE;
-  NCollection_DataMap<TopoDS_Edge, Standard_Real, TopTools_ShapeMapHasher> aDMETol;
+  NCollection_DataMap<TopoDS_Edge, double, TopTools_ShapeMapHasher> aDMETol;
   aExpF.Init(shape, TopAbs_FACE);
   for (; aExpF.More(); aExpF.Next()) {
     const TopoDS_Face& aF = *(TopoDS_Face*)&aExpF.Current();
@@ -1166,7 +1163,7 @@ bool GEOMUtils::FixShapeCurves( TopoDS_Shape& shape )
       }
     }
   }
-  NCollection_DataMap<TopoDS_Edge, Standard_Real, TopTools_ShapeMapHasher>::Iterator aDMETolIt(aDMETol);
+  NCollection_DataMap<TopoDS_Edge, double, TopTools_ShapeMapHasher>::Iterator aDMETolIt(aDMETol);
 #ifdef USE_LIMIT_TOLERANCE
   ShapeFix_ShapeTolerance sat;
 #else
@@ -1212,10 +1209,10 @@ TopoDS_Shape GEOMUtils::ReduceCompound( const TopoDS_Shape& shape )
 void GEOMUtils::MeshShape( const TopoDS_Shape shape,
                            double deflection, bool theForced )
 {
-  Standard_Real aDeflection = ( deflection <= 0 ) ? DefaultDeflection() : deflection;
+  double aDeflection = ( deflection <= 0 ) ? DefaultDeflection() : deflection;
   
   // Is shape triangulated?
-  Standard_Boolean alreadyMeshed = true;
+  bool alreadyMeshed = true;
   TopExp_Explorer ex;
   TopLoc_Location aLoc;
   for ( ex.Init( shape, TopAbs_FACE ); ex.More() && alreadyMeshed; ex.Next() ) {
@@ -1230,7 +1227,7 @@ void GEOMUtils::MeshShape( const TopoDS_Shape shape,
     BRepBndLib::Add( shape, B );
     if ( B.IsVoid() )
       return; // NPAL15983 (Bug when displaying empty groups) 
-    Standard_Real aXmin, aYmin, aZmin, aXmax, aYmax, aZmax;
+    double aXmin, aYmin, aZmin, aXmax, aYmax, aZmax;
     B.Get( aXmin, aYmin, aZmin, aXmax, aYmax, aZmax );
     
     // This magic line comes from Prs3d_ShadedShape.gxx in OCCT
@@ -1257,7 +1254,7 @@ bool GEOMUtils::IsOpenPath(const TopoDS_Shape &theShape)
 {
   bool isOpen = true;
 
-  if (theShape.IsNull() == Standard_False) {
+  if (theShape.IsNull() == false) {
     if (theShape.Closed()) {
       // The shape is closed
       isOpen = false;
@@ -1276,14 +1273,14 @@ bool GEOMUtils::IsOpenPath(const TopoDS_Shape &theShape)
           TopExp::Vertices(TopoDS::Wire(theShape), aV[0], aV[1]);
         }
 
-        if (aV[0].IsNull() == Standard_False &&
-            aV[1].IsNull() == Standard_False) {
+        if (aV[0].IsNull() == false &&
+            aV[1].IsNull() == false) {
           if (aV[0].IsSame(aV[1])) {
             // The shape is closed
             isOpen = false;
           } else {
-            const Standard_Real aTol1 = BRep_Tool::Tolerance(aV[0]);
-            const Standard_Real aTol2 = BRep_Tool::Tolerance(aV[1]);
+            const double aTol1 = BRep_Tool::Tolerance(aV[0]);
+            const double aTol2 = BRep_Tool::Tolerance(aV[1]);
             const gp_Pnt        aPnt1 = BRep_Tool::Pnt(aV[0]);
             const gp_Pnt        aPnt2 = BRep_Tool::Pnt(aV[1]);
 

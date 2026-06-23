@@ -23,6 +23,10 @@
 #include "PreCompiled.h"
 #ifndef _PreComp_
 # include <Standard_Failure.hxx>
+# include <TColgp_SequenceOfXY.hxx>
+# include <TColgp_SequenceOfXYZ.hxx>
+# include <TColGeom2d_HArray1OfCurve.hxx>
+# include <TColStd_HArray1OfInteger.hxx>
 #endif
 
 #include "GeomPlate/BuildPlateSurfacePy.h"
@@ -31,6 +35,7 @@
 #include "GeomPlate/PointConstraintPy.h"
 #include "Geometry2d.h"
 #include "GeometrySurfacePy.h"
+#include "OCCError.h"
 
 #include <Base/PyWrapParseTupleAndKeywords.h>
 
@@ -123,7 +128,7 @@ int BuildPlateSurfacePy::PyInit(PyObject* args, PyObject* kwds)
         return 0;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return -1;
     }
 }
@@ -144,7 +149,7 @@ PyObject* BuildPlateSurfacePy::init(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -167,7 +172,7 @@ PyObject* BuildPlateSurfacePy::loadInitSurface(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -195,7 +200,7 @@ PyObject* BuildPlateSurfacePy::add(PyObject *args)
         }
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -211,7 +216,7 @@ PyObject* BuildPlateSurfacePy::setNbBounds(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -226,7 +231,7 @@ PyObject* BuildPlateSurfacePy::perform(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -237,11 +242,11 @@ PyObject* BuildPlateSurfacePy::isDone(PyObject *args) const
         return nullptr;
 
     try {
-        Standard_Boolean ok = getGeomPlate_BuildPlateSurfacePtr()->IsDone();
+        bool ok = getGeomPlate_BuildPlateSurfacePtr()->IsDone();
         return Py_BuildValue("O", (ok ? Py_True : Py_False));
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -260,7 +265,7 @@ PyObject* BuildPlateSurfacePy::surface(PyObject *args) const
         return geo->getPyObject();
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -279,7 +284,7 @@ PyObject* BuildPlateSurfacePy::surfInit(PyObject *args) const
         return geo->getPyObject();
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -299,7 +304,7 @@ PyObject* BuildPlateSurfacePy::curveConstraint(PyObject *args) const
         return new CurveConstraintPy(ptr.release());
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -319,7 +324,7 @@ PyObject* BuildPlateSurfacePy::pointConstraint(PyObject *args) const
         return new PointConstraintPy(ptr.release());
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -346,7 +351,7 @@ PyObject* BuildPlateSurfacePy::disc2dContour(PyObject *args)
         return Py::new_reference_to(list);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -374,7 +379,7 @@ PyObject* BuildPlateSurfacePy::disc3dContour(PyObject *args)
         return Py::new_reference_to(list);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -395,7 +400,7 @@ PyObject* BuildPlateSurfacePy::sense(PyObject *args) const
         return Py::new_reference_to(list);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -419,7 +424,7 @@ PyObject* BuildPlateSurfacePy::curves2d(PyObject *args) const
         return Py::new_reference_to(list);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -440,7 +445,7 @@ PyObject* BuildPlateSurfacePy::order(PyObject *args) const
         return Py::new_reference_to(list);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -452,12 +457,12 @@ PyObject* BuildPlateSurfacePy::G0Error(PyObject *args) const
         return nullptr;
 
     try {
-        Standard_Real v = index < 1 ? getGeomPlate_BuildPlateSurfacePtr()->G0Error()
-                                    : getGeomPlate_BuildPlateSurfacePtr()->G0Error(index);
+        double v = index < 1 ? getGeomPlate_BuildPlateSurfacePtr()->G0Error()
+                             : getGeomPlate_BuildPlateSurfacePtr()->G0Error(index);
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -469,12 +474,12 @@ PyObject* BuildPlateSurfacePy::G1Error(PyObject *args) const
         return nullptr;
 
     try {
-        Standard_Real v = index < 1 ? getGeomPlate_BuildPlateSurfacePtr()->G1Error()
-                                    : getGeomPlate_BuildPlateSurfacePtr()->G1Error(index);
+        double v = index < 1 ? getGeomPlate_BuildPlateSurfacePtr()->G1Error()
+                             : getGeomPlate_BuildPlateSurfacePtr()->G1Error(index);
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -486,12 +491,12 @@ PyObject* BuildPlateSurfacePy::G2Error(PyObject *args) const
         return nullptr;
 
     try {
-        Standard_Real v = index < 1 ? getGeomPlate_BuildPlateSurfacePtr()->G2Error()
-                                    : getGeomPlate_BuildPlateSurfacePtr()->G2Error(index);
+        double v = index < 1 ? getGeomPlate_BuildPlateSurfacePtr()->G2Error()
+                             : getGeomPlate_BuildPlateSurfacePtr()->G2Error(index);
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }

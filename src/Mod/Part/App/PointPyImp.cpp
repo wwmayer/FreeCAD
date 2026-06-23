@@ -114,7 +114,7 @@ PyObject* PointPy::toShape(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -138,7 +138,7 @@ void PointPy::setX(Py::Float X)
         this_point->SetX(double(X));
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -158,7 +158,7 @@ void PointPy::setY(Py::Float Y)
         this_point->SetY(double(Y));
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -178,7 +178,7 @@ void PointPy::setZ(Py::Float Z)
         this_point->SetZ(double(Z));
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 

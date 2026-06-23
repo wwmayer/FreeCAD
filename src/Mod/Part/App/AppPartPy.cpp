@@ -68,7 +68,7 @@
 # include <TopoDS_Face.hxx>
 # include <TopoDS_Shell.hxx>
 # include <TopoDS_Solid.hxx>
-# include <TopTools_ListIteratorOfListOfShape.hxx>
+# include <TopTools_ListOfShape.hxx>
 #endif
 # include <BRepFill_Generator.hxx>
 
@@ -180,8 +180,9 @@ PartExport std::list<TopoDS_Edge> sort_Edges(double tol3d, std::list<TopoDS_Edge
         edge_points.push_back(ep);
     }
 
-    if (edge_points.empty())
+    if (edge_points.empty()) {
         return {};
+    }
 
     std::list<TopoDS_Edge> sorted;
     gp_Pnt first, last;
@@ -214,12 +215,15 @@ PartExport std::list<TopoDS_Edge> sort_Edges(double tol3d, std::list<TopoDS_Edge
             }
             else if (pEI->v2.SquareDistance(last) <= tol3d) {
                 last = pEI->v1;
-                Standard_Real first, last;
+                double first, last;
+                BRepLib::BuildCurves3d(pEI->edge);
                 const Handle(Geom_Curve) & curve = BRep_Tool::Curve(pEI->edge, first, last);
-                first = curve->ReversedParameter(first);
-                last = curve->ReversedParameter(last);
-                TopoDS_Edge edgeReversed = BRepBuilderAPI_MakeEdge(curve->Reversed(), last, first);
-                sorted.push_back(edgeReversed);
+                if (!curve.IsNull()) {
+                    first = curve->ReversedParameter(first);
+                    last = curve->ReversedParameter(last);
+                    TopoDS_Edge edgeReversed = BRepBuilderAPI_MakeEdge(curve->Reversed(), last, first);
+                    sorted.push_back(edgeReversed);
+                }
                 edges.erase(pEI->it);
                 edge_points.erase(pEI);
                 pEI = edge_points.begin();
@@ -227,12 +231,15 @@ PartExport std::list<TopoDS_Edge> sort_Edges(double tol3d, std::list<TopoDS_Edge
             }
             else if (pEI->v1.SquareDistance(first) <= tol3d) {
                 first = pEI->v2;
-                Standard_Real first, last;
+                double first, last;
+                BRepLib::BuildCurves3d(pEI->edge);
                 const Handle(Geom_Curve) & curve = BRep_Tool::Curve(pEI->edge, first, last);
-                first = curve->ReversedParameter(first);
-                last = curve->ReversedParameter(last);
-                TopoDS_Edge edgeReversed = BRepBuilderAPI_MakeEdge(curve->Reversed(), last, first);
-                sorted.push_front(edgeReversed);
+                if (!curve.IsNull()) {
+                    first = curve->ReversedParameter(first);
+                    last = curve->ReversedParameter(last);
+                    TopoDS_Edge edgeReversed = BRepBuilderAPI_MakeEdge(curve->Reversed(), last, first);
+                    sorted.push_front(edgeReversed);
+                }
                 edges.erase(pEI->it);
                 edge_points.erase(pEI);
                 pEI = edge_points.begin();
@@ -653,7 +660,7 @@ private:
         }
         catch (const Standard_Failure &e) {
             std::string str;
-            Standard_CString msg = e.GetMessageString();
+            const char* msg = Part::toString(e);
             str += typeid(e).name();
             str += " ";
             if (msg) {str += msg;}
@@ -686,7 +693,7 @@ private:
         }
         catch (const Standard_Failure &e) {
             std::string str;
-            Standard_CString msg = e.GetMessageString();
+            const char* msg = Part::toString(e);
             str += typeid(e).name();
             str += " ";
             if (msg) {str += msg;}
@@ -885,7 +892,7 @@ private:
             std::vector<Poly_Triangle> facets;
             if (Tools::getTriangulation(currentFace, points, facets)) {
                 for (const auto& it : facets) {
-                    Standard_Integer n1,n2,n3;
+                    int n1,n2,n3;
                     it.Get(n1, n2, n3);
 
                     gp_Pnt p1 = points[n1];
@@ -1382,7 +1389,7 @@ private:
             }
 
             if (!mkPoly.IsDone())
-                Standard_Failure::Raise("Cannot create polygon because less than two vertices are given");
+                throw Standard_Failure("Cannot create polygon because less than two vertices are given");
 
             // if the polygon should be closed
             if (Base::asBoolean(pclosed)) {
@@ -1394,7 +1401,7 @@ private:
             return Py::asObject(new TopoShapeWirePy(new TopoShape(mkPoly.Wire())));
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
     Py::Object makeCircle(const Py::Tuple& args)
@@ -1576,14 +1583,14 @@ private:
 
         try {
             TopoShape helix;
-            Standard_Boolean anIsLeft = Base::asBoolean(pleft);
-            Standard_Boolean anIsVertHeight = Base::asBoolean(pvertHeight);
+            bool anIsLeft = Base::asBoolean(pleft);
+            bool anIsVertHeight = Base::asBoolean(pvertHeight);
             TopoDS_Shape wire = helix.makeHelix(pitch, height, radius, angle,
                                                 anIsLeft, anIsVertHeight);
             return Py::asObject(new TopoShapeWirePy(new TopoShape(wire)));
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
     Py::Object makeLongHelix(const Py::Tuple& args)
@@ -1597,12 +1604,12 @@ private:
 
         try {
             TopoShape helix;
-            Standard_Boolean anIsLeft = Base::asBoolean(pleft);
+            bool anIsLeft = Base::asBoolean(pleft);
             TopoDS_Shape wire = helix.makeLongHelix(pitch, height, radius, angle, anIsLeft);
             return Py::asObject(new TopoShapeWirePy(new TopoShape(wire)));
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
     Py::Object makeThread(const Py::Tuple& args)
@@ -1617,7 +1624,7 @@ private:
             return Py::asObject(new TopoShapeWirePy(new TopoShape(wire)));
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
     Py::Object makeRevolution(const Py::Tuple& args)
@@ -1818,7 +1825,7 @@ private:
             return Py::asObject(new TopoShapeFacePy(new TopoShape(face)));
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
     Py::Object makeSweepSurface(const Py::Tuple& args)
@@ -1842,13 +1849,13 @@ private:
                     .makeElementPipeShell(
                         {mShape, *static_cast<TopoShapePy*>(profile)->getTopoShapePtr()},
                         Part::MakeSolid::noSolid,
-                        Standard_False,
+                        false,
                         TransitionMode::Transformed,
                         nullptr,
                         tolerance));
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
 
@@ -1879,9 +1886,9 @@ private:
                                                  &op)) {
             throw Py::Exception();
         }
-        Standard_Boolean anIsSolid = PyObject_IsTrue(psolid) ? Standard_True : Standard_False;
-        Standard_Boolean anIsRuled = PyObject_IsTrue(pruled) ? Standard_True : Standard_False;
-        Standard_Boolean anIsClosed = PyObject_IsTrue(pclosed) ? Standard_True : Standard_False;
+        bool anIsSolid = PyObject_IsTrue(psolid) ? true : false;
+        bool anIsRuled = PyObject_IsTrue(pruled) ? true : false;
+        bool anIsClosed = PyObject_IsTrue(pclosed) ? true : false;
         return shape2pyshape(TopoShape().makeElementLoft(
             getPyShapes(pcObj),
             anIsSolid ? Part::IsSolid::solid : Part::IsSolid::notSolid,
@@ -1968,7 +1975,7 @@ private:
             return tuple;
         }
         catch (Standard_Failure& e) {
-            throw Py::Exception(PartExceptionOCCError, e.GetMessageString());
+            throw Py::Exception(PartExceptionOCCError, Part::toString(e));
         }
     }
     Py::Object makeWireString(const Py::Tuple& args)

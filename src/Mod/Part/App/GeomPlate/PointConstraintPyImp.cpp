@@ -31,6 +31,7 @@
 
 #include "GeomPlate/PointConstraintPy.h"
 #include "GeomPlate/PointConstraintPy.cpp"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -64,7 +65,7 @@ int PointConstraintPy::PyInit(PyObject* args, PyObject* kwds)
         return 0;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return -1;
     }
 }
@@ -86,7 +87,7 @@ PyObject* PointConstraintPy::setOrder(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -97,11 +98,11 @@ PyObject* PointConstraintPy::order(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Integer v = getGeomPlate_PointConstraintPtr()->Order();
+        int v = getGeomPlate_PointConstraintPtr()->Order();
         return PyLong_FromLong(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -112,11 +113,11 @@ PyObject* PointConstraintPy::G0Criterion(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = getGeomPlate_PointConstraintPtr()->G0Criterion();
+        double v = getGeomPlate_PointConstraintPtr()->G0Criterion();
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -127,11 +128,11 @@ PyObject* PointConstraintPy::G1Criterion(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = getGeomPlate_PointConstraintPtr()->G1Criterion();
+        double v = getGeomPlate_PointConstraintPtr()->G1Criterion();
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -142,11 +143,11 @@ PyObject* PointConstraintPy::G2Criterion(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = getGeomPlate_PointConstraintPtr()->G2Criterion();
+        double v = getGeomPlate_PointConstraintPtr()->G2Criterion();
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -162,7 +163,7 @@ PyObject* PointConstraintPy::setG0Criterion(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -178,7 +179,7 @@ PyObject* PointConstraintPy::setG1Criterion(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -194,7 +195,7 @@ PyObject* PointConstraintPy::setG2Criterion(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -205,11 +206,11 @@ PyObject* PointConstraintPy::hasPnt2dOnSurf(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Boolean ok = getGeomPlate_PointConstraintPtr()->HasPnt2dOnSurf();
+        bool ok = getGeomPlate_PointConstraintPtr()->HasPnt2dOnSurf();
         return Py_BuildValue("O", (ok ? Py_True : Py_False));
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -225,7 +226,7 @@ PyObject* PointConstraintPy::setPnt2dOnSurf(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -243,7 +244,7 @@ PyObject* PointConstraintPy::pnt2dOnSurf(PyObject *args)
         return Py::new_reference_to(coord);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }

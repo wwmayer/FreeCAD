@@ -139,7 +139,7 @@ macro(PrintFinalReport)
 
     # Qt5 needs/sets PYTHON_CONFIG_SUFFIX regarding Shiboken
     conditional(pybind11 pybind11_FOUND "not enabled" ${pybind11_VERSION})
-    simple(Boost ${Boost_VERSION})
+    simple(Boost "${Boost_VERSION} [${Boost_LIBRARIES}] [${Boost_INCLUDE_DIRS}]")
     simple(XercesC "${XercesC_VERSION} [${XercesC_LIBRARIES}] [${XercesC_INCLUDE_DIRS}]")
     simple(ZLIB "${ZLIB_VERSION_STRING}")
     simple(OCC "${OCC_VERSION_STRING} [${OCC_LIBRARY_DIR}] [${OCC_INCLUDE_DIR}]")

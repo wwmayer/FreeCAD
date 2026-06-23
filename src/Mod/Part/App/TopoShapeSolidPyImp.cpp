@@ -92,7 +92,7 @@ int TopoShapeSolidPy::PyInit(PyObject* args, PyObject* /*kwd*/)
     }
     catch (Standard_Failure& err) {
         std::stringstream errmsg;
-        errmsg << "Creation of solid failed: " << err.GetMessageString();
+        errmsg << "Creation of solid failed: " << Part::toString(err);
         PyErr_SetString(PartExceptionOCCError, errmsg.str().c_str());
         return -1;
     }
@@ -134,7 +134,7 @@ Py::Object TopoShapeSolidPy::getStaticMoments() const
 {
     GProp_GProps props;
     BRepGProp::VolumeProperties(getTopoShapePtr()->getShape(), props);
-    Standard_Real lx,ly,lz;
+    double lx,ly,lz;
     props.StaticMoments(lx,ly,lz);
     Py::Tuple tuple(3);
     tuple.setItem(0, Py::Float(lx));
@@ -152,7 +152,7 @@ Py::Dict TopoShapeSolidPy::getPrincipalProperties() const
     Py::Dict dict;
     dict.setItem("SymmetryAxis", Py::Boolean(pprops.HasSymmetryAxis() ? true : false));
     dict.setItem("SymmetryPoint", Py::Boolean(pprops.HasSymmetryPoint() ? true : false));
-    Standard_Real lx,ly,lz;
+    double lx,ly,lz;
     pprops.Moments(lx,ly,lz);
     Py::Tuple tuple(3);
     tuple.setItem(0, Py::Float(lx));
@@ -166,7 +166,7 @@ Py::Dict TopoShapeSolidPy::getPrincipalProperties() const
     dict.setItem("ThirdAxisOfInertia",Py::Vector(Base::convertTo
         <Base::Vector3d>(pprops.ThirdAxisOfInertia())));
 
-    Standard_Real Rxx,Ryy,Rzz;
+    double Rxx,Ryy,Rzz;
     pprops.RadiusOfGyration(Rxx,Ryy,Rzz);
     Py::Tuple rog(3);
     rog.setItem(0, Py::Float(Rxx));
@@ -206,7 +206,7 @@ PyObject* TopoShapeSolidPy::getMomentOfInertia(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -229,7 +229,7 @@ PyObject* TopoShapeSolidPy::getRadiusOfGyration(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -237,12 +237,12 @@ PyObject* TopoShapeSolidPy::getRadiusOfGyration(PyObject *args) const
 PyObject* TopoShapeSolidPy::offsetFaces(PyObject *args) const
 {
     PyObject *obj;
-    Standard_Real offset;
+    double offset;
 
     const TopoDS_Shape& shape = getTopoShapePtr()->getShape();
     BRepOffset_MakeOffset builder;
     // Set here an offset value higher than the tolerance
-    builder.Initialize(shape,1.0,Precision::Confusion(),BRepOffset_Skin,Standard_False,Standard_False,GeomAbs_Intersection);
+    builder.Initialize(shape,1.0,Precision::Confusion(),BRepOffset_Skin,false,false,GeomAbs_Intersection);
     TopExp_Explorer xp(shape,TopAbs_FACE);
     while (xp.More()) {
         // go through all faces and set offset to zero
@@ -271,7 +271,7 @@ PyObject* TopoShapeSolidPy::offsetFaces(PyObject *args) const
             if (PyObject_TypeCheck((*it).first.ptr(), &(Part::TopoShapePy::Type))) {
                 // set offset of the requested faces
                 const TopoDS_Shape& face = static_cast<TopoShapePy*>((*it).first.ptr())->getTopoShapePtr()->getShape();
-                Standard_Real value = (double)Py::Float((*it).second.ptr());
+                double value = (double)Py::Float((*it).second.ptr());
                 builder.SetOffsetOnFace(TopoDS::Face(face), value);
             }
         }
@@ -291,7 +291,7 @@ PyObject* TopoShapeSolidPy::offsetFaces(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }

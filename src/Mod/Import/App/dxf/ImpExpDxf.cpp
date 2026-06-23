@@ -38,6 +38,9 @@
 #include <GeomAPI_PointsToBSpline.hxx>
 #include <Geom_BSplineCurve.hxx>
 #include <TColgp_Array1OfPnt.hxx>
+#include <TColgp_HArray1OfPnt.hxx>
+#include <TColStd_Array1OfInteger.hxx>
+#include <TColStd_Array1OfReal.hxx>
 #include <TopExp_Explorer.hxx>
 #include <TopoDS.hxx>
 #include <TopoDS_Compound.hxx>
@@ -321,7 +324,7 @@ Handle(Geom_BSplineCurve) getSplineFromPolesAndKnots(struct SplineData& sd)
         }
     }
 
-    Standard_Boolean periodic = sd.flag == 2;
+    bool periodic = sd.flag == 2;
     Handle(Geom_BSplineCurve) geom =
         new Geom_BSplineCurve(occpoles, occweights, occknots, occmults, sd.degree, periodic);
     return geom;
@@ -351,7 +354,7 @@ Handle(Geom_BSplineCurve) getInterpolationSpline(struct SplineData& sd)
         fitpoints->ChangeValue(index++).SetZ(coordinate);
     }
 
-    Standard_Boolean periodic = sd.flag == 2;
+    bool periodic = sd.flag == 2;
     GeomAPI_Interpolate interp(fitpoints, periodic, Precision::Confusion());
     interp.Perform();
     return interp.Curve();
@@ -487,7 +490,7 @@ void ImpExpDxfRead::ExpandInsert(const std::string& name,
             Collector->AddObject(
                 BRepBuilderAPI_Transform(shape,
                                          Part::TopoShape::convert(localTransform),
-                                         Standard_True)
+                                         true)
                     .Shape(),
                 "InsertPart");  // TODO: The collection should contain the nameBase to use
         }
@@ -759,7 +762,7 @@ void gPntToTuple(double result[3], gp_Pnt& p)
     result[2] = p.Z();
 }
 
-point3D gPntTopoint3D(gp_Pnt& p)
+point3D gPntTopoint3D(const gp_Pnt& p)
 {
     point3D result = {p.X(), p.Y(), p.Z()};
     return result;
@@ -1054,8 +1057,8 @@ void ImpExpDxfWrite::exportBSpline(BRepAdaptor_Curve& c)
     double f, l;
     gp_Pnt s, ePt;
 
-    Standard_Real tol3D = 0.001;
-    Standard_Integer maxDegree = 3, maxSegment = 200;
+    double tol3D = 0.001;
+    int maxDegree = 3, maxSegment = 200;
     Handle(BRepAdaptor_HCurve) hCurve = new BRepAdaptor_HCurve(c);
     Approx_Curve3d approx(hCurve, tol3D, GeomAbs_C0, maxSegment, maxDegree);
     if (approx.IsDone() && approx.HasResult()) {
@@ -1103,24 +1106,13 @@ void ImpExpDxfWrite::exportBSpline(BRepAdaptor_Curve& c)
     sd.endtan = gPntTopoint3D(p);
 
     // next bit is from DrawingExport.cpp (Dan Falk?).
-    Standard_Integer m = 0;
-    if (spline->IsPeriodic()) {
-        m = spline->NbPoles() + 2 * spline->Degree() - spline->Multiplicity(1) + 2;
-    }
-    else {
-        for (int i = 1; i <= spline->NbKnots(); i++) {
-            m += spline->Multiplicity(i);
-        }
-    }
-    TColStd_Array1OfReal knotsequence(1, m);
-    spline->KnotSequence(knotsequence);
+    const TColStd_Array1OfReal& knotsequence = spline->KnotSequence();
     for (int i = knotsequence.Lower(); i <= knotsequence.Upper(); i++) {
         sd.knot.push_back(knotsequence(i));
     }
     sd.knots = knotsequence.Length();
 
-    TColgp_Array1OfPnt poles(1, spline->NbPoles());
-    spline->Poles(poles);
+    const TColgp_Array1OfPnt& poles = spline->Poles();
     for (int i = poles.Lower(); i <= poles.Upper(); i++) {
         sd.control.push_back(gPntTopoint3D(poles(i)));
     }

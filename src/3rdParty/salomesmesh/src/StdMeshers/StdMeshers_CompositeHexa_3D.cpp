@@ -41,8 +41,6 @@
 #include <Standard_ErrorHandler.hxx>
 #include <Standard_Failure.hxx>
 #include <TopExp_Explorer.hxx>
-#include <TopTools_IndexedMapOfShape.hxx>
-#include <TopTools_MapIteratorOfMapOfShape.hxx>
 #include <TopTools_MapOfShape.hxx>
 #include <TopTools_SequenceOfShape.hxx>
 #include <TopoDS.hxx>
@@ -1690,7 +1688,7 @@ int _FaceSide::NbCommonVertices( const TopTools_MapOfShape& VV ) const
 TopoDS_Vertex _FaceSide::FirstVertex() const
 {
   if ( myChildren.empty() )
-    return TopExp::FirstVertex( myEdge, Standard_True );
+    return TopExp::FirstVertex( myEdge, true );
 
   return myChildren.front().FirstVertex();
 }
@@ -1703,7 +1701,7 @@ TopoDS_Vertex _FaceSide::FirstVertex() const
 TopoDS_Vertex _FaceSide::LastVertex() const
 {
   if ( myChildren.empty() )
-    return TopExp::LastVertex( myEdge, Standard_True );
+    return TopExp::LastVertex( myEdge, true );
 
   return myChildren.back().LastVertex();
 }

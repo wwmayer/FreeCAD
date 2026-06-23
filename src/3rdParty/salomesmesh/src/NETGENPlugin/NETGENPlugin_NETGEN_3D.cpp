@@ -58,11 +58,12 @@
 #include <GProp_GProps.hxx>
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
-#include <TopTools_ListIteratorOfListOfShape.hxx>
+#include <TopTools_ListOfShape.hxx>
 #include <TopoDS.hxx>
 
 #include <Standard_Failure.hxx>
 #include <Standard_ErrorHandler.hxx>
+#include <Standard_Version.hxx>
 
 #include <utilities.h>
 
@@ -537,9 +538,15 @@ bool NETGENPlugin_NETGEN_3D::compute(SMESH_Mesh&                     aMesh,
   {
     SMESH_Comment str("Exception in  netgen::OCCGenerateMesh()");
     str << " at " << netgen::multithread.task
+#if OCC_VERSION_HEX >= 0x080000
+        << ": " << ex.ExceptionType();
+    if ( ex.what() && strlen( ex.what() ))
+        str << ": " << ex.what();
+#else
         << ": " << ex.DynamicType()->Name();
     if ( ex.GetMessageString() && strlen( ex.GetMessageString() ))
       str << ": " << ex.GetMessageString();
+#endif
     error(str);
   }
   catch (netgen::NgException& exc)

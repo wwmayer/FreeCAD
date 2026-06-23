@@ -31,6 +31,7 @@
 #endif
 
 #include <Base/Exception.h>
+#include <Mod/Part/App/OCCError.h>
 #include "FeatureThickness.h"
 
 FC_LOG_LEVEL_INIT("PartDesign", true, true)
@@ -149,7 +150,7 @@ App::DocumentObjectExecReturn *Thickness::execute() {
                 shapes.push_back(res);
             }
             catch (Standard_Failure& e) {
-                FC_ERR("Exception on making thick solid: " << e.GetMessageString());
+                FC_ERR("Exception on making thick solid: " << Part::toString(e));
                 return new App::DocumentObjectExecReturn("Failed to make thick solid");
             }
             if (mapIterator != closeFaces.end()) {

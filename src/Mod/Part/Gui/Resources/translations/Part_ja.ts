@@ -4118,8 +4118,8 @@ during file reading (slower but higher details).</source>
     </message>
     <message>
       <location filename="../../DlgSettingsGeneral.ui" line="127"/>
-      <source>Allow multiple solids in Part Design Body by default (experimental)</source>
-      <translation>デフォルトでパートデザインのボディー内に複数ソリッドを配置することを許可 (実験的)</translation>
+      <source>Allow multiple solids in Part Design Body by default</source>
+      <translation>デフォルトでパートデザインのボディー内に複数ソリッドを配置することを許可</translation>
     </message>
   </context>
   <context>

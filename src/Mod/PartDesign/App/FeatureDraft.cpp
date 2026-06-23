@@ -48,6 +48,8 @@
 #include <Base/Numbers.h>
 #include <Base/Tools.h>
 #include <Mod/Part/App/TopoShape.h>
+#include <Mod/Part/App/Tools.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "FeatureDraft.h"
 #include "DatumLine.h"
@@ -194,8 +196,8 @@ App::DocumentObjectExecReturn *Draft::execute()
                 gp_Pnt pm = c.Value((c.FirstParameter() + c.LastParameter()) / 2.0);
                 Handle(Geom_Plane) aux = new Geom_Plane(pm, gp_Dir(p2.X() - p1.X(), p2.Y() - p1.Y(), p2.Z() - p1.Z()));
                 // Intersect plane with face. Is there no easier way?
-                BRepAdaptor_Surface adapt(TopoDS::Face(face), Standard_False);
-                Handle(Geom_Surface) sf = adapt.Surface().Surface();
+                BRepAdaptor_Surface adapt(TopoDS::Face(face), false);
+                Handle(Geom_Surface) sf = Part::Tools::getSurface(adapt);
                 GeomAPI_IntSS intersector(aux, sf, Precision::Confusion());
                 if (!intersector.IsDone() || intersector.NbLines() < 1)
                     continue;
@@ -331,7 +333,6 @@ App::DocumentObjectExecReturn *Draft::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }

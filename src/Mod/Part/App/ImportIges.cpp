@@ -45,6 +45,7 @@
 
 #include "ImportIges.h"
 #include "PartFeature.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -63,31 +64,31 @@ int Part::ImportIgesParts(App::Document *pcDoc, const char* FileName)
         Message_MsgFile::LoadFromEnv("CSF_SHMessageStd","SHAPEStd");
 
         IGESControl_Reader aReader;
-        if (aReader.ReadFile((Standard_CString)FileName) != IFSelect_RetDone)
+        if (aReader.ReadFile(FileName) != IFSelect_RetDone)
             throw Base::FileException("Error in reading IGES");
 
         // Ignore construction elements
         // http://www.opencascade.org/org/forum/thread_20603/?forum=3
-        aReader.SetReadVisible(Standard_True);
+        aReader.SetReadVisible(true);
 
         // check file conformity and output stats
-        aReader.PrintCheckLoad(Standard_True,IFSelect_GeneralInfo);
+        aReader.PrintCheckLoad(true,IFSelect_GeneralInfo);
 
         std::string aName = fi.fileNamePure();
 
         // make model
         aReader.ClearShapes();
-        //Standard_Integer nbRootsForTransfer = aReader.NbRootsForTransfer();
+        //int nbRootsForTransfer = aReader.NbRootsForTransfer();
         aReader.TransferRoots();
 
         // put all other free-flying shapes into a single compound
-        Standard_Boolean emptyComp = Standard_True;
+        bool emptyComp = true;
         BRep_Builder builder;
         TopoDS_Compound comp;
         builder.MakeCompound(comp);
 
-        Standard_Integer nbShapes = aReader.NbShapes();
-        for (Standard_Integer i=1; i<=nbShapes; i++) {
+        int nbShapes = aReader.NbShapes();
+        for (int i=1; i<=nbShapes; i++) {
             TopoDS_Shape aShape = aReader.Shape(i);
             if (!aShape.IsNull()) {
                 if (aShape.ShapeType() == TopAbs_SOLID ||
@@ -98,7 +99,7 @@ int Part::ImportIgesParts(App::Document *pcDoc, const char* FileName)
                 }
                 else {
                     builder.Add(comp, aShape);
-                    emptyComp = Standard_False;
+                    emptyComp = false;
                 }
             }
         }
@@ -109,7 +110,7 @@ int Part::ImportIgesParts(App::Document *pcDoc, const char* FileName)
         }
     }
     catch (Standard_Failure& e) {
-        throw Base::CADKernelError(e.GetMessageString());
+        throw Base::CADKernelError(Part::toString(e));
     }
 
     return 0;

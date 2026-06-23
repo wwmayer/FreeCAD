@@ -34,13 +34,14 @@
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Iterator.hxx>
 #include <Precision.hxx>
+#include <TopTools_ListOfShape.hxx>
 #include <FuzzyHelper.h>
 #include <SignalException.h>
 
 FCBRepAlgoAPI_BooleanOperation::FCBRepAlgoAPI_BooleanOperation()
 {
-    SetRunParallel(Standard_True);
-    SetNonDestructive(Standard_True);
+    SetRunParallel(true);
+    SetNonDestructive(true);
 }
 
 
@@ -50,14 +51,14 @@ FCBRepAlgoAPI_BooleanOperation::FCBRepAlgoAPI_BooleanOperation(const TopoDS_Shap
 : BRepAlgoAPI_BooleanOperation(theS1, theS2, theOperation)
 {
     if (!BRepCheck_Analyzer(theS1).IsValid()){
-        Standard_ConstructionError::Raise("Base shape is not valid for boolean operation");
+        throw Standard_ConstructionError("Base shape is not valid for boolean operation");
     }
     if (! BRepCheck_Analyzer(theS2).IsValid()){
-        Standard_ConstructionError::Raise("Tool shape is not valid for boolean operation");
+        throw Standard_ConstructionError("Tool shape is not valid for boolean operation");
     }
     setAutoFuzzy();
-    SetRunParallel(Standard_True);
-    SetNonDestructive(Standard_True);
+    SetRunParallel(true);
+    SetNonDestructive(true);
 }
 
 void FCBRepAlgoAPI_BooleanOperation::setAutoFuzzy()

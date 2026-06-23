@@ -54,7 +54,7 @@
     catch (Standard_Failure & e)                                                                   \
     {                                                                                              \
         std::string str;                                                                           \
-        Standard_CString msg = e.GetMessageString();                                               \
+        const char* msg = Part::toString(e);                                                       \
         str += typeid(e).name();                                                                   \
         str += " ";                                                                                \
         if (msg) {                                                                                 \

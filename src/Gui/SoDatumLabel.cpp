@@ -1122,7 +1122,13 @@ void SoDatumLabel::GLRender(SoGLRenderAction * action)
     if (this->datumtype.getValue() == DISTANCE ||
         this->datumtype.getValue() == DISTANCEX ||
         this->datumtype.getValue() == DISTANCEY ) {
-        drawDistance(points, scale, srch, angle, textOffset);
+        if (this->pnts.getNum() < 2) {
+            SoDebugError::postWarning("SoDatumLabel::GLRender",
+                                      "Too few points to render distance label");
+        }
+        else {
+            drawDistance(points, scale, srch, angle, textOffset);
+        }
     }
     else if (this->datumtype.getValue() == RADIUS || this->datumtype.getValue() == DIAMETER) {
         drawRadiusOrDiameter(points, angle, textOffset);

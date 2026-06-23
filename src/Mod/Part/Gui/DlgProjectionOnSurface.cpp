@@ -36,11 +36,14 @@
 #include <ShapeFix_Face.hxx>
 #include <ShapeFix_Wire.hxx>
 #include <ShapeFix_Wireframe.hxx>
+#include <Standard_Version.hxx>
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
 #include <TopoDS_Builder.hxx>
 #include <TopoDS_Edge.hxx>
 #include <TopoDS_Face.hxx>
+#include <TopTools_HSequenceOfShape.hxx>
+#include <TopTools_IndexedMapOfShape.hxx>
 #endif
 
 #include <App/Document.h>
@@ -52,6 +55,7 @@
 #include <Gui/Application.h>
 #include <Gui/Selection/SelectionObject.h>
 #include <Inventor/SbVec3d.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "DlgProjectionOnSurface.h"
 #include "ui_DlgProjectionOnSurface.h"
@@ -183,7 +187,7 @@ DlgProjectionOnSurface::~DlgProjectionOnSurface()
         }
         catch (Standard_NoSuchObject& e) {
             Base::Console().Warning("DlgProjectionOnSurface::~DlgProjectionOnSurface: %s",
-                                    e.GetMessageString());
+                                    Part::toString(e));
         }
         auto vp = dynamic_cast<PartGui::ViewProviderPartExt*>(
             Gui::Application::Instance->getViewProvider(it.partFeature));
@@ -198,7 +202,7 @@ DlgProjectionOnSurface::~DlgProjectionOnSurface()
         }
         catch (Standard_NoSuchObject& e) {
             Base::Console().Warning("DlgProjectionOnSurface::~DlgProjectionOnSurface: %s",
-                                    e.GetMessageString());
+                                    Part::toString(e));
         }
     }
     Gui::Selection().rmvSelectionGate();
@@ -732,7 +736,7 @@ void PartGui::DlgProjectionOnSurface::higlight_object(Part::Feature* iCurrentObj
             defaultColor = vp->LineColor.getValue();
         }
 
-        if (static_cast<Standard_Integer>(colors.size()) != anIndices.Extent()) {
+        if (static_cast<int>(colors.size()) != anIndices.Extent()) {
             colors.resize(anIndices.Extent(), defaultColor);
         }
 
@@ -804,8 +808,8 @@ void PartGui::DlgProjectionOnSurface::create_projection_face_from_wire(
 
                 std::vector<TopoDS_Edge> edgeInParametricSpaceVec;
                 for (auto itEdge : edgeVec) {
-                    Standard_Real first {};
-                    Standard_Real last {};
+                    double first {};
+                    double last {};
                     auto currentCurve = BRep_Tool::CurveOnSurface(TopoDS::Edge(itEdge),
                                                                   itCurrentShape.surfaceToProject,
                                                                   first,
@@ -899,8 +903,13 @@ PartGui::DlgProjectionOnSurface::sort_and_heal_wire(const std::vector<TopoDS_Edg
     }
 
     const double tolerance = 0.0001;
+#if OCC_VERSION_HEX < 0x080000
     ShapeAnalysis_FreeBounds::ConnectEdgesToWires(shapeList, tolerance, false, aWireHandle);
     ShapeAnalysis_FreeBounds::ConnectWiresToWires(aWireHandle, tolerance, false, aWireWireHandle);
+#else
+    aWireHandle = ShapeAnalysis_FreeBounds::ConnectEdgesToWires(shapeList, tolerance, false);
+    aWireWireHandle = ShapeAnalysis_FreeBounds::ConnectWiresToWires(aWireHandle, tolerance, false);
+#endif
     if (!aWireWireHandle) {
         return {};
     }

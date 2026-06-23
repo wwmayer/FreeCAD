@@ -37,7 +37,6 @@
 # include <BRepLib.hxx>
 # include <BRepLProp_CLProps.hxx>
 # include <BRepTools.hxx>
-#include <BRepLProp_CurveTool.hxx>
 # include <GC_MakeArcOfCircle.hxx>
 # include <GC_MakeEllipse.hxx>
 #include <GC_MakeCircle.hxx>
@@ -82,6 +81,7 @@
 
 #include <Mod/Part/App/FaceMakerCheese.h>
 #include <Mod/Part/App/Geometry.h>
+#include <Mod/Part/App/OCCError.h>
 #include <Mod/Part/App/TopoShape.h>
 
 #include "DrawViewPart.h"
@@ -537,7 +537,7 @@ BaseGeomPtr BaseGeom::baseFactory(TopoDS_Edge edge, bool isCosmetic)
         }
         catch (const Standard_Failure& e) {
             Base::Console().Log("Geom::baseFactory - OCC error - %s - while making spline\n",
-                              e.GetMessageString());
+                                Part::toString(e));
             break;
         }
         catch (...) {
@@ -578,7 +578,7 @@ TopoDS_Edge BaseGeom::completeEdge(const TopoDS_Edge &edge) {
         }
     }
     catch (Standard_Failure &e) {
-        Base::Console().Error("BaseGeom::completeEdge OCC error: %s\n", e.GetMessageString());
+        Base::Console().Error("BaseGeom::completeEdge OCC error: %s\n", Part::toString(e));
     }
 
     return TopoDS_Edge();
@@ -687,7 +687,7 @@ AOE::AOE(const TopoDS_Edge &e) : Ellipse(e)
     }
     catch (const Standard_Failure& e) {
         Base::Console().Error("Geom::AOE::AOE - OCC error - %s - while making AOE in ctor\n",
-                              e.GetMessageString());
+                              Part::toString(e));
     }
 
     startAngle = fmod(f, 2.0*pi);
@@ -1161,8 +1161,8 @@ BSpline::BSpline(const TopoDS_Edge &e)
          endAngle += 2.0 * pi;
     }
 
-    Standard_Real tol3D = 0.001;                                   //1/1000 of a mm? screen can't resolve this
-    Standard_Integer maxDegree = 3, maxSegment = 200;
+    const double tol3D = 0.001;                                   //1/1000 of a mm? screen can't resolve this
+    int maxDegree = 3, maxSegment = 200;
     Handle(BRepAdaptor_HCurve) hCurve = new BRepAdaptor_HCurve(c);
     // approximate the curve using a tolerance
     //Approx_Curve3d approx(hCurve, tol3D, GeomAbs_C2, maxSegment, maxDegree);   //gives degree == 5  ==> too many poles ==> buffer overrun
@@ -1187,7 +1187,7 @@ BSpline::BSpline(const TopoDS_Edge &e)
     GeomConvert_BSplineCurveToBezierCurve crt(spline);
 
     gp_Pnt controlPoint;
-    for (Standard_Integer i = 1; i <= crt.NbArcs(); ++i) {
+    for (int i = 1; i <= crt.NbArcs(); ++i) {
         BezierSegment tempSegment;
         Handle(Geom_BezierCurve) bezier = crt.Arc(i);
         tempSegment.poles = bezier->NbPoles();
@@ -1681,12 +1681,9 @@ bool GeometryUtils::isLine(const TopoDS_Edge& occEdge)
     // from start to end
     double endPointLength = (endPoint - startPoint).Length();
 
-    int low = 0;
-    int high = spline->NbPoles() - 1;
-    TColgp_Array1OfPnt poles(low, high);
-    spline->Poles(poles);
+    const TColgp_Array1OfPnt& poles = spline->Poles();
     double lenTotal = 0.0;
-    for (int i = 0; i < high; i++) {
+    for (int i = poles.Lower(); i < poles.Upper(); i++) {
         gp_Pnt p1 = poles(i);
         Base::Vector3d v1 = Base::convertTo<Base::Vector3d>(p1);
         gp_Pnt p2 = poles(i+1);
@@ -1719,14 +1716,14 @@ double GeometryUtils::edgeLength(TopoDS_Edge occEdge)
 {
     BRepAdaptor_Curve adapt(occEdge);
     const Handle(Geom_Curve) curve = adapt.Curve().Curve();
-    double first = BRepLProp_CurveTool::FirstParameter(adapt);
-    double last = BRepLProp_CurveTool::LastParameter(adapt);
+    double first = adapt.FirstParameter();
+    double last = adapt.LastParameter();
     try {
         GeomAdaptor_Curve adaptor(curve);
         return GCPnts_AbscissaPoint::Length(adaptor,first,last,Precision::Confusion());
     }
     catch (Standard_Failure& exc) {
-        THROWM(Base::CADKernelError, exc.GetMessageString())
+        THROWM(Base::CADKernelError, Part::toString(exc))
     }
 }
 

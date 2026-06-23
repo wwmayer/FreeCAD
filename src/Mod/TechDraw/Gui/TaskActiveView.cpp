@@ -168,7 +168,7 @@ TechDraw::DrawViewImage* TaskActiveView::createActiveView()
 
     App::Document* doc = m_pageFeat->getDocument();
     std::string special = "/" + imageName + "image.png";
-    std::string dir = doc->TransientDir.getValue();
+    std::string dir = doc->TransientDir.getStrValue();
     std::string fileSpec = dir + special;
 
     //fixes fail to create 2nd Active view with same name in old docs

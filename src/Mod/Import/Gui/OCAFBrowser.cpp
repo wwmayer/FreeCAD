@@ -43,7 +43,6 @@
 #include <TDF_ChildIDIterator.hxx>
 #include <TDF_IDList.hxx>
 #include <TDF_Label.hxx>
-#include <TDF_ListIteratorOfIDList.hxx>
 #include <TDF_TagSource.hxx>
 #include <TDF_Tool.hxx>
 #include <TDocStd_Document.hxx>
@@ -253,7 +252,7 @@ QString OCAFBrowser::toText(const Handle(TNaming_NamedShape) & namedShape)
 
 QString OCAFBrowser::toText(const Handle(TDataStd_TreeNode) & treeNode)
 {
-    Standard_CString type = "";
+    const char* type = "";
     if (treeNode->ID() == XCAFDoc::ShapeRefGUID()) {
         type = "Shape Instance Link";
     }

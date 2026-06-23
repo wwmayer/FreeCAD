@@ -204,7 +204,7 @@ void PlanePy::setPosition(Py::Object arg)
         this_surf->SetLocation(loc);
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -218,7 +218,7 @@ Py::Object PlanePy::getAxis() const
 
 void PlanePy::setAxis(Py::Object arg)
 {
-    Standard_Real dir_x, dir_y, dir_z;
+    double dir_x, dir_y, dir_z;
     PyObject *p = arg.ptr();
     if (PyObject_TypeCheck(p, &(Base::VectorPy::Type))) {
         Base::Vector3d v = static_cast<Base::VectorPy*>(p)->value();

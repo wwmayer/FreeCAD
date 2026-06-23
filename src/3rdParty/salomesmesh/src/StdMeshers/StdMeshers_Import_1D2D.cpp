@@ -49,7 +49,12 @@
 #include <BRepTools.hxx>
 #include <BRep_Builder.hxx>
 #include <BRep_Tool.hxx>
+#include <Standard_Version.hxx>
+#if OCC_VERSION_HEX < 0x080000
 #include <Bnd_B2d.hxx>
+#else
+#include <Bnd_B2.hxx>
+#endif
 #include <Bnd_Box.hxx>
 #include <GeomAPI_ProjectPointOnSurf.hxx>
 #include <GeomAdaptor_Surface.hxx>
@@ -203,7 +208,7 @@ bool StdMeshers_Import_1D2D::Compute(SMESH_Mesh & theMesh, const TopoDS_Shape & 
   Bnd_B2d bndBox2d;
   Bnd_Box bndBox3d;
   {
-    Standard_Real umin,umax,vmin,vmax;
+    double umin,umax,vmin,vmax;
     BRepTools::UVBounds(geomFace,umin,umax,vmin,vmax);
     gp_XY pmin( umin,vmin ), pmax( umax,vmax );
     bndBox2d.Add( pmin );
@@ -412,7 +417,7 @@ bool StdMeshers_Import_1D2D::Compute(SMESH_Mesh & theMesh, const TopoDS_Shape & 
           proj.Perform( gc );
           if ( !proj.IsDone() || proj.NbPoints() < 1 )
             continue;
-          Standard_Real U,V;
+          double U,V;
           proj.LowerDistanceParameters(U,V);
           gp_XY uv( U,V );
           classifier.Perform( geomFace, uv, clsfTol );

@@ -1104,7 +1104,7 @@ void Document::Restore(Base::XMLReader& reader)
     // they will be overridden.
     // Note: This does not affect the internal name of the document in any way
     // that is kept in Application.
-    std::string FilePath = FileName.getValue();
+    std::string FilePath = FileName.getStrValue();
     std::string DocLabel = Label.getValue();
 
     // read the Document Properties, when reading in Uid the transient directory gets renamed
@@ -2557,7 +2557,7 @@ bool Document::afterRestore(const std::vector<DocumentObject*>& objArray, bool c
 
 bool Document::isSaved() const
 {
-    std::string name = FileName.getValue();
+    std::string name = FileName.getStrValue();
     return !name.empty();
 }
 
@@ -3765,6 +3765,11 @@ void Document::removeObject(const char* sName)
         return;
     }
 
+    if (pos->second->testStatus(ObjectStatus::Remove)) {
+        FC_LOG("Avoid recursive deletion of " << pos->second->getFullName());
+        return;
+    }
+
     if (pos->second->testStatus(ObjectStatus::PendingRecompute)) {
         // TODO: shall we allow removal if there is active undo transaction?
         FC_MSG("pending remove of " << sName << " after recomputing document " << getName());
@@ -3858,6 +3863,10 @@ void Document::_removeObject(DocumentObject* pcObject)
     _checkTransaction(pcObject, nullptr, __LINE__);
 
     auto pos = d->objectMap.find(pcObject->getNameInDocument());
+    if (pos == d->objectMap.end()) {
+        FC_ERR("Cannot find object for removal");
+        return;
+    }
 
     if (!d->rollback && d->activeUndoTransaction && pos->second->hasChildElement()) {
         // Preserve link group children global visibility. See comments in

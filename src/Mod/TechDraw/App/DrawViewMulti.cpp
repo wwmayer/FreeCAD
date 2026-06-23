@@ -32,6 +32,7 @@
 #endif
 
 #include <Base/Console.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "GeometryObject.h"
 #include "DrawUtil.h"
@@ -127,7 +128,7 @@ App::DocumentObjectExecReturn *DrawViewMulti::execute()
 #endif //#if MOD_TECHDRAW_HANDLE_FACES
     }
     catch (Standard_Failure& e1) {
-        return new App::DocumentObjectExecReturn(e1.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e1));
     }
 
     requestPaint();

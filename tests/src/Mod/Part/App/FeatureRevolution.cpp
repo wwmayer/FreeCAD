@@ -167,7 +167,7 @@ TEST_F(FeatureRevolutionTest, testMustExecute)
     // Assert
     EXPECT_FALSE(_revolution->mustExecute());
     // Act
-    _revolution->Solid.setValue(Standard_True);
+    _revolution->Solid.setValue(true);
     // Assert
     EXPECT_TRUE(_revolution->mustExecute());
     // Act

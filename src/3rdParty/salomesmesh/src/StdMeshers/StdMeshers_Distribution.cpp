@@ -195,7 +195,7 @@ FunctionExpr::FunctionExpr( const char* str, const int conv )
     OCC_CATCH_SIGNALS;
 #endif
     myExpr = ExprIntrp_GenExp::Create();
-    myExpr->Process( ( Standard_CString )str );
+    myExpr->Process( str );
   } catch(Standard_Failure&) {
     ok = false;
   }
@@ -210,10 +210,10 @@ FunctionExpr::~FunctionExpr()
 {
 }
 
-Standard_Boolean FunctionExpr::Value( const Standard_Real T, Standard_Real& F )
+bool FunctionExpr::Value( const double T, double& F )
 {
   double f;
-  Standard_Boolean res = value( T, f );
+  bool res = value( T, f );
   F = f;
   return res;
 }

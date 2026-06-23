@@ -48,6 +48,7 @@
 #include "TopoShape.h"
 #include "BRepOffsetAPI_MakeOffsetFix.h"
 #include "Geometry.h"
+#include "OCCError.h"
 
 using namespace Part;
 
@@ -88,12 +89,12 @@ void ExtrusionHelper::makeDraft(const TopoDS_Shape& shape,
     bool bMid = !bFwd || !bRev || -1.0 * AngleFwd != AngleRev;
 
     if (shape.IsNull())
-        Standard_Failure::Raise("Not a valid shape");
+        throw Standard_Failure("Not a valid shape");
 
     // store all wires of the shape into an array
     size_t numWires = addWiresToWireSections(wiresections);
     if (numWires == 0)
-        Standard_Failure::Raise("Extrusion: Input must not only consist if a vertex");
+        throw Standard_Failure("Extrusion: Input must not only consist if a vertex");
 
     // to store the sections for the loft
     std::list<TopoDS_Wire> list_of_sections;
@@ -119,7 +120,7 @@ void ExtrusionHelper::makeDraft(const TopoDS_Shape& shape,
             auto tempFace = mkFace.Shape();
             BRepPrimAPI_MakePrism mkPrism(tempFace, vecFwd);
             if (!mkPrism.IsDone())
-                Standard_Failure::Raise("Extrusion: Generating prism failed");
+                throw Standard_Failure("Extrusion: Generating prism failed");
             singlePrism = mkPrism.Shape();
             resultPrisms.push_back(singlePrism);
         }
@@ -226,7 +227,7 @@ void ExtrusionHelper::makeDraft(const TopoDS_Shape& shape,
         std::vector<TopoDS_Shape> shells;
 
         for (auto& wires : extrusionSections) {
-            BRepOffsetAPI_ThruSections mkTS(isSolid, /*ruled=*/Standard_True, Precision::Confusion());
+            BRepOffsetAPI_ThruSections mkTS(isSolid, /*ruled=*/true, Precision::Confusion());
 
             for (auto& singleWire : wires) {
                 if (singleWire.ShapeType() == TopAbs_VERTEX)
@@ -236,7 +237,7 @@ void ExtrusionHelper::makeDraft(const TopoDS_Shape& shape,
             }
             mkTS.Build();
             if (!mkTS.IsDone())
-                Standard_Failure::Raise("Extrusion: Loft could not be built");
+                throw Standard_Failure("Extrusion: Loft could not be built");
 
             shells.push_back(mkTS.Shape());
         }
@@ -247,8 +248,8 @@ void ExtrusionHelper::makeDraft(const TopoDS_Shape& shape,
                 // we take every outer wire prism and cut subsequently all inner wires prisms from it
                 // every resulting shape is the final drafted extrusion shape
                 GProp_GProps tempProperties;
-                Standard_Real momentOfInertiaInitial;
-                Standard_Real momentOfInertiaFinal;
+                double momentOfInertiaInitial;
+                double momentOfInertiaFinal;
                 std::vector<bool>::iterator isInnerWireIterator = isInnerWire.begin();
                 std::vector<bool>::iterator isInnerWireIteratorLoop;
                 for (auto itOuter = shells.begin(); itOuter != shells.end(); ++itOuter) {
@@ -267,7 +268,7 @@ void ExtrusionHelper::makeDraft(const TopoDS_Shape& shape,
                         momentOfInertiaInitial = tempProperties.MomentOfInertia(gp_Ax1(gp_Pnt(), direction));
                         FCBRepAlgoAPI_Cut mkCut(*itOuter, *itInner);
                         if (!mkCut.IsDone())
-                            Standard_Failure::Raise("Extrusion: Final cut out failed");
+                            throw Standard_Failure("Extrusion: Final cut out failed");
                         BRepGProp::VolumeProperties(mkCut.Shape(), tempProperties);
                         momentOfInertiaFinal = tempProperties.MomentOfInertia(gp_Ax1(gp_Pnt(), direction));
                         // if the whole shape was cut away the resulting shape is not Null but its MomentOfInertia is 0.0
@@ -298,7 +299,7 @@ void ExtrusionHelper::makeDraft(const TopoDS_Shape& shape,
         }
     }
     catch (Standard_Failure& e) {
-        throw Base::RuntimeError(e.GetMessageString());
+        throw Base::RuntimeError(Part::toString(e));
     }
     catch (const Base::Exception& e) {
         throw Base::RuntimeError(e.what());
@@ -318,8 +319,8 @@ void ExtrusionHelper::checkInnerWires(std::vector<bool>& isInnerWire, const gp_D
             ++numCheckWiresInitial;
     }
     GProp_GProps tempProperties;
-    Standard_Real momentOfInertiaInitial;
-    Standard_Real momentOfInertiaFinal;
+    double momentOfInertiaInitial;
+    double momentOfInertiaFinal;
     size_t numCheckWires = 0;
     std::vector<bool>::iterator isInnerWireIterator = isInnerWire.begin();
     std::vector<bool>::iterator toCheckIterator = checklist.begin();
@@ -347,7 +348,7 @@ void ExtrusionHelper::checkInnerWires(std::vector<bool>& isInnerWire, const gp_D
             momentOfInertiaInitial = tempProperties.MomentOfInertia(gp_Ax1(gp_Pnt(), direction));
             FCBRepAlgoAPI_Cut mkCut(*itInner, *itOuter);
             if (!mkCut.IsDone())
-                Standard_Failure::Raise("Extrusion: Cut out failed");
+                throw Standard_Failure("Extrusion: Cut out failed");
             BRepGProp::VolumeProperties(mkCut.Shape(), tempProperties);
             momentOfInertiaFinal = tempProperties.MomentOfInertia(gp_Ax1(gp_Pnt(), direction));
             // if the whole shape was cut away the resulting shape is not Null but its MomentOfInertia is 0.0
@@ -442,7 +443,7 @@ void ExtrusionHelper::createTaperedPrismOffset(TopoDS_Wire sourceWire,
             throw Base::RuntimeError(e.what());
         }
         if (!mkOffset.IsDone()) {
-            Standard_Failure::Raise("Extrusion: Offset could not be created");
+            throw Standard_Failure("Extrusion: Offset could not be created");
         }
     }
     else {
@@ -455,7 +456,7 @@ void ExtrusionHelper::createTaperedPrismOffset(TopoDS_Wire sourceWire,
         else
             Base::Console().Error("Extrusion: end face of tapered along extrusion is empty\n" \
                 "This means most probably that the along taper angle is too large or small.\n");
-        Standard_Failure::Raise("Extrusion: end face of tapered extrusion is empty");
+        throw Standard_Failure("Extrusion: end face of tapered extrusion is empty");
     }
     // assure we return a wire and no edge
     TopAbs_ShapeEnum type = offsetShape.ShapeType();
@@ -469,7 +470,7 @@ void ExtrusionHelper::createTaperedPrismOffset(TopoDS_Wire sourceWire,
     else {
         // this happens usually if type == TopAbs_COMPOUND and means the angle is too small
         // since this is a common mistake users will quickly do, issue a warning dialog
-        // FIXME: Standard_Failure::Raise or App::DocumentObjectExecReturn don't output the message to the user
+        // FIXME: Standard_Failure or App::DocumentObjectExecReturn don't output the message to the user
         result = TopoDS_Wire();
         if (isSecond)
             Base::Console().Error("Extrusion: type of against extrusion end face is not supported.\n" \
@@ -500,7 +501,7 @@ void ExtrusionHelper::makeElementDraft(const ExtrusionParameters& params,
     TopoShape shape = _shape;
     TopoShape sourceWire;
     if (shape.isNull()) {
-        Standard_Failure::Raise("Not a valid shape");
+        throw Standard_Failure("Not a valid shape");
     }
 
     if (params.solid && !shape.hasSubShape(TopAbs_FACE)) {
@@ -511,7 +512,7 @@ void ExtrusionHelper::makeElementDraft(const ExtrusionParameters& params,
         std::vector<TopoShape> wires;
         TopoShape outerWire = shape.splitWires(&wires, TopoShape::ReorientForward);
         if (outerWire.isNull()) {
-            Standard_Failure::Raise("Missing outer wire");
+            throw Standard_Failure("Missing outer wire");
         }
         if (wires.empty()) {
             shape = outerWire;
@@ -520,7 +521,7 @@ void ExtrusionHelper::makeElementDraft(const ExtrusionParameters& params,
             unsigned pos = drafts.size();
             makeElementDraft(params, outerWire, drafts, hasher);
             if (drafts.size() != pos + 1) {
-                Standard_Failure::Raise("Failed to make drafted extrusion");
+                throw Standard_Failure("Failed to make drafted extrusion");
             }
             std::vector<TopoShape> inner;
             TopoShape innerWires(0);
@@ -530,7 +531,7 @@ void ExtrusionHelper::makeElementDraft(const ExtrusionParameters& params,
                 TopoShape::SingleShapeCompoundCreationPolicy::returnShape);
             makeElementDraft(params, innerWires, inner, hasher);
             if (inner.empty()) {
-                Standard_Failure::Raise("Failed to make drafted extrusion with inner hole");
+                throw Standard_Failure("Failed to make drafted extrusion with inner hole");
             }
             inner.insert(inner.begin(), drafts.back());
             drafts.back().makeElementCut(inner);
@@ -554,7 +555,7 @@ void ExtrusionHelper::makeElementDraft(const ExtrusionParameters& params,
         }
     }
     else {
-        Standard_Failure::Raise("Only a wire or a face is supported");
+        throw Standard_Failure("Only a wire or a face is supported");
     }
 
     if (!sourceWire.isNull()) {
@@ -591,8 +592,8 @@ void ExtrusionHelper::makeElementDraft(const ExtrusionParameters& params,
 #endif
 
             // make loft
-            BRepOffsetAPI_ThruSections mkGenerator(params.solid ? Standard_True : Standard_False,
-                                                   /*ruled=*/Standard_True);
+            BRepOffsetAPI_ThruSections mkGenerator(params.solid ? true : false,
+                                                   /*ruled=*/true);
             for (auto& s : list_of_sections) {
                 mkGenerator.AddWire(TopoDS::Wire(s.getShape()));
             }

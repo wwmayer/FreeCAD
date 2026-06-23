@@ -34,6 +34,10 @@
 #include "OCCError.h"
 
 
+#if OCC_VERSION_HEX < 0x080000
+using GC_MakeArcOfHyperbola2d = GCE2d_MakeArcOfHyperbola;
+#endif
+
 using namespace Part;
 
 extern const char* gce_ErrorStatusText(gce_ErrorType et);
@@ -60,7 +64,7 @@ int ArcOfHyperbola2dPy::PyInit(PyObject* args, PyObject* /*kwds*/)
         try {
             Handle(Geom2d_Hyperbola) hyperbola = Handle(Geom2d_Hyperbola)::DownCast
                 (static_cast<Hyperbola2dPy*>(o)->getGeom2dHyperbolaPtr()->handle());
-            GCE2d_MakeArcOfHyperbola arc(hyperbola->Hypr2d(), u1, u2, Base::asBoolean(sense));
+            GC_MakeArcOfHyperbola2d arc(hyperbola->Hypr2d(), u1, u2, Base::asBoolean(sense));
             if (!arc.IsDone()) {
                 PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(arc.Status()));
                 return -1;
@@ -71,7 +75,7 @@ int ArcOfHyperbola2dPy::PyInit(PyObject* args, PyObject* /*kwds*/)
         }
         catch (Standard_Failure& e) {
 
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
         catch (...) {

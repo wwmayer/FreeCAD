@@ -147,6 +147,7 @@ public:
     virtual QWidget* createEditor(QWidget* parent, const std::function<void()>& method) const;
     virtual void setEditorData(QWidget* editor, const QVariant& data) const;
     virtual QVariant editorData(QWidget* editor) const;
+    virtual bool editingFinished(QWidget* editor) const;
     virtual bool isSeparator() const
     {
         return false;
@@ -253,6 +254,7 @@ class GuiExport PropertyStringItem: public PropertyItem
     QWidget* createEditor(QWidget* parent, const std::function<void()>& method) const override;
     void setEditorData(QWidget* editor, const QVariant& data) const override;
     QVariant editorData(QWidget* editor) const override;
+    bool editingFinished(QWidget* editor) const override;
 
 protected:
     QVariant value(const App::Property*) const override;

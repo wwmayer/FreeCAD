@@ -84,6 +84,7 @@
 #include <Gui/ViewParams.h>
 #include <Mod/Part/App/ShapeMapHasher.h>
 #include <Mod/Part/App/Tools.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "ViewProviderExt.h"
 #include "ViewProviderPartExtPy.h"
@@ -967,9 +968,9 @@ void ViewProviderPartExt::updateVisual()
         Bnd_Box bounds;
         BRepBndLib::Add(cShape, bounds);
         bounds.SetGap(0.0);
-        Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+        double xMin, yMin, zMin, xMax, yMax, zMax;
         bounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
-        Standard_Real deflection = ((xMax-xMin)+(yMax-yMin)+(zMax-zMin))/300.0 * Deviation.getValue();
+        double deflection = ((xMax-xMin)+(yMax-yMin)+(zMax-zMin))/300.0 * Deviation.getValue();
 
         // Since OCCT 7.6 a value of equal 0 is not allowed any more, this can happen if a single vertex
         // should be displayed.
@@ -983,14 +984,14 @@ void ViewProviderPartExt::updateVisual()
         //deflection = std::min(deflection, 20.0);
 
         // create or use the mesh on the data structure
-        Standard_Real AngDeflectionRads = Base::toRadians(AngularDeflection.getValue());
+        double AngDeflectionRads = Base::toRadians(AngularDeflection.getValue());
 
         IMeshTools_Parameters meshParams;
         meshParams.Deflection = deflection;
-        meshParams.Relative = Standard_False;
+        meshParams.Relative = false;
         meshParams.Angle = AngDeflectionRads;
-        meshParams.InParallel = Standard_True;
-        meshParams.AllowQualityDecrease = Standard_True;
+        meshParams.InParallel = true;
+        meshParams.AllowQualityDecrease = true;
 
         BRepMesh_IncrementalMesh(cShape, meshParams);
 
@@ -1091,7 +1092,7 @@ void ViewProviderPartExt::updateVisual()
 
             // getting the transformation of the shape/face
             gp_Trsf myTransf;
-            Standard_Boolean identity = true;
+            bool identity = true;
             if (!aLoc.IsIdentity()) {
                 identity = false;
                 myTransf = aLoc.Transformation();
@@ -1118,7 +1119,7 @@ void ViewProviderPartExt::updateVisual()
 
             for (int g=1;g<=nbTriInFace;g++) {
                 // Get the triangle
-                Standard_Integer N1,N2,N3;
+                int N1,N2,N3;
 #if OCC_VERSION_HEX < 0x070600
                 Triangles(g).Get(N1,N2,N3);
 #else
@@ -1127,7 +1128,7 @@ void ViewProviderPartExt::updateVisual()
 
                 // change orientation of the triangle if the face is reversed
                 if ( orient != TopAbs_FORWARD ) {
-                    Standard_Integer tmp = N1;
+                    int tmp = N1;
                     N1 = N2;
                     N2 = tmp;
                 }
@@ -1204,7 +1205,7 @@ void ViewProviderPartExt::updateVisual()
 
                     // getting the indexes of the edge polygon
                     const TColStd_Array1OfInteger& indices = aPoly->Nodes();
-                    for (Standard_Integer i=indices.Lower();i <= indices.Upper();i++) {
+                    for (int i=indices.Lower();i <= indices.Upper();i++) {
                         int nodeIndex = indices(i);
                         int index = faceNodeOffset+nodeIndex-1;
                         lineSetMap[edgeIndex].push_back(index);
@@ -1239,7 +1240,7 @@ void ViewProviderPartExt::updateVisual()
         // handling of the free edges
         for (int i=1; i <= edgeMap.Extent(); i++) {
             const TopoDS_Edge& aEdge = TopoDS::Edge(edgeMap(i));
-            Standard_Boolean identity = true;
+            bool identity = true;
             gp_Trsf myTransf;
             TopLoc_Location aLoc;
 
@@ -1257,7 +1258,7 @@ void ViewProviderPartExt::updateVisual()
                     int nbNodesInEdge = aPoly->NbNodes();
 
                     gp_Pnt pnt;
-                    for (Standard_Integer j=1;j <= nbNodesInEdge;j++) {
+                    for (int j=1;j <= nbNodesInEdge;j++) {
                         pnt = aNodes(j);
                         if (!identity)
                             pnt.Transform(myTransf);
@@ -1306,7 +1307,7 @@ void ViewProviderPartExt::updateVisual()
     }
     catch (const Standard_Failure& e) {
         FC_ERR("Cannot compute Inventor representation for the shape of "
-               << pcObject->getFullName() << ": " << e.GetMessageString());
+               << pcObject->getFullName() << ": " << Part::toString(e));
     }
     catch (...) {
         FC_ERR("Cannot compute Inventor representation for the shape of " << pcObject->getFullName());

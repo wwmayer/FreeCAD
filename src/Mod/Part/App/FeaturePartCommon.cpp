@@ -61,20 +61,13 @@ BRepAlgoAPI_BooleanOperation* Common::makeOperation(const TopoDS_Shape& base, co
 
 // ----------------------------------------------------
 
-PROPERTY_SOURCE(Part::MultiCommon, Part::Feature)
+PROPERTY_SOURCE(Part::MultiCommon, Part::BooleanBase)
 
 
 MultiCommon::MultiCommon()
 {
     ADD_PROPERTY(Shapes,(nullptr));
     Shapes.setSize(0);
-    ADD_PROPERTY_TYPE(History,(ShapeHistory()), "Boolean", (App::PropertyType)
-        (App::Prop_Output|App::Prop_Transient|App::Prop_Hidden), "Shape history");
-    History.setSize(0);
-
-    ADD_PROPERTY_TYPE(Refine,(0),"Boolean",(App::PropertyType)(App::Prop_None),"Refine shape (clean up redundant edges) after this boolean operation");
-
-    this->Refine.setValue(getRefineModelParameter());
 }
 
 short MultiCommon::mustExecute() const
@@ -98,7 +91,7 @@ App::DocumentObjectExecReturn *MultiCommon::execute()
     TopoShape res {0};
     for (std::size_t index = 1; index < shapes.size(); index++) {
         std::vector<TopoShape> two_shapes {shapes[0], shapes[index]};
-        res.makeElementBoolean(Part::OpCodes::Common, two_shapes);
+        res.makeElementBoolean(Part::OpCodes::Common, two_shapes, nullptr, FuzzyTolerance.getValue());
         if (res.isNull()) {
             throw Base::RuntimeError("Resulting shape is null");
         }

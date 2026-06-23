@@ -36,6 +36,7 @@
 #include "Blending/BlendCurvePy.h"
 #include <Base/Vector3D.h>
 #include <Mod/Part/App/Geometry.h>
+#include <Mod/Part/App/OCCError.h>
 
 using namespace Surface;
 
@@ -72,7 +73,7 @@ Handle(Geom_BezierCurve) BlendCurve::compute()
 
         Handle(Geom_BezierCurve) curve;
         if (num_poles > (curve->MaxDegree() + 1)) {  // use Geom_BezierCurve max degree
-            Standard_Failure::Raise("number of constraints exceeds bezier curve capacity");
+            throw Standard_Failure("number of constraints exceeds bezier curve capacity");
         }
 
         TColStd_Array1OfReal knots(1, 2 * num_poles);
@@ -89,14 +90,14 @@ Handle(Geom_BezierCurve) BlendCurve::compute()
         int cons_idx = 1;
         for (size_t i = 0; i < nb_pts; ++i) {
             math_Matrix bezier_eval(1, blendPoints[i].nbVectors(), 1, num_poles, 0.0);
-            Standard_Integer first_non_zero;
+            int first_non_zero;
             BSplCLib::EvalBsplineBasis(blendPoints[i].nbVectors() - 1,
                                        num_poles,
                                        knots,
                                        params(cons_idx),
                                        first_non_zero,
                                        bezier_eval,
-                                       Standard_False);
+                                       false);
             int idx2 = 1;
             for (int it2 = 0; it2 < blendPoints[i].nbVectors(); ++it2) {
                 OCCmatrix.SetRow(row_idx, bezier_eval.Row(idx2));
@@ -112,15 +113,15 @@ Handle(Geom_BezierCurve) BlendCurve::compute()
         math_Gauss gauss(OCCmatrix);
         gauss.Solve(res_x);
         if (!gauss.IsDone()) {
-            Standard_Failure::Raise("Failed to solve equations");
+            throw Standard_Failure("Failed to solve equations");
         }
         gauss.Solve(res_y);
         if (!gauss.IsDone()) {
-            Standard_Failure::Raise("Failed to solve equations");
+            throw Standard_Failure("Failed to solve equations");
         }
         gauss.Solve(res_z);
         if (!gauss.IsDone()) {
-            Standard_Failure::Raise("Failed to solve equations");
+            throw Standard_Failure("Failed to solve equations");
         }
 
         TColgp_Array1OfPnt poles(1, num_poles);
@@ -147,6 +148,6 @@ void BlendCurve::setSize(int i, double f, bool relative)
         blendPoints[i].setSize(size);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
     }
 }

@@ -120,7 +120,7 @@ PyObject* ShapeFix_SplitToolPy::cutEdge(PyObject *args)
 
     TopoDS_Shape e = static_cast<TopoShapePy*>(edge)->getTopoShapePtr()->getShape();
     TopoDS_Shape f = static_cast<TopoShapePy*>(face)->getTopoShapePtr()->getShape();
-    Standard_Boolean iscutline;
+    bool iscutline;
     bool ok = getShapeFix_SplitToolPtr()->CutEdge(TopoDS::Edge(e), pend, cut, TopoDS::Face(f), iscutline);
     return Py::new_reference_to(Py::Boolean(ok));
 }

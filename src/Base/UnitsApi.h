@@ -32,9 +32,6 @@
 
 class QString;
 
-using PyObject = struct _object;
-using PyMethodDef = struct PyMethodDef;
-
 namespace Base
 {
 using UnitsSchemaPtr = std::unique_ptr<UnitsSchema>;
@@ -92,11 +89,6 @@ public:
     static std::string toNumber(double value,
                                 const QuantityFormat& f = QuantityFormat(QuantityFormat::Default));
 
-    /// generate a value for a quantity with default user preferred system
-    static double toDouble(PyObject* args, const Base::Unit& u = Base::Unit());
-    /// generate a value for a quantity with default user preferred system
-    static Quantity toQuantity(PyObject* args, const Base::Unit& u = Base::Unit());
-
     // set the number of decimals
     static void setDecimals(int);
     // get the number of decimals
@@ -114,9 +106,6 @@ public:
     // return the basic unit of measure for length in the current user schema.
     static std::string getBasicLengthUnit();
 
-    // Python interface
-    static PyMethodDef Methods[];
-
     /// return an instance of the given enum value
     static UnitsSchemaPtr createSchema(UnitSystem s);
 
@@ -125,15 +114,6 @@ protected:
     static UnitSystem currentSystem;
     /// number of decimals for floats
     static int UserPrefDecimals;
-
-protected:
-    // the python API wrapper methods
-    static PyObject* sParseQuantity(PyObject* self, PyObject* args);
-    static PyObject* sListSchemas(PyObject* self, PyObject* args);
-    static PyObject* sGetSchema(PyObject* self, PyObject* args);
-    static PyObject* sSetSchema(PyObject* self, PyObject* args);
-    static PyObject* sSchemaTranslate(PyObject* self, PyObject* args);
-    static PyObject* sToNumber(PyObject* self, PyObject* args);
 };
 
 }  // namespace Base

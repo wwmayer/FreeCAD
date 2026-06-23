@@ -33,6 +33,7 @@
 #include <Base/Tools.h>
 #include "FeatureRevolution.h"
 #include "FaceMaker.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -178,7 +179,7 @@ App::DocumentObjectExecReturn *Revolution::execute()
         return Part::Feature::execute();
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 

@@ -56,7 +56,6 @@
 #include <Precision.hxx>
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
-#include <TopTools_ListIteratorOfListOfShape.hxx>
 #include <TopTools_ListOfShape.hxx>
 #include <TopTools_MapOfShape.hxx>
 #include <TopoDS.hxx>
@@ -483,7 +482,7 @@ static bool fixCommonVertexUV (R_2 &                 theUV,
       if ( !V.IsSame( theV ))
         continue;
       EList.Append( E );
-      Standard_Real u = BRep_Tool::Parameter( V, E );
+      double u = BRep_Tool::Parameter( V, E );
       UList.push_back( u );
       double f, l;
       Handle(Geom2d_Curve) C2d = BRep_Tool::CurveOnSurface(E, theF, f, l);

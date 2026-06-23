@@ -34,7 +34,12 @@
 #include <vector>
 #include <math_Function.hxx>
 #include <ExprIntrp_GenExp.hxx>
+#include <Standard_Version.hxx>
+#if OCC_VERSION_HEX < 0x080000
 #include <Expr_Array1OfNamedUnknown.hxx>
+#else
+using Expr_Array1OfNamedUnknown = NCollection_Array1<occ::handle<Expr_NamedUnknown>>;
+#endif
 #include <TColStd_Array1OfReal.hxx>
 
 namespace StdMeshers
@@ -92,7 +97,7 @@ class STDMESHERS_EXPORT FunctionExpr : public Function, public math_Function
 public:
   FunctionExpr( const char*, const int );
   virtual ~FunctionExpr();
-  virtual Standard_Boolean Value( const Standard_Real, Standard_Real& );
+  virtual bool Value( const double, double& );
   virtual bool   value( const double, double& ) const;
   virtual double integral( const double, const double ) const;
 

@@ -370,6 +370,7 @@ SET(Gui_UIC_SRCS
     Dialogs/DlgPreferencePackManagement.ui
     Dialogs/DlgPreferences.ui
     Dialogs/DlgProjectInformation.ui
+    Dialogs/DlgProjectLicence.ui
     Dialogs/DlgProjectUtility.ui
     Dialogs/DlgPropertyLink.ui
     Dialogs/DlgRevertToBackupConfig.ui
@@ -414,6 +415,7 @@ SET(Gui_UIC_SRCS
     Dialogs/DlgObjectSelection.ui
     Dialogs/DlgAddProperty.ui
     Dialogs/DlgAddPropertyVarSet.ui
+    Dialogs/DlgAnnotation.ui
     VectorListEditor.ui
 )
 
@@ -485,6 +487,7 @@ SET(Dialog_CPP_SRCS
     Dialogs/DlgParameterFind.cpp
     Dialogs/DlgPreferencePackManagementImp.cpp
     Dialogs/DlgProjectInformationImp.cpp
+    Dialogs/DlgProjectLicence.cpp
     Dialogs/DlgProjectUtility.cpp
     Dialogs/DlgPropertyLink.cpp
     Dialogs/DlgRevertToBackupConfigImp.cpp
@@ -506,6 +509,7 @@ SET(Dialog_CPP_SRCS
     Dialogs/DlgObjectSelection.cpp
     Dialogs/DlgAddProperty.cpp
     Dialogs/DlgAddPropertyVarSet.cpp
+    Dialogs/DlgAnnotation.cpp
     VectorListEditor.cpp
 )
 
@@ -526,6 +530,7 @@ SET(Dialog_HPP_SRCS
     Dialogs/DlgParameterFind.h
     Dialogs/DlgPreferencePackManagementImp.h
     Dialogs/DlgProjectInformationImp.h
+    Dialogs/DlgProjectLicence.h
     Dialogs/DlgProjectUtility.h
     Dialogs/DlgPropertyLink.h
     Dialogs/DlgRevertToBackupConfigImp.h
@@ -547,6 +552,7 @@ SET(Dialog_HPP_SRCS
     Dialogs/DlgObjectSelection.h
     Dialogs/DlgAddProperty.h
     Dialogs/DlgAddPropertyVarSet.h
+    Dialogs/DlgAnnotation.h
     VectorListEditor.h
 )
 
@@ -571,6 +577,7 @@ SET(Dialog_SRCS
     Dialogs/DlgParameterFind.ui
     Dialogs/DlgPreferencePackManagement.ui
     Dialogs/DlgProjectInformation.ui
+    Dialogs/DlgProjectLicence.ui
     Dialogs/DlgProjectUtility.ui
     Dialogs/DlgPropertyLink.ui
     Dialogs/DlgRevertToBackupConfig.ui
@@ -1259,8 +1266,10 @@ SET(Selection_SRCS
     Selection/SelectionObjectPyImp.cpp
     Selection/SelectionObject.h
     Selection/SelectionObject.cpp
-    Selection/Selection.h
     Selection/Selection.cpp
+    Selection/Selection.h
+    Selection/SelectionPy.cpp
+    Selection/SelectionPy.h
     Selection/SelectionFilter.h
     Selection/SelectionFilter.cpp
     Selection/SelectionFilterPy.h
@@ -1368,7 +1377,7 @@ SET(FreeCADGui_SRCS
     ${Dock_Windows_SRCS}
     ${Editor_SRCS}
     ${Help_SRCS}
-    ${Inventor_CPP_SRCS}
+    ${Inventor_SRCS}
     ${Language_SRCS}
     ${Propertyeditor_SRCS}
     ${Task_View_SRCS}

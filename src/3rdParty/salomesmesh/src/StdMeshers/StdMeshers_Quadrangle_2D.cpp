@@ -49,14 +49,13 @@
 #include <GeomAPI_ProjectPointOnSurf.hxx>
 #include <Geom_Surface.hxx>
 #include <Precision.hxx>
-#include <Standard_Real.hxx>
 #include <TColStd_SequenceOfInteger.hxx>
 #include <TColStd_SequenceOfReal.hxx>
 #include <TColgp_SequenceOfXY.hxx>
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
 #include <TopTools_DataMapOfShapeReal.hxx>
-#include <TopTools_ListIteratorOfListOfShape.hxx>
+#include <TopTools_ListOfShape.hxx>
 #include <TopTools_MapOfShape.hxx>
 #include <TopoDS.hxx>
 
@@ -4658,7 +4657,7 @@ bool StdMeshers_Quadrangle_2D::getEnforcedUV()
 
   multimap< double, ForcedPoint > sortedFP; // sort points by distance from EDGEs
 
-  Standard_Real u1,u2,v1,v2;
+  double u1,u2,v1,v2;
   const TopoDS_Face&   face = TopoDS::Face( myHelper->GetSubShape() );
   const double          tol = BRep_Tool::Tolerance( face );
   Handle(ShapeAnalysis_Surface) project = myHelper->GetSurface( face );

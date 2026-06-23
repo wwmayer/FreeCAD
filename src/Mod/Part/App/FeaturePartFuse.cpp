@@ -34,8 +34,9 @@
 #include "TopoShape.h"
 #include "modelRefine.h"
 #include "TopoShapeOpCode.h"
+#include "OCCError.h"
 
-FC_LOG_LEVEL_INIT("Part",true,true);
+FC_LOG_LEVEL_INIT("Part",true,true)
 
 using namespace Part;
 
@@ -63,20 +64,13 @@ const char *Fuse::opCode() const
 
 // ----------------------------------------------------
 
-PROPERTY_SOURCE(Part::MultiFuse, Part::Feature)
+PROPERTY_SOURCE(Part::MultiFuse, Part::BooleanBase)
 
 
 MultiFuse::MultiFuse()
 {
     ADD_PROPERTY(Shapes,(nullptr));
     Shapes.setSize(0);
-    ADD_PROPERTY_TYPE(History,(ShapeHistory()), "Boolean", (App::PropertyType)
-        (App::Prop_Output|App::Prop_Transient|App::Prop_Hidden), "Shape history");
-    History.setSize(0);
-
-    ADD_PROPERTY_TYPE(Refine,(0),"Boolean",(App::PropertyType)(App::Prop_None),"Refine shape (clean up redundant edges) after this boolean operation");
-
-    this->Refine.setValue(getRefineModelParameter());
 }
 
 short MultiFuse::mustExecute() const
@@ -88,6 +82,7 @@ short MultiFuse::mustExecute() const
 
 App::DocumentObjectExecReturn *MultiFuse::execute()
 {
+    const double tolerance = FuzzyTolerance.getValue();
     std::vector<TopoShape> shapes;
     std::vector<App::DocumentObject*> obj = Shapes.getValues();
 
@@ -133,7 +128,12 @@ App::DocumentObjectExecReturn *MultiFuse::execute()
 
             mkFuse.SetArguments(shapeArguments);
             mkFuse.SetTools(shapeTools);
-            mkFuse.setAutoFuzzy();
+            if (tolerance < 0.0) {
+                mkFuse.setAutoFuzzy();
+            }
+            else if (tolerance > 0.0) {
+                mkFuse.SetFuzzyValue(tolerance);
+            }
             mkFuse.Build();
 
             if (!mkFuse.IsDone()) {
@@ -175,26 +175,24 @@ App::DocumentObjectExecReturn *MultiFuse::execute()
                 TopTools_IndexedMapOfShape facesOfCompound;
                 TopAbs_ShapeEnum type = TopAbs_FACE;
                 TopExp::MapShapes(compoundOfArguments.getShape(), type, facesOfCompound);
-                for (std::size_t iChild = 0; iChild < history.size();
-                     iChild++) {  // loop over children of source compound
-                    // for each face of a child, find the inex of the face in compound, and assign
-                    // the corresponding right-hand-size of the history
+                // loop over children of source compound
+                // for each face of a child, find the inex of the face in compound, and assign
+                // the corresponding right-hand-size of the history
+                for (std::size_t iChild = 0; iChild < history.size(); iChild++) {
                     TopTools_IndexedMapOfShape facesOfChild;
                     TopExp::MapShapes(shapes[iChild].getShape(), type, facesOfChild);
-                    for (std::pair<const int, ShapeHistory::List>& histitem :
-                         history[iChild].shapeMap) {  // loop over elements of history - that is -
-                                                      // over faces of the child of source compound
+                    // loop over elements of history - that is -
+                    // over faces of the child of source compound
+                    for (std::pair<const int, ShapeHistory::List>& histitem : history[iChild].shapeMap) {
                         int iFaceInChild = histitem.first;
                         ShapeHistory::List& iFacesInResult = histitem.second;
-                        const TopoDS_Shape& srcFace = facesOfChild(
-                            iFaceInChild
-                            + 1);  //+1 to convert our 0-based to OCC 1-bsed conventions
+                        //+1 to convert our 0-based to OCC 1-bsed conventions
+                        const TopoDS_Shape& srcFace = facesOfChild(iFaceInChild + 1);
                         int iFaceInCompound = facesOfCompound.FindIndex(srcFace) - 1;
-                        overallHist.shapeMap[iFaceInCompound] =
-                            iFacesInResult;  // this may overwrite existing info if the same face is
-                                             // used in several children of compound. This shouldn't
-                                             // be a problem, because the histories should match
-                                             // anyway...
+                        // this may overwrite existing info if the same face is
+                        // used in several children of compound. This shouldn't
+                        // be a problem, because the histories should match anyway...
+                        overallHist.shapeMap[iFaceInCompound] = iFacesInResult;
                     }
                 }
                 history.clear();
@@ -208,7 +206,7 @@ App::DocumentObjectExecReturn *MultiFuse::execute()
             return Part::Feature::execute();
         }
         catch (Standard_Failure& e) {
-            return new App::DocumentObjectExecReturn(e.GetMessageString());
+            return new App::DocumentObjectExecReturn(Part::toString(e));
         }
     }
     else {

@@ -44,13 +44,19 @@
 # include <Geom2dAPI_InterCurveCurve.hxx>
 # include <Geom2dAPI_ProjectPointOnCurve.hxx>
 # include <Geom2dConvert_ApproxCurve.hxx>
-# include <Geom2dLProp_CLProps2d.hxx>
 # include <gp_Dir2d.hxx>
 # include <Precision.hxx>
 # include <ShapeConstruct_Curve.hxx>
 # include <Standard_Failure.hxx>
 # include <Standard_NullValue.hxx>
 # include <TopoDS.hxx>
+# include <Standard_Version.hxx>
+# if OCC_VERSION_HEX >= 0x080000
+# include <GeomLProp_CLProps.hxx>
+# else
+# include <Geom2dLProp_CLProps2d.hxx>
+using GeomLProp_CLProps2d = Geom2dLProp_CLProps2d;
+# endif
 #endif
 
 #include <Base/GeometryPyCXX.h>
@@ -61,6 +67,7 @@
 #include "Geom2d/BSplineCurve2dPy.h"
 #include "GeometrySurfacePy.h"
 #include "OCCError.h"
+#include "Tools.h"
 #include "TopoShapeFacePy.h"
 
 
@@ -99,7 +106,7 @@ PyObject* Curve2dPy::reverse(PyObject * args)
             Py_Return;
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -162,12 +169,11 @@ void create3dCurve(const TopoDS_Edge& edge)
         BRepLib::BuildCurves3d(edge3d, Precision::Confusion(), GeomAbs_Shape::GeomAbs_C1, 14, 10000);
         break;
     }
-    Standard_Real aFirst, aLast;
+    double aFirst, aLast;
     Handle(Geom_Curve) curve = BRep_Tool::Curve(edge3d, aFirst, aLast);
     BRep_Builder builder;
     builder.UpdateEdge(edge, curve, Precision::Confusion());
     builder.Range(edge, aFirst, aLast, true);
-    return;
 }
 }
 
@@ -182,7 +188,7 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
             return Py::new_reference_to(shape2pyshape(edge));
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -198,7 +204,7 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
             return Py::new_reference_to(shape2pyshape(edge));
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -218,7 +224,7 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
             return Py::new_reference_to(shape2pyshape(edge));
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -238,7 +244,7 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
         }
         catch (Standard_Failure& e) {
 
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -250,14 +256,14 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
             Handle(Geom2d_Curve) curv = Handle(Geom2d_Curve)::DownCast(getGeometry2dPtr()->handle());
 
             BRepAdaptor_Surface adapt(face);
-            BRepBuilderAPI_MakeEdge mkBuilder(curv, adapt.Surface().Surface());
+            BRepBuilderAPI_MakeEdge mkBuilder(curv, Tools::getSurface(adapt));
             TopoDS_Edge edge =  mkBuilder.Edge();
             create3dCurve(edge);
 
             return Py::new_reference_to(shape2pyshape(edge));
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -269,14 +275,14 @@ PyObject* Curve2dPy::toShape(PyObject *args) const
             Handle(Geom2d_Curve) curv = Handle(Geom2d_Curve)::DownCast(getGeometry2dPtr()->handle());
 
             BRepAdaptor_Surface adapt(face);
-            BRepBuilderAPI_MakeEdge mkBuilder(curv, adapt.Surface().Surface(), u1, u2);
+            BRepBuilderAPI_MakeEdge mkBuilder(curv, Tools::getSurface(adapt), u1, u2);
             TopoDS_Edge edge =  mkBuilder.Edge();
             create3dCurve(edge);
 
             return Py::new_reference_to(shape2pyshape(edge));
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return nullptr;
         }
     }
@@ -472,7 +478,7 @@ PyObject* Curve2dPy::length(PyObject *args)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -497,7 +503,7 @@ PyObject* Curve2dPy::parameterAtDistance(PyObject *args)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -519,7 +525,7 @@ PyObject* Curve2dPy::value(PyObject *args)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -537,7 +543,7 @@ PyObject* Curve2dPy::tangent(PyObject *args)
             if (!PyArg_ParseTuple(args, "d", &u))
                 return nullptr;
             gp_Dir2d dir;
-            Geom2dLProp_CLProps2d prop(c,u,2,Precision::Confusion());
+            GeomLProp_CLProps2d prop(c,u,2,Precision::Confusion());
             if (prop.IsTangentDefined()) {
                 prop.Tangent(dir);
             }
@@ -546,7 +552,7 @@ PyObject* Curve2dPy::tangent(PyObject *args)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -564,14 +570,14 @@ PyObject* Curve2dPy::normal(PyObject *args) const
             if (!PyArg_ParseTuple(args, "d", &u))
                 return nullptr;
             gp_Dir2d dir;
-            Geom2dLProp_CLProps2d prop(c,u,2,Precision::Confusion());
+            GeomLProp_CLProps2d prop(c,u,2,Precision::Confusion());
             prop.Normal(dir);
 
             return Py::new_reference_to(Base::Vector2dPy::create(dir.X(), dir.Y()));
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -588,13 +594,13 @@ PyObject* Curve2dPy::curvature(PyObject *args) const
             double u;
             if (!PyArg_ParseTuple(args, "d", &u))
                 return nullptr;
-            Geom2dLProp_CLProps2d prop(c,u,2,Precision::Confusion());
+            GeomLProp_CLProps2d prop(c,u,2,Precision::Confusion());
             double C = prop.Curvature();
             return Py::new_reference_to(Py::Float(C));
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -611,7 +617,7 @@ PyObject* Curve2dPy::centerOfCurvature(PyObject *args) const
             double u;
             if (!PyArg_ParseTuple(args, "d", &u))
                 return nullptr;
-            Geom2dLProp_CLProps2d prop(c,u,2,Precision::Confusion());
+            GeomLProp_CLProps2d prop(c,u,2,Precision::Confusion());
             gp_Pnt2d pnt ;
             prop.CentreOfCurvature(pnt);
 
@@ -619,7 +625,7 @@ PyObject* Curve2dPy::centerOfCurvature(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -645,7 +651,7 @@ PyObject* Curve2dPy::parameter(PyObject *args)
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -667,12 +673,12 @@ PyObject* Curve2dPy::toBSpline(PyObject * args)
             ShapeConstruct_Curve scc;
             Handle(Geom2d_BSplineCurve) spline = scc.ConvertToBSpline(c, u, v, Precision::Confusion());
             if (spline.IsNull())
-                Standard_NullValue::Raise("Conversion to B-spline failed");
+                throw Standard_NullValue("Conversion to B-spline failed");
             return new BSplineCurve2dPy(new Geom2dBSplineCurve(spline));
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -725,7 +731,7 @@ PyObject* Curve2dPy::approximateBSpline(PyObject *args)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -841,7 +847,7 @@ PyObject* Curve2dPy::intersectCC(PyObject *args) const
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 

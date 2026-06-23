@@ -169,6 +169,7 @@ public:
     }
 
 protected:
+    std::string _path;
     std::filesystem::path _cValue;
 };
 

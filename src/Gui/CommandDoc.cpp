@@ -226,8 +226,13 @@ void StdCmdImport::activated(int iMsg)
     Base::Reference<ParameterGrp> hPath = App::GetApplication().GetUserParameter().GetGroup("BaseApp")
                                ->GetGroup("Preferences")->GetGroup("General");
     QString selectedFilter = QString::fromStdString(hPath->GetASCII("FileImportFilter"));
+
+    bool hideFilter = hPath->GetBool("HideFileImportFilterDetails", false);
+    FileDialog::Options options;
+    options.setFlag(QFileDialog::HideNameFilterDetails, hideFilter);
+
     QStringList fileList = FileDialog::getOpenFileNames(getMainWindow(),
-        QObject::tr("Import file"), QString(), formatList, &selectedFilter);
+        QObject::tr("Import file"), QString(), formatList, &selectedFilter, options);
     if (!fileList.isEmpty()) {
         hPath->SetASCII("FileImportFilter", selectedFilter.toLatin1().constData());
         SelectModule::Dict dict = SelectModule::importHandler(fileList, selectedFilter);
@@ -475,9 +480,13 @@ void StdCmdExport::activated(int iMsg)
         }
     }
 
+    bool hideFilter = hPath->GetBool("HideFileExportFilterDetails", false);
+    FileDialog::Options options;
+    options.setFlag(QFileDialog::HideNameFilterDetails, hideFilter);
+
     // Launch the file selection modal dialog
     QString fileName = FileDialog::getSaveFileName(getMainWindow(),
-        QObject::tr("Export file"), defaultFilename, formatList, &selectedFilter);
+        QObject::tr("Export file"), defaultFilename, formatList, &selectedFilter, options);
     if (!fileName.isEmpty()) {
         hPath->SetASCII("FileExportFilter", selectedFilter.toLatin1().constData());
         lastExportFilterUsed = selectedFilter; // So we can select the same one next time

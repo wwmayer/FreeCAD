@@ -40,7 +40,7 @@
 #include <TopoDS_Iterator.hxx>
 #include <TopoDS_Shell.hxx>
 #include <TopTools_HSequenceOfShape.hxx>
-#include <TopTools_ListIteratorOfListOfShape.hxx>
+#include <TopTools_ListOfShape.hxx>
 #endif
 
 #include <App/Link.h>
@@ -48,6 +48,7 @@
 #include <App/Document.h>
 #include "PartFeatures.h"
 #include "TopoShapeOpCode.h"
+#include "OCCError.h"
 
 using namespace Part;
 
@@ -153,8 +154,7 @@ App::DocumentObjectExecReturn* RuledSurface::execute()
 
     }
     catch (Standard_Failure& e) {
-
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
     catch (...) {
         return new App::DocumentObjectExecReturn("General error in RuledSurface::execute()");
@@ -235,7 +235,7 @@ App::DocumentObjectExecReturn* Loft::execute()
     }
     catch (Standard_Failure& e) {
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 
@@ -319,7 +319,7 @@ App::DocumentObjectExecReturn* Sweep::execute()
         }
     }
     MakeSolid isSolid = Solid.getValue() ? MakeSolid::makeSolid : MakeSolid::noSolid;
-    Standard_Boolean isFrenet = Frenet.getValue() ? Standard_True : Standard_False;
+    bool isFrenet = Frenet.getValue() ? true : false;
     auto transMode = static_cast<TransitionMode>(Transition.getValue());
     try {
         TopoShape result(0);
@@ -332,7 +332,7 @@ App::DocumentObjectExecReturn* Sweep::execute()
     }
     catch (Standard_Failure& e) {
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
     catch (...) {
         return new App::DocumentObjectExecReturn("A fatal error occurred when making the sweep");
@@ -457,7 +457,7 @@ App::DocumentObjectExecReturn* Refine::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 
@@ -490,6 +490,6 @@ App::DocumentObjectExecReturn* Reverse::execute()
         return new App::DocumentObjectExecReturn("Shape is null.");
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }

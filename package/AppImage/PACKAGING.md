@@ -1,4 +1,4 @@
-# AppImage Packaging Guide
+# AppImage Packaging Guide for FreeCAD 2.0
 
 This tutorial describes the ways to create AppImage for the supported platforms.
 
@@ -25,14 +25,15 @@ In an empty directory, create directories "AppDir" and "build" and "tools"
 
 ### Download AppImage tools
 
-* Download *linuxdeploy-x86_64.AppImage* from : https://github.com/linuxdeploy/linuxdeploy/releases/  
-* Download *linuxdeploy-plugin-qt-x86_64.AppImage* from https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases  
-* Download *appimagetool-x86_64.AppImage* from https://github.com/AppImage/appimagetool/releases
+* Download _linuxdeploy-x86_64.AppImage_ from : https://github.com/linuxdeploy/linuxdeploy/releases/  
+* Download _linuxdeploy-plugin-qt-x86_64.AppImage_ from https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases  
+* Download _appimagetool-x86_64.AppImage_ from https://github.com/AppImage/appimagetool/releases
+* Download _runtime_x86_64_ runtime from https://github.com/AppImage/type2-runtime/releases/
 
-
-* *~/tools/linuxdeploy-x86_64.AppImage*  
-* *~/tools/linuxdeploy-plugin-qt-x86_64.AppImage*  
-* *~/tools/appimagetool-x86_64.AppImage*  
+* _~/tools/linuxdeploy-x86_64.AppImage_  
+* _~/tools/linuxdeploy-plugin-qt-x86_64.AppImage_  
+* _~/tools/appimagetool-x86_64.AppImage_  
+* _~/tools/runtime-x86_64_  
 
 
 ### Compile from source
@@ -176,12 +177,10 @@ export FONTCONFIG_PATH=/etc/fonts
 
 `rm squashfs-root/usr/lib/libheif.so.1`
 
-* add matplotlibrc
+* add matplotlib files
 
-```
-mkdir -p squashfs-root/usr/lib/python3/dist-packages/matplotlib/mpl-data
-cp /usr/share/matplotlib/mpl-data/matplotlibrc  squashfs-root/usr/lib/python3/dist-packages/matplotlib/mpl-data
-```
+copy folder `/usr/share/matplotlib/mpl-data` to `squashfs-root/usr/lib/python3/dist-packages/matplotlib/mpl-data`
+
 
 [//]: # (Include Assembly4 if wanted :)
 [//]: # (copy Assembly4 files to ./squashfs-root/usr/Mod)
@@ -191,7 +190,7 @@ cp /usr/share/matplotlib/mpl-data/matplotlibrc  squashfs-root/usr/lib/python3/di
 
 ### Build AppImage
 
-`./tools/appimagetool-x86_64.AppImage -v squashfs-root`
+`./tools/appimagetool-x86_64.AppImage --runtime-file ./tools/runtime-x86_64 squashfs-root`
 
 Will make _FreeCAD-x86_64.AppImage_
 

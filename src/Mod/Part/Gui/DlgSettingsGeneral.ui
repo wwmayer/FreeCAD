@@ -68,6 +68,22 @@
         </property>
        </widget>
       </item>
+      <item row="3" column="0">
+       <widget class="Gui::PrefCheckBox" name="checkAllowCompoundBody">
+        <property name="text">
+         <string>Allow multiple solids in Part Design Body by default</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+        <property name="prefEntry" stdset="0">
+         <cstring>AllowCompoundDefault</cstring>
+        </property>
+        <property name="prefPath" stdset="0">
+         <cstring>Mod/PartDesign</cstring>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -100,44 +116,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBoxExperimental">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="title">
-      <string>Experimental</string>
-     </property>
-     <property name="flat">
-      <bool>false</bool>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QLabel" name="warningLabel">
-        <property name="text">
-         <string>These settings are experimental and may result in decreased stability, more problems and undefined behaviors.</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Gui::PrefCheckBox" name="checkAllowCompoundBody">
-        <property name="text">
-         <string>Allow multiple solids in Part Design Body by default (experimental)</string>
-        </property>
-        <property name="prefEntry" stdset="0">
-         <cstring>AllowCompoundDefault</cstring>
-        </property>
-        <property name="prefPath" stdset="0">
-         <cstring>Mod/PartDesign</cstring>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -156,11 +134,6 @@
   <customwidget>
    <class>Gui::PrefCheckBox</class>
    <extends>QCheckBox</extends>
-   <header>Gui/PrefWidgets.h</header>
-  </customwidget>
-  <customwidget>
-   <class>Gui::PrefDoubleSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
  </customwidgets>

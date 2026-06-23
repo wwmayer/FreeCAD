@@ -31,6 +31,7 @@
 #include <gp_Pnt.hxx>
 #include <gp_Vec.hxx>
 #include <gp_XYZ.hxx>
+#include <BRepAdaptor_Surface.hxx>
 #include <Geom_Surface.hxx>
 #include <Poly_Polygon3D.hxx>
 #include <Poly_Triangle.hxx>
@@ -111,10 +112,11 @@ class PartExport Tools
 {
 public:
     Handle(Geom_Surface) makeSurface (const TColStd_ListOfTransient& theBoundaries,
-                                     const Standard_Real theTol,
-                                     const Standard_Integer theNbPnts,
-                                     const Standard_Integer theNbIter,
-                                     const Standard_Integer theMaxDeg);
+                                     const double theTol,
+                                     const int theNbPnts,
+                                     const int theNbIter,
+                                     const int theMaxDeg);
+    static Handle(Geom_Surface) getSurface(const BRepAdaptor_Surface& adaptor);
     /*!
      * @brief getTriangulation
      * The indexes of the triangles are adjusted to the points vector.
@@ -207,7 +209,7 @@ public:
      * \param dir
      * \param done
      */
-    static void getNormal(const Handle(Geom_Surface)& surf, double u, double v, const Standard_Real tol, gp_Dir& dir, Standard_Boolean& done);
+    static void getNormal(const Handle(Geom_Surface)& surf, double u, double v, const double tol, gp_Dir& dir, bool& done);
     /*! \brief getNormal
      * Returns the normal at the given parameters on the face and the state of the calculation.
      * The orientation is taken into account
@@ -218,7 +220,7 @@ public:
      * \param dir
      * \param done
      */
-    static void getNormal(const TopoDS_Face& face, double u, double v, const Standard_Real tol, gp_Dir& dir, Standard_Boolean& done);
+    static void getNormal(const TopoDS_Face& face, double u, double v, const double tol, gp_Dir& dir, bool& done);
     /*!
      * \brief fromPlacement
      * Converts a placement into a TopLoc_Location

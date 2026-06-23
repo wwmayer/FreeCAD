@@ -59,7 +59,7 @@ template <class TheItemType> class SMESH_Array2
       myArray   = (SMESH_Array2 *) &theArray; 
     }
     //! Check end
-    virtual Standard_Boolean More (void) const
+    virtual bool More (void) const
     { return (myCurrent < mySize); }
     //! Make step
     virtual void Next (void)
@@ -75,8 +75,8 @@ template <class TheItemType> class SMESH_Array2
                        const Handle(NCollection_BaseAllocator)& theAllocator) 
     { return theAllocator->Allocate(theSize); }
   private:
-    Standard_Integer    myCurrent;  //!< Index of the current item
-    Standard_Integer    mySize;     //!< Total amount of items
+    int    myCurrent;  //!< Index of the current item
+    int    mySize;     //!< Total amount of items
     SMESH_Array2* myArray;    //!< Pointer to the array being iterated
   }; // End of nested class Iterator
 
@@ -84,16 +84,16 @@ template <class TheItemType> class SMESH_Array2
   // ---------- PUBLIC METHODS ------------
 
   //! Constructor
-  SMESH_Array2(const Standard_Integer theRowLower,
-                     const Standard_Integer theRowUpper,
-                     const Standard_Integer theColLower,
-                     const Standard_Integer theColUpper) :
+  SMESH_Array2(const int theRowLower,
+                     const int theRowUpper,
+                     const int theColLower,
+                     const int theColUpper) :
     NCollection_BaseCollection<TheItemType>     (),
     myLowerRow                                  (theRowLower),
     myUpperRow                                  (theRowUpper),
     myLowerCol                                  (theColLower),
     myUpperCol                                  (theColUpper),
-    myDeletable                                 (Standard_True)
+    myDeletable                                 (true)
   { Allocate(); }
 
   //! Copy constructor 
@@ -103,7 +103,7 @@ template <class TheItemType> class SMESH_Array2
     myUpperRow                                  (theOther.UpperRow()),
     myLowerCol                                  (theOther.LowerCol()),
     myUpperCol                                  (theOther.UpperCol()),
-    myDeletable                                 (Standard_True)
+    myDeletable                                 (true)
   {
     Allocate();
     *this = theOther;
@@ -111,16 +111,16 @@ template <class TheItemType> class SMESH_Array2
 
   //! C array-based constructor
   SMESH_Array2(const TheItemType&     theBegin,
-                     const Standard_Integer theRowLower,
-                     const Standard_Integer theRowUpper,
-                     const Standard_Integer theColLower,
-                     const Standard_Integer theColUpper) :
+                     const int theRowLower,
+                     const int theRowUpper,
+                     const int theColLower,
+                     const int theColUpper) :
     NCollection_BaseCollection<TheItemType>     (),
     myLowerRow                                  (theRowLower),
     myUpperRow                                  (theRowUpper),
     myLowerCol                                  (theColLower),
     myUpperCol                                  (theColUpper),
-    myDeletable                                 (Standard_False)
+    myDeletable                                 (false)
   {
     myStart = (TheItemType *) &theBegin;
     Allocate();
@@ -135,34 +135,34 @@ template <class TheItemType> class SMESH_Array2
   }
 
   //! Size (number of items)
-  virtual Standard_Integer Size (void) const
+  virtual int Size (void) const
   { return Length(); }
   //! Length (number of items)
-  Standard_Integer Length (void) const
+  int Length (void) const
   { return RowLength() * ColLength(); }
 
   //! RowLength 
-  Standard_Integer RowLength (void) const
+  int RowLength (void) const
   { return (myUpperCol-myLowerCol+1); }
   //! ColLength 
-  Standard_Integer ColLength (void) const
+  int ColLength (void) const
   { return (myUpperRow-myLowerRow+1); }
 
   //! LowerRow
-  Standard_Integer LowerRow (void) const
+  int LowerRow (void) const
   { return myLowerRow; }
   //! UpperRow
-  Standard_Integer UpperRow (void) const
+  int UpperRow (void) const
   { return myUpperRow; }
   //! LowerCol
-  Standard_Integer LowerCol (void) const
+  int LowerCol (void) const
   { return myLowerCol; }
   //! UpperCol
-  Standard_Integer UpperCol (void) const
+  int UpperCol (void) const
   { return myUpperCol; }
 
   //! myDeletable flag
-  Standard_Boolean IsDeletable (void) const
+  bool IsDeletable (void) const
   { return myDeletable; }
 
   //! Assign 
@@ -174,7 +174,7 @@ template <class TheItemType> class SMESH_Array2
       return;
 #if !defined No_Exception && !defined No_Standard_DimensionMismatch
     if (Length() != theOther.Size())
-      Standard_DimensionMismatch::Raise ("SMESH_Array2::Assign");
+      throw Standard_DimensionMismatch ("SMESH_Array2::Assign");
 #endif
     TYPENAME NCollection_BaseCollection<TheItemType>::Iterator& anIter2 = 
       theOther.CreateIterator();
@@ -192,59 +192,59 @@ template <class TheItemType> class SMESH_Array2
       return *this;
 #if !defined No_Exception && !defined No_Standard_DimensionMismatch
     if (Length() != theOther.Length())
-      Standard_DimensionMismatch::Raise ("SMESH_Array2::operator=");
+      throw Standard_DimensionMismatch ("SMESH_Array2::operator=");
 #endif
     TheItemType * pMyItem  = myStart;
     TheItemType * pItem    = theOther.myStart;
-    const Standard_Integer iSize = Length();
-    for (Standard_Integer i=0; i < iSize; i++, pItem++, pMyItem++)
+    const int iSize = Length();
+    for (int i=0; i < iSize; i++, pItem++, pMyItem++)
       *pMyItem = *pItem;
     return *this; 
   }
 
   //! Constant value access
-  const TheItemType& Value (const Standard_Integer theRow,
-                            const Standard_Integer theCol) const
+  const TheItemType& Value (const int theRow,
+                            const int theCol) const
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theRow < myLowerRow || theRow > myUpperRow ||
         theCol < myLowerCol || theCol > myUpperCol)
-      Standard_OutOfRange::Raise ("SMESH_Array2::Value");
+      throw Standard_OutOfRange ("SMESH_Array2::Value");
 #endif
     return myData[theRow][theCol];
   }
 
   //! operator() - alias to ChangeValue
-  const TheItemType& operator() (const Standard_Integer theRow,
-                                 const Standard_Integer theCol) const
+  const TheItemType& operator() (const int theRow,
+                                 const int theCol) const
   { return Value (theRow,theCol); }
 
   //! Variable value access
-  TheItemType& ChangeValue (const Standard_Integer theRow,
-                            const Standard_Integer theCol)
+  TheItemType& ChangeValue (const int theRow,
+                            const int theCol)
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theRow < myLowerRow || theRow > myUpperRow ||
         theCol < myLowerCol || theCol > myUpperCol)
-      Standard_OutOfRange::Raise ("SMESH_Array2::ChangeValue");
+      throw Standard_OutOfRange ("SMESH_Array2::ChangeValue");
 #endif
     return myData[theRow][theCol];
   }
 
   //! operator() - alias to ChangeValue
-  TheItemType& operator() (const Standard_Integer theRow,
-                           const Standard_Integer theCol)
+  TheItemType& operator() (const int theRow,
+                           const int theCol)
   { return ChangeValue (theRow,theCol); }
 
   //! SetValue
-  void SetValue (const Standard_Integer theRow,
-                 const Standard_Integer theCol,
+  void SetValue (const int theRow,
+                 const int theCol,
                  const TheItemType&     theItem)
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theRow < myLowerRow || theRow > myUpperRow ||
         theCol < myLowerCol || theCol > myUpperCol)
-      Standard_OutOfRange::Raise ("SMESH_Array2::SetValue");
+      throw Standard_OutOfRange ("SMESH_Array2::SetValue");
 #endif
     myData[theRow][theCol] = theItem;
   }
@@ -262,30 +262,30 @@ template <class TheItemType> class SMESH_Array2
   //! Allocate memory for the array, set up indirection table
   void Allocate (void)
   {
-    const Standard_Integer iRowSize = myUpperCol - myLowerCol + 1;
-    const Standard_Integer iColSize = myUpperRow - myLowerRow + 1;
+    const int iRowSize = myUpperCol - myLowerCol + 1;
+    const int iColSize = myUpperRow - myLowerRow + 1;
 #if !defined No_Exception && !defined No_Standard_RangeError
     if (iRowSize <= 0  || iColSize <= 0)
-      Standard_RangeError::Raise ("SMESH_Array2::Allocate");
+      throw Standard_RangeError ("SMESH_Array2::Allocate");
 #endif
     if (myDeletable) {
       // allocation of the data in the array
       myStart = new TheItemType[iRowSize * iColSize];
 #if !defined No_Exception && !defined No_Standard_OutOfMemory
       if (!myStart)
-        Standard_OutOfMemory::Raise ("SMESH_Array2 : Allocation failed");
+        throw Standard_OutOfMemory ("SMESH_Array2 : Allocation failed");
 #endif
     }
     // else myStart is set to the beginning of the given array
     TheItemType** pTable = new TheItemType* [iColSize];
 #if !defined No_Exception && !defined No_Standard_OutOfMemory
     if (!pTable)
-      Standard_OutOfMemory::Raise ("SMESH_Array2 : Allocation failed");
+      throw Standard_OutOfMemory ("SMESH_Array2 : Allocation failed");
 #endif
 
     // Items of pTable point to the '0'th items in the rows of the array
     TheItemType* pRow = myStart - myLowerCol;
-    for (Standard_Integer i = 0; i < iColSize; i++) 
+    for (int i = 0; i < iColSize; i++) 
     {
       pTable[i] = pRow;
       pRow += iRowSize;
@@ -302,14 +302,14 @@ template <class TheItemType> class SMESH_Array2
 
  protected:
   // ---------- PROTECTED FIELDS -----------
-  Standard_Integer myLowerRow;
-  Standard_Integer myUpperRow;
-  Standard_Integer myLowerCol;
-  Standard_Integer myUpperCol;
+  int myLowerRow;
+  int myUpperRow;
+  int myLowerCol;
+  int myUpperCol;
 
   TheItemType**    myData;      //!< Pointer to the row pointers table
   TheItemType*     myStart;     //!< Pointer to the memory array
-  Standard_Boolean myDeletable; //!< Flag showing who allocated the array
+  bool myDeletable; //!< Flag showing who allocated the array
 
   // ----------- FRIEND CLASSES ------------
  friend class Iterator;

@@ -39,7 +39,6 @@
 #include <BRepBuilderAPI_MakeEdge.hxx>
 #include <BRepExtrema_DistShapeShape.hxx>
 #include <BRepLProp_CLProps.hxx>
-#include <BRepLProp_CurveTool.hxx>
 #include <BRepLProp_SLProps.hxx>
 #include <BRepTools.hxx>
 #include <BRep_Builder.hxx>
@@ -1175,8 +1174,8 @@ bool DrawUtil::isCrazy(TopoDS_Edge e)
         return true;
     }
 
-    double start = BRepLProp_CurveTool::FirstParameter(adapt);
-    double end = BRepLProp_CurveTool::LastParameter(adapt);
+    double start = adapt.FirstParameter();
+    double end = adapt.LastParameter();
     BRepLProp_CLProps propStart(adapt, start, 0, Precision::Confusion());
     const gp_Pnt& vStart = propStart.Value();
     BRepLProp_CLProps propEnd(adapt, end, 0, Precision::Confusion());
@@ -1343,7 +1342,7 @@ std::list<TopoDS_Edge> DrawUtil::sort_Edges(double tol3d, std::list<TopoDS_Edge>
             } else if (itEdgePoint->v2.SquareDistance(gpChainLast) <= tol3d) {
                 //found a connection from end of chain to end of edge
                 gpChainLast = itEdgePoint->v1;
-                Standard_Real firstParam, lastParam;
+                double firstParam, lastParam;
                 const Handle(Geom_Curve)& curve =
                     BRep_Tool::Curve(itEdgePoint->edge, firstParam, lastParam);
                 firstParam = curve->ReversedParameter(firstParam);
@@ -1358,7 +1357,7 @@ std::list<TopoDS_Edge> DrawUtil::sort_Edges(double tol3d, std::list<TopoDS_Edge>
             } else if (itEdgePoint->v1.SquareDistance(gpChainFirst) <= tol3d) {
                 //found a connection from start of chain to start of edge
                 gpChainFirst = itEdgePoint->v2;
-                Standard_Real firstParam, lastParam;
+                double firstParam, lastParam;
                 const Handle(Geom_Curve)& curve =
                     BRep_Tool::Curve(itEdgePoint->edge, firstParam, lastParam);
                 firstParam = curve->ReversedParameter(firstParam);
@@ -1969,8 +1968,8 @@ void DrawUtil::dump1Vertex(const char* text, const TopoDS_Vertex& v)
 void DrawUtil::dumpEdge(const char* label, int i, TopoDS_Edge e)
 {
     BRepAdaptor_Curve adapt(e);
-    double start = BRepLProp_CurveTool::FirstParameter(adapt);
-    double end = BRepLProp_CurveTool::LastParameter(adapt);
+    double start = adapt.FirstParameter();
+    double end = adapt.LastParameter();
     BRepLProp_CLProps propStart(adapt, start, 0, Precision::Confusion());
     const gp_Pnt& vStart = propStart.Value();
     BRepLProp_CLProps propEnd(adapt, end, 0, Precision::Confusion());

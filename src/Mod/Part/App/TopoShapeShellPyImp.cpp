@@ -118,11 +118,11 @@ PyObject*  TopoShapeShellPy::add(PyObject *args)
             }
         }
         else {
-            Standard_Failure::Raise("cannot add empty shape");
+            throw Standard_Failure("cannot add empty shape");
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -137,7 +137,7 @@ PyObject*  TopoShapeShellPy::getFreeEdges(PyObject *args) const
         return nullptr;
     ShapeAnalysis_Shell as;
     as.LoadShells(getTopoShapePtr()->getShape());
-    as.CheckOrientedShells(getTopoShapePtr()->getShape(), Standard_True, Standard_True);
+    as.CheckOrientedShells(getTopoShapePtr()->getShape(), true, true);
 
     TopoDS_Compound comp = as.FreeEdges();
     TopoShape res;
@@ -152,7 +152,7 @@ PyObject*  TopoShapeShellPy::getBadEdges(PyObject *args) const
         return nullptr;
     ShapeAnalysis_Shell as;
     as.LoadShells(getTopoShapePtr()->getShape());
-    as.CheckOrientedShells(getTopoShapePtr()->getShape(), Standard_True, Standard_True);
+    as.CheckOrientedShells(getTopoShapePtr()->getShape(), true, true);
 
     TopoDS_Compound comp = as.BadEdges();
     TopoShape res;
@@ -173,7 +173,7 @@ PyObject* TopoShapeShellPy::makeHalfSpace(PyObject *args) const
         return new TopoShapeSolidPy(new TopoShape(mkHS.Solid()));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -212,7 +212,7 @@ Py::Object TopoShapeShellPy::getStaticMoments() const
 {
     GProp_GProps props;
     BRepGProp::SurfaceProperties(getTopoShapePtr()->getShape(), props);
-    Standard_Real lx,ly,lz;
+    double lx,ly,lz;
     props.StaticMoments(lx,ly,lz);
     Py::Tuple tuple(3);
     tuple.setItem(0, Py::Float(lx));
@@ -230,7 +230,7 @@ Py::Dict TopoShapeShellPy::getPrincipalProperties() const
     Py::Dict dict;
     dict.setItem("SymmetryAxis", Py::Boolean(pprops.HasSymmetryAxis() ? true : false));
     dict.setItem("SymmetryPoint", Py::Boolean(pprops.HasSymmetryPoint() ? true : false));
-    Standard_Real lx,ly,lz;
+    double lx,ly,lz;
     pprops.Moments(lx,ly,lz);
     Py::Tuple tuple(3);
     tuple.setItem(0, Py::Float(lx));
@@ -244,7 +244,7 @@ Py::Dict TopoShapeShellPy::getPrincipalProperties() const
     dict.setItem("ThirdAxisOfInertia",Py::Vector(Base::convertTo
         <Base::Vector3d>(pprops.ThirdAxisOfInertia())));
 
-    Standard_Real Rxx,Ryy,Rzz;
+    double Rxx,Ryy,Rzz;
     pprops.RadiusOfGyration(Rxx,Ryy,Rzz);
     Py::Tuple rog(3);
     rog.setItem(0, Py::Float(Rxx));

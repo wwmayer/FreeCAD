@@ -22,6 +22,7 @@
 
 #include "PreCompiled.h"
 #ifndef _PreComp_
+#include <cmath>
 #include <BRep_Tool.hxx>
 #include <BRepAdaptor_Curve.hxx>
 #include <BRepAdaptor_Surface.hxx>
@@ -45,6 +46,7 @@
 #include <Base/Tools.h>
 #include <Mod/Part/App/PartFeature.h>
 #include <Mod/Part/App/TopoShape.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "Measurement.h"
 #include "MeasurementPy.h"
@@ -133,8 +135,8 @@ MeasureType Measurement::findType() const
         catch (Standard_Failure& e) {
             std::stringstream errorMsg;
 
-            errorMsg << "Measurement - getType - " << e.GetMessageString() << std::endl;
-            throw Base::CADKernelError(e.GetMessageString());
+            errorMsg << "Measurement - getType - " << Part::toString(e) << std::endl;
+            throw Base::CADKernelError(Part::toString(e));
         }
 
         switch (refSubShape.ShapeType()) {
@@ -445,7 +447,7 @@ double Measurement::planePlaneDistance() const
     gp_Vec vectorBetweenPlanes(pointOnPlane1, pointOnPlane2);
 
     // Project this vector onto the plane normal
-    double distance = Abs(vectorBetweenPlanes.Dot(normalToPlane1));
+    double distance = std::abs(vectorBetweenPlanes.Dot(normalToPlane1));
 
     return distance;
 }
@@ -485,7 +487,7 @@ double Measurement::angle(const Base::Vector3d& /*param*/) const
                 gp_Lin l1 = gp_Lin(pnt1First, dir1);    // (A)
                 gp_Lin l2 = gp_Lin(pnt1First, dir2);    // (B)
                 gp_Lin l2r = gp_Lin(pnt1First, dir2r);  // (B')
-                Standard_Real aRad = l1.Angle(l2);
+                double aRad = l1.Angle(l2);
                 double aRadr = l1.Angle(l2r);
                 return Base::toDegrees<double>(std::min(aRad, aRadr));
             }
@@ -768,8 +770,8 @@ bool Measurement::planesAreParallel() const
         }
         catch (Standard_Failure& e) {
             std::stringstream errorMsg;
-            errorMsg << "Measurement - planesAreParallel - " << e.GetMessageString() << std::endl;
-            throw Base::CADKernelError(e.GetMessageString());
+            errorMsg << "Measurement - planesAreParallel - " << Part::toString(e) << std::endl;
+            throw Base::CADKernelError(Part::toString(e));
         }
 
         if (refSubShape.ShapeType() == TopAbs_FACE) {

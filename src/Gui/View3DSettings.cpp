@@ -89,6 +89,7 @@ void View3DSettings::applySettings()
     OnChange(*hGrp,"ShowFPS");
     OnChange(*hGrp,"ShowNaviCube");
     OnChange(*hGrp,"UseVBO");
+    OnChange(*hGrp,"UseSelectionShading");
     OnChange(*hGrp,"RenderCache");
     OnChange(*hGrp,"Orthographic");
     OnChange(*hGrp,"EnableHeadlight");
@@ -403,6 +404,11 @@ void View3DSettings::OnChange(ParameterGrp::SubjectType &rCaller,ParameterGrp::M
             for (auto _viewer : _viewers) {
                 _viewer->setEnabledVBO(rGrp.GetBool("UseVBO", false));
             }
+        }
+    }
+    else if (strcmp(Reason,"UseSelectionShading") == 0) {
+        for (auto _viewer : _viewers) {
+            _viewer->setEnabledSelectionShading(rGrp.GetBool("UseSelectionShading", true));
         }
     }
     else if (strcmp(Reason,"RenderCache") == 0) {

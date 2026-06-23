@@ -50,7 +50,6 @@
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
 #include <TopTools_IndexedMapOfShape.hxx>
-#include <TopTools_ListIteratorOfListOfShape.hxx>
 #include <TopTools_ListOfShape.hxx>
 #include <TopoDS.hxx>
 #include <TopoDS_Compound.hxx>
@@ -59,6 +58,7 @@
 
 #include <Standard_OutOfMemory.hxx>
 #include <Standard_ErrorHandler.hxx>
+#include <Standard_Version.hxx>
 
 #include <numeric>
 
@@ -1548,11 +1548,19 @@ bool SMESH_subMesh::ComputeStateEngine(int event)
         catch (Standard_Failure& ex) {
           if ( !_computeError ) _computeError = SMESH_ComputeError::New();
           _computeError->myName    = COMPERR_OCC_EXCEPTION;
+#if OCC_VERSION_HEX >= 0x080000
+          _computeError->myComment += ex.ExceptionType();
+          if ( ex.what() && strlen( ex.what() )) {
+              _computeError->myComment += ": ";
+              _computeError->myComment += ex.what();
+          }
+#else
           _computeError->myComment += ex.DynamicType()->Name();
           if ( ex.GetMessageString() && strlen( ex.GetMessageString() )) {
             _computeError->myComment += ": ";
             _computeError->myComment += ex.GetMessageString();
           }
+#endif
         }
         catch ( SALOME_Exception& S_ex ) {
           const int skipSalomeShift = 7; /* to skip "Salome " of

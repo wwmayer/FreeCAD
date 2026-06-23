@@ -33,6 +33,7 @@
 #include <BRepGProp_Face.hxx>
 #include <TopExp.hxx>
 #include <TopoDS.hxx>
+#include <TopTools_IndexedMapOfShape.hxx>
 #include <gp_Pnt.hxx>
 
 #include <QEventLoop>
@@ -107,7 +108,7 @@ Base::Vector3f InspectActualPoints::getPoint(unsigned long index) const
 InspectActualShape::InspectActualShape(const Part::TopoShape& shape)
     : _rShape(shape)
 {
-    Standard_Real deflection = _rShape.getAccuracy();
+    double deflection = _rShape.getAccuracy();
     fetchPoints(deflection);
 }
 
@@ -523,7 +524,7 @@ float InspectNominalShape::getDistance(const Base::Vector3f& point) const
 
 bool InspectNominalShape::isInsideSolid(const gp_Pnt& pnt3d) const
 {
-    const Standard_Real tol = 0.001;
+    const double tol = 0.001;
     BRepClass3d_SolidClassifier classifier(_rShape);
     classifier.Perform(pnt3d, tol);
     return (classifier.State() == TopAbs_IN);
@@ -532,10 +533,10 @@ bool InspectNominalShape::isInsideSolid(const gp_Pnt& pnt3d) const
 bool InspectNominalShape::isBelowFace(const gp_Pnt& pnt3d) const
 {
     // check if the distance was computed from a face
-    for (Standard_Integer index = 1; index <= distss->NbSolution(); index++) {
+    for (int index = 1; index <= distss->NbSolution(); index++) {
         if (distss->SupportTypeShape1(index) == BRepExtrema_IsInFace) {
             TopoDS_Shape face = distss->SupportOnShape1(index);
-            Standard_Real u, v;
+            double u, v;
             distss->ParOnFaceS1(index, u, v);
             // gp_Pnt pnt = distss->PointOnShape1(index);
             BRepGProp_Face props(TopoDS::Face(face));
@@ -543,7 +544,7 @@ bool InspectNominalShape::isBelowFace(const gp_Pnt& pnt3d) const
             gp_Pnt center;
             props.Normal(u, v, center, normal);
             gp_Vec dir(center, pnt3d);
-            Standard_Real scalar = normal.Dot(dir);
+            double scalar = normal.Dot(dir);
             if (scalar < 0) {
                 return true;
             }

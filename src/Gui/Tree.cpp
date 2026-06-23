@@ -2856,7 +2856,7 @@ void TreeWidget::onReloadDoc() {
         return;
     auto docitem = static_cast<DocumentItem*>(this->contextItem);
     App::Document* doc = docitem->document()->getDocument();
-    std::string name = doc->FileName.getValue();
+    std::string name = doc->FileName.getStrValue();
     Application::Instance->reopen(doc);
     for (auto& v : DocumentMap) {
         if (name == v.first->getDocument()->FileName.getValue()) {
@@ -2893,7 +2893,7 @@ void TreeWidget::onOpenFileLocation()
 {
     auto docitem = dynamic_cast<DocumentItem*>(this->contextItem);
     App::Document* doc = docitem->document()->getDocument();
-    std::string name = doc->FileName.getValue();
+    std::string name = doc->FileName.getStrValue();
 
     const QFileInfo fileInfo(QString::fromStdString(name));
     if (fileInfo.exists()) {

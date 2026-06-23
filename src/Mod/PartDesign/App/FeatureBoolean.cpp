@@ -32,11 +32,12 @@
 #include <App/DocumentObject.h>
 #include <Mod/Part/App/modelRefine.h>
 #include <Mod/Part/App/TopoShapeOpCode.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "FeatureBoolean.h"
 #include "Body.h"
 
-FC_LOG_LEVEL_INIT("PartDesign", true, true);
+FC_LOG_LEVEL_INIT("PartDesign", true, true)
 
 using namespace PartDesign;
 
@@ -148,9 +149,9 @@ App::DocumentObjectExecReturn *Boolean::execute()
             return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP("Exception", "Unsupported boolean operation"));
 
         try {
-            result.makeElementBoolean(op, shapes);
+            result.makeElementBoolean(op, shapes, nullptr, FuzzyTolerance.getValue());
         } catch (Standard_Failure &e) {
-            FC_ERR("Boolean operation failed: " << e.GetMessageString());
+            FC_ERR("Boolean operation failed: " << Part::toString(e));
             return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP("Exception", "Boolean operation failed"));
         }
     }

@@ -139,7 +139,7 @@ int LineSegmentPy::PyInit(PyObject* args, PyObject* /*kwd*/)
             // Create line out of two points
             double distance = Base::Distance(v1, v2);
             if (distance < gp::Resolution())
-                Standard_Failure::Raise("Both points are equal");
+                throw Standard_Failure("Both points are equal");
             GC_MakeSegment ms(gp_Pnt(v1.x,v1.y,v1.z),
                               gp_Pnt(v2.x,v2.y,v2.z));
             if (!ms.IsDone()) {
@@ -161,7 +161,7 @@ int LineSegmentPy::PyInit(PyObject* args, PyObject* /*kwd*/)
         }
         catch (Standard_Failure& e) {
 
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
         catch (...) {
@@ -191,7 +191,7 @@ PyObject* LineSegmentPy::setParameterRange(PyObject *args)
         this_curve->SetTrim(first, last);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -235,7 +235,7 @@ void LineSegmentPy::setStartPoint(Py::Object arg)
     try {
         // Create line out of two points
         if (p1.Distance(p2) < gp::Resolution())
-            Standard_Failure::Raise("Both points are equal");
+            throw Standard_Failure("Both points are equal");
         GC_MakeSegment ms(p1, p2);
         if (!ms.IsDone()) {
             throw Py::RuntimeError(gce_ErrorStatusText(ms.Status()));
@@ -250,7 +250,7 @@ void LineSegmentPy::setStartPoint(Py::Object arg)
         this_curv->SetTrim(that_curv->FirstParameter(), that_curv->LastParameter());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -291,7 +291,7 @@ void LineSegmentPy::setEndPoint(Py::Object arg)
     try {
         // Create line out of two points
         if (p1.Distance(p2) < gp::Resolution())
-            Standard_Failure::Raise("Both points are equal");
+            throw Standard_Failure("Both points are equal");
         GC_MakeSegment ms(p1, p2);
         if (!ms.IsDone()) {
             throw Py::RuntimeError(gce_ErrorStatusText(ms.Status()));
@@ -306,7 +306,7 @@ void LineSegmentPy::setEndPoint(Py::Object arg)
         this_curv->SetTrim(that_curv->FirstParameter(), that_curv->LastParameter());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 

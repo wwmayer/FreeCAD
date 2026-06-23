@@ -49,8 +49,14 @@
 #include <BRepAdaptor_Curve.hxx>
 #include <BRepAdaptor_Curve2d.hxx>
 #include <BRep_Tool.hxx>
+#include <Standard_Version.hxx>
+#if OCC_VERSION_HEX < 0x080000
 #include <Bnd_B2d.hxx>
 #include <Bnd_B3d.hxx>
+#else
+#include <Bnd_B2.hxx>
+#include <Bnd_B3.hxx>
+#endif
 #include <ElCLib.hxx>
 #include <GCPnts_AbscissaPoint.hxx>
 #include <Geom2dAdaptor_Curve.hxx>
@@ -71,7 +77,6 @@
 #include <TopExp_Explorer.hxx>
 #include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
 #include <TopTools_IndexedMapOfShape.hxx>
-#include <TopTools_ListIteratorOfListOfShape.hxx>
 #include <TopTools_ListOfShape.hxx>
 #include <TopTools_MapOfShape.hxx>
 #include <TopoDS.hxx>
@@ -1290,7 +1295,7 @@ void _ViscousBuilder2D::setLayerEdgeData( _LayerEdge&                 lEdge,
     faceProj->Perform( p );
     if ( !faceProj->IsDone() || faceProj->NbPoints() < 1 )
       return setLayerEdgeData( lEdge, u, pcurve, curve, p, reverse, NULL );
-    Standard_Real U,V;
+    double U,V;
     faceProj->LowerDistanceParameters(U,V);
     lEdge._normal2D.SetCoord( U - uv.X(), V - uv.Y() );
     lEdge._normal2D.Normalize();

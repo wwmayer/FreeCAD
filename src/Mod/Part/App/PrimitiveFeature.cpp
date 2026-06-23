@@ -38,7 +38,6 @@
 # include <gp_Elips.hxx>
 # include <gp_GTrsf.hxx>
 # include <Precision.hxx>
-# include <Standard_Real.hxx>
 # include <Standard_Version.hxx>
 # include <TopoDS.hxx>
 # include <TopoDS_Vertex.hxx>
@@ -50,6 +49,7 @@
 
 #include "PrimitiveFeature.h"
 #include "PartFeaturePy.h"
+#include "OCCError.h"
 
 namespace Part {
     using num_float = std::numeric_limits<float>;
@@ -366,8 +366,7 @@ App::DocumentObjectExecReturn *Sphere::execute()
         this->Shape.setValue(ResultShape);
     }
     catch (Standard_Failure& e) {
-
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -425,12 +424,12 @@ App::DocumentObjectExecReturn *Ellipsoid::execute()
                                         Base::toRadians<double>(Angle1.getValue()),
                                         Base::toRadians<double>(Angle2.getValue()),
                                         Base::toRadians<double>(Angle3.getValue()));
-        Standard_Real scaleX = 1.0;
-        Standard_Real scaleZ = Radius1.getValue()/Radius2.getValue();
+        double scaleX = 1.0;
+        double scaleZ = Radius1.getValue()/Radius2.getValue();
         // issue #1798: A third radius has been introduced. To be backward
         // compatible if Radius3 is 0.0 (default) it's handled to be the same
         // as Radius2
-        Standard_Real scaleY = 1.0;
+        double scaleY = 1.0;
         if (Radius3.getValue() >= Precision::Confusion())
             scaleY = Radius3.getValue()/Radius2.getValue();
         gp_GTrsf mat;
@@ -449,7 +448,7 @@ App::DocumentObjectExecReturn *Ellipsoid::execute()
     }
     catch (Standard_Failure& e) {
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -498,7 +497,7 @@ App::DocumentObjectExecReturn *Cylinder::execute()
     }
     catch (Standard_Failure& e) {
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -557,7 +556,7 @@ App::DocumentObjectExecReturn *Prism::execute()
         this->Shape.setValue(makePrism(Height.getValue(), mkFace.Face()));
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -609,7 +608,7 @@ App::DocumentObjectExecReturn *RegularPolygon::execute()
     }
     catch (Standard_Failure& e) {
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -668,7 +667,7 @@ App::DocumentObjectExecReturn *Cone::execute()
     }
     catch (Standard_Failure& e) {
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -720,7 +719,7 @@ App::DocumentObjectExecReturn *Torus::execute()
                                              Angle3.getValue()));
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -788,18 +787,18 @@ short Helix::mustExecute() const
 App::DocumentObjectExecReturn *Helix::execute()
 {
     try {
-        Standard_Real myPitch  = Pitch.getValue();
-        Standard_Real myHeight = Height.getValue();
-        Standard_Real myRadius = Radius.getValue();
-        Standard_Real myAngle  = Angle.getValue();
-        Standard_Boolean myLocalCS = LocalCoord.getValue() ? Standard_True : Standard_False;
-        Standard_Real mySegLen = SegmentLength.getValue();
+        double myPitch  = Pitch.getValue();
+        double myHeight = Height.getValue();
+        double myRadius = Radius.getValue();
+        double myAngle  = Angle.getValue();
+        bool myLocalCS = LocalCoord.getValue() ? true : false;
+        double mySegLen = SegmentLength.getValue();
         if (myPitch < Precision::Confusion())
-            Standard_Failure::Raise("Pitch too small");
-        Standard_Real nbTurns = myHeight / myPitch;
+            throw Standard_Failure("Pitch too small");
+        double nbTurns = myHeight / myPitch;
         if (nbTurns > 1e4)
-            Standard_Failure::Raise("Number of turns too high (> 1e4)");
-        Standard_Real myRadiusTop = myRadius + myHeight * tan(Base::toRadians<double>(myAngle));
+            throw Standard_Failure("Number of turns too high (> 1e4)");
+        double myRadiusTop = myRadius + myHeight * tan(Base::toRadians<double>(myAngle));
 
         this->Shape.setValue(TopoShape().makeSpiralHelix(myRadius, myRadiusTop, myHeight, nbTurns, mySegLen, myLocalCS));
         // props.Mass() may seem a strange way to get the Length, but 
@@ -811,7 +810,7 @@ App::DocumentObjectExecReturn *Helix::execute()
     }
     catch (Standard_Failure& e) {
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();
@@ -863,23 +862,23 @@ short Spiral::mustExecute() const
 App::DocumentObjectExecReturn *Spiral::execute()
 {
     try {
-        Standard_Real myNumRot = Rotations.getValue();
-        Standard_Real myRadius = Radius.getValue();
-        Standard_Real myGrowth = Growth.getValue();
-        Standard_Real myRadiusTop = myRadius + myGrowth * myNumRot;
-        Standard_Real mySegLen = SegmentLength.getValue();
+        double myNumRot = Rotations.getValue();
+        double myRadius = Radius.getValue();
+        double myGrowth = Growth.getValue();
+        double myRadiusTop = myRadius + myGrowth * myNumRot;
+        double mySegLen = SegmentLength.getValue();
 
         if (myNumRot < Precision::Confusion())
-            Standard_Failure::Raise("Number of rotations too small");
+            throw Standard_Failure("Number of rotations too small");
 
-        this->Shape.setValue(TopoShape().makeSpiralHelix(myRadius, myRadiusTop, 0, myNumRot, mySegLen, Standard_False));
+        this->Shape.setValue(TopoShape().makeSpiralHelix(myRadius, myRadiusTop, 0, myNumRot, mySegLen, false));
         GProp_GProps props;
         BRepGProp::LinearProperties(Shape.getShape().getShape(), props);
         Length.setValue(props.Mass());
         return Primitive::execute();
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 
@@ -961,7 +960,7 @@ App::DocumentObjectExecReturn *Wedge::execute()
         this->Shape.setValue(mkSolid.Solid());
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return Primitive::execute();

@@ -28,6 +28,7 @@
 #endif
 
 #include "FeatureSewing.h"
+#include <Mod/Part/App/OCCError.h>
 
 
 using namespace Surface;
@@ -92,7 +93,7 @@ App::DocumentObjectExecReturn* Sewing::execute()
                 }
             }
             else {
-                Standard_Failure::Raise("Shape item not from Part::Feature");
+                throw Standard_Failure("Shape item not from Part::Feature");
             }
         }
 
@@ -106,7 +107,6 @@ App::DocumentObjectExecReturn* Sewing::execute()
         return StdReturn;
     }
     catch (Standard_Failure& e) {
-
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }

@@ -82,6 +82,7 @@
 #include <Base/Parameter.h>
 #include <Base/Tools.h>
 
+#include <Mod/Part/App/OCCError.h>
 #include <Mod/Part/App/PartFeature.h>
 
 #include "DrawGeomHatch.h"
@@ -615,7 +616,7 @@ TopoDS_Shape DrawViewSection::prepareShape(const TopoDS_Shape& rawShape, double 
     catch (Standard_Failure& e1) {
         Base::Console().Warning("DVS::prepareShape - failed to build shape %s - %s **\n",
                                 getNameInDocument(),
-                                e1.GetMessageString());
+                                Part::toString(e1));
     }
     return preparedShape;
 }

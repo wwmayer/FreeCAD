@@ -36,6 +36,10 @@
 #include "OCCError.h"
 
 
+#if OCC_VERSION_HEX < 0x080000
+using GC_MakeSegment2d = GCE2d_MakeSegment;
+#endif
+
 using namespace Part;
 
 extern const char* gce_ErrorStatusText(gce_ErrorType et);
@@ -133,9 +137,9 @@ int Line2dSegmentPy::PyInit(PyObject* args, PyObject* /*kwd*/)
             // Create line out of two points
             double distance = (v1-v2).Length();
             if (distance < gp::Resolution())
-                Standard_Failure::Raise("Both points are equal");
-            GCE2d_MakeSegment ms(gp_Pnt2d(v1.x,v1.y),
-                                 gp_Pnt2d(v2.x,v2.y));
+                throw Standard_Failure("Both points are equal");
+            GC_MakeSegment2d ms(gp_Pnt2d(v1.x,v1.y),
+                                gp_Pnt2d(v2.x,v2.y));
             if (!ms.IsDone()) {
                 PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(ms.Status()));
                 return -1;
@@ -154,7 +158,7 @@ int Line2dSegmentPy::PyInit(PyObject* args, PyObject* /*kwd*/)
         }
         catch (Standard_Failure& e) {
 
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
         catch (...) {
@@ -185,7 +189,7 @@ PyObject* Line2dSegmentPy::setParameterRange(PyObject *args)
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -227,8 +231,8 @@ void Line2dSegmentPy::setStartPoint(Py::Object arg)
     try {
         // Create line out of two points
         if (p1.Distance(p2) < gp::Resolution())
-            Standard_Failure::Raise("Both points are equal");
-        GCE2d_MakeSegment ms(p1, p2);
+            throw Standard_Failure("Both points are equal");
+        GC_MakeSegment2d ms(p1, p2);
         if (!ms.IsDone()) {
             throw Py::RuntimeError(gce_ErrorStatusText(ms.Status()));
         }
@@ -242,7 +246,7 @@ void Line2dSegmentPy::setStartPoint(Py::Object arg)
         this_curv->SetTrim(that_curv->FirstParameter(), that_curv->LastParameter());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -281,8 +285,8 @@ void Line2dSegmentPy::setEndPoint(Py::Object arg)
     try {
         // Create line out of two points
         if (p1.Distance(p2) < gp::Resolution())
-            Standard_Failure::Raise("Both points are equal");
-        GCE2d_MakeSegment ms(p1, p2);
+            throw Standard_Failure("Both points are equal");
+        GC_MakeSegment2d ms(p1, p2);
         if (!ms.IsDone()) {
             throw Py::RuntimeError(gce_ErrorStatusText(ms.Status()));
         }
@@ -296,7 +300,7 @@ void Line2dSegmentPy::setEndPoint(Py::Object arg)
         this_curv->SetTrim(that_curv->FirstParameter(), that_curv->LastParameter());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 

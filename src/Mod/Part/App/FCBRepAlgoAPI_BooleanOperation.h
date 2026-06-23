@@ -51,9 +51,9 @@ public:
     void setAutoFuzzy();
 
 #if OCC_VERSION_HEX >= 0x070600
-    Standard_EXPORT void Build(const Message_ProgressRange& theRange = Message_ProgressRange()) Standard_OVERRIDE;
+    Standard_EXPORT void Build(const Message_ProgressRange& theRange = Message_ProgressRange()) override;
 #else
-    Standard_EXPORT void Build() Standard_OVERRIDE;
+    Standard_EXPORT void Build() override;
 #endif
 
 protected: //! @name Constructors

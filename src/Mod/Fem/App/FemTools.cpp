@@ -84,8 +84,7 @@ bool Fem::Tools::isPlanar(const TopoDS_Face& face)
     else if (surface.GetType() == GeomAbs_BSplineSurface) {
         Handle(Geom_BSplineSurface) spline = surface.BSpline();
         try {
-            TColgp_Array2OfPnt poles(1, spline->NbUPoles(), 1, spline->NbVPoles());
-            spline->Poles(poles);
+            const TColgp_Array2OfPnt& poles = spline->Poles();
 
             // get the plane from three control points
             gp_Pnt p1 = poles(poles.LowerRow(), poles.LowerCol());
@@ -100,7 +99,7 @@ bool Fem::Tools::isPlanar(const TopoDS_Face& face)
                 for (int j = poles.LowerCol(); j < poles.UpperCol(); j++) {
                     // are control points coplanar?
                     const gp_Pnt& pole = poles(i, j);
-                    Standard_Real dist = plane.Distance(pole);
+                    double dist = plane.Distance(pole);
                     if (dist > Precision::Confusion()) {
                         return false;
                     }
@@ -116,8 +115,7 @@ bool Fem::Tools::isPlanar(const TopoDS_Face& face)
     else if (surface.GetType() == GeomAbs_BezierSurface) {
         Handle(Geom_BezierSurface) bezier = surface.Bezier();
         try {
-            TColgp_Array2OfPnt poles(1, bezier->NbUPoles(), 1, bezier->NbVPoles());
-            bezier->Poles(poles);
+            const TColgp_Array2OfPnt& poles = bezier->Poles();
 
             // get the plane from three control points
             gp_Pnt p1 = poles(poles.LowerRow(), poles.LowerCol());
@@ -132,7 +130,7 @@ bool Fem::Tools::isPlanar(const TopoDS_Face& face)
                 for (int j = poles.LowerCol(); j < poles.UpperCol(); j++) {
                     // are control points coplanar?
                     const gp_Pnt& pole = poles(i, j);
-                    Standard_Real dist = plane.Distance(pole);
+                    double dist = plane.Distance(pole);
                     if (dist > Precision::Confusion()) {
                         return false;
                     }
@@ -160,8 +158,7 @@ gp_XYZ Fem::Tools::getDirection(const TopoDS_Face& face)
     else if (surface.GetType() == GeomAbs_BSplineSurface) {
         Handle(Geom_BSplineSurface) spline = surface.BSpline();
         try {
-            TColgp_Array2OfPnt poles(1, spline->NbUPoles(), 1, spline->NbVPoles());
-            spline->Poles(poles);
+            const TColgp_Array2OfPnt& poles = spline->Poles();
 
             // get the plane from three control points
             gp_Pnt p1 = poles(poles.LowerRow(), poles.LowerCol());
@@ -179,8 +176,7 @@ gp_XYZ Fem::Tools::getDirection(const TopoDS_Face& face)
     else if (surface.GetType() == GeomAbs_BezierSurface) {
         Handle(Geom_BezierSurface) bezier = surface.Bezier();
         try {
-            TColgp_Array2OfPnt poles(1, bezier->NbUPoles(), 1, bezier->NbVPoles());
-            bezier->Poles(poles);
+            const TColgp_Array2OfPnt& poles = bezier->Poles();
 
             // get the plane from three control points
             gp_Pnt p1 = poles(poles.LowerRow(), poles.LowerCol());
@@ -215,7 +211,7 @@ bool Fem::Tools::isLinear(const TopoDS_Edge& edge)
 
             for (int i = 2; i < spline->NbPoles(); i++) {
                 // are control points collinear?
-                Standard_Real dist = line.Distance(spline->Pole(i));
+                double dist = line.Distance(spline->Pole(i));
                 if (dist > Precision::Confusion()) {
                     return false;
                 }
@@ -237,7 +233,7 @@ bool Fem::Tools::isLinear(const TopoDS_Edge& edge)
 
             for (int i = 2; i < bezier->NbPoles(); i++) {
                 // are control points collinear?
-                Standard_Real dist = line.Distance(bezier->Pole(i));
+                double dist = line.Distance(bezier->Pole(i));
                 if (dist > Precision::Confusion()) {
                     return false;
                 }

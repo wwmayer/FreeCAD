@@ -45,6 +45,7 @@
 
 #include "FeatureMirroring.h"
 #include "DatumFeature.h"
+#include "OCCError.h"
 
 
 
@@ -256,7 +257,7 @@ App::DocumentObjectExecReturn *Mirroring::execute()
         gp_Ax2 ax2(gp_Pnt(base.x,base.y,base.z), gp_Dir(norm.x,norm.y,norm.z));
         auto shape = Feature::getTopoShape(link);
         if (shape.isNull())
-            Standard_Failure::Raise("Cannot mirror empty shape");
+            throw Standard_Failure("Cannot mirror empty shape");
         gp_Trsf mat;
         mat.SetMirror(ax2);
 
@@ -274,6 +275,6 @@ App::DocumentObjectExecReturn *Mirroring::execute()
         return Part::Feature::execute();
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }

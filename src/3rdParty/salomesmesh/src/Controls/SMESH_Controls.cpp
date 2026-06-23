@@ -51,7 +51,6 @@
 #include <Geom_Plane.hxx>
 #include <Geom_Surface.hxx>
 #include <Precision.hxx>
-#include <TColStd_MapIteratorOfMapOfInteger.hxx>
 #include <TColStd_MapOfInteger.hxx>
 #include <TColStd_SequenceOfAsciiString.hxx>
 #include <TColgp_Array1OfXYZ.hxx>
@@ -2729,7 +2728,7 @@ void GroupColor::SetColorStr( const TCollection_AsciiString& theStr )
   aStr.RemoveAll( '\t' );
   for ( int aPos = aStr.Search( ";;" ); aPos != -1; aPos = aStr.Search( ";;" ) )
     aStr.Remove( aPos, 2 );
-  Standard_Real clr[3];
+  double clr[3];
   clr[0] = clr[1] = clr[2] = 0.;
   for ( int i = 0; i < 3; i++ ) {
     TCollection_AsciiString tmpStr = aStr.Token( ";", i+1 );
@@ -3988,7 +3987,7 @@ void ElementsOnSurface::SetSurface( const TopoDS_Shape& theShape,
     return;
   mySurf = TopoDS::Face( theShape );
   BRepAdaptor_Surface SA( mySurf, myUseBoundaries );
-  Standard_Real
+  double
     u1 = SA.FirstUParameter(),
     u2 = SA.LastUParameter(),
     v1 = SA.FirstVParameter(),
@@ -4258,7 +4257,7 @@ void ElementsOnShape::TClassifier::Init (const TopoDS_Shape& theShape, double th
     break;
   }
   case TopAbs_FACE:  {
-    Standard_Real u1,u2,v1,v2;
+    double u1,u2,v1,v2;
     Handle(Geom_Surface) surf = BRep_Tool::Surface( TopoDS::Face( theShape ));
     surf->Bounds( u1,u2,v1,v2 );
     myProjFace.Init(surf, u1,u2, v1,v2, myTol );
@@ -4266,7 +4265,7 @@ void ElementsOnShape::TClassifier::Init (const TopoDS_Shape& theShape, double th
     break;
   }
   case TopAbs_EDGE:  {
-    Standard_Real u1, u2;
+    double u1, u2;
     Handle(Geom_Curve) curve = BRep_Tool::Curve( TopoDS::Edge(theShape), u1, u2);
     myProjEdge.Init(curve, u1, u2);
     myIsOutFun = & ElementsOnShape::TClassifier::isOutOfEdge;
@@ -4299,7 +4298,7 @@ bool ElementsOnShape::TClassifier::isOutOfFace  (const gp_Pnt& p)
   if ( myProjFace.IsDone() && myProjFace.LowerDistance() <= myTol )
   {
     // check relatively to the face
-    Standard_Real u, v;
+    double u, v;
     myProjFace.LowerDistanceParameters(u, v);
     gp_Pnt2d aProjPnt (u, v);
     BRepClass_FaceClassifier aClsf ( TopoDS::Face( myShape ), aProjPnt, myTol );
@@ -4381,7 +4380,7 @@ static bool IsSubShape (const TopTools_IndexedMapOfShape& theMap,
   if (theShape.ShapeType() == TopAbs_COMPOUND ||
       theShape.ShapeType() == TopAbs_COMPSOLID)
   {
-    TopoDS_Iterator anIt (theShape, Standard_True, Standard_True);
+    TopoDS_Iterator anIt (theShape, true, true);
     for (; anIt.More(); anIt.Next())
     {
       if (!IsSubShape(theMap, anIt.Value())) {

@@ -11,6 +11,12 @@ target_include_directories(
 
 target_include_directories(
     Part
+    PUBLIC
+    ${CMAKE_SOURCE_DIR}/src/3rdParty/occ
+)
+
+target_include_directories(
+    Part
     SYSTEM
     PUBLIC
     ${OCC_INCLUDE_DIR}

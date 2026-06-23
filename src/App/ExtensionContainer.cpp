@@ -468,6 +468,9 @@ void ExtensionContainer::restoreExtensions(Base::XMLReader& reader)
         catch (const Base::XMLParseException&) {
             throw;  // re-throw
         }
+        catch (const Base::TypeError& e) {
+            Base::Console().Warning("%s\n", e.what());
+        }
         catch (const Base::Exception& e) {
             Base::Console().Error("%s\n", e.what());
         }

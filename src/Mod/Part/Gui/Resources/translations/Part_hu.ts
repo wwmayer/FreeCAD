@@ -4124,8 +4124,8 @@ a fájl olvasása közben (lassabb, de pontosabb).</translation>
     </message>
     <message>
       <location filename="../../DlgSettingsGeneral.ui" line="127"/>
-      <source>Allow multiple solids in Part Design Body by default (experimental)</source>
-      <translation>Alapértelmezés szerint több szilárd test engedélyezése az alkatrész tervezési testben (kísérleti)</translation>
+      <source>Allow multiple solids in Part Design Body by default</source>
+      <translation>Alapértelmezés szerint több szilárd test engedélyezése az alkatrész tervezési testben</translation>
     </message>
   </context>
   <context>

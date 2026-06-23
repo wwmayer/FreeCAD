@@ -46,7 +46,8 @@
 
 #include "FeaturePrimitive.h"
 #include "FeaturePy.h"
-#include "Mod/Part/App/TopoShapeOpCode.h"
+#include <Mod/Part/App/OCCError.h>
+#include <Mod/Part/App/TopoShapeOpCode.h>
 
 using namespace PartDesign;
 using num_float = std::numeric_limits<float>;
@@ -117,7 +118,7 @@ App::DocumentObjectExecReturn* FeaturePrimitive::execute(const TopoDS_Shape& pri
                     QT_TRANSLATE_NOOP("Exception", "Unknown operation type"));
         }
         try {
-            boolOp.makeElementBoolean(maker, {base, primitiveShape});
+            boolOp.makeElementBoolean(maker, {base, primitiveShape}, nullptr, FuzzyTolerance.getValue());
         }
         catch (Standard_Failure&) {
             return new App::DocumentObjectExecReturn(
@@ -143,7 +144,7 @@ App::DocumentObjectExecReturn* FeaturePrimitive::execute(const TopoDS_Shape& pri
     }
     catch (Standard_Failure& e) {
 
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return App::DocumentObject::StdReturn;
@@ -213,7 +214,7 @@ App::DocumentObjectExecReturn* Box::execute()
         return FeaturePrimitive::execute(mkBox.Shape());
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 
@@ -268,7 +269,7 @@ App::DocumentObjectExecReturn* Cylinder::execute()
         return FeaturePrimitive::execute(result);
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return App::DocumentObject::StdReturn;
@@ -317,7 +318,7 @@ App::DocumentObjectExecReturn* Sphere::execute()
         return FeaturePrimitive::execute(mkSphere.Shape());
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return App::DocumentObject::StdReturn;
@@ -378,7 +379,7 @@ App::DocumentObjectExecReturn* Cone::execute()
         return FeaturePrimitive::execute(mkCone.Shape());
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return App::DocumentObject::StdReturn;
@@ -437,12 +438,12 @@ App::DocumentObjectExecReturn* Ellipsoid::execute()
                                         Base::toRadians<double>(Angle1.getValue()),
                                         Base::toRadians<double>(Angle2.getValue()),
                                         Base::toRadians<double>(Angle3.getValue()));
-        Standard_Real scaleX = 1.0;
-        Standard_Real scaleZ = Radius1.getValue()/Radius2.getValue();
+        double scaleX = 1.0;
+        double scaleZ = Radius1.getValue()/Radius2.getValue();
         // issue #1798: A third radius has been introduced. To be backward
         // compatible if Radius3 is 0.0 (default) it's handled to be the same
         // as Radius2
-        Standard_Real scaleY = 1.0;
+        double scaleY = 1.0;
         if (Radius3.getValue() >= Precision::Confusion())
             scaleY = Radius3.getValue()/Radius2.getValue();
         gp_GTrsf mat;
@@ -459,7 +460,7 @@ App::DocumentObjectExecReturn* Ellipsoid::execute()
         return FeaturePrimitive::execute(mkTrsf.Shape());
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return App::DocumentObject::StdReturn;
@@ -530,7 +531,7 @@ App::DocumentObjectExecReturn* Torus::execute()
 #endif
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return App::DocumentObject::StdReturn;
@@ -598,7 +599,7 @@ App::DocumentObjectExecReturn* Prism::execute()
         return FeaturePrimitive::execute(prism);
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return App::DocumentObject::StdReturn;
@@ -683,7 +684,7 @@ App::DocumentObjectExecReturn* Wedge::execute()
         return FeaturePrimitive::execute(mkSolid.Solid());
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     return App::DocumentObject::StdReturn;

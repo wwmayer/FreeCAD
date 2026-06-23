@@ -31,6 +31,7 @@
 # include <BRepBuilderAPI_MakeWire.hxx>
 # include <Precision.hxx>
 # include <ShapeAnalysis_FreeBounds.hxx>
+# include <Standard_Version.hxx>
 # include <TopExp_Explorer.hxx>
 # include <TopoDS.hxx>
 # include <TopoDS_Iterator.hxx>
@@ -193,8 +194,13 @@ void SweepWidget::findShapes()
             }
             // or all children are edges
             else if (hEdges->Length() == numChilds) {
+#if OCC_VERSION_HEX < 0x080000
                 ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges,
-                    Precision::Confusion(), Standard_False, hWires);
+                    Precision::Confusion(), false, hWires);
+#else
+                hWires = ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges,
+                    Precision::Confusion(), false);
+#endif
                 if (hWires->Length() == 1)
                     shape = hWires->Value(1);
             }
@@ -263,7 +269,11 @@ bool SweepWidget::isPathValid(const Gui::SelectionObject& sel) const
             for (TopExp_Explorer xp(shape.getShape(), TopAbs_EDGE); xp.More(); xp.Next())
                 hEdges->Append(xp.Current());
 
-            ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges, Precision::Confusion(), Standard_True, hWires);
+#if OCC_VERSION_HEX < 0x080000
+            ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges, Precision::Confusion(), true, hWires);
+#else
+            hWires = ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges, Precision::Confusion(), true);
+#endif
             int len = hWires->Length();
             if (len != 1)
                 return false;

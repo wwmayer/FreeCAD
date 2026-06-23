@@ -62,6 +62,7 @@
 #include <App/Datums.h>
 #include <Mod/Part/App/PartFeature.h>
 #include <Mod/Part/App/Tools.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "FemConstraint.h"
 #include "FemTools.h"
@@ -134,7 +135,7 @@ App::DocumentObjectExecReturn* Constraint::execute()
         return StdReturn;
     }
     catch (const Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString(), this);
+        return new App::DocumentObjectExecReturn(Part::toString(e), this);
     }
 }
 
@@ -406,7 +407,7 @@ bool Constraint::getPoints(std::vector<Base::Vector3d>& points,
             double stepu = (ulp - ufp) / stepsu;
 
             // Create points and normals
-            auto fillPointsAndNormals = [&](Standard_Real u, Standard_Real v) {
+            auto fillPointsAndNormals = [&](double u, double v) {
                 gp_Pnt p = surface.Value(u, v);
                 BRepClass_FaceClassifier classifier(face, p, Precision::Confusion());
                 if (classifier.State() != TopAbs_OUT) {
@@ -433,7 +434,7 @@ bool Constraint::getPoints(std::vector<Base::Vector3d>& points,
             // In that case use points on the outer wire.
             // https://github.com/FreeCAD/FreeCAD/issues/6073
             if (prevSize == points.size()) {
-                BRepAdaptor_CompCurve compCurve(BRepTools::OuterWire(face), Standard_True);
+                BRepAdaptor_CompCurve compCurve(BRepTools::OuterWire(face), true);
                 GProp_GProps linProps;
                 BRepGProp::LinearProperties(compCurve.Wire(), linProps);
                 double outWireLength = linProps.Mass();
@@ -441,7 +442,7 @@ bool Constraint::getPoints(std::vector<Base::Vector3d>& points,
                 // apply subshape transformation to the geometry
                 gp_Trsf faceTrans = face.Location().Transformation();
                 Handle(Geom_Geometry) transGeo =
-                    surface.Surface().Surface()->Transformed(faceTrans);
+                    Part::Tools::getSurface(surface)->Transformed(faceTrans);
                 ShapeAnalysis_Surface surfAnalysis(Handle(Geom_Surface)::DownCast(transGeo));
                 for (int i = 0; i < stepWire; ++i) {
                     gp_Pnt p = compCurve.Value(outWireLength * i / stepWire);
@@ -495,7 +496,7 @@ Base::Vector3d Constraint::getBasePoint(const Base::Vector3d& base,
 
     gp_Pnt projPnt = proj.NearestPoint();
     if ((fabs(dist) > Precision::Confusion())
-        && (projPnt.IsEqual(cylbase, Precision::Confusion()) == Standard_False)) {
+        && (projPnt.IsEqual(cylbase, Precision::Confusion()) == false)) {
         plane.Translate(gp_Vec(projPnt, cylbase).Normalized().Multiplied(dist));
     }
     Handle(Geom_Plane) plnt = new Geom_Plane(plane);

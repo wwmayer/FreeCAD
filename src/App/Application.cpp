@@ -75,6 +75,7 @@
 #include <Base/BaseClass.h>
 #include <Base/BoundBoxPy.h>
 #include <Base/ConsoleObserver.h>
+#include <Base/ConsolePy.h>
 #include <Base/ServiceProvider.h>
 #include <Base/CoordinateSystemPy.h>
 #include <Base/Exception.h>
@@ -98,6 +99,7 @@
 #include <Base/TypePy.h>
 #include <Base/UnitPy.h>
 #include <Base/UnitsApi.h>
+#include <Base/UnitsApiPy.h>
 #include <Base/VectorPy.h>
 
 #include "Annotation.h"
@@ -191,14 +193,6 @@ PyDoc_STRVAR(FreeCAD_doc,
      "file the document should be stored to.\n"
     );
 
-PyDoc_STRVAR(Console_doc,
-    "FreeCAD Console module.\n\n"
-    "The Console module contains functions to manage log entries, messages,\n"
-    "warnings and errors.\n"
-    "There are also functions to get/set the status of the observers used as\n"
-    "logging interfaces."
-    );
-
 PyDoc_STRVAR(Base_doc,
     "The Base module contains the classes for the geometric basics\n"
     "like vector, matrix, bounding box, placement, rotation, axis, ...\n"
@@ -273,13 +267,7 @@ void Application::setupPythonTypes()
     Py::Module(pAppModule).setAttr(std::string("ActiveDocument"),Py::None());
 
     // clang-format off
-    static struct PyModuleDef ConsoleModuleDef = {
-        PyModuleDef_HEAD_INIT,
-        "__FreeCADConsole__", Console_doc, -1,
-        Base::ConsoleSingleton::Methods,
-        nullptr, nullptr, nullptr, nullptr
-    };
-    PyObject* pConsoleModule = PyModule_Create(&ConsoleModuleDef);
+    PyObject* pConsoleModule = Base::ConsolePy::createModule();
 
     // fake Image module
     PyObject* imageModule = init_image_module();
@@ -359,13 +347,7 @@ void Application::setupPythonTypes()
     PyModule_AddObject(pAppModule, "Qt", pTranslateModule);
 
     //insert Units module
-    static struct PyModuleDef UnitsModuleDef = {
-        PyModuleDef_HEAD_INIT,
-        "Units", "The Unit API", -1,
-        Base::UnitsApi::Methods,
-        nullptr, nullptr, nullptr, nullptr
-    };
-    PyObject* pUnitsModule = PyModule_Create(&UnitsModuleDef);
+    PyObject* pUnitsModule = Base::UnitsApiPy::createModule();
     Base::InterpreterSingleton::addType(&Base::QuantityPy  ::Type,pUnitsModule,"Quantity");
     // make sure to set the 'nb_true_divide' slot
     Base::InterpreterSingleton::addType(&Base::UnitPy      ::Type,pUnitsModule,"Unit");
@@ -887,8 +869,8 @@ std::vector<Document*> Application::openDocuments(const std::vector<std::string>
                 // 'touched' object requires recomputation. And an object may
                 // become touched during restoring if externally linked
                 // document time stamp mismatches with the stamp saved.
-                _pendingDocs.emplace_back(doc->FileName.getValue());
-                _pendingDocMap.erase(doc->FileName.getValue());
+                _pendingDocs.emplace_back(doc->FileName.getStrValue());
+                _pendingDocMap.erase(doc->FileName.getStrValue());
             }
             FC_DURATION_PLUS(timing.d2,t1);
             seq.next();
@@ -962,7 +944,7 @@ Document* Application::openDocumentPrivate(const char * FileName,
                         for(auto obj2 : doc->getObjects()) {
                             objNames.emplace_back(obj2->getNameInDocument());
                         }
-                        _pendingDocMap[doc->FileName.getValue()] = objNames;
+                        _pendingDocMap[doc->FileName.getStrValue()] = objNames;
                         break;
                     }
                 }

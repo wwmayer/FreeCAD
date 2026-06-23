@@ -55,7 +55,7 @@ public:
 #endif
     const TopTools_ListOfShape& Modified (const TopoDS_Shape& SThatModifies) override;
     const TopTools_ListOfShape& Generated (const TopoDS_Shape& SThatGenerates) override;
-    Standard_Boolean IsDeleted (const TopoDS_Shape& SDeleted) override;
+    bool IsDeleted (const TopoDS_Shape& SDeleted) override;
 
 private:
     class WireJoinerP;

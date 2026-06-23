@@ -65,7 +65,7 @@ PyObject* BezierCurvePy::isRational(PyObject *args) const
         return nullptr;
     Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = curve->IsRational();
+    bool val = curve->IsRational();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -75,7 +75,7 @@ PyObject* BezierCurvePy::isPeriodic(PyObject *args) const
         return nullptr;
     Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = curve->IsPeriodic();
+    bool val = curve->IsPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -85,7 +85,7 @@ PyObject* BezierCurvePy::isClosed(PyObject *args) const
         return nullptr;
     Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = curve->IsClosed();
+    bool val = curve->IsClosed();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -116,7 +116,7 @@ PyObject* BezierCurvePy::insertPoleAfter(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -137,7 +137,7 @@ PyObject* BezierCurvePy::insertPoleBefore(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -154,7 +154,7 @@ PyObject* BezierCurvePy::removePole(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -171,7 +171,7 @@ PyObject* BezierCurvePy::segment(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -195,7 +195,7 @@ PyObject* BezierCurvePy::setPole(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -216,7 +216,7 @@ PyObject* BezierCurvePy::getPole(PyObject * args) const
         return vec;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -228,10 +228,9 @@ PyObject* BezierCurvePy::getPoles(PyObject * args) const
     try {
         Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
             (getGeometryPtr()->handle());
-        TColgp_Array1OfPnt p(1,curve->NbPoles());
-        curve->Poles(p);
+        const TColgp_Array1OfPnt& p = curve->Poles();
         Py::List poles;
-        for (Standard_Integer i=p.Lower(); i<=p.Upper(); i++) {
+        for (int i=p.Lower(); i<=p.Upper(); i++) {
             gp_Pnt pnt = p(i);
             Base::VectorPy* vec = new Base::VectorPy(Base::Vector3d(
                 pnt.X(), pnt.Y(), pnt.Z()));
@@ -240,7 +239,7 @@ PyObject* BezierCurvePy::getPoles(PyObject * args) const
         return Py::new_reference_to(poles);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -265,7 +264,7 @@ PyObject* BezierCurvePy::setPoles(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -283,7 +282,7 @@ PyObject* BezierCurvePy::setWeight(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -302,7 +301,7 @@ PyObject* BezierCurvePy::getWeight(PyObject * args) const
         return Py_BuildValue("d", weight);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -314,16 +313,23 @@ PyObject* BezierCurvePy::getWeights(PyObject * args) const
     try {
         Handle(Geom_BezierCurve) curve = Handle(Geom_BezierCurve)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array1OfReal w(1,curve->NbPoles());
-        curve->Weights(w);
         Py::List weights;
-        for (Standard_Integer i=w.Lower(); i<=w.Upper(); i++) {
-            weights.append(Py::Float(w(i)));
+        if (const TColStd_Array1OfReal* w = curve->Weights()) {
+            for (int i = w->Lower(); i <= w->Upper(); i++) {
+                weights.append(Py::Float((*w)(i)));
+            }
+        }
+        else {
+            int numPoles = curve->NbPoles();
+            Py::Float value(1.0);
+            for (int i = 0; i < numPoles; i++) {
+                weights.append(value);
+            }
         }
         return Py::new_reference_to(weights);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -341,7 +347,7 @@ PyObject* BezierCurvePy::getResolution(PyObject* args) const
         return Py_BuildValue("d",utol);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -394,14 +400,14 @@ PyObject* BezierCurvePy::interpolate(PyObject * args)
         Py::Sequence constraints(obj);
         int nb_pts = constraints.size();
         if (nb_pts < 2)
-            Standard_Failure::Raise("not enough points given");
+            throw Standard_Failure("not enough points given");
 
         TColStd_Array1OfReal params(1, nb_pts);
         if (par) {
             Py::Sequence plist(par);
             int param_size = plist.size();
             if (param_size != nb_pts)
-                Standard_Failure::Raise("number of points and parameters don't match");
+                throw Standard_Failure("number of points and parameters don't match");
             int idx=1;
             for (Py::Sequence::iterator pit = plist.begin(); pit != plist.end(); ++pit) {
                 Py::Float val(*pit);
@@ -420,7 +426,7 @@ PyObject* BezierCurvePy::interpolate(PyObject * args)
             num_poles += (int)row.size();
         }
         if (num_poles > curve->MaxDegree())
-            Standard_Failure::Raise("number of constraints exceeds bezier curve capacity");
+            throw Standard_Failure("number of constraints exceeds bezier curve capacity");
         // create a bezier-type knot sequence
         TColStd_Array1OfReal knots(1, 2*num_poles);
         for (int idx=1; idx<=num_poles; ++idx) {
@@ -436,8 +442,8 @@ PyObject* BezierCurvePy::interpolate(PyObject * args)
         for (Py::Sequence::iterator it1 = constraints.begin(); it1 != constraints.end(); ++it1) {
             Py::Sequence row(*it1);
             math_Matrix bezier_eval(1, row.size(), 1, num_poles, 0.0);
-            Standard_Integer first_non_zero;
-            BSplCLib::EvalBsplineBasis(row.size()-1, num_poles, knots, params(cons_idx), first_non_zero, bezier_eval, Standard_False);
+            int first_non_zero;
+            BSplCLib::EvalBsplineBasis(row.size()-1, num_poles, knots, params(cons_idx), first_non_zero, bezier_eval, false);
             int idx2 = 1;
             for (Py::Sequence::iterator it2 = row.begin(); it2 != row.end(); ++it2) {
                 OCCmatrix.SetRow(row_idx, bezier_eval.Row(idx2));
@@ -454,13 +460,13 @@ PyObject* BezierCurvePy::interpolate(PyObject * args)
         math_Gauss gauss(OCCmatrix);
         gauss.Solve(res_x);
         if (!gauss.IsDone())
-            Standard_Failure::Raise("Failed to solve equations");
+            throw Standard_Failure("Failed to solve equations");
         gauss.Solve(res_y);
         if (!gauss.IsDone())
-            Standard_Failure::Raise("Failed to solve equations");
+            throw Standard_Failure("Failed to solve equations");
         gauss.Solve(res_z);
         if (!gauss.IsDone())
-            Standard_Failure::Raise("Failed to solve equations");
+            throw Standard_Failure("Failed to solve equations");
 
         TColgp_Array1OfPnt poles(1,num_poles);
         for (int idx=1; idx<=num_poles; ++idx) {
@@ -472,7 +478,7 @@ PyObject* BezierCurvePy::interpolate(PyObject * args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }

@@ -34,7 +34,6 @@
 #include <BRepBndLib.hxx>
 #include <BRepBuilderAPI_Copy.hxx>
 #include <BRepBuilderAPI_MakeEdge.hxx>
-#include <BRepLProp_CurveTool.hxx>
 #include <Geom_Curve.hxx>
 #include <GeomLib_Tool.hxx>
 #include <gp_Ax2.hxx>
@@ -219,8 +218,8 @@ std::vector<TopoDS_Edge> DrawProjectSplit::split1Edge(TopoDS_Edge e, std::vector
 
     BRepAdaptor_Curve adapt(e);
     Handle(Geom_Curve) c = adapt.Curve().Curve();
-    double first = BRepLProp_CurveTool::FirstParameter(adapt);
-    double last = BRepLProp_CurveTool::LastParameter(adapt);
+    double first = adapt.FirstParameter();
+    double last = adapt.LastParameter();
     if (first > last) {
         //TODO parms.reverse();
         Base::Console().Message("DPS::split1Edge - edge is backwards!\n");
@@ -450,14 +449,14 @@ std::vector<TopoDS_Edge> DrawProjectSplit::scrubEdges(std::vector<TopoDS_Edge>& 
     bopBuilder.SetArguments(edgeList);
     bopBuilder.SetFuzzyValue(FUZZYADJUST*EWTOLERANCE);
     // Allow modifying edges in place, scrubEdges() caller is expected to back them up
-    bopBuilder.SetNonDestructive(Standard_False);
+    bopBuilder.SetNonDestructive(false);
     // Because we are interested only in edges, we do not need gluing
     bopBuilder.SetGlue(BOPAlgo_GlueOff);
     // No solids in the input list
-    bopBuilder.SetCheckInverted(Standard_False);
+    bopBuilder.SetCheckInverted(false);
     // Use oriented bound boxes
-    bopBuilder.SetUseOBB(Standard_True);
-    bopBuilder.SetRunParallel(Standard_True);
+    bopBuilder.SetUseOBB(true);
+    bopBuilder.SetRunParallel(true);
 
     bopBuilder.Perform();
     if (bopBuilder.HasErrors()) {

@@ -34,6 +34,7 @@
 # include <Precision.hxx>
 # include <ShapeAnalysis_FreeBounds.hxx>
 # include <ShapeFix_Wire.hxx>
+# include <Standard_Version.hxx>
 # include <TopExp.hxx>
 # include <TopExp_Explorer.hxx>
 # include <TopTools_HSequenceOfShape.hxx>
@@ -199,7 +200,11 @@ void CrossSection::connectWires (const TopTools_IndexedMapOfShape& wireMap, std:
     }
 
     Handle(TopTools_HSequenceOfShape) hSorted = new TopTools_HSequenceOfShape();
+#if OCC_VERSION_HEX < 0x080000
     ShapeAnalysis_FreeBounds::ConnectWiresToWires(hWires, Precision::Confusion(), false, hSorted);
+#else
+    hSorted = ShapeAnalysis_FreeBounds::ConnectWiresToWires(hWires, Precision::Confusion(), false);
+#endif
 
     for (int i=1; i<=hSorted->Length(); i++) {
         const TopoDS_Wire& new_wire = TopoDS::Wire(hSorted->Value(i));

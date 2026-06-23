@@ -100,7 +100,11 @@
         <file>vertex-selection.svg</file>
         <file>edge-selection.svg</file>
         <file>face-selection.svg</file>
+        <file>vertex-filter.svg</file>
+        <file>edge-filter.svg</file>
+        <file>face-filter.svg</file>
         <file>clear-selection.svg</file>
+        <file>pre-selection.svg</file>
         <file>help-browser.svg</file>
         <file>preferences-system.svg</file>
         <file>process-stop.svg</file>
@@ -364,7 +368,11 @@
         <file>vertex-selection.svg</file>
         <file>edge-selection.svg</file>
         <file>face-selection.svg</file>
+        <file>vertex-filter.svg</file>
+        <file>edge-filter.svg</file>
+        <file>face-filter.svg</file>
         <file>clear-selection.svg</file>
+        <file>pre-selection.svg</file>
         <file>help-browser.svg</file>
         <file>preferences-system.svg</file>
         <file>process-stop.svg</file>

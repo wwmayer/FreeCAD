@@ -45,6 +45,13 @@
 #include <Standard_NumericError.hxx>
 #include <Standard_ErrorHandler.hxx>
 #include <Standard_Assert.hxx>
+#include <Standard_Version.hxx>
+// OCCT 8 removed NewInstance/Jump in favor of Standard_ErrorHandler::Abort
+#if OCC_VERSION_HEX >= 0x080000
+#  define OSD_SIGNAL_THROW(Type, msg) Standard_ErrorHandler::Abort(Type(msg))
+#else
+#  define OSD_SIGNAL_THROW(Type, msg) Type::NewInstance(msg)->Jump()
+#endif
 #endif
 #include <Base/SystemHandler.h>
 
@@ -56,7 +63,7 @@ static OSD_SignalMode OSD_WasSetSignal = OSD_SignalMode_AsIs;  // NOLINT
 
 static void SegvHandler(const int              theSignal,
                         siginfo_t*             theSigInfo,
-                        const Standard_Address theContext)
+                        void* theContext)
 {
     std::cerr << "\nStacktrace:" << std::endl;
     std::cerr << "SIGSEGV signal raised: " << theSignal << std::endl;
@@ -69,14 +76,14 @@ static void SegvHandler(const int              theSignal,
         sigemptyset(&set);
         sigaddset(&set, SIGSEGV);
         sigprocmask(SIG_UNBLOCK, &set, nullptr);
-        OSD_SIGSEGV::NewInstance("SIGSEGV 'segmentation violation' detected.")->Jump();
+        OSD_SIGNAL_THROW(OSD_SIGSEGV, "SIGSEGV 'segmentation violation' detected.");
     }
     exit(SIGSEGV);
 }
 
 static void throw_exc(const int theSignal,
                       siginfo_t* /*theSigInfo*/,
-                      const Standard_Address /*theContext*/)
+                      void* /*theContext*/)
 {
     struct sigaction oldact;
     struct sigaction act;
@@ -95,48 +102,48 @@ static void throw_exc(const int theSignal,
     switch (theSignal)
     {
     case SIGHUP:
-        OSD_SIGHUP::NewInstance("SIGHUP 'hangup' detected.")->Jump();
+        OSD_SIGNAL_THROW(OSD_SIGHUP, "SIGHUP 'hangup' detected.");
         exit(SIGHUP);
         break;
     case SIGINT:
         // For safe handling of Control-C as stop event, arm a variable but do not
         // generate longjump (we are out of context anyway)
-        OSD_SIGINT::NewInstance("SIGINT 'interrupt' detected.")->Jump();
+        OSD_SIGNAL_THROW(OSD_SIGINT, "SIGINT 'interrupt' detected.");
         exit(SIGINT);
         break;
     case SIGQUIT:
-        OSD_SIGQUIT::NewInstance("SIGQUIT 'quit' detected.")->Jump();
+        OSD_SIGNAL_THROW(OSD_SIGQUIT, "SIGQUIT 'quit' detected.");
         exit(SIGQUIT);
         break;
     case SIGILL:
-        OSD_SIGILL::NewInstance("SIGILL 'illegal instruction' detected.")->Jump();
+        OSD_SIGNAL_THROW(OSD_SIGILL, "SIGILL 'illegal instruction' detected.");
         exit(SIGILL);
         break;
     case SIGKILL:
-        OSD_SIGKILL::NewInstance("SIGKILL 'kill' detected.")->Jump();
+        OSD_SIGNAL_THROW(OSD_SIGKILL, "SIGKILL 'kill' detected.");
         exit(SIGKILL);
         break;
     case SIGBUS:
         sigaddset(&set, SIGBUS);
         sigprocmask(SIG_UNBLOCK, &set, nullptr);
-        OSD_SIGBUS::NewInstance("SIGBUS 'bus error' detected.")->Jump();
+        OSD_SIGNAL_THROW(OSD_SIGBUS, "SIGBUS 'bus error' detected.");
         exit(SIGBUS);
         break;
     case SIGSEGV:
-        OSD_SIGSEGV::NewInstance("SIGSEGV 'segmentation violation' detected.")->Jump();
+        OSD_SIGNAL_THROW(OSD_SIGSEGV, "SIGSEGV 'segmentation violation' detected.");
         exit(SIGSEGV);
         break;
 #ifdef SIGSYS
     case SIGSYS:
-        OSD_SIGSYS::NewInstance("SIGSYS 'bad argument to system call' detected.")->Jump();
+        OSD_SIGNAL_THROW(OSD_SIGSYS, "SIGSYS 'bad argument to system call' detected.");
         exit(SIGSYS);
         break;
 #endif
     case SIGFPE:
         sigaddset(&set, SIGFPE);
         sigprocmask(SIG_UNBLOCK, &set, nullptr);
-        OSD::SetFloatingSignal(Standard_True);
-        Standard_NumericError::NewInstance("SIGFPE Arithmetic exception detected")->Jump();
+        OSD::SetFloatingSignal(true);
+        OSD_SIGNAL_THROW(Standard_NumericError, "SIGFPE Arithmetic exception detected");
         break;
     default:
         break;

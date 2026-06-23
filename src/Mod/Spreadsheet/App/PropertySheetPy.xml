@@ -26,5 +26,10 @@
         sq_inplace_concat="false"
         sq_inplace_repeat="false">
     </Sequence>
+    <Methode Name="keys" Const="true">
+      <Documentation>
+        <UserDocu>Get all cell names</UserDocu>
+      </Documentation>
+    </Methode>
   </PythonExport>
 </GenerateModel>

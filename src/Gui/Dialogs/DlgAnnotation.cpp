@@ -1,0 +1,249 @@
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// SPDX-FileCopyrightText: 2026 Werner Mayer <wmayer[at]users.sourceforge.net>
+// SPDX-FileNotice: Part of the xwzCAD project.
+
+/***************************************************************************
+ *                                                                         *
+ *   xwzCAD is free software: you can redistribute it and/or modify        *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation, either version 2.1         *
+ *   of the License, or (at your option) any later version.                *
+ *                                                                         *
+ *   xwzCAD is distributed in the hope that it will be useful,             *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty           *
+ *   of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               *
+ *   See the GNU Lesser General Public License for more details.           *
+ *                                                                         *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with xwzCAD. If not, see https://www.gnu.org/licenses   *
+ *                                                                         *
+ ***************************************************************************/
+
+#include "PreCompiled.h"
+
+#ifndef _PreComp_
+#include <QEvent>
+#include <QMessageBox>
+#endif
+
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+
+#include "DlgAnnotation.h"
+#include "ui_DlgAnnotation.h"
+#include <Base/Color.h>
+#include <App/Annotation.h>
+#include <App/Part.h>
+#include <App/Document.h>
+#include <App/GeoFeature.h>
+#include <App/GeoFeatureGroupExtension.h>
+#include <Gui/Application.h>
+#include <Gui/BitmapFactory.h>
+#include <Gui/MDIView.h>
+#include <Gui/ViewProviderAnnotation.h>
+#include <Gui/Selection/Selection.h>
+
+
+using namespace Gui::Dialog;
+
+/* TRANSLATOR Gui::Dialog::DlgAnnotation */
+
+DlgAnnotation::DlgAnnotation(App::Document* doc, QWidget* parent)
+    : QDialog(parent)
+    , ui {new Ui_DlgAnnotation()}
+    , document {doc}
+{
+    ui->setupUi(this);
+    QFont fn;
+    ui->fontSize->setValue(fn.pointSizeF());
+    ensureTransaction();
+}
+
+DlgAnnotation::~DlgAnnotation() = default;
+
+void DlgAnnotation::changeEvent(QEvent* event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+    else {
+        QDialog::changeEvent(event);
+    }
+}
+
+void DlgAnnotation::ensureTransaction()
+{
+    if (!document.expired()) {
+        if (!document->hasPendingTransaction()) {
+            document->openTransaction(QT_TRANSLATE_NOOP("Command", "Add annotation"));
+        }
+    }
+}
+
+bool DlgAnnotation::createAnnotation()
+{
+    if (!document.expired()) {
+        ensureTransaction();
+
+        QString text = ui->annotationText->toPlainText();
+        if (text.isEmpty()) {
+            QMessageBox::warning(this, tr("No annotation"),
+                                 tr("Please enter the annotation text, first."));
+            ui->annotationText->setFocus();
+            return false;
+        }
+
+        addAnnotation(text);
+        setNewAnnotation();
+        return true;
+    }
+
+    return false;
+}
+
+void DlgAnnotation::addAnnotation(const QString& text)
+{
+    auto label = document->addObject<App::AnnotationLabel>("Annotation");
+    if (auto part = findContainer()) {
+        part->addObject(label);
+    }
+
+    std::vector<std::string> lines;
+    boost::algorithm::split(lines, text.toStdString(), boost::is_any_of("\n"));
+    label->LabelText.setValues(lines);
+
+    auto pos = getPosition();
+    label->BasePosition.setValue(pos.base);
+    label->TextPosition.setValue(pos.text);
+
+    auto view = Gui::Application::Instance->getViewProvider<Gui::ViewProviderAnnotationLabel>(label);
+    if (view) {
+        QColor fgColor = ui->textColor->color();
+        view->TextColor.setValue(Base::Color::fromValue<QColor>(fgColor));
+        QColor bgColor = ui->backgroundColor->color();
+        view->BackgroundColor.setValue(Base::Color::fromValue<QColor>(bgColor));
+        view->FontSize.setValue(ui->fontSize->value());
+        view->FontName.setValue(ui->fontComboBox->currentText().toStdString());
+        view->Frame.setValue(ui->checkBoxFrame->isChecked());
+    }
+}
+
+App::Part* DlgAnnotation::findContainer() const
+{
+    auto select = Gui::Selection().getSelectionEx();
+    if (!select.empty()) {
+        auto& selobj = select.front();
+        auto* obj = selobj.getObject();
+        // Is a Part container selected?
+        if (auto* part = Base::freecad_dynamic_cast<App::Part>(obj)) {
+            return part;
+        }
+
+        // Is the geometry inside a Part container?
+        if (auto* geo = Base::freecad_dynamic_cast<App::GeoFeature>(obj)) {
+            return findParentContainer(geo);
+        }
+    }
+
+    // Is there an active Part container?
+    if (auto* part = findActivePart()) {
+        return part;
+    }
+
+    // No suitable Part container found
+    return nullptr;
+}
+
+App::Part* DlgAnnotation::findActivePart() const
+{
+    const Gui::MDIView* view = Gui::Application::Instance->activeView();
+    return view ? view->getActiveObject<App::Part*>(PARTKEY) : nullptr;
+}
+
+App::Part* DlgAnnotation::findParentContainer(const App::GeoFeature* geo) const
+{
+    auto grp = App::GeoFeatureGroupExtension::getGroupOfObject(geo);
+    return Base::freecad_dynamic_cast<App::Part>(grp);
+}
+
+DlgAnnotation::Position DlgAnnotation::getPosition() const
+{
+    Position pos;
+
+    auto select = Gui::Selection().getSelectionEx();
+    if (!select.empty()) {
+        const auto& selobj = select.front();
+        const auto* obj = selobj.getObject();
+
+        const auto& pts = selobj.getPickedPoints();
+        if (!pts.empty()) {
+            pos.base = pts.front();
+        }
+        else if (const auto* geo = Base::freecad_dynamic_cast<App::GeoFeature>(obj)) {
+            auto plm = geo->globalPlacement();
+            pos.base = plm.getPosition();
+        }
+
+        if (const auto* geo = Base::freecad_dynamic_cast<App::GeoFeature>(obj)) {
+            if (const auto* data = geo->getPropertyOfGeometry()) {
+                auto bbox = data->getBoundingBox();
+                Base::Vector3d cnt = bbox.GetCenter();
+                pos.text = pos.base - cnt;
+            }
+        }
+    }
+
+    return pos;
+}
+
+void DlgAnnotation::accept()
+{
+    if (!document.expired()) {
+        if (!hasNewAnnotation()) {
+            if (!createAnnotation()) {
+                return;
+            }
+        }
+        document->commitTransaction();
+    }
+    QDialog::accept();
+}
+
+void DlgAnnotation::reject()
+{
+    if (!document.expired()) {
+        document->abortTransaction();
+    }
+    QDialog::reject();
+}
+
+// ---------------------------------------
+
+TaskAnnotation::TaskAnnotation(App::Document* doc)
+    : dialog {new DlgAnnotation(doc)}
+{
+    addTaskBox(Gui::BitmapFactory().pixmap("Tree_Annotation"), dialog);
+}
+
+TaskAnnotation::~TaskAnnotation() = default;
+
+bool TaskAnnotation::accept()
+{
+    dialog->accept();
+    return (dialog->result() == QDialog::Accepted);
+}
+
+bool TaskAnnotation::reject()
+{
+    dialog->reject();
+    return (dialog->result() == QDialog::Rejected);
+}
+
+void TaskAnnotation::clicked(int button)
+{
+    if (QDialogButtonBox::Apply == button) {
+        dialog->createAnnotation();
+    }
+}
+
+#include "moc_DlgAnnotation.cpp"

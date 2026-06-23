@@ -28,6 +28,7 @@
 # include <QTreeWidget>
 # include <Precision.hxx>
 # include <ShapeAnalysis_FreeBounds.hxx>
+# include <Standard_Version.hxx>
 # include <TopoDS.hxx>
 # include <TopoDS_Iterator.hxx>
 # include <TopTools_HSequenceOfShape.hxx>
@@ -130,8 +131,13 @@ void LoftWidget::findShapes()
             }
             // or all children are edges
             else if (hEdges->Length() == numChilds) {
+#if OCC_VERSION_HEX < 0x080000
                 ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges,
-                    Precision::Confusion(), Standard_False, hWires);
+                    Precision::Confusion(), false, hWires);
+#else
+                hWires = ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges,
+                    Precision::Confusion(), false);
+#endif
                 if (hWires->Length() == 1)
                     shape = hWires->Value(1);
             }

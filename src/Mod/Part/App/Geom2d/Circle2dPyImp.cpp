@@ -35,6 +35,10 @@
 #include "OCCError.h"
 
 
+#if OCC_VERSION_HEX < 0x080000
+using GC_MakeCircle2d = GCE2d_MakeCircle;
+#endif
+
 using namespace Part;
 
 extern const char* gce_ErrorStatusText(gce_ErrorType et);
@@ -62,7 +66,7 @@ int Circle2dPy::PyInit(PyObject* args, PyObject* kwds)
         Circle2dPy* pcCircle = static_cast<Circle2dPy*>(pCirc);
         Handle(Geom2d_Circle) circle = Handle(Geom2d_Circle)::DownCast
             (pcCircle->getGeom2dCirclePtr()->handle());
-        GCE2d_MakeCircle mc(circle->Circ2d(), dist);
+        GC_MakeCircle2d mc(circle->Circ2d(), dist);
         if (!mc.IsDone()) {
             PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(mc.Status()));
             return -1;
@@ -81,7 +85,7 @@ int Circle2dPy::PyInit(PyObject* args, PyObject* kwds)
                                         Base::Vector2dPy::type_object(), &pV1,
                                         &dist)) {
         Base::Vector2d v1 = Py::toVector2d(pV1);
-        GCE2d_MakeCircle mc(gp_Pnt2d(v1.x,v1.y), dist);
+        GC_MakeCircle2d mc(gp_Pnt2d(v1.x,v1.y), dist);
         if (!mc.IsDone()) {
             PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(mc.Status()));
             return -1;
@@ -113,9 +117,9 @@ int Circle2dPy::PyInit(PyObject* args, PyObject* kwds)
         Base::Vector2d v1 = Py::toVector2d(pV1);
         Base::Vector2d v2 = Py::toVector2d(pV2);
         Base::Vector2d v3 = Py::toVector2d(pV3);
-        GCE2d_MakeCircle mc(gp_Pnt2d(v1.x,v1.y),
-                            gp_Pnt2d(v2.x,v2.y),
-                            gp_Pnt2d(v3.x,v3.y));
+        GC_MakeCircle2d mc(gp_Pnt2d(v1.x,v1.y),
+                           gp_Pnt2d(v2.x,v2.y),
+                           gp_Pnt2d(v3.x,v3.y));
         if (!mc.IsDone()) {
             PyErr_SetString(PartExceptionOCCError, gce_ErrorStatusText(mc.Status()));
             return -1;

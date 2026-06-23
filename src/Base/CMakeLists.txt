@@ -141,8 +141,9 @@ SOURCE_GROUP("XML" FILES ${FreeCADBase_XML_SRCS})
 
 SET(FreeCADBase_UNITAPI_SRCS
     UnitsApi.cpp
-    UnitsApiPy.cpp
     UnitsApi.h
+    UnitsApiPy.cpp
+    UnitsApiPy.h
     UnitsSchema.h
     UnitsSchema.cpp
     UnitsSchemaInternal.h
@@ -185,6 +186,7 @@ SET(FreeCADBase_CPP_SRCS
     Builder3D.cpp
     Console.cpp
     ConsoleObserver.cpp
+    ConsolePy.cpp
     Color.cpp
     CoordinateSystem.cpp
     CoordinateSystemPyImp.cpp
@@ -257,6 +259,7 @@ SET(FreeCADBase_HPP_SRCS
     Builder3D.h
     Console.h
     ConsoleObserver.h
+    ConsolePy.h
     Converter.h
     Color.h
     CoordinateSystem.h

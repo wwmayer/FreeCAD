@@ -40,8 +40,9 @@
 #include <Base/Numbers.h>
 #include <Base/Tools.h>
 #include <Mod/Part/App/ExtrusionHelper.h>
-#include "Mod/Part/App/TopoShapeOpCode.h"
+#include <Mod/Part/App/TopoShapeOpCode.h>
 #include <Mod/Part/App/PartFeature.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "FeatureExtrude.h"
 
@@ -225,7 +226,7 @@ void FeatureExtrude::generatePrism(TopoDS_Shape& prism,
         // see e.g. https://forum.freecad.org/viewtopic.php?p=560785#p560785
         // It is better not to use BRepFeat_MakePrism here even if we have a support because the
         // resulting shape creates problems with Pocket
-        BRepPrimAPI_MakePrism PrismMaker(from, Ltotal * gp_Vec(direction), Standard_False, Standard_True); // finite prism
+        BRepPrimAPI_MakePrism PrismMaker(from, Ltotal * gp_Vec(direction), false, true); // finite prism
         if (!PrismMaker.IsDone())
             throw Base::RuntimeError("ProfileBased: Length: Could not extrude the sketch!");
         prism = PrismMaker.Shape();
@@ -246,7 +247,7 @@ void FeatureExtrude::generatePrism(TopoDS_Shape& prism,
                                    const TopoDS_Shape& uptoface,
                                    const gp_Dir& direction,
                                    PrismMode Mode,
-                                   Standard_Boolean Modify)
+                                   bool Modify)
 {
     if (method == "UpToFirst" || method == "UpToFace") {
         BRepFeat_MakePrism PrismMaker;
@@ -427,6 +428,7 @@ void FeatureExtrude::updateProperties(const std::string &method)
         isReversedEnabled = true;
     }
     else if (method == "ThroughAll") {
+        isTaperVisible = true;
         isMidplaneEnabled = true;
         isReversedEnabled = !Midplane.getValue();
     }
@@ -470,8 +472,9 @@ void FeatureExtrude::setupObject()
 
 App::DocumentObjectExecReturn* FeatureExtrude::buildExtrusion(ExtrudeOptions options)
 {
-    if (onlyHaveRefined()) { return App::DocumentObject::StdReturn; }
-
+    if (onlyHaveRefined()) {
+        return App::DocumentObject::StdReturn;
+    }
 
     bool makeface = options.testFlag(ExtrudeOption::MakeFace);
     bool fuse = options.testFlag(ExtrudeOption::MakeFuse);
@@ -481,12 +484,19 @@ App::DocumentObjectExecReturn* FeatureExtrude::buildExtrusion(ExtrudeOptions opt
     std::string method(Type.getValueAsString());
 
     // Validate parameters
-    double L = Length.getValue();
-    if ((method == "Length") && (L < Precision::Confusion())) {
-        return new App::DocumentObjectExecReturn(
-            QT_TRANSLATE_NOOP("Exception", "Length too small"));
+    double L = 0.0;
+    if (method == "Length") {
+        L = Length.getValue();
+        if (L < Precision::Confusion()) {
+            return new App::DocumentObjectExecReturn(
+                QT_TRANSLATE_NOOP("Exception", "Length too small"));
+        }
     }
-    double L2 = 0;
+    else if (method == "ThroughAll") {
+        L = getThroughAllLength();
+    }
+
+    double L2 = 0.0;
     if ((method == "TwoLengths")) {
         L2 = Length2.getValue();
         if (std::abs(L2) < Precision::Confusion()) {
@@ -542,7 +552,7 @@ App::DocumentObjectExecReturn* FeatureExtrude::buildExtrusion(ExtrudeOptions opt
         return new App::DocumentObjectExecReturn(e.what());
     }
     catch (const Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 
     // if the Base property has a valid shape, fuse the prism into it
@@ -786,7 +796,7 @@ App::DocumentObjectExecReturn* FeatureExtrude::buildExtrusion(ExtrudeOptions opt
                     default:
                         maker = Part::OpCodes::Fuse;
                 }
-                result.makeElementBoolean(maker, {base, prism});
+                result.makeElementBoolean(maker, {base, prism}, nullptr, FuzzyTolerance.getValue());
             }
             catch (Standard_Failure&) {
                 return new App::DocumentObjectExecReturn(
@@ -839,14 +849,14 @@ App::DocumentObjectExecReturn* FeatureExtrude::buildExtrusion(ExtrudeOptions opt
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-        if (std::string(e.GetMessageString()) == "TopoDS::Face") {
+        if (std::string(Part::toString(e)) == "TopoDS::Face") {
             return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP(
                 "Exception",
                 "Could not create face from sketch.\n"
                 "Intersecting sketch entities or multiple faces in a sketch are not allowed."));
         }
         else {
-            return new App::DocumentObjectExecReturn(e.GetMessageString());
+            return new App::DocumentObjectExecReturn(Part::toString(e));
         }
     }
     catch (Base::Exception& e) {

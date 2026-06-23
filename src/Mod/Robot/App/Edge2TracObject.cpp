@@ -149,13 +149,13 @@ App::DocumentObjectExecReturn* Edge2TracObject::execute()
                     break;
                 }
                 case GeomAbs_BSplineCurve: {
-                    Standard_Real Length = CPnts_AbscissaPoint::Length(adapt);
-                    Standard_Real ParLength = adapt.LastParameter() - adapt.FirstParameter();
-                    Standard_Real NbrSegments = Round(Length / SegValue.getValue());
+                    double Length = CPnts_AbscissaPoint::Length(adapt);
+                    double ParLength = adapt.LastParameter() - adapt.FirstParameter();
+                    double NbrSegments = std::round(Length / SegValue.getValue());
 
-                    Standard_Real beg = adapt.FirstParameter();
-                    Standard_Real end = adapt.LastParameter();
-                    Standard_Real stp = ParLength / NbrSegments;
+                    double beg = adapt.FirstParameter();
+                    double end = adapt.LastParameter();
+                    double stp = ParLength / NbrSegments;
                     bool reversed = false;
                     if (it2.Orientation() == TopAbs_REVERSED) {
                         std::swap(beg, end);
@@ -205,10 +205,10 @@ App::DocumentObjectExecReturn* Edge2TracObject::execute()
 
                 } break;
                 case GeomAbs_Circle: {
-                    Standard_Real Length = CPnts_AbscissaPoint::Length(adapt);
-                    Standard_Real ParLength = adapt.LastParameter() - adapt.FirstParameter();
-                    Standard_Real NbrSegments = Round(Length / SegValue.getValue());
-                    Standard_Real SegLength = ParLength / NbrSegments;
+                    double Length = CPnts_AbscissaPoint::Length(adapt);
+                    double ParLength = adapt.LastParameter() - adapt.FirstParameter();
+                    double NbrSegments = std::round(Length / SegValue.getValue());
+                    double SegLength = ParLength / NbrSegments;
 
                     if (it2.Orientation() == TopAbs_REVERSED) {
                         // Beginning and End switch

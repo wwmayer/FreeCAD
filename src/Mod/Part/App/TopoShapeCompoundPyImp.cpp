@@ -29,6 +29,7 @@
 # include <Precision.hxx>
 # include <ShapeAnalysis_FreeBounds.hxx>
 # include <Standard_Failure.hxx>
+# include <Standard_Version.hxx>
 # include <TopExp_Explorer.hxx>
 # include <TopoDS.hxx>
 # include <TopoDS_Compound.hxx>
@@ -88,7 +89,7 @@ int TopoShapeCompoundPy::PyInit(PyObject* args, PyObject* /*kwd*/)
         }
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return -1;
     }
 
@@ -116,7 +117,7 @@ PyObject*  TopoShapeCompoundPy::add(PyObject *args)
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -140,8 +141,11 @@ PyObject* TopoShapeCompoundPy::connectEdgesToWires(PyObject *args) const
         for (TopExp_Explorer xp(s, TopAbs_EDGE); xp.More(); xp.Next())
             hEdges->Append(xp.Current());
 
+#if OCC_VERSION_HEX < 0x080000
         ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges, tol, Base::asBoolean(shared), hWires);
-
+#else
+        hWires = ShapeAnalysis_FreeBounds::ConnectEdgesToWires(hEdges, tol, Base::asBoolean(shared));
+#endif
         TopoDS_Compound comp;
         BRep_Builder builder;
         builder.MakeCompound(comp);
@@ -156,7 +160,7 @@ PyObject* TopoShapeCompoundPy::connectEdgesToWires(PyObject *args) const
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }

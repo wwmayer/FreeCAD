@@ -46,6 +46,7 @@
 #include <Gui/Selection/Selection.h>
 #include <Gui/Selection/SelectionObject.h>
 #include <Mod/Sketcher/App/SketchObject.h>
+#include <Mod/Part/App/OCCError.h>
 #include <Mod/PartDesign/App/Body.h>
 #include <Mod/PartDesign/App/FeatureBoolean.h>
 #include <Mod/PartDesign/App/FeatureGroove.h>
@@ -57,6 +58,7 @@
 #include <Mod/PartDesign/App/DatumPoint.h>
 #include <Mod/PartDesign/App/FeatureDressUp.h>
 #include <Mod/PartDesign/App/ShapeBinder.h>
+#include <Mod/PartDesign/App/PartDesignParameter.h>
 
 #include "DlgActiveBody.h"
 #include "ReferenceSelection.h"
@@ -148,7 +150,7 @@ void UnifiedDatumCommand(Gui::Command &cmd, Base::Type type, std::string name)
     } catch (Base::Exception &e) {
         QMessageBox::warning(Gui::getMainWindow(),QObject::tr("Error"),QApplication::translate("Exception", e.what()));
     } catch (Standard_Failure &e) {
-        QMessageBox::warning(Gui::getMainWindow(),QObject::tr("Error"),QString::fromUtf8(e.GetMessageString()));
+        QMessageBox::warning(Gui::getMainWindow(),QObject::tr("Error"),QString::fromUtf8(Part::toString(e)));
     }
 }
 
@@ -416,7 +418,7 @@ void CmdPartDesignSubShapeBinder::activated(int iMsg)
     }
     catch (const Standard_Failure &e) {
         QMessageBox::critical(Gui::getMainWindow(),
-                QObject::tr("Sub-Shape Binder"), QApplication::translate("Exception", e.GetMessageString()));
+                QObject::tr("Sub-Shape Binder"), QApplication::translate("Exception", Part::toString(e)));
         abortCommand();
     }
 }
@@ -459,6 +461,7 @@ void CmdPartDesignClone::activated(int iMsg)
         auto objCmd = getObjectCmd(obj);
         std::string cloneName = getUniqueObjectName("Clone", obj);
         std::string bodyName = getUniqueObjectName("Body", obj);
+        bool allowCompound = PartDesign::PartDesignParameter::instance()->getAllowCompoundDefault();
 
         // Create body and clone
         Gui::cmdAppDocument(obj, std::stringstream()
@@ -470,6 +473,8 @@ void CmdPartDesignClone::activated(int iMsg)
         auto cloneObj = obj->getDocument()->getObject(cloneName.c_str());
 
         // In the first step set the group link and tip of the body
+        Gui::cmdAppObject(bodyObj, std::stringstream()
+                          << "AllowCompound = " << Gui::asString(allowCompound));
         Gui::cmdAppObject(bodyObj, std::stringstream()
                           << "Group = [" << getObjectCmd(cloneObj) << "]");
         Gui::cmdAppObject(bodyObj, std::stringstream()
@@ -537,10 +542,11 @@ bool CmdPartDesignNewSketch::isActive()
 // Common utility functions for all features creating solids
 //===========================================================================
 
-static void finishFeature(const Gui::Command* cmd, App::DocumentObject *feature,
-                   App::DocumentObject* prevSolidFeature = nullptr,
-                   const bool hidePrevSolid = true,
-                   const bool updateDocument = true)
+static void finishFeature(const Gui::Command* cmd,
+                          App::DocumentObject *feature,
+                          App::DocumentObject* prevSolidFeature = nullptr,
+                          const bool hidePrevSolid = true,
+                          const bool updateDocument = true)
 {
     PartDesign::Body *activeBody;
 
@@ -554,8 +560,12 @@ static void finishFeature(const Gui::Command* cmd, App::DocumentObject *feature,
     if (hidePrevSolid && prevSolidFeature)
         FCMD_OBJ_HIDE(prevSolidFeature);
 
-    if (updateDocument)
+    if (updateDocument) {
         cmd->updateActive();
+    }
+    else {
+        feature->recomputeFeature();
+    }
 
     auto base = dynamic_cast<PartDesign::Feature*>(feature);
     if (base)
@@ -1702,8 +1712,12 @@ bool dressupGetSelected(Gui::Command* cmd, const std::string& which,
     return true;
 }
 
-void finishDressupFeature(const Gui::Command* cmd, const std::string& which,
-        Part::Feature *base, const std::vector<std::string> & SubNames, const bool useAllEdges)
+void finishDressupFeature(const Gui::Command* cmd,
+                          const std::string& which,
+                          Part::Feature *base,
+                          const std::vector<std::string> & SubNames,
+                          const bool useAllEdges,
+                          const bool updateDocument = true)
 {
     std::ostringstream str;
     str << '(' << Gui::Command::getObjectCmd(base) << ",[";
@@ -1725,7 +1739,7 @@ void finishDressupFeature(const Gui::Command* cmd, const std::string& which,
         FCMD_OBJ_CMD(Feat,"UseAllEdges = True");
     }
     cmd->doCommand(cmd->Gui, "Gui.Selection.clearSelection()");
-    finishFeature(cmd, Feat, base);
+    finishFeature(cmd, Feat, base, true, updateDocument);
 
     App::DocumentObject* baseFeature = static_cast<PartDesign::DressUp*>(Feat)->Base.getValue();
     if (baseFeature) {
@@ -1755,7 +1769,7 @@ void makeChamferOrFillet(Gui::Command* cmd, const std::string& which)
         SubNames = std::vector<std::string>(selected.getSubNames());
     }
 
-    finishDressupFeature (cmd, which, base, SubNames, useAllEdges);
+    finishDressupFeature (cmd, which, base, SubNames, useAllEdges, !noSelection);
 }
 
 //===========================================================================

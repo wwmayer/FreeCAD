@@ -76,7 +76,7 @@ std::string PythonConverter::convert(const std::string& doc,
                                      Mode mode)
 {
     if (geos.empty()) {
-        return std::string();
+        return {};
     }
 
     // Generates a list for consecutive geometries of construction type, or of normal type
@@ -100,7 +100,7 @@ std::string PythonConverter::convert(const std::string& doc,
         return command;
     };
 
-    std::string command = boost::str(boost::format("lastGeoId = len(ActiveSketch.Geometry)\n"));
+    std::string command = boost::str(boost::format("lastGeoId = len(%s.Geometry)\n") % doc);
 
     // Adds a list of consecutive geometries of a same construction type to the generating command
     auto addToCommands = [&command,
@@ -205,7 +205,7 @@ PythonConverter::SingleGeometry PythonConverter::process(const Part::Geometry* g
                  SingleGeometry sg;
                  sg.creation = boost::str(
                      boost::format(
-                         "Part.LineSegment(App.Vector(%f, %f, %f),App.Vector(%f, %f, %f))")
+                         "Part.LineSegment(App.Vector(%f, %f, %f), App.Vector(%f, %f, %f))")
                      % sgeo->getStartPoint().x % sgeo->getStartPoint().y % sgeo->getStartPoint().z
                      % sgeo->getEndPoint().x % sgeo->getEndPoint().y % sgeo->getEndPoint().z);
                  sg.construction = Sketcher::GeometryFacade::getConstruction(geo);
@@ -218,8 +218,8 @@ PythonConverter::SingleGeometry PythonConverter::process(const Part::Geometry* g
                  arc->getRange(startAngle, endAngle, /*emulateCCWXY=*/true);
                  SingleGeometry sg;
                  sg.creation = boost::str(
-                     boost::format("Part.ArcOfCircle(Part.Circle(App.Vector(%f, %f, "
-                                   "%f), App.Vector(%f, %f, %f), %f), %f, %f)")
+                     boost::format("Part.ArcOfCircle(Part.Circle(App.Vector(%f, %f, %f), "
+                                   "App.Vector(%f, %f, %f), %f), %f, %f)")
                      % arc->getCenter().x % arc->getCenter().y % arc->getCenter().z
                      % arc->getAxisDirection().x % arc->getAxisDirection().y
                      % arc->getAxisDirection().z % arc->getRadius() % startAngle % endAngle);
@@ -244,8 +244,8 @@ PythonConverter::SingleGeometry PythonConverter::process(const Part::Geometry* g
                  auto periapsis = center + ellipse->getMajorAxisDir() * ellipse->getMajorRadius();
                  auto positiveB = center + ellipse->getMinorAxisDir() * ellipse->getMinorRadius();
                  sg.creation =
-                     boost::str(boost::format("Part.Ellipse(App.Vector(%f, %f, %f), App.Vector(%f, "
-                                              "%f, %f), App.Vector(%f, %f, %f))")
+                     boost::str(boost::format("Part.Ellipse(App.Vector(%f, %f, %f), "
+                                              "App.Vector(%f, %f, %f), App.Vector(%f, %f, %f))")
                                 % periapsis.x % periapsis.y % periapsis.z % positiveB.x
                                 % positiveB.y % positiveB.z % center.x % center.y % center.z);
                  sg.construction = Sketcher::GeometryFacade::getConstruction(geo);
@@ -262,8 +262,8 @@ PythonConverter::SingleGeometry PythonConverter::process(const Part::Geometry* g
                  auto positiveB = center + aoe->getMinorAxisDir() * aoe->getMinorRadius();
                  sg.creation = boost::str(
                      boost::format(
-                         "Part.ArcOfEllipse(Part.Ellipse(App.Vector(%f, %f, %f), App.Vector(%f, "
-                         "%f, %f), App.Vector(%f, %f, %f)), %f, %f)")
+                         "Part.ArcOfEllipse(Part.Ellipse(App.Vector(%f, %f, %f), "
+                         "App.Vector(%f, %f, %f), App.Vector(%f, %f, %f)), %f, %f)")
                      % periapsis.x % periapsis.y % periapsis.z % positiveB.x % positiveB.y
                      % positiveB.z % center.x % center.y % center.z % startAngle % endAngle);
                  sg.construction = Sketcher::GeometryFacade::getConstruction(geo);

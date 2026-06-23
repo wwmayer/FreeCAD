@@ -146,14 +146,14 @@ SMESH_MeshVSLink::SMESH_MeshVSLink(const SMESH_Mesh *aMesh)
 // Function : GetGeom
 // Purpose  :
 //================================================================
-Standard_Boolean SMESH_MeshVSLink::GetGeom
-   ( const Standard_Integer ID, const Standard_Boolean IsElement,
-	TColStd_Array1OfReal& Coords, Standard_Integer& NbNodes,
+bool SMESH_MeshVSLink::GetGeom
+   ( const int ID, const bool IsElement,
+	TColStd_Array1OfReal& Coords, int& NbNodes,
 	MeshVS_EntityType& Type ) const
 {
   if( IsElement ) {
 	const SMDS_MeshElement* myElem = myMesh->GetMeshDS()->FindElement(ID);
-	if (!myElem) return Standard_False;
+	if (!myElem) return false;
 	if (myElem->GetType() == SMDSAbs_Edge)
 	  Type = MeshVS_ET_Link;
 	else if (myElem->GetType() == SMDSAbs_Face)
@@ -164,7 +164,7 @@ Standard_Boolean SMESH_MeshVSLink::GetGeom
 	  Type = MeshVS_ET_Element;
 	NbNodes = myElem->NbNodes();
 	int nbCoord = 1;
-	for(Standard_Integer i = 0; i < NbNodes; i++ ) {
+	for(int i = 0; i < NbNodes; i++ ) {
 	  Coords(nbCoord++) = myElem->GetNode(i)->X();
 	  Coords(nbCoord++) = myElem->GetNode(i)->Y();
 	  Coords(nbCoord++) = myElem->GetNode(i)->Z();
@@ -172,7 +172,7 @@ Standard_Boolean SMESH_MeshVSLink::GetGeom
   }
   else {
 	const SMDS_MeshNode* myNode = myMesh->GetMeshDS()->FindNode(ID);
-	if (!myNode) return Standard_False;
+	if (!myNode) return false;
 	if (myNode->GetType() == SMDSAbs_Node)
 	  Type = MeshVS_ET_Node;
 	else
@@ -182,21 +182,21 @@ Standard_Boolean SMESH_MeshVSLink::GetGeom
 	Coords(2) = myNode->Y();
 	Coords(3) = myNode->Z();
   }
-  return Standard_True;
+  return true;
 }
 
 //================================================================
 // Function : Get3DGeom
 // Purpose  :
 //================================================================
-Standard_Boolean  SMESH_MeshVSLink::Get3DGeom
-   ( const Standard_Integer ID, Standard_Integer& NbNodes,
+bool  SMESH_MeshVSLink::Get3DGeom
+   ( const int ID, int& NbNodes,
 	 Handle(MeshVS_HArray1OfSequenceOfInteger)& Data) const
 {
   //check validity of element
   const SMDS_MeshElement* myVolume = myMesh->GetMeshDS()->FindElement(ID);
-  if (!myVolume) return Standard_False;
-  if (myVolume->GetType() != SMDSAbs_Volume) return Standard_False;
+  if (!myVolume) return false;
+  if (myVolume->GetType() != SMDSAbs_Volume) return false;
 
   //initialize VolumeTool
   SMDS_VolumeTool aTool;
@@ -226,21 +226,21 @@ Standard_Boolean  SMESH_MeshVSLink::Get3DGeom
 	}
 	Data->SetValue(itr+1, aSeq);
   }
-  return Standard_True;
+  return true;
 }
 
 //================================================================
 // Function : GetGeomType
 // Purpose  :
 //================================================================
-Standard_Boolean SMESH_MeshVSLink::GetGeomType
-	( const Standard_Integer ID,
-	  const Standard_Boolean IsElement,
+bool SMESH_MeshVSLink::GetGeomType
+	( const int ID,
+	  const bool IsElement,
 	  MeshVS_EntityType& Type ) const
 {
   if( IsElement ) {
 	const SMDS_MeshElement* myElem = myMesh->GetMeshDS()->FindElement(ID);
-	if (!myElem) return Standard_False;
+	if (!myElem) return false;
 	if (myElem->GetType() == SMDSAbs_Edge)
 	  Type = MeshVS_ET_Link;
 	else if (myElem->GetType() == SMDSAbs_Face)
@@ -252,13 +252,13 @@ Standard_Boolean SMESH_MeshVSLink::GetGeomType
   }
   else {
 	const SMDS_MeshNode* myNode = myMesh->GetMeshDS()->FindNode(ID);
-	if (!myNode) return Standard_False;
+	if (!myNode) return false;
 	if (myNode->GetType() == SMDSAbs_Node)
 	  Type = MeshVS_ET_Node;
 	else
 	  Type = MeshVS_ET_0D;
   }
-  return Standard_True;
+  return true;
 }
 
 //================================================================
@@ -266,7 +266,7 @@ Standard_Boolean SMESH_MeshVSLink::GetGeomType
 // Purpose  :
 //================================================================
 Standard_Address SMESH_MeshVSLink::GetAddr
-	( const Standard_Integer, const Standard_Boolean ) const
+	( const int, const bool ) const
 {
   return NULL;
 }
@@ -275,18 +275,18 @@ Standard_Address SMESH_MeshVSLink::GetAddr
 // Function : GetNodesByElement
 // Purpose  :
 //================================================================
-Standard_Boolean SMESH_MeshVSLink::GetNodesByElement
-	( const Standard_Integer ID,TColStd_Array1OfInteger& NodeIDs,Standard_Integer& NbNodes ) const
+bool SMESH_MeshVSLink::GetNodesByElement
+	( const int ID,TColStd_Array1OfInteger& NodeIDs,int& NbNodes ) const
 {
   const SMDS_MeshElement* myElem = myMesh->GetMeshDS()->FindElement(ID);
-  if (!myElem) return Standard_False;
+  if (!myElem) return false;
   NbNodes = myElem->NbNodes();
-  for(Standard_Integer i = 0; i < NbNodes; i++ ) {
+  for(int i = 0; i < NbNodes; i++ ) {
 	const SMDS_MeshNode* aNode = myElem->GetNode(i);
-	if (!aNode) return Standard_False;
+	if (!aNode) return false;
 	NodeIDs.SetValue(i+1, aNode->GetID());
   }
-  return Standard_True;
+  return true;
 }
 
 //================================================================
@@ -320,14 +320,14 @@ void SMESH_MeshVSLink::GetAllGroups(TColStd_PackedMapOfInteger& Ids) const
 // Function : GetNormal
 // Purpose  :
 //================================================================
-Standard_Boolean SMESH_MeshVSLink::GetNormal
-	( const Standard_Integer Id, const Standard_Integer Max,
-	  Standard_Real& nx, Standard_Real& ny,Standard_Real& nz ) const
+bool SMESH_MeshVSLink::GetNormal
+	( const int Id, const int Max,
+	  double& nx, double& ny,double& nz ) const
 {
-  if(Max<3) return Standard_False;
+  if(Max<3) return false;
   const SMDS_MeshElement* myElem = myMesh->GetMeshDS()->FindElement(Id);
-  if(!myElem) return Standard_False;
-  if(myElem->NbNodes() < 3) return Standard_False;
+  if(!myElem) return false;
+  if(myElem->NbNodes() < 3) return false;
   gp_XYZ normal;
   gp_XYZ nodes[3];
   for (int itr = 0;itr < 3;itr++)
@@ -338,5 +338,5 @@ Standard_Boolean SMESH_MeshVSLink::GetNormal
   nx = normal.X();
   ny = normal.Y();
   nz = normal.Z();
-  return Standard_True;
+  return true;
 }

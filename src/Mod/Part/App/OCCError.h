@@ -31,6 +31,24 @@
 
 
 namespace Part {
+inline const char* toString(const Standard_Failure& exc)
+{
+#if OCC_VERSION_HEX >= 0x080000
+    return exc.what();
+#else
+    return exc.GetMessageString();
+#endif
+}
+
+inline const char* getTypeName(const Standard_Failure& exc)
+{
+#if OCC_VERSION_HEX >= 0x080000
+    return exc.ExceptionType();
+#else
+    return exc.DynamicType()->Name();
+#endif
+}
+
 PartExport extern PyObject* PartExceptionOCCError;
 PartExport extern PyObject* PartExceptionOCCDomainError;
 PartExport extern PyObject* PartExceptionOCCRangeError;
@@ -45,7 +63,7 @@ PartExport extern PyObject* PartExceptionOCCDimensionError;
     catch (Standard_Failure &e)                                     \
     {                                                               \
         std::string str;                                            \
-        Standard_CString msg = e.GetMessageString();                \
+        const char* msg = Part::toString(e);                        \
         str += typeid(e).name();                                    \
         str += " ";                                                 \
         if (msg) {str += msg;}                                      \

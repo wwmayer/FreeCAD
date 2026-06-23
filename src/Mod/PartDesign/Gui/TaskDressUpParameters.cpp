@@ -40,6 +40,7 @@
 #include <Gui/Selection/Selection.h>
 #include <Gui/Tools.h>
 #include <Gui/WaitCursor.h>
+#include <Mod/Part/App/OCCError.h>
 #include <Mod/PartDesign/App/Body.h>
 #include <Mod/PartDesign/Gui/ReferenceSelection.h>
 
@@ -277,7 +278,7 @@ void TaskDressUpParameters::tryAddSelection(const std::string& doc,
         e.ReportException();
     }
     catch (const Standard_Failure& e) {
-        Base::Console().Error("OCC error: %s\n", e.GetMessageString());
+        Base::Console().Error("OCC error: %s\n", Part::toString(e));
     }
 }
 

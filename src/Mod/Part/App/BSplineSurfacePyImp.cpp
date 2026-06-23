@@ -28,6 +28,7 @@
 # include <Precision.hxx>
 # include <TColgp_Array1OfPnt.hxx>
 # include <TColgp_Array2OfPnt.hxx>
+# include <TColGeom_SequenceOfCurve.hxx>
 # include <TColStd_Array1OfReal.hxx>
 # include <TColStd_Array2OfReal.hxx>
 # include <TColStd_Array1OfInteger.hxx>
@@ -72,7 +73,7 @@ PyObject* BSplineSurfacePy::bounds(PyObject *args) const
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
     Py::Tuple bound(4);
-    Standard_Real u1,u2,v1,v2;
+    double u1,u2,v1,v2;
     surf->Bounds(u1,u2,v1,v2);
     bound.setItem(0,Py::Float(u1));
     bound.setItem(1,Py::Float(u2));
@@ -88,7 +89,7 @@ PyObject* BSplineSurfacePy::isURational(PyObject *args) const
 
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsURational();
+    bool val = surf->IsURational();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -99,7 +100,7 @@ PyObject* BSplineSurfacePy::isVRational(PyObject *args) const
 
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsVRational();
+    bool val = surf->IsVRational();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -110,7 +111,7 @@ PyObject* BSplineSurfacePy::isUPeriodic(PyObject *args) const
 
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsUPeriodic();
+    bool val = surf->IsUPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -121,7 +122,7 @@ PyObject* BSplineSurfacePy::isVPeriodic(PyObject *args) const
 
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsVPeriodic();
+    bool val = surf->IsVPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -132,7 +133,7 @@ PyObject* BSplineSurfacePy::isUClosed(PyObject *args) const
 
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsUClosed();
+    bool val = surf->IsUClosed();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -143,7 +144,7 @@ PyObject* BSplineSurfacePy::isVClosed(PyObject *args) const
 
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Boolean val = surf->IsVPeriodic();
+    bool val = surf->IsVPeriodic();
     return PyBool_FromLong(val ? 1 : 0);
 }
 
@@ -211,7 +212,7 @@ PyObject* BSplineSurfacePy::incrementUMultiplicity(PyObject *args)
         surf->IncrementUMultiplicity(start, end, mult);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -230,7 +231,7 @@ PyObject* BSplineSurfacePy::incrementVMultiplicity(PyObject *args)
         surf->IncrementVMultiplicity(start, end, mult);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -251,7 +252,7 @@ PyObject* BSplineSurfacePy::insertUKnot(PyObject *args)
         surf->InsertUKnot(U, M, tol, Base::asBoolean(add));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -291,7 +292,7 @@ PyObject* BSplineSurfacePy::insertUKnots(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -312,7 +313,7 @@ PyObject* BSplineSurfacePy::insertVKnot(PyObject *args)
         surf->InsertVKnot(V, M, tol, Base::asBoolean(add));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -352,7 +353,7 @@ PyObject* BSplineSurfacePy::insertVKnots(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 
@@ -369,11 +370,11 @@ PyObject* BSplineSurfacePy::removeUKnot(PyObject *args)
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        Standard_Boolean ok = surf->RemoveUKnot(Index,M,tol);
+        bool ok = surf->RemoveUKnot(Index,M,tol);
         return PyBool_FromLong(ok ? 1 : 0);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -388,11 +389,11 @@ PyObject* BSplineSurfacePy::removeVKnot(PyObject *args)
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        Standard_Boolean ok = surf->RemoveVKnot(Index,M,tol);
+        bool ok = surf->RemoveVKnot(Index,M,tol);
         return PyBool_FromLong(ok ? 1 : 0);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -410,7 +411,7 @@ PyObject* BSplineSurfacePy::segment(PyObject *args)
     }
     catch (Standard_Failure& e) {
 
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -499,7 +500,7 @@ PyObject* BSplineSurfacePy::setUKnots(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -524,7 +525,7 @@ PyObject* BSplineSurfacePy::setVKnots(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -536,16 +537,15 @@ PyObject* BSplineSurfacePy::getUKnots(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array1OfReal w(1,surf->NbUKnots());
-        surf->UKnots(w);
+        const TColStd_Array1OfReal& w = surf->UKnots();
         Py::List knots;
-        for (Standard_Integer i=w.Lower(); i<=w.Upper(); i++) {
+        for (int i=w.Lower(); i<=w.Upper(); i++) {
             knots.append(Py::Float(w(i)));
         }
         return Py::new_reference_to(knots);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -557,16 +557,15 @@ PyObject* BSplineSurfacePy::getVKnots(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array1OfReal w(1,surf->NbVKnots());
-        surf->VKnots(w);
+        const TColStd_Array1OfReal& w = surf->VKnots();
         Py::List knots;
-        for (Standard_Integer i=w.Lower(); i<=w.Upper(); i++) {
+        for (int i=w.Lower(); i<=w.Upper(); i++) {
             knots.append(Py::Float(w(i)));
         }
         return Py::new_reference_to(knots);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -590,7 +589,7 @@ PyObject* BSplineSurfacePy::setPole(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -630,7 +629,7 @@ PyObject* BSplineSurfacePy::setPoleCol(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -670,7 +669,7 @@ PyObject* BSplineSurfacePy::setPoleRow(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -692,7 +691,7 @@ PyObject* BSplineSurfacePy::getPole(PyObject *args) const
         return vec;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -704,12 +703,11 @@ PyObject* BSplineSurfacePy::getPoles(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColgp_Array2OfPnt p(1,surf->NbUPoles(),1,surf->NbVPoles());
-        surf->Poles(p);
+        const TColgp_Array2OfPnt& p = surf->Poles();
         Py::List poles;
-        for (Standard_Integer i=p.LowerRow(); i<=p.UpperRow(); i++) {
+        for (int i=p.LowerRow(); i<=p.UpperRow(); i++) {
             Py::List row;
-            for (Standard_Integer j=p.LowerCol(); j<=p.UpperCol(); j++) {
+            for (int j=p.LowerCol(); j<=p.UpperCol(); j++) {
                 const gp_Pnt& pole = p(i,j);
                 row.append(Py::asObject(new Base::VectorPy(
                     Base::Vector3d(pole.X(),pole.Y(),pole.Z()))));
@@ -719,7 +717,7 @@ PyObject* BSplineSurfacePy::getPoles(PyObject *args) const
         return Py::new_reference_to(poles);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -737,7 +735,7 @@ PyObject* BSplineSurfacePy::setWeight(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -762,7 +760,7 @@ PyObject* BSplineSurfacePy::setWeightCol(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -787,7 +785,7 @@ PyObject* BSplineSurfacePy::setWeightRow(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -807,7 +805,7 @@ PyObject* BSplineSurfacePy::getWeight(PyObject *args) const
         return Py_BuildValue("d", w);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -819,20 +817,32 @@ PyObject* BSplineSurfacePy::getWeights(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array2OfReal w(1,surf->NbUPoles(),1,surf->NbVPoles());
-        surf->Weights(w);
         Py::List weights;
-        for (Standard_Integer i=w.LowerRow(); i<=w.UpperRow(); i++) {
-            Py::List row;
-            for (Standard_Integer j=w.LowerCol(); j<=w.UpperCol(); j++) {
-                row.append(Py::Float(w(i,j)));
+        if (const TColStd_Array2OfReal* w = surf->Weights()) {
+            for (int i = w->LowerRow(); i <= w->UpperRow(); i++) {
+                Py::List row;
+                for (int j = w->LowerCol(); j <= w->UpperCol(); j++) {
+                    row.append(Py::Float((*w)(i,j)));
+                }
+                weights.append(row);
             }
-            weights.append(row);
+        }
+        else {
+            int numUPoles = surf->NbUPoles();
+            int numVPoles = surf->NbVPoles();
+            Py::Float value(1.0);
+            Py::List row;
+            for (int i = 0; i < numUPoles; i++) {
+                row.append(value);
+            }
+            for (int i = 0; i < numVPoles; i++) {
+                weights.append(row);
+            }
         }
         return Py::new_reference_to(weights);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -844,17 +854,15 @@ PyObject* BSplineSurfacePy::getPolesAndWeights(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColgp_Array2OfPnt p(1,surf->NbUPoles(),1,surf->NbVPoles());
-        surf->Poles(p);
-        TColStd_Array2OfReal w(1,surf->NbUPoles(),1,surf->NbVPoles());
-        surf->Weights(w);
+        const TColgp_Array2OfPnt& p = surf->Poles();
+        const TColStd_Array2OfReal* w = surf->Weights();
 
         Py::List poles;
-        for (Standard_Integer i=p.LowerRow(); i<=p.UpperRow(); i++) {
+        for (int i=p.LowerRow(); i<=p.UpperRow(); i++) {
             Py::List row;
-            for (Standard_Integer j=p.LowerCol(); j<=p.UpperCol(); j++) {
+            for (int j=p.LowerCol(); j<=p.UpperCol(); j++) {
                 const gp_Pnt& pole = p(i,j);
-                double weight = w(i,j);
+                double weight = w ? (*w)(i,j) : 1.0;
                 Py::Tuple t(4);
                 t.setItem(0, Py::Float(pole.X()));
                 t.setItem(1, Py::Float(pole.Y()));
@@ -867,7 +875,7 @@ PyObject* BSplineSurfacePy::getPolesAndWeights(PyObject *args) const
         return Py::new_reference_to(poles);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -885,7 +893,7 @@ PyObject* BSplineSurfacePy::getResolution(PyObject *args) const
         return Py_BuildValue("(dd)",utol,vtol);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -909,7 +917,7 @@ PyObject* BSplineSurfacePy::movePoint(PyObject *args)
         return Py_BuildValue("(iiii)",ufirst, ulast, vfirst, vlast);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -925,7 +933,7 @@ PyObject* BSplineSurfacePy::setUNotPeriodic(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -941,7 +949,7 @@ PyObject* BSplineSurfacePy::setVNotPeriodic(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -957,7 +965,7 @@ PyObject* BSplineSurfacePy::setUPeriodic(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -973,7 +981,7 @@ PyObject* BSplineSurfacePy::setVPeriodic(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -990,7 +998,7 @@ PyObject* BSplineSurfacePy::setUOrigin(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1007,7 +1015,7 @@ PyObject* BSplineSurfacePy::setVOrigin(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1024,7 +1032,7 @@ PyObject* BSplineSurfacePy::getUMultiplicity(PyObject *args) const
         return Py_BuildValue("i", mult);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1041,7 +1049,7 @@ PyObject* BSplineSurfacePy::getVMultiplicity(PyObject *args) const
         return Py_BuildValue("i", mult);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1053,16 +1061,15 @@ PyObject* BSplineSurfacePy::getUMultiplicities(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array1OfInteger m(1,surf->NbUKnots());
-        surf->UMultiplicities(m);
+        const TColStd_Array1OfInteger& m = surf->UMultiplicities();
         Py::List mults;
-        for (Standard_Integer i=m.Lower(); i<=m.Upper(); i++) {
+        for (int i=m.Lower(); i<=m.Upper(); i++) {
             mults.append(Py::Long(m(i)));
         }
         return Py::new_reference_to(mults);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1074,16 +1081,15 @@ PyObject* BSplineSurfacePy::getVMultiplicities(PyObject *args) const
     try {
         Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
             (getGeometryPtr()->handle());
-        TColStd_Array1OfInteger m(1,surf->NbVKnots());
-        surf->VMultiplicities(m);
+        const TColStd_Array1OfInteger& m = surf->VMultiplicities();
         Py::List mults;
-        for (Standard_Integer i=m.Lower(); i<=m.Upper(); i++) {
+        for (int i=m.Lower(); i<=m.Upper(); i++) {
             mults.append(Py::Long(m(i)));
         }
         return Py::new_reference_to(mults);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1122,12 +1128,12 @@ PyObject* BSplineSurfacePy::reparametrize(PyObject * args) const
             (geom->handle());
         for (int i=1; i<u-1; i++) {
             double U = i * 1.0 / (u-1.0);
-            spline->InsertUKnot(U,i,tol,Standard_True);
+            spline->InsertUKnot(U,i,tol,true);
         }
 
         for (int i=1; i<v-1; i++) {
             double V = i * 1.0 / (v-1.0);
-            spline->InsertVKnot(V,i,tol,Standard_True);
+            spline->InsertVKnot(V,i,tol,true);
         }
 
         for (int j=0; j<u; j++) {
@@ -1146,7 +1152,7 @@ PyObject* BSplineSurfacePy::reparametrize(PyObject * args) const
         return new BSplineSurfacePy(geom);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+        PyErr_SetString(PartExceptionOCCError, Part::toString(e));
         return nullptr;
     }
 }
@@ -1154,18 +1160,18 @@ PyObject* BSplineSurfacePy::reparametrize(PyObject * args) const
 PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
 {
     PyObject* obj;
-    Standard_Integer degMin=3;
-    Standard_Integer degMax=8;
-    Standard_Integer continuity=2;
-    Standard_Real tol3d = Precision::Approximation();
+    int degMin=3;
+    int degMax=8;
+    int continuity=2;
+    double tol3d = Precision::Approximation();
     const char* parType = "None";
-    Standard_Real weight1 = 1.0;
-    Standard_Real weight2 = 1.0;
-    Standard_Real weight3 = 1.0;
-    Standard_Real X0=0;
-    Standard_Real dX=0;
-    Standard_Real Y0=0;
-    Standard_Real dY=0;
+    double weight1 = 1.0;
+    double weight2 = 1.0;
+    double weight3 = 1.0;
+    double X0=0;
+    double dX=0;
+    double Y0=0;
+    double dY=0;
 
     static const std::array<const char *, 14> kwds_interp{"Points", "DegMin", "DegMax", "Continuity", "Tolerance", "X0",
                                                           "dX", "Y0", "dY", "ParamType", "LengthWeight",
@@ -1178,15 +1184,15 @@ PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
     }
     try {
         Py::Sequence list(obj);
-        Standard_Integer lu = list.size();
+        int lu = list.size();
         Py::Sequence col(list.getItem(0));
-        Standard_Integer lv = col.size();
+        int lv = col.size();
         TColgp_Array2OfPnt interpolationPoints(1, lu, 1, lv);
         TColStd_Array2OfReal zPoints(1, lu, 1, lv);
         //Base::Console().Message("lu=%d, lv=%d\n", lu, lv);
 
-        Standard_Integer index1 = 0;
-        Standard_Integer index2 = 0;
+        int index1 = 0;
+        int index2 = 0;
         for (Py::Sequence::iterator it1 = list.begin(); it1 != list.end(); ++it1) {
             index1++;
             index2=0;
@@ -1200,18 +1206,18 @@ PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
                     interpolationPoints.SetValue(index1, index2, newPoint);
                 }
                 else {
-                    Standard_Real val = PyFloat_AsDouble((*it2).ptr());
+                    double val = PyFloat_AsDouble((*it2).ptr());
                     zPoints.SetValue(index1, index2, val);
                 }
             }
         }
 
         if (continuity<0 || continuity>2) {
-            Standard_Failure::Raise("continuity must be between 0 and 2");
+            throw Standard_Failure("continuity must be between 0 and 2");
         }
 
         if (interpolationPoints.RowLength() < 2 || interpolationPoints.ColLength() < 2) {
-            Standard_Failure::Raise("not enough points given");
+            throw Standard_Failure("not enough points given");
         }
 
         GeomAbs_Shape c = GeomAbs_C2;
@@ -1229,7 +1235,7 @@ PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
 
         Approx_ParametrizationType pt;
         std::string pstr = parType;
-        Standard_Boolean useParam = Standard_True;
+        bool useParam = true;
         if (pstr == "Uniform" )
             pt = Approx_IsoParametric;
         else if (pstr == "Centripetal" )
@@ -1237,7 +1243,7 @@ PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
         else if (pstr == "ChordLength" )
             pt = Approx_ChordLength;
         else
-            useParam = Standard_False;
+            useParam = false;
 
         GeomAPI_PointsToBSplineSurface surInterpolation;
         if (!(dX == 0) && !(dY == 0)) {
@@ -1261,8 +1267,10 @@ PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        std::string err = e.GetMessageString();
-        if (err.empty()) err = e.DynamicType()->Name();
+        std::string err = toString(e);
+        if (err.empty()) {
+            err = getTypeName(e);
+        }
         PyErr_SetString(PartExceptionOCCError, err.c_str());
         return nullptr;
     }
@@ -1271,10 +1279,10 @@ PyObject* BSplineSurfacePy::approximate(PyObject *args, PyObject *kwds)
 PyObject* BSplineSurfacePy::interpolate(PyObject *args)
 {
     PyObject* obj;
-    Standard_Real X0=0;
-    Standard_Real dX=0;
-    Standard_Real Y0=0;
-    Standard_Real dY=0;
+    double X0=0;
+    double dX=0;
+    double Y0=0;
+    double dY=0;
 
     int len = PyTuple_GET_SIZE(args);
 
@@ -1282,14 +1290,14 @@ PyObject* BSplineSurfacePy::interpolate(PyObject *args)
         return nullptr;
     try {
         Py::Sequence list(obj);
-        Standard_Integer lu = list.size();
+        int lu = list.size();
         Py::Sequence col(list.getItem(0));
-        Standard_Integer lv = col.size();
+        int lv = col.size();
         TColgp_Array2OfPnt interpolationPoints(1, lu, 1, lv);
         TColStd_Array2OfReal zPoints(1, lu, 1, lv);
 
-        Standard_Integer index1 = 0;
-        Standard_Integer index2 = 0;
+        int index1 = 0;
+        int index2 = 0;
         for (Py::Sequence::iterator it1 = list.begin(); it1 != list.end(); ++it1) {
             index1++;
             index2=0;
@@ -1303,14 +1311,14 @@ PyObject* BSplineSurfacePy::interpolate(PyObject *args)
                     interpolationPoints.SetValue(index1, index2, newPoint);
                 }
                 else {
-                    Standard_Real val = PyFloat_AsDouble((*it2).ptr());
+                    double val = PyFloat_AsDouble((*it2).ptr());
                     zPoints.SetValue(index1, index2, val);
                 }
             }
         }
 
         if (interpolationPoints.RowLength() < 2 || interpolationPoints.ColLength() < 2) {
-            Standard_Failure::Raise("not enough points given");
+            throw Standard_Failure("not enough points given");
         }
 
         GeomAPI_PointsToBSplineSurface surInterpolation;
@@ -1325,8 +1333,10 @@ PyObject* BSplineSurfacePy::interpolate(PyObject *args)
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        std::string err = e.GetMessageString();
-        if (err.empty()) err = e.DynamicType()->Name();
+        std::string err = toString(e);
+        if (err.empty()) {
+            err = getTypeName(e);
+        }
         PyErr_SetString(PartExceptionOCCError, err.c_str());
         return nullptr;
     }
@@ -1360,14 +1370,14 @@ PyObject* BSplineSurfacePy::buildFromPolesMultsKnots(PyObject *args, PyObject *k
     }
     try {
         Py::Sequence list(poles);
-        Standard_Integer lu = list.size();
+        int lu = list.size();
         Py::Sequence col(list.getItem(0));
-        Standard_Integer lv = col.size();
+        int lv = col.size();
         TColgp_Array2OfPnt occpoles(1, lu, 1, lv);
         TColStd_Array2OfReal occweights(1, lu, 1, lv);
-        Standard_Boolean genweights = (weights==Py_None) ? Standard_True : Standard_False; //cache
-        Standard_Integer index1 = 0;
-        Standard_Integer index2 = 0;
+        bool genweights = (weights==Py_None) ? true : false; //cache
+        int index1 = 0;
+        int index2 = 0;
         for (Py::Sequence::iterator it1 = list.begin(); it1 != list.end(); ++it1) {
             index1++;
             index2=0;
@@ -1382,16 +1392,18 @@ PyObject* BSplineSurfacePy::buildFromPolesMultsKnots(PyObject *args, PyObject *k
             }
         }
         if (occpoles.RowLength() < 2 || occpoles.ColLength() < 2) {
-            Standard_Failure::Raise("not enough points given");
+            throw Standard_Failure("not enough points given");
         }
         if (!genweights) {//copy the weights
             Py::Sequence list(weights);
-            Standard_Integer lwu = list.size();
+            int lwu = list.size();
             Py::Sequence col(list.getItem(0));
-            Standard_Integer lwv = col.size();
-            if (lwu != lu || lwv != lv) { Standard_Failure::Raise("weights and poles mismatch");}
-            Standard_Integer index1 = 0;
-            Standard_Integer index2 = 0;
+            int lwv = col.size();
+            if (lwu != lu || lwv != lv) {
+                throw Standard_Failure("weights and poles mismatch");
+            }
+            int index1 = 0;
+            int index2 = 0;
             for (Py::Sequence::iterator it1 = list.begin(); it1 != list.end(); ++it1) {
                 index1++;
                 index2=0;
@@ -1406,9 +1418,8 @@ PyObject* BSplineSurfacePy::buildFromPolesMultsKnots(PyObject *args, PyObject *k
         number_of_uknots = PyObject_Length(umults);
         number_of_vknots = PyObject_Length(vmults);
         if (((uknots != Py_None) && PyObject_Length(uknots) != number_of_uknots) ||
-                ((vknots != Py_None) && PyObject_Length(vknots) != number_of_vknots)){
-            Standard_Failure::Raise("number of knots and mults mismatch");
-            return nullptr;
+            ((vknots != Py_None) && PyObject_Length(vknots) != number_of_vknots)){
+            throw Standard_Failure("number of knots and mults mismatch");
         }
         //copy mults
         TColStd_Array1OfInteger occumults(1,number_of_uknots);
@@ -1416,7 +1427,7 @@ PyObject* BSplineSurfacePy::buildFromPolesMultsKnots(PyObject *args, PyObject *k
         TColStd_Array1OfReal occuknots(1,number_of_uknots);
         TColStd_Array1OfReal occvknots(1,number_of_vknots);
         Py::Sequence umultssq(umults);
-        Standard_Integer index = 1;
+        int index = 1;
         for (Py::Sequence::iterator it = umultssq.begin(); it != umultssq.end() && index <= occumults.Length(); ++it) {
             Py::Long mult(*it);
             if (index < occumults.Length() || !Base::asBoolean(uperiodic)) {
@@ -1464,17 +1475,17 @@ PyObject* BSplineSurfacePy::buildFromPolesMultsKnots(PyObject *args, PyObject *k
             (!Base::asBoolean(uperiodic) && sum_of_umults - udegree -1 != lu) ||
             (Base::asBoolean(vperiodic) && sum_of_vmults != lv) ||
             (!Base::asBoolean(vperiodic) && sum_of_vmults - vdegree -1 != lv)) {
-            Standard_Failure::Raise("number of poles and sum of mults mismatch");
+            throw Standard_Failure("number of poles and sum of mults mismatch");
         }
         // check multiplicity of inner knots
-        for (Standard_Integer i=2; i < occumults.Length(); i++) {
+        for (int i=2; i < occumults.Length(); i++) {
             if (occumults(i) > udegree) {
-                Standard_Failure::Raise("multiplicity of inner knot higher than degree");
+                throw Standard_Failure("multiplicity of inner knot higher than degree");
             }
         }
-        for (Standard_Integer i=2; i < occvmults.Length(); i++) {
+        for (int i=2; i < occvmults.Length(); i++) {
             if (occvmults(i) > vdegree) {
-                Standard_Failure::Raise("multiplicity of inner knot higher than degree");
+                throw Standard_Failure("multiplicity of inner knot higher than degree");
             }
         }
 
@@ -1487,13 +1498,12 @@ PyObject* BSplineSurfacePy::buildFromPolesMultsKnots(PyObject *args, PyObject *k
             Py_Return;
         }
         else {
-            Standard_Failure::Raise("failed to create spline");
-            return nullptr; // goes to the catch block
+            throw Standard_Failure("failed to create spline");
         }
 
     }
     catch (const Standard_Failure& e) {
-        Standard_CString msg = e.GetMessageString();
+        const char* msg = Part::toString(e);
         PyErr_SetString(PartExceptionOCCError, msg  ? msg : "");
         return nullptr;
     }
@@ -1554,7 +1564,7 @@ PyObject* BSplineSurfacePy::buildFromNSections(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        Standard_CString msg = e.GetMessageString();
+        const char* msg = Part::toString(e);
         PyErr_SetString(PartExceptionOCCError, msg  ? msg : "");
         return nullptr;
     }
@@ -1647,19 +1657,9 @@ Py::List BSplineSurfacePy::getUKnotSequence() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Integer m = 0;
-    if (surf->IsUPeriodic()) {
-        // knots=poles+2*degree-mult(1)+2
-        m = surf->NbUPoles() + 2*surf->UDegree() - surf->UMultiplicity(1) + 2;
-    }
-    else {
-        for (int i=1; i<= surf->NbUKnots(); i++)
-            m += surf->UMultiplicity(i);
-    }
-    TColStd_Array1OfReal k(1,m);
-    surf->UKnotSequence(k);
+    const TColStd_Array1OfReal& k = surf->UKnotSequence();
     Py::List list;
-    for (Standard_Integer i=k.Lower(); i<=k.Upper(); i++) {
+    for (int i=k.Lower(); i<=k.Upper(); i++) {
         list.append(Py::Float(k(i)));
     }
     return list;
@@ -1669,19 +1669,9 @@ Py::List BSplineSurfacePy::getVKnotSequence() const
 {
     Handle(Geom_BSplineSurface) surf = Handle(Geom_BSplineSurface)::DownCast
         (getGeometryPtr()->handle());
-    Standard_Integer m = 0;
-    if (surf->IsVPeriodic()) {
-        // knots=poles+2*degree-mult(1)+2
-        m = surf->NbVPoles() + 2*surf->VDegree() - surf->VMultiplicity(1) + 2;
-    }
-    else {
-        for (int i=1; i<= surf->NbVKnots(); i++)
-            m += surf->VMultiplicity(i);
-    }
-    TColStd_Array1OfReal k(1,m);
-    surf->VKnotSequence(k);
+    const TColStd_Array1OfReal& k = surf->VKnotSequence();
     Py::List list;
-    for (Standard_Integer i=k.Lower(); i<=k.Upper(); i++) {
+    for (int i=k.Lower(); i<=k.Upper(); i++) {
         list.append(Py::Float(k(i)));
     }
     return list;
@@ -1698,16 +1688,17 @@ PyObject* BSplineSurfacePy::scaleKnotsToBounds(PyObject *args)
         return nullptr;
     try {
         if (u0 >= u1 || v0 >= v1) {
-            Standard_Failure::Raise("Bad parameter range");
-            return nullptr;;
+            throw Standard_Failure("Bad parameter range");
         }
         GeomBSplineSurface* surf = getGeomBSplineSurfacePtr();
         surf->scaleKnotsToBounds(u0, u1, v0, v1);
         Py_Return;
     }
     catch (Standard_Failure& e) {
-        std::string err = e.GetMessageString();
-        if (err.empty()) err = e.DynamicType()->Name();
+        std::string err = toString(e);
+        if (err.empty()) {
+            err = getTypeName(e);
+        }
         PyErr_SetString(PartExceptionOCCError, err.c_str());
         return nullptr;
     }

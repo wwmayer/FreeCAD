@@ -47,17 +47,17 @@ std::string ArcOfHyperbolaPy::representation() const
     gp_Ax1 axis = hyperbola->Axis();
     gp_Dir dir = axis.Direction();
     gp_Pnt loc = axis.Location();
-    Standard_Real fMajRad = hyperbola->MajorRadius();
-    Standard_Real fMinRad = hyperbola->MinorRadius();
-    Standard_Real u1 = trim->FirstParameter();
-    Standard_Real u2 = trim->LastParameter();
+    double fMajRad = hyperbola->MajorRadius();
+    double fMinRad = hyperbola->MinorRadius();
+    double u1 = trim->FirstParameter();
+    double u2 = trim->LastParameter();
 
     gp_Dir normal = hyperbola->Axis().Direction();
     gp_Dir xdir = hyperbola->XAxis().Direction();
 
     gp_Ax2 xdirref(loc, normal); // this is a reference XY for the hyperbola
 
-    Standard_Real fAngleXU = -xdir.AngleWithRef(xdirref.XDirection(),normal);
+    double fAngleXU = -xdir.AngleWithRef(xdirref.XDirection(),normal);
 
 
     std::stringstream str;
@@ -99,7 +99,7 @@ int ArcOfHyperbolaPy::PyInit(PyObject* args, PyObject* /*kwds*/)
             return 0;
         }
         catch (Standard_Failure& e) {
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
         catch (...) {

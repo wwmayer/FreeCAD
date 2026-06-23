@@ -37,6 +37,7 @@
 #include "BRepOffsetAPI/MakeOffsetPy.cpp"
 #include "TopoShapeWirePy.h"
 #include "TopoShapeFacePy.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -128,7 +129,7 @@ PyObject* MakeOffsetPy::addWire(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -147,7 +148,7 @@ PyObject* MakeOffsetPy::perform(PyObject *args, PyObject* kwds)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -163,7 +164,7 @@ PyObject* MakeOffsetPy::build(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -189,7 +190,7 @@ PyObject* MakeOffsetPy::shape(PyObject *args)
         return shape.getPyObject();
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }

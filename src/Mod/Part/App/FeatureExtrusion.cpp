@@ -46,6 +46,7 @@
 #include "ExtrusionHelper.h"
 #include "Part2DObject.h"
 #include "Tools.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -332,7 +333,7 @@ void Extrusion::extrudeShape(TopoShape &result, const TopoShape &source, const E
         std::vector<TopoShape> drafts;
         ExtrusionHelper::makeElementDraft(params, myShape, drafts, result.Hasher);
         if (drafts.empty()) {
-            Standard_Failure::Raise("Drafting shape failed");
+            throw Standard_Failure("Drafting shape failed");
         }
         else {
             result.makeElementCompound(drafts,
@@ -343,7 +344,7 @@ void Extrusion::extrudeShape(TopoShape &result, const TopoShape &source, const E
     else {
         // Regular (non-tapered) extrusion!
         if (source.isNull()) {
-            Standard_Failure::Raise("Cannot extrude empty shape");
+            throw Standard_Failure("Cannot extrude empty shape");
         }
 
         // apply reverse part of extrusion by shifting the source shape
@@ -384,7 +385,7 @@ App::DocumentObjectExecReturn* Extrusion::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
 }
 

@@ -33,6 +33,7 @@
 # include <Law_Function.hxx>
 # include <Precision.hxx>
 # include <ShapeAnalysis_FreeBounds.hxx>
+# include <Standard_Version.hxx>
 # include <TopExp.hxx>
 # include <TopExp_Explorer.hxx>
 # include <TopoDS.hxx>
@@ -47,11 +48,12 @@
 #include <Mod/Part/App/FaceMakerCheese.h>
 
 #include "FeaturePipe.h"
-#include "Mod/Part/App/TopoShapeOpCode.h"
-#include "Mod/Part/App/TopoShapeMapper.h"
+#include <Mod/Part/App/OCCError.h>
+#include <Mod/Part/App/TopoShapeOpCode.h>
+#include <Mod/Part/App/TopoShapeMapper.h>
 #include "FeatureLoft.h"
 
-FC_LOG_LEVEL_INIT("PartDesign",true,true);
+FC_LOG_LEVEL_INIT("PartDesign",true,true)
 
 using namespace PartDesign;
 
@@ -438,7 +440,7 @@ App::DocumentObjectExecReturn *Pipe::execute()
                 return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP("Exception", "Unknown operation type"));
         }
         try {
-            boolOp.makeElementBoolean(maker, {base,result});
+            boolOp.makeElementBoolean(maker, {base,result}, nullptr, FuzzyTolerance.getValue());
         }
         catch(Standard_Failure&) {
             return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP("Exception", "Failed to perform boolean operation"));
@@ -460,8 +462,7 @@ App::DocumentObjectExecReturn *Pipe::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (Standard_Failure& e) {
-
-        return new App::DocumentObjectExecReturn(e.GetMessageString());
+        return new App::DocumentObjectExecReturn(Part::toString(e));
     }
     catch (...) {
         return new App::DocumentObjectExecReturn(QT_TRANSLATE_NOOP("Exception", "A fatal error occurred when making the pipe"));
@@ -599,8 +600,13 @@ void Pipe::buildPipePath(const Part::TopoShape& shape, const std::vector<std::st
                 for (TopExp_Explorer xp(shape.getShape(), TopAbs_EDGE); xp.More(); xp.Next())
                     hEdges->Append(xp.Current());
 
+#if OCC_VERSION_HEX < 0x080000
                 ShapeAnalysis_FreeBounds::ConnectEdgesToWires(
-                    hEdges, Precision::Confusion(), Standard_True, hWires);
+                    hEdges, Precision::Confusion(), true, hWires);
+#else
+                hWires = ShapeAnalysis_FreeBounds::ConnectEdgesToWires(
+                    hEdges, Precision::Confusion(), true);
+#endif
                 int len = hWires->Length();
                 if (len != 1)
                     throw Base::ValueError(QT_TRANSLATE_NOOP("Exception", "Spine is not connected."));

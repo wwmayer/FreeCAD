@@ -33,6 +33,7 @@
 # include <Standard_Failure.hxx>
 # include <Standard_Version.hxx>
 # include <TopoDS.hxx>
+# include <TopTools_IndexedMapOfShape.hxx>
 #endif // _PreComp_
 
 #include <App/Application.h>
@@ -132,7 +133,7 @@ Base::BoundBox3d PropertyPartShape::getBoundingBox() const
         Bnd_Box bounds;
         BRepBndLib::Add(_Shape.getShape(), bounds);
         bounds.SetGap(0.0);
-        Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+        double xMin, yMin, zMin, xMax, yMax, zMax;
         bounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
 
         box.MinX = xMin;
@@ -426,15 +427,15 @@ void PropertyPartShape::afterRestore()
 // to disable saving of triangulation
 //
 
-static Standard_Boolean  BRepTools_Write(const TopoDS_Shape& Sh, const Standard_CString File)
+static bool  BRepTools_Write(const TopoDS_Shape& Sh, const char* File)
 {
   std::ofstream os;
   OSD_OpenStream(os, File, std::ios::out);
 
   if (!os.rdbuf()->is_open())
-      return Standard_False;
+      return false;
 
-  Standard_Boolean isGood = (os.good() && !os.eof());
+  bool isGood = (os.good() && !os.eof());
   if(!isGood)
     return isGood;
 
@@ -445,7 +446,7 @@ static Standard_Boolean  BRepTools_Write(const TopoDS_Shape& Sh, const Standard_
       VERSION_3 = 3
   };
 
-  BRepTools_ShapeSet SS(Standard_False);
+  BRepTools_ShapeSet SS(false);
   SS.SetFormatNb(VERSION_1);
   // SS.SetProgress(PR);
   SS.Add(Sh);
@@ -473,7 +474,7 @@ void PropertyPartShape::saveToFile(Base::Writer &writer) const
     static Base::FileInfo fi(App::Application::getTempFileName());
 
     TopoDS_Shape myShape = _Shape.getShape();
-    if (!BRepTools_Write(myShape,static_cast<Standard_CString>(fi.filePath().c_str()))) {
+    if (!BRepTools_Write(myShape, fi.filePath().c_str())) {
         // Note: Do NOT throw an exception here because if the tmp. file could
         // not be created we should not abort.
         // We only print an error message but continue writing the next files to the
@@ -525,7 +526,7 @@ void PropertyPartShape::loadFromFile(Base::Reader &reader)
     // If it's still empty after reading the (non-empty) file there must occurred an error.
     TopoDS_Shape shape;
     if (ulSize > 0) {
-        if (!BRepTools::Read(shape, static_cast<Standard_CString>(fi.filePath().c_str()), builder)) {
+        if (!BRepTools::Read(shape, fi.filePath().c_str(), builder)) {
             // Note: Do NOT throw an exception here because if the tmp. created file could
             // not be read it's NOT an indication for an invalid input stream 'reader'.
             // We only print an error message but continue reading the next files from the

@@ -24,7 +24,6 @@
 #include "PreCompiled.h"
 #ifndef _PreComp_
 #include <Precision.hxx>
-#include <Standard_Real.hxx>
 #endif
 #include "Blending/BlendPoint.h"
 #include "Blending/BlendPointPy.h"
@@ -44,7 +43,7 @@ BlendPoint::BlendPoint()
 void BlendPoint::multiply(double f)
 {
     for (int i = 0; i < nbVectors(); i++) {
-        vectors[i] *= Pow(f, i);
+        vectors[i] *= std::pow(f, i);
     }
 }
 

@@ -24,7 +24,7 @@
 
 #include <Base/PlacementPy.h>
 #include <Base/PyWrapParseTupleAndKeywords.h>
-#include <Base/UnitsApi.h>
+#include <Base/UnitsApiPy.h>
 
 // clang-format off
 // inclusion of the generated files (generated out of WaypointPy.xml)
@@ -153,7 +153,7 @@ int WaypointPy::PyInit(PyObject* args, PyObject* kwd)
         }
     }
     else {
-        getWaypointPtr()->Velocity = Base::UnitsApi::toDouble(vel, Base::Unit::Velocity);
+        getWaypointPtr()->Velocity = Base::UnitsApiPy::toDouble(vel, Base::Unit::Velocity);
     }
     getWaypointPtr()->Cont = cont ? true : false;
     getWaypointPtr()->Tool = tool;
@@ -162,7 +162,7 @@ int WaypointPy::PyInit(PyObject* args, PyObject* kwd)
         getWaypointPtr()->Acceleration = 100;
     }
     else {
-        getWaypointPtr()->Acceleration = Base::UnitsApi::toDouble(acc, Base::Unit::Acceleration);
+        getWaypointPtr()->Acceleration = Base::UnitsApiPy::toDouble(acc, Base::Unit::Acceleration);
     }
 
     return 0;

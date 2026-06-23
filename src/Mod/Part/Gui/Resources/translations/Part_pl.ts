@@ -4138,8 +4138,8 @@ Opcja przydatna w przypadku niektórych starszych plików STEP, z nieistotnymi a
     </message>
     <message>
       <location filename="../../DlgSettingsGeneral.ui" line="127"/>
-      <source>Allow multiple solids in Part Design Body by default (experimental)</source>
-      <translation>Zezwalaj domyślnie na wiele brył w środowisku Projekt Części (eksperymentalne)</translation>
+      <source>Allow multiple solids in Part Design Body by default</source>
+      <translation>Zezwalaj domyślnie na wiele brył w środowisku Projekt Części</translation>
     </message>
   </context>
   <context>

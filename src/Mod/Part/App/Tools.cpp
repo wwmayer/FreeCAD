@@ -56,8 +56,9 @@
 # include <Standard_Mutex.hxx>
 # include <Standard_TypeMismatch.hxx>
 # include <Standard_Version.hxx>
-# include <TColStd_ListIteratorOfListOfTransient.hxx>
+# include <TColStd_Array1OfInteger.hxx>
 # include <TColStd_ListOfTransient.hxx>
+# include <TColgp_Array1OfPnt.hxx>
 # include <TColgp_SequenceOfXY.hxx>
 # include <TColgp_SequenceOfXYZ.hxx>
 # include <TopoDS.hxx>
@@ -134,22 +135,22 @@ If the algorithm fails it returns a null surface.
 */
 Handle(Geom_Surface)
 Part::Tools::makeSurface(const TColStd_ListOfTransient &theBoundaries,
-                         const Standard_Real theTol,
-                         const Standard_Integer theNbPnts,
-                         const Standard_Integer theNbIter,
-                         const Standard_Integer theMaxDeg)
+                         const double theTol,
+                         const int theNbPnts,
+                         const int theNbIter,
+                         const int theMaxDeg)
 {
     (void)theTol;
     //constants for algorithm
-    const Standard_Integer aNbIter = theNbIter; //number of algorithm iterations
-    const Standard_Integer aNbPnts = theNbPnts; //sample points per each constraint
-    const Standard_Integer aDeg = 3; //requested surface degree ?
-    const Standard_Integer aMaxDeg = theMaxDeg;
-    const Standard_Integer aMaxSeg = 10000;
-    const Standard_Real aTol3d = 1.e-04;
-    const Standard_Real aTol2d = 1.e-05;
-    const Standard_Real anAngTol = 1.e-02; //angular
-    const Standard_Real aCurvTol = 1.e-01; //curvature
+    const int aNbIter = theNbIter; //number of algorithm iterations
+    const int aNbPnts = theNbPnts; //sample points per each constraint
+    const int aDeg = 3; //requested surface degree ?
+    const int aMaxDeg = theMaxDeg;
+    const int aMaxSeg = 10000;
+    const double aTol3d = 1.e-04;
+    const double aTol2d = 1.e-05;
+    const double anAngTol = 1.e-02; //angular
+    const double aCurvTol = 1.e-01; //curvature
 
     Handle(Geom_Surface) aRes;
     GeomPlate_BuildPlateSurface aPlateBuilder (aDeg, aNbPnts, aNbIter, aTol2d, aTol3d, anAngTol, aCurvTol);
@@ -161,7 +162,7 @@ Part::Tools::makeSurface(const TColStd_ListOfTransient &theBoundaries,
             const Handle(Standard_Transient)& aCur = anIt.Value();
             if (aCur.IsNull()) {
                 assert (0);
-                Standard_ConstructionError::Raise ("Tools::makeSurface()");
+                throw Standard_ConstructionError("Tools::makeSurface()");
             }
 #if OCC_VERSION_HEX >= 0x070600
             else if (aCur->IsKind (STANDARD_TYPE (Adaptor3d_CurveOnSurface))) {
@@ -197,12 +198,12 @@ Part::Tools::makeSurface(const TColStd_ListOfTransient &theBoundaries,
                 aPlateBuilder.Add(aConst);
             }
             else {
-                Standard_TypeMismatch::Raise ("Tools::makeSurface()");
+                throw Standard_TypeMismatch("Tools::makeSurface()");
             }
         }
     }
     else {
-        Standard_ConstructionError::Raise ("Tools::makeSurface()");
+        throw Standard_ConstructionError("Tools::makeSurface()");
     }
 
     //construct
@@ -214,12 +215,12 @@ Part::Tools::makeSurface(const TColStd_ListOfTransient &theBoundaries,
 
     const Handle(GeomPlate_Surface)& aPlate = aPlateBuilder.Surface();
     //approximation (see BRepFill_Filling - when no initial surface was given)
-    Standard_Real aDMax = aPlateBuilder.G0Error();
+    double aDMax = aPlateBuilder.G0Error();
     TColgp_SequenceOfXY aS2d;
     TColgp_SequenceOfXYZ aS3d;
     aPlateBuilder.Disc2dContour (4, aS2d);
     aPlateBuilder.Disc3dContour (4, 0, aS3d);
-    Standard_Real aMax = Max (aTol3d, 10. * aDMax);
+    double aMax = std::max (aTol3d, 10. * aDMax);
     GeomPlate_PlateG0Criterion aCriterion (aS2d, aS3d, aMax);
     {
         //data races in AdvApp2Var used by GeomApprox_Surface, use global mutex
@@ -229,6 +230,15 @@ Part::Tools::makeSurface(const TColStd_ListOfTransient &theBoundaries,
     }
 
     return aRes;
+}
+
+Handle(Geom_Surface) Part::Tools::getSurface(const BRepAdaptor_Surface& adaptor)
+{
+#if OCC_VERSION_HEX < 0x080000
+    return adaptor.Surface().Surface();
+#else
+    return adaptor.AdaptorSurfaceOriginal().Surface();
+#endif
 }
 
 bool Part::Tools::getTriangulation(const TopoDS_Face& face, std::vector<gp_Pnt>& points, std::vector<Poly_Triangle>& facets)
@@ -249,8 +259,8 @@ bool Part::Tools::getTriangulation(const TopoDS_Face& face, std::vector<gp_Pnt>&
     // check orientation
     TopAbs_Orientation orient = face.Orientation();
 
-    Standard_Integer nbNodes = hTria->NbNodes();
-    Standard_Integer nbTriangles = hTria->NbTriangles();
+    int nbNodes = hTria->NbNodes();
+    int nbTriangles = hTria->NbTriangles();
 #if OCC_VERSION_HEX < 0x070600
     const TColgp_Array1OfPnt& nodes = hTria->Nodes();
     const Poly_Array1OfTriangle& triangles = hTria->Triangles();
@@ -278,7 +288,7 @@ bool Part::Tools::getTriangulation(const TopoDS_Face& face, std::vector<gp_Pnt>&
 
     for (int i = 1; i <= nbTriangles; i++) {
         // Get the triangle
-        Standard_Integer n1,n2,n3;
+        int n1,n2,n3;
 #if OCC_VERSION_HEX < 0x070600
         triangles(i).Get(n1, n2, n3);
 #else
@@ -318,7 +328,7 @@ bool Part::Tools::getPolygonOnTriangulation(const TopoDS_Edge& edge, const TopoD
     }
 
     // getting size and create the array
-    Standard_Integer nbNodes = hPoly->NbNodes();
+    int nbNodes = hPoly->NbNodes();
     points.reserve(nbNodes);
     const TColStd_Array1OfInteger& indices = hPoly->Nodes();
 #if OCC_VERSION_HEX < 0x070600
@@ -326,7 +336,7 @@ bool Part::Tools::getPolygonOnTriangulation(const TopoDS_Edge& edge, const TopoD
 #endif
 
     // go through the index array
-    for (Standard_Integer i = indices.Lower(); i <= indices.Upper(); i++) {
+    for (int i = indices.Lower(); i <= indices.Upper(); i++) {
 #if OCC_VERSION_HEX < 0x070600
         gp_Pnt p = Nodes(indices(i));
 #else
@@ -358,7 +368,7 @@ bool Part::Tools::getPolygon3D(const TopoDS_Edge& edge, std::vector<gp_Pnt>& poi
     }
 
     // getting size and create the array
-    Standard_Integer nbNodes = hPoly->NbNodes();
+    int nbNodes = hPoly->NbNodes();
     points.reserve(nbNodes);
     const TColgp_Array1OfPnt& nodes = hPoly->Nodes();
 
@@ -382,7 +392,7 @@ void Part::Tools::getPointNormals(const std::vector<gp_Pnt>& points, const std::
 
     for (const auto& it : facets) {
         // Get the triangle
-        Standard_Integer n1,n2,n3;
+        int n1,n2,n3;
         it.Get(n1,n2,n3);
 
         // Calculate triangle normal
@@ -414,7 +424,7 @@ void Part::Tools::getPointNormals(const std::vector<gp_Pnt>& points, const TopoD
     for (std::size_t i = 0; i < points.size(); i++) {
         try {
             GeomAPI_ProjectPointOnSurf ProPntSrf(points[i], hSurface);
-            Standard_Real u, v;
+            double u, v;
             ProPntSrf.Parameters(1, u, v);
 
             GeomLProp_SLProps propOfFace(hSurface, u, v, 2, gp::Resolution());
@@ -442,11 +452,11 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
     {
         // normals pre-computed in triangulation structure
         const TShort_Array1OfShortReal& aNormals = aPolyTri->Normals();
-        const Standard_ShortReal*       aNormArr = &(aNormals.Value(aNormals.Lower()));
+        const float*                    aNormArr = &(aNormals.Value(aNormals.Lower()));
 
-        for(Standard_Integer aNodeIter = aNodes.Lower(); aNodeIter <= aNodes.Upper(); ++aNodeIter)
+        for(int aNodeIter = aNodes.Lower(); aNodeIter <= aNodes.Upper(); ++aNodeIter)
         {
-            const Standard_Integer anId = 3 * (aNodeIter - aNodes.Lower());
+            const int anId = 3 * (aNodeIter - aNodes.Lower());
             const gp_Dir aNorm(aNormArr[anId + 0],
                                aNormArr[anId + 1],
                                aNormArr[anId + 2]);
@@ -455,7 +465,7 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
 
         if(theFace.Orientation() == TopAbs_REVERSED)
         {
-            for(Standard_Integer aNodeIter = aNodes.Lower(); aNodeIter <= aNodes.Upper(); ++aNodeIter)
+            for(int aNodeIter = aNodes.Lower(); aNodeIter <= aNodes.Upper(); ++aNodeIter)
             {
                 theNormals.ChangeValue(aNodeIter).Reverse();
             }
@@ -466,15 +476,15 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
         Poly_Connect thePolyConnect(aPolyTri);
         const TopoDS_Face      aZeroFace = TopoDS::Face(theFace.Located(TopLoc_Location()));
         Handle(Geom_Surface)   aSurf     = BRep_Tool::Surface(aZeroFace);
-        const Standard_Real    aTol      = Precision::Confusion();
+        const double    aTol      = Precision::Confusion();
         Handle(TShort_HArray1OfShortReal) aNormals = new TShort_HArray1OfShortReal(1, aPolyTri->NbNodes() * 3);
         const Poly_Array1OfTriangle& aTriangles = aPolyTri->Triangles();
         const TColgp_Array1OfPnt2d*  aNodesUV   = aPolyTri->HasUVNodes() && !aSurf.IsNull()
                 ? &aPolyTri->UVNodes()
                 : nullptr;
-        Standard_Integer aTri[3];
+        int aTri[3];
 
-        for(Standard_Integer aNodeIter = aNodes.Lower(); aNodeIter <= aNodes.Upper(); ++aNodeIter)
+        for(int aNodeIter = aNodes.Lower(); aNodeIter <= aNodes.Upper(); ++aNodeIter)
         {
             // try to retrieve normal from real surface first, when UV coordinates are available
             if (!aNodesUV || GeomLib::NormEstim(aSurf, aNodesUV->Value(aNodeIter), aTol, theNormals(aNodeIter)) > 1)
@@ -488,7 +498,7 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
                     const gp_XYZ v1(aNodes(aTri[1]).Coord() - aNodes(aTri[0]).Coord());
                     const gp_XYZ v2(aNodes(aTri[2]).Coord() - aNodes(aTri[1]).Coord());
                     const gp_XYZ vv = v1 ^ v2;
-                    const Standard_Real aMod = vv.Modulus();
+                    const double aMod = vv.Modulus();
 
                     if(aMod >= aTol)
                     {
@@ -496,39 +506,39 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
                     }
                 }
 
-                const Standard_Real aModMax = eqPlan.Modulus();
+                const double aModMax = eqPlan.Modulus();
                 theNormals(aNodeIter) = (aModMax > aTol) ? gp_Dir(eqPlan) : gp::DZ();
             }
 
-            const Standard_Integer anId = (aNodeIter - aNodes.Lower()) * 3;
-            aNormals->SetValue(anId + 1, (Standard_ShortReal)theNormals(aNodeIter).X());
-            aNormals->SetValue(anId + 2, (Standard_ShortReal)theNormals(aNodeIter).Y());
-            aNormals->SetValue(anId + 3, (Standard_ShortReal)theNormals(aNodeIter).Z());
+            const int anId = (aNodeIter - aNodes.Lower()) * 3;
+            aNormals->SetValue(anId + 1, (float)theNormals(aNodeIter).X());
+            aNormals->SetValue(anId + 2, (float)theNormals(aNodeIter).Y());
+            aNormals->SetValue(anId + 3, (float)theNormals(aNodeIter).Z());
         }
 
         aPolyTri->SetNormals(aNormals);
 
         if(theFace.Orientation() == TopAbs_REVERSED)
         {
-            for(Standard_Integer aNodeIter = aNodes.Lower(); aNodeIter <= aNodes.Upper(); ++aNodeIter)
+            for(int aNodeIter = aNodes.Lower(); aNodeIter <= aNodes.Upper(); ++aNodeIter)
             {
                 theNormals.ChangeValue(aNodeIter).Reverse();
             }
         }
     }
 #else
-    Standard_Integer numNodes = aPolyTri->NbNodes();
+    int numNodes = aPolyTri->NbNodes();
 
     if(aPolyTri->HasNormals())
     {
-        for(Standard_Integer aNodeIter = 1; aNodeIter <= numNodes; ++aNodeIter)
+        for(int aNodeIter = 1; aNodeIter <= numNodes; ++aNodeIter)
         {
             theNormals(aNodeIter) = aPolyTri->Normal(aNodeIter);
         }
 
         if(theFace.Orientation() == TopAbs_REVERSED)
         {
-            for(Standard_Integer aNodeIter = 1; aNodeIter <= numNodes; ++aNodeIter)
+            for(int aNodeIter = 1; aNodeIter <= numNodes; ++aNodeIter)
             {
                 theNormals.ChangeValue(aNodeIter).Reverse();
             }
@@ -539,12 +549,12 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
         Poly_Connect thePolyConnect(aPolyTri);
         const TopoDS_Face      aZeroFace = TopoDS::Face(theFace.Located(TopLoc_Location()));
         Handle(Geom_Surface)   aSurf     = BRep_Tool::Surface(aZeroFace);
-        const Standard_Real    aTol      = Precision::Confusion();
-        Standard_Boolean hasNodesUV      = aPolyTri->HasUVNodes() && !aSurf.IsNull();
-        Standard_Integer aTri[3];
+        const double    aTol      = Precision::Confusion();
+        bool hasNodesUV      = aPolyTri->HasUVNodes() && !aSurf.IsNull();
+        int aTri[3];
 
         aPolyTri->AddNormals();
-        for(Standard_Integer aNodeIter = 1; aNodeIter <= numNodes; ++aNodeIter)
+        for(int aNodeIter = 1; aNodeIter <= numNodes; ++aNodeIter)
         {
             // try to retrieve normal from real surface first, when UV coordinates are available
             if (!hasNodesUV || GeomLib::NormEstim(aSurf, aPolyTri->UVNode(aNodeIter), aTol, theNormals(aNodeIter)) > 1)
@@ -558,7 +568,7 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
                     const gp_XYZ v1(aPolyTri->Node(aTri[1]).Coord() - aPolyTri->Node(aTri[0]).Coord());
                     const gp_XYZ v2(aPolyTri->Node(aTri[2]).Coord() - aPolyTri->Node(aTri[1]).Coord());
                     const gp_XYZ vv = v1 ^ v2;
-                    const Standard_Real aMod = vv.Modulus();
+                    const double aMod = vv.Modulus();
 
                     if(aMod >= aTol)
                     {
@@ -566,7 +576,7 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
                     }
                 }
 
-                const Standard_Real aModMax = eqPlan.Modulus();
+                const double aModMax = eqPlan.Modulus();
                 theNormals(aNodeIter) = (aModMax > aTol) ? gp_Dir(eqPlan) : gp::DZ();
             }
 
@@ -575,7 +585,7 @@ void Part::Tools::getPointNormals(const TopoDS_Face& theFace, Handle(Poly_Triang
 
         if(theFace.Orientation() == TopAbs_REVERSED)
         {
-            for(Standard_Integer aNodeIter = 1; aNodeIter <= numNodes; ++aNodeIter)
+            for(int aNodeIter = 1; aNodeIter <= numNodes; ++aNodeIter)
             {
                 theNormals.ChangeValue(aNodeIter).Reverse();
             }
@@ -693,14 +703,14 @@ Handle(Poly_Polygon3D) Part::Tools::polygonOfEdge(const TopoDS_Edge& edge, TopLo
 // helper function to use in getNormal, here we pass the local properties
 // of the surface given by the #LProp_SLProps objects
 template <typename T>
-void getNormalBySLProp(T& prop, double u, double v, Standard_Real lastU, Standard_Real lastV,
-                     const Standard_Real tol, gp_Dir& dir, Standard_Boolean& done)
+void getNormalBySLProp(T& prop, double u, double v, double lastU, double lastV,
+                     const double tol, gp_Dir& dir, bool& done)
 {
     if (prop.D1U().Magnitude() > tol &&
         prop.D1V().Magnitude() > tol &&
         prop.IsNormalDefined()) {
         dir = prop.Normal();
-        done = Standard_True;
+        done = true;
     }
     // use an alternative method in case of a null normal
     else {
@@ -710,33 +720,33 @@ void getNormalBySLProp(T& prop, double u, double v, Standard_Real lastU, Standar
         // at the right boundary, the normal is flipped with respect to the
         // normal on surrounding points.
         if (stat == CSLib_D1NuIsNull) {
-            if (Abs(lastV - v) < tol)
+            if (std::fabs(lastV - v) < tol)
                 dir.Reverse();
         }
         else if (stat == CSLib_D1NvIsNull || stat == CSLib_D1NuIsParallelD1Nv) {
-            if (Abs(lastU - u) < tol)
+            if (std::fabs(lastU - u) < tol)
                 dir.Reverse();
         }
     }
 }
 
 void Part::Tools::getNormal(const Handle(Geom_Surface)& surf, double u, double v,
-                            const Standard_Real tol, gp_Dir& dir, Standard_Boolean& done)
+                            const double tol, gp_Dir& dir, bool& done)
 {
     GeomLProp_SLProps prop(surf, u, v, 1, tol);
-    Standard_Real u1,u2,v1,v2;
+    double u1,u2,v1,v2;
     surf->Bounds(u1,u2,v1,v2);
 
     getNormalBySLProp<GeomLProp_SLProps>(prop, u, v, u2, v2, tol, dir, done);
 }
 
 void Part::Tools::getNormal(const TopoDS_Face& face, double u, double v,
-                            const Standard_Real tol, gp_Dir& dir, Standard_Boolean& done)
+                            const double tol, gp_Dir& dir, bool& done)
 {
     BRepAdaptor_Surface adapt(face);
     BRepLProp_SLProps prop(adapt, u, v, 1, tol);
-    Standard_Real u2 = adapt.LastUParameter();
-    Standard_Real v2 = adapt.LastVParameter();
+    double u2 = adapt.LastUParameter();
+    double v2 = adapt.LastVParameter();
 
     getNormalBySLProp<BRepLProp_SLProps>(prop, u, v, u2, v2, tol, dir, done);
 

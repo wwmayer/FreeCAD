@@ -502,6 +502,11 @@ QVariant PropertyItem::editorData(QWidget* /*editor*/) const
     return {};
 }
 
+bool PropertyItem::editingFinished(QWidget* /*editor*/) const
+{
+    return false;
+}
+
 QWidget* PropertyItem::createExpressionEditor(QWidget* parent,
                                               const std::function<void()>& method) const
 {
@@ -847,7 +852,7 @@ QWidget* PropertyStringItem::createEditor(QWidget* parent,
     auto le = new ExpLineEdit(parent);
     le->setFrame(false);
     le->setReadOnly(isReadOnly());
-    QObject::connect(le, &ExpLineEdit::textChanged, method);
+    QObject::connect(le, &ExpLineEdit::editingFinished, method);
     if (isBound()) {
         le->bind(getPath());
         le->setAutoApply(autoApply());
@@ -866,6 +871,15 @@ QVariant PropertyStringItem::editorData(QWidget* editor) const
 {
     auto le = qobject_cast<QLineEdit*>(editor);
     return {le->text()};
+}
+
+bool PropertyStringItem::editingFinished(QWidget* editor) const
+{
+    // The call of the signal editingFinished() of ExpLineEdit may bypass the call of
+    // PropertyItemDelegate::valueChanged() so that the 'changed' flag cannot be set to true.
+    // To avoid to lose user input override the method editingFinished() to return true
+    // if the content is modified.
+    return qobject_cast<QLineEdit*>(editor)->isModified();
 }
 
 // --------------------------------------------------------------------

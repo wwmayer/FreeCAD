@@ -56,6 +56,8 @@
 #include <App/Datums.h>
 #include <Base/Reader.h>
 #include <Mod/Part/App/FaceMakerCheese.h>
+#include <Mod/Part/App/OCCError.h>
+#include <Mod/Part/App/Tools.h>
 
 #include "FeatureSketchBased.h"
 #include "DatumLine.h"
@@ -63,7 +65,7 @@
 #include "Mod/Part/App/Geometry.h"
 
 
-FC_LOG_LEVEL_INIT("PartDesign",true,true);
+FC_LOG_LEVEL_INIT("PartDesign",true,true)
 
 using namespace PartDesign;
 
@@ -359,7 +361,7 @@ TopoDS_Shape ProfileBased::getVerifiedFace(bool silent) const {
                 return shape.getShape();
         }
         catch (Standard_Failure& e) {
-            _err = e.GetMessageString();
+            _err = Part::toString(e);
             err = _err.c_str();
         }
     }
@@ -816,10 +818,10 @@ void ProfileBased::getUpToFace(TopoDS_Face& upToFace,
         if (remove_limits) {
             // Note: Using an unlimited face every time gives unnecessary failures for concave faces
             TopLoc_Location loc = upToFace.Location();
-            BRepAdaptor_Surface adapt(upToFace, Standard_False);
+            BRepAdaptor_Surface adapt(upToFace, false);
             // use the placement of the adapter, not of the upToFace
             loc = TopLoc_Location(adapt.Trsf());
-            BRepBuilderAPI_MakeFace mkFace(adapt.Surface().Surface(), Precision::Confusion());
+            BRepBuilderAPI_MakeFace mkFace(Part::Tools::getSurface(adapt), Precision::Confusion());
             if (!mkFace.IsDone())
                 throw Base::ValueError("SketchBased: Up To Face: Failed to create unlimited face");
             upToFace = TopoDS::Face(mkFace.Shape());
@@ -920,7 +922,7 @@ void ProfileBased::addOffsetToFace(TopoDS_Face& upToFace, const gp_Dir& dir, dou
             // then the algorithm expects that the 'NaturalRestriction' flag is set in order
             // to work as expected (see generatePrism())
             BRep_Builder builder;
-            builder.NaturalRestriction(upToFace, Standard_True);
+            builder.NaturalRestriction(upToFace, true);
         }
         else {
             throw Base::TypeError("SketchBased: Up to Face: Offset not supported yet for non-planar faces");
@@ -983,7 +985,7 @@ bool ProfileBased::checkLineCrossesFace(const gp_Lin& line, const TopoDS_Face& f
         TopTools_IndexedDataMapOfShapeListOfShape vertex2Edge;
         TopExp::MapShapesAndAncestors(wire, TopAbs_VERTEX, TopAbs_EDGE, vertex2Edge);
 
-        for (Standard_Integer i = 1; i <= distss.NbSolution(); i++) {
+        for (int i = 1; i <= distss.NbSolution(); i++) {
             if (distss.PointOnShape1(i).Distance(distss.PointOnShape2(i)) > Precision::Confusion())
                 continue;
             BRepExtrema_SupportType type = distss.SupportTypeShape1(i);
@@ -996,14 +998,14 @@ bool ProfileBased::checkLineCrossesFace(const gp_Lin& line, const TopoDS_Face& f
                 gp_Dir dir = line.Direction().Crossed(normal);
                 gp_Pnt pnt = distss.PointOnShape1(i);
 
-                Standard_Real t;
+                double t;
                 distss.ParOnEdgeS1(i, t);
                 gp_Pnt p_eps1 = adapt.Value(std::max<double>(adapt.FirstParameter(), t - 10 * Precision::Confusion()));
                 gp_Pnt p_eps2 = adapt.Value(std::min<double>(adapt.LastParameter(), t + 10 * Precision::Confusion()));
 
                 // now check if we get a change in the sign of the distances
-                Standard_Real dist_p_eps1_pnt = gp_Vec(p_eps1, pnt).Dot(gp_Vec(dir));
-                Standard_Real dist_p_eps2_pnt = gp_Vec(p_eps2, pnt).Dot(gp_Vec(dir));
+                double dist_p_eps1_pnt = gp_Vec(p_eps1, pnt).Dot(gp_Vec(dir));
+                double dist_p_eps2_pnt = gp_Vec(p_eps2, pnt).Dot(gp_Vec(dir));
                 // distance to the plane must be noticeable
                 if (fabs(dist_p_eps1_pnt) > 5 * Precision::Confusion() &&
                     fabs(dist_p_eps2_pnt) > 5 * Precision::Confusion()) {
@@ -1026,8 +1028,8 @@ bool ProfileBased::checkLineCrossesFace(const gp_Lin& line, const TopoDS_Face& f
                     // from the first edge get a point next to the intersection point
                     const TopoDS_Edge& edge1 = TopoDS::Edge(edges.First());
                     BRepAdaptor_Curve adapt1(edge1);
-                    Standard_Real dist1 = adapt1.Value(adapt1.FirstParameter()).SquareDistance(pnt);
-                    Standard_Real dist2 = adapt1.Value(adapt1.LastParameter()).SquareDistance(pnt);
+                    double dist1 = adapt1.Value(adapt1.FirstParameter()).SquareDistance(pnt);
+                    double dist2 = adapt1.Value(adapt1.LastParameter()).SquareDistance(pnt);
                     gp_Pnt p_eps1;
                     if (dist1 < dist2)
                         p_eps1 = adapt1.Value(adapt1.FirstParameter() + 2 * Precision::Confusion());
@@ -1037,8 +1039,8 @@ bool ProfileBased::checkLineCrossesFace(const gp_Lin& line, const TopoDS_Face& f
                     // from the second edge get a point next to the intersection point
                     const TopoDS_Edge& edge2 = TopoDS::Edge(edges.Last());
                     BRepAdaptor_Curve adapt2(edge2);
-                    Standard_Real dist3 = adapt2.Value(adapt2.FirstParameter()).SquareDistance(pnt);
-                    Standard_Real dist4 = adapt2.Value(adapt2.LastParameter()).SquareDistance(pnt);
+                    double dist3 = adapt2.Value(adapt2.FirstParameter()).SquareDistance(pnt);
+                    double dist4 = adapt2.Value(adapt2.LastParameter()).SquareDistance(pnt);
                     gp_Pnt p_eps2;
                     if (dist3 < dist4)
                         p_eps2 = adapt2.Value(adapt2.FirstParameter() + 2 * Precision::Confusion());
@@ -1046,8 +1048,8 @@ bool ProfileBased::checkLineCrossesFace(const gp_Lin& line, const TopoDS_Face& f
                         p_eps2 = adapt2.Value(adapt2.LastParameter() - 2 * Precision::Confusion());
 
                     // now check if we get a change in the sign of the distances
-                    Standard_Real dist_p_eps1_pnt = gp_Vec(p_eps1, pnt).Dot(gp_Vec(dir));
-                    Standard_Real dist_p_eps2_pnt = gp_Vec(p_eps2, pnt).Dot(gp_Vec(dir));
+                    double dist_p_eps1_pnt = gp_Vec(p_eps1, pnt).Dot(gp_Vec(dir));
+                    double dist_p_eps2_pnt = gp_Vec(p_eps2, pnt).Dot(gp_Vec(dir));
                     // distance to the plane must be noticeable
                     if (fabs(dist_p_eps1_pnt) > Precision::Confusion() &&
                         fabs(dist_p_eps2_pnt) > Precision::Confusion()) {
@@ -1379,7 +1381,7 @@ void ProfileBased::getAxis(const App::DocumentObject * pcReferenceAxis, const st
             ref = refShape.getSubShape(subReferenceAxis[0].c_str());
         }
         catch (const Standard_Failure& e) {
-            throw Base::RuntimeError(e.GetMessageString());
+            throw Base::RuntimeError(Part::toString(e));
         }
 
         if (ref.ShapeType() == TopAbs_EDGE) {

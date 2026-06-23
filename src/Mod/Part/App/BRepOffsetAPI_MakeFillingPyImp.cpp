@@ -37,6 +37,7 @@
 #include "BRepOffsetAPI_MakeFillingPy.cpp"
 #include "TopoShapeEdgePy.h"
 #include "TopoShapeFacePy.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -110,7 +111,7 @@ int BRepOffsetAPI_MakeFillingPy::PyInit(PyObject* args, PyObject* kwds)
         return 0;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return -1;
     }
 }
@@ -139,7 +140,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::setConstrParam(PyObject *args, PyObject *
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -163,7 +164,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::setResolParam(PyObject *args, PyObject *k
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -184,7 +185,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::setApproxParam(PyObject *args, PyObject *
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -206,7 +207,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::loadInitSurface(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -224,7 +225,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::add(PyObject *args, PyObject *kwds)
             Py_Return;
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+            PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
             return nullptr;
         }
     }
@@ -252,7 +253,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::add(PyObject *args, PyObject *kwds)
             Py_Return;
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+            PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
             return nullptr;
         }
     }
@@ -282,7 +283,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::add(PyObject *args, PyObject *kwds)
             Py_Return;
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+            PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
             return nullptr;
         }
     }
@@ -316,7 +317,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::add(PyObject *args, PyObject *kwds)
             Py_Return;
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+            PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
             return nullptr;
         }
     }
@@ -343,7 +344,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::add(PyObject *args, PyObject *kwds)
             Py_Return;
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+            PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
             return nullptr;
         }
     }
@@ -362,7 +363,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::build(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -373,11 +374,11 @@ PyObject* BRepOffsetAPI_MakeFillingPy::isDone(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Boolean ok = getBRepOffsetAPI_MakeFillingPtr()->IsDone();
+        bool ok = getBRepOffsetAPI_MakeFillingPtr()->IsDone();
         return Py_BuildValue("O", (ok ? Py_True : Py_False));
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -389,12 +390,12 @@ PyObject* BRepOffsetAPI_MakeFillingPy::G0Error(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = index < 1 ? getBRepOffsetAPI_MakeFillingPtr()->G0Error()
+        double v = index < 1 ? getBRepOffsetAPI_MakeFillingPtr()->G0Error()
                                     : getBRepOffsetAPI_MakeFillingPtr()->G0Error(index);
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -406,12 +407,12 @@ PyObject* BRepOffsetAPI_MakeFillingPy::G1Error(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = index < 1 ? getBRepOffsetAPI_MakeFillingPtr()->G1Error()
+        double v = index < 1 ? getBRepOffsetAPI_MakeFillingPtr()->G1Error()
                                     : getBRepOffsetAPI_MakeFillingPtr()->G1Error(index);
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -423,12 +424,12 @@ PyObject* BRepOffsetAPI_MakeFillingPy::G2Error(PyObject *args)
         return nullptr;
 
     try {
-        Standard_Real v = index < 1 ? getBRepOffsetAPI_MakeFillingPtr()->G2Error()
+        double v = index < 1 ? getBRepOffsetAPI_MakeFillingPtr()->G2Error()
                                     : getBRepOffsetAPI_MakeFillingPtr()->G2Error(index);
         return PyFloat_FromDouble(v);
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -443,7 +444,7 @@ PyObject* BRepOffsetAPI_MakeFillingPy::shape(PyObject *args)
         return new TopoShapePy(new TopoShape(shape));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }

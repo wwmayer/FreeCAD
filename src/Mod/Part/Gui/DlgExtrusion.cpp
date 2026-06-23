@@ -48,6 +48,7 @@
 #include <Gui/Utilities.h>
 #include <Gui/ViewProvider.h>
 #include <Gui/WaitCursor.h>
+#include <Mod/Part/App/OCCError.h>
 
 #include "ui_DlgExtrusion.h"
 #include "DlgExtrusion.h"
@@ -358,7 +359,7 @@ void DlgExtrusion::autoSolid()
         if (sh.IsNull())
             return;
         ShapeExtend_Explorer xp;
-        Handle(TopTools_HSequenceOfShape) leaves = xp.SeqFromCompound(sh, /*recursive= */Standard_True);
+        Handle(TopTools_HSequenceOfShape) leaves = xp.SeqFromCompound(sh, /*recursive= */true);
         int cntClosedWires = 0;
         for(int i = 0; i < leaves->Length(); i++){
             const TopoDS_Shape &leaf = leaves->Value(i+1);
@@ -652,7 +653,7 @@ bool DlgExtrusion::validate()
     } catch(Base::Exception &err) {
         errmsg = QCoreApplication::translate("Exception", err.what());
     } catch(Standard_Failure &err) {
-        errmsg = QString::fromLocal8Bit(err.GetMessageString());
+        errmsg = QString::fromLocal8Bit(Part::toString(err));
     } catch(...) {
         errmsg = tr("Unknown error");
     }
@@ -678,7 +679,7 @@ bool DlgExtrusion::validate()
         } catch(Base::Exception &err) {
             errmsg = QCoreApplication::translate("Exception", err.what());
         } catch(Standard_Failure &err) {
-            errmsg = QString::fromLocal8Bit(err.GetMessageString());
+            errmsg = QString::fromLocal8Bit(Part::toString(err));
         } catch(...) {
             errmsg = QStringLiteral("Unknown error");
         }

@@ -34,7 +34,12 @@
 #include "SMESH_Comment.hxx"
 
 #include <ExprIntrp_GenExp.hxx>
+#include <Standard_Version.hxx>
+#if OCC_VERSION_HEX < 0x080000
 #include <Expr_Array1OfNamedUnknown.hxx>
+#else
+using Expr_Array1OfNamedUnknown = NCollection_Array1<occ::handle<Expr_NamedUnknown>>;
+#endif
 #include <Expr_NamedUnknown.hxx>
 #include <TColStd_Array1OfReal.hxx>
 #include <TCollection_AsciiString.hxx>
@@ -95,7 +100,7 @@ StdMeshers_NumberOfSegments::~StdMeshers_NumberOfSegments()
 const vector<double>&
 StdMeshers_NumberOfSegments::BuildDistributionExpr( const char* expr,int nbSeg,int conv )
 {
-  if( !buildDistribution( TCollection_AsciiString( ( Standard_CString )expr ), conv, 0.0, 1.0, nbSeg, _distr, 1E-4 ) )
+  if( !buildDistribution( TCollection_AsciiString( expr ), conv, 0.0, 1.0, nbSeg, _distr, 1E-4 ) )
     _distr.resize( 0 );
   return _distr;
 }
@@ -404,7 +409,7 @@ StdMeshers_NumberOfSegments::CheckExpressionFunction( const std::string& expr,
                                                       const int          convMode)
 {
   // remove white spaces
-  TCollection_AsciiString str((Standard_CString)expr.c_str());
+  TCollection_AsciiString str(expr.c_str());
   str.RemoveAll(' ');
   str.RemoveAll('\t');
   str.RemoveAll('\r');

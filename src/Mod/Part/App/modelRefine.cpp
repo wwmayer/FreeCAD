@@ -62,9 +62,10 @@
 # include <TopoDS_Shape.hxx>
 # include <TopExp.hxx>
 # include <TopExp_Explorer.hxx>
-# include <TopTools_DataMapIteratorOfDataMapOfIntegerListOfShape.hxx>
-# include <TopTools_DataMapIteratorOfDataMapOfShapeShape.hxx>
-# include <TopTools_ListIteratorOfListOfShape.hxx>
+# include <TopTools_DataMapOfIntegerListOfShape.hxx>
+# include <TopTools_DataMapOfIntegerShape.hxx>
+# include <TopTools_DataMapOfShapeShape.hxx>
+# include <TopTools_IndexedMapOfShape.hxx>
 # include <TopTools_ListOfShape.hxx>
 #endif // _PreComp_
 
@@ -72,6 +73,7 @@
 #include <Base/Numbers.h>
 
 #include "modelRefine.h"
+#include "OCCError.h"
 
 
 using namespace ModelRefine;
@@ -308,8 +310,8 @@ void FaceTypedBase::boundarySplit(const FaceVectorType &facesIn, std::vector<Edg
     std::copy(bEdges.begin(), bEdges.end(), back_inserter(edges));
     while(!edges.empty())
     {
-        TopoDS_Vertex destination = TopExp::FirstVertex(edges.front(), Standard_True);
-        TopoDS_Vertex lastVertex = TopExp::LastVertex(edges.front(), Standard_True);
+        TopoDS_Vertex destination = TopExp::FirstVertex(edges.front(), true);
+        TopoDS_Vertex lastVertex = TopExp::LastVertex(edges.front(), true);
         EdgeVectorType boundary;
         boundary.push_back(edges.front());
         edges.pop_front();
@@ -324,11 +326,11 @@ void FaceTypedBase::boundarySplit(const FaceVectorType &facesIn, std::vector<Edg
         std::list<TopoDS_Edge>::iterator it;
         for (it = edges.begin(); it != edges.end();)
         {
-            TopoDS_Vertex currentVertex = TopExp::FirstVertex(*it, Standard_True);
+            TopoDS_Vertex currentVertex = TopExp::FirstVertex(*it, true);
             if (lastVertex.IsSame(currentVertex))
             {
                 boundary.push_back(*it);
-                lastVertex = TopExp::LastVertex(*it, Standard_True);
+                lastVertex = TopExp::LastVertex(*it, true);
                 edges.erase(it);
                 it = edges.begin();
                 if (lastVertex.IsSame(destination))
@@ -409,7 +411,7 @@ TopoDS_Face FaceTypedPlane::buildFace(const FaceVectorType &faces) const
 
     std::sort(wires.begin(), wires.end(), ModelRefine::WireSort());
 
-    BRepLib_MakeFace faceMaker(wires.at(0), Standard_True);
+    BRepLib_MakeFace faceMaker(wires.at(0), true);
     if (faceMaker.Error() != BRepLib_FaceDone)
         return {};
     TopoDS_Face current = faceMaker.Face();
@@ -494,10 +496,12 @@ const TopoDS_Face fixFace(const TopoDS_Face& f) {
     if (faceFixer.Status(ShapeExtend_FAIL))
         return dummy;
     faceFixer.FixMissingSeam();
+    faceFixer.SetContext(new ShapeBuild_ReShape());
     faceFixer.Perform();
     if (faceFixer.Status(ShapeExtend_FAIL))
       return dummy;
     faceFixer.FixOrientation();
+    faceFixer.SetContext(new ShapeBuild_ReShape());
     faceFixer.Perform();
     if (faceFixer.Status(ShapeExtend_FAIL))
         return dummy;
@@ -558,7 +562,7 @@ bool wireEncirclesAxis(const TopoDS_Wire& wire, const Handle(Geom_CylindricalSur
 
             // Calculate the oriented length of the edge
             gp_Pnt begin;
-            for (Standard_Integer j=1; j <= SeqPnt.Length(); j++) {
+            for (int j=1; j <= SeqPnt.Length(); j++) {
                 gp_Pnt end = SeqPnt.Value(j);
 
                 // Project end point onto the plane
@@ -737,8 +741,8 @@ void FaceTypedCylinder::boundarySplit(const FaceVectorType &facesIn, std::vector
 
     while (!sortedEdges.empty())
     {
-        TopoDS_Vertex destination = TopExp::FirstVertex(sortedEdges.back(), Standard_True);
-        TopoDS_Vertex lastVertex = TopExp::LastVertex(sortedEdges.back(), Standard_True);
+        TopoDS_Vertex destination = TopExp::FirstVertex(sortedEdges.back(), true);
+        TopoDS_Vertex lastVertex = TopExp::LastVertex(sortedEdges.back(), true);
         bool closedSignal(false);
         std::list<TopoDS_Edge> boundary;
         boundary.push_back(sortedEdges.back());
@@ -751,7 +755,7 @@ void FaceTypedCylinder::boundarySplit(const FaceVectorType &facesIn, std::vector
             std::list<TopoDS_Edge>::iterator sortedIt;
             for (sortedIt = sortedEdges.begin(); sortedIt != sortedEdges.end();)
             {
-                TopoDS_Vertex currentVertex = TopExp::FirstVertex(*sortedIt, Standard_True);
+                TopoDS_Vertex currentVertex = TopExp::FirstVertex(*sortedIt, true);
 
                 //Seam edges lie on top of each other. i.e. same. and we remove every match from the list
                 //so we don't actually ever compare the same edge.
@@ -763,7 +767,7 @@ void FaceTypedCylinder::boundarySplit(const FaceVectorType &facesIn, std::vector
                 if (lastVertex.IsSame(currentVertex))
                 {
                     boundary.push_back(*sortedIt);
-                    lastVertex = TopExp::LastVertex(*sortedIt, Standard_True);
+                    lastVertex = TopExp::LastVertex(*sortedIt, true);
                     if (lastVertex.IsSame(destination))
                     {
                         closedSignal = true;
@@ -807,7 +811,7 @@ void collectConicEdges(const TopoDS_Shell &shell, TopTools_IndexedMapOfShape &ma
     if (currentEdge.IsNull())
       continue;
     TopLoc_Location location;
-    Standard_Real first, last;
+    double first, last;
     const Handle(Geom_Curve) &curve = BRep_Tool::Curve(currentEdge, location, first, last);
     if (curve.IsNull())
       continue;
@@ -857,10 +861,8 @@ bool FaceTypedBSpline::isEqual(const TopoDS_Face &faceOne, const TopoDS_Face &fa
     if (uPoleCountOne != uPoleCountTwo || vPoleCountOne != vPoleCountTwo)
         return false;
 
-    TColgp_Array2OfPnt polesOne(1, uPoleCountOne, 1, vPoleCountOne);
-    TColgp_Array2OfPnt polesTwo(1, uPoleCountTwo, 1, vPoleCountTwo);
-    surfaceOne->Poles(polesOne);
-    surfaceTwo->Poles(polesTwo);
+    const TColgp_Array2OfPnt& polesOne = surfaceOne->Poles();
+    const TColgp_Array2OfPnt& polesTwo = surfaceTwo->Poles();
 
     for (int indexU = 1; indexU <= uPoleCountOne; ++indexU)
     {
@@ -878,14 +880,10 @@ bool FaceTypedBSpline::isEqual(const TopoDS_Face &faceOne, const TopoDS_Face &fa
     int vKnotCountTwo(surfaceTwo->NbVKnots());
     if (uKnotCountOne != uKnotCountTwo || vKnotCountOne != vKnotCountTwo)
         return false;
-    TColStd_Array1OfReal uKnotsOne(1, uKnotCountOne);
-    TColStd_Array1OfReal vKnotsOne(1, vKnotCountOne);
-    TColStd_Array1OfReal uKnotsTwo(1, uKnotCountTwo);
-    TColStd_Array1OfReal vKnotsTwo(1, vKnotCountTwo);
-    surfaceOne->UKnots(uKnotsOne);
-    surfaceOne->VKnots(vKnotsOne);
-    surfaceTwo->UKnots(uKnotsTwo);
-    surfaceTwo->VKnots(vKnotsTwo);
+    const TColStd_Array1OfReal& uKnotsOne = surfaceOne->UKnots();
+    const TColStd_Array1OfReal& vKnotsOne = surfaceOne->VKnots();
+    const TColStd_Array1OfReal& uKnotsTwo = surfaceTwo->UKnots();
+    const TColStd_Array1OfReal& vKnotsTwo = surfaceTwo->VKnots();
     for (int indexU = 1; indexU <= uKnotCountOne; ++indexU)
         if (uKnotsOne.Value(indexU) != uKnotsTwo.Value(indexU))
             return false;
@@ -930,14 +928,10 @@ bool FaceTypedBSpline::isEqual(const TopoDS_Face &faceOne, const TopoDS_Face &fa
     int vKnotSequenceTwoCount(getVKnotSequenceSize(surfaceTwo));
     if (uKnotSequenceOneCount != uKnotSequenceTwoCount || vKnotSequenceOneCount != vKnotSequenceTwoCount)
         return false;
-    TColStd_Array1OfReal uKnotSequenceOne(1, uKnotSequenceOneCount);
-    TColStd_Array1OfReal vKnotSequenceOne(1, vKnotSequenceOneCount);
-    TColStd_Array1OfReal uKnotSequenceTwo(1, uKnotSequenceTwoCount);
-    TColStd_Array1OfReal vKnotSequenceTwo(1, vKnotSequenceTwoCount);
-    surfaceOne->UKnotSequence(uKnotSequenceOne);
-    surfaceOne->VKnotSequence(vKnotSequenceOne);
-    surfaceTwo->UKnotSequence(uKnotSequenceTwo);
-    surfaceTwo->VKnotSequence(vKnotSequenceTwo);
+    TColStd_Array1OfReal uKnotSequenceOne = surfaceOne->UKnotSequence();
+    TColStd_Array1OfReal vKnotSequenceOne = surfaceOne->VKnotSequence();
+    TColStd_Array1OfReal uKnotSequenceTwo = surfaceTwo->UKnotSequence();
+    TColStd_Array1OfReal vKnotSequenceTwo = surfaceTwo->VKnotSequence();
     for (int indexU = 1; indexU <= uKnotSequenceOneCount; ++indexU)
         if (uKnotSequenceOne.Value(indexU) != uKnotSequenceTwo.Value(indexU))
             return false;
@@ -949,8 +943,8 @@ bool FaceTypedBSpline::isEqual(const TopoDS_Face &faceOne, const TopoDS_Face &fa
   catch (Standard_Failure& e)
   {
     std::ostringstream stream;
-    if (e.GetMessageString())
-      stream << "FaceTypedBSpline::isEqual: OCC Error: " << e.GetMessageString() << std::endl;
+    if (const char* msg = Part::toString(e))
+      stream << "FaceTypedBSpline::isEqual: OCC Error: " << msg << std::endl;
     else
       stream << "FaceTypedBSpline::isEqual: Unknown OCC Error" << std::endl;
     Base::Console().Message(stream.str().c_str());
@@ -1246,7 +1240,7 @@ void Part::BRepBuilderAPI_RefineModel::Build()
 #endif
 {
     if (myShape.IsNull())
-        Standard_Failure::Raise("Cannot remove splitter from empty shape");
+        throw Standard_Failure("Cannot remove splitter from empty shape");
 
     if (myShape.ShapeType() == TopAbs_SOLID) {
         const TopoDS_Solid &solid = TopoDS::Solid(myShape);
@@ -1266,7 +1260,7 @@ void Part::BRepBuilderAPI_RefineModel::Build()
                 }
             }
             else {
-                Standard_Failure::Raise("Removing splitter failed");
+                throw Standard_Failure("Removing splitter failed");
             }
         }
         myShape = mkSolid.Solid();
@@ -1280,7 +1274,7 @@ void Part::BRepBuilderAPI_RefineModel::Build()
             LogModifications(uniter);
         }
         else {
-            Standard_Failure::Raise("Removing splitter failed");
+            throw Standard_Failure("Removing splitter failed");
         }
     }
     else if (myShape.ShapeType() == TopAbs_COMPOUND) {
@@ -1367,15 +1361,15 @@ const TopTools_ListOfShape& Part::BRepBuilderAPI_RefineModel::Modified(const Top
         return myEmptyList;
 }
 
-Standard_Boolean Part::BRepBuilderAPI_RefineModel::IsDeleted(const TopoDS_Shape& S)
+bool Part::BRepBuilderAPI_RefineModel::IsDeleted(const TopoDS_Shape& S)
 {
     TopTools_ListIteratorOfListOfShape it;
     for (it.Initialize(myDeleted); it.More(); it.Next())
     {
         if (it.Value().IsSame(S))
-            return Standard_True;
+            return true;
     }
 
-    return Standard_False;
+    return false;
 }
 

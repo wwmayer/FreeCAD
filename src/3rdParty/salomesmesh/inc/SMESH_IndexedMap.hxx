@@ -43,7 +43,7 @@ template <class TheKeyType> class SMESH_IndexedMap
   public:
     //! Constructor with 'Next'
     IndexedMapNode (const TheKeyType&      theKey1, 
-                    const Standard_Integer theKey2, 
+                    const int theKey2, 
                     NCollection_ListNode*  theNext1, 
                     NCollection_ListNode*  theNext2) :
                       NCollection_TListNode<TheKeyType> (theKey1, theNext1)
@@ -55,7 +55,7 @@ template <class TheKeyType> class SMESH_IndexedMap
     TheKeyType& Key1 (void)
     { return this->ChangeValue(); }
     //! Key2
-    const Standard_Integer& Key2 (void)
+    const int& Key2 (void)
     { return myKey2; }
     //! Next2
     IndexedMapNode*& Next2 (void)
@@ -70,7 +70,7 @@ template <class TheKeyType> class SMESH_IndexedMap
     }
 
   private:
-    Standard_Integer myKey2;
+    int myKey2;
     IndexedMapNode * myNext2;
   };
 
@@ -89,7 +89,7 @@ template <class TheKeyType> class SMESH_IndexedMap
 	  myMap(const_cast<SMESH_IndexedMap<TheKeyType>*>(&theMap) /*(SMESH_IndexedMap *) &theMap*/),
 	  myIndex(1) {}
     //! Query if the end of collection is reached by iterator
-    virtual Standard_Boolean More(void) const
+    virtual bool More(void) const
     { return (myIndex <= myMap->Extent()); }
     //! Make a step along the collection
     virtual void Next(void)
@@ -99,14 +99,14 @@ template <class TheKeyType> class SMESH_IndexedMap
     {
 #if !defined No_Exception && !defined No_Standard_NoSuchObject
       if (!More())
-        Standard_NoSuchObject::Raise("SMESH_IndexedMap::Iterator::Value");
+        throw Standard_NoSuchObject("SMESH_IndexedMap::Iterator::Value");
 #endif
       return myMap->FindKey(myIndex);
     }
     //! Value change access denied - use Substitute
     virtual TheKeyType& ChangeValue(void) const
-    {  
-      Standard_ImmutableObject::Raise ("impossible to ChangeValue");
+    {
+      throw Standard_ImmutableObject ("impossible to ChangeValue");
       return * (TheKeyType *) NULL; // This for compiler
     }
     
@@ -117,22 +117,22 @@ template <class TheKeyType> class SMESH_IndexedMap
     
   private:
     SMESH_IndexedMap * myMap;   // Pointer to the map being iterated
-    Standard_Integer         myIndex; // Current index
+    int         myIndex; // Current index
   };
   
  public:
   // ---------- PUBLIC METHODS ------------
 
   //! Constructor
-  SMESH_IndexedMap (const Standard_Integer NbBuckets=1,
+  SMESH_IndexedMap (const int NbBuckets=1,
                           const Handle(NCollection_BaseAllocator)& theAllocator=0L) :
     NCollection_BaseCollection<TheKeyType>(theAllocator),
-    NCollection_BaseMap (NbBuckets, Standard_False) {}
+    NCollection_BaseMap (NbBuckets, false) {}
 
   //! Copy constructor
   SMESH_IndexedMap (const SMESH_IndexedMap& theOther) :
     NCollection_BaseCollection<TheKeyType>(theOther.myAllocator),
-    NCollection_BaseMap (theOther.NbBuckets(), Standard_False) 
+    NCollection_BaseMap (theOther.NbBuckets(), false) 
   { *this = theOther; }
 
   //! Assign another collection
@@ -156,12 +156,12 @@ template <class TheKeyType> class SMESH_IndexedMap
 
     Clear();
     ReSize (theOther.NbBuckets());
-    Standard_Integer i, iLength=theOther.Extent();
+    int i, iLength=theOther.Extent();
     for (i=1; i<=iLength; i++)
     {
       TheKeyType aKey1 = theOther(i);
-      Standard_Integer iK1 = HashCode (aKey1, NbBuckets());
-      Standard_Integer iK2 = HashCode (i, NbBuckets());
+      int iK1 = HashCode (aKey1, NbBuckets());
+      int iK2 = HashCode (i, NbBuckets());
       IndexedMapNode * pNode = new (this->myAllocator) IndexedMapNode (aKey1, i, 
                                                                        myData1[iK1], 
                                                                        myData2[iK2]);
@@ -173,11 +173,11 @@ template <class TheKeyType> class SMESH_IndexedMap
   }
 
   //! ReSize
-  void ReSize (const Standard_Integer N)
+  void ReSize (const int N)
   {
     IndexedMapNode** ppNewData1 = NULL;
     IndexedMapNode** ppNewData2 = NULL;
-    Standard_Integer newBuck;
+    int newBuck;
     if (BeginResize (N, newBuck, 
                      (NCollection_ListNode**&)ppNewData1, 
                      (NCollection_ListNode**&)ppNewData2,
@@ -186,7 +186,7 @@ template <class TheKeyType> class SMESH_IndexedMap
       if (myData1) 
       {
         IndexedMapNode *p, *q;
-        Standard_Integer i, iK1, iK2;
+        int i, iK1, iK2;
         for (i = 0; i <= NbBuckets(); i++) 
         {
           if (myData1[i]) 
@@ -217,11 +217,11 @@ template <class TheKeyType> class SMESH_IndexedMap
   }
 
   //! Add
-  Standard_Integer Add (const TheKeyType& theKey1)
+  int Add (const TheKeyType& theKey1)
   {
     if (Resizable()) 
       ReSize(Extent());
-    Standard_Integer iK1 = HashCode (theKey1, NbBuckets());
+    int iK1 = HashCode (theKey1, NbBuckets());
     IndexedMapNode * pNode;
     pNode = (IndexedMapNode *) myData1[iK1];
     while (pNode)
@@ -231,7 +231,7 @@ template <class TheKeyType> class SMESH_IndexedMap
       pNode = (IndexedMapNode *) pNode->Next();
     }
     Increment();
-    Standard_Integer iK2 = HashCode(Extent(),NbBuckets());
+    int iK2 = HashCode(Extent(),NbBuckets());
     pNode = new (this->myAllocator) IndexedMapNode (theKey1, Extent(), 
                                                     myData1[iK1], myData2[iK2]);
     myData1[iK1] = pNode;
@@ -240,43 +240,43 @@ template <class TheKeyType> class SMESH_IndexedMap
   }
 
   //! Contains
-  Standard_Boolean Contains (const TheKeyType& theKey1) const
+  bool Contains (const TheKeyType& theKey1) const
   {
     if (IsEmpty()) 
-      return Standard_False;
-    Standard_Integer iK1 = HashCode (theKey1, NbBuckets());
+      return false;
+    int iK1 = HashCode (theKey1, NbBuckets());
     IndexedMapNode * pNode1;
     pNode1 = (IndexedMapNode *) myData1[iK1];
     while (pNode1) 
     {
       if (IsEqual(pNode1->Key1(), theKey1)) 
-        return Standard_True;
+        return true;
       pNode1 = (IndexedMapNode *) pNode1->Next();
     }
-    return Standard_False;
+    return false;
   }
 
   //! Substitute
-  void Substitute (const Standard_Integer theIndex,
+  void Substitute (const int theIndex,
                    const TheKeyType& theKey1)
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theIndex < 1 || theIndex > Extent())
-      Standard_OutOfRange::Raise ("SMESH_IndexedMap::Substitute");
+      throw Standard_OutOfRange ("SMESH_IndexedMap::Substitute");
 #endif
     IndexedMapNode * p;
     // check if theKey1 is not already in the map
-    Standard_Integer iK1 = HashCode (theKey1, NbBuckets());
+    int iK1 = HashCode (theKey1, NbBuckets());
     p = (IndexedMapNode *) myData1[iK1];
     while (p) 
     {
-      if (IsEqual (p->Key1(), theKey1)) 
-        Standard_DomainError::Raise("SMESH_IndexedMap::Substitute");
+      if (IsEqual (p->Key1(), theKey1))
+        throw Standard_DomainError("SMESH_IndexedMap::Substitute");
       p = (IndexedMapNode *) p->Next();
     }
 
     // Find the node for the index I
-    Standard_Integer iK2 = HashCode (theIndex, NbBuckets());
+    int iK2 = HashCode (theIndex, NbBuckets());
     p = (IndexedMapNode *) myData2[iK2];
     while (p) 
     {
@@ -286,7 +286,7 @@ template <class TheKeyType> class SMESH_IndexedMap
     }
     
     // remove the old key
-    Standard_Integer iK = HashCode (p->Key1(), NbBuckets());
+    int iK = HashCode (p->Key1(), NbBuckets());
     IndexedMapNode * q = (IndexedMapNode *) myData1[iK];
     if (q == p)
       myData1[iK] = (IndexedMapNode *) p->Next();
@@ -308,11 +308,11 @@ template <class TheKeyType> class SMESH_IndexedMap
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (Extent() == 0)
-      Standard_OutOfRange::Raise ("SMESH_IndexedMap::RemoveLast");
+      throw Standard_OutOfRange ("SMESH_IndexedMap::RemoveLast");
 #endif
     IndexedMapNode * p, * q;
     // Find the node for the last index and remove it
-    Standard_Integer iK2 = HashCode (Extent(), NbBuckets());
+    int iK2 = HashCode (Extent(), NbBuckets());
     p = (IndexedMapNode *) myData2[iK2];
     q = NULL;
     while (p) 
@@ -328,7 +328,7 @@ template <class TheKeyType> class SMESH_IndexedMap
       q->Next2() = p->Next2();
     
     // remove the key
-    Standard_Integer iK1 = HashCode (p->Key1(), NbBuckets());
+    int iK1 = HashCode (p->Key1(), NbBuckets());
     q = (IndexedMapNode *) myData1[iK1];
     if (q == p)
       myData1[iK1] = (IndexedMapNode *) p->Next();
@@ -344,11 +344,11 @@ template <class TheKeyType> class SMESH_IndexedMap
   }
 
   //! FindKey
-  const TheKeyType& FindKey (const Standard_Integer theKey2) const
+  const TheKeyType& FindKey (const int theKey2) const
   {
 #if !defined No_Exception && !defined No_Standard_OutOfRange
     if (theKey2 < 1 || theKey2 > Extent())
-      Standard_OutOfRange::Raise ("SMESH_IndexedMap::FindKey");
+      throw Standard_OutOfRange ("SMESH_IndexedMap::FindKey");
 #endif
     IndexedMapNode * pNode2 =
       (IndexedMapNode *) myData2[HashCode(theKey2,NbBuckets())];
@@ -358,16 +358,16 @@ template <class TheKeyType> class SMESH_IndexedMap
         return pNode2->Key1();
       pNode2 = (IndexedMapNode*) pNode2->Next2();
     }
-    Standard_NoSuchObject::Raise("SMESH_IndexedMap::FindKey");
+    throw Standard_NoSuchObject("SMESH_IndexedMap::FindKey");
     return pNode2->Key1(); // This for compiler
   }
 
   //! operator ()
-  const TheKeyType& operator() (const Standard_Integer theKey2) const
+  const TheKeyType& operator() (const int theKey2) const
   { return FindKey (theKey2); }
 
   //! FindIndex
-  Standard_Integer FindIndex(const TheKeyType& theKey1) const
+  int FindIndex(const TheKeyType& theKey1) const
   {
     if (IsEmpty()) return 0;
     IndexedMapNode * pNode1 = 
@@ -383,7 +383,7 @@ template <class TheKeyType> class SMESH_IndexedMap
 
   //! Clear data. If doReleaseMemory is false then the table of
   //! buckets is not released and will be reused.
-  void Clear(const Standard_Boolean doReleaseMemory = Standard_True)
+  void Clear(const bool doReleaseMemory = true)
   { Destroy (IndexedMapNode::delNode, this->myAllocator, doReleaseMemory); }
 
   //! Clear data and reset allocator
@@ -399,7 +399,7 @@ template <class TheKeyType> class SMESH_IndexedMap
   { Clear(); }
 
   //! Size
-  virtual Standard_Integer Size(void) const
+  virtual int Size(void) const
   { return Extent(); }
 
  private:

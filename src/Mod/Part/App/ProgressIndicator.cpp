@@ -50,7 +50,7 @@ ProgressIndicator::~ProgressIndicator ()
     myProgress->stop();
 }
 
-void ProgressIndicator::Show (const Message_ProgressScope& theScope, const Standard_Boolean isForce)
+void ProgressIndicator::Show (const Message_ProgressScope& theScope, const bool isForce)
 {
     (void)isForce;
     const char* name = theScope.Name();
@@ -62,7 +62,7 @@ void ProgressIndicator::Show (const Message_ProgressScope& theScope, const Stand
     }
 }
 
-Standard_Boolean ProgressIndicator::UserBreak()
+bool ProgressIndicator::UserBreak()
 {
     return myProgress->wasCanceled();
 }

@@ -181,50 +181,6 @@ UnitsApi::schemaTranslate(const Base::Quantity& quant, double& factor, std::stri
     return UserPrefSystem->schemaTranslate(quant, factor, unitString);
 }
 
-double UnitsApi::toDouble(PyObject* args, const Base::Unit& u)
-{
-    if (PyUnicode_Check(args)) {
-        std::string str(PyUnicode_AsUTF8(args));
-        // Parse the string
-        Quantity q = Quantity::parse(str);
-        if (q.getUnit() == u) {
-            return q.getValue();
-        }
-        throw Base::UnitsMismatchError("Wrong unit type!");
-    }
-
-    if (PyFloat_Check(args)) {
-        return PyFloat_AsDouble(args);
-    }
-    if (PyLong_Check(args)) {
-        return static_cast<double>(PyLong_AsLong(args));
-    }
-
-    throw Base::UnitsMismatchError("Wrong parameter type!");
-}
-
-Quantity UnitsApi::toQuantity(PyObject* args, const Base::Unit& u)
-{
-    double d {};
-    if (PyUnicode_Check(args)) {
-        std::string str(PyUnicode_AsUTF8(args));
-        // Parse the string
-        Quantity q = Quantity::parse(str);
-        d = q.getValue();
-    }
-    else if (PyFloat_Check(args)) {
-        d = PyFloat_AsDouble(args);
-    }
-    else if (PyLong_Check(args)) {
-        d = static_cast<double>(PyLong_AsLong(args));
-    }
-    else {
-        throw Base::UnitsMismatchError("Wrong parameter type!");
-    }
-
-    return Quantity(d, u);
-}
-
 void UnitsApi::setDecimals(int prec)
 {
     UserPrefDecimals = prec;

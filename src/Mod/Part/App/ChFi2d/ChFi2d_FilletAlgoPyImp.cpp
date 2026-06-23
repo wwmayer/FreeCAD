@@ -36,6 +36,7 @@
 #include "TopoShapeWirePy.h"
 #include "PlanePy.h"
 #include "Tools.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -129,7 +130,7 @@ PyObject* ChFi2d_FilletAlgoPy::perform(PyObject *args)
         return Py::new_reference_to(Py::Boolean(ok));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }
@@ -142,11 +143,11 @@ PyObject* ChFi2d_FilletAlgoPy::numberOfResults(PyObject *args)
 
     try {
         Base::Vector3d* vec = static_cast<Base::VectorPy*>(pnt)->getVectorPtr();
-        Standard_Integer num = getChFi2d_FilletAlgoPtr()->NbResults(gp_Pnt(vec->x, vec->y, vec->z));
+        int num = getChFi2d_FilletAlgoPtr()->NbResults(gp_Pnt(vec->x, vec->y, vec->z));
         return Py::new_reference_to(Py::Long(num));
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }
@@ -170,7 +171,7 @@ PyObject* ChFi2d_FilletAlgoPy::result(PyObject *args)
         return Py::new_reference_to(tuple);
     }
     catch (Standard_Failure& e) {
-        PyErr_SetString(Base::PyExc_FC_CADKernelError, e.GetMessageString());
+        PyErr_SetString(Base::PyExc_FC_CADKernelError, Part::toString(e));
         return nullptr;
     }
 }

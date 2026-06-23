@@ -39,13 +39,16 @@
 #include <ShapeFix_Wire.hxx>
 #include <ShapeFix_Wireframe.hxx>
 #include <Standard_Failure.hxx>
+#include <Standard_Version.hxx>
 #include <TopExp_Explorer.hxx>
 #include <TopoDS.hxx>
 #include <TopoDS_Builder.hxx>
+#include <TopTools_HSequenceOfShape.hxx>
 #include <sstream>
 #endif
 
 #include "FeatureProjectOnSurface.h"
+#include "OCCError.h"
 #include <Base/Exception.h>
 
 
@@ -72,7 +75,7 @@ App::DocumentObjectExecReturn* ProjectOnSurface::execute()
         return App::DocumentObject::StdReturn;
     }
     catch (const Standard_Failure& error) {
-        throw Base::ValueError(error.GetMessageString());
+        throw Base::ValueError(Part::toString(error));
     }
 }
 
@@ -295,8 +298,8 @@ ProjectOnSurface::createWiresFromWires(const std::vector<TopoDS_Shape>& wires,
 
         std::vector<TopoDS_Edge> edgesInParametricSpace;
         for (const auto& edge : edges) {
-            Standard_Real first {};
-            Standard_Real last {};
+            double first {};
+            double last {};
             auto currentCurve = BRep_Tool::CurveOnSurface(TopoDS::Edge(edge),
                                                           supportFace,
                                                           first,
@@ -376,8 +379,13 @@ TopoDS_Wire ProjectOnSurface::fixWire(const std::vector<TopoDS_Edge>& edges,
     }
 
     const double tolerance = 0.0001;
+#if OCC_VERSION_HEX < 0x080000
     ShapeAnalysis_FreeBounds::ConnectEdgesToWires(shapeList, tolerance, false, aWireHandle);
     ShapeAnalysis_FreeBounds::ConnectWiresToWires(aWireHandle, tolerance, false, aWireWireHandle);
+#else
+    aWireHandle = ShapeAnalysis_FreeBounds::ConnectEdgesToWires(shapeList, tolerance, false);
+    aWireWireHandle = ShapeAnalysis_FreeBounds::ConnectWiresToWires(aWireHandle, tolerance, false);
+#endif
     if (!aWireWireHandle) {
         return {};
     }

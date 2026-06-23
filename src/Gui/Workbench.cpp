@@ -617,7 +617,7 @@ void StdWorkbench::setupContextMenu(const char* recipient, MenuItem* item) const
         *item << "Std_ViewFitAll"
               << "Std_ViewFitSelection"
               << "Std_AlignToSelection"
-              << "Std_Selection"
+              << "Std_TogglePreSelection"       // << "Std_Selection"
               << "Std_DrawStyle"
               << StdViews
               << "Separator"
@@ -640,7 +640,8 @@ void StdWorkbench::setupContextMenu(const char* recipient, MenuItem* item) const
     else if (strcmp(recipient,"Tree") == 0)
     {
         if (Gui::Selection().countObjectsOfType<App::DocumentObject>() > 0) {
-            *item << "Std_ToggleFreeze"
+            *item << "Std_ToggleSuppress"
+                  << "Std_ToggleFreeze"
                   << "Separator"
                   << "Std_Placement"
                   << "Std_ToggleVisibility"
@@ -840,6 +841,7 @@ MenuItem* StdWorkbench::setupMenuBar() const
           << "Std_ProjectUtil"
           << "Separator"
           << "Std_TextDocument"
+          << "Std_AnnotationLabel"
           << "Separator"
           << "Std_DemoMode"
           << "Std_UnitsCalculator"
@@ -946,16 +948,16 @@ ToolBarItem* StdWorkbench::setupToolBars() const
            << "Std_DlgMacroExecuteDirect";
 
     // View
+    // << "Std_ViewGroup"
+    // << "Std_Selection"
     auto view = new ToolBarItem( root );
     view->setCommand("View");
     *view << "Std_ViewFitAll"
           << "Std_ViewFitSelection"
-          << "Std_ViewGroup"
           << "Std_AlignToSelection"
-          << "Std_Selection"
-          << "Separator"
           << "Std_DrawStyle"
-          << "Std_TreeViewActions";
+          << "Std_TreeViewActions"
+          << "Separator";
 
     // Individual views
     auto individualViews = new ToolBarItem(root, ToolBarItem::DefaultVisibility::Hidden);

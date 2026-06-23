@@ -40,6 +40,8 @@
 #include <pcl/point_types.h>
 #endif
 
+#include <Mod/Part/App/OCCError.h>
+
 #include "ApproxSurface.h"
 #include "BSplineFitting.h"
 #include "RegionGrowing.h"
@@ -403,7 +405,7 @@ private:
                 }
             }
 
-            TColgp_Array1OfPnt clPoints(0, pts.size()-1);
+            TColgp_Array1OfPnt clPoints(0, static_cast<int>(pts.size() - 1));
             if (clPoints.Length() < uPoles * vPoles) {
                 throw Py::ValueError("Too less data points for the specified number of poles");
             }
@@ -436,7 +438,7 @@ private:
         }
         catch (Standard_Failure &e) {
             std::string str;
-            Standard_CString msg = e.GetMessageString();
+            const char* msg = Part::toString(e);
             str += typeid(e).name();
             str += " ";
             if (msg) {str += msg;}

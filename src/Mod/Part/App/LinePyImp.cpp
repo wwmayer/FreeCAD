@@ -86,7 +86,7 @@ int LinePy::PyInit(PyObject* args, PyObject* /*kwd*/)
             // Create line out of two points
             double distance = Base::Distance(v1, v2);
             if (distance < gp::Resolution())
-                Standard_Failure::Raise("Both points are equal");
+                throw Standard_Failure("Both points are equal");
             GC_MakeLine ms(gp_Pnt(v1.x,v1.y,v1.z),
                            gp_Pnt(v2.x,v2.y,v2.z));
             if (!ms.IsDone()) {
@@ -103,7 +103,7 @@ int LinePy::PyInit(PyObject* args, PyObject* /*kwd*/)
         }
         catch (Standard_Failure& e) {
 
-            PyErr_SetString(PartExceptionOCCError, e.GetMessageString());
+            PyErr_SetString(PartExceptionOCCError, Part::toString(e));
             return -1;
         }
         catch (...) {
@@ -165,7 +165,7 @@ void LinePy::setLocation(Py::Object arg)
         this_curv->SetLin(that_curv->Lin());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 
@@ -214,7 +214,7 @@ void LinePy::setDirection(Py::Object arg)
         this_curv->SetLin(that_curv->Lin());
     }
     catch (Standard_Failure& e) {
-        throw Py::RuntimeError(e.GetMessageString());
+        throw Py::RuntimeError(Part::toString(e));
     }
 }
 

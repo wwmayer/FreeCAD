@@ -25,6 +25,7 @@
 # include <TopoDS.hxx>
 # include <TopoDS_Edge.hxx>
 # include <TopoDS_Face.hxx>
+# include <TColGeom_SequenceOfCurve.hxx>
 #endif
 
 #include <Base/PyWrapParseTupleAndKeywords.h>
@@ -35,6 +36,7 @@
 #include "Geometry.h"
 #include "TopoShapeEdgePy.h"
 #include "TopoShapeFacePy.h"
+#include "OCCError.h"
 
 
 using namespace Part;
@@ -74,7 +76,7 @@ int MakePrismPy::PyInit(PyObject* args, PyObject* kwds)
             return 0;
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+            PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
             return -1;
         }
     }
@@ -87,7 +89,7 @@ int MakePrismPy::PyInit(PyObject* args, PyObject* kwds)
             return 0;
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+            PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
             return -1;
         }
     }
@@ -135,7 +137,7 @@ PyObject* MakePrismPy::init(PyObject *args,  PyObject* kwds)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -160,7 +162,7 @@ PyObject* MakePrismPy::add(PyObject *args,  PyObject* kwds)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -180,7 +182,7 @@ PyObject* MakePrismPy::perform(PyObject *args,  PyObject* kwds)
             Py_Return;
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+            PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
             return nullptr;
         }
     }
@@ -194,7 +196,7 @@ PyObject* MakePrismPy::perform(PyObject *args,  PyObject* kwds)
             Py_Return;
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+            PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
             return nullptr;
         }
     }
@@ -208,7 +210,7 @@ PyObject* MakePrismPy::perform(PyObject *args,  PyObject* kwds)
             Py_Return;
         }
         catch (const Standard_Failure& e) {
-            PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+            PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
             return nullptr;
         }
     }
@@ -230,7 +232,7 @@ PyObject* MakePrismPy::performUntilEnd(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -247,7 +249,7 @@ PyObject* MakePrismPy::performFromEnd(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -262,7 +264,7 @@ PyObject* MakePrismPy::performThruAll(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -280,7 +282,7 @@ PyObject* MakePrismPy::performUntilHeight(PyObject *args)
         Py_Return;
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }
@@ -327,7 +329,7 @@ PyObject* MakePrismPy::shape(PyObject *args) const
         return shape.getPyObject();
     }
     catch (const Standard_Failure& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.GetMessageString());
+        PyErr_SetString(PyExc_RuntimeError, Part::toString(e));
         return nullptr;
     }
 }

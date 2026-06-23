@@ -48,6 +48,7 @@ using namespace Gui;
 
 
 PROPERTY_SOURCE(Gui::ViewProviderCoordinateSystem, Gui::ViewProviderGeoFeatureGroup)
+PROPERTY_SOURCE(Gui::ViewProviderOrigin, Gui::ViewProviderCoordinateSystem)
 
 /**
  * Creates the view provider for an object group.

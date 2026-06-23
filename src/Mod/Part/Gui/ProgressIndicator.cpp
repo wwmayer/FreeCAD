@@ -61,10 +61,10 @@ ProgressIndicator::~ProgressIndicator ()
 }
 
 void ProgressIndicator::Show (const Message_ProgressScope& theScope,
-                              const Standard_Boolean isForce)
+                              const bool isForce)
 {
     (void)isForce;
-    Standard_CString aName = theScope.Name(); //current step
+    const char* aName = theScope.Name(); //current step
     myProgress->setLabelText (QString::fromUtf8(aName ? aName : "Processing..."));
     int current = static_cast<int>(100. * theScope.Value() / theScope.MaxValue());
     if (current != steps) {
@@ -76,19 +76,19 @@ void ProgressIndicator::Show (const Message_ProgressScope& theScope,
     myProgress->show();
 }
 
-Standard_Boolean ProgressIndicator::UserBreak()
+bool ProgressIndicator::UserBreak()
 {
     QThread *currentThread = QThread::currentThread();
     if (currentThread == myProgress->thread()) {
         if (canceled) {
-            return Standard_True;
+            return true;
         }
 
         canceled = myProgress->wasCanceled();
         return canceled;
     }
 
-    return Standard_False;
+    return false;
 }
 
 void ProgressIndicator::Reset()

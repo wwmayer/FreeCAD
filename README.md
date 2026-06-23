@@ -95,9 +95,8 @@ Reporting Issues
 
 To report an issue please:
 
-- Consider posting to the [Forum](https://forum.freecad.org), [Discord](https://discord.com/invite/w2cTKGzccC) channel, or [Reddit](https://www.reddit.com/r/FreeCAD) to verify the issue; 
-- Search the existing [issues](https://github.com/FreeCAD/FreeCAD/issues) for potential duplicates; 
-- Use the most updated stable or [development versions](https://github.com/FreeCAD/FreeCAD-Bundle/releases/tag/weekly-builds) of FreeCAD; 
+- Search the existing [issues](https://codeberg.org/xCAD/FreeCAD11/issues) for potential duplicates;
+- Use the most updated stable or [development versions](https://codeberg.org/xCAD/FreeCAD11/releases) of FreeCAD;
 - Post version info from `Help > About FreeCAD > Copy to clipboard`; 
 - Restart FreeCAD in safe mode `Help > Restart in safe mode` and try to reproduce the issue again. If the issue is resolved it can be fixed by deleting the FreeCAD config files.
 - Start recording a macro `Macro > Macro recording...` and repeat all steps. Stop recording after the issue occurs and upload the saved macro or copy the macro code in the issue; 
@@ -106,16 +105,9 @@ To report an issue please:
 
 For more details see:
 
-- [Bug Tracker](https://github.com/FreeCAD/FreeCAD/issues)
-- [Reporting Issues and Requesting Features](https://github.com/FreeCAD/FreeCAD/issues/new/choose)
-- [Contributing](https://github.com/FreeCAD/FreeCAD/blob/main/CONTRIBUTING.md)
+- [Bug Tracker](https://codeberg.org/xCAD/FreeCAD11/issues)
+- [Contributing](https://codeberg.org/xCAD/FreeCAD11/src/branch/main/CONTRIBUTING.md)
 - [Help Forum](https://forum.freecad.org/viewforum.php?f=3)
-- [Developers Handbook](https://freecad.github.io/DevelopersHandbook/)
-
-> [!NOTE]
-The [FPA](https://fpa.freecad.org) offers developers the opportunity
-to apply for a grant to work on projects of their choosing. Check
-[jobs and funding](https://blog.freecad.org/jobs/) to know more.
 
 
 Usage & Getting Help
@@ -134,11 +126,3 @@ View these pages for more information:
 
 The [FreeCAD forum](https://forum.freecad.org) is a great place
 to find help and solve specific problems when learning to use FreeCAD.
-
----
-
-<p>This project receives generous infrastructure support from
-  <a href="https://www.digitalocean.com/">
-    <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_horizontal_blue.svg" width="91px">
-  </a> and <a href="https://www.kipro-pcb.com/">KiCad Services Corp.</a>
-</p>

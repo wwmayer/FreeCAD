@@ -45,7 +45,7 @@
 #include <GCPnts_AbscissaPoint.hxx>
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
-#include <TopTools_ListIteratorOfListOfShape.hxx>
+#include <TopTools_ListOfShape.hxx>
 #include <TopTools_MapOfShape.hxx>
 #include <TopoDS.hxx>
 #include <TopoDS_Edge.hxx>
@@ -426,7 +426,7 @@ bool StdMeshers_CompositeSegment_1D::Compute(SMESH_Mesh &         aMesh,
   // create internal nodes
   list< double >::iterator parIt = params.begin();
   double prevPar = *parIt;
-  Standard_Real u;
+  double u;
   for ( int iN = 0; parIt != params.end(); ++iN, ++parIt)
   {
     if ( !nodes[ iN ] ) {
